@@ -21,6 +21,7 @@ public class Ironman {
                 .build();
 
         cache = new LruCache<String, Object>(Integer.MAX_VALUE);
+
     }
 
     public static Ironman getInstance() {
