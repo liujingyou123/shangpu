@@ -1,18 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.finance.winport.MainActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+        <FrameLayout
+            android:id="@+id/rl_fragment_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/bg" />
+
+        <com.finance.winport.view.BottomTabView
+            android:id="@+id/tabView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_height"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bg_top_divider"
+            android:paddingTop="2dp"
+            app:bottom_labels="@array/tabs"
+            app:tab_count="4"
+            app:tab_drawable_padding="0dp"
+            app:tab_text_size="11sp" />
+
+    </LinearLayout>
+
+</FrameLayout>

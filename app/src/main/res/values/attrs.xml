@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BottomTabView">
+        <attr name="bottom_labels" format="reference" />
+        <attr name="tab_res_ids" format="reference" />
+        <attr name="tab_select_background" format="reference|color" />
+        <attr name="tab_unSelect_background" format="reference|color" />
+        <attr name="tab_indicator_drawable" format="reference|color" />
+        <attr name="tab_textColor_selector" format="reference" />
+        <attr name="tab_text_size" format="dimension" />
+        <attr name="tab_horizontal_divider" format="reference|color" />
+        <attr name="tab_divider_width" format="dimension" />
+        <attr name="tab_drawable_padding" format="dimension" />
+        <attr name="tab_indicator_margin_top" format="dimension" />
+        <attr name="tab_indicator_margin_bottom" format="dimension" />
+        <attr name="tab_indicator_margin_left" format="dimension" />
+        <attr name="tab_indicator_margin_rigth" format="dimension" />
+        <attr name="tab_count" format="integer" />
+    </declare-styleable>
+
+    <!--bottom tab id-->
+    <item name="tab" type="id"/>
+    <item name="indicator" type="id"/>
+</resources>

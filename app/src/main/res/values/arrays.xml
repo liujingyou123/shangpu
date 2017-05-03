@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="tabs">
+        <item>找旺铺</item>
+        <item>找服务</item>
+        <item>生意圈</item>
+        <item>我的</item>
+    </array>
+</resources>
