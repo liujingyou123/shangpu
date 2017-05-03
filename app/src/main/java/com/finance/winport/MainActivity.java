@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 
 import com.finance.winport.base.BaseActivity;
+import com.finance.winport.home.HomeFragment;
 import com.finance.winport.tab.BusinessFragment;
-import com.finance.winport.tab.HomeFragment;
 import com.finance.winport.tab.MineFragment;
 import com.finance.winport.tab.ServiceFragment;
 import com.finance.winport.view.BottomTabView;
@@ -13,15 +13,18 @@ import com.finance.winport.view.BottomTabView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+
 public class MainActivity extends BaseActivity implements BottomTabView.OnTabSelectedListener {
 
     static final int HOME = 0;
     static final int SERVICE = 1;
     static final int BUSINESS = 2;
     static final int MINE = 3;
-    private FragmentManager fm;
     @BindView(R.id.tabView)
     BottomTabView tabView;
+
+    private FragmentManager fm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
