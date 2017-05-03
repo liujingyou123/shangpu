@@ -1,4 +1,4 @@
-package com.finance.winport.view.refreshview.header;
+package com.library.view.refreshview.header;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -10,10 +10,10 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
-import com.finance.winport.view.refreshview.PtrFrameLayout;
-import com.finance.winport.view.refreshview.PtrUIHandler;
-import com.finance.winport.view.refreshview.PtrUIHandlerHook;
-import com.finance.winport.view.refreshview.indicator.PtrIndicator;
+import com.library.view.refreshview.PtrFrameLayout;
+import com.library.view.refreshview.PtrUIHandler;
+import com.library.view.refreshview.PtrUIHandlerHook;
+import com.library.view.refreshview.indicator.PtrIndicator;
 
 public class MaterialHeader extends View implements PtrUIHandler {
 

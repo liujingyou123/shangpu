@@ -1,4 +1,4 @@
-package com.finance.winport.view.refreshview.utils;
+package com.library.view.refreshview.utils;
 
 import android.util.Log;
 

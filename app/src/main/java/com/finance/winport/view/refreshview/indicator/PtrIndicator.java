@@ -1,4 +1,4 @@
-package com.finance.winport.view.refreshview.indicator;
+package com.library.view.refreshview.indicator;
 
 import android.graphics.PointF;
 

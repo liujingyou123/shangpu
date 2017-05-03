@@ -1,4 +1,4 @@
-package com.finance.winport.view.refreshview.loadmore;
+package com.library.view.refreshview.loadmore;
 
 import android.widget.AbsListView;
 

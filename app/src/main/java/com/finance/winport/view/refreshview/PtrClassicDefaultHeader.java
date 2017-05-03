@@ -1,4 +1,4 @@
-package com.finance.winport.view.refreshview;
+package com.library.view.refreshview;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,9 +12,8 @@ import android.view.animation.RotateAnimation;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-
-import com.finance.winport.R;
-import com.finance.winport.view.refreshview.indicator.PtrIndicator;
+import com.library.view.R;
+import com.library.view.refreshview.indicator.PtrIndicator;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

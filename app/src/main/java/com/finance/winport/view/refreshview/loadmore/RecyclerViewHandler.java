@@ -1,4 +1,4 @@
-package com.finance.winport.view.refreshview.loadmore;
+package com.library.view.refreshview.loadmore;
 
 import android.content.Context;
 import android.support.v4.view.ViewCompat;
@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import com.finance.winport.view.refreshview.recyclerview.RecyclerAdapterWithHF;
+import com.library.view.refreshview.recyclerview.RecyclerAdapterWithHF;
 
 
 public class RecyclerViewHandler implements LoadMoreHandler {
@@ -74,7 +74,7 @@ public class RecyclerViewHandler implements LoadMoreHandler {
         }
 
         @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+        public void onScrollStateChanged(android.support.v7.widget.RecyclerView recyclerView, int newState) {
             if (newState == RecyclerView.SCROLL_STATE_IDLE && isScrollBottom(recyclerView)) {
                 if (onScrollBottomListener != null) {
                     onScrollBottomListener.onScrollBottom();
@@ -95,7 +95,7 @@ public class RecyclerViewHandler implements LoadMoreHandler {
         }
 
         @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        public void onScrolled(android.support.v7.widget.RecyclerView recyclerView, int dx, int dy) {
 
         }
 

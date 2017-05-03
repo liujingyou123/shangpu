@@ -1,4 +1,4 @@
-package com.finance.winport.view.refreshview.recyclerview;
+package com.library.view.refreshview.recyclerview;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.AdapterDataObserver;
@@ -14,7 +14,7 @@ import android.widget.FrameLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerAdapterWithHF extends RecyclerView.Adapter<ViewHolder> {
+public class RecyclerAdapterWithHF extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static final int TYPE_MANAGER_OTHER = 0;
     public static final int TYPE_MANAGER_LINEAR = 1;
@@ -82,12 +82,12 @@ public class RecyclerAdapterWithHF extends RecyclerView.Adapter<ViewHolder> {
         return mAdapter.getItemId(position);
     }
 
-    public ViewHolder onCreateViewHolderHF(ViewGroup viewGroup, int type) {
+    public RecyclerView.ViewHolder onCreateViewHolderHF(ViewGroup viewGroup, int type) {
         return mAdapter.onCreateViewHolder(viewGroup, type);
     }
 
     @Override
-    public final ViewHolder onCreateViewHolder(ViewGroup viewGroup, int type) {
+    public final RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int type) {
         // if our position is one of our items (this comes from
         // getItemViewType(int position) below)
         if (type != TYPE_HEADER && type != TYPE_FOOTER) {
@@ -105,7 +105,7 @@ public class RecyclerAdapterWithHF extends RecyclerView.Adapter<ViewHolder> {
     }
 
     @Override
-    public final void onBindViewHolder(final ViewHolder vh, int position) {
+    public final void onBindViewHolder(final RecyclerView.ViewHolder vh, int position) {
         // check what type of view our position is
         if (isHeader(position)) {
             View v = mHeaders.get(position);
@@ -227,7 +227,7 @@ public class RecyclerAdapterWithHF extends RecyclerView.Adapter<ViewHolder> {
     }
 
     // our header/footer RecyclerView.ViewHolder is just a FrameLayout
-    public static class HeaderFooterViewHolder extends ViewHolder {
+    public static class HeaderFooterViewHolder extends RecyclerView.ViewHolder {
         FrameLayout base;
 
         public HeaderFooterViewHolder(View itemView) {

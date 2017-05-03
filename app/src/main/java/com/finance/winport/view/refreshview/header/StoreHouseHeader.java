@@ -1,4 +1,4 @@
-package com.finance.winport.view.refreshview.header;
+package com.library.view.refreshview.header;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -9,10 +9,10 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.Transformation;
 
-import com.finance.winport.view.refreshview.PtrFrameLayout;
-import com.finance.winport.view.refreshview.PtrUIHandler;
-import com.finance.winport.view.refreshview.indicator.PtrIndicator;
-import com.finance.winport.view.refreshview.utils.PtrLocalDisplay;
+import com.library.view.refreshview.PtrFrameLayout;
+import com.library.view.refreshview.PtrUIHandler;
+import com.library.view.refreshview.indicator.PtrIndicator;
+import com.library.view.refreshview.utils.PtrLocalDisplay;
 
 import java.util.ArrayList;
 

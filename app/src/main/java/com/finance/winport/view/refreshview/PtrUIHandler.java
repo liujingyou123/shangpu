@@ -1,6 +1,6 @@
-package com.finance.winport.view.refreshview;
+package com.library.view.refreshview;
 
-import com.finance.winport.view.refreshview.indicator.PtrIndicator;
+import com.library.view.refreshview.indicator.PtrIndicator;
 
 public interface PtrUIHandler {
 
