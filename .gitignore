@@ -11,3 +11,4 @@ gen
 /.gradle/
 /build/
 /local.properties
+!/settings.gradle
