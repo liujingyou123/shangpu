@@ -1,4 +1,4 @@
-package com.library.view.refreshview;
+package com.finance.winport.view.refreshview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -15,18 +15,19 @@ import android.widget.GridView;
 import android.widget.Scroller;
 import android.widget.TextView;
 
-import com.library.view.R;
-import com.library.view.refreshview.indicator.PtrIndicator;
-import com.library.view.refreshview.loadmore.DefaultLoadMoreViewFooter;
-import com.library.view.refreshview.loadmore.GridViewHandler;
-import com.library.view.refreshview.loadmore.ILoadMoreViewFactory;
-import com.library.view.refreshview.loadmore.ListViewHandler;
-import com.library.view.refreshview.loadmore.LoadMoreHandler;
-import com.library.view.refreshview.loadmore.OnLoadMoreListener;
-import com.library.view.refreshview.loadmore.OnScrollBottomListener;
-import com.library.view.refreshview.loadmore.OnScrollLisenter;
-import com.library.view.refreshview.loadmore.RecyclerViewHandler;
-import com.library.view.refreshview.utils.PtrCLog;
+import com.finance.winport.R;
+import com.finance.winport.view.refreshview.indicator.PtrIndicator;
+import com.finance.winport.view.refreshview.loadmore.DefaultLoadMoreViewFooter;
+import com.finance.winport.view.refreshview.loadmore.GridViewHandler;
+import com.finance.winport.view.refreshview.loadmore.ILoadMoreViewFactory;
+import com.finance.winport.view.refreshview.loadmore.ListViewHandler;
+import com.finance.winport.view.refreshview.loadmore.LoadMoreHandler;
+import com.finance.winport.view.refreshview.loadmore.OnLoadMoreListener;
+import com.finance.winport.view.refreshview.loadmore.OnScrollBottomListener;
+import com.finance.winport.view.refreshview.loadmore.OnScrollLisenter;
+import com.finance.winport.view.refreshview.loadmore.RecyclerViewHandler;
+import com.finance.winport.view.refreshview.utils.PtrCLog;
+
 
 /**
  * This layout view for "Pull to Refresh(Ptr)" support all of the view, you can contain everything you want.

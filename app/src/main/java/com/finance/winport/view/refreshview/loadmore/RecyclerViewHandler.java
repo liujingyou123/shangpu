@@ -1,4 +1,4 @@
-package com.library.view.refreshview.loadmore;
+package com.finance.winport.view.refreshview.loadmore;
 
 import android.content.Context;
 import android.support.v4.view.ViewCompat;
@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import com.library.view.refreshview.recyclerview.RecyclerAdapterWithHF;
+import com.finance.winport.view.refreshview.recyclerview.RecyclerAdapterWithHF;
 
 
 public class RecyclerViewHandler implements LoadMoreHandler {

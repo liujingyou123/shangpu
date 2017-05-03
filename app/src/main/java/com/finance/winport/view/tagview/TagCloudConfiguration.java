@@ -1,10 +1,10 @@
-package com.library.view.tagview;
+package com.finance.winport.view.tagview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 
-import com.library.view.R;
+import com.finance.winport.R;
 
 /**
  * @author fyales
@@ -21,7 +21,7 @@ public class TagCloudConfiguration {
     private int columnSize;
     private boolean isFixed;
 
-   public TagCloudConfiguration(Context context,AttributeSet attrs){
+   public TagCloudConfiguration(Context context, AttributeSet attrs){
        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TagCloudLayout);
        try {
            lineSpacing = a.getDimensionPixelSize(R.styleable.TagCloudLayout_lineSpacing, DEFAULT_LINE_SPACING);

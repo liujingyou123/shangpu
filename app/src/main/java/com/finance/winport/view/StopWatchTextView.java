@@ -25,14 +25,15 @@ public class StopWatchTextView extends TextView {
         super(context, attrs, defStyleAttr);
     }
 
-    private void setShowNumber(float number) {
+    public void setShowNumber(float number) {
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(this,"number", 0, number);
-        objectAnimator.setDuration(200);
+        objectAnimator.setDuration(2000);
         objectAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
         objectAnimator.start();
     }
 
     public void setNumber(float number) {
-        setText(number+"");
+        String text = (int)number + "";
+        setText(text);
     }
 }

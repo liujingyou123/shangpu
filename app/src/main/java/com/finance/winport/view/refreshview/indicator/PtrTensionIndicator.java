@@ -1,4 +1,4 @@
-package com.library.view.refreshview.indicator;
+package com.finance.winport.view.refreshview.indicator;
 
 public class PtrTensionIndicator extends PtrIndicator {
 

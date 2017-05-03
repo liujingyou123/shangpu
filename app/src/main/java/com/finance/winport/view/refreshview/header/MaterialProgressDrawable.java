@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.library.view.refreshview.header;
+package com.finance.winport.view.refreshview.header;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -41,7 +41,7 @@ import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.Transformation;
 
-import com.library.view.refreshview.utils.PtrLocalDisplay;
+import com.finance.winport.view.refreshview.utils.PtrLocalDisplay;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.library.view.tagview;
+package com.finance.winport.view.tagview;
 
 import android.content.Context;
 import android.database.DataSetObserver;

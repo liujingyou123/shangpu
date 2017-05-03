@@ -1,10 +1,11 @@
-package com.library.view.refreshview;
+package com.finance.winport.view.refreshview;
 
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.library.view.refreshview.loadmore.DefaultLoadMoreViewFooter;
-import com.library.view.refreshview.loadmore.ILoadMoreViewFactory;
+import com.finance.winport.view.refreshview.loadmore.DefaultLoadMoreViewFooter;
+import com.finance.winport.view.refreshview.loadmore.ILoadMoreViewFactory;
+
 
 public class PtrClassicFrameLayout extends PtrFrameLayout {
 

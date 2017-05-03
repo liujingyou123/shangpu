@@ -1,4 +1,4 @@
-package com.library.view.refreshview.loadmore;
+package com.finance.winport.view.refreshview.loadmore;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;

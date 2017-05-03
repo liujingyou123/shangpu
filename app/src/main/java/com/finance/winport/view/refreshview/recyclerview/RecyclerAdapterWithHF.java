@@ -1,4 +1,4 @@
-package com.library.view.refreshview.recyclerview;
+package com.finance.winport.view.refreshview.recyclerview;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.AdapterDataObserver;
