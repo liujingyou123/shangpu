@@ -22,6 +22,12 @@
             android:name=".account.LoginActivity"
             android:screenOrientation="portrait" >
         </activity>
+
+        <!-- 图片预览 -->
+        <activity android:name=".view.imagepreview.ImagePreviewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
     </application>
 
 </manifest>
