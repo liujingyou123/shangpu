@@ -22,7 +22,6 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
     static final int MINE = 3;
     @BindView(R.id.tabView)
     BottomTabView tabView;
-
     private FragmentManager fm;
 
     @Override

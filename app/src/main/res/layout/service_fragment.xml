@@ -1,6 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical">
 
+<com.finance.winport.view.BannerView.Banner
+    android:id="@+id/banner"
+    android:layout_width="match_parent"
+    android:layout_height="375dp">
+
+</com.finance.winport.view.BannerView.Banner>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="135dp"
+    android:gravity="center"
+    android:orientation="horizontal">
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="旺铺寻租"
+        android:layout_weight="1"
+        android:textColor="#333333"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:drawablePadding="10dp"
+        android:drawableTop="@mipmap/service_icon_rent"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="预约看铺"
+        android:layout_weight="1"
+        android:textColor="#333333"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:drawablePadding="10dp"
+        android:drawableTop="@mipmap/service_icon_watchshop"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="找资金"
+        android:textColor="#333333"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:drawablePadding="10dp"
+        android:drawableTop="@mipmap/service_icon_money"/>
+</LinearLayout>
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:textSize="12sp"
+    android:text="200+板块商圈，100+位小二为您服务"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:gravity="center"
+    android:background="@drawable/shape_tip_bg"/>
 </LinearLayout>
