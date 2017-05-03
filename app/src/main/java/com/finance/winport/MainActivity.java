@@ -19,9 +19,10 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
     static final int SERVICE = 1;
     static final int BUSINESS = 2;
     static final int MINE = 3;
-    private FragmentManager fm;
     @BindView(R.id.tabView)
     BottomTabView tabView;
+    private FragmentManager fm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

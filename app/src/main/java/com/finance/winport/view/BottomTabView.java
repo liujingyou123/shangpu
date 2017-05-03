@@ -54,21 +54,21 @@ public class BottomTabView extends LinearLayout {
 
     public BottomTabView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BottomTabView, defStyle, 0);
-        mLabels = a.getTextArray(R.styleable.BottomTabView_bottom_labels);
-        mSelectBackgroud = a.getDrawable(R.styleable.BottomTabView_tab_select_background);
-        mUnSelectBackgroud = a.getDrawable(R.styleable.BottomTabView_tab_unSelect_background);
-        mIndicatorDrawble = a.getDrawable(R.styleable.BottomTabView_tab_indicator_drawable);
-        mTabColorStateList = a.getColorStateList(R.styleable.BottomTabView_tab_textColor_selector);
-        mHorizontalDivider = a.getDrawable(R.styleable.BottomTabView_tab_horizontal_divider);
-        mDividerWidth = a.getDimensionPixelSize(R.styleable.BottomTabView_tab_divider_width, 1);
-        mDrawablePadding = a.getDimensionPixelSize(R.styleable.BottomTabView_tab_drawable_padding, 1);
-        mIndicatorMarginTop = a.getDimensionPixelSize(R.styleable.BottomTabView_tab_indicator_margin_top, 0);
-        mIndicatorMarginBottom = a.getDimensionPixelSize(R.styleable.BottomTabView_tab_indicator_margin_bottom, 0);
-        mIndicatorMarginLeft = a.getDimensionPixelSize(R.styleable.BottomTabView_tab_indicator_margin_left, 0);
-        mIndicatorMarginRight = a.getDimensionPixelSize(R.styleable.BottomTabView_tab_indicator_margin_rigth, 0);
-        mCount = a.getInt(R.styleable.BottomTabView_tab_count, 0);
-        textSize = a.getDimensionPixelSize(R.styleable.BottomTabView_tab_text_size, 11);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RentView, defStyle, 0);
+        mLabels = a.getTextArray(R.styleable.RentView_bottom_labels);
+        mSelectBackgroud = a.getDrawable(R.styleable.RentView_tab_select_background);
+        mUnSelectBackgroud = a.getDrawable(R.styleable.RentView_tab_unSelect_background);
+        mIndicatorDrawble = a.getDrawable(R.styleable.RentView_tab_indicator_drawable);
+        mTabColorStateList = a.getColorStateList(R.styleable.RentView_tab_textColor_selector);
+        mHorizontalDivider = a.getDrawable(R.styleable.RentView_tab_horizontal_divider);
+        mDividerWidth = a.getDimensionPixelSize(R.styleable.RentView_tab_divider_width, 1);
+        mDrawablePadding = a.getDimensionPixelSize(R.styleable.RentView_tab_drawable_padding, 1);
+        mIndicatorMarginTop = a.getDimensionPixelSize(R.styleable.RentView_tab_indicator_margin_top, 0);
+        mIndicatorMarginBottom = a.getDimensionPixelSize(R.styleable.RentView_tab_indicator_margin_bottom, 0);
+        mIndicatorMarginLeft = a.getDimensionPixelSize(R.styleable.RentView_tab_indicator_margin_left, 0);
+        mIndicatorMarginRight = a.getDimensionPixelSize(R.styleable.RentView_tab_indicator_margin_rigth, 0);
+        mCount = a.getInt(R.styleable.RentView_tab_count, 0);
+        textSize = a.getDimensionPixelSize(R.styleable.RentView_tab_text_size, 11);
         a.recycle();
         init(context);
     }
