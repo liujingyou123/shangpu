@@ -6,4 +6,6 @@
     <!-- 全局背景 -->
     <color name="bg">#f0f0f0</color>
     <color name="divider_color">#fcfcfc</color>
+
+    <color name="color_line">#fcfcfc</color>
 </resources>

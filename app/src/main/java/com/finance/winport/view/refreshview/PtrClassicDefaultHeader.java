@@ -1,19 +1,17 @@
 package com.finance.winport.view.refreshview;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
+import android.widget.TextView;
+
 
 import com.finance.winport.R;
 import com.finance.winport.view.refreshview.indicator.PtrIndicator;
@@ -28,14 +26,11 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
     private int mRotateAniTime = 150;
     private RotateAnimation mFlipAnimation;
     private RotateAnimation mReverseFlipAnimation;
-//    private TextView mTitleTextView;
-//    private View mRotateView;
-//    private View mProgressBar;
-
-    private ImageView imgLeft,imgRight;
-    private View header;
+    private TextView mTitleTextView;
+    private View mRotateView;
+    private View mProgressBar;
     private long mLastUpdateTime = -1;
-//    private TextView mLastUpdateTextView;
+    private TextView mLastUpdateTextView;
     private String mLastUpdateTimeKey;
     private boolean mShouldShowLastUpdate;
 
@@ -61,17 +56,14 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
         if (arr != null) {
             mRotateAniTime = arr.getInt(R.styleable.PtrClassicHeader_ptr_rotate_ani_time, mRotateAniTime);
         }
-//        buildAnimation();
-        header = LayoutInflater.from(getContext()).inflate(R.layout.ptr_classic_default_header, this);
+        buildAnimation();
+        View header = LayoutInflater.from(getContext()).inflate(R.layout.ptr_classic_default_header, this);
 
-        imgLeft = (ImageView) header.findViewById(R.id.ptr_img_left);
-        imgRight = (ImageView) header.findViewById(R.id.ptr_img_right);
+        mRotateView = header.findViewById(R.id.ptr_classic_header_rotate_view);
 
-//        mRotateView = header.findViewById(R.id.ptr_classic_header_rotate_view);
-//
-//        mTitleTextView = (TextView) header.findViewById(R.id.ptr_classic_header_rotate_view_header_title);
-//        mLastUpdateTextView = (TextView) header.findViewById(R.id.ptr_classic_header_rotate_view_header_last_update);
-//        mProgressBar = header.findViewById(R.id.ptr_classic_header_rotate_view_progressbar);
+        mTitleTextView = (TextView) header.findViewById(R.id.ptr_classic_header_rotate_view_header_title);
+        mLastUpdateTextView = (TextView) header.findViewById(R.id.ptr_classic_header_rotate_view_header_last_update);
+        mProgressBar = header.findViewById(R.id.ptr_classic_header_rotate_view_progressbar);
 
         resetView();
     }
@@ -81,7 +73,7 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
             return;
         }
         mRotateAniTime = time;
-//        buildAnimation();
+        buildAnimation();
     }
 
     /**
@@ -106,56 +98,25 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
     }
 
     private void buildAnimation() {
-//        mFlipAnimation = new RotateAnimation(0, -180, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-//        mFlipAnimation.setInterpolator(new LinearInterpolator());
-//        mFlipAnimation.setDuration(mRotateAniTime);
-//        mFlipAnimation.setFillAfter(true);
-//
-//        mReverseFlipAnimation = new RotateAnimation(-180, 0, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-//        mReverseFlipAnimation.setInterpolator(new LinearInterpolator());
-//        mReverseFlipAnimation.setDuration(mRotateAniTime);
-//        mReverseFlipAnimation.setFillAfter(true);
+        mFlipAnimation = new RotateAnimation(0, -180, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+        mFlipAnimation.setInterpolator(new LinearInterpolator());
+        mFlipAnimation.setDuration(mRotateAniTime);
+        mFlipAnimation.setFillAfter(true);
 
-        ObjectAnimator anim4 = ObjectAnimator.ofFloat(imgLeft,
-                "translationX", 0f,380f);
-
-        ObjectAnimator anim3 = ObjectAnimator.ofFloat(imgLeft,
-                "translationX",  380f ,  300f,380f);
-        anim3.setRepeatCount(-1);
-        anim3.setInterpolator(new LinearInterpolator());
-
-
-
-        ObjectAnimator anim1 = ObjectAnimator.ofFloat(imgRight,
-                "translationX", 0f,-380f);
-
-        ObjectAnimator anim2 = ObjectAnimator.ofFloat(imgRight,
-                "translationX",  -380f ,  -300f,-380f);
-        anim2.setRepeatCount(-1);
-//        anim2.setInterpolator(new CycleInterpolator(0.0f));
-        anim2.setInterpolator(new LinearInterpolator());
-
-        AnimatorSet animSet = new AnimatorSet();
-        animSet.play(anim3).after(anim4);
-        animSet.play(anim4).with(anim1);
-        animSet.play(anim2).after(anim1);
-        animSet.setDuration(1000);
-        animSet.start();
-
+        mReverseFlipAnimation = new RotateAnimation(-180, 0, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+        mReverseFlipAnimation.setInterpolator(new LinearInterpolator());
+        mReverseFlipAnimation.setDuration(mRotateAniTime);
+        mReverseFlipAnimation.setFillAfter(true);
     }
 
     private void resetView() {
-//        hideRotateView();
-//        mProgressBar.setVisibility(INVISIBLE);
+        hideRotateView();
+        mProgressBar.setVisibility(INVISIBLE);
     }
 
     private void hideRotateView() {
-//        mRotateView.clearAnimation();
-//        mRotateView.setVisibility(INVISIBLE);
-//        imgLeft.clearAnimation();
-//        imgLeft.setVisibility(INVISIBLE);
-//        imgRight.clearAnimation();
-//        imgRight.setVisibility(INVISIBLE);
+        mRotateView.clearAnimation();
+        mRotateView.setVisibility(INVISIBLE);
     }
 
     @Override
@@ -172,27 +133,24 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
         tryUpdateLastUpdateTime();
         mLastUpdateTimeUpdater.start();
 
-//        mProgressBar.setVisibility(INVISIBLE);
-//
-//        mRotateView.setVisibility(VISIBLE);
-//        mTitleTextView.setVisibility(VISIBLE);
-//        if (frame.isPullToRefresh()) {
-//            mTitleTextView.setText(getResources().getString(R.string.cube_ptr_pull_down_to_refresh));
-//        } else {
-//            mTitleTextView.setText(getResources().getString(R.string.cube_ptr_pull_down));
-//        }
+        mProgressBar.setVisibility(INVISIBLE);
+
+        mRotateView.setVisibility(VISIBLE);
+        mTitleTextView.setVisibility(VISIBLE);
+        if (frame.isPullToRefresh()) {
+            mTitleTextView.setText(getResources().getString(R.string.cube_ptr_pull_down_to_refresh));
+        } else {
+            mTitleTextView.setText(getResources().getString(R.string.cube_ptr_pull_down));
+        }
     }
 
     @Override
     public void onUIRefreshBegin(PtrFrameLayout frame) {
         mShouldShowLastUpdate = false;
         hideRotateView();
-//        mProgressBar.setVisibility(VISIBLE);
-//        mTitleTextView.setVisibility(VISIBLE);
-//        mTitleTextView.setText(R.string.cube_ptr_refreshing);
-
-
-        buildAnimation();
+        mProgressBar.setVisibility(VISIBLE);
+        mTitleTextView.setVisibility(VISIBLE);
+        mTitleTextView.setText(R.string.cube_ptr_refreshing);
 
         tryUpdateLastUpdateTime();
         mLastUpdateTimeUpdater.stop();
@@ -202,10 +160,10 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
     public void onUIRefreshComplete(PtrFrameLayout frame) {
 
         hideRotateView();
-//        mProgressBar.setVisibility(INVISIBLE);
-//
-//        mTitleTextView.setVisibility(VISIBLE);
-//        mTitleTextView.setText(getResources().getString(R.string.cube_ptr_refresh_complete));
+        mProgressBar.setVisibility(INVISIBLE);
+
+        mTitleTextView.setVisibility(VISIBLE);
+        mTitleTextView.setText(getResources().getString(R.string.cube_ptr_refresh_complete));
 
         // update last update time
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(KEY_SharedPreferences, 0);
@@ -216,17 +174,17 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
     }
 
     private void tryUpdateLastUpdateTime() {
-//        if (TextUtils.isEmpty(mLastUpdateTimeKey) || !mShouldShowLastUpdate) {
-//            mLastUpdateTextView.setVisibility(GONE);
-//        } else {
-//            String time = getLastUpdateTime();
-//            if (TextUtils.isEmpty(time)) {
-//                mLastUpdateTextView.setVisibility(GONE);
-//            } else {
-//                mLastUpdateTextView.setVisibility(VISIBLE);
-//                mLastUpdateTextView.setText(time);
-//            }
-//        }
+        if (TextUtils.isEmpty(mLastUpdateTimeKey) || !mShouldShowLastUpdate) {
+            mLastUpdateTextView.setVisibility(GONE);
+        } else {
+            String time = getLastUpdateTime();
+            if (TextUtils.isEmpty(time)) {
+                mLastUpdateTextView.setVisibility(GONE);
+            } else {
+                mLastUpdateTextView.setVisibility(VISIBLE);
+                mLastUpdateTextView.setText(time);
+            }
+        }
     }
 
     private String getLastUpdateTime() {
@@ -275,176 +233,40 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
         final int currentPos = ptrIndicator.getCurrentPosY();
         final int lastPos = ptrIndicator.getLastPosY();
 
-        Log.i("currentPos",currentPos+"");
-        Log.i("lastPos",lastPos+"");
-        Log.i("mOffsetToRefresh",mOffsetToRefresh+"");
-//        if(imgLeft != null){
-//
-//            imgLeft.layout(120,30,150,60);
-////            imgLeft.offsetLeftAndRight(120);
-//        }
-////        imgLeft.setBottom(header.getHeight()/2);
-//        if(imgRight != null){
-//
-//            imgRight.layout(240,30,270,60);
-////            imgRight.offsetLeftAndRight(600);
-//        }
-//        imgRight.setBottom(header.getHeight()/2);
-//        postInvalidate();
-//        if(imgLeft != null){
-//            int p1 = (int) (header.getWidth()/2-currentPos*(1.5f));
-//            if(p1<120){
-//                imgLeft.setLeft(120);
-//            }
-//            else{
-//                imgLeft.setLeft(p1);
-//            }
-//            int p2 = (int) (currentPos*(0.5f));
-//            if(p2<header.getHeight()/2){
-//                imgLeft.setBottom(p2);
-//            }
-//            else{
-//                imgLeft.setBottom(header.getHeight()/2);
-//            }
-//
-//
-////                    imgLeft.offsetLeftAndRight(frame.getWidth()/2-2*currentPos);
-////                    imgLeft.offsetTopAndBottom();
-//        }
-//        if(imgRight != null){
-//            int p1 = (int) (header.getWidth()/2+currentPos*(1.5f));
-//            if(p1>header.getWidth()-120){
-//                imgRight.setLeft(header.getWidth()-120);
-//            }
-//            else{
-//                imgRight.setLeft(p1);
-//            }
-//            int p2 = (int) (currentPos*(0.5f));
-//            if(p2<header.getHeight()/2){
-//                imgRight.setBottom(p2);
-//            }
-//            else{
-//                imgRight.setBottom(header.getHeight()/2);
-//            }
-//
-//        }
-
-//        if (currentPos < mOffsetToRefresh && lastPos >= mOffsetToRefresh) {
-//            if (isUnderTouch && status == PtrFrameLayout.PTR_STATUS_PREPARE) {
-////                crossRotateLineFromBottomUnderTouch(frame);
-////                if (mRotateView != null) {
-////                    mRotateView.clearAnimation();
-////                    mRotateView.startAnimation(mReverseFlipAnimation);
-////                }
-//
-//                if(imgLeft != null){
-//                    int p1 = (int) (header.getWidth()/2-currentPos*(1.5f));
-//                    if(p1<120){
-//                        imgLeft.setLeft(120);
-//                    }
-//                    else{
-//                        imgLeft.setLeft(p1);
-//                    }
-//                    int p2 = (int) (currentPos*(0.5f));
-//                    if(p2<header.getHeight()/2){
-//                        imgLeft.setBottom(p2);
-//                    }
-//                    else{
-//                        imgLeft.setBottom(header.getHeight()/2);
-//                    }
-//
-//
-////                    imgLeft.offsetLeftAndRight(frame.getWidth()/2-2*currentPos);
-////                    imgLeft.offsetTopAndBottom();
-//                }
-//                if(imgRight != null){
-//                    int p1 = (int) (header.getWidth()/2+currentPos*(1.5f));
-//                    if(p1>header.getWidth()-120){
-//                        imgRight.setLeft(header.getWidth()-120);
-//                    }
-//                    else{
-//                        imgRight.setLeft(p1);
-//                    }
-//                    int p2 = (int) (currentPos*(0.5f));
-//                    if(p2<header.getHeight()/2){
-//                        imgRight.setBottom(p2);
-//                    }
-//                    else{
-//                        imgRight.setBottom(header.getHeight()/2);
-//                    }
-//
-//                }
-//            }
-//        } else if (currentPos > mOffsetToRefresh && lastPos <= mOffsetToRefresh) {
-//            if (isUnderTouch && status == PtrFrameLayout.PTR_STATUS_PREPARE) {
-////                crossRotateLineFromTopUnderTouch(frame);
-////                if (mRotateView != null) {
-////                    mRotateView.clearAnimation();
-////                    mRotateView.startAnimation(mFlipAnimation);
-////                }
-////                if(imgLeft != null){
-////                    imgLeft.offsetLeftAndRight(frame.getWidth()/2-2*currentPos);
-////                }
-////                if(imgRight != null){
-////                    imgRight.offsetLeftAndRight(frame.getWidth()/2+2*currentPos);
-////                }
-//
-//                if(imgLeft != null){
-//                    int p1 = (int) (header.getWidth()/2-currentPos*(1.5f));
-//                    if(p1<120){
-//                        imgLeft.setLeft(120);
-//                    }
-//                    else{
-//                        imgLeft.setLeft(p1);
-//                    }
-//                    int p2 = (int) (currentPos*(0.5f));
-//                    if(p2<header.getHeight()/2){
-//                        imgLeft.setBottom(p2);
-//                    }
-//                    else{
-//                        imgLeft.setBottom(header.getHeight()/2);
-//                    }
-//
-//
-////                    imgLeft.offsetLeftAndRight(frame.getWidth()/2-2*currentPos);
-////                    imgLeft.offsetTopAndBottom();
-//                }
-//                if(imgRight != null){
-//                    int p1 = (int) (header.getWidth()/2+currentPos*(1.5f));
-//                    if(p1>header.getWidth()-120){
-//                        imgRight.setLeft(header.getWidth()-120);
-//                    }
-//                    else{
-//                        imgRight.setLeft(p1);
-//                    }
-//                    int p2 = (int) (currentPos*(0.5f));
-//                    if(p2<header.getHeight()/2){
-//                        imgRight.setBottom(p2);
-//                    }
-//                    else{
-//                        imgRight.setBottom(header.getHeight()/2);
-//                    }
-//
-//                }
-//            }
-//        }
+        if (currentPos < mOffsetToRefresh && lastPos >= mOffsetToRefresh) {
+            if (isUnderTouch && status == PtrFrameLayout.PTR_STATUS_PREPARE) {
+                crossRotateLineFromBottomUnderTouch(frame);
+                if (mRotateView != null) {
+                    mRotateView.clearAnimation();
+                    mRotateView.startAnimation(mReverseFlipAnimation);
+                }
+            }
+        } else if (currentPos > mOffsetToRefresh && lastPos <= mOffsetToRefresh) {
+            if (isUnderTouch && status == PtrFrameLayout.PTR_STATUS_PREPARE) {
+                crossRotateLineFromTopUnderTouch(frame);
+                if (mRotateView != null) {
+                    mRotateView.clearAnimation();
+                    mRotateView.startAnimation(mFlipAnimation);
+                }
+            }
+        }
     }
 
-//    private void crossRotateLineFromTopUnderTouch(PtrFrameLayout frame) {
-//        if (!frame.isPullToRefresh()) {
-//            mTitleTextView.setVisibility(VISIBLE);
-//            mTitleTextView.setText(R.string.cube_ptr_release_to_refresh);
-//        }
-//    }
-//
-//    private void crossRotateLineFromBottomUnderTouch(PtrFrameLayout frame) {
-//        mTitleTextView.setVisibility(VISIBLE);
-//        if (frame.isPullToRefresh()) {
-//            mTitleTextView.setText(getResources().getString(R.string.cube_ptr_pull_down_to_refresh));
-//        } else {
-//            mTitleTextView.setText(getResources().getString(R.string.cube_ptr_pull_down));
-//        }
-//    }
+    private void crossRotateLineFromTopUnderTouch(PtrFrameLayout frame) {
+        if (!frame.isPullToRefresh()) {
+            mTitleTextView.setVisibility(VISIBLE);
+            mTitleTextView.setText(R.string.cube_ptr_release_to_refresh);
+        }
+    }
+
+    private void crossRotateLineFromBottomUnderTouch(PtrFrameLayout frame) {
+        mTitleTextView.setVisibility(VISIBLE);
+        if (frame.isPullToRefresh()) {
+            mTitleTextView.setText(getResources().getString(R.string.cube_ptr_pull_down_to_refresh));
+        } else {
+            mTitleTextView.setText(getResources().getString(R.string.cube_ptr_pull_down));
+        }
+    }
 
     private class LastUpdateTimeUpdater implements Runnable {
 
