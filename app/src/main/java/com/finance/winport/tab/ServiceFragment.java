@@ -1,17 +1,24 @@
 package com.finance.winport.tab;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.service.LoanListActivity;
 import com.finance.winport.view.BannerView.Banner;
+import com.finance.winport.view.BannerView.ZoomOutTranformer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 
@@ -26,6 +33,16 @@ public class ServiceFragment extends BaseFragment {
     @BindView(R.id.banner)
     Banner banner;
     Unbinder unbinder;
+    @BindView(R.id.mListView)
+    ListView mListView;
+    @BindView(R.id.shop_img)
+    ImageView shopImg;
+    @BindView(R.id.address)
+    TextView address;
+    @BindView(R.id.time)
+    TextView time;
+    @BindView(R.id.loan_more)
+    TextView loanMore;
 
     @Nullable
     @Override
@@ -37,13 +54,35 @@ public class ServiceFragment extends BaseFragment {
     }
 
 
-    private void init(){
+    private void init() {
         banner.start();
+        banner.setBannerAnimation(ZoomOutTranformer.class);
+
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        banner.startAutoPlay();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        banner.stopAutoPlay();
+    }
+
+    @OnClick(R.id.loan_more)
+    public void onViewClicked() {
+
+        Intent intent = new Intent(getActivity(), LoanListActivity.class);
+        startActivity(intent);
+
     }
 }
