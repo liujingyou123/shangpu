@@ -28,6 +28,7 @@ import com.finance.winport.view.refreshview.loadmore.OnScrollLisenter;
 import com.finance.winport.view.refreshview.loadmore.RecyclerViewHandler;
 import com.finance.winport.view.refreshview.utils.PtrCLog;
 
+
 /**
  * This layout view for "Pull to Refresh(Ptr)" support all of the view, you can contain everything you want.
  * support: pull to refresh / release to refresh / auto refresh / keep header view while refreshing / hide header view while refreshing

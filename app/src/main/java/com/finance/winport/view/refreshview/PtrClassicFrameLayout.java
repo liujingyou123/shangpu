@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import com.finance.winport.view.refreshview.loadmore.DefaultLoadMoreViewFooter;
 import com.finance.winport.view.refreshview.loadmore.ILoadMoreViewFactory;
 
+
 public class PtrClassicFrameLayout extends PtrFrameLayout {
 
     private PtrClassicDefaultHeader mPtrClassicHeader;

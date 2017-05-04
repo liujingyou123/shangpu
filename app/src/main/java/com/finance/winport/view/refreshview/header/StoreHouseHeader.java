@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.Transformation;
 
+
 import com.finance.winport.view.refreshview.PtrFrameLayout;
 import com.finance.winport.view.refreshview.PtrUIHandler;
 import com.finance.winport.view.refreshview.indicator.PtrIndicator;

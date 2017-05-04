@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <drawable name="transparent">#00000000</drawable>
+    <drawable name="color_tag_uncheck">#F2F3F7</drawable>
+    <drawable name="color_ok_pressed">#ff981a</drawable>
+    <drawable name="color_ok_unpress">#ffa73b</drawable>
+    <drawable name="color_rest_pressed">#f2f2f2</drawable>
+    <drawable name="color_rest_unpress">#ffffff</drawable>
+</resources>

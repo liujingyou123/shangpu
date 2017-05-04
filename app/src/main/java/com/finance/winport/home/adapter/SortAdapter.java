@@ -1,6 +1,6 @@
 package com.finance.winport.home.adapter;
 /**
- * Created by liuworkmac on 17/5/3.
+ * Created by liuworkmac on 17/5/4.
  */
 
 import android.content.Context;
@@ -11,18 +11,17 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.finance.winport.R;
-import com.finance.winport.home.model.Shop;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ShopsAdapter extends BaseAdapter {
+public class SortAdapter extends BaseAdapter {
     private Context mContext;
-    private List<Shop> mData;
+    private List<String> mData;
 
-    public ShopsAdapter(Context mContext, List<Shop> mData) {
+    public SortAdapter(Context mContext, List<String> mData) {
         this.mContext = mContext;
         this.mData = mData;
     }
@@ -33,12 +32,12 @@ public class ShopsAdapter extends BaseAdapter {
         if (mData != null) {
             ret = mData.size();
         }
-        return 100;
+        return 10;
     }
 
     @Override
-    public Shop getItem(int i) {
-        Shop ret = null;
+    public String getItem(int i) {
+        String ret = null;
         if (mData != null) {
             ret = mData.get(i);
         }
@@ -53,20 +52,22 @@ public class ShopsAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder;
+
         if (view == null) {
-            view = LayoutInflater.from(mContext).inflate(R.layout.adapter_item_shop, null);
+            view = LayoutInflater.from(mContext).inflate(R.layout.adapter_item_sort, null);
             viewHolder = new ViewHolder(view);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.tvShopname.setText(i+"");
+
+        viewHolder.tvText.setText("全部");
         return view;
     }
 
     static class ViewHolder {
-        @BindView(R.id.tv_shopname)
-        TextView tvShopname;
+        @BindView(R.id.tv_text)
+        TextView tvText;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
