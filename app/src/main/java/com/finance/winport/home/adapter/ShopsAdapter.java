@@ -8,11 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.home.model.Shop;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class ShopsAdapter extends BaseAdapter {
     private Context mContext;
@@ -48,11 +52,24 @@ public class ShopsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+        ViewHolder viewHolder;
         if (view == null) {
             view = LayoutInflater.from(mContext).inflate(R.layout.adapter_item_shop, null);
+            viewHolder = new ViewHolder(view);
+            view.setTag(viewHolder);
         } else {
-
+            viewHolder = (ViewHolder) view.getTag();
         }
+        viewHolder.tvShopname.setText(i+"");
         return view;
+    }
+
+    static class ViewHolder {
+        @BindView(R.id.tv_shopname)
+        TextView tvShopname;
+
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }
