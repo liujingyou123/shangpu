@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.finance.winport.R;
 
@@ -24,11 +25,17 @@ import butterknife.OnClick;
 public class SelectView extends LinearLayout {
 
     @BindView(R.id.rl_location_s)
-    RelativeLayout tvLocationS;
+    RelativeLayout rlLocationS;
     @BindView(R.id.rl_sort_s)
     RelativeLayout rlSortS;
     @BindView(R.id.rl_c_s)
     RelativeLayout rlCS;
+    @BindView(R.id.tv_location)
+    TextView tvLocation;
+    @BindView(R.id.tv_sort)
+    TextView tvSort;
+    @BindView(R.id.tv_c_s)
+    TextView tvCS;
 
     public SelectView(Context context) {
         super(context);
@@ -63,5 +70,40 @@ public class SelectView extends LinearLayout {
             case R.id.rl_c_s:
                 break;
         }
+    }
+
+    public void onLocationClick() {
+        tvLocation.setSelected(true);
+        tvSort.setSelected(false);
+    }
+
+    public void onSortClick() {
+        tvLocation.setSelected(false);
+        tvSort.setSelected(true);
+        tvCS.setSelected(false);
+    }
+
+    public void onCsClick() {
+        tvLocation.setSelected(false);
+        tvSort.setSelected(false);
+        tvCS.setSelected(true);
+    }
+
+    public void onNoneClick() {
+        tvLocation.setSelected(false);
+        tvSort.setSelected(false);
+        tvCS.setSelected(false);
+    }
+
+    public void setOnLocationClickListener(OnClickListener onLocationClickListener) {
+        rlLocationS.setOnClickListener(onLocationClickListener);
+    }
+
+    public void setOnSortClickListener(OnClickListener onSortClickListener) {
+        rlSortS.setOnClickListener(onSortClickListener);
+    }
+
+    public void setOnCsClickListener(OnClickListener onCsClickListener) {
+        rlCS.setOnClickListener(onCsClickListener);
     }
 }
