@@ -53,7 +53,7 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
     private int titleBackground;
     private int titleTextColor;
     private int titleTextSize;
-    private int count = 0;
+    private int count = 3;
     private int currentItem;
     private int gravity = -1;
     private int lastPosition = 1;
@@ -73,6 +73,8 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
     private OnBannerClickListener bannerListener;
     private OnBannerListener listener;
     private DisplayMetrics dm;
+
+    private ArrayList<View> viewList;
 
     private WeakHandler handler = new WeakHandler();
 
@@ -264,7 +266,7 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
 
     public Banner start() {
         setBannerStyleUI();
-//        setImageList(imageUrls);
+        setImageList(imageUrls);
         setData();
         return this;
     }
@@ -294,7 +296,6 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
 
     private void setBannerStyleUI() {
         int visibility;
-        count = 3;
         if (count > 1) visibility = View.VISIBLE;
         else visibility = View.GONE;
         switch (bannerStyle) {
@@ -333,34 +334,34 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
     }
 
     private void setImageList(List<?> imagesUrl) {
-        if (imagesUrl == null || imagesUrl.size() <= 0) {
-            Log.e(tag, "Please set the images data.");
-            return;
-        }
+//        if (imagesUrl == null || imagesUrl.size() <= 0) {
+//            Log.e(tag, "Please set the images data.");
+//            return;
+//        }
         initImages();
-        for (int i = 0; i <= count + 1; i++) {
-            View imageView = null;
-            if (imageLoader != null) {
-                imageView = imageLoader.createImageView(context);
-            }
-            if (imageView == null) {
-                imageView = new ImageView(context);
-            }
-            setScaleType(imageView);
-            Object url = null;
-            if (i == 0) {
-                url = imagesUrl.get(count - 1);
-            } else if (i == count + 1) {
-                url = imagesUrl.get(0);
-            } else {
-                url = imagesUrl.get(i - 1);
-            }
-            imageViews.add(imageView);
-            if (imageLoader != null)
-                imageLoader.displayImage(context, url, imageView);
-            else
-                Log.e(tag, "Please set images loader.");
-        }
+//        for (int i = 0; i <= count + 1; i++) {
+//            View imageView = null;
+//            if (imageLoader != null) {
+//                imageView = imageLoader.createImageView(context);
+//            }
+//            if (imageView == null) {
+//                imageView = new ImageView(context);
+//            }
+//            setScaleType(imageView);
+//            Object url = null;
+//            if (i == 0) {
+//                url = imagesUrl.get(count - 1);
+//            } else if (i == count + 1) {
+//                url = imagesUrl.get(0);
+//            } else {
+//                url = imagesUrl.get(i - 1);
+//            }
+//            imageViews.add(imageView);
+//            if (imageLoader != null)
+//                imageLoader.displayImage(context, url, imageView);
+//            else
+//                Log.e(tag, "Please set images loader.");
+//        }
     }
 
     private void setScaleType(View imageView) {
@@ -498,14 +499,16 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
 
     class BannerPagerAdapter extends PagerAdapter {
 
-        private ArrayList<View> viewList;
+
 
         public BannerPagerAdapter() {
 
             viewList = new ArrayList<View>();
+            viewList.add(new FindMoneyView(context));
             viewList.add(new RentView(context));
             viewList.add(new OrderView(context));
             viewList.add(new FindMoneyView(context));
+            viewList.add(new RentView(context));
         }
         @Override
         public int getCount() {
@@ -519,8 +522,10 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
 
         @Override
         public Object instantiateItem(ViewGroup container, final int position) {
-            container.addView(viewList.get(position));
+
             View view = viewList.get(position);
+            container.addView(viewList.get(position));
+
 //            if (bannerListener != null) {
 //                view.setOnClickListener(new OnClickListener() {
 //                    @Override
@@ -538,6 +543,10 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
 //                        listener.OnBannerClick(toRealPosition(position));
 //                    }
 //                });
+//            }
+
+//            if(view instanceof RentView){
+//                ((RentView) view).start();
 //            }
             return view;
         }
@@ -587,6 +596,17 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
         if (mOnPageChangeListener != null) {
             mOnPageChangeListener.onPageSelected(position);
         }
+//        for (int i = 0; i < viewList.size(); i++) {
+//
+//            if(i == viewPager.getCurrentItem()){
+//
+//                if(viewList.get(viewPager.getCurrentItem()) instanceof RentView)
+//                ((RentView)viewList.get(viewPager.getCurrentItem())).start();
+//            }
+////            else{
+////                viewList.get(i).setVisibility(GONE);
+////            }
+//        }
         if (bannerStyle == BannerConfig.CIRCLE_INDICATOR ||
                 bannerStyle == BannerConfig.CIRCLE_INDICATOR_TITLE ||
                 bannerStyle == BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE) {

@@ -33,6 +33,11 @@
             android:name=".home.ShopDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <!-- 我的贷款申请 -->
+        <activity android:name=".service.LoanListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
     </application>
 
 </manifest>

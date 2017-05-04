@@ -46,10 +46,10 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
                 handleHome(index);
                 break;
             case SERVICE:
-                handleHouse(index);
+                handleService(index);
                 break;
             case BUSINESS:
-                handleEntrust(index);
+                handleBusiness(index);
                 break;
             case MINE:
                 handleMine(index);
@@ -66,7 +66,7 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
         addFragment(homeFragment, false);
     }
 
-    private void handleEntrust(int index) {
+    private void handleService(int index) {
         ServiceFragment serviceFragment = (ServiceFragment) fm
                 .findFragmentByTag(ServiceFragment.class.getName());
         if (serviceFragment == null) {
@@ -75,7 +75,7 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
         addFragment(serviceFragment, false);
     }
 
-    private void handleHouse(int index) {
+    private void handleBusiness(int index) {
         BusinessFragment businessFragment = (BusinessFragment) fm
                 .findFragmentByTag(BusinessFragment.class.getName());
         if (businessFragment == null) {
