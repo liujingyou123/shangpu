@@ -12,7 +12,10 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.service.FindLoanActivity;
 import com.finance.winport.service.LoanListActivity;
+import com.finance.winport.service.ShopOrderActivity;
+import com.finance.winport.service.ShopRentActivity;
 import com.finance.winport.view.BannerView.Banner;
 import com.finance.winport.view.BannerView.ZoomOutTranformer;
 
@@ -43,6 +46,12 @@ public class ServiceFragment extends BaseFragment {
     TextView time;
     @BindView(R.id.loan_more)
     TextView loanMore;
+    @BindView(R.id.rent)
+    TextView rent;
+    @BindView(R.id.order)
+    TextView order;
+    @BindView(R.id.loan)
+    TextView loan;
 
     @Nullable
     @Override
@@ -78,11 +87,27 @@ public class ServiceFragment extends BaseFragment {
         banner.stopAutoPlay();
     }
 
-    @OnClick(R.id.loan_more)
-    public void onViewClicked() {
-
-        Intent intent = new Intent(getActivity(), LoanListActivity.class);
-        startActivity(intent);
-
+    @OnClick({R.id.rent, R.id.order, R.id.loan, R.id.loan_more})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.rent:
+                Intent rentIntent = new Intent(getActivity(), ShopRentActivity.class);
+                startActivity(rentIntent);
+                break;
+            case R.id.order:
+                Intent orderIntent = new Intent(getActivity(), ShopOrderActivity.class);
+                startActivity(orderIntent);
+                break;
+            case R.id.loan:
+                Intent loanIntent = new Intent(getActivity(), FindLoanActivity.class);
+                startActivity(loanIntent);
+                break;
+            case R.id.loan_more:
+                Intent intent = new Intent(getActivity(), LoanListActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
+
+
 }
