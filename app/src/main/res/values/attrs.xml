@@ -93,4 +93,35 @@
         <!--<attr name="indicator_animator" format="reference" />-->
         <!--<attr name="indicator_animator_reverse" format="reference" />-->
     </declare-styleable>
+
+    <declare-styleable name="HeaderTextView">
+        <attr name="editable" format="boolean" />
+        <attr name="header_text" format="string|reference" />
+        <attr name="header_text_color" format="color|reference" />
+        <attr name="header_text_size" format="dimension" />
+        <attr name="header_width" format="dimension|integer" />
+        <attr name="header_height" format="dimension|integer" />
+        <attr name="text" format="string|reference" />
+        <attr name="text_color" format="color|reference" />
+        <attr name="text_size" format="dimension" />
+        <attr name="text_hint" format="string|reference" />
+        <attr name="text_hint_color" format="color|reference" />
+        <attr name="content_width" format="dimension|enum">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="content_height" format="dimension|enum">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+        <attr name="singleLine" format="boolean" />
+        <attr name="content_padding_left" format="dimension" />
+        <attr name="content_padding_right" format="dimension" />
+        <attr name="content_background" format="color|reference" />
+        <attr name="htv_drawable_right" format="reference" />
+        <attr name="htv_divider_color" format="color|reference" />
+        <attr name="htv_divider_height" format="dimension" />
+        <attr name="htv_divider_stretch" format="boolean" />
+        <attr name="htv_divider_visible" format="boolean" />
+    </declare-styleable>
 </resources>
