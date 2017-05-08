@@ -4,13 +4,17 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
+import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.PositionScrollView;
+import com.finance.winport.view.ScrollTabView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,6 +50,19 @@ public class ShopDetailActivity extends BaseActivity {
     TextView tvYingyufeiyong;
     @BindView(R.id.tv_peitaosheshi)
     TextView tvPeitaosheshi;
+    @BindView(R.id.stv)
+    ScrollTabView stv;
+    @BindView(R.id.title_view)
+    View titleView;
+    @BindView(R.id.rl_select)
+    View seletView;
+    @BindView(R.id.ll_top)
+    LinearLayout llTop;
+    @BindView(R.id.imv_focus_house_back)
+    ImageView imvFocusHouseBack;
+
+    private boolean isTouched = false;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,31 +73,64 @@ public class ShopDetailActivity extends BaseActivity {
     }
 
     private void init() {
+        svAll.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                isTouched = true;
+                return false;
+            }
+        });
         svAll.setOnScrollChangedListener(new PositionScrollView.OnScrollChangedListener() {
             @Override
             public void onScrollChanged(int l, int t, int oldl, int oldt) {
+                updateView(t);
+
+                if (!isTouched) {
+                    return;
+                }
                 String text = "init";
                 if (isScrolled(llNear)) {
                     text = "周边";
-                    setSelectView(tvZhoubian);
+                    stv.setSelectPosition(0);
                 } else if (isScrolled(llLinpu)) {
                     text = "邻铺";
-                    setSelectView(tvLinpu);
-
+                    stv.setSelectPosition(1);
                 } else if (isScrolled(llMenmianshuju)) {
                     text = "门面";
-                    setSelectView(tvMienmian);
-
+                    stv.setSelectPosition(2);
                 } else if (isScrolled(llJingyingfeiyong)) {
                     text = "费用";
-                    setSelectView(tvYingyufeiyong);
+                    stv.setSelectPosition(3);
                 } else if (isScrolled(llPeitao)) {
                     text = "配套";
-                    setSelectView(tvPeitaosheshi);
+                    stv.setSelectPosition(4);
                 }
 
                 Log.e("cover is = ", text);
 
+            }
+        });
+
+        stv.setOnSelectViewListener(new ScrollTabView.OnSelectViewListener() {
+            @Override
+            public void onSelectViewPosition(int position) {
+                isTouched = false;
+                int space = titleView.getHeight() + seletView.getHeight();
+                if (position == 0) {
+                    svAll.smoothScrollTo(0, llNear.getTop() - space + 1);
+                } else if (position == 1) {
+                    svAll.smoothScrollTo(0, llLinpu.getTop() - space + 1);
+
+                } else if (position == 2) {
+                    svAll.smoothScrollTo(0, llMenmianshuju.getTop() - space + 1);
+
+                } else if (position == 3) {
+                    svAll.smoothScrollTo(0, llJingyingfeiyong.getTop() - space + 1);
+
+                } else if (position == 4) {
+                    svAll.smoothScrollTo(0, llPeitao.getTop() - space + 1);
+
+                }
             }
         });
     }
@@ -99,16 +149,30 @@ public class ShopDetailActivity extends BaseActivity {
         return coverrect.intersect(viewOr);
     }
 
-    /**
-     * 设施选中到text
-     */
-    private void setSelectView(View view) {
-        tvZhoubian.setSelected(false);
-        tvLinpu.setSelected(false);
-        tvMienmian.setSelected(false);
-        tvYingyufeiyong.setSelected(false);
-        tvPeitaosheshi.setSelected(false);
+    private void updateView(float scrollY) {
 
-        view.setSelected(true);
+        int top = llNear.getTop();
+
+        int titleView = UnitUtil.dip2px(context, 97);
+        Log.e("updateView = top", top + "");
+        Log.e("updateView = scrollY", scrollY + "");
+        Log.e("updateView = titleView", titleView + "");
+
+        if (scrollY >= 0) {
+            float deltaY = top - titleView - scrollY;
+            if (deltaY >= 0) {
+                float fraction = deltaY / (top - titleView);
+                float alpha = (255 * (1 - fraction));
+
+                Log.e("updateView = fraction", fraction + "");
+                Log.e("updateView = alpha", alpha + "");
+
+                llTop.setAlpha(1 - fraction);
+            } else {
+                llTop.setAlpha(1);
+            }
+        } else {
+            llTop.setAlpha(1);
+        }
     }
 }
