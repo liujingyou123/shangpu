@@ -18,6 +18,7 @@ import com.finance.winport.view.ScrollTabView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by liuworkmac on 17/5/4.
@@ -73,6 +74,7 @@ public class ShopDetailActivity extends BaseActivity {
     }
 
     private void init() {
+        llTop.setAlpha(0);
         svAll.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -173,6 +175,17 @@ public class ShopDetailActivity extends BaseActivity {
             }
         } else {
             llTop.setAlpha(1);
+        }
+    }
+
+    @OnClick({R.id.imv_focus_house_back, R.id.imv_back})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.imv_focus_house_back:
+                break;
+            case R.id.imv_back:
+                finish();
+                break;
         }
     }
 }
