@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.finance.winport.MainActivity;
 import com.finance.winport.R;
 
 import java.util.List;
@@ -187,24 +188,17 @@ public class BaseActivity extends AppCompatActivity{
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (keyCode == KeyEvent.KEYCODE_BACK && this instanceof LoginActivity) {
-//            if (exitCtrl.requestExit()) {
-//                ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-//                manager.killBackgroundProcesses(context.getPackageName());
-//            }
-//            return true;
-//        } else if (keyCode == KeyEvent.KEYCODE_BACK && this instanceof MainActivity) {
-//            if (exitCtrl.requestExit()) {
-//                exit();
-//            }
-//            return true;
-//        } else if (keyCode == KeyEvent.KEYCODE_BACK) {
-//            handleBack();
-//            return true;
-//        } else {
-//            return super.onKeyDown(keyCode, event);
-//        }
-        return super.onKeyDown(keyCode, event);
+        if (keyCode == KeyEvent.KEYCODE_BACK && this instanceof MainActivity) {
+            if (exitCtrl.requestExit()) {
+                exit();
+            }
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_BACK) {
+            handleBack();
+            return true;
+        } else {
+            return super.onKeyDown(keyCode, event);
+        }
     }
 
     @Override

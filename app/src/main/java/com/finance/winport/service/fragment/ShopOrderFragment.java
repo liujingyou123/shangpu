@@ -50,6 +50,8 @@ public class ShopOrderFragment extends BaseFragment {
     ImageView icon9;
     @BindView(R.id.icon10)
     ImageView icon10;
+    @BindView(R.id.sen_btn)
+    TextView senBtn;
 
     @Nullable
     @Override
@@ -66,8 +68,21 @@ public class ShopOrderFragment extends BaseFragment {
         super.onDestroyView();
     }
 
-    @OnClick(R.id.imv_focus_house_back)
-    public void onViewClicked() {
-        handleBack();
+    @OnClick({R.id.imv_focus_house_back, R.id.sen_btn})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.imv_focus_house_back:
+                handleBack();
+                break;
+            case R.id.sen_btn:
+                BaseFragment sendShop = new SendShopOrderFragment();
+                pushFragment(sendShop);
+                break;
+        }
     }
+
+//    @OnClick(R.id.imv_focus_house_back)
+//    public void onViewClicked() {
+//        handleBack();
+//    }
 }

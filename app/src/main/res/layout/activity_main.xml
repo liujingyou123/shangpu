@@ -26,7 +26,9 @@
             app:bottom_labels="@array/tabs"
             app:tab_count="4"
             app:tab_drawable_padding="0dp"
-            app:tab_text_size="11sp" />
+            app:tab_text_size="11sp"
+            app:tab_indicator_drawable="@drawable/shape_sign_tabview"
+            app:tab_indicator_margin_top="7dp"/>
 
     </LinearLayout>
 
