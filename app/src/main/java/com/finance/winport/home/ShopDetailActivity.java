@@ -17,6 +17,10 @@ import com.finance.winport.dialog.ShareDialog;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.PositionScrollView;
 import com.finance.winport.view.ScrollTabView;
+import com.finance.winport.view.imagepreview.ImagePreviewActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -181,7 +185,7 @@ public class ShopDetailActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.imv_back, R.id.tv_share, R.id.tv_shop_more})
+    @OnClick({R.id.imv_focus_house_back, R.id.imv_back, R.id.tv_share, R.id.tv_shop_more, R.id.view_banner})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -198,6 +202,18 @@ public class ShopDetailActivity extends BaseActivity {
             case R.id.tv_shop_more:
                 Intent intent = new Intent(ShopDetailActivity.this, ShopMoreActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.view_banner:
+                ArrayList<String> list = new ArrayList<String>();
+                list.add("http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg");
+                list.add("http://pic.58pic.com/58pic/13/85/85/73T58PIC9aj_1024.jpg");
+                list.add("http://pic41.nipic.com/20140518/18521768_133448822000_2.jpg");
+                list.add("http://img02.tooopen.com/images/20140127/sy_54827852166.jpg");
+
+                Intent intents = new Intent(context, ImagePreviewActivity.class);
+                intents.putExtra("pics", list);
+                intents.putExtra("index", 0);
+                context.startActivity(intents);
                 break;
 
         }

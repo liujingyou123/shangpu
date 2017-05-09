@@ -10,6 +10,8 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 
+import java.util.concurrent.ExecutionException;
+
 
 /**
  * Created by jingyouliu on 16/8/16.
@@ -74,6 +76,18 @@ public class Afo implements ImageButler {
     @Override
     public void fromNetWithFitCenter(Context context, String url, ImageView imageView, int defaultImage, int failedImage, int maxWidth, int maxHeight) {
         goWithFitCenter(context, url, imageView, defaultImage, failedImage, maxWidth, maxHeight);
+    }
+
+    @Override
+    public Bitmap getBitMap(Context context, String url) {
+        try {
+            return Glide.with(context).load(url).asBitmap().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

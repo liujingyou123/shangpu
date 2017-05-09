@@ -1,6 +1,7 @@
 package com.finance.winport.image;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
@@ -166,5 +167,9 @@ public final class Batman {
      */
     public void fromNetWithFitCenter(String url, ImageView imageView) {
         mButler.fromNetWithFitCenter(mContext, url, imageView, -1, -1, 0, 0);
+    }
+
+    public Bitmap getBitMap(Context context, String url) {
+        return mButler.getBitMap(context, url);
     }
 }

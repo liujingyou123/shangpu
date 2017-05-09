@@ -98,6 +98,7 @@
             android:orientation="vertical">
 
             <View
+                android:id="@+id/view_banner"
                 android:layout_width="match_parent"
                 android:layout_height="202dp"
                 android:background="#ffff00" />

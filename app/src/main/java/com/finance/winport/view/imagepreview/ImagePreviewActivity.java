@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
@@ -12,6 +14,10 @@ import com.finance.winport.util.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 /**
@@ -21,6 +27,10 @@ public class ImagePreviewActivity extends Activity {
 
     ViewPager idViewpager;
     TextView tvNum;
+    @BindView(R.id.rl_title_root)
+    RelativeLayout rlTitleRoot;
+    @BindView(R.id.imv_focus_house_back)
+    ImageView imvFocusHouseBack;
     private List<String> mData = new ArrayList<>();
     private ImagePreViewAdapter mAdapter;
     private int index;
@@ -29,7 +39,9 @@ public class ImagePreviewActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_imagepreview);
-        StatusBarUtil.setColor(this, Color.BLACK,0);
+        ButterKnife.bind(this);
+        StatusBarUtil.setColor(this, Color.BLACK, 0);
+
         initView();
         getIntentData();
         initAdapter();
@@ -37,7 +49,13 @@ public class ImagePreviewActivity extends Activity {
 
     private void initView() {
         idViewpager = (ViewPager) findViewById(R.id.id_viewpager);
-        tvNum = (TextView) findViewById(R.id.tv_num);
+        tvNum = (TextView) findViewById(R.id.tv_focus_house);
+
+        rlTitleRoot.setBackgroundColor(Color.parseColor("#000000"));
+        tvNum.setTextColor(Color.parseColor("#ffffff"));
+        imvFocusHouseBack.setImageResource(R.mipmap.icon_white_back);
+
+
     }
 
     private void initAdapter() {
@@ -50,7 +68,7 @@ public class ImagePreviewActivity extends Activity {
         }
 
         if (mData != null && mData.size() > 0) {
-            tvNum.setText((index + 1)+"/"+mData.size());
+            tvNum.setText((index + 1) + "/" + mData.size());
         }
 
         idViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -61,7 +79,7 @@ public class ImagePreviewActivity extends Activity {
 
             @Override
             public void onPageSelected(int position) {
-                tvNum.setText((position+1)+"/"+mData.size());
+                tvNum.setText((position + 1) + "/" + mData.size());
             }
 
             @Override
@@ -69,6 +87,7 @@ public class ImagePreviewActivity extends Activity {
 
             }
         });
+
     }
 
     private void getIntentData() {
@@ -91,4 +110,10 @@ public class ImagePreviewActivity extends Activity {
         }
         idViewpager = null;
     }
+
+    @OnClick(R.id.imv_focus_house_back)
+    public void onViewClicked() {
+        finish();
+    }
+
 }
