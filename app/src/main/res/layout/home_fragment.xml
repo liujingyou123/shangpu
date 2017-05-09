@@ -30,32 +30,6 @@
             android:scrollbarStyle="outsideOverlay" />
     </com.finance.winport.view.refreshview.PtrClassicFrameLayout>
 
-    <TextView
-        android:id="@+id/tv_location"
-        android:layout_width="50dp"
-        android:layout_height="35dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/bg_tv_location"
-        android:gravity="center"
-        android:text="上海"
-        android:textColor="#333333"
-        android:textSize="15sp" />
-
-    <ImageView
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/bg_white_circle"
-        android:scaleType="centerInside"
-        android:src="@mipmap/icon_navigation_message" />
-
-
     <com.finance.winport.view.home.SelectView
         android:id="@+id/select_view"
         android:layout_width="match_parent"

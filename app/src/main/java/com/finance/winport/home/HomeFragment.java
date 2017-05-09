@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -59,7 +61,6 @@ public class HomeFragment extends BaseFragment {
     private SortPopupView sortPopupView;
     private SelectionDialog selectionDialog;
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -76,7 +77,7 @@ public class HomeFragment extends BaseFragment {
         selectView.setOnLocationClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lsShops.setSelection(1);
+                lsShops.smoothScrollToPositionFromTop(1,-1, 300);
                 showShowQuYuDialog();
             }
         });
@@ -84,7 +85,7 @@ public class HomeFragment extends BaseFragment {
         selectView.setOnSortClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lsShops.setSelection(1);
+                lsShops.smoothScrollToPositionFromTop(1,-1, 300);
                 showPaiXuDailog();
             }
         });
@@ -92,7 +93,7 @@ public class HomeFragment extends BaseFragment {
         selectView.setOnCsClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lsShops.setSelection(1);
+                lsShops.smoothScrollToPositionFromTop(1,-1, 300);
                 showShaiXuandialog();
             }
         });
@@ -145,6 +146,8 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onScrollStateChanged(AbsListView listView, int scrollState) {
 
+
+
             }
 
             @Override
@@ -178,7 +181,7 @@ public class HomeFragment extends BaseFragment {
                 quyuPopupView.showAsDropDown(selectionView);
                 selectionView.onLocationClick();
             }
-        }, 200);
+        }, 300);
     }
 
     private void showPaiXuDailog() {
@@ -197,7 +200,7 @@ public class HomeFragment extends BaseFragment {
                 sortPopupView.showAsDropDown(selectionView);
                 selectionView.onSortClick();
             }
-        }, 200);
+        }, 300);
     }
 
     private void showShaiXuandialog() {
@@ -216,16 +219,11 @@ public class HomeFragment extends BaseFragment {
                 selectionDialog.show();
                 selectionView.onCsClick();
             }
-        }, 200);
+        }, 300);
     }
 
     private void setSelectionViewVisible() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                selectionView.setVisibility(View.VISIBLE);
-            }
-        }, 100);
+        selectionView.setVisibility(View.VISIBLE);
     }
 
     @Override
