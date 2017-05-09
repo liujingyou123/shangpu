@@ -40,6 +40,8 @@ public class ShopRentFragment extends BaseFragment {
     ImageView icon4;
     @BindView(R.id.icon5)
     ImageView icon5;
+    @BindView(R.id.send_btn)
+    TextView sendBtn;
 
     @Nullable
     @Override
@@ -56,8 +58,18 @@ public class ShopRentFragment extends BaseFragment {
         super.onDestroyView();
     }
 
-    @OnClick(R.id.imv_focus_house_back)
-    public void onViewClicked() {
-        handleBack();
+    @OnClick({R.id.imv_focus_house_back, R.id.send_btn})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.imv_focus_house_back:
+                handleBack();
+                break;
+            case R.id.send_btn:
+                BaseFragment sendRent = new SendShopRentFragment();
+                pushFragment(sendRent);
+                break;
+        }
     }
+
+
 }

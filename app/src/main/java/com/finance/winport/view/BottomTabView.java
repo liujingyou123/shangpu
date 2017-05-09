@@ -1,5 +1,7 @@
 package com.finance.winport.view;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -10,7 +12,9 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -94,14 +98,14 @@ public class BottomTabView extends LinearLayout {
             if (mTabColorStateList != null) {
                 holder.tab.setTextColor(mTabColorStateList);
             }
-            this.addView(holder.root, params);
+            this.addView(holder.rootView, params);
             if (i >= 0 && i < mCount - 1) {// set horizontal divider
                 View divider = new View(context);
                 divider.setBackgroundDrawable(mHorizontalDivider);
                 this.addView(divider, new LayoutParams(mDividerWidth,
                         LayoutParams.WRAP_CONTENT));
             }
-            holder.root.setOnClickListener(new OnClickListener() {
+            holder.rootView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     setTabDisplay(index);
@@ -123,6 +127,7 @@ public class BottomTabView extends LinearLayout {
     }
 
     private TabItemHolder createTabItem() {
+        FrameLayout rootView = new FrameLayout(getContext());
         RelativeLayout root = new RelativeLayout(getContext());
         CheckBox tab = new CheckBox(getContext());
         tab.setGravity(Gravity.CENTER);
@@ -130,28 +135,66 @@ public class BottomTabView extends LinearLayout {
         tab.setBackgroundColor(Color.TRANSPARENT);
         tab.setClickable(false);
         ImageView indicator = new ImageView(getContext());
-        TabItemHolder holder = new TabItemHolder(root, tab, indicator);
+        TabItemHolder holder = new TabItemHolder(rootView,root, tab, indicator);
         RelativeLayout.LayoutParams alpTab = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         alpTab.addRule(RelativeLayout.CENTER_IN_PARENT);
-        RelativeLayout.LayoutParams alpIndicator = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams
+        FrameLayout.LayoutParams alpIndicator = new FrameLayout.LayoutParams(RelativeLayout.LayoutParams
                 .WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         tab.setId(R.id.tab);
         indicator.setId(R.id.indicator);
         tab.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
-        alpIndicator.addRule(RelativeLayout.ALIGN_TOP, tab.getId());
-        alpIndicator.addRule(RelativeLayout.ALIGN_RIGHT, tab.getId());
+        alpIndicator.gravity = Gravity.TOP|Gravity.CENTER;
+//        alpIndicator.addRule(RelativeLayout.ALIGN_RIGHT, tab.getId());
         alpIndicator.topMargin = mIndicatorMarginTop;
-        alpIndicator.bottomMargin = mIndicatorMarginBottom;
-        alpIndicator.leftMargin = mIndicatorMarginLeft;
-        alpIndicator.rightMargin = mIndicatorMarginRight;
+//        alpIndicator.bottomMargin = mIndicatorMarginBottom;
+//        alpIndicator.leftMargin = mIndicatorMarginLeft;
+//        alpIndicator.rightMargin = mIndicatorMarginRight;
         indicator.setImageDrawable(mIndicatorDrawble);
         indicator.setVisibility(GONE);
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(RelativeLayout.LayoutParams
+                .WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        lp.gravity = Gravity.CENTER;
         root.addView(tab, alpTab);
-        root.addView(indicator, alpIndicator);
+        rootView.addView(indicator, alpIndicator);
+        rootView.addView(root,lp);
+
         return holder;
     }
+
+//    private TabItemHolder createTabItem() {
+////        FrameLayout rootView = new FrameLayout(getContext());
+//        RelativeLayout root = new RelativeLayout(getContext());
+//        CheckBox tab = new CheckBox(getContext());
+//        tab.setGravity(Gravity.CENTER);
+//        tab.setButtonDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        tab.setBackgroundColor(Color.TRANSPARENT);
+//        tab.setClickable(false);
+//        ImageView indicator = new ImageView(getContext());
+//        TabItemHolder holder = new TabItemHolder(root, tab, indicator);
+//        RelativeLayout.LayoutParams alpTab = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+//                RelativeLayout.LayoutParams.WRAP_CONTENT);
+//        alpTab.addRule(RelativeLayout.CENTER_IN_PARENT);
+//        RelativeLayout.LayoutParams alpIndicator = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams
+//                .WRAP_CONTENT,
+//                RelativeLayout.LayoutParams.WRAP_CONTENT);
+//        tab.setId(R.id.tab);
+//        indicator.setId(R.id.indicator);
+//        tab.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
+//        alpIndicator.addRule(RelativeLayout.ALIGN_TOP, tab.getId());
+//        alpIndicator.addRule(RelativeLayout.ALIGN_RIGHT, tab.getId());
+//        alpIndicator.topMargin = mIndicatorMarginTop;
+//        alpIndicator.bottomMargin = mIndicatorMarginBottom;
+//        alpIndicator.leftMargin = mIndicatorMarginLeft;
+//        alpIndicator.rightMargin = mIndicatorMarginRight;
+//        indicator.setImageDrawable(mIndicatorDrawble);
+//        indicator.setVisibility(GONE);
+//        root.addView(tab, alpTab);
+//        root.addView(indicator, alpIndicator);
+//        return holder;
+//    }
 
     public void setTabLabels(String[] lables) {
         if (lables != null) {
@@ -192,8 +235,24 @@ public class BottomTabView extends LinearLayout {
         if (size <= position) {
             return;
         }
+
+        for (int i = 0; i < mIndicators.size(); i++) {
+            if(i!=position){
+                ImageView indicator = mIndicators.get(i);
+                indicator.setVisibility(View.GONE);
+            }
+        }
         ImageView indicator = mIndicators.get(position);
+
         indicator.setVisibility(visible ? View.VISIBLE : View.GONE);
+        ObjectAnimator anim1 = new ObjectAnimator().ofFloat(indicator, "scaleX", 0f, 1f);
+        ObjectAnimator anim2 = new ObjectAnimator().ofFloat(indicator, "scaleY", 0f, 1f);
+
+
+        AnimatorSet animSet = new AnimatorSet();
+        animSet.play(anim2).with(anim1);
+        animSet.setDuration(200);
+        animSet.start();
     }
 
     public void setTabDisplay(int index) {
@@ -221,11 +280,13 @@ public class BottomTabView extends LinearLayout {
     }
 
     static class TabItemHolder {
+        FrameLayout rootView;
         RelativeLayout root;
         CheckBox tab;
         ImageView indicator;
 
-        TabItemHolder(RelativeLayout root, CheckBox tab, ImageView indicator) {
+        TabItemHolder(FrameLayout rootView,RelativeLayout root, CheckBox tab, ImageView indicator) {
+            this.rootView = rootView;
             this.root = root;
             this.tab = tab;
             this.indicator = indicator;

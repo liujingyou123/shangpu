@@ -13,6 +13,7 @@ import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.view.CountDownButton;
 import com.finance.winport.view.HeaderTextView;
+import com.finance.winport.view.dialog.DateSelectDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,7 +25,7 @@ import butterknife.OnClick;
  *
  */
 
-public class SendShopOrderFragment extends BaseFragment {
+public class SendShopRentFragment extends BaseFragment {
 
 
     @BindView(R.id.imv_focus_house_back)
@@ -41,6 +42,10 @@ public class SendShopOrderFragment extends BaseFragment {
     ImageView shopImg1;
     @BindView(R.id.address1)
     TextView address1;
+    @BindView(R.id.shop_img2)
+    ImageView shopImg2;
+    @BindView(R.id.address2)
+    TextView address2;
     @BindView(R.id.name_view)
     HeaderTextView nameView;
     @BindView(R.id.phone_view)
@@ -55,11 +60,15 @@ public class SendShopOrderFragment extends BaseFragment {
     HeaderTextView imgCodeView;
     @BindView(R.id.ll_img_code)
     LinearLayout llImgCode;
+    @BindView(R.id.order_time)
+    HeaderTextView orderTime;
+
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.send_shop_order_fragment, container, false);
+        View root = inflater.inflate(R.layout.send_shop_rent_fragment, container, false);
         ButterKnife.bind(this, root);
         return root;
     }
@@ -70,9 +79,27 @@ public class SendShopOrderFragment extends BaseFragment {
         super.onDestroyView();
     }
 
-    @OnClick(R.id.imv_focus_house_back)
-    public void onViewClicked() {
-        handleBack();
+    @OnClick({R.id.imv_focus_house_back, R.id.order_time})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.imv_focus_house_back:
+                handleBack();
+                break;
+            case R.id.order_time:
+                DateSelectDialog dialog = new DateSelectDialog(getActivity(), new DateSelectDialog.SelectResultListener() {
+                    @Override
+                    public void onResult(String date) {
+                        orderTime.setText(date);
+                    }
+                });
+                dialog.show();
+                break;
+        }
     }
+
+//    @OnClick(R.id.imv_focus_house_back)
+//    public void onViewClicked() {
+//        handleBack();
+//    }
 
 }

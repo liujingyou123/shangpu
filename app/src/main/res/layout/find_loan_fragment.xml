@@ -2,204 +2,232 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/bg">
+    android:background="@color/bg"
+    android:orientation="vertical">
 
     <include layout="@layout/title_fouce_house" />
-    <ImageView
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:src="@mipmap/find_loan"
-        android:scaleType="fitXY"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="-35dp"
-        android:orientation="vertical"
-        android:background="#ffffff">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <View
-                android:layout_width="95dp"
-                android:layout_height="0.5dp"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="30dp"
-                android:background="#e5e5e5" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="15dp"
-                android:text="贷款流程"
-                android:textColor="#333333"
-                android:textSize="15sp" />
-
-            <View
-                android:layout_width="95dp"
-                android:layout_height="0.5dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="30dp"
-                android:background="#e5e5e5" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="61dp">
-            <ImageView
-                android:id="@+id/icon1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="31dp"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/rent_icon1"/>
-            <ImageView
-                android:id="@+id/icon2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/service_icon"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/icon1"
-                android:layout_marginLeft="29dp"/>
-            <ImageView
-                android:id="@+id/icon3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/loan_icon1"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/icon2"
-                android:layout_marginLeft="29dp"/>
-            <ImageView
-                android:id="@+id/icon4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/service_icon"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/icon3"
-                android:layout_marginLeft="29dp"/>
-            <ImageView
-                android:id="@+id/icon5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/loan_icon2"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/icon4"
-                android:layout_marginLeft="29dp"/>
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="48dp"
-                android:layout_height="wrap_content"
-                android:text="填写贷款申请信息"
-                android:textSize="12sp"
-                android:textColor="#666666"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="5dp"/>
-            <TextView
-                android:layout_width="48dp"
-                android:layout_height="wrap_content"
-                android:text="专人联系资料核实"
-                android:textSize="12sp"
-                android:textColor="#666666"
-                android:layout_marginLeft="68dp"
-                android:layout_marginTop="5dp"/>
-            <TextView
-                android:layout_width="48dp"
-                android:layout_height="wrap_content"
-                android:text="贷款审批快速放款"
-                android:textSize="12sp"
-                android:textColor="#666666"
-                android:layout_marginLeft="68dp"
-                android:layout_marginTop="5dp"/>
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#ffffff"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/find_loan" />
+
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center">
-                <TextView
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="-35dp"
+                android:background="#ffffff"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <View
+                        android:layout_width="95dp"
+                        android:layout_height="0.5dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="30dp"
+                        android:background="#e5e5e5" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="15dp"
+                        android:text="贷款流程"
+                        android:textColor="#333333"
+                        android:textSize="15sp" />
+
+                    <View
+                        android:layout_width="95dp"
+                        android:layout_height="0.5dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="30dp"
+                        android:background="#e5e5e5" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="61dp">
+
+                    <ImageView
+                        android:id="@+id/icon1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="31dp"
+                        android:src="@mipmap/rent_icon1" />
+
+                    <ImageView
+                        android:id="@+id/icon2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="29dp"
+                        android:layout_toRightOf="@+id/icon1"
+                        android:src="@mipmap/service_icon" />
+
+                    <ImageView
+                        android:id="@+id/icon3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="29dp"
+                        android:layout_toRightOf="@+id/icon2"
+                        android:src="@mipmap/loan_icon1" />
+
+                    <ImageView
+                        android:id="@+id/icon4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="29dp"
+                        android:layout_toRightOf="@+id/icon3"
+                        android:src="@mipmap/service_icon" />
+
+                    <ImageView
+                        android:id="@+id/icon5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="29dp"
+                        android:layout_toRightOf="@+id/icon4"
+                        android:src="@mipmap/loan_icon2" />
+                </RelativeLayout>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="6800位"
-                    android:textSize="40sp"
-                    android:textColor="#ff5851"/>
-                <TextView
-                    android:layout_marginTop="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="老板使用了此服务"
-                    android:textSize="14sp"
-                    android:textColor="#666666"/>
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="48dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="5dp"
+                        android:text="填写贷款申请信息"
+                        android:textColor="#666666"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="48dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="68dp"
+                        android:layout_marginTop="5dp"
+                        android:text="专人联系资料核实"
+                        android:textColor="#666666"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="48dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="68dp"
+                        android:layout_marginTop="5dp"
+                        android:text="贷款审批快速放款"
+                        android:textColor="#666666"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+
             </LinearLayout>
+
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center">
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:background="#ffffff"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="6800位"
+                            android:textColor="#ff5851"
+                            android:textSize="40sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="老板使用了此服务"
+                            android:textColor="#666666"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="30万"
+                            android:textColor="#ff5851"
+                            android:textSize="40sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="平均发放贷款"
+                            android:textColor="#666666"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="30万"
-                    android:textSize="40sp"
-                    android:textColor="#ff5851"/>
-                <TextView
-                    android:layout_marginTop="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="平均发放贷款"
-                    android:textSize="14sp"
-                    android:textColor="#666666"/>
+                    android:id="@+id/send_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="32dp"
+                    android:background="@drawable/bg_service_btn"
+                    android:gravity="center"
+                    android:text="申请贷款"
+                    android:textColor="#ffffff"
+                    android:textSize="15sp" />
+
             </LinearLayout>
+
         </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="申请贷款"
-            android:textColor="#ffffff"
-            android:textSize="15sp"
-            android:gravity="center"
-            android:layout_marginTop="32dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
-            android:background="@drawable/bg_service_btn"
-            android:layout_marginBottom="20dp"/>
-
-    </LinearLayout>
-
+    </ScrollView>
 </LinearLayout>

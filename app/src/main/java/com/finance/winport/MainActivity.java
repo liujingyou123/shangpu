@@ -63,6 +63,7 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
         if (homeFragment == null) {
             homeFragment = new HomeFragment();
         }
+        tabView.setIndicatorDisplay(0, true);
         addFragment(homeFragment, false);
     }
 
@@ -72,6 +73,8 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
         if (serviceFragment == null) {
             serviceFragment = new ServiceFragment();
         }
+
+        tabView.setIndicatorDisplay(1, true);
         addFragment(serviceFragment, false);
     }
 
@@ -81,6 +84,7 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
         if (businessFragment == null) {
             businessFragment = new BusinessFragment();
         }
+        tabView.setIndicatorDisplay(2, true);
         addFragment(businessFragment, false);
     }
 
@@ -90,6 +94,7 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
         if (mineFragment == null) {
             mineFragment = new MineFragment();
         }
+        tabView.setIndicatorDisplay(3, true);
         addFragment(mineFragment, false);
     }
 

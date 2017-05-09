@@ -44,6 +44,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.3.0'
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile 'cn.aigestudio.wheelpicker:WheelPicker:1.1.2'
     compile files('libs/MobCommons-2017.0412.1554.jar')
     compile files('libs/MobTools-2017.0412.1554.jar')
     compile files('libs/ShareSDK-Core-2.8.3.jar')

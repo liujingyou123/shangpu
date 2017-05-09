@@ -98,6 +98,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <!-- 找资金 -->
+        <activity android:name=".mine.ShopFocusActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
 
         <!--微信分享回调 -->
         <activity

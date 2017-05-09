@@ -1,37 +1,23 @@
 package com.finance.winport.tab;
 
-import android.content.Context;
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.Editable;
-import android.text.InputFilter;
-import android.text.InputType;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
-import com.finance.winport.util.StringUtil;
-import com.finance.winport.util.TextViewUtil;
-import com.finance.winport.util.UnitUtil;
-import com.finance.winport.view.CountDownButton;
+import com.finance.winport.mine.ShopFocusActivity;
+import com.finance.winport.view.StopWatchTextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 
 /**
@@ -42,12 +28,25 @@ import butterknife.ButterKnife;
 public class MineFragment extends BaseFragment {
 
 
-
+    @BindView(R.id.tv_focus_right)
+    TextView tvFocusRight;
+    @BindView(R.id.tv_focus_house)
+    TextView tvFocusHouse;
+    @BindView(R.id.shop_img)
+    ImageView shopImg;
+    @BindView(R.id.address)
+    TextView address;
+    @BindView(R.id.modify)
+    TextView modify;
+    @BindView(R.id.tv_today_shop)
+    StopWatchTextView tvTodayShop;
+    Unbinder unbinder;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.mine_fragment, container, false);
+        unbinder = ButterKnife.bind(this, root);
         return root;
     }
 
@@ -55,5 +54,17 @@ public class MineFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @OnClick({R.id.tv_focus_right, R.id.modify})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.tv_focus_right:
+                break;
+            case R.id.modify:
+                startActivity(new Intent(getActivity(), ShopFocusActivity.class));
+                break;
+        }
     }
 }
