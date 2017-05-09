@@ -23,6 +23,7 @@ import com.finance.winport.dialog.SelectionDialog;
 import com.finance.winport.dialog.SortPopupView;
 import com.finance.winport.home.adapter.ShopsAdapter;
 import com.finance.winport.home.model.Shop;
+import com.finance.winport.home.model.ShopsListActivity;
 import com.finance.winport.util.LogUtil;
 import com.finance.winport.view.home.HeaderView;
 import com.finance.winport.view.home.SelectView;
@@ -73,6 +74,37 @@ public class HomeFragment extends BaseFragment {
     private void initListView() {
         final HeaderView headerView = new HeaderView(this.getContext());
         final SelectView selectView = new SelectView(this.getContext());
+
+        headerView.setNewShopsListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToListPage(0);
+            }
+        });
+
+        headerView.setNoMenoyListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToListPage(1);
+
+            }
+        });
+
+        headerView.setSmallShopListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToListPage(2);
+
+            }
+        });
+
+        headerView.setNearMetroListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToListPage(3);
+
+            }
+        });
 
         selectView.setOnLocationClickListener(new View.OnClickListener() {
             @Override
@@ -226,6 +258,11 @@ public class HomeFragment extends BaseFragment {
         selectionView.setVisibility(View.VISIBLE);
     }
 
+    private void goToListPage(int index) {
+        Intent intent = new Intent(this.getContext(), ShopsListActivity.class);
+        intent.putExtra("index", index);
+        startActivity(intent);
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();

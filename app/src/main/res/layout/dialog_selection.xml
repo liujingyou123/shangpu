@@ -506,7 +506,8 @@
                     android:checked="false"
                     android:gravity="center"
                     android:text="三相电(380V)"
-                    android:textColor="@color/color_shaixuan" />
+                    android:textColor="@color/color_shaixuan"
+                    android:textSize="12sp"/>
 
                 <CheckBox
                     android:id="@+id/cb_other1"
@@ -623,13 +624,13 @@
                 android:id="@+id/cb_other9"
                 android:layout_width="80dp"
                 android:layout_height="30dp"
-                android:layout_marginLeft="15dp"
                 android:background="@drawable/checked_bg_dialog"
                 android:button="@null"
                 android:gravity="center"
                 android:text="独立卫生间"
                 android:textColor="@color/color_shaixuan"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:layout_marginTop="15dp"/>
 
         </LinearLayout>
 
