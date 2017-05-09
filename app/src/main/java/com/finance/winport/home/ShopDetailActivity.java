@@ -185,7 +185,7 @@ public class ShopDetailActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.imv_back, R.id.tv_share, R.id.tv_shop_more, R.id.view_banner, R.id.tv_jiucuo})
+    @OnClick({R.id.imv_focus_house_back, R.id.imv_back, R.id.tv_share, R.id.tv_shop_more, R.id.view_banner, R.id.tv_jiucuo, R.id.tv_yuyue})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -219,6 +219,11 @@ public class ShopDetailActivity extends BaseActivity {
             case R.id.tv_jiucuo:
                 Intent intentjiucuo = new Intent(ShopDetailActivity.this, MisTakeActivity.class);
                 startActivity(intentjiucuo);
+                break;
+
+            case R.id.tv_yuyue:
+                Intent orderIntent = new Intent(ShopDetailActivity.this, OrderShopActivity.class);
+                startActivity(orderIntent);
                 break;
 
         }

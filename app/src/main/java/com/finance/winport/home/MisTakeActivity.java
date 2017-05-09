@@ -1,5 +1,6 @@
 package com.finance.winport.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -70,7 +71,7 @@ public class MisTakeActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.tv_change})
+    @OnClick({R.id.imv_focus_house_back, R.id.tv_change, R.id.btn_done})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -79,6 +80,10 @@ public class MisTakeActivity extends BaseActivity {
             case R.id.tv_change:
                 llCode.setVisibility(View.VISIBLE);
                 tvChange.setVisibility(View.GONE);
+                break;
+            case R.id.btn_done:
+                Intent intent = new Intent(this, MistakeSuccessActivity.class);
+                startActivity(intent);
                 break;
         }
     }
