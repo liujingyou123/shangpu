@@ -148,4 +148,8 @@
         <item name="android:windowEnterAnimation">@anim/slide_form_bottom</item>
         <item name="android:windowExitAnimation">@anim/slide_to_bottom</item>
     </style>
+    <declare-styleable name="ShopDetailItem">
+        <attr name="LabelOne" format="string" />
+        <attr name="LabelTwo" format="string" />
+    </declare-styleable>
 </resources>

@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:apps="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_fouce_house" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:text="经营状况"
+                android:textColor="#999999"
+                android:textSize="12sp" />
+
+            <com.finance.winport.view.home.ItemView
+                android:id="@+id/tv_jingying"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:LabelOne="经营状况："
+                apps:LabelTwo="正在经营"></com.finance.winport.view.home.ItemView>
+
+            <View
+                style="@style/view_line"
+                android:layout_marginLeft="15dp" />
+
+            <com.finance.winport.view.home.ItemView
+                android:id="@+id/tv_dianpu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:LabelOne="店铺名称："
+                apps:LabelTwo="芭比馒头"></com.finance.winport.view.home.ItemView>
+
+            <View
+                style="@style/view_line"
+                android:layout_marginLeft="15dp" />
+
+            <com.finance.winport.view.home.ItemView
+                android:id="@+id/tv_tese"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:LabelOne="特　　色："
+                apps:LabelTwo="正在经营"></com.finance.winport.view.home.ItemView>
+
+            <View
+                style="@style/view_line"
+                android:layout_marginLeft="15dp" />
+
+            <com.finance.winport.view.home.ItemView
+                android:id="@+id/tv_jingyingyetai"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:LabelOne="经营业态："
+                apps:LabelTwo="正在经营"></com.finance.winport.view.home.ItemView>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:text="客户信息"
+                android:textColor="#999999"
+                android:textSize="12sp" />
+
+            <com.finance.winport.view.home.ItemView
+                android:id="@+id/tv_kehu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:LabelOne="联系人："
+                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+
+            <View
+                style="@style/view_line"
+                android:layout_marginLeft="15dp" />
+
+            <com.finance.winport.view.home.ItemView
+                android:id="@+id/tv_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:LabelOne="联系电话："
+                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:text="建筑信息"
+                android:textColor="#999999"
+                android:textSize="12sp" />
+
+            <com.finance.winport.view.home.ItemView
+                android:id="@+id/tv_mianji"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:LabelOne="建筑面积："
+                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+
+            <View
+                style="@style/view_line"
+                android:layout_marginLeft="15dp" />
+
+            <com.finance.winport.view.home.ItemView
+                android:id="@+id/tv_shiyongmianji"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:LabelOne="使用面积："
+                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+
+            <View
+                style="@style/view_line"
+                android:layout_marginLeft="15dp" />
+
+            <com.finance.winport.view.home.ItemView
+                android:id="@+id/tv_louceng"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:LabelOne="楼　　层："
+                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+
+            <View
+                style="@style/view_line"
+                android:layout_marginLeft="15dp" />
+
+            <com.finance.winport.view.home.ItemView
+                android:id="@+id/tv_miankuan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:LabelOne="面　　宽："
+                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+
+            <View
+                style="@style/view_line"
+                android:layout_marginLeft="15dp" />
+
+            <com.finance.winport.view.home.ItemView
+                android:id="@+id/tv_jinshen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:LabelOne="进　　深："
+                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+
+            <View
+                style="@style/view_line"
+                android:layout_marginLeft="15dp" />
+
+            <com.finance.winport.view.home.ItemView
+                android:id="@+id/tv_cenggao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:LabelOne="层　　高："
+                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:text="配套设施"
+                android:textColor="#999999"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="#ffffff"></LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:text="营运费用"
+                android:textColor="#999999"
+                android:textSize="12sp" />
+
+            <com.finance.winport.view.home.ItemView
+                android:id="@+id/tv_dianfei"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:LabelOne="电　　费："
+                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+
+            <View
+                style="@style/view_line"
+                android:layout_marginLeft="15dp" />
+
+            <com.finance.winport.view.home.ItemView
+                android:id="@+id/tv_shuifei"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:LabelOne="水　　费："
+                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+
+            <View
+                style="@style/view_line"
+                android:layout_marginLeft="15dp" />
+
+            <com.finance.winport.view.home.ItemView
+                android:id="@+id/tv_ranqifei"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:LabelOne="燃气费："
+                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+
+            <View
+                style="@style/view_line"
+                android:layout_marginLeft="15dp" />
+
+            <com.finance.winport.view.home.ItemView
+                android:id="@+id/tv_wuyefei"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:LabelOne="物业费："
+                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:text="租赁相关"
+                android:textColor="#999999"
+                android:textSize="12sp" />
+
+            <com.finance.winport.view.home.ItemView
+                android:id="@+id/tv_yuezujin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:LabelOne="月租金："
+                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+
+            <View
+                style="@style/view_line"
+                android:layout_marginLeft="15dp" />
+
+            <com.finance.winport.view.home.ItemView
+                android:id="@+id/tv_yajin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:LabelOne="押　金："
+                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+
+            <View
+                style="@style/view_line"
+                android:layout_marginLeft="15dp" />
+
+            <com.finance.winport.view.home.ItemView
+                android:id="@+id/tv_zhuanrangfei"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:LabelOne="转让费："
+                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+
+            <View
+                style="@style/view_line"
+                android:layout_marginLeft="15dp" />
+
+            <com.finance.winport.view.home.ItemView
+                android:id="@+id/tv_shengyuhetong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:LabelOne="剩余合同："
+                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:text="邻铺信息"
+                android:textColor="#999999"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:id="@+id/ll_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.finance.winport.view.home.ItemView
+                    android:id="@+id/tv_linpuweizhi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    apps:LabelOne="邻铺位置："
+                    apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+
+                <View
+                    style="@style/view_line"
+                    android:layout_marginLeft="15dp" />
+
+                <com.finance.winport.view.home.ItemView
+                    android:id="@+id/tv_dianpuweizhi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    apps:LabelOne="店铺名称："
+                    apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+
+                <View
+                    style="@style/view_line"
+                    android:layout_marginLeft="15dp" />
+
+                <com.finance.winport.view.home.ItemView
+                    android:id="@+id/tv_suoshuyetai"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    apps:LabelOne="所属业态："
+                    apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

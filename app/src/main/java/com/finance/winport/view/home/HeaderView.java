@@ -10,6 +10,7 @@ import com.finance.winport.view.StopWatchTextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by liuworkmac on 17/5/3.

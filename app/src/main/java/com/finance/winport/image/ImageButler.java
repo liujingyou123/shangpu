@@ -1,6 +1,7 @@
 package com.finance.winport.image;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 /**
@@ -60,4 +61,11 @@ public interface ImageButler {
      * @param maxWidth 图片的最大宽度 0：原图大小
      * @param maxHeight 图片的最大高度 0：原图大小
      */
-    void fromNetWithFitCenter(Context context, String url, ImageView imageView, int defaultImage, int failedImage, int maxWidth, int maxHeight);}
+    void fromNetWithFitCenter(Context context, String url, ImageView imageView, int defaultImage, int failedImage, int maxWidth, int maxHeight);
+
+
+    Bitmap getBitMap(Context context, String url);
+
+}
+
+
