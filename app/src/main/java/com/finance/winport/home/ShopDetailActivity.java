@@ -1,5 +1,6 @@
 package com.finance.winport.home;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
+import com.finance.winport.dialog.ShareDialog;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.PositionScrollView;
 import com.finance.winport.view.ScrollTabView;
@@ -63,6 +65,7 @@ public class ShopDetailActivity extends BaseActivity {
     ImageView imvFocusHouseBack;
 
     private boolean isTouched = false;
+    private ShareDialog shareDialog;
 
 
     @Override
@@ -178,7 +181,7 @@ public class ShopDetailActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.imv_back})
+    @OnClick({R.id.imv_focus_house_back, R.id.imv_back, R.id.tv_share, R.id.tv_shop_more})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -186,6 +189,18 @@ public class ShopDetailActivity extends BaseActivity {
             case R.id.imv_back:
                 finish();
                 break;
+            case R.id.tv_share:
+                if (shareDialog == null) {
+                    shareDialog = new ShareDialog(this);
+                }
+                shareDialog.show();
+                break;
+            case R.id.tv_shop_more:
+                Intent intent = new Intent(ShopDetailActivity.this, ShopMoreActivity.class);
+                startActivity(intent);
+                break;
+
         }
     }
+
 }

@@ -3,7 +3,6 @@
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="36dp"
-        android:layout_toLeftOf="@id/tv_more"
         android:overScrollMode="never"
         android:scrollbars="none">
 

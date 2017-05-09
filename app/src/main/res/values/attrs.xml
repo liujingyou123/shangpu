@@ -124,4 +124,9 @@
         <attr name="htv_divider_stretch" format="boolean" />
         <attr name="htv_divider_visible" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="ShopDetailItem">
+        <attr name="LabelOne" format="string" />
+        <attr name="LabelTwo" format="string" />
+    </declare-styleable>
 </resources>

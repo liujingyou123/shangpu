@@ -40,9 +40,16 @@ dependencies {
     // rxjava
     compile 'io.reactivex:rxjava:1.1.9'
     compile 'io.reactivex:rxandroid:1.2.1'
-//    compile 'com.jakewharton:butterknife:8.0.1'
+    //    compile 'com.jakewharton:butterknife:8.0.1'
     compile 'com.android.support:recyclerview-v7:25.3.0'
-
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile files('libs/MobCommons-2017.0412.1554.jar')
+    compile files('libs/MobTools-2017.0412.1554.jar')
+    compile files('libs/ShareSDK-Core-2.8.3.jar')
+    compile files('libs/ShareSDK-QQ-2.8.3.jar')
+    compile files('libs/ShareSDK-SinaWeibo-2.8.3.jar')
+    compile files('libs/ShareSDK-Wechat-2.8.3.jar')
+    compile files('libs/ShareSDK-Wechat-Core-2.8.3.jar')
+    compile files('libs/ShareSDK-Wechat-Moments-2.8.3.jar')
 }

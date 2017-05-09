@@ -40,7 +40,7 @@
             android:layout_weight="4"
             android:background="@drawable/tv_bg_reset"
             android:drawablePadding="3dp"
-            android:drawableTop="@mipmap/icon_share"
+            android:drawableTop="@mipmap/icon_collection"
             android:gravity="center"
             android:paddingTop="5dp"
             android:text="收藏"
@@ -805,7 +805,7 @@
             <View style="@style/view_line" />
 
             <TextView
-                android:id="@+id/tv_more"
+                android:id="@+id/tv_shop_more"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
@@ -819,7 +819,7 @@
                 android:id="@+id/stv"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_toLeftOf="@id/tv_more"></com.finance.winport.view.ScrollTabView>
+                android:layout_toLeftOf="@id/tv_shop_more"></com.finance.winport.view.ScrollTabView>
 
             <View
                 android:id="@+id/view_deliver_space"

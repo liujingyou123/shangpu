@@ -59,4 +59,9 @@
         <attr name="tabTitleColor" format="color"/>
         <attr name="tabTitleColorSelect" format="color"/>
     </declare-styleable>
+
+    <style name="dialogWheel" parent="@android:style/Animation">
+        <item name="@android:windowEnterAnimation">@anim/dialog_wheel_out</item>
+        <item name="@android:windowExitAnimation">@anim/dialog_wheel_in</item>
+    </style>
 </resources>
