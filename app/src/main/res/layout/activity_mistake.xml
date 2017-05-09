@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_fouce_house" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:text="举报原因"
+                android:textColor="#999999"
+                android:textSize="12sp" />
+
+            <com.finance.winport.view.CheckGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:orientation="vertical"
+                android:paddingLeft="15dp">
+
+                <com.finance.winport.view.MistakeItem
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"></com.finance.winport.view.MistakeItem>
+
+                <View style="@style/view_line" />
+
+                <com.finance.winport.view.MistakeItem
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"></com.finance.winport.view.MistakeItem>
+
+                <View style="@style/view_line" />
+
+                <com.finance.winport.view.MistakeItem
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"></com.finance.winport.view.MistakeItem>
+
+            </com.finance.winport.view.CheckGroup>
+
+            <!-- 其他 -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="103dp"
+                android:background="#ffffff"
+                android:orientation="vertical"
+                android:paddingLeft="15dp">
+
+                <View
+                    android:id="@+id/view_line_l"
+                    style="@style/view_line" />
+
+                <EditText
+                    android:id="@+id/et_else"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/view_line_l"
+                    android:background="#00000000"
+                    android:gravity="left|top"
+                    android:hint="请输入其他信息"
+                    android:paddingTop="2dp"
+                    android:textColor="#FF999999"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginRight="15dp"
+                    android:text="0/200字"
+                    android:textColor="#999999"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#ffffff"
+                android:orientation="vertical"
+                android:paddingLeft="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="联系人　"
+                        android:textColor="#333333"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/et_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="25dp"
+                        android:background="#00000000"
+                        android:gravity="left|center_vertical"
+                        android:hint="请输入联系人姓名"
+                        android:textColor="#333333"
+                        android:textColorHint="#999999"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <View
+                    style="@style/view_line"
+                    android:layout_marginLeft="80dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="联系电话"
+                        android:textColor="#333333"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/et_phone"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="25dp"
+                        android:background="#00000000"
+                        android:gravity="left|center_vertical"
+                        android:hint="请输入联系电话"
+                        android:textColor="#333333"
+                        android:textColorHint="#999999"
+                        android:textSize="14sp" />
+                    <TextView
+                        android:id="@+id/tv_change"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="15dp"
+                        android:text="更改"
+                        android:textColor="#FFFFA73B"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <View
+                        style="@style/view_line"
+                        android:layout_marginLeft="80dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="验证码　"
+                            android:textColor="#333333"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/et_code"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="25dp"
+                            android:layout_weight="1"
+                            android:background="#00000000"
+                            android:gravity="left|center_vertical"
+                            android:hint="请输入短信验证码"
+                            android:textColor="#333333"
+                            android:textColorHint="#999999"
+                            android:textSize="14sp"
+                            android:maxLength="200"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="15dp"
+                            android:text="发送验证码"
+                            android:textColor="#FFFFA73B"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/btn_done"
+                style="@style/btn_done"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/bg_done"
+                android:text="提交" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="收到您的举报信息后，我们将会联系您核实"
+                android:textColor="#FF999999"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:layout_marginTop="10dp"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
