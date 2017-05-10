@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:apps="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_title_root"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#ffffff"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="上海"
+            android:textColor="#FF333333"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/my_list"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/business_icon_post" />
+
+        <com.finance.winport.view.SlidingTabLayout
+            android:id="@+id/id_tab"
+            android:layout_width="134dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:background="#ffffff"
+            apps:bottomLineColor="#00000000"
+            apps:bottomLineHeight="0dp"
+            apps:dividerMargin="14dp"
+            apps:indicatorColor="#ff7725"
+            apps:indicatorHeight="2dp"
+            apps:tabTitleColor="#666666"
+            apps:tabTitleColorSelect="#ff7725"></com.finance.winport.view.SlidingTabLayout>
+    </RelativeLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/id_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/id_tab" />
+</LinearLayout>

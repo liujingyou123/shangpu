@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:paddingRight="15dp"
+    android:paddingLeft="15dp">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:drawableLeft="@mipmap/business_icon_top"
+        android:drawablePadding="3dp"
+        android:gravity="center_vertical"
+        android:text="魔都最火的10间商铺"
+        android:textColor="#FF333333"
+        android:textSize="15sp" />
+
+    <!-- 图片 -->
+    <android.support.v7.widget.GridLayout
+        android:id="@+id/gl_images"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android.support.v7.widget.GridLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:paddingLeft="15dp">
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6分钟前发布"
+            android:textColor="#FF999999"
+            android:textSize="13sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"/>
+
+        <TextView
+            android:id="@+id/tv_comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="34600"
+            android:textColor="#999999"
+            android:textSize="13sp"
+            android:layout_centerVertical="true"
+            android:drawableLeft="@mipmap/business_icon_comments"
+            android:layout_alignParentRight="true"
+            android:drawablePadding="3dp"/>
+
+        <TextView
+            android:id="@+id/tv_zan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="34600"
+            android:textColor="@color/bg_zan"
+            android:textSize="13sp"
+            android:layout_centerVertical="true"
+            android:drawableLeft="@drawable/bg_zan"
+            android:drawablePadding="3dp"
+            android:layout_toLeftOf="@id/tv_comments"
+            android:layout_marginRight="10dp"/>
+
+
+    </RelativeLayout>
+</LinearLayout>
