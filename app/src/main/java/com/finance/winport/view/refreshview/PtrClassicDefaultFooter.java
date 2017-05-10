@@ -19,7 +19,7 @@ import com.finance.winport.view.refreshview.indicator.PtrIndicator;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler {
+public class PtrClassicDefaultFooter extends FrameLayout implements PtrUIHandler {
 
     private final static String KEY_SharedPreferences = "cube_ptr_classic_last_update";
     private static SimpleDateFormat sDataFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -36,17 +36,17 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
 
     private LastUpdateTimeUpdater mLastUpdateTimeUpdater = new LastUpdateTimeUpdater();
 
-    public PtrClassicDefaultHeader(Context context) {
+    public PtrClassicDefaultFooter(Context context) {
         super(context);
         initViews(null);
     }
 
-    public PtrClassicDefaultHeader(Context context, AttributeSet attrs) {
+    public PtrClassicDefaultFooter(Context context, AttributeSet attrs) {
         super(context, attrs);
         initViews(attrs);
     }
 
-    public PtrClassicDefaultHeader(Context context, AttributeSet attrs, int defStyle) {
+    public PtrClassicDefaultFooter(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initViews(attrs);
     }
@@ -57,7 +57,7 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
             mRotateAniTime = arr.getInt(R.styleable.PtrClassicHeader_ptr_rotate_ani_time, mRotateAniTime);
         }
         buildAnimation();
-        View header = LayoutInflater.from(getContext()).inflate(R.layout.cube_ptr_classic_default_header, this);
+        View header = LayoutInflater.from(getContext()).inflate(R.layout.cube_ptr_classic_default_footer, this);
 
         mRotateView = header.findViewById(R.id.ptr_classic_header_rotate_view);
 
@@ -102,7 +102,7 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
      * @param object
      */
     public void setLastUpdateTimeRelateObject(Object object) {
-        setLastUpdateTimeKey(object.getClass().getName() + "header");
+        setLastUpdateTimeKey(object.getClass().getName() + "footer");
     }
 
     protected void buildAnimation() {
@@ -146,9 +146,9 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
         mRotateView.setVisibility(VISIBLE);
         mTitleTextView.setVisibility(VISIBLE);
         if (frame.isPullToRefresh()) {
-            mTitleTextView.setText(getResources().getString(R.string.cube_ptr_pull_down_to_refresh));
+            mTitleTextView.setText(getResources().getString(R.string.cube_ptr_pull_up_to_load));
         } else {
-            mTitleTextView.setText(getResources().getString(R.string.cube_ptr_pull_down));
+            mTitleTextView.setText(getResources().getString(R.string.cube_ptr_pull_up));
         }
     }
 
@@ -158,7 +158,7 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
         hideRotateView();
         mProgressBar.setVisibility(VISIBLE);
         mTitleTextView.setVisibility(VISIBLE);
-        mTitleTextView.setText(R.string.cube_ptr_refreshing);
+        mTitleTextView.setText(R.string.cube_ptr_loading);
 
         tryUpdateLastUpdateTime();
         mLastUpdateTimeUpdater.stop();
@@ -166,14 +166,14 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
 
     @Override
     public void onUIRefreshComplete(PtrFrameLayout frame, boolean isHeader) {
-        if(!isHeader){
+        if(isHeader){
             return;
         }
         hideRotateView();
         mProgressBar.setVisibility(INVISIBLE);
 
         mTitleTextView.setVisibility(VISIBLE);
-        mTitleTextView.setText(getResources().getString(R.string.cube_ptr_refresh_complete));
+        mTitleTextView.setText(getResources().getString(R.string.cube_ptr_load_complete));
 
         // update last update time
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(KEY_SharedPreferences, 0);
@@ -265,16 +265,16 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
     private void crossRotateLineFromTopUnderTouch(PtrFrameLayout frame) {
         if (!frame.isPullToRefresh()) {
             mTitleTextView.setVisibility(VISIBLE);
-            mTitleTextView.setText(R.string.cube_ptr_release_to_refresh);
+            mTitleTextView.setText(R.string.cube_ptr_release_to_load);
         }
     }
 
     private void crossRotateLineFromBottomUnderTouch(PtrFrameLayout frame) {
         mTitleTextView.setVisibility(VISIBLE);
         if (frame.isPullToRefresh()) {
-            mTitleTextView.setText(getResources().getString(R.string.cube_ptr_pull_down_to_refresh));
+            mTitleTextView.setText(getResources().getString(R.string.cube_ptr_pull_up_to_load));
         } else {
-            mTitleTextView.setText(getResources().getString(R.string.cube_ptr_pull_down));
+            mTitleTextView.setText(getResources().getString(R.string.cube_ptr_pull_up));
         }
     }
 

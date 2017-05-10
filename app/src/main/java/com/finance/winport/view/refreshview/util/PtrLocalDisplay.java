@@ -1,4 +1,4 @@
-package com.finance.winport.view.refreshview.utils;
+package com.finance.winport.view.refreshview.util;
 
 import android.content.Context;
 import android.util.DisplayMetrics;

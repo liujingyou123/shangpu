@@ -1,6 +1,5 @@
 package com.finance.winport.view.refreshview;
 
-import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.widget.AbsListView;
 
@@ -11,16 +10,13 @@ public abstract class PtrDefaultHandler implements PtrHandler {
             if (view instanceof AbsListView) {
                 final AbsListView absListView = (AbsListView) view;
                 return absListView.getChildCount() > 0
-                        && (absListView.getFirstVisiblePosition() > 0 || absListView.getChildAt(0).getTop() <
-                        absListView
-                        .getPaddingTop());
+                        && (absListView.getFirstVisiblePosition() > 0 || absListView.getChildAt(0)
+                        .getTop() < absListView.getPaddingTop());
             } else {
-//				return view.getScrollY() > 0;
-                return ViewCompat.canScrollVertically(view, -1) || view.getScrollY() > 0;
+                return view.getScrollY() > 0;
             }
         } else {
-//			return view.canScrollVertically(-1);
-            return ViewCompat.canScrollVertically(view, -1);
+            return view.canScrollVertically(-1);
         }
     }
 
@@ -40,4 +36,5 @@ public abstract class PtrDefaultHandler implements PtrHandler {
     public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
         return checkContentCanBePulledDown(frame, content, header);
     }
+
 }

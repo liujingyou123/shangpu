@@ -13,7 +13,7 @@ import android.view.animation.Transformation;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
 import com.finance.winport.view.refreshview.PtrUIHandler;
 import com.finance.winport.view.refreshview.indicator.PtrIndicator;
-import com.finance.winport.view.refreshview.utils.PtrLocalDisplay;
+import com.finance.winport.view.refreshview.util.PtrLocalDisplay;
 
 import java.util.ArrayList;
 
@@ -268,7 +268,7 @@ public class StoreHouseHeader extends View implements PtrUIHandler {
     }
 
     @Override
-    public void onUIRefreshComplete(PtrFrameLayout frame) {
+    public void onUIRefreshComplete(PtrFrameLayout frame, boolean isHeader) {
         loadFinish();
     }
 

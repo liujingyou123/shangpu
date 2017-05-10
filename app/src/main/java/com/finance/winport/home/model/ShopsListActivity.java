@@ -22,6 +22,7 @@ import com.finance.winport.util.LogUtil;
 import com.finance.winport.view.home.SelectView;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler;
+import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
 
 import java.util.ArrayList;
@@ -76,8 +77,13 @@ public class ShopsListActivity extends BaseActivity {
             });
         }
 
-        refreshView.setLoadMoreEnable(true);
-        refreshView.setPtrHandler(new PtrDefaultHandler() {
+//        refreshView.setLoadMoreEnable(true);
+        refreshView.setPtrHandler(new PtrDefaultHandler2() {
+            @Override
+            public void onLoadMoreBegin(PtrFrameLayout frame) {
+
+            }
+
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
             }

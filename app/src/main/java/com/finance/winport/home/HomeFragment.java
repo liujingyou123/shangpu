@@ -29,8 +29,8 @@ import com.finance.winport.view.home.HeaderView;
 import com.finance.winport.view.home.SelectView;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler;
+import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
-import com.finance.winport.view.refreshview.loadmore.OnScrollLisenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -166,15 +166,20 @@ public class HomeFragment extends BaseFragment {
             });
         }
 
-        refreshView.setLoadMoreEnable(true);
-        refreshView.setPtrHandler(new PtrDefaultHandler() {
+        refreshView.setPtrHandler(new PtrDefaultHandler2() {
+            @Override
+            public void onLoadMoreBegin(PtrFrameLayout frame) {
+
+            }
+
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 LogUtil.e("dddddddddd");
             }
         });
 
-        refreshView.setOnScrollListener(new OnScrollLisenter() {
+
+        lsShops.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView listView, int scrollState) {
 
