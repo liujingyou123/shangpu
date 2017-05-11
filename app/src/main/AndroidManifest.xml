@@ -97,6 +97,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <!-- 旺铺列表 -->
+        <activity
+            android:name=".trade.WorkCommunitDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <!-- 发布帖子 -->
         <activity
             android:name=".trade.EditNoteActivity"

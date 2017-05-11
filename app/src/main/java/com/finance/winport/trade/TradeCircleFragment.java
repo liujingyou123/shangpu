@@ -1,5 +1,6 @@
 package com.finance.winport.trade;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -68,6 +69,8 @@ public class TradeCircleFragment extends BaseFragment {
             case R.id.my_list:
                 break;
             case R.id.imv_edit_m:
+                Intent intent = new Intent(this.getContext(), EditNoteActivity.class);
+                startActivity(intent);
                 break;
         }
     }
