@@ -17,26 +17,27 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by liuworkmac on 17/5/9.
+ * Created by liuworkmac on 17/5/11.
  */
 
-public class NoticeDialog extends Dialog {
-
+public class NoticeDelDialog extends Dialog {
     @BindView(R.id.tv_message)
     TextView tvMessage;
     @BindView(R.id.tv_ok)
     TextView tvOk;
+    @BindView(R.id.tv_message2_two)
+    TextView tvMessage2Two;
     private Context mContext;
-    private OnPreClickListner mOnOkPreClickListner;
+    private NoticeDialog.OnPreClickListner mOnOkPreClickListner;
 
-    public NoticeDialog(@NonNull Context context) {
+    public NoticeDelDialog(@NonNull Context context) {
         super(context, R.style.noticeDialog);
         init(context);
     }
 
     private void init(Context context) {
         this.mContext = context;
-        View view = LayoutInflater.from(context).inflate(R.layout.dialog_notice, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_notice_del, null);
         setContentView(view);
         ButterKnife.bind(this, view);
         setCanceledOnTouchOutside(true);
@@ -44,7 +45,7 @@ public class NoticeDialog extends Dialog {
         Window window = getWindow();
         WindowManager.LayoutParams lp = window.getAttributes();
         lp.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 280, mContext.getResources().getDisplayMetrics());
-        lp.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 138, mContext.getResources().getDisplayMetrics());
+        lp.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 162, mContext.getResources().getDisplayMetrics());
         window.setAttributes(lp);
     }
 
@@ -71,7 +72,7 @@ public class NoticeDialog extends Dialog {
         tvOk.setText(msg);
     }
 
-    public void setOkClickListener(OnPreClickListner onPreClickListner) {
+    public void setOkClickListener(NoticeDialog.OnPreClickListner onPreClickListner) {
         this.mOnOkPreClickListner = onPreClickListner;
     }
 
