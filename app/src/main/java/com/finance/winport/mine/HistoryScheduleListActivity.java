@@ -1,8 +1,6 @@
 package com.finance.winport.mine;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -18,7 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class MyScheduleListActivity extends BaseActivity {
+public class HistoryScheduleListActivity extends BaseActivity {
 
     @BindView(R.id.imv_focus_house_back)
     ImageView imvFocusHouseBack;
@@ -34,24 +32,21 @@ public class MyScheduleListActivity extends BaseActivity {
     ImageView emptyTips;
     @BindView(R.id.empty)
     RelativeLayout empty;
-    @BindView(R.id.rl_title_root)
-    RelativeLayout rlTitleRoot;
     private ScheduleListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule_list);
+        setContentView(R.layout.activity_history_schedule_list);
         ButterKnife.bind(this);
         setAdapter();
     }
 
 
     private void setAdapter() {
-        tvFocusHouse.setText("我的日程");
-        tvFocusRight.setText("历史");
+        tvFocusHouse.setText("历史日程");
         if (adapter == null) {
-            adapter = new ScheduleListAdapter(MyScheduleListActivity.this);
+            adapter = new ScheduleListAdapter(HistoryScheduleListActivity.this);
             mListView.setAdapter(adapter);
 //            totalPage = (int) Math.ceil(adapter.getTotalCount() / (float) LIMIT);
         } else {
@@ -64,20 +59,8 @@ public class MyScheduleListActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.tv_focus_right})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.imv_focus_house_back:
-                finish();
-                break;
-            case R.id.tv_focus_right:
-                startActivity(new Intent(MyScheduleListActivity.this,HistoryScheduleListActivity.class));
-                break;
-        }
+    @OnClick(R.id.imv_focus_house_back)
+    public void onViewClicked() {
+        finish();
     }
-
-//    @OnClick(R.id.imv_focus_house_back)
-//    public void onViewClicked() {
-//        finish();
-//    }
 }

@@ -128,6 +128,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
+        <!-- 历史日程 -->
+        <activity android:name=".mine.HistoryScheduleListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
         <!-- 系统设置 -->
         <activity android:name=".mine.SettingsActivity"
             android:screenOrientation="portrait"
