@@ -3,15 +3,15 @@
     android:id="@+id/rl_top"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#2c67e6">
+    android:background="#ffffff">
 
     <ImageView
         android:id="@+id/btn_back"
         android:layout_width="wrap_content"
-        android:layout_height="54dp"
+        android:layout_height="56dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:src="@drawable/gallery_back"
+        android:src="@mipmap/icon_back"
         android:scaleType="centerInside" />
 
     <LinearLayout

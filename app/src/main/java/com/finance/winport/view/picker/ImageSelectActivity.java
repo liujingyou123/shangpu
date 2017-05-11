@@ -61,7 +61,7 @@ public class ImageSelectActivity extends FragmentActivity implements AlbumCollec
     private final SelectedUriCollection mCollection = new SelectedUriCollection(this);
     private String mCapturePhotoUriHolder;
 
-    private String titleColor = "#2c67e6";
+    private String titleColor = "#ffffff";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +73,7 @@ public class ImageSelectActivity extends FragmentActivity implements AlbumCollec
         titleColor = getIntent().getStringExtra(ImageSelectActivity.COLOR_TITLE);
 
         if (TextUtils.isEmpty(titleColor)) {
-            titleColor = "#2c67e6";
+            titleColor = "#ffffff";
         }
 
         mCollection.onCreate(savedInstanceState);
@@ -99,10 +99,12 @@ public class ImageSelectActivity extends FragmentActivity implements AlbumCollec
         LinearLayout selectFold = (LinearLayout) findViewById(R.id.selectFold);
         commit = (Button) findViewById(R.id.commit);
         commit.setText("确定(0/"+selectionSpec.getMaxSelectable()+")");
+        commit.setTextColor(Color.parseColor("#333333"));
         if (selectionSpec.isSingleChoose()){
             commit.setVisibility(View.GONE);
         }
         mFoldName.setText("最近图片");
+        mFoldName.setTextColor(Color.parseColor("#333333"));
         selectFold.setOnClickListener(mOnClickFoldName);
 
         albumCollection.onCreate(ImageSelectActivity.this,this,selectionSpec,mListView);

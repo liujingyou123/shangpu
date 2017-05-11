@@ -45,7 +45,7 @@ public final class Picker {
     private final SelectionSpec mSelectionSpec;
     private LoadEngine engine;      //图片加载器 glide  imageloder picasso
     private List<Uri> mResumeList;
-    private String titleColor = "#2c67e6";
+    private String titleColor = "#ffffff";
 
     Picker(Activity activity, Fragment fragment, Set<MimeType> mimeType) {
         mContext = new WeakReference<>(activity);
