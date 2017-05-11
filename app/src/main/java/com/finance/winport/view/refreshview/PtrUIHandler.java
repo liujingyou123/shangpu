@@ -9,24 +9,24 @@ public interface PtrUIHandler {
      *
      * @param frame
      */
-    public void onUIReset(PtrFrameLayout frame);
+    void onUIReset(PtrFrameLayout frame);
 
     /**
      * prepare for loading
      *
      * @param frame
      */
-    public void onUIRefreshPrepare(PtrFrameLayout frame);
+    void onUIRefreshPrepare(PtrFrameLayout frame);
 
     /**
      * perform refreshing UI
      */
-    public void onUIRefreshBegin(PtrFrameLayout frame);
+    void onUIRefreshBegin(PtrFrameLayout frame);
 
     /**
      * perform UI after refresh
      */
-    public void onUIRefreshComplete(PtrFrameLayout frame);
+    void onUIRefreshComplete(PtrFrameLayout frame, boolean isHeader);
 
-    public void onUIPositionChange(PtrFrameLayout frame, boolean isUnderTouch, byte status, PtrIndicator ptrIndicator);
+    void onUIPositionChange(PtrFrameLayout frame, boolean isUnderTouch, byte status, PtrIndicator ptrIndicator);
 }

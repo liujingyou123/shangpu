@@ -24,9 +24,9 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
     private final static String KEY_SharedPreferences = "cube_ptr_classic_last_update";
     private static SimpleDateFormat sDataFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private int mRotateAniTime = 150;
-    private RotateAnimation mFlipAnimation;
-    private RotateAnimation mReverseFlipAnimation;
-    private TextView mTitleTextView;
+    protected RotateAnimation mFlipAnimation;
+    protected RotateAnimation mReverseFlipAnimation;
+    protected TextView mTitleTextView;
     private View mRotateView;
     private View mProgressBar;
     private long mLastUpdateTime = -1;
@@ -57,7 +57,7 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
             mRotateAniTime = arr.getInt(R.styleable.PtrClassicHeader_ptr_rotate_ani_time, mRotateAniTime);
         }
         buildAnimation();
-        View header = LayoutInflater.from(getContext()).inflate(R.layout.ptr_classic_default_header, this);
+        View header = LayoutInflater.from(getContext()).inflate(R.layout.cube_ptr_classic_default_header, this);
 
         mRotateView = header.findViewById(R.id.ptr_classic_header_rotate_view);
 
@@ -66,6 +66,14 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
         mProgressBar = header.findViewById(R.id.ptr_classic_header_rotate_view_progressbar);
 
         resetView();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (mLastUpdateTimeUpdater != null) {
+            mLastUpdateTimeUpdater.stop();
+        }
     }
 
     public void setRotateAniTime(int time) {
@@ -94,10 +102,10 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
      * @param object
      */
     public void setLastUpdateTimeRelateObject(Object object) {
-        setLastUpdateTimeKey(object.getClass().getName());
+        setLastUpdateTimeKey(object.getClass().getName() + "header");
     }
 
-    private void buildAnimation() {
+    protected void buildAnimation() {
         mFlipAnimation = new RotateAnimation(0, -180, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
         mFlipAnimation.setInterpolator(new LinearInterpolator());
         mFlipAnimation.setDuration(mRotateAniTime);
@@ -157,8 +165,10 @@ public class PtrClassicDefaultHeader extends FrameLayout implements PtrUIHandler
     }
 
     @Override
-    public void onUIRefreshComplete(PtrFrameLayout frame) {
-
+    public void onUIRefreshComplete(PtrFrameLayout frame, boolean isHeader) {
+        if(!isHeader){
+            return;
+        }
         hideRotateView();
         mProgressBar.setVisibility(INVISIBLE);
 

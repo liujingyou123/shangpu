@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.finance.winport.R;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -20,6 +22,10 @@ import butterknife.OnClick;
 
 public class NoticeDialog extends Dialog {
 
+    @BindView(R.id.tv_message)
+    TextView tvMessage;
+    @BindView(R.id.tv_ok)
+    TextView tvOk;
     private Context mContext;
     private OnPreClickListner mOnOkPreClickListner;
 
@@ -55,6 +61,14 @@ public class NoticeDialog extends Dialog {
                 dismiss();
                 break;
         }
+    }
+
+    public void setMessage(String msg) {
+        tvMessage.setText(msg);
+    }
+
+    public void setPositiveBtn(String msg) {
+        tvOk.setText(msg);
     }
 
     public void setOkClickListener(OnPreClickListner onPreClickListner) {

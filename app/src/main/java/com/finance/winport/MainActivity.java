@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.home.HomeFragment;
-import com.finance.winport.tab.BusinessFragment;
+import com.finance.winport.trade.TradeCircleFragment;
 import com.finance.winport.tab.MineFragment;
 import com.finance.winport.tab.ServiceFragment;
 import com.finance.winport.view.BottomTabView;
@@ -79,13 +79,13 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
     }
 
     private void handleBusiness(int index) {
-        BusinessFragment businessFragment = (BusinessFragment) fm
-                .findFragmentByTag(BusinessFragment.class.getName());
-        if (businessFragment == null) {
-            businessFragment = new BusinessFragment();
+        TradeCircleFragment tradeCircleFragment = (TradeCircleFragment) fm
+                .findFragmentByTag(TradeCircleFragment.class.getName());
+        if (tradeCircleFragment == null) {
+            tradeCircleFragment = new TradeCircleFragment();
         }
         tabView.setIndicatorDisplay(2, true);
-        addFragment(businessFragment, true);
+        addFragment(tradeCircleFragment, false);
     }
 
     private void handleMine(int index) {

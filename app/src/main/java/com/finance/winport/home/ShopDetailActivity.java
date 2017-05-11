@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
+import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.dialog.ShareDialog;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.PositionScrollView;
@@ -70,6 +71,7 @@ public class ShopDetailActivity extends BaseActivity {
 
     private boolean isTouched = false;
     private ShareDialog shareDialog;
+    private NoticeDialog mNoticeDialog;
 
 
     @Override
@@ -185,7 +187,7 @@ public class ShopDetailActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.imv_back, R.id.tv_share, R.id.tv_shop_more, R.id.view_banner})
+    @OnClick({R.id.imv_focus_house_back, R.id.imv_back, R.id.tv_share, R.id.tv_shop_more, R.id.view_banner, R.id.tv_jiucuo, R.id.tv_yuyue, R.id.tv_call})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -214,6 +216,27 @@ public class ShopDetailActivity extends BaseActivity {
                 intents.putExtra("pics", list);
                 intents.putExtra("index", 0);
                 context.startActivity(intents);
+                break;
+
+            case R.id.tv_jiucuo:
+                Intent intentjiucuo = new Intent(ShopDetailActivity.this, MisTakeActivity.class);
+                startActivity(intentjiucuo);
+                break;
+
+            case R.id.tv_yuyue:
+                Intent orderIntent = new Intent(ShopDetailActivity.this, OrderShopActivity.class);
+                startActivity(orderIntent);
+                break;
+            case R.id.tv_call:
+
+                if (mNoticeDialog == null) {
+                    mNoticeDialog = new NoticeDialog(this);
+                    mNoticeDialog.setMessage("房东电话：1111111111");
+                    mNoticeDialog.setPositiveBtn("拨打");
+                }
+                if (!mNoticeDialog.isShowing()) {
+                    mNoticeDialog.show();
+                }
                 break;
 
         }

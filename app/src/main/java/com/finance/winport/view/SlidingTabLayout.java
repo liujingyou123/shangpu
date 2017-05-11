@@ -230,6 +230,18 @@ public class SlidingTabLayout extends LinearLayout {
         populateTabLayout();
     }
 
+    public void setViewPager(ViewPager viewPager, int size) {
+        /*先移除所以已经填充的内容*/
+        removeAllViews();
+        /* viewPager 不能为空*/
+        if (viewPager == null) {
+            throw new RuntimeException("ViewPager不能为空");
+        }
+        mViewPager = viewPager;
+        mViewPager.setOnPageChangeListener(new InternalViewPagerChange());
+        populateTabLayout(size);
+    }
+
     public void setViewPagerOnChangeListener(ViewPager.OnPageChangeListener pagerOnChangeListener) {
         mListener = pagerOnChangeListener;
     }
@@ -243,6 +255,18 @@ public class SlidingTabLayout extends LinearLayout {
             addView(textView);
         }
 
+    }
+
+    private void populateTabLayout(int size) {
+        final PagerAdapter adapter = mViewPager.getAdapter();
+        final OnClickListener tabOnClickListener = new TabOnClickListener();
+        mItemName = (TabItemName) adapter;
+        for (int i = 0; i < adapter.getCount(); i++) {
+            TextView textView = createDefaultTabView(getContext(),adapter.getCount(), size);
+            textView.setOnClickListener(tabOnClickListener);
+            textView.setText(mItemName.getTabName(i));
+            addView(textView);
+        }
     }
 
     /**
@@ -260,6 +284,20 @@ public class SlidingTabLayout extends LinearLayout {
         }
     }
 
+    private TextView createDefaultTabView(Context context,int size, int width) {
+        LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        TextView textView = new TextView(context);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, DEFAULT_TEXT_SIZE);
+        textView.setGravity(Gravity.CENTER);
+
+        layoutParams = new LayoutParams(width/size, LayoutParams.MATCH_PARENT);
+
+
+        textView.setLayoutParams(layoutParams);
+        textView.setTextColor(mTabNonSelectColor);
+        textView.setAllCaps(true);
+        return textView;
+    }
     /**
      * 创建默认的TabItem
      *

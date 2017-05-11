@@ -17,17 +17,8 @@ package com.finance.winport.view.refreshview.header;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.Paint;
+import android.graphics.*;
 import android.graphics.Paint.Style;
-import android.graphics.Path;
-import android.graphics.PixelFormat;
-import android.graphics.RadialGradient;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.Shader;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
@@ -35,22 +26,18 @@ import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
+import android.view.animation.*;
 import android.view.animation.Interpolator;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.Transformation;
 
-import com.finance.winport.view.refreshview.utils.PtrLocalDisplay;
+import com.finance.winport.view.refreshview.util.PtrLocalDisplay;
 
 import java.util.ArrayList;
 
 /**
  * Fancy progress indicator for Material theme.
- * It's taken from {@link android.support.v4.widget}.
+ * It's taken from android.support.v4.widget.
  * I've done some slight changes.
  *
- * @hide
  */
 public class MaterialProgressDrawable extends Drawable implements Animatable {
 

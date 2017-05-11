@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:background="#ffffff">
+
+    <include layout="@layout/title_fouce_house" />
+
+    <View
+        style="@style/view_line"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerInside"
+        android:src="@mipmap/state_errore_correction"
+        android:layout_marginTop="100dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="感谢您的支持"
+        android:textColor="#FF333333"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="小二会尽快核实旺铺信息"
+        android:textColor="#FFCCCCCC"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/btn_done"
+        style="@style/btn_done"
+        android:layout_marginTop="150dp"
+        android:background="@drawable/bg_done"
+        android:text="回到旺铺详情" />
+</LinearLayout>

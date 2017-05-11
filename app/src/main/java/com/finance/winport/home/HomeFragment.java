@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -21,13 +23,14 @@ import com.finance.winport.dialog.SelectionDialog;
 import com.finance.winport.dialog.SortPopupView;
 import com.finance.winport.home.adapter.ShopsAdapter;
 import com.finance.winport.home.model.Shop;
+import com.finance.winport.home.model.ShopsListActivity;
 import com.finance.winport.util.LogUtil;
 import com.finance.winport.view.home.HeaderView;
 import com.finance.winport.view.home.SelectView;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler;
+import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
-import com.finance.winport.view.refreshview.loadmore.OnScrollLisenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +62,6 @@ public class HomeFragment extends BaseFragment {
     private SortPopupView sortPopupView;
     private SelectionDialog selectionDialog;
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -73,10 +75,41 @@ public class HomeFragment extends BaseFragment {
         final HeaderView headerView = new HeaderView(this.getContext());
         final SelectView selectView = new SelectView(this.getContext());
 
+        headerView.setNewShopsListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToListPage(0);
+            }
+        });
+
+        headerView.setNoMenoyListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToListPage(1);
+
+            }
+        });
+
+        headerView.setSmallShopListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToListPage(2);
+
+            }
+        });
+
+        headerView.setNearMetroListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToListPage(3);
+
+            }
+        });
+
         selectView.setOnLocationClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lsShops.setSelection(1);
+                lsShops.smoothScrollToPositionFromTop(1,-1, 300);
                 showShowQuYuDialog();
             }
         });
@@ -84,7 +117,7 @@ public class HomeFragment extends BaseFragment {
         selectView.setOnSortClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lsShops.setSelection(1);
+                lsShops.smoothScrollToPositionFromTop(1,-1, 300);
                 showPaiXuDailog();
             }
         });
@@ -92,7 +125,7 @@ public class HomeFragment extends BaseFragment {
         selectView.setOnCsClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lsShops.setSelection(1);
+                lsShops.smoothScrollToPositionFromTop(1,-1, 300);
                 showShaiXuandialog();
             }
         });
@@ -133,17 +166,24 @@ public class HomeFragment extends BaseFragment {
             });
         }
 
-        refreshView.setLoadMoreEnable(true);
-        refreshView.setPtrHandler(new PtrDefaultHandler() {
+        refreshView.setPtrHandler(new PtrDefaultHandler2() {
+            @Override
+            public void onLoadMoreBegin(PtrFrameLayout frame) {
+
+            }
+
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 LogUtil.e("dddddddddd");
             }
         });
 
-        refreshView.setOnScrollListener(new OnScrollLisenter() {
+
+        lsShops.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView listView, int scrollState) {
+
+
 
             }
 
@@ -178,7 +218,7 @@ public class HomeFragment extends BaseFragment {
                 quyuPopupView.showAsDropDown(selectionView);
                 selectionView.onLocationClick();
             }
-        }, 200);
+        }, 300);
     }
 
     private void showPaiXuDailog() {
@@ -197,7 +237,7 @@ public class HomeFragment extends BaseFragment {
                 sortPopupView.showAsDropDown(selectionView);
                 selectionView.onSortClick();
             }
-        }, 200);
+        }, 300);
     }
 
     private void showShaiXuandialog() {
@@ -216,18 +256,18 @@ public class HomeFragment extends BaseFragment {
                 selectionDialog.show();
                 selectionView.onCsClick();
             }
-        }, 200);
+        }, 300);
     }
 
     private void setSelectionViewVisible() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                selectionView.setVisibility(View.VISIBLE);
-            }
-        }, 100);
+        selectionView.setVisibility(View.VISIBLE);
     }
 
+    private void goToListPage(int index) {
+        Intent intent = new Intent(this.getContext(), ShopsListActivity.class);
+        intent.putExtra("index", index);
+        startActivity(intent);
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
