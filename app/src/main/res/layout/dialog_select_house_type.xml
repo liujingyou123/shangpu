@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aigestudio="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#FAFAFA">
+        <TextView
+            android:id="@+id/tv_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:layout_marginRight="15dp"
+            android:text="确定"
+            android:textSize="16sp"
+            android:textColor="#ffa73b"
+            android:includeFontPadding="false"/>
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:layout_marginLeft="15dp"
+            android:text="取消"
+            android:textSize="16sp"
+            android:textColor="#999999"
+            android:includeFontPadding="false"/>
+    </RelativeLayout>
+
+
+    <View
+        style="@style/view_line"
+        android:layout_below="@id/tv_cancel"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.aigestudio.wheelpicker.WheelPicker
+            android:id="@+id/main_wv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            aigestudio:wheel_atmospheric="true"
+            aigestudio:wheel_curved="true"
+            aigestudio:wheel_cyclic="false"
+            aigestudio:wheel_item_align="center"
+            aigestudio:wheel_item_text_color="#A0A0A3"
+            aigestudio:wheel_item_text_size="22sp"
+            aigestudio:wheel_selected_item_text_color="#333333"/>
+
+        <!--<com.bigkoo.pickerview.lib.WheelView-->
+            <!--/>-->
+
+        <com.aigestudio.wheelpicker.WheelPicker
+            android:id="@+id/main_wv2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            aigestudio:wheel_atmospheric="true"
+            aigestudio:wheel_curved="true"
+            aigestudio:wheel_cyclic="false"
+            aigestudio:wheel_item_align="center"
+            aigestudio:wheel_item_text_color="#A0A0A3"
+            aigestudio:wheel_item_text_size="22sp"
+            aigestudio:wheel_selected_item_text_color="#333333"/>
+
+        <!--<com.bigkoo.pickerview.lib.WheelView-->
+            <!--android:id="@+id/main_wv2"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--/>-->
+        <com.aigestudio.wheelpicker.WheelPicker
+            android:id="@+id/main_wv3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            aigestudio:wheel_atmospheric="true"
+            aigestudio:wheel_curved="true"
+            aigestudio:wheel_cyclic="false"
+            aigestudio:wheel_item_align="center"
+            aigestudio:wheel_item_text_color="#A0A0A3"
+            aigestudio:wheel_item_text_size="22sp"
+            aigestudio:wheel_selected_item_text_color="#333333"/>
+        <!--<com.bigkoo.pickerview.lib.WheelView-->
+            <!--android:id="@+id/main_wv3"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--/>-->
+    </LinearLayout>
+</LinearLayout>

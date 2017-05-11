@@ -27,7 +27,7 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:scaleType="centerInside"
-                android:src="@mipmap/icon_back" />
+                android:src="@mipmap/icon_white_back" />
 
 
             <TextView
@@ -98,6 +98,7 @@
 
 
             <TextView
+                android:id="@+id/focus_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -119,6 +120,7 @@
 
 
         <RelativeLayout
+            android:id="@+id/select_area"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="9dp"

@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
             homeFragment = new HomeFragment();
         }
         tabView.setIndicatorDisplay(0, true);
-        addFragment(homeFragment, false);
+        addFragment(homeFragment, true);
     }
 
     private void handleService(int index) {
@@ -75,7 +75,7 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
         }
 
         tabView.setIndicatorDisplay(1, true);
-        addFragment(serviceFragment, false);
+        addFragment(serviceFragment, true);
     }
 
     private void handleBusiness(int index) {
@@ -95,7 +95,7 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
             mineFragment = new MineFragment();
         }
         tabView.setIndicatorDisplay(3, true);
-        addFragment(mineFragment, false);
+        addFragment(mineFragment, true);
     }
 
     @Override

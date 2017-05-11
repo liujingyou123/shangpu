@@ -5,13 +5,23 @@
         android:id="@+id/img1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="#d3c59c"/>
+        android:src="#88d6d1"/>
 
     <ImageView
         android:id="@+id/img2"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:src="#de2353"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/rent_banner2"
+        android:scaleType="center"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="200dp"/>
+        android:layout_marginTop="50dp"/>
+
+    <ImageView
+        android:id="@+id/img3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/rent_banner1"
+        android:layout_alignParentTop="true"
+        android:scaleType="center"
+        android:layout_marginTop="245dp"/>
 </merge>
