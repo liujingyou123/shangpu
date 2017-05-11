@@ -28,7 +28,10 @@
         android:text="金铺多成立于2017年4月，是金铺多集团旗下的国内首家专业商业地产网站，专注于商业地产信息服务。金铺和专注于买房信息服务的安居客以及专注于租房信息服务的好租组成了金铺多集团专业找房网站集群。"
         android:textColor="#FF666666"
         android:textSize="14sp"
-        android:lineSpacingExtra="5dp"/>
+        android:lineSpacingExtra="5dp"
+        android:maxHeight="90dp"
+        android:ellipsize="end"
+        android:maxLines="4"/>
 
     <RelativeLayout
         android:id="@+id/rl_href"
