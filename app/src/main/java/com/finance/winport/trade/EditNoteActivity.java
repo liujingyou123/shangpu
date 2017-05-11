@@ -49,11 +49,8 @@ public class EditNoteActivity extends BaseActivity {
 
     private int textSize;
     private ChoicePhotoAdapter mAdapter;
-    private String actionUrl = "action://add";
     private List<String> mData = new ArrayList<>();
     private int REQUEST_CODE_PHOTO = 200;
-    private int numPhoto = 9;
-    private int INNER_COUNT = 10;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,7 +61,7 @@ public class EditNoteActivity extends BaseActivity {
     }
 
     private void init() {
-        tvFocusHouse.setText("旺铺纠错");
+        tvFocusHouse.setText("发布帖子");
         etElse.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -91,6 +88,15 @@ public class EditNoteActivity extends BaseActivity {
             gvPhotos.setAdapter(mAdapter);
         }
 
+        gvPhotos.setItemClickListener(new TagCloudLayout.TagItemClickListener() {
+            @Override
+            public void itemClick(int position) {
+                if (mAdapter.isAddType(position)) {
+                    selectImage(mAdapter.getRelCount());
+                }
+            }
+        });
+
 
     }
 
@@ -98,6 +104,7 @@ public class EditNoteActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
+                finish();
                 break;
             case R.id.btn_done:
                 break;
@@ -109,11 +116,7 @@ public class EditNoteActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_PHOTO) {
             List<String> mSelected = PicturePickerUtils.obtainResult(this.getContentResolver(), data);
-            if (mSelected != null && mSelected.size() > 0) {
-                mData.addAll(0, mSelected);
-            }
-            numPhoto = 10 - mData.size();
-            mAdapter.notifyDataSetChanged();
+            mAdapter.addItems(mSelected);
         }
     }
 
