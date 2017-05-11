@@ -596,17 +596,17 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
         if (mOnPageChangeListener != null) {
             mOnPageChangeListener.onPageSelected(position);
         }
-//        for (int i = 0; i < viewList.size(); i++) {
-//
-//            if(i == viewPager.getCurrentItem()){
-//
-//                if(viewList.get(viewPager.getCurrentItem()) instanceof RentView)
-//                ((RentView)viewList.get(viewPager.getCurrentItem())).start();
+        for (int i = 0; i < viewList.size(); i++) {
+
+            if(i == viewPager.getCurrentItem()){
+
+                if(viewList.get(viewPager.getCurrentItem()) instanceof OrderView)
+                ((OrderView)viewList.get(viewPager.getCurrentItem())).start();
+            }
+//            else{
+//                viewList.get(i).setVisibility(GONE);
 //            }
-////            else{
-////                viewList.get(i).setVisibility(GONE);
-////            }
-//        }
+        }
         if (bannerStyle == BannerConfig.CIRCLE_INDICATOR ||
                 bannerStyle == BannerConfig.CIRCLE_INDICATOR_TITLE ||
                 bannerStyle == BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE) {

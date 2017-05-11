@@ -17,7 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by xzw on 16/8/26.
+ * Created by jge on 17/5/5.
  */
 public class LoanListAdapter extends BaseAdapter {
     protected Context context;

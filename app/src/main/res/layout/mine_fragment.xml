@@ -258,6 +258,7 @@
             android:background="#ffffff">
 
             <RelativeLayout
+                android:id="@+id/schedule_list"
                 android:layout_width="match_parent"
                 android:layout_height="54dp">
 
@@ -340,34 +341,36 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="18dp"
                     android:layout_centerVertical="true"
-                    android:text="建议反馈"
-                    android:textSize="14sp"
-                    android:textColor="#333333"
+                    android:layout_marginLeft="18dp"
+                    android:drawableLeft="@mipmap/personal_icon_feedback"
                     android:drawablePadding="10dp"
                     android:gravity="center"
-                    android:drawableLeft="@mipmap/personal_icon_feedback"/>
+                    android:text="建议反馈"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="15dp"
                     android:layout_centerVertical="true"
-                    android:textSize="13sp"
-                    android:textColor="#999999"
+                    android:layout_marginRight="15dp"
                     android:drawablePadding="10dp"
+                    android:drawableRight="@mipmap/arrow"
                     android:gravity="center"
-                    android:drawableRight="@mipmap/arrow"/>
+                    android:textColor="#999999"
+                    android:textSize="13sp" />
 
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="#e5e5e5"
                 android:layout_marginLeft="15dp"/>
             <RelativeLayout
+                android:id="@+id/setting"
                 android:layout_width="match_parent"
                 android:layout_height="54dp">
 

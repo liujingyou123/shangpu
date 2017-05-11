@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -90,6 +91,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/cal"
             android:layout_width="match_parent"
             android:layout_height="110dp"
             android:layout_marginTop="10dp"
@@ -98,7 +100,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="55dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -123,6 +125,25 @@
                     android:drawableRight="@mipmap/arrow"
                     android:text="老板，未来您有5个安排" />
             </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#e5e5e5"
+                android:layout_marginLeft="15dp"/>
+            <!--<noman.weekcalendar.WeekCalendar-->
+                <!--android:id="@+id/weekCalendar"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="55dp"-->
+                <!--android:background="#ffffff"-->
+                <!--app:dayNameLength="threeLetters"-->
+                <!--app:daysBackgroundColor="#ffffff"-->
+                <!--app:daysTextColor="#969696"-->
+                <!--app:daysTextSize="14sp"-->
+                <!--app:todaysDateBgColor= "#fd5e51"-->
+                <!--app:numOfPages="3000"-->
+                <!--app:hideNames="true"-->
+                <!--app:selectedBgColor="#969696"-->
+                <!--/>-->
         </LinearLayout>
 
         <ListView

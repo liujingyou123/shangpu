@@ -7,10 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.mine.MyScheduleListActivity;
+import com.finance.winport.mine.SettingsActivity;
 import com.finance.winport.mine.ShopFocusActivity;
 import com.finance.winport.view.StopWatchTextView;
 
@@ -41,6 +44,10 @@ public class MineFragment extends BaseFragment {
     @BindView(R.id.tv_today_shop)
     StopWatchTextView tvTodayShop;
     Unbinder unbinder;
+    @BindView(R.id.schedule_list)
+    RelativeLayout scheduleList;
+    @BindView(R.id.setting)
+    RelativeLayout setting;
 
     @Nullable
     @Override
@@ -57,7 +64,7 @@ public class MineFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.tv_focus_right, R.id.modify})
+    @OnClick({R.id.tv_focus_right, R.id.modify, R.id.schedule_list, R.id.setting})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_focus_right:
@@ -65,6 +72,13 @@ public class MineFragment extends BaseFragment {
             case R.id.modify:
                 startActivity(new Intent(getActivity(), ShopFocusActivity.class));
                 break;
+            case R.id.schedule_list:
+                startActivity(new Intent(getActivity(), MyScheduleListActivity.class));
+                break;
+            case R.id.setting:
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+                break;
         }
     }
+
 }

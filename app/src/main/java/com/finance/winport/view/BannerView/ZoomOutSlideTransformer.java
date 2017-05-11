@@ -41,33 +41,48 @@ public class ZoomOutSlideTransformer extends ABaseTransformer {
 //			view.setPivotY(0.5f * height);
 //			view.setPivotX(0.5f * width);
 
-			View view1 = view.findViewById(R.id.img1);
+			View view1 = view.findViewById(R.id.img3);
 			View view2 = view.findViewById(R.id.img2);
 
+			view.setTranslationX(position < 0 ? width * position : -width * position * 0.25f);
+			try {
+				Thread.sleep(1500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			if (position < 0) {
 
 				if(view1!=null){
 					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-						view1.setTranslationX(1 );
+//						view1.setTranslationX(view1.getWidth());
+
+						view1.setTranslationX(position < 0 ? width * position: -width * position * 0.25f);
 					}
 				}
 				if(view2!=null){
 					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-						view2.setTranslationX(1);
+//						view2.setTranslationX(view2.getWidth());
+//						view2.setTranslationX(position < 0 ? width * position*1.5f : -width * position * 0.25f);
 					}
 				}
+
+
 
 			} else {
 				if(view1!=null){
 					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-						view1.setTranslationX(vertMargin / 2);
+//						view1.setTranslationX(view1.getWidth());
+						view1.setTranslationX(position < 0 ? width * position : -width * position * 0.25f);
 					}
 				}
 				if(view2!=null){
 					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-						view2.setTranslationX(vertMargin);
+//						view2.setTranslationX(view2.getWidth());
+//						view2.setTranslationX(position < 0 ? width * position*1.5f : -width * position * 0.25f);
 					}
 				}
+
+//				view.setTranslationX(position < 0 ? width * position : -width * position * 0.25f);
 
 
 			}
@@ -81,4 +96,124 @@ public class ZoomOutSlideTransformer extends ABaseTransformer {
 		}
 	}
 
+//	@Override
+//	protected void onPreTransform(View view, float position) {
+//		super.onPreTransform(view, position);
+//		if (position >= -1 || position <= 1) {
+//			// Modify the default slide transition to shrink the page as well
+//			final float height = view.getHeight();
+//			final float width = view.getWidth();
+//			final float scaleFactor = Math.max(MIN_SCALE, 1 - Math.abs(position));
+//			final float vertMargin = height * (1 - scaleFactor) / 2;
+//			final float horzMargin = width * (1 - scaleFactor) / 2;
+//
+//			// Center vertically
+////			view.setPivotY(0.5f * height);
+////			view.setPivotX(0.5f * width);
+//
+//			View view1 = view.findViewById(R.id.img3);
+//			View view2 = view.findViewById(R.id.img2);
+//
+//			if (position < 0) {
+//
+//				if(view1!=null){
+//					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+////						view1.setTranslationX(view1.getWidth());
+//
+//						view1.setTranslationX(position < 0 ? width * position : -width * position * 0.25f);
+//					}
+//				}
+//				if(view2!=null){
+//					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+////						view2.setTranslationX(view2.getWidth());
+//						view2.setTranslationX(position < 0 ? width * position*1.5f : -width * position * 0.25f);
+//					}
+//				}
+//
+//			} else {
+//				if(view1!=null){
+//					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+////						view1.setTranslationX(view1.getWidth());
+//						view1.setTranslationX(position < 0 ? width * position : -width * position * 0.25f);
+//					}
+//				}
+//				if(view2!=null){
+//					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+////						view2.setTranslationX(view2.getWidth());
+//						view2.setTranslationX(position < 0 ? width * position*1.5f : -width * position * 0.25f);
+//					}
+//				}
+//
+//
+//			}
+//
+//			// Scale the page down (between MIN_SCALE and 1)
+////			view.setScaleX(scaleFactor);
+////			view.setScaleY(scaleFactor);
+////
+////			// Fade the page relative to its size.
+////			view.setAlpha(MIN_ALPHA + (scaleFactor - MIN_SCALE) / (1 - MIN_SCALE) * (1 - MIN_ALPHA));
+//		}
+//	}
+//
+//	@Override
+//	protected void onPostTransform(View view, float position) {
+//		super.onPostTransform(view, position);
+//
+//		if (position >= -1 || position <= 1) {
+//			// Modify the default slide transition to shrink the page as well
+//			final float height = view.getHeight();
+//			final float width = view.getWidth();
+//			final float scaleFactor = Math.max(MIN_SCALE, 1 - Math.abs(position));
+//			final float vertMargin = height * (1 - scaleFactor) / 2;
+//			final float horzMargin = width * (1 - scaleFactor) / 2;
+//
+//			// Center vertically
+////			view.setPivotY(0.5f * height);
+////			view.setPivotX(0.5f * width);
+//
+//			View view1 = view.findViewById(R.id.img3);
+//			View view2 = view.findViewById(R.id.img2);
+//
+//			if (position < 0) {
+//
+//				if(view1!=null){
+//					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+////						view1.setTranslationX(view1.getWidth());
+//
+//						view1.setTranslationX(position < 0 ? width * position : -width * position * 0.25f);
+//					}
+//				}
+//				if(view2!=null){
+//					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+////						view2.setTranslationX(view2.getWidth());
+//						view2.setTranslationX(position < 0 ? width * position*1.5f : -width * position * 0.25f);
+//					}
+//				}
+//
+//			} else {
+//				if(view1!=null){
+//					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+////						view1.setTranslationX(view1.getWidth());
+//						view1.setTranslationX(position < 0 ? width * position : -width * position * 0.25f);
+//					}
+//				}
+//				if(view2!=null){
+//					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+////						view2.setTranslationX(view2.getWidth());
+//						view2.setTranslationX(position < 0 ? width * position*1.5f : -width * position * 0.25f);
+//					}
+//				}
+//
+//
+//			}
+//
+//			// Scale the page down (between MIN_SCALE and 1)
+////			view.setScaleX(scaleFactor);
+////			view.setScaleY(scaleFactor);
+////
+////			// Fade the page relative to its size.
+////			view.setAlpha(MIN_ALPHA + (scaleFactor - MIN_SCALE) / (1 - MIN_SCALE) * (1 - MIN_ALPHA));
+//		}
+//	}
 }
