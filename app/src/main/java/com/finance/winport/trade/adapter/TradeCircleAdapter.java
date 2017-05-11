@@ -4,7 +4,6 @@ package com.finance.winport.trade.adapter;
  */
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.GridLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +11,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.dialog.NoticeDelDialog;
 import com.finance.winport.image.Batman;
 import com.finance.winport.trade.model.Trade;
 import com.finance.winport.util.UnitUtil;
@@ -68,10 +69,12 @@ public class TradeCircleAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        int index = (i+1) % 9;
-        if (index == 0) {
-            index = 9;
-        }
+        int index = i + 1;
+
+        viewHolder.glImages.setVisibility(View.VISIBLE);
+        viewHolder.tvSub.setVisibility(View.GONE);
+        viewHolder.rlHref.setVisibility(View.GONE);
+
         viewHolder.glImages.removeAllViews();
 
         if (index == 1) {
@@ -105,19 +108,29 @@ public class TradeCircleAdapter extends BaseAdapter {
             viewHolder.glImages.setLayoutParams(lp);
             viewHolder.glImages.setColumnCount(3);
             viewHolder.glImages.setRowCount(2);
-        } else if (index == 7 ||  index == 8 || index == 9) {
+        } else if (index == 7 || index == 8 || index == 9) {
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 247.5f));
 
             viewHolder.glImages.setLayoutParams(lp);
             viewHolder.glImages.setColumnCount(3);
             viewHolder.glImages.setRowCount(3);
+        } else {
+            viewHolder.glImages.setVisibility(View.GONE);
+            viewHolder.tvSub.setVisibility(View.VISIBLE);
+            viewHolder.rlHref.setVisibility(View.VISIBLE);
         }
 
         for (int j = 0; j < index; j++) {
-
-
             viewHolder.glImages.addView(getView());
         }
+
+        viewHolder.imvDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NoticeDelDialog dialog = new NoticeDelDialog(mContext);
+                dialog.show();
+            }
+        });
         return view;
     }
 
@@ -140,8 +153,26 @@ public class TradeCircleAdapter extends BaseAdapter {
     static class ViewHolder {
         @BindView(R.id.tv_title)
         TextView tvTitle;
+        @BindView(R.id.tv_sub)
+        TextView tvSub;
+        @BindView(R.id.imv_href)
+        ImageView imvHref;
+        @BindView(R.id.tv_href_title)
+        TextView tvHrefTitle;
+        @BindView(R.id.tv_href_sub)
+        TextView tvHrefSub;
+        @BindView(R.id.rl_href)
+        RelativeLayout rlHref;
         @BindView(R.id.gl_images)
         GridLayout glImages;
+        @BindView(R.id.tv_time)
+        TextView tvTime;
+        @BindView(R.id.tv_zan)
+        TextView tvZan;
+        @BindView(R.id.tv_comments)
+        TextView tvComments;
+        @BindView(R.id.imv_del)
+        ImageView imvDel;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
