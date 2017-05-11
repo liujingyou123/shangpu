@@ -1,16 +1,30 @@
 package com.finance.winport.trade;
 
+import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
+import com.finance.winport.permission.PermissionsManager;
+import com.finance.winport.permission.PermissionsResultAction;
+import com.finance.winport.trade.adapter.ChoicePhotoAdapter;
+import com.finance.winport.util.ToastUtil;
+import com.finance.winport.view.picker.Picker;
+import com.finance.winport.view.picker.engine.GlideEngine;
+import com.finance.winport.view.picker.utils.PicturePickerUtils;
+import com.finance.winport.view.tagview.TagCloudLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,9 +45,15 @@ public class EditNoteActivity extends BaseActivity {
     @BindView(R.id.tv_photo_num)
     TextView tvPhotoNum;
     @BindView(R.id.gv_photos)
-    GridView gvPhotos;
+    TagCloudLayout gvPhotos;
 
     private int textSize;
+    private ChoicePhotoAdapter mAdapter;
+    private String actionUrl = "action://add";
+    private List<String> mData = new ArrayList<>();
+    private int REQUEST_CODE_PHOTO = 200;
+    private int numPhoto = 9;
+    private int INNER_COUNT = 10;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,6 +86,12 @@ public class EditNoteActivity extends BaseActivity {
             }
         });
 
+        if (mAdapter == null) {
+            mAdapter = new ChoicePhotoAdapter(this, mData);
+            gvPhotos.setAdapter(mAdapter);
+        }
+
+
     }
 
     @OnClick({R.id.imv_focus_house_back, R.id.btn_done})
@@ -76,5 +102,41 @@ public class EditNoteActivity extends BaseActivity {
             case R.id.btn_done:
                 break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_PHOTO) {
+            List<String> mSelected = PicturePickerUtils.obtainResult(this.getContentResolver(), data);
+            if (mSelected != null && mSelected.size() > 0) {
+                mData.addAll(0, mSelected);
+            }
+            numPhoto = 10 - mData.size();
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void selectImage(final int count) {
+        String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission
+                .WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+        PermissionsManager.getInstance().requestPermissionsIfNecessaryForResult(this, permissions,
+                new PermissionsResultAction() {
+                    @Override
+                    public void onGranted() {
+                        Picker.from(EditNoteActivity.this)
+                                .count(count)
+                                .enableCamera(true)
+                                .setEngine(new GlideEngine())
+                                .forResult(REQUEST_CODE_PHOTO);
+                    }
+
+                    @Override
+                    public void onDenied(String permission) {
+                    }
+
+
+                });
+
     }
 }

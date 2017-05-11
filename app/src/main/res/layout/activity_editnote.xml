@@ -79,7 +79,7 @@
                 android:textColor="#FF333333"
                 android:textSize="14sp" />
 
-            <GridView
+            <com.finance.winport.view.tagview.TagCloudLayout
                 android:id="@+id/gv_photos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
                 android:horizontalSpacing="7.5dp"
                 android:numColumns="3"
                 android:padding="15dp"
-                android:verticalSpacing="7.5dp"></GridView>
+                android:verticalSpacing="7.5dp"></com.finance.winport.view.tagview.TagCloudLayout>
 
             <TextView
                 android:id="@+id/btn_done"

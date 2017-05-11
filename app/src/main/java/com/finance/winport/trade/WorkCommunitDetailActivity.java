@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -44,6 +43,8 @@ public class WorkCommunitDetailActivity extends BaseActivity {
     List<String> datas = new ArrayList<>();
     @BindView(R.id.xpfl)
     XPtrFrameLayout xpfl;
+    @BindView(R.id.tv_focus_house)
+    TextView tvFocusHouse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +52,15 @@ public class WorkCommunitDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_work_communit_detail);
         ButterKnife.bind(this);
 
+        initView();
+        initData();
+    }
+
+    private void initView() {
+        tvFocusHouse.setText("详情");
         rv.setLayoutManager(new LinearLayoutManager(this));
         adapter = new WorkCommunitDetailListAdapter(this, datas);
         rv.setAdapter(adapter);
-
         xpfl.setPullToRefresh(false);
         xpfl.setPtrHandler(new PtrDefaultHandler2() {
             @Override
@@ -71,8 +77,6 @@ public class WorkCommunitDetailActivity extends BaseActivity {
 //                frame.refreshComplete();
             }
         });
-
-        initData();
     }
 
     private void initData() {
