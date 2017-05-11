@@ -54,16 +54,21 @@ public class TradeCircleFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick(R.id.my_list)
-    public void onViewClicked() {
-
-
-    }
 
     private void initView() {
         mTab.add(new TradePageItem("最新", "1"));
         mTab.add(new TradePageItem("最火", "2"));
         idViewPager.setAdapter(new SlidingTabPagerAdapter(this.getChildFragmentManager(), mTab));
         idTab.setViewPager(idViewPager, UnitUtil.dip2px(this.getContext(), 134));
+    }
+
+    @OnClick({R.id.my_list, R.id.imv_edit_m})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.my_list:
+                break;
+            case R.id.imv_edit_m:
+                break;
+        }
     }
 }
