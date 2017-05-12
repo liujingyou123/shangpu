@@ -23,7 +23,7 @@ import static noman.weekcalendar.view.WeekPager.NUM_OF_PAGES;
  */
 public class PagerAdapter extends FragmentStatePagerAdapter {
     private static final String TAG = "PagerAdapter";
-    private int currentPage = NUM_OF_PAGES / 2;
+    private int currentPage = 0;
     private DateTime date;
     private NowDays nowDays;
     public PagerAdapter(FragmentManager fm, DateTime date) {
@@ -81,7 +81,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     public void swipeBack() {
         date = date.plusDays(-7);
         currentPage--;
-        currentPage = currentPage <= 1 ? NUM_OF_PAGES / 2 : currentPage;
+//        currentPage = currentPage <= 1 ? NUM_OF_PAGES / 2 : currentPage;
         BusProvider.getInstance().post(
                 new Event.OnWeekChange(date.withDayOfWeek(DateTimeConstants.MONDAY), false));
     }
@@ -90,7 +90,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     public void swipeForward() {
         date = date.plusDays(7);
         currentPage++;
-        currentPage = currentPage >= NUM_OF_PAGES - 1 ? NUM_OF_PAGES / 2 : currentPage;
+//        currentPage = currentPage >= NUM_OF_PAGES - 1 ? NUM_OF_PAGES / 2 : currentPage;
         BusProvider.getInstance().post(
                 new Event.OnWeekChange(date.withDayOfWeek(DateTimeConstants.MONDAY), true));
     }

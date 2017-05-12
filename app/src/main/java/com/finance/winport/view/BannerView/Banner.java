@@ -593,20 +593,49 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
 
     @Override
     public void onPageSelected(int position) {
+
+        Log.i("wwwwwwwwwwwwwwwwww",position+"");
         if (mOnPageChangeListener != null) {
             mOnPageChangeListener.onPageSelected(position);
         }
-        for (int i = 0; i < viewList.size(); i++) {
 
-            if(i == viewPager.getCurrentItem()){
+        if(position != 2){
+            ((OrderView)viewList.get(2)).setView();
+        }
+        if(position!=0&&position!=3){
+            ((FindMoneyView)viewList.get(0)).setView();
+            ((FindMoneyView)viewList.get(3)).setView();
 
-                if(viewList.get(viewPager.getCurrentItem()) instanceof OrderView)
+        }
+//        if(){
+//            ((FindMoneyView)viewList.get(3)).setView();
+//        }
+        if(position!=1&&position!=4){
+            ((RentView)viewList.get(1)).setView();
+            ((RentView)viewList.get(4)).setView();
+        }
+//        if(position!=4){
+//            ((RentView)viewList.get(4)).setView();
+//        }
+//        for (int i = 0; i < viewList.size(); i++) {
+//
+//            if(i == viewPager.getCurrentItem()){
+
+
+        if(position!=4){
+
+            if(viewList.get(viewPager.getCurrentItem()) instanceof RentView)
+                ((RentView)viewList.get(viewPager.getCurrentItem())).start();
+            else if(viewList.get(viewPager.getCurrentItem()) instanceof OrderView)
                 ((OrderView)viewList.get(viewPager.getCurrentItem())).start();
-            }
+            else if(viewList.get(viewPager.getCurrentItem()) instanceof FindMoneyView)
+                ((FindMoneyView)viewList.get(viewPager.getCurrentItem())).start();
+        }
+//            }
 //            else{
 //                viewList.get(i).setVisibility(GONE);
 //            }
-        }
+
         if (bannerStyle == BannerConfig.CIRCLE_INDICATOR ||
                 bannerStyle == BannerConfig.CIRCLE_INDICATOR_TITLE ||
                 bannerStyle == BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE) {

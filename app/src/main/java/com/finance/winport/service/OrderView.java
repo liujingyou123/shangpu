@@ -58,18 +58,23 @@ public class OrderView extends FrameLayout {
 
 
                 ObjectAnimator animator = new ObjectAnimator().ofFloat(view1, "translationX", 1500f,  0f);
-                animator.setDuration(1800);
+                animator.setDuration(700);
                 animator.setInterpolator(new LinearInterpolator());
                 Log.i("banner start","OrderView startt 9999999999999");
                 animator.start();
 
                 ObjectAnimator animator1 = new ObjectAnimator().ofFloat(view2, "translationX", 1700f,  1f);
-                animator1.setDuration(2800);
+                animator1.setDuration(900);
                 animator1.setInterpolator(new LinearInterpolator());
                 animator1.start();
 
             }
-        },500);
+        },100);
+    }
+
+    public void setView(){
+        view1.setVisibility(View.GONE);
+        view2.setVisibility(View.GONE);
     }
 
 

@@ -8,5 +8,6 @@
     <color name="bg">#f0f0f0</color>
     <color name="divider_color">#E5E5E5</color>
 
+    <color name="transparent">#00000000</color>
     <color name="color_line">#E5E5E5</color>
 </resources>

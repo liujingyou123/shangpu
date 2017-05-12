@@ -5,13 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -24,11 +23,11 @@ import com.finance.winport.dialog.SortPopupView;
 import com.finance.winport.home.adapter.ShopsAdapter;
 import com.finance.winport.home.model.Shop;
 import com.finance.winport.home.model.ShopsListActivity;
+import com.finance.winport.map.MapActivity;
 import com.finance.winport.util.LogUtil;
 import com.finance.winport.view.home.HeaderView;
 import com.finance.winport.view.home.SelectView;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
-import com.finance.winport.view.refreshview.PtrDefaultHandler;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
 
@@ -37,6 +36,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 
@@ -54,6 +54,8 @@ public class HomeFragment extends BaseFragment {
     SelectView selectionView;
     @BindView(R.id.rl_root)
     RelativeLayout rlRoot;
+    @BindView(R.id.map_list)
+    ImageView mapList;
 
     private ShopsAdapter adapter;
     private List<Shop> mData = new ArrayList<>();
@@ -109,7 +111,7 @@ public class HomeFragment extends BaseFragment {
         selectView.setOnLocationClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lsShops.smoothScrollToPositionFromTop(1,-1, 300);
+                lsShops.smoothScrollToPositionFromTop(1, -1, 300);
                 showShowQuYuDialog();
             }
         });
@@ -117,7 +119,7 @@ public class HomeFragment extends BaseFragment {
         selectView.setOnSortClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lsShops.smoothScrollToPositionFromTop(1,-1, 300);
+                lsShops.smoothScrollToPositionFromTop(1, -1, 300);
                 showPaiXuDailog();
             }
         });
@@ -125,7 +127,7 @@ public class HomeFragment extends BaseFragment {
         selectView.setOnCsClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lsShops.smoothScrollToPositionFromTop(1,-1, 300);
+                lsShops.smoothScrollToPositionFromTop(1, -1, 300);
                 showShaiXuandialog();
             }
         });
@@ -182,7 +184,6 @@ public class HomeFragment extends BaseFragment {
         lsShops.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView listView, int scrollState) {
-
 
 
             }
@@ -268,10 +269,15 @@ public class HomeFragment extends BaseFragment {
         intent.putExtra("index", index);
         startActivity(intent);
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }
 
+    @OnClick(R.id.map_list)
+    public void onViewClicked() {
+        startActivity(new Intent(getActivity(), MapActivity.class));
+    }
 }
