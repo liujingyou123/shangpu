@@ -25,7 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class WorkCommunitDetailActivity extends BaseActivity {
+public class TradeCircleDetailActivity extends BaseActivity {
 
     @BindView(R.id.rv)
     RecyclerView rv;
@@ -61,7 +61,7 @@ public class WorkCommunitDetailActivity extends BaseActivity {
         rv.setLayoutManager(new LinearLayoutManager(this));
         adapter = new WorkCommunitDetailListAdapter(this, datas);
         rv.setAdapter(adapter);
-        xpfl.setPullToRefresh(false);
+        xpfl.setMode(PtrFrameLayout.Mode.LOAD_MORE);
         xpfl.setPtrHandler(new PtrDefaultHandler2() {
             @Override
             public void onLoadMoreBegin(PtrFrameLayout frame) {

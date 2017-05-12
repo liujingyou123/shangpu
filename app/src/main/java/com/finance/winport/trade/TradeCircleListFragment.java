@@ -75,7 +75,7 @@ public class TradeCircleListFragment extends Fragment {
         lsCircles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(TradeCircleListFragment.this.getContext(), WorkCommunitDetailActivity.class);
+                Intent intent = new Intent(TradeCircleListFragment.this.getContext(), TradeCircleDetailActivity.class);
                 startActivity(intent);
             }
         });

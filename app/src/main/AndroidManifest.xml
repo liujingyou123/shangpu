@@ -101,7 +101,7 @@
 
         <!-- 旺铺列表 -->
         <activity
-            android:name=".trade.WorkCommunitDetailActivity"
+            android:name=".trade.TradeCircleDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
