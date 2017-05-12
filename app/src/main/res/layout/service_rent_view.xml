@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:src="@mipmap/rent_banner2"
         android:scaleType="center"
+        android:visibility="gone"
         android:layout_alignParentTop="true"
         android:layout_marginTop="50dp"/>
 
@@ -23,5 +24,6 @@
         android:src="@mipmap/rent_banner1"
         android:layout_alignParentTop="true"
         android:scaleType="center"
+        android:visibility="gone"
         android:layout_marginTop="245dp"/>
 </merge>

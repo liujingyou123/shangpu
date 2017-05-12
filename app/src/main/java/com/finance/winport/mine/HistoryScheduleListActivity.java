@@ -1,6 +1,9 @@
 package com.finance.winport.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -57,6 +60,12 @@ public class HistoryScheduleListActivity extends BaseActivity {
 //            }
             adapter.notifyDataSetChanged();
         }
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startActivity(new Intent(HistoryScheduleListActivity.this,ScheduleDetailActivity.class));
+            }
+        });
     }
 
     @OnClick(R.id.imv_focus_house_back)

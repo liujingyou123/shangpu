@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    >
+
+    <FrameLayout
+        android:layout_width="112.5dp"
+        android:layout_height="112.5dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_loading">
+
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/icon_loading_0"
+            android:layout_marginTop="25dp"
+            android:layout_gravity="center_horizontal"
+            />
+        <TextView
+            android:id="@+id/tv_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="27dp"
+            android:text="正在定位中"
+            android:textColor="#969696"
+            android:textSize="13sp" />
+    </FrameLayout>
+</FrameLayout>
