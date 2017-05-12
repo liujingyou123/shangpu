@@ -16,7 +16,8 @@
         ptr:ptr_keep_header_when_refresh="true"
         ptr:ptr_pull_to_fresh="false"
         ptr:ptr_ratio_of_header_height_to_refresh="1.2"
-        ptr:ptr_resistance="1.7">
+        ptr:ptr_resistance="1.7"
+        android:visibility="gone">
 
         <ListView
             android:id="@+id/ls_circles"
@@ -28,4 +29,37 @@
             android:fadingEdge="none"
             android:scrollbars="none"/>
     </com.finance.winport.view.refreshview.PtrClassicFrameLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:background="#ffffff">
+        <View
+            style="@style/view_line"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerInside"
+            android:src="@mipmap/state_errore_correction"
+            android:layout_marginTop="100dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="额，还没有发表帖子"
+            android:textColor="#FF333333"
+            android:textSize="15sp" />
+
+
+        <TextView
+            android:id="@+id/btn_done"
+            style="@style/btn_done"
+            android:layout_marginTop="150dp"
+            android:background="@drawable/bg_done"
+            android:text="去发表自己的想法" />
+    </LinearLayout>
 </LinearLayout>

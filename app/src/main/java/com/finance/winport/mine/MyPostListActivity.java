@@ -5,13 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.trade.TradeCircleDetailActivity;
-import com.finance.winport.trade.TradeCircleListFragment;
 import com.finance.winport.trade.adapter.TradeCircleAdapter;
 import com.finance.winport.trade.model.Trade;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
@@ -37,6 +37,8 @@ public class MyPostListActivity extends BaseActivity {
     ListView lsCircles;
     @BindView(R.id.refresh_view)
     PtrClassicFrameLayout refreshView;
+    @BindView(R.id.ll_empty)
+    LinearLayout llEmpty;
 
     private TradeCircleAdapter mAdapter;
     private List<Trade> mData = new ArrayList<>();
