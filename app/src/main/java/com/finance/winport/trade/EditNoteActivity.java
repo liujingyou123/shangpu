@@ -92,8 +92,15 @@ public class EditNoteActivity extends BaseActivity {
             @Override
             public void itemClick(int position) {
                 if (mAdapter.isAddType(position)) {
-                    selectImage(mAdapter.getRelCount());
+                    selectImage(mAdapter.getLastCount());
                 }
+            }
+        });
+
+        mAdapter.setOnRemoveListener(new ChoicePhotoAdapter.OnRemoveListener() {
+            @Override
+            public void onRemoveItem(int position) {
+                tvPhotoNum.setText("选择图片(" + mAdapter.getRelCount() + "/9)");
             }
         });
 
@@ -117,6 +124,8 @@ public class EditNoteActivity extends BaseActivity {
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_PHOTO) {
             List<String> mSelected = PicturePickerUtils.obtainResult(this.getContentResolver(), data);
             mAdapter.addItems(mSelected);
+
+            tvPhotoNum.setText("选择图片(" + mAdapter.getRelCount() + "/9)");
         }
     }
 

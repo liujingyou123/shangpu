@@ -76,7 +76,7 @@
                 android:layout_height="44dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
-                android:text="选择图片（2/9）"
+                android:text="选择图片（0/9）"
                 android:textColor="#FF333333"
                 android:textSize="14sp" />
 

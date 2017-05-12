@@ -24,6 +24,7 @@ public class ChoicePhotoAdapter extends BaseAdapter {
     private List<String> mData;
     private String actionUrl = "action://add";
     private int MAX_NUM = 9;
+    private OnRemoveListener mOnRemoveListener;
 
 
     public ChoicePhotoAdapter(Context mContext, List<String> mData) {
@@ -82,6 +83,7 @@ public class ChoicePhotoAdapter extends BaseAdapter {
                 Batman.getInstance().fromNet(url, viewHolder.imvPhoto);
                 viewHolder.imvDel.setOnClickListener(new View.OnClickListener() {
                     int index = i;
+
                     @Override
                     public void onClick(View v) {
                         removeItems(index);
@@ -107,13 +109,28 @@ public class ChoicePhotoAdapter extends BaseAdapter {
         return ret;
     }
 
-    public int getRelCount() {
+    public int getLastCount() {
         return MAX_NUM - mData.size() + 1;
+    }
+
+    public int getRelCount() {
+        return mData.size() - 1;
     }
 
     public void removeItems(int position) {
         mData.remove(position);
         notifyDataSetChanged();
+        if (mOnRemoveListener != null) {
+            mOnRemoveListener.onRemoveItem(position);
+        }
+    }
+
+    public void setOnRemoveListener(OnRemoveListener onRemoveListener) {
+        this.mOnRemoveListener = onRemoveListener;
+    }
+
+    public interface OnRemoveListener {
+        void onRemoveItem(int position);
     }
 
     static class ViewHolder {
