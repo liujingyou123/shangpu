@@ -4,8 +4,9 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <!-- 全局背景 -->
+    <color name="white">#ffffff</color>
     <color name="bg">#f0f0f0</color>
-    <color name="divider_color">#fcfcfc</color>
+    <color name="divider_color">#E5E5E5</color>
 
     <color name="color_line">#E5E5E5</color>
 </resources>
