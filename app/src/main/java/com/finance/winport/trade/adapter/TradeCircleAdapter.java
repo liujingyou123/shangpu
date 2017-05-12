@@ -75,55 +75,55 @@ public class TradeCircleAdapter extends BaseAdapter {
         viewHolder.tvSub.setVisibility(View.GONE);
         viewHolder.rlHref.setVisibility(View.GONE);
 
-        viewHolder.glImages.removeAllViews();
-
-        if (index == 1) {
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 247.5f));
-
-
-            viewHolder.glImages.setLayoutParams(lp);
-            viewHolder.glImages.setColumnCount(1);
-            viewHolder.glImages.setRowCount(1);
-        } else if (index == 2) {
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 120f));
-
-            viewHolder.glImages.setLayoutParams(lp);
-            viewHolder.glImages.setColumnCount(2);
-            viewHolder.glImages.setRowCount(1);
-        } else if (index == 3) {
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 85f));
-
-            viewHolder.glImages.setLayoutParams(lp);
-            viewHolder.glImages.setColumnCount(3);
-            viewHolder.glImages.setRowCount(1);
-        } else if (index == 4) {
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 247.5f));
-
-            viewHolder.glImages.setLayoutParams(lp);
-            viewHolder.glImages.setColumnCount(2);
-            viewHolder.glImages.setRowCount(2);
-        } else if (index == 5 || index == 6) {
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 163.5f));
-
-            viewHolder.glImages.setLayoutParams(lp);
-            viewHolder.glImages.setColumnCount(3);
-            viewHolder.glImages.setRowCount(2);
-        } else if (index == 7 || index == 8 || index == 9) {
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 247.5f));
-
-            viewHolder.glImages.setLayoutParams(lp);
-            viewHolder.glImages.setColumnCount(3);
-            viewHolder.glImages.setRowCount(3);
-        } else {
-            viewHolder.glImages.setVisibility(View.GONE);
-            viewHolder.tvSub.setVisibility(View.VISIBLE);
-            viewHolder.rlHref.setVisibility(View.VISIBLE);
-        }
-
-        for (int j = 0; j < index; j++) {
-            viewHolder.glImages.addView(getView());
-        }
-
+//        viewHolder.glImages.removeAllViews();
+//
+//        if (index == 1) {
+//            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 247.5f));
+//
+//
+//            viewHolder.glImages.setLayoutParams(lp);
+//            viewHolder.glImages.setColumnCount(1);
+//            viewHolder.glImages.setRowCount(1);
+//        } else if (index == 2) {
+//            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 120f));
+//
+//            viewHolder.glImages.setLayoutParams(lp);
+//            viewHolder.glImages.setColumnCount(2);
+//            viewHolder.glImages.setRowCount(1);
+//        } else if (index == 3) {
+//            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 85f));
+//
+//            viewHolder.glImages.setLayoutParams(lp);
+//            viewHolder.glImages.setColumnCount(3);
+//            viewHolder.glImages.setRowCount(1);
+//        } else if (index == 4) {
+//            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 247.5f));
+//
+//            viewHolder.glImages.setLayoutParams(lp);
+//            viewHolder.glImages.setColumnCount(2);
+//            viewHolder.glImages.setRowCount(2);
+//        } else if (index == 5 || index == 6) {
+//            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 163.5f));
+//
+//            viewHolder.glImages.setLayoutParams(lp);
+//            viewHolder.glImages.setColumnCount(3);
+//            viewHolder.glImages.setRowCount(2);
+//        } else if (index == 7 || index == 8 || index == 9) {
+//            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 247.5f));
+//
+//            viewHolder.glImages.setLayoutParams(lp);
+//            viewHolder.glImages.setColumnCount(3);
+//            viewHolder.glImages.setRowCount(3);
+//        } else {
+//            viewHolder.glImages.setVisibility(View.GONE);
+//            viewHolder.tvSub.setVisibility(View.VISIBLE);
+//            viewHolder.rlHref.setVisibility(View.VISIBLE);
+//        }
+//
+//        for (int j = 0; j < index; j++) {
+//            viewHolder.glImages.addView(getView());
+//        }
+////
         viewHolder.imvDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,14 +131,67 @@ public class TradeCircleAdapter extends BaseAdapter {
                 dialog.show();
             }
         });
+
+        setGridLayout(viewHolder, index);
         return view;
     }
 
+    private void setGridLayout(ViewHolder viewHolder, int imageSize) {
+        viewHolder.glImages.removeAllViews();
 
-    private ImageView getView() {
+        if (imageSize == 1) {
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 247.5f));
+
+
+            viewHolder.glImages.setLayoutParams(lp);
+            viewHolder.glImages.setColumnCount(1);
+            viewHolder.glImages.setRowCount(1);
+        } else if (imageSize == 2) {
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 120f));
+
+            viewHolder.glImages.setLayoutParams(lp);
+            viewHolder.glImages.setColumnCount(2);
+            viewHolder.glImages.setRowCount(1);
+        } else if (imageSize == 3) {
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 85f));
+
+            viewHolder.glImages.setLayoutParams(lp);
+            viewHolder.glImages.setColumnCount(3);
+            viewHolder.glImages.setRowCount(1);
+        } else if (imageSize == 4) {
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 247.5f));
+
+            viewHolder.glImages.setLayoutParams(lp);
+            viewHolder.glImages.setColumnCount(2);
+            viewHolder.glImages.setRowCount(2);
+        } else if (imageSize == 5 || imageSize == 6) {
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 163.5f));
+
+            viewHolder.glImages.setLayoutParams(lp);
+            viewHolder.glImages.setColumnCount(3);
+            viewHolder.glImages.setRowCount(2);
+        } else if (imageSize == 7 || imageSize == 8 || imageSize == 9) {
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 247.5f));
+
+            viewHolder.glImages.setLayoutParams(lp);
+            viewHolder.glImages.setColumnCount(3);
+            viewHolder.glImages.setRowCount(3);
+        } else { //TODO  这里仅做UI调试
+            viewHolder.glImages.setVisibility(View.GONE);
+            viewHolder.tvSub.setVisibility(View.VISIBLE);
+            viewHolder.rlHref.setVisibility(View.VISIBLE);
+        }
+
+        for (int j = 0; j < imageSize; j++) {
+            viewHolder.glImages.addView(getView(null));
+        }
+    }
+
+    private ImageView getView(String url) {
 
         ImageView imageView = new ImageView(mContext);
 
+        //TODO 真是数据 用URL
         Batman.getInstance().fromNet("http://img0.imgtn.bdimg.com/it/u=941334686,3174396022&fm=23&gp=0.jpg", imageView);
         GridLayout.Spec rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1.0f);
         GridLayout.Spec columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1.0f);

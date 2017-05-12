@@ -61,4 +61,7 @@ dependencies {
     compile project(':weekcalendarlibray')
     compile 'com.android.support:gridlayout-v7:25.3.0'
     compile files('libs/BaiduLBS_Android.jar')
+
+    provided 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
+    provided 'com.squareup.picasso:picasso:2.5.2'
 }

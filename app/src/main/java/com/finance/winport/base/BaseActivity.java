@@ -273,6 +273,10 @@ public class BaseActivity extends AppCompatActivity{
         getWindow().setSoftInputMode(show ? WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE : WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
+    public void showSoftInput(View view){
+        ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+    }
+
 //    LoadingDialog loading;
 //    protected void showLoading() {
 //        if (loading == null) {

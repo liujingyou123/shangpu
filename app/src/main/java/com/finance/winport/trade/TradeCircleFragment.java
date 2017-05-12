@@ -1,5 +1,6 @@
 package com.finance.winport.trade;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.mine.MyPostListActivity;
 import com.finance.winport.util.SlidingTagPagerItem;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.SlidingTabLayout;
@@ -66,9 +68,17 @@ public class TradeCircleFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.my_list:
+                gotoMyPostListActivity();
                 break;
             case R.id.imv_edit_m:
+                Intent intent = new Intent(this.getContext(), EditNoteActivity.class);
+                startActivity(intent);
                 break;
         }
+    }
+
+    private void gotoMyPostListActivity() {
+        Intent intent = new Intent(this.getContext(), MyPostListActivity.class);
+        startActivity(intent);
     }
 }

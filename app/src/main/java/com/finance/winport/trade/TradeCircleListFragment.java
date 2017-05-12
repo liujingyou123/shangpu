@@ -1,11 +1,13 @@
 package com.finance.winport.trade;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -67,6 +69,14 @@ public class TradeCircleListFragment extends Fragment {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
 
+            }
+        });
+
+        lsCircles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(TradeCircleListFragment.this.getContext(), TradeCircleDetailActivity.class);
+                startActivity(intent);
             }
         });
     }

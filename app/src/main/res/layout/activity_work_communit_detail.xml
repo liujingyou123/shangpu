@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff">
+
+    <include
+        android:id="@+id/view_title"
+        layout="@layout/title_fouce_house"/>
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/bg_topline"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:id="@+id/btn_comment"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/bg_comment_input"
+            android:text="请输入评论的内容"
+            android:gravity="center_vertical"
+            android:textColor="#999999"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            />
+        <TextView
+            android:id="@+id/tv_praise_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="34600"
+            android:textColor="#FF999999"
+            android:textSize="11sp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:gravity="bottom"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/selector_community_praise"
+            />
+
+        <TextView
+            android:id="@+id/tv_comment_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="34600"
+            android:textColor="#FF999999"
+            android:textSize="11sp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:gravity="bottom"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@mipmap/business_details_icon_comments"
+            />
+    </LinearLayout>
+
+    <com.finance.winport.view.refreshview.XPtrFrameLayout
+        android:id="@+id/xpfl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/view_title"
+        android:layout_above="@id/ll_bottom"
+        >
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </com.finance.winport.view.refreshview.XPtrFrameLayout>
+
+</RelativeLayout>

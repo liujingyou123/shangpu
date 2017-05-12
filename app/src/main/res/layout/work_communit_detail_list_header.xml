@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_underline">
+
+        <ImageView
+            android:id="@+id/iv_header_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@mipmap/ic_launcher_round" />
+
+        <TextView
+            android:id="@+id/tv_header_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/iv_header_icon"
+            android:text="130****2346"
+            android:textColor="#FF333333"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_header_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_header_phone"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7.5dp"
+            android:layout_toRightOf="@id/iv_header_icon"
+            android:text="关注   江湾镇-餐饮类的金铺"
+            android:textColor="#FF999999"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_header_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="15dp"
+            android:text="6分钟前发布"
+            android:textColor="#999999"
+            android:textSize="13sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="#ffffff"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:drawableLeft="@mipmap/business_icon_top"
+            android:drawablePadding="3dp"
+            android:gravity="center_vertical"
+            android:text="魔都最火的10间商铺"
+            android:textColor="#FF333333"
+            android:textSize="15sp" />
+
+        <!-- 文字 超链接-->
+
+        <TextView
+            android:id="@+id/tv_sub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="金铺多成立于2017年4月，是金铺多集团旗下的国内首家专业商业地产网站，专注于商业地产信息服务。金铺和专注于买房信息服务的安居客以及专注于租房信息服务的好租组成了金铺多集团专业找房网站集群。"
+            android:textColor="#FF666666"
+            android:textSize="14sp"
+            android:lineSpacingExtra="5dp"
+            android:maxHeight="90dp"
+            android:ellipsize="end"
+            android:maxLines="4"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_href"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:background="#FFF2F2F2">
+
+            <ImageView
+                android:id="@+id/imv_href"
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="7.5dp"
+                android:background="#ffff00" />
+
+            <TextView
+                android:id="@+id/tv_href_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="18dp"
+                android:layout_toRightOf="@id/imv_href"
+                android:text="万安路104号"
+                android:textColor="#FF333333"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_href_sub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/tv_href_title"
+                android:layout_below="@id/tv_href_title"
+                android:layout_marginTop="8dp"
+                android:text="一周内890位老板浏览了此商铺"
+                android:textColor="#FF999999"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <!-- 图片 -->
+        <android.support.v7.widget.GridLayout
+            android:id="@+id/gl_images"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></android.support.v7.widget.GridLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_underline"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp"
+        android:text="最新评论"
+        android:textColor="#FF999999"
+        android:textSize="12sp" />
+
+</LinearLayout>
