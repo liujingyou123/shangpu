@@ -1,5 +1,6 @@
 package com.finance.winport.tab.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.tab.WinportActivity;
 import com.finance.winport.tab.model.WinportModel;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 
@@ -40,6 +42,14 @@ public class WinportAdapter extends PullBaseAdapter<WinportModel> {
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
+        holder.dropOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent dropOff = new Intent(context, WinportActivity.class);
+                dropOff.putExtra("type",5);
+                context.startActivity(dropOff);
+            }
+        });
         //
         return convertView;
     }

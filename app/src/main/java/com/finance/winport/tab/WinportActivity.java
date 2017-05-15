@@ -8,6 +8,7 @@ import com.finance.winport.base.BaseActivity;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.tab.fragment.AppointWinportFragment;
 import com.finance.winport.tab.fragment.MineWinportFragment;
+import com.finance.winport.tab.fragment.OffShelfFragment;
 import com.finance.winport.tab.fragment.ScanWinportFragment;
 
 public class WinportActivity extends BaseActivity {
@@ -33,6 +34,11 @@ public class WinportActivity extends BaseActivity {
                 BaseFragment scanf = new ScanWinportFragment();
                 scanf.setArguments(getIntent().getExtras());
                 pushFragment(scanf);
+                break;
+            case 5://下架
+                BaseFragment dropOff = new OffShelfFragment();
+                dropOff.setArguments(getIntent().getExtras());
+                pushFragment(dropOff);
                 break;
         }
     }

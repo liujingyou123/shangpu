@@ -87,16 +87,15 @@
 
                     <RatingBar
                         android:id="@+id/wealth_star"
-                        style="@style/Widget.AppCompat.RatingBar.Small"
+                        style="@style/RatingBar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/wealth"
-                        android:layout_alignTop="@+id/wealth"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="6dp"
                         android:layout_toRightOf="@+id/wealth"
                         android:numStars="10"
-                        android:rating="5"
-                        android:stepSize="0.5" />
+                        android:layout_marginBottom="2dp"
+                        android:rating="6" />
 
                     <TextView
                         android:id="@+id/customer"
@@ -110,16 +109,15 @@
 
                     <RatingBar
                         android:id="@+id/customer_star"
-                        style="@style/Widget.AppCompat.RatingBar.Small"
+                        style="@style/RatingBar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/customer"
-                        android:layout_alignTop="@+id/customer"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="6dp"
                         android:layout_toRightOf="@+id/customer"
                         android:numStars="10"
-                        android:rating="4"
-                        android:stepSize="0.5" />
+                        android:layout_marginBottom="2dp"
+                        android:rating="4" />
 
                     <TextView
                         android:id="@+id/prospect"
@@ -133,16 +131,15 @@
 
                     <RatingBar
                         android:id="@+id/prospect_star"
-                        style="@style/Widget.AppCompat.RatingBar.Small"
+                        style="@style/RatingBar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/prospect"
-                        android:layout_alignTop="@+id/prospect"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="6dp"
                         android:layout_toRightOf="@+id/prospect"
                         android:numStars="10"
-                        android:rating="3"
-                        android:stepSize="0.5" />
+                        android:layout_marginBottom="2dp"
+                        android:rating="3" />
 
                     <TextView
                         android:id="@+id/result"
