@@ -1,5 +1,11 @@
 package com.finance.winport.tab.adapter;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.NinePatch;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,5 +81,26 @@ public class ScanWinportAdapter extends PullBaseAdapter<WinportModel> {
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
+    }
+
+    void showCancelAlert() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        SpannableString pButton = new SpannableString("确认");
+        SpannableString nButton = new SpannableString("取消");
+        pButton.setSpan(new ForegroundColorSpan(Color.parseColor("FFA73B")), 0, pButton.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+        nButton.setSpan(new ForegroundColorSpan(Color.parseColor("FFA73B")), 0, nButton.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+        AlertDialog dialog = builder.setTitle("提示").setMessage("取消收藏")
+                .setPositiveButton(pButton, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).setNegativeButton(nButton, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).create();
+        dialog.show();
     }
 }

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ptr="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_black_house" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/bg_prediction"
+        android:orientation="vertical"
+        android:paddingLeft="33dp"
+        android:paddingRight="33dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="25dp"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:padding="10dp">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_red_rectangle"
+                android:scrollbars="none">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="33dp"
+                    android:paddingRight="33dp">
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:gravity="center"
+                        android:text="金铺多"
+                        android:textColor="#000000"
+                        android:textSize="30sp" />
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/divider_height"
+                        android:layout_alignBottom="@+id/prediction_name"
+                        android:layout_marginBottom="7.5dp"
+                        android:layout_toLeftOf="@+id/prediction_name"
+                        android:background="#999999" />
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/divider_height"
+                        android:layout_alignBottom="@+id/prediction_name"
+                        android:layout_marginBottom="7.5dp"
+                        android:layout_toRightOf="@+id/prediction_name"
+                        android:background="#999999" />
+
+                    <TextView
+                        android:id="@+id/prediction_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/title"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="上等好名"
+                        android:textColor="#CFA762"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/wealth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/prediction_name"
+                        android:layout_marginTop="34dp"
+                        android:text="财运"
+                        android:textColor="#000000"
+                        android:textSize="14sp" />
+
+                    <RatingBar
+                        android:id="@+id/wealth_star"
+                        style="@style/Widget.AppCompat.RatingBar.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/wealth"
+                        android:layout_alignTop="@+id/wealth"
+                        android:layout_marginLeft="15dp"
+                        android:layout_toRightOf="@+id/wealth"
+                        android:numStars="10"
+                        android:rating="5"
+                        android:stepSize="0.5" />
+
+                    <TextView
+                        android:id="@+id/customer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/wealth"
+                        android:layout_marginTop="20dp"
+                        android:text="客运"
+                        android:textColor="#000000"
+                        android:textSize="14sp" />
+
+                    <RatingBar
+                        android:id="@+id/customer_star"
+                        style="@style/Widget.AppCompat.RatingBar.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/customer"
+                        android:layout_alignTop="@+id/customer"
+                        android:layout_marginLeft="15dp"
+                        android:layout_toRightOf="@+id/customer"
+                        android:numStars="10"
+                        android:rating="4"
+                        android:stepSize="0.5" />
+
+                    <TextView
+                        android:id="@+id/prospect"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/customer"
+                        android:layout_marginTop="20dp"
+                        android:text="前景"
+                        android:textColor="#000000"
+                        android:textSize="14sp" />
+
+                    <RatingBar
+                        android:id="@+id/prospect_star"
+                        style="@style/Widget.AppCompat.RatingBar.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/prospect"
+                        android:layout_alignTop="@+id/prospect"
+                        android:layout_marginLeft="15dp"
+                        android:layout_toRightOf="@+id/prospect"
+                        android:numStars="10"
+                        android:rating="3"
+                        android:stepSize="0.5" />
+
+                    <TextView
+                        android:id="@+id/result"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/prospect"
+                        android:layout_marginBottom="40dp"
+                        android:layout_marginTop="36dp"
+                        android:lineSpacingExtra="8dp"
+                        android:text="算命，即是指推测人命运休咎之行为，属玄学范畴。研究算命的学术叫易学，也叫命理术数；理论核心是阴阳五行、天干地支及伏羲八卦，理论系统较为复杂深奥。"
+                        android:textColor="#999999"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+            </ScrollView>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/confirm"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginBottom="45dp"
+            android:background="@drawable/bg_shape_r_orange"
+            android:gravity="center"
+            android:text="测一测其他店名"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
+    </LinearLayout>
+</LinearLayout>

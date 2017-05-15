@@ -64,7 +64,7 @@ public class MineFragment extends BaseFragment {
     private int type;//image type
     private List<String> mSelected;
     @BindView(R.id.tv_focus_right)
-    ImageView tvFocusRight;
+    ImageView ivFocusRight;
     @BindView(R.id.tv_focus_house)
     TextView tvFocusHouse;
     @BindView(R.id.shop_img)
@@ -80,6 +80,7 @@ public class MineFragment extends BaseFragment {
     @BindView(R.id.concern)
     TextView concern;
     Unbinder unbinder;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -90,7 +91,7 @@ public class MineFragment extends BaseFragment {
     }
 
     private void initView() {
-        tvFocusRight.setCompoundDrawablesWithIntrinsicBounds(R.drawable.mine_notice_selector, 0, 0, 0);
+        ivFocusRight.setActivated(true);
     }
 
 
@@ -102,7 +103,7 @@ public class MineFragment extends BaseFragment {
 
     @OnClick({R.id.tv_focus_right, R.id.modify, R.id.schedule_list, R.id.setting, R.id.phone
             , R.id.concern, R.id.shop_img, R.id.ll_mine_winport, R.id.ll_mine_collection
-            , R.id.ll_mine_appoint, R.id.ll_mine_scan})
+            , R.id.ll_mine_appoint, R.id.ll_mine_scan, R.id.fierce_prediction})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_focus_right:
@@ -159,6 +160,9 @@ public class MineFragment extends BaseFragment {
                 scan.putExtra("type", 4);
                 scan.putExtra("title", "最近浏览");
                 startActivity(scan);
+                break;
+            case R.id.fierce_prediction:
+                startActivity(new Intent(context,FiercePredictionActivity.class));
                 break;
         }
     }
