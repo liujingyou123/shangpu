@@ -14,6 +14,10 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.mine.MyScheduleListActivity;
+import com.finance.winport.mine.adapter.NoticeCollectionAdapter;
+import com.finance.winport.mine.adapter.ScheduleListAdapter;
+import com.finance.winport.mine.adapter.ServiceScheduleListAdapter;
 import com.finance.winport.service.FindLoanActivity;
 import com.finance.winport.service.LoanListActivity;
 import com.finance.winport.service.ShopOrderActivity;
@@ -59,13 +63,13 @@ public class ServiceFragment extends BaseFragment {
     TextView order;
     @BindView(R.id.loan)
     TextView loan;
-    //    @BindView(R.id.weekCalendar)
     WeekCalendar weekCalendar;
 
     View root;
     @BindView(R.id.cal)
     LinearLayout cal;
     Unbinder unbinder1;
+    private ServiceScheduleListAdapter adapter;
 
     @Nullable
     @Override
@@ -107,6 +111,24 @@ public class ServiceFragment extends BaseFragment {
                 Log.i("time", dateTime.toString());
             }
         });
+        if (adapter == null) {
+            adapter = new ServiceScheduleListAdapter(getActivity());
+
+            mListView.setAdapter(adapter);
+            ViewGroup.LayoutParams parm = mListView.getLayoutParams();
+            parm.height = UnitUtil.dip2px(getActivity(),75*3);
+
+//            totalPage = (int) Math.ceil(adapter.getTotalCount() / (float) LIMIT);
+        } else {
+//            if (pageNumber == 1) {
+//                adapter.refreshData(list, totalCount);
+//            } else {
+//                adapter.updateData(list, totalCount);
+//            }
+
+            adapter.notifyDataSetChanged();
+        }
+
 
     }
 

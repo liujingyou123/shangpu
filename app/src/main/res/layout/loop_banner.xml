@@ -24,7 +24,7 @@
             android:layout_gravity="bottom"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="10dp"
+            android:padding="20dp"
             android:visibility="gone" />
 
         <TextView
@@ -86,5 +86,15 @@
                     android:visibility="gone" />
             </FrameLayout>
         </LinearLayout>
+
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/rect_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/service_rect_icon"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="46dp"/>
 </RelativeLayout>

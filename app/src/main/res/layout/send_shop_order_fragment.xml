@@ -10,6 +10,7 @@
         android:layout_height="200dp"
         android:scaleType="fitXY"
         android:src="@mipmap/send_bg" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,7 +28,7 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:scaleType="centerInside"
-                android:src="@mipmap/icon_back" />
+                android:src="@mipmap/icon_white_back" />
 
 
             <TextView
@@ -48,11 +49,10 @@
                 android:layout_centerInParent="true"
                 android:gravity="center"
                 android:singleLine="true"
-                android:textColor="#ffffff"
                 android:text="预约看铺"
+                android:textColor="#ffffff"
                 android:textSize="18sp" />
         </RelativeLayout>
-
 
 
         <LinearLayout
@@ -106,8 +106,8 @@
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:layout_alignParentLeft="true"
-                    android:scaleType="fitXY"
                     android:layout_marginLeft="25dp"
+                    android:scaleType="fitXY"
                     android:src="@mipmap/send_order_icon1" />
 
                 <TextView
@@ -125,8 +125,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
                     android:layout_below="@+id/address"
+                    android:layout_marginLeft="15dp"
                     android:layout_marginTop="8dp"
                     android:layout_toRightOf="@+id/shop_img"
                     android:text="一周内156位老板浏览了此商铺"
@@ -144,8 +144,8 @@
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:layout_alignParentLeft="true"
-                    android:scaleType="fitXY"
                     android:layout_marginLeft="25dp"
+                    android:scaleType="fitXY"
                     android:src="@mipmap/send_order_icon2" />
 
                 <TextView
@@ -163,8 +163,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
                     android:layout_below="@+id/address1"
+                    android:layout_marginLeft="15dp"
                     android:layout_marginTop="8dp"
                     android:layout_toRightOf="@+id/shop_img1"
                     android:text="协助办理租赁过程中相关的繁琐事项"
@@ -196,11 +196,12 @@
                 app:header_text_size="15sp"
                 app:header_width="85dp"
                 app:htv_divider_color="@color/color_line"
-                app:htv_divider_visible="true"
                 app:htv_divider_stretch="false"
+                app:htv_divider_visible="true"
                 app:text_hint="请输入您的手机号"
                 app:text_hint_color="#969696"
                 app:text_size="15sp" />
+
             <com.finance.winport.view.HeaderTextView
                 android:id="@+id/phone_view"
                 android:layout_width="match_parent"
@@ -215,8 +216,8 @@
                 app:header_text_size="15sp"
                 app:header_width="85dp"
                 app:htv_divider_color="@color/color_line"
-                app:htv_divider_visible="true"
                 app:htv_divider_stretch="false"
+                app:htv_divider_visible="true"
                 app:text_hint="请输入您的手机号"
                 app:text_hint_color="#969696"
                 app:text_size="15sp" />
@@ -292,22 +293,23 @@
             </LinearLayout>
 
             <com.finance.winport.view.HeaderTextView
+                android:id="@+id/order_time"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
                 app:content_background="#00000000"
                 app:content_height="match_parent"
+                app:content_padding_right="15dp"
                 app:content_width="match_parent"
                 app:editable="false"
                 app:header_text="约见时间"
                 app:header_text_size="15sp"
                 app:header_width="85dp"
                 app:htv_divider_color="@color/color_line"
-                app:htv_divider_visible="false"
                 app:htv_divider_stretch="false"
+                app:htv_divider_visible="false"
                 app:htv_drawable_right="@mipmap/arrow"
-                app:content_padding_right="15dp"
                 app:text_hint="选择约见时间"
                 app:text_hint_color="#969696"
                 app:text_size="15sp" />
@@ -319,23 +321,23 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:gravity="center"
-            android:layout_marginTop="30dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/bg_done"
+            android:gravity="center"
             android:text="提交预约"
-            android:textSize="15sp"
             android:textColor="#ffffff"
-            android:background="@drawable/bg_service_btn"/>
+            android:textSize="15sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="小二收到您的申请后，将会安排房东同您签约"
             android:textColor="#999999"
-            android:textSize="12sp"
-            android:layout_marginTop="10dp"/>
+            android:textSize="12sp" />
 
     </LinearLayout>
 </FrameLayout>

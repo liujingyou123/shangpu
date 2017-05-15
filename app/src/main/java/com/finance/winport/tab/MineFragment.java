@@ -80,13 +80,13 @@ public class MineFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.mine_fragment, container, false);
         unbinder = ButterKnife.bind(this, root);
-        initView();
+//        initView();
         return root;
     }
 
-    private void initView() {
-        tvFocusRight.setCompoundDrawablesWithIntrinsicBounds(R.drawable.mine_notice_selector, 0, 0, 0);
-    }
+//    private void initView() {
+//        tvFocusRight.setCom(R.drawable.mine_notice_selector, 0, 0, 0);
+//    }
 
 
     @Override
