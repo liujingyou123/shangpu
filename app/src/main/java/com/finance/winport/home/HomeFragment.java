@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -23,12 +21,10 @@ import com.finance.winport.dialog.SelectionDialog;
 import com.finance.winport.dialog.SortPopupView;
 import com.finance.winport.home.adapter.ShopsAdapter;
 import com.finance.winport.home.model.Shop;
-import com.finance.winport.home.model.ShopsListActivity;
 import com.finance.winport.util.LogUtil;
 import com.finance.winport.view.home.HeaderView;
 import com.finance.winport.view.home.SelectView;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
-import com.finance.winport.view.refreshview.PtrDefaultHandler;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
 
@@ -110,7 +106,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 lsShops.smoothScrollToPositionFromTop(1,-1, 300);
-                showShowQuYuDialog();
+                showShowQuYuDialog(300);
             }
         });
 
@@ -118,7 +114,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 lsShops.smoothScrollToPositionFromTop(1,-1, 300);
-                showPaiXuDailog();
+                showPaiXuDailog(300);
             }
         });
 
@@ -126,28 +122,28 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 lsShops.smoothScrollToPositionFromTop(1,-1, 300);
-                showShaiXuandialog();
+                showShaiXuandialog(300);
             }
         });
 
         selectionView.setOnLocationClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showShowQuYuDialog();
+                showShowQuYuDialog(0);
             }
         });
 
         selectionView.setOnSortClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPaiXuDailog();
+                showPaiXuDailog(0);
             }
         });
 
         selectionView.setOnCsClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showShaiXuandialog();
+                showShaiXuandialog(0);
             }
         });
 
@@ -166,6 +162,7 @@ public class HomeFragment extends BaseFragment {
             });
         }
 
+        refreshView.setSpaceView(headerView.getBannerView());
         refreshView.setPtrHandler(new PtrDefaultHandler2() {
             @Override
             public void onLoadMoreBegin(PtrFrameLayout frame) {
@@ -202,7 +199,7 @@ public class HomeFragment extends BaseFragment {
         });
     }
 
-    private void showShowQuYuDialog() {
+    private void showShowQuYuDialog(int time) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -211,17 +208,23 @@ public class HomeFragment extends BaseFragment {
                     quyuPopupView.setOnDismissListener(new PopupWindow.OnDismissListener() {
                         @Override
                         public void onDismiss() {
-                            selectionView.onNoneClick();
+                            selectionView.onLocationUnClick();
                         }
                     });
                 }
-                quyuPopupView.showAsDropDown(selectionView);
-                selectionView.onLocationClick();
+                if (!quyuPopupView.isShowing()) {
+                    if (sortPopupView != null && sortPopupView.isShowing()) {
+                        sortPopupView.dismiss();
+                    }
+                    quyuPopupView.showAsDropDown(selectionView);
+                    selectionView.onLocationClick();
+                }
+
             }
-        }, 300);
+        }, time);
     }
 
-    private void showPaiXuDailog() {
+    private void showPaiXuDailog(int time) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -230,17 +233,23 @@ public class HomeFragment extends BaseFragment {
                     sortPopupView.setOnDismissListener(new PopupWindow.OnDismissListener() {
                         @Override
                         public void onDismiss() {
-                            selectionView.onNoneClick();
+                            selectionView.onSortUnClick();
                         }
                     });
                 }
-                sortPopupView.showAsDropDown(selectionView);
-                selectionView.onSortClick();
+                if (!sortPopupView.isShowing()) {
+                    if (quyuPopupView != null && quyuPopupView.isShowing()) {
+                        quyuPopupView.dismiss();
+                    }
+                    sortPopupView.showAsDropDown(selectionView);
+                    selectionView.onSortClick();
+                }
+
             }
-        }, 300);
+        }, time);
     }
 
-    private void showShaiXuandialog() {
+    private void showShaiXuandialog(int time) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -249,14 +258,25 @@ public class HomeFragment extends BaseFragment {
                     selectionDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            selectionView.onNoneClick();
+                            selectionView.onCsUnClick();
                         }
                     });
                 }
-                selectionDialog.show();
-                selectionView.onCsClick();
+                if (!selectionDialog.isShowing()) {
+                    if (sortPopupView != null && sortPopupView.isShowing()) {
+                        sortPopupView.dismiss();
+                    }
+                    if (quyuPopupView != null && quyuPopupView.isShowing()) {
+                        quyuPopupView.dismiss();
+                    }
+                    sortPopupView.dismiss();
+                    quyuPopupView.dismiss();
+                    selectionDialog.show();
+                    selectionView.onCsClick();
+                }
+
             }
-        }, 300);
+        }, time);
     }
 
     private void setSelectionViewVisible() {
@@ -268,6 +288,23 @@ public class HomeFragment extends BaseFragment {
         intent.putExtra("index", index);
         startActivity(intent);
     }
+
+    @Override
+    public boolean handleBack() {
+        if (sortPopupView != null && sortPopupView.isShowing()) {
+            sortPopupView.dismiss();
+            return true;
+        }
+
+        if (quyuPopupView != null && quyuPopupView.isShowing()) {
+            quyuPopupView.dismiss();
+            return true;
+
+        }
+
+        return super.handleBack();
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

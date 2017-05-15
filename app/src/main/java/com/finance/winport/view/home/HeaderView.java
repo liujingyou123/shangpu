@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -114,5 +115,9 @@ public class HeaderView extends RelativeLayout {
 
     public void setNearMetroListener(OnClickListener onClickListener) {
         llNears.setOnClickListener(onClickListener);
+    }
+
+    public View getBannerView() {
+        return headerBanner;
     }
 }

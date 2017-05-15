@@ -2,6 +2,7 @@ package com.finance.winport.view.refreshview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.*;
 import android.widget.Scroller;
@@ -84,6 +85,8 @@ public class PtrFrameLayout extends ViewGroup {
     private long mLoadingStartTime = 0;
     private PtrIndicator mPtrIndicator;
     private boolean mHasSendCancelEvent = false;
+
+    private View spaceView;
     private Runnable mPerformRefreshCompleteDelay = new Runnable() {
         @Override
         public void run() {
@@ -463,6 +466,10 @@ public class PtrFrameLayout extends ViewGroup {
                 mPtrIndicator.onMove(e.getX(), e.getY());
                 float offsetX = mPtrIndicator.getOffsetX();
                 float offsetY = mPtrIndicator.getOffsetY();
+
+                if (isTouchPointInView(spaceView, (int) e.getRawX(), (int) e.getRawY()) && (Math.abs(offsetX) > Math.abs(offsetY))) {
+                    return dispatchTouchEventSupper(e);
+                }
 
                 if (mDisableWhenHorizontalMove && !mPreventForHorizontal && (Math.abs(offsetX) > mPagingTouchSlop && Math.abs(offsetX) > Math.abs(offsetY))) {
                     if (mPtrIndicator.isInStartPosition()) {
@@ -1372,5 +1379,26 @@ public class PtrFrameLayout extends ViewGroup {
                 mIsRunning = false;
             }
         }
+    }
+
+    public void setSpaceView(View view) {
+        this.spaceView = view;
+    }
+    private boolean isTouchPointInView(View view, int x, int y) {
+        if (view == null) {
+            return false;
+        }
+        Rect bounds = new Rect();
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        int left = location[0];
+        int top = location[1];
+        int right = left + view.getMeasuredWidth();
+        int bottom = top + view.getMeasuredHeight();
+        bounds.set(left, top, right, bottom);
+        if (bounds.contains(x, y)) {
+            return true;
+        }
+        return false;
     }
 }
