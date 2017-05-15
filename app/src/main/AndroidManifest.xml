@@ -117,7 +117,7 @@
 
         <!-- 旺铺列表 -->
         <activity
-            android:name=".home.model.ShopsListActivity"
+            android:name=".home.ShopsListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -222,6 +222,16 @@
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
 
+        <!-- 通知页面 -->
+        <activity android:name=".mine.MyNoticeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <!-- 通知列表页面 -->
+        <activity android:name=".mine.NoticeListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
 
         <service
             android:name="com.baidu.location.f"

@@ -51,7 +51,7 @@ public class ScrollBannerView extends FrameLayout {
     private void init(Context context) {
         mainHandler = new Handler();
 
-        LayoutInflater.from(context).inflate(R.layout.banner, this, true);
+        LayoutInflater.from(context).inflate(R.layout.banner_scrollview, this, true);
         mIndicatorContainer = (LinearLayout) findViewById(R.id.view_con);
         adViewPager = (MyViewPager) findViewById(R.id.viewpager);
         tvSign = (TextView) findViewById(R.id.tv_sign);

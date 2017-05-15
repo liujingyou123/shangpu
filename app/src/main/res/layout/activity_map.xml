@@ -20,6 +20,7 @@
         android:background="#ffffff">
 
         <ImageView
+            android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -46,12 +47,13 @@
             android:textSize="16sp" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/map_filter"
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="14dp"
-            android:src="@mipmap/map_icon_filter" />
+            android:src="@mipmap/map_icon_filter"
+            android:scaleType="center"/>
 
 
     </RelativeLayout>
@@ -62,7 +64,65 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="35dp"
         android:layout_marginLeft="15dp"
         android:background="@mipmap/map_icon_locate" />
+
+    <LinearLayout
+        android:layout_width="130dp"
+        android:layout_height="36dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="35dp"
+        android:background="#ffffff"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/ll_money"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/rent_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="租金"
+                android:textColor="#ffa73b"
+                android:textSize="16sp" />
+
+            <View
+                android:id="@+id/money_line"
+                android:layout_width="18dp"
+                android:layout_height="2dp"
+                android:background="#ffa73b" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_area"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="面积"
+                android:textColor="#666666"
+                android:textSize="16sp" />
+
+            <View
+                android:visibility="invisible"
+                android:id="@+id/area_line"
+                android:layout_width="18dp"
+                android:layout_height="2dp"
+                android:background="#ffa73b" />
+        </LinearLayout>
+
+
+    </LinearLayout>
 </FrameLayout>

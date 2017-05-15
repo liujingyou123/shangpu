@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.finance.winport.MainActivity;
 import com.finance.winport.R;
+import com.finance.winport.util.LoadingDialogUtil;
 
 import java.util.List;
 
@@ -86,7 +87,7 @@ public class BaseActivity extends AppCompatActivity{
         super.onResume();
 //        MobclickAgent.onPageStart(getClass().getSimpleName());
 //        MobclickAgent.onResume(this);
-//        LoadingDialogUtil.getInstance().init(this);
+        LoadingDialogUtil.getInstance().init(this);
     }
 
     public void onPause() {

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
+import com.finance.winport.mine.adapter.NoticeListAdapter;
 import com.finance.winport.mine.adapter.ScheduleListAdapter;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 
@@ -19,7 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class MyScheduleListActivity extends BaseActivity {
+public class NoticeListActivity extends BaseActivity {
 
     @BindView(R.id.imv_focus_house_back)
     ImageView imvFocusHouseBack;
@@ -31,28 +32,23 @@ public class MyScheduleListActivity extends BaseActivity {
     ListView mListView;
     @BindView(R.id.refresh_view)
     PtrClassicFrameLayout refreshView;
-    @BindView(R.id.empty_tips)
-    ImageView emptyTips;
-    @BindView(R.id.empty)
-    RelativeLayout empty;
     @BindView(R.id.rl_title_root)
     RelativeLayout rlTitleRoot;
-    private ScheduleListAdapter adapter;
+    private NoticeListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule_list);
+        setContentView(R.layout.activity_notice_list);
         ButterKnife.bind(this);
         setAdapter();
     }
 
 
     private void setAdapter() {
-        tvFocusHouse.setText("我的日程");
-        tvFocusRight.setText("历史");
+        tvFocusHouse.setText("服务");
         if (adapter == null) {
-            adapter = new ScheduleListAdapter(MyScheduleListActivity.this);
+            adapter = new NoticeListAdapter(NoticeListActivity.this);
             mListView.setAdapter(adapter);
 //            totalPage = (int) Math.ceil(adapter.getTotalCount() / (float) LIMIT);
         } else {
@@ -64,23 +60,21 @@ public class MyScheduleListActivity extends BaseActivity {
 
             adapter.notifyDataSetChanged();
         }
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(MyScheduleListActivity.this,ScheduleDetailActivity.class));
-            }
-        });
+//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                startActivity(new Intent(NoticeListActivity.this,ScheduleDetailActivity.class));
+//            }
+//        });
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.tv_focus_right})
+    @OnClick({R.id.imv_focus_house_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
                 finish();
                 break;
-            case R.id.tv_focus_right:
-                startActivity(new Intent(MyScheduleListActivity.this,HistoryScheduleListActivity.class));
-                break;
+
         }
     }
 

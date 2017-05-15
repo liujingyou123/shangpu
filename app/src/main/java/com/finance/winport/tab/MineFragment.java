@@ -21,6 +21,7 @@ import com.finance.winport.R;
 import com.finance.winport.account.LoginActivity;
 import com.finance.winport.aliyunoss.AliOss;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.mine.MyNoticeActivity;
 import com.finance.winport.image.Batman;
 import com.finance.winport.image.BatmanCallBack;
 import com.finance.winport.mine.MyScheduleListActivity;
@@ -63,7 +64,7 @@ public class MineFragment extends BaseFragment {
     private int type;//image type
     private List<String> mSelected;
     @BindView(R.id.tv_focus_right)
-    TextView tvFocusRight;
+    ImageView tvFocusRight;
     @BindView(R.id.tv_focus_house)
     TextView tvFocusHouse;
     @BindView(R.id.shop_img)
@@ -105,7 +106,7 @@ public class MineFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_focus_right:
-
+                startActivity(new Intent(getActivity(), MyNoticeActivity.class));
                 break;
             case R.id.modify:
                 startActivity(new Intent(getActivity(), ShopFocusActivity.class));
