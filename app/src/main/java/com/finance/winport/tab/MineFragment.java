@@ -86,13 +86,13 @@ public class MineFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.mine_fragment, container, false);
         unbinder = ButterKnife.bind(this, root);
-        initView();
+//        initView();
         return root;
     }
 
-    private void initView() {
-        ivFocusRight.setActivated(true);
-    }
+//    private void initView() {
+//        ivFocusRight.setActivated(true);
+//    }
 
 
     @Override
@@ -162,7 +162,7 @@ public class MineFragment extends BaseFragment {
                 startActivity(scan);
                 break;
             case R.id.fierce_prediction:
-                startActivity(new Intent(context,FiercePredictionActivity.class));
+                startActivity(new Intent(context, FiercePredictionActivity.class));
                 break;
         }
     }

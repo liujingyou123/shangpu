@@ -1,5 +1,6 @@
 package com.finance.winport.view.BannerView;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v4.view.PagerAdapter;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -24,6 +26,7 @@ import com.finance.winport.R;
 import com.finance.winport.service.FindMoneyView;
 import com.finance.winport.service.OrderView;
 import com.finance.winport.service.RentView;
+import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.BannerView.listener.OnBannerClickListener;
 import com.finance.winport.view.BannerView.listener.OnBannerListener;
 import com.finance.winport.view.BannerView.loader.ImageLoaderInterface;
@@ -73,6 +76,9 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
     private OnBannerClickListener bannerListener;
     private OnBannerListener listener;
     private DisplayMetrics dm;
+    private ImageView img;
+
+    private boolean flag = false;
 
     private ArrayList<View> viewList;
 
@@ -103,6 +109,7 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
         handleTypedArray(context, attrs);
         View view = LayoutInflater.from(context).inflate(mLayoutResId, this, true);
         viewPager = (BannerViewPager) view.findViewById(R.id.bannerViewPager);
+        img = (ImageView) view.findViewById(R.id.rect_img);
         titleView = (LinearLayout) view.findViewById(R.id.titleView);
         indicator = (LinearLayout) view.findViewById(R.id.circleIndicator);
         indicatorInside = (LinearLayout) view.findViewById(R.id.indicatorInside);
@@ -461,7 +468,12 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
                 if (currentItem == 1) {
                     viewPager.setCurrentItem(currentItem, false);
                     handler.post(task);
-                } else {
+                }
+
+                else if (currentItem == 4) {
+                    viewPager.setCurrentItem(1,false);
+                    handler.postDelayed(task, delayTime);
+                }else {
                     viewPager.setCurrentItem(currentItem);
                     handler.postDelayed(task, delayTime);
                 }
@@ -568,14 +580,16 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
             case 0://No operation
                 if (currentItem == 0) {
                     viewPager.setCurrentItem(count, false);
-                } else if (currentItem == count + 1) {
-                    viewPager.setCurrentItem(1, false);
                 }
+//                else if (currentItem == count + 1) {
+//                    viewPager.setCurrentItem(1, false);
+//                }
                 break;
             case 1://start Sliding
                 if (currentItem == count + 1) {
                     viewPager.setCurrentItem(1, false);
-                } else if (currentItem == 0) {
+                }
+                else if (currentItem == 0) {
                     viewPager.setCurrentItem(count, false);
                 }
                 break;
@@ -598,6 +612,7 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
         if (mOnPageChangeListener != null) {
             mOnPageChangeListener.onPageSelected(position);
         }
+
 
         if(position != 2){
             ((OrderView)viewList.get(2)).setView();
@@ -622,6 +637,27 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
 //            if(i == viewPager.getCurrentItem()){
 
 
+        if(position==2){
+            ObjectAnimator animator = new ObjectAnimator().ofFloat(img, "translationX", 0f, UnitUtil.dip2px(context,120));
+            animator.setDuration(700);
+            animator.setInterpolator(new LinearInterpolator());
+            Log.i("banner start","OrderView startt 9999999999999");
+            animator.start();
+        }
+        if(position==3){
+            ObjectAnimator animator = new ObjectAnimator().ofFloat(img, "translationX", UnitUtil.dip2px(context,120), UnitUtil.dip2px(context,240));
+            animator.setDuration(700);
+            animator.setInterpolator(new LinearInterpolator());
+            Log.i("banner start","OrderView startt 9999999999999");
+            animator.start();
+        }
+        if(position==1&&flag){
+            ObjectAnimator animator = new ObjectAnimator().ofFloat(img, "translationX", UnitUtil.dip2px(context,240), 0f);
+            animator.setDuration(700);
+            animator.setInterpolator(new LinearInterpolator());
+            Log.i("banner start","OrderView startt 9999999999999");
+            animator.start();
+        }
         if(position!=4){
 
             if(viewList.get(viewPager.getCurrentItem()) instanceof RentView)
@@ -662,6 +698,7 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
                 bannerTitle.setText(titles.get(position - 1));
                 break;
         }
+        flag = true;
 
     }
 

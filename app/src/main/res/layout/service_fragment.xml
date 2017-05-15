@@ -91,46 +91,77 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/cal"
+            android:id="@+id/old_user"
             android:layout_width="match_parent"
-            android:layout_height="110dp"
-            android:layout_marginTop="10dp"
-            android:background="#ffffff"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="55dp">
+            <LinearLayout
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="18dp"
-                    android:drawableLeft="@mipmap/calendar"
-                    android:drawablePadding="10dp"
-                    android:gravity="center"
-                    android:text="我的日程"
-                    android:textColor="#333333"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp"
-                    android:drawablePadding="10dp"
-                    android:drawableRight="@mipmap/arrow"
-                    android:text="老板，未来您有5个安排" />
-            </RelativeLayout>
-            <View
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="#e5e5e5"
-                android:layout_marginLeft="15dp"/>
-            <!--<noman.weekcalendar.WeekCalendar-->
+                android:layout_height="110dp"
+                android:layout_marginTop="10dp"
+                android:background="#ffffff"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="18dp"
+                        android:drawableLeft="@mipmap/calendar"
+                        android:drawablePadding="10dp"
+                        android:gravity="center"
+                        android:text="我的日程"
+                        android:textColor="#333333"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="15dp"
+                        android:drawablePadding="10dp"
+                        android:drawableRight="@mipmap/arrow"
+                        android:text="老板，未来您有5个安排" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="#e5e5e5" />
+
+                <LinearLayout
+                    android:id="@+id/cal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="15dp"
+                        android:text="3月"
+                        android:textColor="#151515"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="23dp"
+                        android:background="#e5e5e5" />
+
+                </LinearLayout>
+                <!--<noman.weekcalendar.WeekCalendar-->
                 <!--android:id="@+id/weekCalendar"-->
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="55dp"-->
@@ -144,204 +175,212 @@
                 <!--app:hideNames="true"-->
                 <!--app:selectedBgColor="#969696"-->
                 <!--/>-->
-        </LinearLayout>
+            </LinearLayout>
 
-        <ListView
-            android:id="@+id/mListView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:choiceMode="singleChoice"
-            android:divider="@null"
-            android:fadingEdge="none"
-            android:scrollbarStyle="outsideOverlay" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="165dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:background="#ffffff"
-            android:orientation="vertical">
-
-            <RelativeLayout
+            <!--<ListView-->
+            <!--android:id="@+id/mListView"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@android:color/white"-->
+            <!--android:choiceMode="singleChoice"-->
+            <!--android:divider="@null"-->
+            <!--android:fadingEdge="none"-->
+            <!--android:scrollbarStyle="outsideOverlay" />-->
+            <ListView
+                android:id="@+id/mListView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:divider="@null"
+                android:fadingEdge="none"
+                android:scrollbars="none" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="165dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#ffffff"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <View
+                        android:layout_width="90dp"
+                        android:layout_height="0.5dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
+                        android:background="#e5e5e5" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="15dp"
+                        android:text="最近发布的旺铺"
+                        android:textColor="#333333"
+                        android:textSize="15sp" />
+
+                    <View
+                        android:layout_width="90dp"
+                        android:layout_height="0.5dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="15dp"
+                        android:background="#e5e5e5" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/shop_img"
+                        android:layout_width="80dp"
+                        android:layout_height="60dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="15dp"
+                        android:background="#7edefd" />
+
+                    <TextView
+                        android:id="@+id/address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_toRightOf="@+id/shop_img"
+                        android:text="万安路104号"
+                        android:textColor="#333333"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/shop_img"
+                        android:layout_marginLeft="15dp"
+                        android:layout_toRightOf="@+id/shop_img"
+                        android:text="一周内156位老板浏览了此商铺"
+                        android:textColor="#999999"
+                        android:textSize="14sp" />
+                </RelativeLayout>
 
                 <View
-                    android:layout_width="90dp"
+                    android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
                     android:background="#e5e5e5" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginTop="15dp"
-                    android:text="最近发布的旺铺"
-                    android:textColor="#333333"
-                    android:textSize="15sp" />
-
-                <View
-                    android:layout_width="90dp"
-                    android:layout_height="0.5dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp"
-                    android:background="#e5e5e5" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/shop_img"
-                    android:layout_width="80dp"
-                    android:layout_height="60dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="15dp"
-                    android:background="#7edefd" />
-
-                <TextView
-                    android:id="@+id/address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_toRightOf="@+id/shop_img"
-                    android:text="万安路104号"
-                    android:textColor="#333333"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_alignBottom="@+id/shop_img"
-                    android:layout_toRightOf="@+id/shop_img"
-                    android:text="一周内156位老板浏览了此商铺"
-                    android:textColor="#999999"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="更多"
+                    android:textColor="#666666"
                     android:textSize="14sp" />
-            </RelativeLayout>
+            </LinearLayout>
 
-            <View
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="15dp"
-                android:background="#e5e5e5" />
+                android:layout_height="149dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#ffffff"
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="更多"
-                android:textColor="#666666"
-                android:textSize="14sp" />
-        </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="149dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:background="#ffffff"
-            android:layout_marginBottom="10dp"
-            android:orientation="vertical">
+                    <View
+                        android:layout_width="90dp"
+                        android:layout_height="0.5dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
+                        android:background="#e5e5e5" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="15dp"
+                        android:text="最近申请的贷款"
+                        android:textColor="#333333"
+                        android:textSize="15sp" />
+
+                    <View
+                        android:layout_width="90dp"
+                        android:layout_height="0.5dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="15dp"
+                        android:background="#e5e5e5" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        android:id="@+id/time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="15dp"
+                        android:text="2017/03/16 14:00"
+                        android:textColor="#333333"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@+id/time"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="13dp"
+                        android:text="30万元 12个月"
+                        android:textColor="#999999"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginRight="15dp"
+                        android:text="已申请"
+                        android:textColor="#999999"
+                        android:textSize="13sp" />
+                </RelativeLayout>
 
                 <View
-                    android:layout_width="90dp"
+                    android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:background="#e5e5e5" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
                     android:layout_marginTop="15dp"
-                    android:text="最近申请的贷款"
-                    android:textColor="#333333"
-                    android:textSize="15sp" />
-
-                <View
-                    android:layout_width="90dp"
-                    android:layout_height="0.5dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp"
                     android:background="#e5e5e5" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
 
                 <TextView
-                    android:id="@+id/time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginLeft="15dp"
-                    android:layout_alignParentLeft="true"
-                    android:text="2017/03/16 14:00"
-                    android:textColor="#333333"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/time"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="13dp"
-                    android:layout_alignParentLeft="true"
-                    android:text="30万元 12个月"
-                    android:textColor="#999999"
+                    android:id="@+id/loan_more"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="更多"
+                    android:textColor="#666666"
                     android:textSize="14sp" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="已申请"
-                    android:textColor="#999999"
-                    android:textSize="13sp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="15dp"/>
-            </RelativeLayout>
+            </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="15dp"
-                android:background="#e5e5e5" />
-
-            <TextView
-                android:id="@+id/loan_more"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="更多"
-                android:textColor="#666666"
-                android:textSize="14sp" />
         </LinearLayout>
-
     </LinearLayout>
 </ScrollView>
