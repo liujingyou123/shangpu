@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
@@ -19,9 +20,9 @@ import butterknife.ButterKnife;
  * Created by xzw on 2017/5/12.
  */
 
-public class WinportAdapter extends PullBaseAdapter<WinportModel> {
+public class ScanWinportAdapter extends PullBaseAdapter<WinportModel> {
 
-    public WinportAdapter(PtrClassicFrameLayout baseView, List<WinportModel> baseData, int maxTotal) {
+    public ScanWinportAdapter(PtrClassicFrameLayout baseView, List<WinportModel> baseData, int maxTotal) {
         super(baseView, baseData, maxTotal);
     }
 
@@ -34,35 +35,42 @@ public class WinportAdapter extends PullBaseAdapter<WinportModel> {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.list_winport_release_item, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.list_winport_scan_item, null);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
-        }else {
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
         //
         return convertView;
     }
 
+
     static class ViewHolder {
         @BindView(R.id.img)
         ImageView img;
+        @BindView(R.id.mark)
+        ImageView mark;
+        @BindView(R.id.scan)
+        TextView scan;
+        @BindView(R.id.call)
+        TextView call;
         @BindView(R.id.address)
         TextView address;
-        @BindView(R.id.history_count)
-        TextView historyCount;
-        @BindView(R.id.scan_count)
-        TextView scanCount;
+        @BindView(R.id.district)
+        TextView district;
+        @BindView(R.id.price)
+        TextView price;
+        @BindView(R.id.distance)
+        TextView distance;
+        @BindView(R.id.fee)
+        TextView fee;
         @BindView(R.id.release_time)
         TextView releaseTime;
         @BindView(R.id.area)
         TextView area;
-        @BindView(R.id.contact)
-        TextView contact;
-        @BindView(R.id.drop_off)
-        TextView dropOff;
-        @BindView(R.id.release)
-        TextView release;
+        @BindView(R.id.tag)
+        LinearLayout tag;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

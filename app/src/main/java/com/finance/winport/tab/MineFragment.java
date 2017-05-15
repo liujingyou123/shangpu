@@ -52,6 +52,14 @@ import static android.app.Activity.RESULT_OK;
 
 public class MineFragment extends BaseFragment {
     private static final int REQUEST_CODE_HEAD = 10;
+    @BindView(R.id.mine_winport)
+    StopWatchTextView mineWinport;
+    @BindView(R.id.mine_appoint)
+    StopWatchTextView mineAppoint;
+    @BindView(R.id.mine_collection)
+    StopWatchTextView mineCollection;
+    @BindView(R.id.mine_scan)
+    StopWatchTextView mineScan;
     private int type;//image type
     private List<String> mSelected;
     @BindView(R.id.tv_focus_right)
@@ -62,9 +70,6 @@ public class MineFragment extends BaseFragment {
     ImageView shopImg;
     @BindView(R.id.modify)
     TextView modify;
-    @BindView(R.id.mine_winport)
-    StopWatchTextView mineWinport;
-    Unbinder unbinder;
     @BindView(R.id.schedule_list)
     RelativeLayout scheduleList;
     @BindView(R.id.setting)
@@ -73,7 +78,7 @@ public class MineFragment extends BaseFragment {
     TextView phone;
     @BindView(R.id.concern)
     TextView concern;
-
+    Unbinder unbinder;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -94,7 +99,9 @@ public class MineFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.tv_focus_right, R.id.modify, R.id.schedule_list, R.id.setting, R.id.phone, R.id.concern, R.id.shop_img, R.id.mine_winport})
+    @OnClick({R.id.tv_focus_right, R.id.modify, R.id.schedule_list, R.id.setting, R.id.phone
+            , R.id.concern, R.id.shop_img, R.id.ll_mine_winport, R.id.ll_mine_collection
+            , R.id.ll_mine_appoint, R.id.ll_mine_scan})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_focus_right:
@@ -128,8 +135,29 @@ public class MineFragment extends BaseFragment {
                     toLogin();
                 }
                 break;
-            case R.id.mine_winport:
-                startActivity(new Intent(context, WinportActivity.class));
+            case R.id.ll_mine_winport:
+                Intent release = new Intent(context, WinportActivity.class);
+                release.putExtra("type", 1);
+                release.putExtra("title", "我发布的旺铺");
+                startActivity(release);
+                break;
+            case R.id.ll_mine_appoint:
+                Intent appoint = new Intent(context, WinportActivity.class);
+                appoint.putExtra("type", 2);
+                appoint.putExtra("title", "我的约看");
+                startActivity(appoint);
+                break;
+            case R.id.ll_mine_collection:
+                Intent collection = new Intent(context, WinportActivity.class);
+                collection.putExtra("type", 3);
+                collection.putExtra("title", "我的收藏");
+                startActivity(collection);
+                break;
+            case R.id.ll_mine_scan:
+                Intent scan = new Intent(context, WinportActivity.class);
+                scan.putExtra("type", 4);
+                scan.putExtra("title", "最近浏览");
+                startActivity(scan);
                 break;
         }
     }
