@@ -15,7 +15,7 @@ import okhttp3.Response;
 public class TokenInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
-        String tokenKey = getTokeyKey();
+        String tokenKey = getTokenKey();
         Request original = chain.request();
         if (TextUtils.isEmpty(tokenKey)) {
             return chain.proceed(original);
@@ -26,7 +26,7 @@ public class TokenInterceptor implements Interceptor {
         return chain.proceed(newRequest);
     }
 
-    private String getTokeyKey() {
+    private String getTokenKey() {
         String ret = "B589650D58D553EDE28D1F5E14E8CC33";
         return ret;
     }
