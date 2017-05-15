@@ -73,7 +73,7 @@ public class WeekPager extends ViewPager {
     }
 
     private void initialize() {
-            NUM_OF_PAGES = 3000;
+            NUM_OF_PAGES = 8;
         setId(idCheck());
         if (!isInEditMode()) {
             initPager(new DateTime());
@@ -83,7 +83,7 @@ public class WeekPager extends ViewPager {
     }
 
     private void initPager(DateTime dateTime) {
-        pos = NUM_OF_PAGES / 2;
+        pos = 0;
         adapter = new PagerAdapter(fm, dateTime);
 //        adapter = new PagerAdapter(((AppCompatActivity) context).getSupportFragmentManager(), dateTime);
         adapter.setTagDate(nowDays);

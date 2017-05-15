@@ -7,4 +7,6 @@
     <string name="l_album_name_camera">相机</string>
     <string name="l_album_name_download">下载</string>
     <string name="l_album_name_screen_shot">屏幕截图</string>
+
+    <string name="list_winport_tip">一周内共 <font color="#ff0000">%1$s</font>人看了您的旺铺，超过了 <font color="#ff0000">%2$s</font> 的老板</string>
 </resources>

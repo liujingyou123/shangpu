@@ -1,7 +1,9 @@
 package com.finance.winport.service.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.map.AddrSelectActivity;
 import com.finance.winport.view.CountDownButton;
 import com.finance.winport.view.HeaderTextView;
 import com.finance.winport.view.dialog.DateSelectDialog;
@@ -62,7 +65,8 @@ public class SendShopRentFragment extends BaseFragment {
     LinearLayout llImgCode;
     @BindView(R.id.order_time)
     HeaderTextView orderTime;
-
+    @BindView(R.id.map_address)
+    HeaderTextView mapAddress;
 
 
     @Nullable
@@ -79,7 +83,7 @@ public class SendShopRentFragment extends BaseFragment {
         super.onDestroyView();
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.order_time})
+    @OnClick({R.id.imv_focus_house_back, R.id.order_time, R.id.map_address})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -94,6 +98,9 @@ public class SendShopRentFragment extends BaseFragment {
                 });
                 dialog.show();
                 break;
+            case R.id.map_address:
+                startActivityForResult(new Intent(getActivity(), AddrSelectActivity.class),AddrSelectActivity.ACTIVITY_REQUEST_CODE_ADDR_SELECT);
+                break;
         }
     }
 
@@ -101,5 +108,16 @@ public class SendShopRentFragment extends BaseFragment {
 //    public void onViewClicked() {
 //        handleBack();
 //    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null && requestCode == AddrSelectActivity.ACTIVITY_REQUEST_CODE_ADDR_SELECT) {
+            String addrStr = data.getStringExtra("addr");
+            if (!TextUtils.isEmpty(addrStr)) {
+                mapAddress.setText(addrStr);
+            }
+        }
+    }
 
 }

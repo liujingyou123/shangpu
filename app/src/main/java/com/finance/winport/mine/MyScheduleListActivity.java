@@ -3,6 +3,7 @@ package com.finance.winport.mine;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -62,6 +63,12 @@ public class MyScheduleListActivity extends BaseActivity {
 //            }
             adapter.notifyDataSetChanged();
         }
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startActivity(new Intent(MyScheduleListActivity.this,ScheduleDetailActivity.class));
+            }
+        });
     }
 
     @OnClick({R.id.imv_focus_house_back, R.id.tv_focus_right})

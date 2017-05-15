@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="68dp"
+    android:id="@+id/fl_root"
+    >
+
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="11dp"
+        android:layout_marginTop="13dp"
+        android:background="@mipmap/map_icon_location"
+        />
+    <TextView
+        android:id="@+id/addr_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="财大科技园"
+        android:textSize="15sp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="38dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/transparent"
+        android:singleLine="true"
+        />
+
+    <TextView
+        android:id="@+id/addr_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="吴东路198号"
+        android:textSize="13sp"
+        android:layout_marginLeft="38dp"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="bottom"
+        android:background="@color/transparent"
+        android:layout_marginBottom="15dp"
+        android:textColor="#969696"
+        android:singleLine="true"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="15dp"
+        android:background="#e5e5e5"
+        />
+
+</FrameLayout>
