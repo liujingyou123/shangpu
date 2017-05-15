@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/tv_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="14dp"
+        android:textColor="#FFA73B"
+        android:textSize="10sp"
+        android:gravity="center"
+        android:background="@drawable/bg_tag"
+        android:text="标签"/>
+
+</LinearLayout>
