@@ -85,7 +85,7 @@ public class MineFragment extends BaseFragment {
     }
 
     private void initView() {
-        tvFocusRight.setCompoundDrawablesWithIntrinsicBounds(R.drawable.mine_notice_selector, 0, 0, 0);
+//        tvFocusRight.setCompoundDrawablesWithIntrinsicBounds(R.drawable.mine_notice_selector, 0, 0, 0);
     }
 
 
