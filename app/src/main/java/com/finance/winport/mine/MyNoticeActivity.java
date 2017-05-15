@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
+import com.finance.winport.mine.adapter.NoticeCollectionAdapter;
 import com.finance.winport.mine.adapter.ScheduleListAdapter;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 
@@ -19,7 +20,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class MyScheduleListActivity extends BaseActivity {
+public class MyNoticeActivity extends BaseActivity {
+
 
     @BindView(R.id.imv_focus_house_back)
     ImageView imvFocusHouseBack;
@@ -27,33 +29,33 @@ public class MyScheduleListActivity extends BaseActivity {
     TextView tvFocusRight;
     @BindView(R.id.tv_focus_house)
     TextView tvFocusHouse;
-    @BindView(R.id.mListView)
-    ListView mListView;
-    @BindView(R.id.refresh_view)
-    PtrClassicFrameLayout refreshView;
-    @BindView(R.id.empty_tips)
-    ImageView emptyTips;
-    @BindView(R.id.empty)
-    RelativeLayout empty;
     @BindView(R.id.rl_title_root)
     RelativeLayout rlTitleRoot;
-    private ScheduleListAdapter adapter;
+    @BindView(R.id.ls_circles)
+    ListView lsCircles;
+    @BindView(R.id.refresh_view)
+    PtrClassicFrameLayout refreshView;
+    @BindView(R.id.empty_img)
+    ImageView emptyImg;
+    @BindView(R.id.empty)
+    RelativeLayout empty;
+    private NoticeCollectionAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule_list);
+        setContentView(R.layout.activity_notice_collection);
         ButterKnife.bind(this);
         setAdapter();
     }
 
 
     private void setAdapter() {
-        tvFocusHouse.setText("我的日程");
-        tvFocusRight.setText("历史");
+        tvFocusHouse.setText("通知");
+//        tvFocusRight.setText("历史");
         if (adapter == null) {
-            adapter = new ScheduleListAdapter(MyScheduleListActivity.this);
-            mListView.setAdapter(adapter);
+            adapter = new NoticeCollectionAdapter(MyNoticeActivity.this);
+            lsCircles.setAdapter(adapter);
 //            totalPage = (int) Math.ceil(adapter.getTotalCount() / (float) LIMIT);
         } else {
 //            if (pageNumber == 1) {
@@ -64,10 +66,10 @@ public class MyScheduleListActivity extends BaseActivity {
 
             adapter.notifyDataSetChanged();
         }
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lsCircles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(MyScheduleListActivity.this,ScheduleDetailActivity.class));
+                startActivity(new Intent(MyNoticeActivity.this, NoticeListActivity.class));
             }
         });
     }
@@ -79,7 +81,7 @@ public class MyScheduleListActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_focus_right:
-                startActivity(new Intent(MyScheduleListActivity.this,HistoryScheduleListActivity.class));
+                startActivity(new Intent(MyNoticeActivity.this, HistoryScheduleListActivity.class));
                 break;
         }
     }

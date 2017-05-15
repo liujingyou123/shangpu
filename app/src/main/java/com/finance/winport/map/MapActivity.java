@@ -1,11 +1,15 @@
 package com.finance.winport.map;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
@@ -18,6 +22,7 @@ import com.baidu.mapapi.model.LatLng;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.dialog.LoadingDialog;
+import com.finance.winport.dialog.SelectionDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,17 +33,35 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 
     public static final int TYPE_RANGE = 0;
     public static final int TYPE_ITEM_SHOP = 1;
-//    public static final int TYPE_ITEM_INFO = 2;
+    //    public static final int TYPE_ITEM_INFO = 2;
     public static final int TYPE_ITEM_SELECTED = 3;
 
     @BindView(R.id.mapView)
     TextureMapView mMapView;
     @BindView(R.id.btn_locate)
     ImageButton btnLocate;
+    @BindView(R.id.back)
+    ImageView back;
+    @BindView(R.id.map_filter)
+    ImageView mapFilter;
+    @BindView(R.id.rent_money)
+    TextView rentMoney;
+    @BindView(R.id.area)
+    TextView area;
+    @BindView(R.id.money_line)
+    View moneyLine;
+    @BindView(R.id.ll_money)
+    LinearLayout llMoney;
+    @BindView(R.id.area_line)
+    View areaLine;
+    @BindView(R.id.ll_area)
+    LinearLayout llArea;
 
     private BaiduMap mBaiduMap;
     private MyLocation myLocation;
     private LoadingDialog loadingDialog;
+    private SelectionDialog selectionDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +93,7 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 
             @Override
             public void onMapStatusChangeFinish(MapStatus mapStatus) {
-                Log.i("mapstatus","" + mapStatus.toString());
+                Log.i("mapstatus", "" + mapStatus.toString());
                 mBaiduMap.clear();
 
                 if (mapStatus.zoom <= 14) {
@@ -117,7 +140,6 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
     }
 
 
-
     @Override
     public void onPause() {
         super.onPause();
@@ -137,13 +159,31 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         mMapView.onDestroy();
     }
 
-    @OnClick({R.id.btn_locate})
+    @OnClick({R.id.btn_locate, R.id.back, R.id.map_filter, R.id.ll_money,R.id.ll_area})
     public void onViewClicked(View view) {
         switch (view.getId()) {
 
             case R.id.btn_locate:
                 loadingDialog.show();
                 myLocation.start(this);
+                break;
+            case R.id.back:
+                finish();
+                break;
+            case R.id.map_filter:
+                showShaiXuandialog();
+                break;
+            case R.id.ll_money:
+                rentMoney.setTextColor(Color.parseColor("#ffa73b"));
+                moneyLine.setVisibility(View.VISIBLE);
+                area.setTextColor(Color.parseColor("#666666"));
+                areaLine.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.ll_area:
+                area.setTextColor(Color.parseColor("#ffa73b"));
+                areaLine.setVisibility(View.VISIBLE);
+                rentMoney.setTextColor(Color.parseColor("#666666"));
+                moneyLine.setVisibility(View.INVISIBLE);
                 break;
 
         }
@@ -156,10 +196,10 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 //        }
 
         if (result) {
-            Log.e("定位","定位成功！！！");
+            Log.e("定位", "定位成功！！！");
             MapUtil.setMyLocation(mBaiduMap, location);
         } else {
-            Log.e("定位","定位失败！！！");
+            Log.e("定位", "定位失败！！！");
         }
 
         loadingDialog.dismiss();
@@ -193,7 +233,6 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
     }
 
 
-
     private void addRange(LatLng latLng, String msg) {
         View view = LayoutInflater.from(MapActivity.this).inflate(R.layout.map_range, null);
         TextView tv = (TextView) view.findViewById(R.id.tv_msg);
@@ -222,6 +261,23 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         }
 
         return view;
+    }
+
+    private void showShaiXuandialog() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (selectionDialog == null) {
+                    selectionDialog = new SelectionDialog(MapActivity.this);
+                    selectionDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                        }
+                    });
+                }
+                selectionDialog.show();
+            }
+        }, 300);
     }
 
 }

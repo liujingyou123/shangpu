@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.mine.MyNoticeActivity;
 import com.finance.winport.mine.MyScheduleListActivity;
 import com.finance.winport.mine.SettingsActivity;
 import com.finance.winport.mine.ShopFocusActivity;
@@ -32,7 +33,7 @@ public class MineFragment extends BaseFragment {
 
 
     @BindView(R.id.tv_focus_right)
-    TextView tvFocusRight;
+    ImageView tvFocusRight;
     @BindView(R.id.tv_focus_house)
     TextView tvFocusHouse;
     @BindView(R.id.shop_img)
@@ -68,6 +69,7 @@ public class MineFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_focus_right:
+                startActivity(new Intent(getActivity(), MyNoticeActivity.class));
                 break;
             case R.id.modify:
                 startActivity(new Intent(getActivity(), ShopFocusActivity.class));
