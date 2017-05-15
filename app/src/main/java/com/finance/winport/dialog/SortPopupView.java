@@ -3,7 +3,9 @@ package com.finance.winport.dialog;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -62,7 +64,6 @@ public class SortPopupView extends AnimPopup {
             adapter = new SortAdapter(context, mData);
         }
         mListView.setAdapter(adapter);
-
     }
 
     @Override

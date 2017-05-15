@@ -54,7 +54,7 @@
                     android:src="@mipmap/send_rent_icon1" />
 
                 <TextView
-                    android:id="@+id/address"
+                    android:id="@+id/phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -66,9 +66,10 @@
                     android:textSize="15sp" />
 
                 <TextView
+                    android:id="@+id/concern"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/address"
+                    android:layout_below="@+id/phone"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_toRightOf="@+id/shop_img"
@@ -103,7 +104,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
                 <com.finance.winport.view.StopWatchTextView
-                    android:id="@+id/tv_today_shop"
+                    android:id="@+id/mine_winport"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="302"

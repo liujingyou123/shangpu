@@ -3,16 +3,21 @@
     xmlns:ptr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg"
     android:orientation="vertical">
 
     <include layout="@layout/title_fouce_house" />
-    <View
-        style="@style/view_line"/>
-    <com.finance.winport.view.home.SelectView
-        android:id="@+id/select_view"
+
+    <TextView
+        android:id="@+id/tip"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></com.finance.winport.view.home.SelectView>
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:background="@drawable/bg_top_bottom_divider"
+        android:text="@string/list_winport_tip"
+        android:textColor="#333333"
+        android:textSize="13sp" />
 
     <com.finance.winport.view.refreshview.PtrClassicFrameLayout
         android:id="@+id/refresh_view"
@@ -25,7 +30,7 @@
         ptr:ptr_resistance="1.7">
 
         <ListView
-            android:id="@+id/ls_shops"
+            android:id="@+id/mListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:choiceMode="singleChoice"
@@ -34,5 +39,4 @@
             android:fadingEdge="none"
             android:scrollbarStyle="outsideOverlay" />
     </com.finance.winport.view.refreshview.PtrClassicFrameLayout>
-
 </LinearLayout>

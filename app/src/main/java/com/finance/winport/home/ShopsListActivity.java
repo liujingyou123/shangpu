@@ -1,27 +1,26 @@
-package com.finance.winport.home.model;
+package com.finance.winport.home;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.finance.winport.MainActivity;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.dialog.QuyuPopupView;
 import com.finance.winport.dialog.SelectionDialog;
 import com.finance.winport.dialog.SortPopupView;
-import com.finance.winport.home.HomeFragment;
-import com.finance.winport.home.ShopDetailActivity;
 import com.finance.winport.home.adapter.ShopsAdapter;
-import com.finance.winport.util.LogUtil;
+import com.finance.winport.home.model.Shop;
 import com.finance.winport.view.home.SelectView;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
-import com.finance.winport.view.refreshview.PtrDefaultHandler;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
 
@@ -77,7 +76,6 @@ public class ShopsListActivity extends BaseActivity {
             });
         }
 
-//        refreshView.setLoadMoreEnable(true);
         refreshView.setPtrHandler(new PtrDefaultHandler2() {
             @Override
             public void onLoadMoreBegin(PtrFrameLayout frame) {
@@ -135,18 +133,43 @@ public class ShopsListActivity extends BaseActivity {
         finish();
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (sortPopupView != null && sortPopupView.isShowing()) {
+                sortPopupView.dismiss();
+                return true;
+            }
+
+            if (quyuPopupView != null && quyuPopupView.isShowing()) {
+                quyuPopupView.dismiss();
+                return true;
+
+            }
+
+            return super.onKeyDown(keyCode, event);
+        }
+        return super.onKeyDown(keyCode, event);
+
+    }
+
     private void showShowQuYuDialog() {
         if (quyuPopupView == null) {
             quyuPopupView = new QuyuPopupView(this);
             quyuPopupView.setOnDismissListener(new PopupWindow.OnDismissListener() {
                 @Override
                 public void onDismiss() {
-                    selectView.onNoneClick();
+                    selectView.onLocationUnClick();
                 }
             });
         }
-        quyuPopupView.showAsDropDown(selectView);
-        selectView.onLocationClick();
+        if (!quyuPopupView.isShowing()) {
+            if (sortPopupView != null && sortPopupView.isShowing()) {
+                sortPopupView.dismiss();
+            }
+            quyuPopupView.showAsDropDown(selectView);
+            selectView.onLocationClick();
+        }
     }
 
     private void showPaiXuDailog() {
@@ -155,12 +178,17 @@ public class ShopsListActivity extends BaseActivity {
             sortPopupView.setOnDismissListener(new PopupWindow.OnDismissListener() {
                 @Override
                 public void onDismiss() {
-                    selectView.onNoneClick();
+                    selectView.onSortUnClick();
                 }
             });
         }
-        sortPopupView.showAsDropDown(selectView);
-        selectView.onSortClick();
+        if (!sortPopupView.isShowing()) {
+            if (quyuPopupView != null && quyuPopupView.isShowing()) {
+                quyuPopupView.dismiss();
+            }
+            sortPopupView.showAsDropDown(selectView);
+            selectView.onSortClick();
+        }
     }
 
     private void showShaiXuandialog() {
@@ -169,11 +197,21 @@ public class ShopsListActivity extends BaseActivity {
             selectionDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    selectView.onNoneClick();
+                    selectView.onCsUnClick();
                 }
             });
         }
-        selectionDialog.show();
-        selectView.onCsClick();
+        if (!selectionDialog.isShowing()) {
+            if (sortPopupView != null && sortPopupView.isShowing()) {
+                sortPopupView.dismiss();
+            }
+            if (quyuPopupView != null && quyuPopupView.isShowing()) {
+                quyuPopupView.dismiss();
+            }
+            sortPopupView.dismiss();
+            quyuPopupView.dismiss();
+            selectionDialog.show();
+            selectView.onCsClick();
+        }
     }
 }
