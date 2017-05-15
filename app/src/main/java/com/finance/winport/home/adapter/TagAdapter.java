@@ -36,7 +36,7 @@ public class TagAdapter extends BaseAdapter {
         if (mData != null) {
             ret = mData.size();
         }
-        return ret;
+        return 3;
     }
 
     @Override
@@ -64,14 +64,14 @@ public class TagAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 //        viewHolder.tvTag.setTextColor();
-        viewHolder.tvTag.setBackgroundDrawable(getDrawable("#ffffff"));
+//        viewHolder.tvTag.setBackgroundDrawable(getDrawable("#ffffff"));
         return view;
     }
 
     private GradientDrawable getDrawable(String strokeColor) {
         GradientDrawable gradientDrawable = new GradientDrawable();
         gradientDrawable.setCornerRadius(UnitUtil.dip2px(mContext, 2));
-        gradientDrawable.setStroke(1, Color.parseColor("strokeColor"));
+        gradientDrawable.setStroke(1, Color.parseColor("#ffffff"));
         return gradientDrawable;
     }
 

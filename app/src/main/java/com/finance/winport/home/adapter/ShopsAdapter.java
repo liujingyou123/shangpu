@@ -8,11 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.home.model.Shop;
+import com.finance.winport.home.model.Tag;
+import com.finance.winport.view.tagview.TagCloudLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -60,13 +65,36 @@ public class ShopsAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.tvShopname.setText(i+"");
+        viewHolder.tvShopname.setText(i + "");
+
+        viewHolder.tgView.setAdapter(new TagAdapter(mContext, new ArrayList<Tag>(10)));
         return view;
     }
 
+
     static class ViewHolder {
+        @BindView(R.id.imv_cover)
+        ImageView imvCover;
+        @BindView(R.id.tv_area)
+        TextView tvArea;
         @BindView(R.id.tv_shopname)
         TextView tvShopname;
+        @BindView(R.id.tv_aver_money)
+        TextView tvAverMoney;
+        @BindView(R.id.tv_address)
+        TextView tvAddress;
+        @BindView(R.id.tv_distance)
+        TextView tvDistance;
+        @BindView(R.id.tv_change_money)
+        TextView tvChangeMoney;
+        @BindView(R.id.tv_update_time)
+        TextView tvUpdateTime;
+        @BindView(R.id.line_tv)
+        View lineTv;
+        @BindView(R.id.tg_view)
+        TagCloudLayout tgView;
+        @BindView(R.id.ll_tag)
+        LinearLayout llTag;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
