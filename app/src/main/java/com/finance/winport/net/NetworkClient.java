@@ -2,6 +2,8 @@ package com.finance.winport.net;
 
 import android.content.Context;
 
+import com.finance.winport.BuildConfig;
+
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
@@ -15,7 +17,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
  */
 public class NetworkClient {
     private static OkHttpClient okHttpClient;
-    private static boolean DEBUG = false;
 
     private NetworkClient() {
     }
@@ -23,15 +24,16 @@ public class NetworkClient {
     public static void init(Context ctx) {
         Context appCtx = ctx.getApplicationContext();
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.BASIC);
-
+        interceptor.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.BASIC);
+        TokenInterceptor tokenInterceptor = new TokenInterceptor();
         Cache cache = new Cache(new File(appCtx.getCacheDir(), "HttpCache"), 1024 * 1024 * 100);
 
         okHttpClient = new OkHttpClient.Builder()
                 .cache(cache)
                 .addInterceptor(interceptor)
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
+                .addInterceptor(tokenInterceptor)
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
                 .build();
     }
