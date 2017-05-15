@@ -1,5 +1,6 @@
 package com.finance.winport.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.account.LoginActivity;
 import com.finance.winport.base.BaseActivity;
 
 import butterknife.BindView;
@@ -53,6 +55,7 @@ public class SettingsActivity extends BaseActivity {
                 handleBack();
                 break;
             case R.id.login_out:
+                startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
                 break;
         }
     }
