@@ -84,9 +84,6 @@ public class MineFragment extends BaseFragment {
         return root;
     }
 
-//    private void initView() {
-//        tvFocusRight.setCom(R.drawable.mine_notice_selector, 0, 0, 0);
-//    }
 
 
     @Override

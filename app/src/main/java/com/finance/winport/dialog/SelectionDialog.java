@@ -5,12 +5,16 @@ import android.content.Context;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ScrollView;
 
 import com.finance.winport.R;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -20,6 +24,8 @@ import butterknife.OnClick;
  */
 public class SelectionDialog extends Dialog {
 
+    @BindView(R.id.sv)
+    ScrollView sv;
     private Context mContext;
 
     public SelectionDialog(Context context) {
@@ -42,6 +48,16 @@ public class SelectionDialog extends Dialog {
         window.setAttributes(lp);
         window.setWindowAnimations(R.style.dialogSelect);
 
+        sv.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
+        sv.setFocusable(true);
+        sv.setFocusableInTouchMode(true);
+        sv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.requestFocusFromTouch();
+                return false;
+            }
+        });
     }
 
     @OnClick({R.id.btn_reset, R.id.btn_done})

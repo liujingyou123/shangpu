@@ -273,8 +273,6 @@ public class HomeFragment extends BaseFragment {
                     if (quyuPopupView != null && quyuPopupView.isShowing()) {
                         quyuPopupView.dismiss();
                     }
-                    sortPopupView.dismiss();
-                    quyuPopupView.dismiss();
                     selectionDialog.show();
                     selectionView.onCsClick();
                 }
