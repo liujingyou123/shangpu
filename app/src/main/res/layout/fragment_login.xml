@@ -30,13 +30,15 @@
             android:inputType="number"
             android:textColorHint="#999999"
             android:textSize="14sp" />
-        <!--<View-->
-        <!--android:id="@+id/view_line"-->
-        <!--android:layout_below="@+id/phone_view"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0.5dp"-->
-        <!--android:layout_marginLeft="15dp"-->
-        <!--android:background="#dcdcdc"/>-->
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/phone_view"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="#e5e5e5" />
 
         <LinearLayout
             android:id="@+id/image_verify_code"
@@ -64,6 +66,15 @@
                 android:layout_height="34dp"
                 android:layout_marginRight="30dp" />
         </LinearLayout>
+
+        <View
+            android:id="@+id/view_line1"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/image_verify_code"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="#e5e5e5" />
 
         <LinearLayout
             android:id="@+id/ll_verify_code"
@@ -96,6 +107,14 @@
                 android:textColor="@color/color_count_down_btn_selector"
                 android:textSize="14sp" />
         </LinearLayout>
+        <View
+            android:id="@+id/view_line2"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/ll_verify_code"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="#e5e5e5" />
 
         <EditText
             android:id="@+id/invite_code"
@@ -109,6 +128,14 @@
             android:inputType="number"
             android:textColorHint="#999999"
             android:textSize="14sp" />
+        <View
+            android:id="@+id/view_line3"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/invite_code"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="#e5e5e5" />
 
         <Button
             android:id="@+id/login"

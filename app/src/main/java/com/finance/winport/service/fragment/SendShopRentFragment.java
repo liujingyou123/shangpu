@@ -3,6 +3,8 @@ package com.finance.winport.service.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.map.AddrSelectActivity;
+import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.view.CountDownButton;
 import com.finance.winport.view.HeaderTextView;
 import com.finance.winport.view.dialog.DateSelectDialog;
@@ -67,6 +70,14 @@ public class SendShopRentFragment extends BaseFragment {
     HeaderTextView orderTime;
     @BindView(R.id.map_address)
     HeaderTextView mapAddress;
+    @BindView(R.id.modify)
+    TextView modify;
+    @BindView(R.id.ll_phone)
+    LinearLayout llPhone;
+    @BindView(R.id.code_line)
+    View codeLine;
+    @BindView(R.id.img_line)
+    View imgLine;
 
 
     @Nullable
@@ -74,6 +85,7 @@ public class SendShopRentFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.send_shop_rent_fragment, container, false);
         ButterKnife.bind(this, root);
+        init();
         return root;
     }
 
@@ -83,7 +95,15 @@ public class SendShopRentFragment extends BaseFragment {
         super.onDestroyView();
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.order_time, R.id.map_address})
+    public void init()
+    {
+        phoneView.setFilters(new InputFilter[]{TextViewUtil.phoneFormat()});
+//        phoneView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
+        phoneView.setInputType(InputType.TYPE_CLASS_PHONE);
+        verifyCodeView.setInputType(InputType.TYPE_CLASS_NUMBER);
+        phoneView.setText("18878787998");
+    }
+    @OnClick({R.id.imv_focus_house_back, R.id.order_time, R.id.map_address, R.id.modify})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -99,7 +119,14 @@ public class SendShopRentFragment extends BaseFragment {
                 dialog.show();
                 break;
             case R.id.map_address:
-                startActivityForResult(new Intent(getActivity(), AddrSelectActivity.class),AddrSelectActivity.ACTIVITY_REQUEST_CODE_ADDR_SELECT);
+                startActivityForResult(new Intent(getActivity(), AddrSelectActivity.class), AddrSelectActivity.ACTIVITY_REQUEST_CODE_ADDR_SELECT);
+                break;
+            case R.id.modify:
+                llVerifyCode.setVisibility(View.VISIBLE);
+                llImgCode.setVisibility(View.VISIBLE);
+                codeLine.setVisibility(View.VISIBLE);
+                imgLine.setVisibility(View.VISIBLE);
+                modify.setVisibility(View.GONE);
                 break;
         }
     }

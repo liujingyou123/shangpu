@@ -27,6 +27,7 @@ import com.finance.winport.image.BatmanCallBack;
 import com.finance.winport.mine.MyScheduleListActivity;
 import com.finance.winport.mine.SettingsActivity;
 import com.finance.winport.mine.ShopFocusActivity;
+import com.finance.winport.mine.SuggestActivity;
 import com.finance.winport.permission.PermissionsManager;
 import com.finance.winport.permission.PermissionsResultAction;
 import com.finance.winport.view.StopWatchTextView;
@@ -103,7 +104,7 @@ public class MineFragment extends BaseFragment {
 
     @OnClick({R.id.tv_focus_right, R.id.modify, R.id.schedule_list, R.id.setting, R.id.phone
             , R.id.concern, R.id.shop_img, R.id.ll_mine_winport, R.id.ll_mine_collection
-            , R.id.ll_mine_appoint, R.id.ll_mine_scan, R.id.fierce_prediction})
+            , R.id.ll_mine_appoint, R.id.ll_mine_scan, R.id.fierce_prediction,R.id.suggest})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_focus_right:
@@ -163,6 +164,9 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.fierce_prediction:
                 startActivity(new Intent(context, FiercePredictionActivity.class));
+                break;
+            case R.id.suggest:
+                startActivity(new Intent(context, SuggestActivity.class));
                 break;
         }
     }

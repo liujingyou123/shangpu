@@ -234,6 +234,11 @@
             android:name=".mine.NoticeListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <!-- 反馈页面 -->
+        <activity
+            android:name=".mine.SuggestActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <service
             android:name="com.baidu.location.f"

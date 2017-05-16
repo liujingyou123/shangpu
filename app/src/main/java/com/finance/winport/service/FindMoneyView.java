@@ -69,7 +69,32 @@ public class FindMoneyView extends FrameLayout {
                 animator1.start();
 
             }
-        },100);
+        },700);
+    }
+
+    public void start1(){
+
+        Log.i("banner start","OrderView startt 8888888888888");
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                view1.setVisibility(View.VISIBLE);
+                view2.setVisibility(View.VISIBLE);
+
+
+                ObjectAnimator animator = new ObjectAnimator().ofFloat(view1, "translationX", 1500f,  0f);
+                animator.setDuration(700);
+                animator.setInterpolator(new LinearInterpolator());
+                Log.i("banner start","OrderView startt 9999999999999");
+                animator.start();
+
+                ObjectAnimator animator1 = new ObjectAnimator().ofFloat(view2, "translationX", 1700f,  1f);
+                animator1.setDuration(900);
+                animator1.setInterpolator(new LinearInterpolator());
+                animator1.start();
+
+            }
+        });
     }
 
     public void setView(){
