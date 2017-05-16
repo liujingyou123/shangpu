@@ -24,6 +24,11 @@ public class WinPortApplication extends Application {
         ShareSDK.initSDK(this);
         AliOss.getInstance().init(this);
         SDKInitializer.initialize(this);
+
+//        PlatformConfig.setWeixin("","");
+//        PlatformConfig.setQQZone("","");
+//        PlatformConfig.setSinaWeibo("","","");
+
     }
 
     public static WinPortApplication getInstance() {

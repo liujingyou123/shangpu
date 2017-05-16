@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.home.adapter.LocationAdapter;
-import com.finance.winport.util.LogUtil;
+import com.finance.winport.log.XLog;
 import com.finance.winport.util.UnitUtil;
 
 import java.util.ArrayList;
@@ -85,20 +85,17 @@ public class QuyuPopupView extends AnimPopup {
         int[] point = new int[2];
         anchor.getLocationOnScreen(point);
 
-        LogUtil.e("pointY = "+point[1]);
+        XLog.e("pointY = "+point[1]);
         this.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.transparent));
         setWidth(context.getResources().getDisplayMetrics().widthPixels);
         int height = UnitUtil.getScreenHeightPixels(context) - point[1] - anchor.getHeight();
-        LogUtil.e("height = "+height);
 
         setHeight(height);
         initAnim(UnitUtil.getScreenHeightPixels(context));
     }
 
     private void initAnim(int height) {
-
-        LogUtil.e("initAnim height = "+height);
-
+        XLog.e("initAnim height = "+height);
         AnimatorSet showSet = new AnimatorSet();
         AnimatorSet dismissSet = new AnimatorSet();
 
