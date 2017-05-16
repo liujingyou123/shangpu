@@ -12,5 +12,6 @@
         android:gravity="center_vertical"
         android:text="旺铺已出租"
         android:textColor="#333333"
+        android:paddingRight="15dp"
         android:textSize="14sp" />
 </LinearLayout>

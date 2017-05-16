@@ -12,12 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.tab.adapter.ScanWinportAdapter;
-import com.finance.winport.tab.adapter.WinportAdapter;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
@@ -37,6 +37,10 @@ public class ScanWinportFragment extends BaseFragment {
     private int totalPage;
     private int pageSize = LIMIT;
     private int pageNumber = START_PAGE;
+    @BindView(R.id.confirm)
+    TextView confirm;
+    @BindView(R.id.empty)
+    RelativeLayout empty;
     @BindView(R.id.imv_focus_house_back)
     ImageView imvFocusHouseBack;
     @BindView(R.id.tv_focus_house)
@@ -48,12 +52,14 @@ public class ScanWinportFragment extends BaseFragment {
     @BindView(R.id.refresh_view)
     PtrClassicFrameLayout refreshView;
     String title;
+    int type = -1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             title = getArguments().getString("title");
+            type = getArguments().getInt("type");
         }
     }
 
@@ -110,6 +116,27 @@ public class ScanWinportFragment extends BaseFragment {
 
     }
 
+    private void showEmptyView(boolean show) {
+        if (show) {
+            TextView tv = (TextView) empty.findViewById(R.id.tv_empty);
+            switch (type) {
+                case 1://约看
+                    tv.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.icon_empty_appoint, 0, 0);
+                    tv.setText("还木有约看过旺铺哟~");
+                    break;
+                case 2://收藏
+                    tv.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.icon_empty_collection, 0, 0);
+                    tv.setText("还没有收藏哦~~");
+                    break;
+                case 3://浏览
+                    tv.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.icon_empty_scan, 0, 0);
+                    tv.setText("还木有旺铺浏览记录哟~");
+                    break;
+            }
+        }
+        empty.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
     private void asyncData() {
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -119,10 +146,6 @@ public class ScanWinportFragment extends BaseFragment {
         }, 2 * 1000);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
 
     @OnClick(R.id.imv_focus_house_back)
     public void onViewClicked() {

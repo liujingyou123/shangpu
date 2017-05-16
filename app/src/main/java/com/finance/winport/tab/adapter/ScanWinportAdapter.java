@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.NinePatch;
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +49,13 @@ public class ScanWinportAdapter extends PullBaseAdapter<WinportModel> {
             holder = (ViewHolder) convertView.getTag();
         }
         //
+        convertView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                 showCancelCollectionAlert();
+                return true;
+            }
+        });
         return convertView;
     }
 
@@ -83,12 +91,12 @@ public class ScanWinportAdapter extends PullBaseAdapter<WinportModel> {
         }
     }
 
-    void showCancelAlert() {
+    void showCancelCollectionAlert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         SpannableString pButton = new SpannableString("确认");
         SpannableString nButton = new SpannableString("取消");
-        pButton.setSpan(new ForegroundColorSpan(Color.parseColor("FFA73B")), 0, pButton.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
-        nButton.setSpan(new ForegroundColorSpan(Color.parseColor("FFA73B")), 0, nButton.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+        pButton.setSpan(new ForegroundColorSpan(Color.parseColor("#FFA73B")), 0, pButton.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        nButton.setSpan(new ForegroundColorSpan(Color.parseColor("#FFA73B")), 0, nButton.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         AlertDialog dialog = builder.setTitle("提示").setMessage("取消收藏")
                 .setPositiveButton(pButton, new DialogInterface.OnClickListener() {
                     @Override

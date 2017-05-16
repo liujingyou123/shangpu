@@ -3,7 +3,12 @@ package com.finance.winport.tab.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,13 +36,11 @@ import butterknife.OnClick;
  */
 
 public class OffShelfFragment extends BaseFragment {
-
+    private static final int COUNT = 200;
     @BindView(R.id.imv_focus_house_back)
     ImageView imvFocusHouseBack;
     @BindView(R.id.tv_focus_house)
     TextView tvFocusHouse;
-    @BindView(R.id.content)
-    EditText content;
     @BindView(R.id.confirm)
     TextView confirm;
     @BindView(R.id.mListView)
@@ -67,6 +70,35 @@ public class OffShelfFragment extends BaseFragment {
 
     private void initView() {
         tvFocusHouse.setText("下架旺铺");
+        clear.setVisibility(View.GONE);
+        remain.setText("0" + "/" + COUNT + "字");
+        other.setFilters(new InputFilter[]{new InputFilter.LengthFilter(COUNT)});
+        other.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                int rm = s.length();
+                if (s.length() > 0) {
+                    clear.setVisibility(View.VISIBLE);
+                } else {
+                    clear.setVisibility(View.GONE);
+                }
+                if (rm > 0) {
+                    remain.setText(rm + "/" + COUNT + "字");
+                } else {
+                    remain.setText("0" + "/" + COUNT + "字");
+                }
+            }
+        });
         initListView();
     }
 
@@ -99,9 +131,20 @@ public class OffShelfFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.confirm:
-
+                pushFragment(new OffShelfResultFragment());
                 break;
         }
+    }
+
+    public void pushFragment(BaseFragment fragment) {
+        String tag = fragment.getClass().getName();
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        int count = fm.getBackStackEntryCount();
+        ft.setCustomAnimations(R.anim.activity_open_enter, R.anim.activity_open_exit, R.anim.activity_close_enter, R.anim.activity_close_exit);
+        ft.replace(R.id.rl_fragment_content, fragment, tag);
+        ft.addToBackStack(tag);
+        ft.commit();
     }
 
 
