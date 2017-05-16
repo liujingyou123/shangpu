@@ -22,8 +22,8 @@ import com.finance.winport.dialog.SelectionDialog;
 import com.finance.winport.dialog.SortPopupView;
 import com.finance.winport.home.adapter.ShopsAdapter;
 import com.finance.winport.home.model.Shop;
+import com.finance.winport.log.XLog;
 import com.finance.winport.map.MapActivity;
-import com.finance.winport.util.LogUtil;
 import com.finance.winport.view.home.HeaderView;
 import com.finance.winport.view.home.SelectView;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
@@ -176,7 +176,6 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                LogUtil.e("dddddddddd");
             }
         });
 
@@ -190,12 +189,10 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                LogUtil.e("firstVisibleItem = " + firstVisibleItem);
+//                XLog.e("firstVisibleItem = " + firstVisibleItem);
                 if (firstVisibleItem >= 1) {
-                    LogUtil.e("setVisibility = " + "VISIBLE");
                     setSelectionViewVisible();
                 } else {
-                    LogUtil.e("setVisibility = " + "Gone");
                     selectionView.setVisibility(View.GONE);
 
                 }
