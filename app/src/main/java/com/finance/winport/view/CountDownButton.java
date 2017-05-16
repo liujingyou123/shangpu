@@ -1,11 +1,13 @@
 package com.finance.winport.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.widget.Button;
 
+@SuppressLint("AppCompatCustomView")
 public class CountDownButton extends Button {
     private static final int COUNT = 60;//60 second default
     private Runnable mTicker;
@@ -38,6 +40,7 @@ public class CountDownButton extends Button {
     private void init() {
         text = getText();
         setText(text);
+        setAllCaps(false);
     }
 
     @Override

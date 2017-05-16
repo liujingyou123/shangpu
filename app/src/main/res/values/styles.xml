@@ -59,15 +59,15 @@
     </style>
 
     <declare-styleable name="SlidingTabLayout">
-        <attr name="indicatorColor" format="color"/>
-        <attr name="dividerColor" format="color"/>
-        <attr name="bottomLineColor" format="color"/>
-        <attr name="dividerMargin" format="dimension"/>
-        <attr name="indicatorHeight" format="dimension"/>
-        <attr name="bottomLineHeight" format="dimension"/>
-        <attr name="dividerWidth" format="dimension"/>
-        <attr name="tabTitleColor" format="color"/>
-        <attr name="tabTitleColorSelect" format="color"/>
+        <attr name="indicatorColor" format="color" />
+        <attr name="dividerColor" format="color" />
+        <attr name="bottomLineColor" format="color" />
+        <attr name="dividerMargin" format="dimension" />
+        <attr name="indicatorHeight" format="dimension" />
+        <attr name="bottomLineHeight" format="dimension" />
+        <attr name="dividerWidth" format="dimension" />
+        <attr name="tabTitleColor" format="color" />
+        <attr name="tabTitleColorSelect" format="color" />
     </declare-styleable>
 
     <style name="dialogWheel" parent="@android:style/Animation">
@@ -84,5 +84,12 @@
         <item name="android:textColor">#ffffff</item>
         <item name="android:textSize">15sp</item>
         <item name="android:background">@drawable/bg_done</item>
+    </style>
+
+    <style name="RatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/rating_bar</item>
+        <item name="android:minHeight">14dp</item>
+        <item name="android:maxHeight">14dp</item>
+        <item name="android:gravity">center</item>
     </style>
 </resources>

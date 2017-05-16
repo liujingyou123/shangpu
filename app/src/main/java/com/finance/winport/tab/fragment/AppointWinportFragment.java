@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -17,7 +16,7 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
-import com.finance.winport.tab.adapter.WinportAdapter;
+import com.finance.winport.tab.adapter.ScanWinportAdapter;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
@@ -28,10 +27,11 @@ import butterknife.OnClick;
 
 /**
  * Created by xzw on 2017/5/12.
- * 我发布的 旺铺
+ * 约看过的 旺铺
  */
 
-public class MineWinportFragment extends BaseFragment {
+@Deprecated
+public class AppointWinportFragment extends BaseFragment {
     private final int LIMIT = 10;
     private final int START_PAGE = 1;
     private int totalPage;
@@ -47,7 +47,6 @@ public class MineWinportFragment extends BaseFragment {
     ListView mListView;
     @BindView(R.id.refresh_view)
     PtrClassicFrameLayout refreshView;
-
     String title;
 
     @Override
@@ -61,7 +60,7 @@ public class MineWinportFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = LayoutInflater.from(context).inflate(R.layout.fragment_winport, container, false);
+        View root = LayoutInflater.from(context).inflate(R.layout.fragment_scan_winport, container, false);
         ButterKnife.bind(this, root);
         initView();
         return root;
@@ -79,9 +78,9 @@ public class MineWinportFragment extends BaseFragment {
     }
 
     private void setTip() {
-        String s1 = "19802";
-        String s2 = "92%";
-        String s = getString(R.string.list_winport_tip, s1, s2);
+        String s1 = "1200";
+        String s2 = "90%";
+        String s = getString(R.string.list_scan_winport_tip, s1, s2);
         SpannableString sp = new SpannableString(s);
         sp.setSpan(new ForegroundColorSpan(Color.parseColor("#ff0000")), s.indexOf(s1), s.indexOf(s1) + s1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sp.setSpan(new ForegroundColorSpan(Color.parseColor("#ff0000")), s.indexOf(s2), s.indexOf(s2) + s2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -89,7 +88,7 @@ public class MineWinportFragment extends BaseFragment {
     }
 
     private void initListView() {
-        mListView.setAdapter(new WinportAdapter(refreshView, null, 0));
+        mListView.setAdapter(new ScanWinportAdapter(refreshView, null, 0));
     }
 
     private void initRefreshView() {

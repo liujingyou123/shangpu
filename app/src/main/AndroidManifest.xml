@@ -47,7 +47,9 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="Tu57z00QbjtRPrxrYbj2qH4wXOF3yYiq" />
-        <activity android:name=".MainActivity"
+
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -171,28 +173,28 @@
         <activity
             android:name=".mine.ShopFocusActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- 我的日程 -->
         <activity
             android:name=".mine.MyScheduleListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <!-- 历史日程 -->
         <activity
             android:name=".mine.HistoryScheduleListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <!-- 日程详情 -->
-        <activity android:name=".mine.ScheduleDetailActivity"
+        <activity
+            android:name=".mine.ScheduleDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <!-- 系统设置 -->
         <activity
             android:name=".mine.SettingsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- 微信分享回调 -->
         <activity
@@ -207,31 +209,31 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".tab.WinportActivity"
-            android:screenOrientation="portrait"
-            />
+        <activity
+            android:name=".tab.WinportActivity"
+            android:screenOrientation="portrait" />
 
         <!-- 地图选址 -->
-        <activity android:name=".map.AddrSelectActivity"
+        <activity
+            android:name=".map.AddrSelectActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <!-- 地图页面 -->
-        <activity android:name=".map.MapActivity"
+        <activity
+            android:name=".map.MapActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <!-- 通知页面 -->
-        <activity android:name=".mine.MyNoticeActivity"
+        <activity
+            android:name=".mine.MyNoticeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <!-- 通知列表页面 -->
-        <activity android:name=".mine.NoticeListActivity"
+        <activity
+            android:name=".mine.NoticeListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <service
             android:name="com.baidu.location.f"
@@ -239,6 +241,7 @@
             android:permission="android.permission.BAIDU_LOCATION_SERVICE"
             android:process=":remote" />
 
+        <activity android:name=".tab.FiercePredictionActivity"></activity>
     </application>
 
 </manifest>

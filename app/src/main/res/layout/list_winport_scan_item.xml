@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="15dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="15dp">
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="110dp"
+            android:layout_height="82dp"
+            android:background="@color/colorPrimary" />
+
+        <ImageView
+            android:id="@+id/mark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/img"
+            android:layout_alignLeft="@+id/img"
+            android:layout_alignRight="@+id/img"
+            android:layout_alignTop="@+id/img"
+            android:scaleType="centerInside"
+            android:src="@mipmap/icon_winport_off" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignBottom="@+id/img"
+            android:layout_alignLeft="@+id/img"
+            android:layout_alignRight="@+id/img"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/scan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="9dp"
+                android:drawableLeft="@mipmap/icon_scan"
+                android:drawablePadding="3dp"
+                android:text="21980"
+                android:textColor="#ffffff"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/call"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/icon_call"
+                android:drawablePadding="3dp"
+                android:text="2390"
+                android:textColor="#ffffff"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/area"
+            android:layout_toRightOf="@+id/img"
+            android:singleLine="true"
+            android:text="徐虹北路230号转租徐虹北路230号转租"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/district"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/address"
+            android:layout_below="@+id/address"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="6dp"
+            android:singleLine="true"
+            android:text="浦东新区 松江大学城…"
+            android:textColor="#999999"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/address"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="6dp"
+            android:singleLine="true"
+            android:text="20000元/月"
+            android:textColor="#FF7540"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/address"
+            android:layout_below="@+id/district"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="6dp"
+            android:singleLine="true"
+            android:text="距您2.5km"
+            android:textColor="#999999"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/fee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/district"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="6dp"
+            android:text="转让费8万元"
+            android:textColor="#999999"
+            android:textSize="11sp" />
+
+
+        <TextView
+            android:id="@+id/release_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/img"
+            android:layout_alignLeft="@+id/address"
+            android:text="2小时前发布"
+            android:textColor="#999999"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:text="100㎡"
+            android:textColor="#333333" />
+
+        <LinearLayout
+            android:id="@+id/tag"
+            android:layout_width="match_parent"
+            android:layout_height="34dp"
+            android:layout_alignLeft="@+id/address"
+            android:layout_below="@+id/img"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/bg_top_divider"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/item1"
+                android:layout_width="wrap_content"
+                android:layout_height="14dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/bg_round_rectangle"
+                android:gravity="center"
+                android:minWidth="40sp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:text="可明火"
+                android:textColor="#FFA73B"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/item2"
+                android:layout_width="wrap_content"
+                android:layout_height="14dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/bg_round_rectangle"
+                android:gravity="center"
+                android:minWidth="40sp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:text="可办照"
+                android:textColor="#FFA73B"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/item3"
+                android:layout_width="wrap_content"
+                android:layout_height="14dp"
+                android:background="@drawable/bg_round_rectangle"
+                android:gravity="center"
+                android:minWidth="40sp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:text="证照齐全"
+                android:textColor="#FFA73B"
+                android:textSize="10sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@drawable/bg_top_divider"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/contact"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            android:gravity="center"
+            android:text="2015/02/06   21:30:00约看"
+            android:textColor="#999999"
+            android:textSize="13sp" />
+
+        <View
+            android:layout_width="@dimen/divider_height"
+            android:layout_height="14dp"
+            android:background="@color/divider_color" />
+
+        <TextView
+            android:id="@+id/drop_off"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:gravity="center"
+            android:text="下架旺铺"
+            android:textColor="#999999"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+</LinearLayout>

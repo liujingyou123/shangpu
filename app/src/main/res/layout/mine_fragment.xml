@@ -99,6 +99,7 @@
             android:background="#ffffff">
 
             <LinearLayout
+                android:id="@+id/ll_mine_winport"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -126,11 +127,13 @@
                     android:layout_marginTop="5dp" />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/ll_mine_appoint"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical">
                 <com.finance.winport.view.StopWatchTextView
+                    android:id="@+id/mine_appoint"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="302"
@@ -152,11 +155,13 @@
                     android:layout_marginTop="5dp" />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/ll_mine_collection"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical">
                 <com.finance.winport.view.StopWatchTextView
+                    android:id="@+id/mine_collection"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="302"
@@ -178,11 +183,13 @@
                     android:layout_marginTop="5dp" />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/ll_mine_scan"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical">
                 <com.finance.winport.view.StopWatchTextView
+                    android:id="@+id/mine_scan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="302"
@@ -212,6 +219,7 @@
             android:background="#ffffff"
             android:orientation="vertical">
             <RelativeLayout
+                android:id="@+id/fierce_prediction"
                 android:layout_width="match_parent"
                 android:layout_height="54dp">
 

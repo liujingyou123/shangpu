@@ -151,7 +151,7 @@ public class LoginFragment extends BaseFragment {
 
             @Override
             public String onCountingText(int count) {
-                return count + "秒";
+                return count + "s";
             }
 
             @Override
