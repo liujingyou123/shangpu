@@ -1,13 +1,14 @@
 package com.finance.winport.tab;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.base.BaseFragment;
-import com.finance.winport.tab.fragment.AppointWinportFragment;
 import com.finance.winport.tab.fragment.MineWinportFragment;
+import com.finance.winport.tab.fragment.OffShelfFragment;
 import com.finance.winport.tab.fragment.ScanWinportFragment;
 
 public class WinportActivity extends BaseActivity {
@@ -34,6 +35,26 @@ public class WinportActivity extends BaseActivity {
                 scanf.setArguments(getIntent().getExtras());
                 pushFragment(scanf);
                 break;
+            case 5://下架
+                BaseFragment dropOff = new OffShelfFragment();
+                dropOff.setArguments(getIntent().getExtras());
+                pushFragment(dropOff, false);
+                break;
         }
+    }
+
+    public void pushFragment(BaseFragment fragment, boolean addToBackStack) {
+        String tag = fragment.getClass().getName();
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        int count = fm.getBackStackEntryCount();
+        if (count >= 1) {
+            ft.setCustomAnimations(R.anim.activity_open_enter, R.anim.activity_open_exit, R.anim.activity_close_enter, R.anim.activity_close_exit);
+        }
+        ft.replace(R.id.rl_fragment_content, fragment, tag);
+        if (addToBackStack) {
+            ft.addToBackStack(tag);
+        }
+        ft.commit();
     }
 }

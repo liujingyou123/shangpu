@@ -21,9 +21,9 @@ import com.finance.winport.R;
 import com.finance.winport.account.LoginActivity;
 import com.finance.winport.aliyunoss.AliOss;
 import com.finance.winport.base.BaseFragment;
-import com.finance.winport.mine.MyNoticeActivity;
 import com.finance.winport.image.Batman;
 import com.finance.winport.image.BatmanCallBack;
+import com.finance.winport.mine.MyNoticeActivity;
 import com.finance.winport.mine.MyScheduleListActivity;
 import com.finance.winport.mine.SettingsActivity;
 import com.finance.winport.mine.ShopFocusActivity;
@@ -43,6 +43,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import rx.Observable;
+import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -62,6 +68,16 @@ public class MineFragment extends BaseFragment {
     StopWatchTextView mineCollection;
     @BindView(R.id.mine_scan)
     StopWatchTextView mineScan;
+    @BindView(R.id.day)
+    TextView day;
+    @BindView(R.id.solar)
+    TextView solar;
+    @BindView(R.id.lunar)
+    TextView lunar;
+    @BindView(R.id.yi)
+    TextView yi;
+    @BindView(R.id.ji)
+    TextView ji;
     private int type;//image type
     private List<String> mSelected;
     @BindView(R.id.tv_focus_right)
@@ -87,14 +103,12 @@ public class MineFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.mine_fragment, container, false);
         unbinder = ButterKnife.bind(this, root);
-//        initView();
         return root;
     }
 
-//    private void initView() {
-//        ivFocusRight.setActivated(true);
-//    }
+    private void setHuangLi() {
 
+    }
 
     @Override
     public void onDestroyView() {
@@ -111,7 +125,7 @@ public class MineFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), MyNoticeActivity.class));
                 break;
             case R.id.modify:
-                startActivity(new Intent(getActivity(), ShopFocusActivity.class));
+                toConcern();
                 break;
             case R.id.schedule_list:
                 startActivity(new Intent(getActivity(), MyScheduleListActivity.class));
@@ -204,24 +218,18 @@ public class MineFragment extends BaseFragment {
 
     // 关注的旺铺页面
     private void toConcern() {
-
+        startActivity(new Intent(getActivity(), ShopFocusActivity.class));
     }
 
     private void upLoadImage(final String path) {
-        new AsyncTask<String, Integer, String>() {
+        Observable.just(path).subscribeOn(Schedulers.newThread()).map(new Func1<String, String>() {
             @Override
-            protected void onPreExecute() {
-//                showLoading();
+            public String call(String s) {
+                return AliOss.getInstance().putObjectFromByteArray(s);
             }
-
+        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<String>() {
             @Override
-            protected String doInBackground(String... params) {
-                return AliOss.getInstance().putObjectFromByteArray(params[0]);
-            }
-
-            @Override
-            protected void onPostExecute(final String s) {
-//                hideLoading();
+            public void call(String s) {
                 Batman.getInstance().fromNet(path, new BatmanCallBack() {
                     @Override
                     public void onSuccess(Bitmap bitmap) {
@@ -233,7 +241,7 @@ public class MineFragment extends BaseFragment {
                     }
                 });
             }
-        }.execute(path);
+        });
     }
 
     private void selectImage(final int requestCode) {

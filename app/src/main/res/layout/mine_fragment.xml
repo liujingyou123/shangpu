@@ -14,10 +14,10 @@
             android:layout_height="162dp"
             android:background="@mipmap/send_bg"
             android:orientation="vertical">
+
             <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="56dp">
-
 
 
                 <TextView
@@ -30,15 +30,17 @@
                     android:text="个人中心"
                     android:textColor="#ffffff"
                     android:textSize="18sp" />
+
                 <ImageView
                     android:id="@+id/tv_focus_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/personal_icon_notice"/>
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/personal_icon_notice" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,30 +75,32 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_toRightOf="@+id/shop_img"
-                    android:text="去设置关注的旺铺"
+                    android:hint="去设置关注的旺铺"
+                    android:textColorHint="#999999"
                     android:textColor="#999999"
                     android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/modify"
-                    android:background="@drawable/bg_mine_write"
                     android:layout_width="45dp"
                     android:layout_height="24dp"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="15dp"
                     android:layout_alignParentTop="true"
+                    android:layout_marginRight="15dp"
                     android:layout_marginTop="30dp"
+                    android:background="@drawable/bg_mine_write"
+                    android:gravity="center"
                     android:text="更改"
                     android:textColor="#ffffff"
-                    android:gravity="center"
                     android:textSize="13sp" />
             </RelativeLayout>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="75dp"
-            android:orientation="horizontal"
-            android:background="#ffffff">
+            android:background="#ffffff"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/ll_mine_winport"
@@ -104,111 +108,122 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical">
+
                 <com.finance.winport.view.StopWatchTextView
                     android:id="@+id/mine_winport"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
                     android:text="302"
                     android:textColor="#333333"
-                    android:textSize="25sp"
-                    android:gravity="center"
-                    android:layout_gravity="center_horizontal"
-                    android:includeFontPadding="false"
-                    android:layout_marginTop="16dp" />
+                    android:textSize="25sp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
                     android:text="我的旺铺"
                     android:textColor="#999999"
-                    android:textSize="12sp"
-                    android:gravity="center"
-                    android:layout_gravity="center_horizontal"
-                    android:includeFontPadding="false"
-                    android:layout_marginTop="5dp" />
+                    android:textSize="12sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/ll_mine_appoint"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical">
+
                 <com.finance.winport.view.StopWatchTextView
                     android:id="@+id/mine_appoint"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
                     android:text="302"
                     android:textColor="#333333"
-                    android:textSize="25sp"
-                    android:gravity="center"
-                    android:layout_gravity="center_horizontal"
-                    android:includeFontPadding="false"
-                    android:layout_marginTop="16dp" />
+                    android:textSize="25sp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
                     android:text="我约看的"
                     android:textColor="#999999"
-                    android:textSize="12sp"
-                    android:gravity="center"
-                    android:layout_gravity="center_horizontal"
-                    android:includeFontPadding="false"
-                    android:layout_marginTop="5dp" />
+                    android:textSize="12sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/ll_mine_collection"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical">
+
                 <com.finance.winport.view.StopWatchTextView
                     android:id="@+id/mine_collection"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
                     android:text="302"
                     android:textColor="#333333"
-                    android:textSize="25sp"
-                    android:gravity="center"
-                    android:layout_gravity="center_horizontal"
-                    android:includeFontPadding="false"
-                    android:layout_marginTop="16dp" />
+                    android:textSize="25sp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
                     android:text="我的收藏"
                     android:textColor="#999999"
-                    android:textSize="12sp"
-                    android:gravity="center"
-                    android:layout_gravity="center_horizontal"
-                    android:includeFontPadding="false"
-                    android:layout_marginTop="5dp" />
+                    android:textSize="12sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/ll_mine_scan"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical">
+
                 <com.finance.winport.view.StopWatchTextView
                     android:id="@+id/mine_scan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
                     android:text="302"
                     android:textColor="#333333"
-                    android:textSize="25sp"
-                    android:gravity="center"
-                    android:layout_gravity="center_horizontal"
-                    android:includeFontPadding="false"
-                    android:layout_marginTop="16dp" />
+                    android:textSize="25sp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
                     android:text="最近浏览"
                     android:textColor="#999999"
-                    android:textSize="12sp"
-                    android:gravity="center"
-                    android:layout_gravity="center_horizontal"
-                    android:includeFontPadding="false"
-                    android:layout_marginTop="5dp" />
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -218,6 +233,7 @@
             android:layout_marginTop="10dp"
             android:background="#ffffff"
             android:orientation="vertical">
+
             <RelativeLayout
                 android:id="@+id/fierce_prediction"
                 android:layout_width="match_parent"
@@ -227,42 +243,128 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="18dp"
                     android:layout_centerVertical="true"
-                    android:text="店名测吉凶"
-                    android:textSize="14sp"
-                    android:textColor="#333333"
+                    android:layout_marginLeft="18dp"
+                    android:drawableLeft="@mipmap/personal_icon_luck"
                     android:drawablePadding="10dp"
                     android:gravity="center"
-                    android:drawableLeft="@mipmap/personal_icon_luck"/>
+                    android:text="店名测吉凶"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="15dp"
                     android:layout_centerVertical="true"
-                    android:text="好店名才有好运势"
-                    android:textSize="13sp"
-                    android:textColor="#999999"
+                    android:layout_marginRight="15dp"
                     android:drawablePadding="10dp"
+                    android:drawableRight="@mipmap/arrow"
                     android:gravity="center"
-                    android:drawableRight="@mipmap/arrow"/>
+                    android:text="好店名才有好运势"
+                    android:textColor="#999999"
+                    android:textSize="13sp" />
 
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="#e5e5e5"
-                android:layout_marginLeft="15dp"/>
+                android:layout_marginLeft="15dp"
+                android:background="#e5e5e5" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    android:id="@+id/day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/lunar"
+                    android:layout_alignRight="@+id/lunar"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="27"
+                    android:layout_above="@+id/solar"
+                    android:textColor="#4A4A4A"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:id="@+id/solar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/lunar"
+                    android:layout_alignRight="@+id/lunar"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_above="@+id/lunar"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="2017-04"
+                    android:textColor="#9b9b9b"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/lunar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="12dp"
+                    android:singleLine="true"
+                    android:text="十二月二十八"
+                    android:textColor="#4A4A4A"
+                    android:textSize="13sp" />
+
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="@dimen/divider_height"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="83dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/divider_color" />
+
+                <TextView
+                    android:id="@+id/yi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_toRightOf="@+id/divider"
+                    android:drawableLeft="@mipmap/icon_yi"
+                    android:drawablePadding="6dp"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="收账 出行 会亲友 搬家 理发"
+                    android:textColor="#4A4A4A"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/ji"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="25dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_toRightOf="@+id/divider"
+                    android:drawableLeft="@mipmap/icon_ji"
+                    android:drawablePadding="6dp"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="嫁娶 探病 盖屋"
+                    android:textColor="#4A4A4A"
+                    android:textSize="13sp" />
+            </RelativeLayout>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="108dp"
-            android:orientation="vertical"
             android:layout_marginTop="10dp"
-            android:background="#ffffff">
+            android:background="#ffffff"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/schedule_list"
@@ -273,34 +375,36 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="18dp"
                     android:layout_centerVertical="true"
-                    android:text="我的日程"
-                    android:textSize="14sp"
-                    android:textColor="#333333"
+                    android:layout_marginLeft="18dp"
+                    android:drawableLeft="@mipmap/personal_icon_scedular"
                     android:drawablePadding="10dp"
                     android:gravity="center"
-                    android:drawableLeft="@mipmap/personal_icon_scedular"/>
+                    android:text="我的日程"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="15dp"
                     android:layout_centerVertical="true"
-                    android:text="老板，未来您有5个安排"
-                    android:textSize="13sp"
-                    android:textColor="#999999"
+                    android:layout_marginRight="15dp"
                     android:drawablePadding="10dp"
+                    android:drawableRight="@mipmap/arrow"
                     android:gravity="center"
-                    android:drawableRight="@mipmap/arrow"/>
+                    android:text="老板，未来您有5个安排"
+                    android:textColor="#999999"
+                    android:textSize="13sp" />
 
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="#e5e5e5"
-                android:layout_marginLeft="15dp"/>
+                android:layout_marginLeft="15dp"
+                android:background="#e5e5e5" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="54dp">
@@ -309,26 +413,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="18dp"
                     android:layout_centerVertical="true"
-                    android:text="我的帖子"
-                    android:textSize="14sp"
-                    android:textColor="#333333"
+                    android:layout_marginLeft="18dp"
+                    android:drawableLeft="@mipmap/personal_icon_post"
                     android:drawablePadding="10dp"
                     android:gravity="center"
-                    android:drawableLeft="@mipmap/personal_icon_post"/>
+                    android:text="我的帖子"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="15dp"
                     android:layout_centerVertical="true"
-                    android:textSize="13sp"
-                    android:textColor="#999999"
+                    android:layout_marginRight="15dp"
                     android:drawablePadding="10dp"
+                    android:drawableRight="@mipmap/arrow"
                     android:gravity="center"
-                    android:drawableRight="@mipmap/arrow"/>
+                    android:textColor="#999999"
+                    android:textSize="13sp" />
 
             </RelativeLayout>
         </LinearLayout>
@@ -336,9 +440,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="108dp"
-            android:orientation="vertical"
             android:layout_marginTop="10dp"
-            android:background="#ffffff">
+            android:background="#ffffff"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/suggest"
@@ -375,8 +479,9 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="#e5e5e5"
-                android:layout_marginLeft="15dp"/>
+                android:layout_marginLeft="15dp"
+                android:background="#e5e5e5" />
+
             <RelativeLayout
                 android:id="@+id/setting"
                 android:layout_width="match_parent"
@@ -386,59 +491,59 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="18dp"
                     android:layout_centerVertical="true"
-                    android:text="系统设置"
-                    android:textSize="14sp"
-                    android:textColor="#333333"
+                    android:layout_marginLeft="18dp"
+                    android:drawableLeft="@mipmap/personal_icon_luck"
                     android:drawablePadding="10dp"
                     android:gravity="center"
-                    android:drawableLeft="@mipmap/personal_icon_luck"/>
+                    android:text="系统设置"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="15dp"
                     android:layout_centerVertical="true"
-                    android:textSize="13sp"
-                    android:textColor="#999999"
+                    android:layout_marginRight="15dp"
                     android:drawablePadding="10dp"
+                    android:drawableRight="@mipmap/arrow"
                     android:gravity="center"
-                    android:drawableRight="@mipmap/arrow"/>
+                    android:textColor="#999999"
+                    android:textSize="13sp" />
 
             </RelativeLayout>
         </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
+            android:layout_height="54dp"
             android:layout_marginTop="10dp"
-            android:background="#ffffff"
-            android:layout_height="54dp">
+            android:background="#ffffff">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="18dp"
                 android:layout_centerVertical="true"
-                android:text="客服电话"
-                android:textSize="14sp"
-                android:textColor="#333333"
+                android:layout_marginLeft="18dp"
+                android:drawableLeft="@mipmap/personal_icon_phone"
                 android:drawablePadding="10dp"
                 android:gravity="center"
-                android:drawableLeft="@mipmap/personal_icon_phone"/>
+                android:text="客服电话"
+                android:textColor="#333333"
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="15dp"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:gravity="center"
                 android:text="021-3122 0899"
-                android:textSize="13sp"
                 android:textColor="#999999"
-                android:gravity="center" />
+                android:textSize="13sp" />
 
         </RelativeLayout>
     </LinearLayout>

@@ -98,7 +98,6 @@
 
             <com.finance.winport.view.CountDownButton
                 android:id="@+id/countDown"
-                style="?attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="54dp"
                 android:layout_marginRight="30dp"
