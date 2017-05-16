@@ -11,17 +11,27 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
         android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@color/bg"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:text="请选择撤下旺铺的原因"
+            android:textColor="#999999"
+            android:textSize="12sp" />
 
         <ListView
             android:id="@+id/mListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:divider="@color/divider_color"
             android:dividerHeight="@dimen/divider_height"
-            android:scrollbars="none"
-            android:visibility="gone" />
+            android:paddingLeft="15dp"
+            android:scrollbars="none" />
 
         <RelativeLayout
             android:id="@+id/rl_other"
@@ -29,25 +39,33 @@
             android:layout_height="wrap_content"
             android:background="#ffffff"
             android:minHeight="108dp"
-            android:visibility="gone"
             android:orientation="vertical"
-            android:paddingRight="14dp">
+            android:visibility="gone">
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height"
+                android:layout_marginLeft="15dp"
+                android:background="@color/divider_color" />
 
             <EditText
                 android:id="@+id/other"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/divider"
                 android:layout_toLeftOf="@+id/clear"
                 android:background="#ffffff"
                 android:gravity="top"
                 android:hint="请输入其他信息"
                 android:minHeight="76dp"
                 android:paddingLeft="15dp"
+                android:paddingRight="14dp"
                 android:paddingTop="10dp"
-                android:text="请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入"
                 android:textColor="#9b9b9b"
                 android:textColorHint="#999999"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                tools:text="请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入请输入其他信息请输入" />
 
             <ImageView
                 android:id="@+id/clear"
@@ -63,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_below="@+id/feedback"
+                android:layout_below="@+id/other"
                 android:layout_gravity="right"
                 android:layout_marginBottom="10dp"
                 android:layout_marginRight="15dp"
@@ -77,8 +95,8 @@
             android:id="@+id/confirm"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:layout_marginTop="30dp"
             android:background="@drawable/bg_shape_r_orange"
             android:gravity="center"
