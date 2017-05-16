@@ -111,4 +111,25 @@ public class ScanWinportAdapter extends PullBaseAdapter<WinportModel> {
                 }).create();
         dialog.show();
     }
+
+    void showDeleteAlert() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        SpannableString pButton = new SpannableString("确认");
+        SpannableString nButton = new SpannableString("取消");
+        pButton.setSpan(new ForegroundColorSpan(Color.parseColor("#FFA73B")), 0, pButton.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        nButton.setSpan(new ForegroundColorSpan(Color.parseColor("#FFA73B")), 0, nButton.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        AlertDialog dialog = builder.setTitle("提示").setMessage("删除约看")
+                .setPositiveButton(pButton, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).setNegativeButton(nButton, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).create();
+        dialog.show();
+    }
 }
