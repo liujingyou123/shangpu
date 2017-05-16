@@ -208,11 +208,11 @@ public class ShopDetailActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_share:
-//                if (shareDialog == null) {
-//                    shareDialog = new ShareDialog(this);
-//                }
-//                shareDialog.show();
-                mShareAction.open();
+                if (shareDialog == null) {
+                    shareDialog = new ShareDialog(this);
+                }
+                shareDialog.show();
+//                mShareAction.open();
                 break;
             case R.id.tv_shop_more:
                 Intent intent = new Intent(ShopDetailActivity.this, ShopMoreActivity.class);
