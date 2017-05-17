@@ -27,9 +27,11 @@ public class TokenInterceptor implements Interceptor {
                 .addHeader("X-token", tokenKey).build();
         MediaType mediaType = newRequest.body().contentType();
         try {
-            Field field = mediaType.getClass().getDeclaredField("mediaType");
-            field.setAccessible(true);
-            field.set(mediaType, "application/json");
+            if (mediaType != null) {
+                Field field = mediaType.getClass().getDeclaredField("mediaType");
+                field.setAccessible(true);
+                field.set(mediaType, "application/json");
+            }
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
