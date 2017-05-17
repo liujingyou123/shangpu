@@ -23,6 +23,7 @@ import com.finance.winport.tab.adapter.AppointWinportAdapter;
 import com.finance.winport.tab.adapter.CollectionWinportAdapter;
 import com.finance.winport.tab.adapter.ScanWinportAdapter;
 import com.finance.winport.tab.model.AppointShopList;
+import com.finance.winport.tab.net.NetworkCallback;
 import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
@@ -80,6 +81,12 @@ public class ScanWinportFragment extends BaseFragment {
         return root;
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        asyncData();
+    }
+
     private void initView() {
         setTitle();
         setTip();
@@ -107,7 +114,7 @@ public class ScanWinportFragment extends BaseFragment {
 
     private void initRefreshView() {
         refreshView.autoLoadMore();
-        refreshView.setMode(PtrFrameLayout.Mode.BOTH);
+        refreshView.setMode(PtrFrameLayout.Mode.REFRESH);
         refreshView.setPtrHandler(new PtrDefaultHandler2() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
@@ -126,10 +133,20 @@ public class ScanWinportFragment extends BaseFragment {
 
     // 获取约看列表
     private void getAppointList() {
-        PersonManager.getInstance().getAppointList(new HashMap<String, Object>(), new NetSubscriber<AppointShopList>() {
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("pageSize", pageSize);
+        params.put("pageNumber", pageNumber);
+        PersonManager.getInstance().getAppointList(params, new NetworkCallback<AppointShopList>() {
             @Override
-            public void response(AppointShopList response) {
-                
+            public void success(AppointShopList response) {
+                if (response != null && response.isSuccess()) {
+                    setAppointAdapter(response.data.data, response.data.totalSize);
+                }
+            }
+
+            @Override
+            public void failure(Throwable throwable) {
+
             }
         });
     }

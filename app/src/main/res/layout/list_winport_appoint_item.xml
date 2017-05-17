@@ -123,7 +123,7 @@
 
 
         <TextView
-            android:id="@+id/release_time"
+            android:id="@+id/update_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/img"
@@ -160,47 +160,6 @@
             android:layout_below="@+id/tag_divider"
             android:gravity="center_vertical"
             android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/item1"
-                android:layout_width="wrap_content"
-                android:layout_height="14dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/bg_round_rectangle"
-                android:gravity="center"
-                android:minWidth="40sp"
-                android:paddingLeft="2dp"
-                android:paddingRight="2dp"
-                android:text="可明火"
-                android:textColor="#FFA73B"
-                android:textSize="10sp" />
-
-            <TextView
-                android:id="@+id/item2"
-                android:layout_width="wrap_content"
-                android:layout_height="14dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/bg_round_rectangle"
-                android:gravity="center"
-                android:minWidth="40sp"
-                android:paddingLeft="2dp"
-                android:paddingRight="2dp"
-                android:text="可办照"
-                android:textColor="#FFA73B"
-                android:textSize="10sp" />
-
-            <TextView
-                android:id="@+id/item3"
-                android:layout_width="wrap_content"
-                android:layout_height="14dp"
-                android:background="@drawable/bg_round_rectangle"
-                android:gravity="center"
-                android:minWidth="40sp"
-                android:paddingLeft="2dp"
-                android:paddingRight="2dp"
-                android:text="证照齐全"
-                android:textColor="#FFA73B"
-                android:textSize="10sp" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -225,7 +184,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/contact"
+                android:id="@+id/appoint_time"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="7"
@@ -240,7 +199,7 @@
                 android:background="@color/divider_color" />
 
             <TextView
-                android:id="@+id/drop_off"
+                android:id="@+id/sign"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5"

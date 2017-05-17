@@ -69,23 +69,23 @@ public class AppointShopList extends BaseResponse {
             public String coverImg;
             public String address;
             public String rentTypeName;
-            public int area;
+            public float area;
             public int districtId;
             public String districtName;
             public int blockId;
             public String blockName;
             public int rentWay;
-            public int rent;
+            public float rent;
             public int isFace;
-            public Object distance;
-            public int transferFee;
-            public Object updateTime;
-            public Object modifyTime;
+            public float distance;
+            public float transferFee;
+            public String updateTime;
+            public String modifyTime;
             public int visitCount;
             public int contactCount;
             public int visitId;
             public int rentStatus;
-            public Object applyTime;
+            public String applyTime;
             public List<FeatureListBean> featureList;
 
             public static class FeatureListBean {
