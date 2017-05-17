@@ -11,14 +11,13 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.finance.winport.MainActivity;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.dialog.QuyuPopupView;
 import com.finance.winport.dialog.SelectionDialog;
 import com.finance.winport.dialog.SortPopupView;
 import com.finance.winport.home.adapter.ShopsAdapter;
-import com.finance.winport.home.model.Shop;
+import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.view.home.SelectView;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
@@ -47,7 +46,7 @@ public class ShopsListActivity extends BaseActivity {
     PtrClassicFrameLayout refreshView;
 
     private ShopsAdapter adapter;
-    private List<Shop> mData = new ArrayList<>();
+    private List<ShopListResponse.DataBean.Shop> mData = new ArrayList<>();
 
     private QuyuPopupView quyuPopupView;
     private SortPopupView sortPopupView;

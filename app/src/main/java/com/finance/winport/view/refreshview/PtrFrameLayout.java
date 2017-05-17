@@ -566,9 +566,9 @@ public class PtrFrameLayout extends ViewGroup {
         int to = mPtrIndicator.getCurrentPosY() + (int) deltaY;
 
         // header max height
-        if (to > XPtrConstants.MAX_HEIGHT_PX) {
-            return;
-        }
+//        if (to > XPtrConstants.MAX_HEIGHT_PX) {
+//            return;
+//        }
 
         // over top
         if (mPtrIndicator.willOverTop(to)) {

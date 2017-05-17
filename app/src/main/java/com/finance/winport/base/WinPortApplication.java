@@ -19,6 +19,7 @@ public class WinPortApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        businessApplication =this;
         NetworkClient.init(this);
         Batman.getInstance().init(this);
         AliOss.getInstance().init(this);
