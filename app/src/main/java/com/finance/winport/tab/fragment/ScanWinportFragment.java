@@ -17,10 +17,19 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.net.NetSubscriber;
+import com.finance.winport.tab.TypeList;
+import com.finance.winport.tab.adapter.AppointWinportAdapter;
+import com.finance.winport.tab.adapter.CollectionWinportAdapter;
 import com.finance.winport.tab.adapter.ScanWinportAdapter;
+import com.finance.winport.tab.model.AppointShopList;
+import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
+
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,13 +37,12 @@ import butterknife.OnClick;
 
 /**
  * Created by xzw on 2017/5/12.
- * （我的收藏、最近浏览、月看过的） 旺铺
+ * （我的收藏、最近浏览、我看过的） 旺铺
  */
 
 public class ScanWinportFragment extends BaseFragment {
     private final int LIMIT = 10;
     private final int START_PAGE = 1;
-    private int totalPage;
     private int pageSize = LIMIT;
     private int pageNumber = START_PAGE;
     @BindView(R.id.confirm)
@@ -52,14 +60,14 @@ public class ScanWinportFragment extends BaseFragment {
     @BindView(R.id.refresh_view)
     PtrClassicFrameLayout refreshView;
     String title;
-    int type = -1;
+    TypeList type;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             title = getArguments().getString("title");
-            type = getArguments().getInt("type");
+            type = (TypeList) getArguments().getSerializable("type");
         }
     }
 
@@ -116,19 +124,91 @@ public class ScanWinportFragment extends BaseFragment {
 
     }
 
+    // 获取约看列表
+    private void getAppointList() {
+        PersonManager.getInstance().getAppointList(new HashMap<String, Object>(), new NetSubscriber<AppointShopList>() {
+            @Override
+            public void response(AppointShopList response) {
+                
+            }
+        });
+    }
+
+    //获取收藏列表
+    private void getCollectionList() {
+
+    }
+
+    // 获取浏览列表
+    private void getScanList() {
+
+    }
+
+    // 约看
+    private AppointWinportAdapter appointWinportAdapter;
+
+    private void setAppointAdapter(List<AppointShopList.DataBeanX.DataBean> list, int totalCount) {
+        if (appointWinportAdapter == null) {
+            appointWinportAdapter = new AppointWinportAdapter(refreshView, list, totalCount);
+            mListView.setAdapter(appointWinportAdapter);
+        } else {
+            if (pageNumber == 1) {
+                appointWinportAdapter.refreshData(list, totalCount);
+                mListView.setSelection(0);
+            } else {
+                appointWinportAdapter.updateData(list, totalCount);
+            }
+        }
+    }
+
+//    // 收藏
+//    private CollectionWinportAdapter collectionWinportAdapter;
+//
+//    private void setCollectionAdapter(List<AppointShopList.DataBeanX.DataBean> list, int totalCount) {
+//        if (collectionWinportAdapter == null) {
+//            collectionWinportAdapter = new CollectionWinportAdapter(refreshView, list, totalCount);
+//            mListView.setAdapter(collectionWinportAdapter);
+//        } else {
+//            if (pageNumber == 1) {
+//                collectionWinportAdapter.refreshData(list, totalCount);
+//                mListView.setSelection(0);
+//            } else {
+//                collectionWinportAdapter.updateData(list, totalCount);
+//            }
+//        }
+//    }
+
+//    // 最近浏览
+//    private ScanWinportAdapter scanWinportAdapter;
+//
+//    private void setScanAdapter(List<AppointShopList.DataBeanX.DataBean> list, int totalCount) {
+//        if (scanWinportAdapter == null) {
+//            scanWinportAdapter = new ScanWinportAdapter(refreshView, list, totalCount);
+//            mListView.setAdapter(scanWinportAdapter);
+//        } else {
+//            if (pageNumber == 1) {
+//                scanWinportAdapter.refreshData(list, totalCount);
+//                mListView.setSelection(0);
+//            } else {
+//                scanWinportAdapter.updateData(list, totalCount);
+//            }
+//        }
+//    }
+
+
     private void showEmptyView(boolean show) {
         if (show) {
             TextView tv = (TextView) empty.findViewById(R.id.tv_empty);
             switch (type) {
-                case 1://约看
+                case APPOINT://约看
                     tv.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.icon_empty_appoint, 0, 0);
                     tv.setText("还木有约看过旺铺哟~");
                     break;
-                case 2://收藏
+                case COLLECTION://收藏
                     tv.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.icon_empty_collection, 0, 0);
                     tv.setText("还没有收藏哦~~");
                     break;
-                case 3://浏览
+                case SCAN://浏览
                     tv.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.icon_empty_scan, 0, 0);
                     tv.setText("还木有旺铺浏览记录哟~");
                     break;
@@ -138,6 +218,17 @@ public class ScanWinportFragment extends BaseFragment {
     }
 
     private void asyncData() {
+        switch (type) {
+            case APPOINT:
+                getAppointList();
+                break;
+            case COLLECTION:
+                getCollectionList();
+                break;
+            case SCAN:
+                getScanList();
+                break;
+        }
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

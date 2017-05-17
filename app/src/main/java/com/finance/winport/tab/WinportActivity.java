@@ -18,30 +18,30 @@ public class WinportActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_winport);
-        int type = getIntent().getIntExtra("type", -1);
+        TypeList type = (TypeList) getIntent().getSerializableExtra("type");
         handleTag(type);
     }
 
-    private void handleTag(int type) {
+    private void handleTag(TypeList type) {
         switch (type) {
-            case 1:// 我发布的
+            case RELEASE:// 我发布的
                 BaseFragment release = new MineWinportFragment();
                 release.setArguments(getIntent().getExtras());
                 pushFragment(release);
                 break;
-            case 2:// 最近浏览、收藏、约看
-            case 3:
-            case 4:
+            case APPOINT:// 最近浏览、收藏、约看
+            case COLLECTION:
+            case SCAN:
                 BaseFragment scanf = new ScanWinportFragment();
                 scanf.setArguments(getIntent().getExtras());
                 pushFragment(scanf);
                 break;
-            case 5://下架
+            case OFF_SHELF://下架
                 BaseFragment dropOff = new OffShelfFragment();
                 dropOff.setArguments(getIntent().getExtras());
                 pushFragment(dropOff, false);
                 break;
-            case 6://浏览头像
+            case SCAN_HEAD://浏览头像
                 pushFragment(new ScanHeadImageFragment());
                 break;
         }

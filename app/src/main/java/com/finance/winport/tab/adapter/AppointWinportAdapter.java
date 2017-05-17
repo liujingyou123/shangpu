@@ -2,9 +2,7 @@ package com.finance.winport.tab.adapter;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -12,11 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
-import com.finance.winport.tab.TypeList;
-import com.finance.winport.tab.WinportActivity;
+import com.finance.winport.tab.model.AppointShopList;
 import com.finance.winport.tab.model.WinportList;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 
@@ -27,11 +25,12 @@ import butterknife.ButterKnife;
 
 /**
  * Created by xzw on 2017/5/12.
+ * 约看
  */
 
-public class WinportAdapter extends PullBaseAdapter<WinportList> {
+public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataBeanX.DataBean> {
 
-    public WinportAdapter(PtrClassicFrameLayout baseView, List<WinportList> baseData, int maxTotal) {
+    public AppointWinportAdapter(PtrClassicFrameLayout baseView, List<AppointShopList.DataBeanX.DataBean> baseData, int maxTotal) {
         super(baseView, baseData, maxTotal);
     }
 
@@ -44,76 +43,66 @@ public class WinportAdapter extends PullBaseAdapter<WinportList> {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.list_winport_release_item, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.list_winport_appoint_item, null);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        //下架
-        holder.dropOff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent dropOff = new Intent(context, WinportActivity.class);
-                dropOff.putExtra("type", TypeList.OFF_SHELF);
-                context.startActivity(dropOff);
-            }
-        });
-        //联系小二
-        holder.contact.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showContactAlert("13133333333");
-            }
-        });
-
-        //重新发布
-        holder.release.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
         //
+        convertView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showDeleteAlert();
+                return true;
+            }
+        });
         return convertView;
     }
+
 
     static class ViewHolder {
         @BindView(R.id.img)
         ImageView img;
+        @BindView(R.id.mark)
+        ImageView mark;
+        @BindView(R.id.scan)
+        TextView scan;
+        @BindView(R.id.call)
+        TextView call;
         @BindView(R.id.address)
         TextView address;
-        @BindView(R.id.history_count)
-        TextView historyCount;
-        @BindView(R.id.scan_count)
-        TextView scanCount;
+        @BindView(R.id.district)
+        TextView district;
+        @BindView(R.id.price)
+        TextView price;
+        @BindView(R.id.distance)
+        TextView distance;
+        @BindView(R.id.fee)
+        TextView fee;
         @BindView(R.id.release_time)
         TextView releaseTime;
         @BindView(R.id.area)
         TextView area;
-        @BindView(R.id.contact)
-        TextView contact;
-        @BindView(R.id.drop_off)
-        TextView dropOff;
-        @BindView(R.id.release)
-        TextView release;
+        @BindView(R.id.tag)
+        LinearLayout tag;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
     }
 
-    void showContactAlert(final String phone) {
+    void showDeleteAlert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        SpannableString pButton = new SpannableString("拨打");
+        SpannableString pButton = new SpannableString("确认");
         SpannableString nButton = new SpannableString("取消");
         pButton.setSpan(new ForegroundColorSpan(Color.parseColor("#FFA73B")), 0, pButton.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         nButton.setSpan(new ForegroundColorSpan(Color.parseColor("#FFA73B")), 0, nButton.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        AlertDialog dialog = builder.setTitle("提示").setMessage("直拨小二电话：" + phone)
+        AlertDialog dialog = builder.setTitle("提示").setMessage("删除约看")
                 .setPositiveButton(pButton, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        context.startActivity(new Intent().setAction(Intent.ACTION_DIAL).setData(Uri.parse("tel:" + phone)));
+
                     }
                 }).setNegativeButton(nButton, new DialogInterface.OnClickListener() {
                     @Override

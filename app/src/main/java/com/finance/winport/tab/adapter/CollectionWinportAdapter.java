@@ -1,5 +1,11 @@
 package com.finance.winport.tab.adapter;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +24,12 @@ import butterknife.ButterKnife;
 
 /**
  * Created by xzw on 2017/5/12.
- * 浏览
+ * 收藏
  */
 
-public class ScanWinportAdapter extends PullBaseAdapter<WinportList> {
+public class CollectionWinportAdapter extends PullBaseAdapter<WinportList> {
 
-    public ScanWinportAdapter(PtrClassicFrameLayout baseView, List<WinportList> baseData, int maxTotal) {
+    public CollectionWinportAdapter(PtrClassicFrameLayout baseView, List<WinportList> baseData, int maxTotal) {
         super(baseView, baseData, maxTotal);
     }
 
@@ -46,12 +52,34 @@ public class ScanWinportAdapter extends PullBaseAdapter<WinportList> {
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                showCancelCollectionAlert();
                 return true;
             }
         });
         return convertView;
     }
 
+
+    void showCancelCollectionAlert() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        SpannableString pButton = new SpannableString("确认");
+        SpannableString nButton = new SpannableString("取消");
+        pButton.setSpan(new ForegroundColorSpan(Color.parseColor("#FFA73B")), 0, pButton.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        nButton.setSpan(new ForegroundColorSpan(Color.parseColor("#FFA73B")), 0, nButton.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        AlertDialog dialog = builder.setTitle("提示").setMessage("取消收藏")
+                .setPositiveButton(pButton, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).setNegativeButton(nButton, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).create();
+        dialog.show();
+    }
 
     static class ViewHolder {
         @BindView(R.id.img)
