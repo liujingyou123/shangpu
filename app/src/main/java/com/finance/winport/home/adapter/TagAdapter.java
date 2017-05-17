@@ -6,6 +6,7 @@ package com.finance.winport.home.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,7 @@ public class TagAdapter extends BaseAdapter {
         if (mData != null) {
             ret = mData.size();
         }
-        return 3;
+        return ret;
     }
 
     @Override
@@ -63,8 +64,17 @@ public class TagAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-//        viewHolder.tvTag.setTextColor();
-//        viewHolder.tvTag.setBackgroundDrawable(getDrawable("#ffffff"));
+
+        Tag tag = mData.get(i);
+        if (tag != null) {
+            if (!TextUtils.isEmpty(tag.getColor())) {
+                viewHolder.tvTag.setTextColor(Color.parseColor(tag.getColor()));
+                viewHolder.tvTag.setBackgroundDrawable(getDrawable(tag.getColor()));
+
+            }
+            viewHolder.tvTag.setText(tag.getName());
+        }
+
         return view;
     }
 

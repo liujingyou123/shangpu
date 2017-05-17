@@ -13,8 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
-import com.finance.winport.home.model.Shop;
+import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.home.model.Tag;
+import com.finance.winport.image.Batman;
+import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.tagview.TagCloudLayout;
 
 import java.util.ArrayList;
@@ -25,9 +27,9 @@ import butterknife.ButterKnife;
 
 public class ShopsAdapter extends BaseAdapter {
     private Context mContext;
-    private List<Shop> mData;
+    private List<ShopListResponse.DataBean.Shop> mData;
 
-    public ShopsAdapter(Context mContext, List<Shop> mData) {
+    public ShopsAdapter(Context mContext, List<ShopListResponse.DataBean.Shop> mData) {
         this.mContext = mContext;
         this.mData = mData;
     }
@@ -38,12 +40,12 @@ public class ShopsAdapter extends BaseAdapter {
         if (mData != null) {
             ret = mData.size();
         }
-        return 100;
+        return ret;
     }
 
     @Override
-    public Shop getItem(int i) {
-        Shop ret = null;
+    public ShopListResponse.DataBean.Shop getItem(int i) {
+        ShopListResponse.DataBean.Shop ret = null;
         if (mData != null) {
             ret = mData.get(i);
         }
@@ -65,9 +67,23 @@ public class ShopsAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.tvShopname.setText(i + "");
 
-        viewHolder.tgView.setAdapter(new TagAdapter(mContext, new ArrayList<Tag>(10)));
+        ShopListResponse.DataBean.Shop ret = mData.get(i);
+        if (ret != null) {
+            viewHolder.tvShopname.setText(ret.getAddress()+ret.getRentTypeName());
+            viewHolder.tvAddress.setText(ret.getDistrictName()+" "+ret.getBlockName());
+            viewHolder.tvArea.setText(ret.getArea()+"㎡");
+            viewHolder.tvAverMoney.setText(ret.getRent()+"元／月");
+            viewHolder.tvDistance.setText(UnitUtil.mTokm(ret.getDistance()));
+            viewHolder.tvChangeMoney.setText("转让费"+UnitUtil.formatNum(ret.getTransferFee()) + "万元");
+            viewHolder.tvUpdateTime.setText(ret.getUpdateTime());
+            viewHolder.tgView.setAdapter(new TagAdapter(mContext, ret.getFeatureList()));
+            viewHolder.tvScanNum.setText(ret.getVisitCount()+"");
+            viewHolder.tvContactNum.setText(ret.getContactCount()+"");
+
+            Batman.getInstance().fromNet(ret.getCoverImg(), viewHolder.imvCover);
+        }
+
         return view;
     }
 
@@ -95,6 +111,10 @@ public class ShopsAdapter extends BaseAdapter {
         TagCloudLayout tgView;
         @BindView(R.id.ll_tag)
         LinearLayout llTag;
+        @BindView(R.id.tv_scan_num)
+        TextView tvScanNum;
+        @BindView(R.id.tv_contact_num)
+        TextView tvContactNum;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

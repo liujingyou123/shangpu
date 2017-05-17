@@ -2,6 +2,10 @@ package com.finance.winport.util;
 
 
 import android.content.Context;
+import android.text.TextUtils;
+
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 
 public class UnitUtil {
@@ -65,5 +69,39 @@ public class UnitUtil {
      */
     public static String trim(String str) {
         return str != null ? str.replaceAll(" ", "") : "";
+    }
+
+    public static String mTokm(String meters) {
+        String ret;
+        if (TextUtils.isEmpty(meters)) {
+            return null;
+        }
+        BigDecimal bg = new BigDecimal(meters);
+
+        if (bg.doubleValue() > 999) {
+            ret = bg.setScale(2, BigDecimal.ROUND_HALF_UP).toString();
+            ret = ret + "km";
+        } else {
+            ret = meters + "m";
+        }
+        return ret;
+    }
+
+    public static String formatNum(int num) {
+        String ret;
+        int yu = num % 10000;
+        if (yu != 0) {
+            ret = m2(num/10000f);
+        } else {
+            ret = num / 10000 + "";
+        }
+
+        return ret;
+    }
+
+    public static String m2(float num) {
+        DecimalFormat df = new DecimalFormat("#.00");
+        return df.format(num);
+
     }
 }

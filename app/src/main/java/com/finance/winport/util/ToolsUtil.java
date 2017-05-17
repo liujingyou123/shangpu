@@ -3,10 +3,13 @@ package com.finance.winport.util;
 import android.util.Log;
 
 import com.finance.winport.log.XLog;
+import com.finance.winport.net.Ironman;
+import com.finance.winport.net.NetSubscriber;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -37,5 +40,13 @@ public class ToolsUtil {
                 return tObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
             }
         };
+    }
+
+    public static <T> T createService(Class<T> serviceClazz) {
+        return Ironman.getInstance().createService(serviceClazz);
+    }
+
+    public static <T> Subscription subscribe(rx.Observable<T> observable, NetSubscriber<T> subscriber) {
+        return observable.compose(ToolsUtil.<T>applayScheduers()).subscribe(subscriber);
     }
 }

@@ -10,6 +10,8 @@
         android:textSize="10sp"
         android:gravity="center"
         android:background="@drawable/bg_tag"
-        android:text="标签"/>
+        android:text="标签"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"/>
 
 </LinearLayout>
