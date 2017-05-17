@@ -616,7 +616,7 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
     @Override
     public void onPageSelected(int position) {
 
-        Log.i("wwwwwwwwwwwwwwwwww",position+"");
+//        Log.i("wwwwwwwwwwwwwwwwww",position+"");
         if (mOnPageChangeListener != null) {
             mOnPageChangeListener.onPageSelected(position);
         }
@@ -662,14 +662,14 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
                 ObjectAnimator animator = new ObjectAnimator().ofFloat(img, "translationX", UnitUtil.dip2px(context,240), 0f);
                 animator.setDuration(700);
                 animator.setInterpolator(new LinearInterpolator());
-                Log.i("banner start","OrderView startt 9999999999999");
+//                Log.i("banner start","OrderView startt 9999999999999");
                 animator.start();
             }
             else if(oldPosition==2){
                 ObjectAnimator animator = new ObjectAnimator().ofFloat(img, "translationX", UnitUtil.dip2px(context,120), 0f);
                 animator.setDuration(700);
                 animator.setInterpolator(new LinearInterpolator());
-                Log.i("banner start","OrderView startt 9999999999999");
+//                Log.i("banner start","OrderView startt 9999999999999");
                 animator.start();
             }
         }
@@ -679,14 +679,14 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
                 ObjectAnimator animator = new ObjectAnimator().ofFloat(img, "translationX", 0f, UnitUtil.dip2px(context,120));
                 animator.setDuration(700);
                 animator.setInterpolator(new LinearInterpolator());
-                Log.i("banner start","OrderView startt 9999999999999");
+//                Log.i("banner start","OrderView startt 9999999999999");
                 animator.start();
             }
             else{
                 ObjectAnimator animator = new ObjectAnimator().ofFloat(img, "translationX", UnitUtil.dip2px(context,240), UnitUtil.dip2px(context,120));
                 animator.setDuration(700);
                 animator.setInterpolator(new LinearInterpolator());
-                Log.i("banner start","OrderView startt 9999999999999");
+//                Log.i("banner start","OrderView startt 9999999999999");
                 animator.start();
             }
         }
@@ -696,7 +696,7 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
                 ObjectAnimator animator = new ObjectAnimator().ofFloat(img, "translationX", UnitUtil.dip2px(context,120), UnitUtil.dip2px(context,240));
                 animator.setDuration(700);
                 animator.setInterpolator(new LinearInterpolator());
-                Log.i("banner start","OrderView startt 9999999999999");
+//                Log.i("banner start","OrderView startt 9999999999999");
                 animator.start();
             }
 //            else{
@@ -712,14 +712,14 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
             ObjectAnimator animator = new ObjectAnimator().ofFloat(img, "translationX", 0f, UnitUtil.dip2px(context,240));
             animator.setDuration(700);
             animator.setInterpolator(new LinearInterpolator());
-            Log.i("banner start","OrderView startt 9999999999999");
+//            Log.i("banner start","OrderView startt 9999999999999");
             animator.start();
         }
         if(position==4){
             ObjectAnimator animator = new ObjectAnimator().ofFloat(img, "translationX", UnitUtil.dip2px(context,240), 0f);
             animator.setDuration(700);
             animator.setInterpolator(new LinearInterpolator());
-            Log.i("banner start","OrderView startt 9999999999999");
+//            Log.i("banner start","OrderView startt 9999999999999");
             animator.start();
         }
         if(position!=4&&position!=0){

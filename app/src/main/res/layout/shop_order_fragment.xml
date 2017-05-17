@@ -257,6 +257,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/shop_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="6800间"
@@ -280,6 +281,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/boss_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="230位"
