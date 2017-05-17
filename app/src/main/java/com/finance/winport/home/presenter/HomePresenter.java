@@ -19,12 +19,39 @@ public class HomePresenter {
     }
 
     public void getShopList(ShopRequset requset) {
-
         ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).getShops(requset), new NetSubscriber<ShopListResponse>() {
             @Override
             public void response(ShopListResponse response) {
                 if (mIHomeView != null) {
                     mIHomeView.showShopList(response);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                if (mIHomeView != null) {
+                    mIHomeView.onError();
+                }
+            }
+        });
+
+    }
+
+    public void getMoreShopList(ShopRequset requset) {
+        ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).getShops(requset), new NetSubscriber<ShopListResponse>() {
+            @Override
+            public void response(ShopListResponse response) {
+                if (mIHomeView != null) {
+                    mIHomeView.showMoreList(response);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                if (mIHomeView != null) {
+                    mIHomeView.onError();
                 }
             }
         });

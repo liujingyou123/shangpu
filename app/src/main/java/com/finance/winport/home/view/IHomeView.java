@@ -8,4 +8,7 @@ import com.finance.winport.home.model.ShopListResponse;
 
 public interface IHomeView {
     void showShopList(ShopListResponse response);
+    void showMoreList(ShopListResponse response);
+
+    void onError();
 }

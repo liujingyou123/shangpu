@@ -14,12 +14,10 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.home.model.ShopListResponse;
-import com.finance.winport.home.model.Tag;
 import com.finance.winport.image.Batman;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.tagview.TagCloudLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -77,11 +75,17 @@ public class ShopsAdapter extends BaseAdapter {
             viewHolder.tvDistance.setText(UnitUtil.mTokm(ret.getDistance()));
             viewHolder.tvChangeMoney.setText("转让费"+UnitUtil.formatNum(ret.getTransferFee()) + "万元");
             viewHolder.tvUpdateTime.setText(ret.getUpdateTime());
-            viewHolder.tgView.setAdapter(new TagAdapter(mContext, ret.getFeatureList()));
             viewHolder.tvScanNum.setText(ret.getVisitCount()+"");
             viewHolder.tvContactNum.setText(ret.getContactCount()+"");
 
             Batman.getInstance().fromNet(ret.getCoverImg(), viewHolder.imvCover);
+
+            if (ret.getFeatureList() != null && ret.getFeatureList().size() > 0) {
+                viewHolder.tgView.setAdapter(new TagAdapter(mContext, ret.getFeatureList()));
+                viewHolder.llTag.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.llTag.setVisibility(View.GONE);
+            }
         }
 
         return view;

@@ -5,5 +5,8 @@ package com.finance.winport.home.model;
  */
 
 public class ShopRequset {
-    private int queryType;
+    public int queryType;
+    public int pageSize = 10;
+    public int pageNumber = 1;
+
 }

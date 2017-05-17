@@ -28,7 +28,6 @@ import com.finance.winport.home.view.IHomeView;
 import com.finance.winport.map.MapActivity;
 import com.finance.winport.view.home.HeaderView;
 import com.finance.winport.view.home.SelectView;
-import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
 import com.finance.winport.view.refreshview.XPtrFrameLayout;
@@ -67,6 +66,7 @@ public class HomeFragment extends BaseFragment implements IHomeView{
     private QuyuPopupView quyuPopupView;
     private SortPopupView sortPopupView;
     private SelectionDialog selectionDialog;
+    private ShopRequset requset = new ShopRequset();
 
     @Nullable
     @Override
@@ -82,7 +82,7 @@ public class HomeFragment extends BaseFragment implements IHomeView{
         if (mPresenter == null) {
             mPresenter = new HomePresenter(this);
         }
-        mPresenter.getShopList(new ShopRequset());
+        mPresenter.getShopList(requset);
     }
 
     private void initListView() {
@@ -184,11 +184,14 @@ public class HomeFragment extends BaseFragment implements IHomeView{
         refreshView.setPtrHandler(new PtrDefaultHandler2() {
             @Override
             public void onLoadMoreBegin(PtrFrameLayout frame) {
-
+                requset.pageNumber ++;
+                mPresenter.getMoreShopList(requset);
             }
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
+                requset.pageNumber = 1;
+                mPresenter.getShopList(requset);
             }
         });
 
@@ -333,7 +336,30 @@ public class HomeFragment extends BaseFragment implements IHomeView{
     @Override
     public void showShopList(ShopListResponse response) {
         if (response != null) {
+            if (refreshView.isRefreshing()) {
+                refreshView.refreshComplete();
+                mData.clear();
+            }
             mData.addAll(response.getData().getData());
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
+            }
         }
+    }
+
+    @Override
+    public void showMoreList(ShopListResponse response) {
+        if (response != null) {
+            refreshView.refreshComplete();
+            mData.addAll(response.getData().getData());
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    @Override
+    public void onError() {
+        refreshView.refreshComplete();
     }
 }
