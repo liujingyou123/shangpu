@@ -1,5 +1,6 @@
 package com.finance.winport.service.fragment;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -78,6 +80,8 @@ public class SendShopRentFragment extends BaseFragment {
     View codeLine;
     @BindView(R.id.img_line)
     View imgLine;
+    @BindView(R.id.modify_area)
+    LinearLayout modifyArea;
 
 
     @Nullable
@@ -95,14 +99,14 @@ public class SendShopRentFragment extends BaseFragment {
         super.onDestroyView();
     }
 
-    public void init()
-    {
+    public void init() {
         phoneView.setFilters(new InputFilter[]{TextViewUtil.phoneFormat()});
 //        phoneView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
         phoneView.setInputType(InputType.TYPE_CLASS_PHONE);
         verifyCodeView.setInputType(InputType.TYPE_CLASS_NUMBER);
-        phoneView.setText("18878787998");
+        phoneView.setText("188 7878 7998");
     }
+
     @OnClick({R.id.imv_focus_house_back, R.id.order_time, R.id.map_address, R.id.modify})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -122,10 +126,16 @@ public class SendShopRentFragment extends BaseFragment {
                 startActivityForResult(new Intent(getActivity(), AddrSelectActivity.class), AddrSelectActivity.ACTIVITY_REQUEST_CODE_ADDR_SELECT);
                 break;
             case R.id.modify:
-                llVerifyCode.setVisibility(View.VISIBLE);
-                llImgCode.setVisibility(View.VISIBLE);
-                codeLine.setVisibility(View.VISIBLE);
-                imgLine.setVisibility(View.VISIBLE);
+//                llVerifyCode.setVisibility(View.VISIBLE);
+//                llImgCode.setVisibility(View.VISIBLE);
+//                codeLine.setVisibility(View.VISIBLE);
+//                imgLine.setVisibility(View.VISIBLE);
+                modifyArea.setVisibility(View.VISIBLE);
+
+                ObjectAnimator animator1 = new ObjectAnimator().ofFloat(modifyArea, "scaleY", 0f,  1f);
+                animator1.setDuration(1500);
+                animator1.setInterpolator(new LinearInterpolator());
+                animator1.start();
                 modify.setVisibility(View.GONE);
                 break;
         }

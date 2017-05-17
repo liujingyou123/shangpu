@@ -91,6 +91,7 @@ public class SendShopOrderFragment extends BaseFragment {
 //        phoneView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
         phoneView.setInputType(InputType.TYPE_CLASS_PHONE);
         verifyCodeView.setInputType(InputType.TYPE_CLASS_NUMBER);
+        phoneView.setText("188 7878 7998");
     }
 
     @OnClick({R.id.imv_focus_house_back, R.id.order_time, R.id.modify})
