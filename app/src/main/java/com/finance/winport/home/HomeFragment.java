@@ -31,6 +31,7 @@ import com.finance.winport.view.home.SelectView;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
+import com.finance.winport.view.refreshview.XPtrFrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +50,7 @@ public class HomeFragment extends BaseFragment implements IHomeView{
     @BindView(R.id.ls_shops)
     ListView lsShops;
     @BindView(R.id.refresh_view)
-    PtrClassicFrameLayout refreshView;
+    XPtrFrameLayout refreshView;
     Unbinder unbinder;
     @BindView(R.id.select_view)
     SelectView selectionView;
