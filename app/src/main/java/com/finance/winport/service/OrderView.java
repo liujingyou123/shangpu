@@ -49,7 +49,7 @@ public class OrderView extends FrameLayout {
 
     public void start(){
 
-        Log.i("banner start","OrderView startt 8888888888888");
+//        Log.i("banner start","OrderView startt 8888888888888");
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -60,7 +60,7 @@ public class OrderView extends FrameLayout {
                 ObjectAnimator animator = new ObjectAnimator().ofFloat(view1, "translationX", 1500f,  0f);
                 animator.setDuration(700);
                 animator.setInterpolator(new LinearInterpolator());
-                Log.i("banner start","OrderView startt 9999999999999");
+//                Log.i("banner start","OrderView startt 9999999999999");
                 animator.start();
 
                 ObjectAnimator animator1 = new ObjectAnimator().ofFloat(view2, "translationX", 1700f,  1f);

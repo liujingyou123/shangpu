@@ -1,5 +1,6 @@
 package com.finance.winport.service.fragment;
 
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.InputFilter;
@@ -7,6 +8,7 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -69,6 +71,8 @@ public class SendShopOrderFragment extends BaseFragment {
     View codeLine;
     @BindView(R.id.img_line)
     View imgLine;
+    @BindView(R.id.modify_area)
+    LinearLayout modifyArea;
 
     @Nullable
     @Override
@@ -85,8 +89,7 @@ public class SendShopOrderFragment extends BaseFragment {
         super.onDestroyView();
     }
 
-    public void init()
-    {
+    public void init() {
         phoneView.setFilters(new InputFilter[]{TextViewUtil.phoneFormat()});
 //        phoneView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
         phoneView.setInputType(InputType.TYPE_CLASS_PHONE);
@@ -110,10 +113,16 @@ public class SendShopOrderFragment extends BaseFragment {
                 dialog.show();
                 break;
             case R.id.modify:
-                llVerifyCode.setVisibility(View.VISIBLE);
-                llImgCode.setVisibility(View.VISIBLE);
-                codeLine.setVisibility(View.VISIBLE);
-                imgLine.setVisibility(View.VISIBLE);
+//                llVerifyCode.setVisibility(View.VISIBLE);
+//                llImgCode.setVisibility(View.VISIBLE);
+//                codeLine.setVisibility(View.VISIBLE);
+//                imgLine.setVisibility(View.VISIBLE);
+                modifyArea.setVisibility(View.VISIBLE);
+
+                ObjectAnimator animator1 = new ObjectAnimator().ofFloat(modifyArea, "scaleY", 0f,  1f);
+                animator1.setDuration(200);
+                animator1.setInterpolator(new LinearInterpolator());
+                animator1.start();
                 modify.setVisibility(View.GONE);
                 break;
         }

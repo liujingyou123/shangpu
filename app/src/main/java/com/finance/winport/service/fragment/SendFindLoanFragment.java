@@ -1,5 +1,6 @@
 package com.finance.winport.service.fragment;
 
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.InputFilter;
@@ -7,6 +8,7 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -75,6 +77,8 @@ public class SendFindLoanFragment extends BaseFragment {
     View imgLine;
     @BindView(R.id.order_time)
     HeaderTextView orderTime;
+    @BindView(R.id.modify_area)
+    LinearLayout modifyArea;
 
 
     @Nullable
@@ -92,8 +96,7 @@ public class SendFindLoanFragment extends BaseFragment {
         super.onDestroyView();
     }
 
-    public void init()
-    {
+    public void init() {
         phoneView.setFilters(new InputFilter[]{TextViewUtil.phoneFormat()});
 //        phoneView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
         phoneView.setInputType(InputType.TYPE_CLASS_PHONE);
@@ -101,6 +104,7 @@ public class SendFindLoanFragment extends BaseFragment {
         inputLoanMoney.setInputType(InputType.TYPE_CLASS_NUMBER);
         phoneView.setText("188 7878 7998");
     }
+
     @OnClick({R.id.imv_focus_house_back, R.id.modify, R.id.order_time})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -108,10 +112,16 @@ public class SendFindLoanFragment extends BaseFragment {
                 handleBack();
                 break;
             case R.id.modify:
-                llVerifyCode.setVisibility(View.VISIBLE);
-                llImgCode.setVisibility(View.VISIBLE);
-                codeLine.setVisibility(View.VISIBLE);
-                imgLine.setVisibility(View.VISIBLE);
+//                llVerifyCode.setVisibility(View.VISIBLE);
+//                llImgCode.setVisibility(View.VISIBLE);
+//                codeLine.setVisibility(View.VISIBLE);
+//                imgLine.setVisibility(View.VISIBLE);
+                modifyArea.setVisibility(View.VISIBLE);
+
+                ObjectAnimator animator1 = new ObjectAnimator().ofFloat(modifyArea, "scaleY", 0f,  1f);
+                animator1.setDuration(200);
+                animator1.setInterpolator(new LinearInterpolator());
+                animator1.start();
                 modify.setVisibility(View.GONE);
                 break;
             case R.id.order_time:

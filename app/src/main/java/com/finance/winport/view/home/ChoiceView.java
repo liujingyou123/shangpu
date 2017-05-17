@@ -7,14 +7,13 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.AnimationSet;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
-import com.finance.winport.home.adapter.LocationAdapter;
+import com.finance.winport.home.adapter.BlockAdapter;
 import com.finance.winport.util.UnitUtil;
 
 import java.util.ArrayList;
@@ -45,10 +44,10 @@ public class ChoiceView extends RelativeLayout {
     View viewBg;
 
     private Context mContext;
-    private LocationAdapter locationOneAdapter;
+    private BlockAdapter locationOneAdapter;
     private List<String> listOne = new ArrayList<>();
 
-    private LocationAdapter locationTwoAdapter;
+    private BlockAdapter locationTwoAdapter;
     private List<String> listTwo = new ArrayList<>();
 
     public ChoiceView(Context context) {
@@ -71,15 +70,15 @@ public class ChoiceView extends RelativeLayout {
         LayoutInflater.from(context).inflate(R.layout.view_choice, this);
         ButterKnife.bind(this, this);
 
-        if (locationOneAdapter == null) {
-            locationOneAdapter = new LocationAdapter(context, listOne);
-        }
-        lsOne.setAdapter(locationOneAdapter);
-
-        if (locationTwoAdapter == null) {
-            locationTwoAdapter = new LocationAdapter(context, listTwo);
-        }
-        lsTwo.setAdapter(locationTwoAdapter);
+//        if (locationOneAdapter == null) {
+//            locationOneAdapter = new BlockAdapter(context, listOne);
+//        }
+//        lsOne.setAdapter(locationOneAdapter);
+//
+//        if (locationTwoAdapter == null) {
+//            locationTwoAdapter = new BlockAdapter(context, listTwo);
+//        }
+//        lsTwo.setAdapter(locationTwoAdapter);
     }
 
 

@@ -14,12 +14,10 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.home.model.ShopListResponse;
-import com.finance.winport.home.model.Tag;
 import com.finance.winport.image.Batman;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.tagview.TagCloudLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,7 +38,7 @@ public class ShopsAdapter extends BaseAdapter {
         if (mData != null) {
             ret = mData.size();
         }
-        return ret;
+        return 50;
     }
 
     @Override
@@ -68,21 +66,30 @@ public class ShopsAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        ShopListResponse.DataBean.Shop ret = mData.get(i);
-        if (ret != null) {
-            viewHolder.tvShopname.setText(ret.getAddress()+ret.getRentTypeName());
-            viewHolder.tvAddress.setText(ret.getDistrictName()+" "+ret.getBlockName());
-            viewHolder.tvArea.setText(ret.getArea()+"㎡");
-            viewHolder.tvAverMoney.setText(ret.getRent()+"元／月");
-            viewHolder.tvDistance.setText(UnitUtil.mTokm(ret.getDistance()));
-            viewHolder.tvChangeMoney.setText("转让费"+UnitUtil.formatNum(ret.getTransferFee()) + "万元");
-            viewHolder.tvUpdateTime.setText(ret.getUpdateTime());
-            viewHolder.tgView.setAdapter(new TagAdapter(mContext, ret.getFeatureList()));
-            viewHolder.tvScanNum.setText(ret.getVisitCount()+"");
-            viewHolder.tvContactNum.setText(ret.getContactCount()+"");
+        if (mData != null && i< mData.size()-1) {
+            ShopListResponse.DataBean.Shop ret = mData.get(i);
+            if (ret != null) {
+                viewHolder.tvShopname.setText(ret.getAddress()+ret.getRentTypeName());
+                viewHolder.tvAddress.setText(ret.getDistrictName()+" "+ret.getBlockName());
+                viewHolder.tvArea.setText(ret.getArea()+"㎡");
+                viewHolder.tvAverMoney.setText(ret.getRent()+"元／月");
+                viewHolder.tvDistance.setText(UnitUtil.mTokm(ret.getDistance()));
+                viewHolder.tvChangeMoney.setText("转让费"+UnitUtil.formatNum(ret.getTransferFee()) + "万元");
+                viewHolder.tvUpdateTime.setText(ret.getUpdateTime());
+                viewHolder.tvScanNum.setText(ret.getVisitCount()+"");
+                viewHolder.tvContactNum.setText(ret.getContactCount()+"");
 
-            Batman.getInstance().fromNet(ret.getCoverImg(), viewHolder.imvCover);
+                Batman.getInstance().fromNet(ret.getCoverImg(), viewHolder.imvCover);
+
+                if (ret.getFeatureList() != null && ret.getFeatureList().size() > 0) {
+                    viewHolder.tgView.setAdapter(new TagAdapter(mContext, ret.getFeatureList()));
+                    viewHolder.llTag.setVisibility(View.VISIBLE);
+                } else {
+                    viewHolder.llTag.setVisibility(View.GONE);
+                }
+            }
         }
+
 
         return view;
     }

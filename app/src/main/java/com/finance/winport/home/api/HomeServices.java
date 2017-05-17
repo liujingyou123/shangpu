@@ -1,8 +1,11 @@
 package com.finance.winport.home.api;
 
 import com.finance.winport.base.BaseResponse;
+import com.finance.winport.home.model.RegionResponse;
 import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.home.model.ShopRequset;
+
+import java.util.HashMap;
 
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -21,8 +24,7 @@ public interface HomeServices {
     Observable<ShopListResponse> getShops(@Body ShopRequset requset);
 
     //区域板块
-    @FormUrlEncoded
     @POST("customerapp/api/base/area/v1.0.0")
-    Observable<BaseResponse> getDistrict(@Field("reqStr") String params);
+    Observable<RegionResponse> getDistrict(@Body HashMap params);
 
 }

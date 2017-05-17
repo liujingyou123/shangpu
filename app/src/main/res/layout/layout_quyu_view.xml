@@ -71,6 +71,7 @@
             android:layout_weight="1"
             android:divider="@color/color_line"
             android:dividerHeight="0.5dp"
-            android:scrollbars="none"></ListView>
+            android:scrollbars="none"
+            android:visibility="gone"></ListView>
     </LinearLayout>
 </FrameLayout>
