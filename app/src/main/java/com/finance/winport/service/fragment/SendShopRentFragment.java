@@ -133,7 +133,7 @@ public class SendShopRentFragment extends BaseFragment {
                 modifyArea.setVisibility(View.VISIBLE);
 
                 ObjectAnimator animator1 = new ObjectAnimator().ofFloat(modifyArea, "scaleY", 0f,  1f);
-                animator1.setDuration(1500);
+                animator1.setDuration(200);
                 animator1.setInterpolator(new LinearInterpolator());
                 animator1.start();
                 modify.setVisibility(View.GONE);
