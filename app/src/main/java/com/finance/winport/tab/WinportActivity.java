@@ -9,6 +9,7 @@ import com.finance.winport.base.BaseActivity;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.tab.fragment.MineWinportFragment;
 import com.finance.winport.tab.fragment.OffShelfFragment;
+import com.finance.winport.tab.fragment.ScanHeadImageFragment;
 import com.finance.winport.tab.fragment.ScanWinportFragment;
 
 public class WinportActivity extends BaseActivity {
@@ -39,6 +40,9 @@ public class WinportActivity extends BaseActivity {
                 BaseFragment dropOff = new OffShelfFragment();
                 dropOff.setArguments(getIntent().getExtras());
                 pushFragment(dropOff, false);
+                break;
+            case 6://浏览头像
+                pushFragment(new ScanHeadImageFragment());
                 break;
         }
     }

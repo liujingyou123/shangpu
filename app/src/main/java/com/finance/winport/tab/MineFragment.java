@@ -32,12 +32,17 @@ import com.finance.winport.mine.ShopFocusActivity;
 import com.finance.winport.mine.SuggestActivity;
 import com.finance.winport.permission.PermissionsManager;
 import com.finance.winport.permission.PermissionsResultAction;
+import com.finance.winport.tab.event.SelectImageEvent;
 import com.finance.winport.util.LoadingDialogUtil;
 import com.finance.winport.view.StopWatchTextView;
+import com.finance.winport.view.imagepreview.ImagePreviewActivity;
 import com.finance.winport.view.picker.Picker;
 import com.finance.winport.view.picker.engine.GlideEngine;
 import com.finance.winport.view.picker.utils.PicturePickerUtils;
 import com.yalantis.ucrop.UCrop;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
 import java.util.List;
@@ -101,6 +106,25 @@ public class MineFragment extends BaseFragment {
     TextView concern;
     Unbinder unbinder;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onSelectEvent(SelectImageEvent event) {
+        if (event != null) {
+            selectImage(REQUEST_CODE_HEAD);
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -150,7 +174,8 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.shop_img:
                 if (true) {// already login
-                    selectImage(REQUEST_CODE_HEAD);
+                    scanHeadImage();
+//                    selectImage(REQUEST_CODE_HEAD);
                 } else {//not login
                     toLogin();
                 }
@@ -186,6 +211,10 @@ public class MineFragment extends BaseFragment {
                 startActivity(new Intent(context, SuggestActivity.class));
                 break;
         }
+    }
+
+    private void scanHeadImage() {
+        startActivity(new Intent(context,WinportActivity.class).putExtra("type",6));
     }
 
     String headImage = "headImg.jpg";
@@ -280,7 +309,7 @@ public class MineFragment extends BaseFragment {
     private void startCrop(Uri sourceUri, Uri destinationUri) {
         UCrop uCrop = UCrop.of(sourceUri, destinationUri);
         if (type == REQUEST_CODE_HEAD) {
-            uCrop.withAspectRatio(1, 1);
+            uCrop.withAspectRatio(4, 3);
         } else {
             uCrop.withAspectRatio(16, 9);
         }
