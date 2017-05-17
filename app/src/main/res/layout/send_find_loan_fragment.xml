@@ -227,7 +227,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="267dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="#ffffff"
                     android:orientation="vertical">
@@ -301,34 +301,59 @@
                         app:htv_divider_color="@color/color_line"
                         app:htv_divider_stretch="false"
                         app:htv_divider_visible="true"
-                        app:text_hint="请输入您的手机号"
+                        app:text_hint="请输入联系人姓名"
                         app:text_hint_color="#969696"
                         app:text_size="15sp" />
 
-                    <com.finance.winport.view.HeaderTextView
-                        android:id="@+id/phone_view"
+                    <LinearLayout
+                        android:id="@+id/ll_phone"
                         android:layout_width="match_parent"
-                        android:layout_height="44dp"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="15dp"
-                        app:content_background="#00000000"
-                        app:content_height="match_parent"
-                        app:content_width="match_parent"
-                        app:editable="true"
-                        app:header_text="联系电话"
-                        app:header_text_size="15sp"
-                        app:header_width="85dp"
-                        app:htv_divider_color="@color/color_line"
-                        app:htv_divider_stretch="false"
-                        app:htv_divider_visible="true"
-                        app:text_hint="请输入您的手机号"
-                        app:text_hint_color="#969696"
-                        app:text_size="15sp" />
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/phone_view"
+                        android:layout_marginLeft="15dp"
+                        android:gravity="center_vertical">
+
+                        <com.finance.winport.view.HeaderTextView
+                            android:id="@+id/phone_view"
+                            android:layout_width="0dp"
+                            android:layout_height="44dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            app:content_background="#00000000"
+                            app:content_height="match_parent"
+                            app:content_width="match_parent"
+                            app:editable="true"
+                            app:header_text="联系电话"
+                            app:header_text_size="15sp"
+                            app:header_width="85dp"
+                            app:text="185 3856 4789"
+                            app:text_hint="请输入您的手机号"
+                            app:text_hint_color="#969696"
+                            app:text_size="15sp" />
+
+                        <TextView
+                            android:id="@+id/modify"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="15dp"
+                            android:text="更改"
+                            android:textColor="#ffa73b"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <View
+
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginLeft="100dp"
+                        android:background="#e5e5e5" />
 
                     <LinearLayout
                         android:id="@+id/ll_verify_code"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:layout_below="@+id/phone_view"
                         android:layout_marginLeft="15dp"
                         android:gravity="center_vertical">
@@ -352,22 +377,29 @@
 
                         <com.finance.winport.view.CountDownButton
                             android:id="@+id/countDown"
-                            style="?attr/borderlessButtonStyle"
-                            android:layout_width="70dp"
-                            android:layout_height="30dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="44dp"
                             android:layout_marginRight="15dp"
                             android:gravity="center"
-                            android:textColor="@color/color_count_down_btn_selector"
                             android:text="获取验证码"
-                            android:textSize="12sp" />
+                            android:textColor="@color/color_count_down_btn_selector"
+                            android:textSize="14sp" />
                     </LinearLayout>
 
+                    <View
+                        android:id="@+id/code_line"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="#e5e5e5"
+                        android:layout_marginLeft="100dp"/>
                     <LinearLayout
                         android:id="@+id/ll_img_code"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/phone_view"
                         android:layout_marginLeft="15dp"
+                        android:visibility="gone"
                         android:gravity="center_vertical">
 
                         <com.finance.winport.view.HeaderTextView
@@ -394,7 +426,15 @@
                             android:background="#7e3456" />
                     </LinearLayout>
 
+                    <View
+                        android:visibility="gone"
+                        android:id="@+id/img_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="#e5e5e5"
+                        android:layout_marginLeft="100dp"/>
                     <com.finance.winport.view.HeaderTextView
+                        android:id="@+id/order_time"
                         android:layout_width="match_parent"
                         android:layout_height="44dp"
                         android:gravity="center_vertical"

@@ -53,7 +53,7 @@ public class RentView extends FrameLayout {
     public void start(){
 
         Log.i("banner start","OrderView startt 8888888888888");
-        handler.postDelayed(new Runnable() {
+        handler.post(new Runnable() {
             @Override
             public void run() {
                 view1.setVisibility(View.VISIBLE);
@@ -72,7 +72,7 @@ public class RentView extends FrameLayout {
                 animator1.start();
 
             }
-        },100);
+        });
     }
 
     public void setView(){

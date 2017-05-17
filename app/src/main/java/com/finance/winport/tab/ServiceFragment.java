@@ -141,13 +141,13 @@ public class ServiceFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        banner.startAutoPlay();
+//        banner.startAutoPlay();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        banner.stopAutoPlay();
+//        banner.stopAutoPlay();
     }
 
     @OnClick({R.id.rent, R.id.order, R.id.loan, R.id.loan_more})

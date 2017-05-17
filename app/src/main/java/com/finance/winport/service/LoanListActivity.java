@@ -39,9 +39,15 @@ public class LoanListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loan_apply);
         ButterKnife.bind(this);
+
+        init();
         setAdapter();
     }
 
+
+    public void init(){
+        tvFocusHouse.setText("我的贷款申请");
+    }
 
     private void setAdapter() {
         if (adapter == null) {

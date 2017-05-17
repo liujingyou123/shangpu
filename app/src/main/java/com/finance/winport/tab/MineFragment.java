@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,14 +22,17 @@ import com.finance.winport.R;
 import com.finance.winport.account.LoginActivity;
 import com.finance.winport.aliyunoss.AliOss;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.image.Batman;
 import com.finance.winport.image.BatmanCallBack;
 import com.finance.winport.mine.MyNoticeActivity;
 import com.finance.winport.mine.MyScheduleListActivity;
 import com.finance.winport.mine.SettingsActivity;
 import com.finance.winport.mine.ShopFocusActivity;
+import com.finance.winport.mine.SuggestActivity;
 import com.finance.winport.permission.PermissionsManager;
 import com.finance.winport.permission.PermissionsResultAction;
+import com.finance.winport.util.LoadingDialogUtil;
 import com.finance.winport.view.StopWatchTextView;
 import com.finance.winport.view.picker.Picker;
 import com.finance.winport.view.picker.engine.GlideEngine;
@@ -117,7 +121,7 @@ public class MineFragment extends BaseFragment {
 
     @OnClick({R.id.tv_focus_right, R.id.modify, R.id.schedule_list, R.id.setting, R.id.phone
             , R.id.concern, R.id.shop_img, R.id.ll_mine_winport, R.id.ll_mine_collection
-            , R.id.ll_mine_appoint, R.id.ll_mine_scan, R.id.fierce_prediction})
+            , R.id.ll_mine_appoint, R.id.ll_mine_scan, R.id.fierce_prediction, R.id.suggest})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_focus_right:
@@ -178,6 +182,9 @@ public class MineFragment extends BaseFragment {
             case R.id.fierce_prediction:
                 startActivity(new Intent(context, FiercePredictionActivity.class));
                 break;
+            case R.id.suggest:
+                startActivity(new Intent(context, SuggestActivity.class));
+                break;
         }
     }
 
@@ -218,14 +225,20 @@ public class MineFragment extends BaseFragment {
     }
 
     private void upLoadImage(final String path) {
-        Observable.just(path).subscribeOn(Schedulers.newThread()).map(new Func1<String, String>() {
+        new AsyncTask<String, Integer, String>() {
             @Override
-            public String call(String s) {
-                return AliOss.getInstance().putObjectFromByteArray(s);
+            protected void onPreExecute() {
+                LoadingDialogUtil.getInstance().showLoading("上传中...");
             }
-        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<String>() {
+
             @Override
-            public void call(String s) {
+            protected String doInBackground(String... params) {
+                return AliOss.getInstance().putObjectFromByteArray(params[0]);
+            }
+
+            @Override
+            protected void onPostExecute(final String s) {
+                LoadingDialogUtil.getInstance().hideLoading();
                 Batman.getInstance().fromNet(path, new BatmanCallBack() {
                     @Override
                     public void onSuccess(Bitmap bitmap) {
@@ -237,7 +250,7 @@ public class MineFragment extends BaseFragment {
                     }
                 });
             }
-        });
+        }.execute(path);
     }
 
     private void selectImage(final int requestCode) {
