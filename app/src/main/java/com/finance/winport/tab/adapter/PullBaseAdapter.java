@@ -32,12 +32,12 @@ public abstract class PullBaseAdapter<E> extends BaseAdapter {
             this.baseData = new ArrayList<E>();
         }
         this.maxTotal = maxTotal;
-//        this.initFooterView();
+        this.initFooterView();
     }
 
     protected void notifyDataChanged() {
         initHeaderView();
-//        initFooterView();
+        initFooterView();
         notifyDataSetChanged();
     }
 

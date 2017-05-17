@@ -22,7 +22,9 @@ import com.finance.winport.tab.TypeList;
 import com.finance.winport.tab.adapter.AppointWinportAdapter;
 import com.finance.winport.tab.adapter.CollectionWinportAdapter;
 import com.finance.winport.tab.adapter.ScanWinportAdapter;
+import com.finance.winport.tab.model.AppointRanking;
 import com.finance.winport.tab.model.AppointShopList;
+import com.finance.winport.tab.model.ScanCount;
 import com.finance.winport.tab.net.NetworkCallback;
 import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
@@ -89,7 +91,7 @@ public class ScanWinportFragment extends BaseFragment {
 
     private void initView() {
         setTitle();
-        setTip();
+        setTip("19200", "90%");
         initRefreshView();
         initListView();
     }
@@ -98,9 +100,9 @@ public class ScanWinportFragment extends BaseFragment {
         tvFocusHouse.setText(title);
     }
 
-    private void setTip() {
-        String s1 = "1200";
-        String s2 = "90%";
+    private void setTip(String count, String rank) {
+        String s1 = count;
+        String s2 = rank;
         String s = getString(R.string.list_scan_winport_tip, s1, s2);
         SpannableString sp = new SpannableString(s);
         sp.setSpan(new ForegroundColorSpan(Color.parseColor("#ff0000")), s.indexOf(s1), s.indexOf(s1) + s1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -114,7 +116,7 @@ public class ScanWinportFragment extends BaseFragment {
 
     private void initRefreshView() {
         refreshView.autoLoadMore();
-        refreshView.setMode(PtrFrameLayout.Mode.REFRESH);
+        refreshView.setMode(PtrFrameLayout.Mode.BOTH);
         refreshView.setPtrHandler(new PtrDefaultHandler2() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
@@ -130,6 +132,53 @@ public class ScanWinportFragment extends BaseFragment {
         });
 
     }
+
+
+    // 约看次数和排名
+    private void getAppointRanking() {
+        PersonManager.getInstance().getAppointRanking(new HashMap<String, Object>(), new NetworkCallback<AppointRanking>() {
+            @Override
+            public void success(AppointRanking response) {
+                setTip("", "");
+            }
+
+            @Override
+            public void failure(Throwable throwable) {
+
+            }
+        });
+    }
+
+    // 浏览次数和排名
+    private void queryScanCount() {
+        PersonManager.getInstance().queryScanCount(new HashMap<String, Object>(), new NetworkCallback<ScanCount>() {
+            @Override
+            public void success(ScanCount response) {
+                setTip("", "");
+            }
+
+            @Override
+            public void failure(Throwable throwable) {
+
+            }
+        });
+    }
+
+    // 收藏次数和排名
+//    private void queryScanCount() {
+//        PersonManager.getInstance().queryScanCount(new HashMap<String, Object>(), new NetworkCallback<ScanCount>() {
+//            @Override
+//            public void success(ScanCount response) {
+//                setTip("", "");
+//            }
+//
+//            @Override
+//            public void failure(Throwable throwable) {
+//
+//            }
+//        });
+//    }
+
 
     // 获取约看列表
     private void getAppointList() {
@@ -237,21 +286,23 @@ public class ScanWinportFragment extends BaseFragment {
     private void asyncData() {
         switch (type) {
             case APPOINT:
+                getAppointRanking();
                 getAppointList();
                 break;
             case COLLECTION:
                 getCollectionList();
                 break;
             case SCAN:
+                queryScanCount();
                 getScanList();
                 break;
         }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                refreshView.refreshComplete();
-            }
-        }, 2 * 1000);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                refreshView.refreshComplete();
+//            }
+//        }, 2 * 1000);
     }
 
 

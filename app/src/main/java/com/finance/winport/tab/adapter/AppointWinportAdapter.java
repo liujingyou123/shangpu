@@ -59,7 +59,7 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
         holder.district.setText(item.districtName + " " + item.blockName);
 //        holder.area.setText();
         holder.price.setText(Math.round(item.rent) + "元");
-        String sFee = Math.round(item.transferFee) + "";
+        String sFee = Math.round(item.transferFee/10000) + "";
         SpannableString sp = new SpannableString("转让费" + sFee + "万元");
         sp.setSpan(new ForegroundColorSpan(Color.parseColor("#FF7540"))
                 , sp.toString().indexOf(sFee), sp.toString().indexOf(sFee) + sFee.length()

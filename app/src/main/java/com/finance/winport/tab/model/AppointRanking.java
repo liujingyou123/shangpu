@@ -8,4 +8,5 @@ import com.finance.winport.base.BaseResponse;
  */
 
 public class AppointRanking extends BaseResponse {
+
 }
