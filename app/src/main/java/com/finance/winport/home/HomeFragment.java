@@ -17,24 +17,21 @@ import android.widget.RelativeLayout;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
-import com.finance.winport.base.BaseResponse;
 import com.finance.winport.dialog.QuyuPopupView;
 import com.finance.winport.dialog.SelectionDialog;
 import com.finance.winport.dialog.SortPopupView;
 import com.finance.winport.home.adapter.ShopsAdapter;
-import com.finance.winport.home.api.HomeServices;
-import com.finance.winport.home.model.Shop;
+import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.home.model.ShopRequset;
-import com.finance.winport.log.XLog;
+import com.finance.winport.home.presenter.HomePresenter;
+import com.finance.winport.home.view.IHomeView;
 import com.finance.winport.map.MapActivity;
-import com.finance.winport.net.Ironman;
-import com.finance.winport.net.NetSubscriber;
-import com.finance.winport.util.ToolsUtil;
 import com.finance.winport.view.home.HeaderView;
 import com.finance.winport.view.home.SelectView;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
+import com.finance.winport.view.refreshview.XPtrFrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,12 +45,12 @@ import butterknife.Unbinder;
 /**
  * 首页
  */
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment implements IHomeView{
 
     @BindView(R.id.ls_shops)
     ListView lsShops;
     @BindView(R.id.refresh_view)
-    PtrClassicFrameLayout refreshView;
+    XPtrFrameLayout refreshView;
     Unbinder unbinder;
     @BindView(R.id.select_view)
     SelectView selectionView;
@@ -63,7 +60,9 @@ public class HomeFragment extends BaseFragment {
     ImageView mapList;
 
     private ShopsAdapter adapter;
-    private List<Shop> mData = new ArrayList<>();
+    private List<ShopListResponse.DataBean.Shop> mData = new ArrayList<>();
+
+    private HomePresenter mPresenter;
 
     private QuyuPopupView quyuPopupView;
     private SortPopupView sortPopupView;
@@ -75,7 +74,15 @@ public class HomeFragment extends BaseFragment {
         View root = inflater.inflate(R.layout.home_fragment, container, false);
         unbinder = ButterKnife.bind(this, root);
         initListView();
+        getData();
         return root;
+    }
+
+    private void getData() {
+        if (mPresenter == null) {
+            mPresenter = new HomePresenter(this);
+        }
+        mPresenter.getShopList(new ShopRequset());
     }
 
     private void initListView() {
@@ -205,16 +212,7 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
-        Ironman.getInstance()
-                .createService(HomeServices.class)
-                .getShops(new ShopRequset())
-                .compose(ToolsUtil.<BaseResponse>applayScheduers())
-                .subscribe(new NetSubscriber<BaseResponse>() {
-                    @Override
-                    public void response(BaseResponse response) {
 
-                    }
-                });
     }
 
     private void showShowQuYuDialog(int time) {
@@ -330,5 +328,12 @@ public class HomeFragment extends BaseFragment {
     @OnClick(R.id.map_list)
     public void onViewClicked() {
         startActivity(new Intent(getActivity(), MapActivity.class));
+    }
+
+    @Override
+    public void showShopList(ShopListResponse response) {
+        if (response != null) {
+            mData.addAll(response.getData().getData());
+        }
     }
 }

@@ -7,7 +7,7 @@ import com.finance.winport.view.refreshview.util.PtrLocalDisplay;
  */
 
 class XPtrConstants {
-    private static final int MAX_HEIGHT_DP = 90;
+//    private static final int MAX_HEIGHT_DP = 90;
     private static final int MAX_DOT_DP = 30;
     private static final int MIN_DOT_DP = 5;
     private static final int DOT_MARGIN_DP = 20;
@@ -19,7 +19,7 @@ class XPtrConstants {
     public static int DOT_MARGIN_PX;
 
     public static void init() {
-        MAX_HEIGHT_PX = PtrLocalDisplay.dp2px(MAX_HEIGHT_DP);
+//        MAX_HEIGHT_PX = PtrLocalDisplay.dp2px(MAX_HEIGHT_DP);
         MAX_DOT_PX = PtrLocalDisplay.dp2px(MAX_DOT_DP);
         MIN_DOT_PX = PtrLocalDisplay.dp2px(MIN_DOT_DP);
         DOT_MARGIN_PX = PtrLocalDisplay.dp2px(DOT_MARGIN_DP);

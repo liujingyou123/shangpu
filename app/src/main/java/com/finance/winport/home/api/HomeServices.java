@@ -1,6 +1,7 @@
 package com.finance.winport.home.api;
 
 import com.finance.winport.base.BaseResponse;
+import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.home.model.ShopRequset;
 
 import retrofit2.http.Body;
@@ -17,7 +18,7 @@ import rx.Observable;
 public interface HomeServices {
     //商铺筛选
     @POST("customerapp/api/shop/queryShop/v1.0.0")
-    Observable<BaseResponse> getShops(@Body ShopRequset requset);
+    Observable<ShopListResponse> getShops(@Body ShopRequset requset);
 
     //区域板块
     @FormUrlEncoded
