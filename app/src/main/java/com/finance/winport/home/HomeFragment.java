@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,9 @@ import com.finance.winport.view.home.SelectView;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
 import com.finance.winport.view.refreshview.XPtrFrameLayout;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,21 +64,24 @@ public class HomeFragment extends BaseFragment implements IHomeView{
 
     private ShopsAdapter adapter;
     private List<ShopListResponse.DataBean.Shop> mData = new ArrayList<>();
-
     private HomePresenter mPresenter;
 
     private QuyuPopupView quyuPopupView;
     private SortPopupView sortPopupView;
     private SelectionDialog selectionDialog;
-    private ShopRequset requset = new ShopRequset();
+    private ShopRequset mRequest = new ShopRequset();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.home_fragment, container, false);
         unbinder = ButterKnife.bind(this, root);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         initListView();
         getData();
+
         return root;
     }
 
@@ -82,7 +89,7 @@ public class HomeFragment extends BaseFragment implements IHomeView{
         if (mPresenter == null) {
             mPresenter = new HomePresenter(this);
         }
-        mPresenter.getShopList(requset);
+        mPresenter.getShopList(mRequest);
     }
 
     private void initListView() {
@@ -184,14 +191,14 @@ public class HomeFragment extends BaseFragment implements IHomeView{
         refreshView.setPtrHandler(new PtrDefaultHandler2() {
             @Override
             public void onLoadMoreBegin(PtrFrameLayout frame) {
-                requset.pageNumber ++;
-                mPresenter.getMoreShopList(requset);
+                mRequest.pageNumber ++;
+                mPresenter.getMoreShopList(mRequest);
             }
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                requset.pageNumber = 1;
-                mPresenter.getShopList(requset);
+                mRequest.pageNumber = 1;
+                mPresenter.getShopList(mRequest);
             }
         });
 
@@ -227,7 +234,7 @@ public class HomeFragment extends BaseFragment implements IHomeView{
                     quyuPopupView.setOnDismissListener(new PopupWindow.OnDismissListener() {
                         @Override
                         public void onDismiss() {
-                            selectionView.onLocationUnClick();
+//                            selectionView.onLocationUnClick();
                         }
                     });
                 }
@@ -358,8 +365,42 @@ public class HomeFragment extends BaseFragment implements IHomeView{
         }
     }
 
+
     @Override
     public void onError() {
         refreshView.refreshComplete();
+    }
+
+    @Subscribe
+    public void onQuyuEvent(ShopRequset requset) {
+        if (requset != null) {
+            if (!TextUtils.isEmpty(requset.blockId)) {
+                if ("-1".equals(requset.blockId)) {
+                    selectionView.setQuYuText(requset.districtName);
+                    mRequest.blockId = null;
+                } else {
+                    selectionView.setQuYuText(requset.blockName);
+                    mRequest.blockId = requset.blockId;
+                }
+            }
+            if (!TextUtils.isEmpty(requset.districtId)) {
+                if ("-1".equals(requset.districtId)) {
+                    selectionView.setQuYuText("区域");
+                    mRequest.districtId = null;
+                    mRequest.blockId = null;
+                } else {
+                    mRequest.districtId = requset.districtId;
+                }
+            }
+
+            mRequest.pageNumber = 1;
+            mPresenter.getShopList(mRequest);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

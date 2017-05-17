@@ -107,6 +107,10 @@ public class SelectView extends LinearLayout {
         tvCS.setSelected(false);
     }
 
+    public void setQuYuText(String text) {
+        tvLocation.setText(text);
+    }
+
     public void setOnLocationClickListener(OnClickListener onLocationClickListener) {
         rlLocationS.setOnClickListener(onLocationClickListener);
     }

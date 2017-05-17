@@ -11,17 +11,18 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.home.model.RegionResponse;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LocationAdapter extends BaseAdapter {
+public class BlockAdapter extends BaseAdapter {
     private Context mContext;
-    private List<String> mData;
+    private List<RegionResponse.Region.Block> mData;
 
-    public LocationAdapter(Context mContext, List<String> mData) {
+    public BlockAdapter(Context mContext, List<RegionResponse.Region.Block> mData) {
         this.mContext = mContext;
         this.mData = mData;
     }
@@ -32,12 +33,12 @@ public class LocationAdapter extends BaseAdapter {
         if (mData != null) {
             ret = mData.size();
         }
-        return 40;
+        return ret;
     }
 
     @Override
-    public String getItem(int i) {
-        String ret = null;
+    public RegionResponse.Region.Block getItem(int i) {
+        RegionResponse.Region.Block ret = null;
         if (mData != null) {
             ret = mData.get(i);
         }
@@ -60,7 +61,15 @@ public class LocationAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        viewHolder.tvText.setText("全部");
+        RegionResponse.Region.Block block = mData.get(i);
+        if (block != null) {
+            viewHolder.tvText.setText(block.getBlockName());
+            if (block.isChecked()) {
+                viewHolder.tvText.setSelected(true);
+            } else {
+                viewHolder.tvText.setSelected(false);
+            }
+        }
         return view;
     }
 

@@ -1,5 +1,6 @@
 package com.finance.winport.home.view;
 
+import com.finance.winport.home.model.RegionResponse;
 import com.finance.winport.home.model.ShopListResponse;
 
 /**
