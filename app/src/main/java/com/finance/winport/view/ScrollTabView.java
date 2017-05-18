@@ -79,24 +79,7 @@ public class ScrollTabView extends LinearLayout {
         viewHs.setOnScrollChangedListener(new PositionHScrollView.OnScrollChangedListener() {
             @Override
             public void onScrollChanged(int l, int t, int oldl, int oldt) {
-
-//                View subView = viewTabs.getChildAt(selectIndex);
-//
-//                int[] location = new int[2];
-//                subView.getLocationOnScreen(location);
-//                int x = location[0];
-//                if (subView != null) {
-//                    int width = subView.getWidth();
-//                    int tabWidth = viewSelectTab.getWidth();
-//
-//                    int offset = (width - tabWidth) / 2;
-//                    viewSelectTab.setX(x + offset);
-//
-//                }
-
                 viewSelectTab.setX(getOffsetByIndex(selectIndex));
-
-
             }
         });
 
@@ -151,14 +134,8 @@ public class ScrollTabView extends LinearLayout {
 
 
         if (subView != null) {
-
             int width = subView.getWidth();
-//            int left = subView.getLeft();
-//            int right = subView.getRight();
-//            int centerPointX = (left - right) / 2;
-
             int tabWidth = viewSelectTab.getWidth();
-
             offset = (width - tabWidth) / 2;
         }
 
@@ -167,35 +144,9 @@ public class ScrollTabView extends LinearLayout {
 
     private void setSeletViewTab(int index) {
         View subView = viewTabs.getChildAt(index);
-//
-//        int[] location = new int[2];
-//        subView.getLocationOnScreen(location);
-//        int x = location[0];
-
-
         if (subView != null) {
-//
-//            int width = subView.getWidth();
-////            int left = subView.getLeft();
-////            int right = subView.getRight();
-////            int centerPointX = (left - right) / 2;
-//
-//            int tabWidth = viewSelectTab.getWidth();
-//
-//            int offset = (width - tabWidth) / 2;
-//
-//            XLog.e("width = " + width);
-//            XLog.e("tabWidth = " + tabWidth);
-//            XLog.e("offset = " + offset);
-//            XLog.e("x + offset = " + (x + offset));
-
-
-//            int seletViewHelftWidth = UnitUtil.dip2px(mContext, 18) / 2;
-//            int seletViewLeft = centerPointX;
-
             viewSelectTab.setPivotY(0);
             viewSelectTab.setPivotX(0);
-
 
             ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(viewSelectTab, "translationX", viewSelectTab.getTranslationX(), getOffsetByIndex(index));
             objectAnimator.setInterpolator(new AccelerateDecelerateInterpolator());

@@ -91,9 +91,9 @@ public class UnitUtil {
     public static String limitNum(double num, double limit) {
         String ret;
         if (num > limit) {
-            ret = formatNum(num)+"万元";
+            ret = formatNum(num)+"万";
         } else {
-            ret = num+"元";
+            ret = formatDNum(num)+"元";
         }
         return ret;
     }
@@ -152,6 +152,19 @@ public class UnitUtil {
      * @return
      */
     public static String formatMNum(float num) {
+        String ret;
+        DecimalFormat df = new DecimalFormat("#.##");
+        ret = df.format(num);
+        return ret;
+
+    }
+
+    /**
+     * 处理小数点  1.0 ——> 1   1.10 ——> 1.1
+     * @param num
+     * @return
+     */
+    public static String formatDNum(double num) {
         String ret;
         DecimalFormat df = new DecimalFormat("#.##");
         ret = df.format(num);

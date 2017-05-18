@@ -1,10 +1,10 @@
 package com.finance.winport.home;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,11 +20,13 @@ import com.finance.winport.base.BaseActivity;
 import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.dialog.ShareDialog;
 import com.finance.winport.home.adapter.SupportTagAdapter;
+import com.finance.winport.home.adapter.TagAdapter;
 import com.finance.winport.home.adapter.TagDetailAdapter;
 import com.finance.winport.home.model.ShopDetail;
 import com.finance.winport.home.presenter.ShopDetailPresenter;
 import com.finance.winport.home.view.IShopDetailView;
 import com.finance.winport.image.GlideImageLoader;
+import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.PositionScrollView;
 import com.finance.winport.view.ScrollTabView;
@@ -182,24 +183,12 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     LinearLayout llJingyingfanwei;
     @BindView(R.id.ll_jingyingfeiyongone)
     LinearLayout llJingyingfeiyongone;
-    //    @BindView(R.id.tv_dianfeitwo)
-//    TextView tvDianfeitwo;
-//    @BindView(R.id.view_space_feiyong_one)
-//    View viewSpaceFeiyongOne;
-//    @BindView(R.id.tv_shuifei_two)
-//    TextView tvShuifeiTwo;
-//    @BindView(R.id.view_space_feiyong_two)
-//    View viewSpaceFeiyongTwo;
-//    @BindView(R.id.tv_ranqi_two)
-//    TextView tvRanqiTwo;
     @BindView(R.id.ll_jingyingfeiyongtwo)
     LinearLayout llJingyingfeiyongtwo;
-    //    @BindView(R.id.rl_title_root)
-//    RelativeLayout rlTitleRoot;
-//    @BindView(R.id.tv_feiyongnotice)
-//    TextView tvFeiyongnotice;
     @BindView(R.id.view_space_jingyingfeiyong)
     View viewSpaceJingyingfeiyong;
+    @BindView(R.id.tv_rent_type)
+    TextView tvRentType;
 
     private boolean isTouched = false;
     private ShareDialog shareDialog;
@@ -443,18 +432,25 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     public void getShopDetail(ShopDetail shopDetail) {
         ShopDetail.DataBean data = shopDetail.getData();
         tvName.setText("由 小二 " + data.getClerkName() + " 于" + data.getIssueShopTime() + " 实勘核实");
-        tvShopAddress.setText(data.getAddress());
+        tvShopAddress.setText(" 　 " + data.getAddress());
         tvScan.setText(data.getVisitCount() + "浏览");
         tvLianxi.setText(data.getContactCount() + "联系");
-        tvPrice.setText(UnitUtil.limitNum(data.getRent(), 99999) + "(" + data.getRentWayName() + ")");
+        String price = UnitUtil.limitNum(data.getRent(), 99999);
+        tvPrice.setText(price + "/月(" + data.getRentWayName() + ")");
 
+        tvRentType.setText(data.getRentTypeName());
         String compactResidue = "";
         if (data.getCompactResidue() > 0) {
-            compactResidue = "带租约";
+            compactResidue = "(带租约)";
         }
 
-        tvZhuanprice.setText(UnitUtil.limitNum(data.getTransferFee(), 0) + compactResidue);
+        String zhuan = UnitUtil.limitNum(data.getTransferFee(), 0);
+        tvZhuanprice.setText(zhuan + compactResidue);
         tvArea.setText(UnitUtil.formatMNum(data.getArea()) + "㎡");
+
+        TextViewUtil.setPartialSizeAndColor(tvPrice, 0, price.length() + 2, 18, 0, price.length() + 2, Color.parseColor("#FF5851"));
+        TextViewUtil.setPartialSizeAndColor(tvZhuanprice, 0, zhuan.length(), 18, 0, zhuan.length(), Color.parseColor("#FF5851"));
+
 
         if (data.getNearInfoList() != null && data.getNearInfoList().size() > 0) {
             viewSpaceLinpu.setVisibility(View.VISIBLE);
@@ -585,6 +581,11 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             llJingyingfanwei.setVisibility(View.GONE);
         }
 
+        tvFocusHouse.setText(data.getAddress());
+
+        if (data.getFeatureList() != null && data.getFeatureList().size() > 0) {
+            tag.setAdapter(new TagAdapter(this, data.getFeatureList()));
+        }
 
     }
 

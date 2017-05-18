@@ -46,7 +46,8 @@ public class TokenInterceptor implements Interceptor {
     private String getTokenKey() {
         String token;
         try {
-            token = SharedPrefsUtil.getUserInfo().data.accessToken;
+//            token = SharedPrefsUtil.getUserInfo().data.accessToken;
+            token = "B589650D58D553EDE28D1F5E14E8CC33";
         } catch (Exception e) {
             token = "";
             e.printStackTrace();
