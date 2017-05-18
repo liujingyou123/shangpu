@@ -5,6 +5,7 @@ package com.finance.winport.home.model;
  */
 
 public class Tag {
+    private String parentId; //业态 父id
     private String color;
     private int id;
     private String name;

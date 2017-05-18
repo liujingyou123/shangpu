@@ -79,29 +79,83 @@ public class UnitUtil {
         BigDecimal bg = new BigDecimal(meters);
 
         if (bg.doubleValue() > 999) {
-            ret = bg.setScale(2, BigDecimal.ROUND_HALF_UP).toString();
-            ret = ret + "km";
+            ret = limitKNum(bg.doubleValue()) + "km";
         } else {
             ret = meters + "m";
         }
         return ret;
     }
 
-    public static String formatNum(int num) {
+
+
+    public static String limitNum(double num, double limit) {
         String ret;
-        int yu = num % 10000;
-        if (yu != 0) {
-            ret = m2(num/10000f);
+        if (num > limit) {
+            ret = formatNum(num)+"万元";
         } else {
-            ret = num / 10000 + "";
+            ret = num+"元";
+        }
+        return ret;
+    }
+
+    /**
+     * 数字格式化（千） eg.   1234 = 1.23   1200 = 1.2
+     * @param num
+     * @return
+     */
+    public static String limitKNum(double num) {
+        String ret;
+        int qian = (int) (num/1000);
+        int bai = (int) (num%1000)/100;
+        int shi = (int)(num%100)/10;
+
+        if (shi != 0) {
+            ret = qian+"."+bai+""+shi;
+        } else {
+            if (bai!=0) {
+                ret = qian+"."+bai+"";
+            } else {
+                ret = qian+"";
+            }
         }
 
         return ret;
     }
 
-    public static String m2(float num) {
-        DecimalFormat df = new DecimalFormat("#.00");
-        return df.format(num);
+    /**
+     * 数字格式化（万） eg.   12345 = 1.23   12000 = 1.2
+     * @param num
+     * @return
+     */
+    public static String formatNum(double num) {
+        String ret;
+        int wang = (int) (num/10000);
+        int qian = (int) (num%10000) / 1000;
+        int bai = (int) (num%100)/10;
+
+        if (bai != 0) {
+            ret = wang+"."+qian+""+bai;
+        } else {
+            if (qian!=0) {
+                ret = wang+"."+qian+"";
+            } else {
+                ret = wang+"";
+            }
+        }
+
+        return ret;
+    }
+
+    /**
+     * 处理小数点  1.0 ——> 1   1.10 ——> 1.1
+     * @param num
+     * @return
+     */
+    public static String formatMNum(float num) {
+        String ret;
+        DecimalFormat df = new DecimalFormat("#.##");
+        ret = df.format(num);
+        return ret;
 
     }
 }

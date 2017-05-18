@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
-    <HorizontalScrollView
+    <com.finance.winport.view.PositionHScrollView
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:overScrollMode="never"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        android:id="@+id/view_hs">
 
         <LinearLayout
             android:id="@+id/view_tabs"
@@ -42,6 +43,15 @@
                 android:textColor="@color/color_tv_select"
                 android:textSize="14sp" />
 
+            <TextView
+                android:id="@+id/tv_yingyufanwei"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="25dp"
+                android:gravity="center"
+                android:text="经营范围"
+                android:textColor="@color/color_tv_select"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_yingyufeiyong"
@@ -63,12 +73,12 @@
                 android:textColor="@color/color_tv_select"
                 android:textSize="14sp" />
         </LinearLayout>
-    </HorizontalScrollView>
+    </com.finance.winport.view.PositionHScrollView>
 
     <View
         android:id="@+id/view_select_tab"
         android:layout_width="18dp"
         android:layout_height="2dp"
         android:background="@drawable/bg_select"
-        android:layout_marginLeft="18dp"/>
+        android:visibility="gone"/>
 </merge>

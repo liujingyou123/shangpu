@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ImageView
+        android:id="@+id/imv_near_shop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="centerInside"
         android:src="@mipmap/icon_surrounding" />
 
     <TextView
+        android:id="@+id/tv_near_shop"
         android:layout_width="48dp"
         android:layout_height="32dp"
         android:layout_marginTop="10dp"
@@ -19,6 +17,7 @@
         android:text="链家地产链家地产链家地产"
         android:textColor="#333333"
         android:textSize="12sp"
-        android:ellipsize="end"/>
+        android:ellipsize="end"
+        android:gravity="center_horizontal"/>
 
-</LinearLayout>
+</merge>

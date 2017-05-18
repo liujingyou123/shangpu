@@ -181,7 +181,9 @@ public class HomeFragment extends BaseFragment implements IHomeView{
             lsShops.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    ShopListResponse.DataBean.Shop shop = (ShopListResponse.DataBean.Shop) parent.getItemAtPosition(position);
                     Intent intent = new Intent(HomeFragment.this.getContext(), ShopDetailActivity.class);
+//                    intent.putExtra("shopId", shop.getId());
                     startActivity(intent);
                 }
             });

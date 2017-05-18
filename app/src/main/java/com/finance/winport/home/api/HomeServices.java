@@ -2,6 +2,7 @@ package com.finance.winport.home.api;
 
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.home.model.RegionResponse;
+import com.finance.winport.home.model.ShopDetail;
 import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.home.model.ShopRequset;
 
@@ -26,5 +27,14 @@ public interface HomeServices {
     //区域板块
     @POST("customerapp/api/base/area/v1.0.0")
     Observable<RegionResponse> getDistrict(@Body HashMap params);
+
+
+    //收藏
+    @POST("customerapp/api/shop/createCollected/v1.0.0")
+    Observable<BaseResponse> collectShop(@Body HashMap params);
+
+    //商铺详情
+    @POST("customerapp/api/shop/queryShopDetail/v1.0.0")
+    Observable<ShopDetail> getShopDetail(@Body HashMap params);
 
 }

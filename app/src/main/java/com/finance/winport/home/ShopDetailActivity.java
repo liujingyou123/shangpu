@@ -4,11 +4,15 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,10 +20,19 @@ import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.dialog.ShareDialog;
+import com.finance.winport.home.adapter.SupportTagAdapter;
+import com.finance.winport.home.adapter.TagDetailAdapter;
+import com.finance.winport.home.model.ShopDetail;
+import com.finance.winport.home.presenter.ShopDetailPresenter;
+import com.finance.winport.home.view.IShopDetailView;
+import com.finance.winport.image.GlideImageLoader;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.PositionScrollView;
 import com.finance.winport.view.ScrollTabView;
+import com.finance.winport.view.home.NearShop;
+import com.finance.winport.view.home.RateView;
 import com.finance.winport.view.imagepreview.ImagePreviewActivity;
+import com.finance.winport.view.tagview.TagCloudLayout;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -27,10 +40,12 @@ import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,7 +56,7 @@ import butterknife.OnClick;
  * 商铺详情
  */
 
-public class ShopDetailActivity extends BaseActivity {
+public class ShopDetailActivity extends BaseActivity implements IShopDetailView {
 
     @BindView(R.id.sv_all)
     PositionScrollView svAll;
@@ -77,6 +92,114 @@ public class ShopDetailActivity extends BaseActivity {
     LinearLayout llTop;
     @BindView(R.id.imv_focus_house_back)
     ImageView imvFocusHouseBack;
+    @BindView(R.id.tv_collection)
+    TextView tvCollection;
+    @BindView(R.id.img_banner)
+    Banner bannerView;
+    @BindView(R.id.tv_share)
+    TextView tvShare;
+    @BindView(R.id.tv_yuyue)
+    TextView tvYuyue;
+    @BindView(R.id.tv_call)
+    TextView tvCall;
+    @BindView(R.id.view_bottom)
+    LinearLayout viewBottom;
+    @BindView(R.id.view_bottom_line)
+    View viewBottomLine;
+    @BindView(R.id.tv_name)
+    TextView tvName;
+    @BindView(R.id.tv_shop_address)
+    TextView tvShopAddress;
+    @BindView(R.id.tv_scan)
+    TextView tvScan;
+    @BindView(R.id.tv_lianxi)
+    TextView tvLianxi;
+    @BindView(R.id.tv_jiucuo)
+    TextView tvJiucuo;
+    @BindView(R.id.tag)
+    TagCloudLayout tag;
+    @BindView(R.id.view_line)
+    View viewLine;
+    @BindView(R.id.tv_name_price)
+    TextView tvNamePrice;
+    @BindView(R.id.imv_change)
+    ImageView imvChange;
+    @BindView(R.id.tv_price)
+    TextView tvPrice;
+    @BindView(R.id.view_line_one)
+    View viewLineOne;
+    @BindView(R.id.tv_name_zhuanprice)
+    TextView tvNameZhuanprice;
+    @BindView(R.id.tv_zhuanprice)
+    TextView tvZhuanprice;
+    @BindView(R.id.view_line_two)
+    View viewLineTwo;
+    @BindView(R.id.tv_name_area)
+    TextView tvNameArea;
+    @BindView(R.id.tv_area)
+    TextView tvArea;
+    @BindView(R.id.tv_focus_right)
+    TextView tvFocusRight;
+    @BindView(R.id.tv_focus_house)
+    TextView tvFocusHouse;
+    @BindView(R.id.tv_shop_more)
+    TextView tvShopMore;
+    @BindView(R.id.imv_back)
+    ImageView imvBack;
+    @BindView(R.id.view_shop_one)
+    NearShop viewShopOne;
+    @BindView(R.id.view_shop_two)
+    NearShop viewShopTwo;
+    @BindView(R.id.view_shop_three)
+    NearShop viewShopThree;
+    @BindView(R.id.view_shop_four)
+    NearShop viewShopFour;
+    @BindView(R.id.view_shop_five)
+    NearShop viewShopFive;
+    @BindView(R.id.view_space_linpu)
+    View viewSpaceLinpu;
+    @BindView(R.id.tv_cenggao)
+    TextView tvCenggao;
+    @BindView(R.id.tv_miankuan)
+    TextView tvMiankuan;
+    @BindView(R.id.tv_jinshen)
+    TextView tvJinshen;
+    @BindView(R.id.tv_dianfei)
+    TextView tvDianfei;
+    @BindView(R.id.tv_shuifei)
+    TextView tvShuifei;
+    @BindView(R.id.tv_ranqi)
+    TextView tvRanqi;
+    @BindView(R.id.tv_wuye)
+    TextView tvWuye;
+    @BindView(R.id.gv_support)
+    GridView gvSupport;
+    @BindView(R.id.tg_view)
+    TagCloudLayout tgView;
+    @BindView(R.id.view_space_jingyingfanwei)
+    View viewSpaceJingyingfanwei;
+    @BindView(R.id.ll_jingyingfanwei)
+    LinearLayout llJingyingfanwei;
+    @BindView(R.id.ll_jingyingfeiyongone)
+    LinearLayout llJingyingfeiyongone;
+    //    @BindView(R.id.tv_dianfeitwo)
+//    TextView tvDianfeitwo;
+//    @BindView(R.id.view_space_feiyong_one)
+//    View viewSpaceFeiyongOne;
+//    @BindView(R.id.tv_shuifei_two)
+//    TextView tvShuifeiTwo;
+//    @BindView(R.id.view_space_feiyong_two)
+//    View viewSpaceFeiyongTwo;
+//    @BindView(R.id.tv_ranqi_two)
+//    TextView tvRanqiTwo;
+    @BindView(R.id.ll_jingyingfeiyongtwo)
+    LinearLayout llJingyingfeiyongtwo;
+    //    @BindView(R.id.rl_title_root)
+//    RelativeLayout rlTitleRoot;
+//    @BindView(R.id.tv_feiyongnotice)
+//    TextView tvFeiyongnotice;
+    @BindView(R.id.view_space_jingyingfeiyong)
+    View viewSpaceJingyingfeiyong;
 
     private boolean isTouched = false;
     private ShareDialog shareDialog;
@@ -84,21 +207,43 @@ public class ShopDetailActivity extends BaseActivity {
 
     private UMShareListener mShareListener;
     private ShareAction mShareAction;
+    private String shopId;
+    private ShopDetailPresenter mPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopdetail);
         ButterKnife.bind(this);
+        initData();
         init();
         shareInit();
+
+    }
+
+    private void initData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            shopId = intent.getStringExtra("shopId");
+        }
+
+        if (mPresenter == null) {
+            mPresenter = new ShopDetailPresenter(this);
+        }
+
+        shopId = "4";
+        mPresenter.getShopDetail(shopId);
     }
 
     private void init() {
         llTop.setAlpha(0);
+        svAll.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
+        svAll.setFocusable(true);
+        svAll.setFocusableInTouchMode(true);
         svAll.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                v.requestFocusFromTouch();
                 isTouched = true;
                 return false;
             }
@@ -121,12 +266,15 @@ public class ShopDetailActivity extends BaseActivity {
                 } else if (isScrolled(llMenmianshuju)) {
                     text = "门面";
                     stv.setSelectPosition(2);
+                } else if (isScrolled(llJingyingfanwei)) {
+                    text = "范围";
+                    stv.setSelectPosition(3);
                 } else if (isScrolled(llJingyingfeiyong)) {
                     text = "费用";
-                    stv.setSelectPosition(3);
+                    stv.setSelectPosition(4);
                 } else if (isScrolled(llPeitao)) {
                     text = "配套";
-                    stv.setSelectPosition(4);
+                    stv.setSelectPosition(5);
                 }
 
                 Log.e("cover is = ", text);
@@ -148,14 +296,19 @@ public class ShopDetailActivity extends BaseActivity {
                     svAll.smoothScrollTo(0, llMenmianshuju.getTop() - space + 1);
 
                 } else if (position == 3) {
-                    svAll.smoothScrollTo(0, llJingyingfeiyong.getTop() - space + 1);
+                    svAll.smoothScrollTo(0, llJingyingfanwei.getTop() - space + 1);
 
                 } else if (position == 4) {
+                    svAll.smoothScrollTo(0, llJingyingfeiyong.getTop() - space + 1);
+
+                } else if (position == 5) {
                     svAll.smoothScrollTo(0, llPeitao.getTop() - space + 1);
 
                 }
             }
         });
+
+
     }
 
     /**
@@ -177,29 +330,21 @@ public class ShopDetailActivity extends BaseActivity {
         int top = llNear.getTop();
 
         int titleView = UnitUtil.dip2px(context, 97);
-        Log.e("updateView = top", top + "");
-        Log.e("updateView = scrollY", scrollY + "");
-        Log.e("updateView = titleView", titleView + "");
 
         if (scrollY >= 0) {
             float deltaY = top - titleView - scrollY;
             if (deltaY >= 0) {
                 float fraction = deltaY / (top - titleView);
-                float alpha = (255 * (1 - fraction));
-
-                Log.e("updateView = fraction", fraction + "");
-                Log.e("updateView = alpha", alpha + "");
-
                 llTop.setAlpha(1 - fraction);
             } else {
                 llTop.setAlpha(1);
             }
         } else {
-            llTop.setAlpha(1);
+//            llTop.setAlpha(1);
         }
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.imv_back, R.id.tv_share, R.id.tv_shop_more, R.id.view_banner, R.id.tv_jiucuo, R.id.tv_yuyue, R.id.tv_call})
+    @OnClick({R.id.imv_focus_house_back, R.id.imv_back, R.id.tv_share, R.id.tv_shop_more, R.id.tv_jiucuo, R.id.tv_yuyue, R.id.tv_call, R.id.tv_collection})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -217,18 +362,6 @@ public class ShopDetailActivity extends BaseActivity {
             case R.id.tv_shop_more:
                 Intent intent = new Intent(ShopDetailActivity.this, ShopMoreActivity.class);
                 startActivity(intent);
-                break;
-            case R.id.view_banner:
-                ArrayList<String> list = new ArrayList<String>();
-                list.add("http://pic6.huitu.com/res/20130116/84481_20130116142820494200_1.jpg");
-                list.add("http://pic.58pic.com/58pic/13/85/85/73T58PIC9aj_1024.jpg");
-                list.add("http://pic41.nipic.com/20140518/18521768_133448822000_2.jpg");
-                list.add("http://img02.tooopen.com/images/20140127/sy_54827852166.jpg");
-
-                Intent intents = new Intent(context, ImagePreviewActivity.class);
-                intents.putExtra("pics", list);
-                intents.putExtra("index", 0);
-                context.startActivity(intents);
                 break;
 
             case R.id.tv_jiucuo:
@@ -250,6 +383,9 @@ public class ShopDetailActivity extends BaseActivity {
                 if (!mNoticeDialog.isShowing()) {
                     mNoticeDialog.show();
                 }
+                break;
+            case R.id.tv_collection:
+                mPresenter.collectShop(shopId);
                 break;
 
         }
@@ -293,6 +429,165 @@ public class ShopDetailActivity extends BaseActivity {
                     }
                 });
     }
+
+    @Override
+    public void collectedShop(boolean isSuccess) {
+        if (isSuccess) {
+            tvCollection.setSelected(true);
+        } else {
+            tvCollection.setSelected(false);
+        }
+    }
+
+    @Override
+    public void getShopDetail(ShopDetail shopDetail) {
+        ShopDetail.DataBean data = shopDetail.getData();
+        tvName.setText("由 小二 " + data.getClerkName() + " 于" + data.getIssueShopTime() + " 实勘核实");
+        tvShopAddress.setText(data.getAddress());
+        tvScan.setText(data.getVisitCount() + "浏览");
+        tvLianxi.setText(data.getContactCount() + "联系");
+        tvPrice.setText(UnitUtil.limitNum(data.getRent(), 99999) + "(" + data.getRentWayName() + ")");
+
+        String compactResidue = "";
+        if (data.getCompactResidue() > 0) {
+            compactResidue = "带租约";
+        }
+
+        tvZhuanprice.setText(UnitUtil.limitNum(data.getTransferFee(), 0) + compactResidue);
+        tvArea.setText(UnitUtil.formatMNum(data.getArea()) + "㎡");
+
+        if (data.getNearInfoList() != null && data.getNearInfoList().size() > 0) {
+            viewSpaceLinpu.setVisibility(View.VISIBLE);
+            llLinpu.setVisibility(View.VISIBLE);
+            viewShopThree.setVisibility(View.VISIBLE);
+            viewShopThree.setShopName("本店");
+            viewShopThree.setIsOwnShop();
+            for (int i = 0; i < data.getNearInfoList().size(); i++) {
+                ShopDetail.DataBean.NearInfoListBean tmp = data.getNearInfoList().get(i);
+                if (tmp.getNearSeat() == 0) {
+                    viewShopOne.setVisibility(View.VISIBLE);
+                    viewShopOne.setShopName(tmp.getName());
+                } else if (tmp.getNearSeat() == 1) {
+                    viewShopTwo.setVisibility(View.VISIBLE);
+                    viewShopTwo.setShopName(tmp.getName());
+                } else if (tmp.getNearSeat() == 2) {
+                    viewShopFour.setVisibility(View.VISIBLE);
+                    viewShopFour.setShopName(tmp.getName());
+                } else if (tmp.getNearSeat() == 3) {
+                    viewShopFive.setVisibility(View.VISIBLE);
+                    viewShopFive.setShopName(tmp.getName());
+                }
+            }
+        } else {
+            viewSpaceLinpu.setVisibility(View.GONE);
+            llLinpu.setVisibility(View.GONE);
+        }
+
+        tvCenggao.setText((data.getHeight() == 0 ? "--" : data.getHeight() + "m"));
+        tvMiankuan.setText((data.getWidth() == 0 ? "--" : data.getWidth() + "m"));
+        tvJinshen.setText((data.getDepth() == 0 ? "--" : data.getDepth() + "m"));
+
+        if (data.getElectricRate() != 0 && data.getWaterRate() != 0 && data.getGasRate() != 0 && data.getPropertyRate() != 0) {
+            viewSpaceJingyingfeiyong.setVisibility(View.VISIBLE);
+            llJingyingfeiyongone.setVisibility(View.VISIBLE);
+            llJingyingfeiyongtwo.setVisibility(View.GONE);
+
+            tvDianfei.setText(data.getElectricRate() + "");
+            tvShuifei.setText(data.getWaterRate() + "");
+            tvRanqi.setText(data.getGasRate() + "");
+            tvWuye.setText(data.getPropertyRate() + "");
+
+
+        } else if (data.getElectricRate() == 0 && data.getWaterRate() == 0 && data.getGasRate() == 0 && data.getPropertyRate() == 0) {
+            viewSpaceJingyingfeiyong.setVisibility(View.GONE);
+            llJingyingfeiyong.setVisibility(View.GONE);
+        } else {
+            viewSpaceJingyingfeiyong.setVisibility(View.VISIBLE);
+            llJingyingfeiyongone.setVisibility(View.GONE);
+            llJingyingfeiyongtwo.setVisibility(View.VISIBLE);
+
+            if (data.getElectricRate() != 0) {
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
+                lp.weight = 1;
+                RateView rv = new RateView(this);
+                rv.setNum(data.getElectricRate() + "");
+                rv.setNotice("电费(元/度)");
+                llJingyingfeiyongtwo.addView(rv, lp);
+            }
+
+            if (data.getWaterRate() != 0) {
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
+                lp.weight = 1;
+                RateView rv = new RateView(this);
+                rv.setNum(data.getWaterRate() + "");
+                rv.setNotice("水费(元/吨)");
+                if (llJingyingfeiyongtwo.getChildCount() > 0) {
+                    View view = new View(this);
+                    LinearLayout.LayoutParams lpspace = new LinearLayout.LayoutParams(1, LinearLayout.LayoutParams.MATCH_PARENT);
+                    lpspace.setMargins(0, 30, 0, 30);
+                    view.setBackgroundResource(R.color.color_line);
+                    llJingyingfeiyongtwo.addView(view, lpspace);
+                }
+                llJingyingfeiyongtwo.addView(rv, lp);
+            }
+
+            if (data.getGasRate() != 0) {
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
+                lp.weight = 1;
+                RateView rv = new RateView(this);
+                rv.setNum(data.getGasRate() + "");
+                rv.setNotice("燃气费(元/㎡)");
+                if (llJingyingfeiyongtwo.getChildCount() > 0) {
+                    View view = new View(this);
+                    LinearLayout.LayoutParams lpspace = new LinearLayout.LayoutParams(1, LinearLayout.LayoutParams.MATCH_PARENT);
+                    lpspace.setMargins(0, 30, 0, 30);
+                    view.setBackgroundResource(R.color.color_line);
+                    llJingyingfeiyongtwo.addView(view, lpspace);
+                }
+                llJingyingfeiyongtwo.addView(rv, lp);
+            }
+
+            if (data.getPropertyRate() != 0) {
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
+                lp.weight = 1;
+                RateView rv = new RateView(this);
+                rv.setNum(data.getPropertyRate() + "");
+                rv.setNotice("物业费(元/㎡/月)");
+                if (llJingyingfeiyongtwo.getChildCount() > 0) {
+                    View view = new View(this);
+                    LinearLayout.LayoutParams lpspace = new LinearLayout.LayoutParams(1, LinearLayout.LayoutParams.MATCH_PARENT);
+                    lpspace.setMargins(0, 30, 0, 30);
+                    view.setBackgroundResource(R.color.color_line);
+                    llJingyingfeiyongtwo.addView(view, lpspace);
+                }
+                llJingyingfeiyongtwo.addView(rv, lp);
+            }
+        }
+
+
+        SupportTagAdapter supportTagAdapter = new SupportTagAdapter(this, data.getSupportList());
+        gvSupport.setAdapter(supportTagAdapter);
+
+        if (data.getImageList() != null && data.getImageList().size() > 0) {
+            ArrayList<String> list = new ArrayList<>();
+            for (int i = 0; i < data.getImageList().size(); i++) {
+                list.add(data.getImageList().get(i).getImgUrl());
+            }
+            showBaner(list);
+        }
+
+        if (data.getIndustryList() != null && data.getIndustryList().size() > 0) {
+            viewSpaceJingyingfanwei.setVisibility(View.VISIBLE);
+            llJingyingfanwei.setVisibility(View.VISIBLE);
+            tgView.setAdapter(new TagDetailAdapter(this, data.getIndustryList()));
+        } else {
+            viewSpaceJingyingfanwei.setVisibility(View.GONE);
+            llJingyingfanwei.setVisibility(View.GONE);
+        }
+
+
+    }
+
 
     private static class CustomShareListener implements UMShareListener {
 
@@ -358,6 +653,34 @@ public class ShopDetailActivity extends BaseActivity {
 
             Toast.makeText(mActivity.get(), platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void showBaner(final ArrayList<String> list) {
+        bannerView.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        bannerView.setIndicatorGravity(BannerConfig.CENTER);
+        bannerView.setImageLoader(new GlideImageLoader());
+
+//        //TODO  测试用
+//        final ArrayList<String> mlist = new ArrayList<>();
+//        mlist.add("http://img5.imgtn.bdimg.com/it/u=611483611,2895064642&fm=23&gp=0.jpg");
+//        mlist.add("http://img0.imgtn.bdimg.com/it/u=3597903479,3025957499&fm=23&gp=0.jpg");
+//        mlist.add("http://img3.imgtn.bdimg.com/it/u=2110963888,887379731&fm=23&gp=0.jpg");
+//        mlist.add("http://img2.imgtn.bdimg.com/it/u=3161191814,1771697536&fm=23&gp=0.jpg");
+
+        bannerView.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                Intent intents = new Intent(context, ImagePreviewActivity.class);
+                intents.putExtra("pics", list);
+                intents.putExtra("index", position);
+                context.startActivity(intents);
+            }
+        });
+
+
+        bannerView.setImages(list);
+        bannerView.start();
+
     }
 
 }
