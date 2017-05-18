@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.sax.RootElement;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -182,25 +183,25 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.ll_mine_winport:
                 Intent release = new Intent(context, WinportActivity.class);
-                release.putExtra("type", 1);
+                release.putExtra("type", TypeList.RELEASE);
                 release.putExtra("title", "我发布的旺铺");
                 startActivity(release);
                 break;
             case R.id.ll_mine_appoint:
                 Intent appoint = new Intent(context, WinportActivity.class);
-                appoint.putExtra("type", 2);
+                appoint.putExtra("type", TypeList.APPOINT);
                 appoint.putExtra("title", "我的约看");
                 startActivity(appoint);
                 break;
             case R.id.ll_mine_collection:
                 Intent collection = new Intent(context, WinportActivity.class);
-                collection.putExtra("type", 3);
+                collection.putExtra("type", TypeList.COLLECTION);
                 collection.putExtra("title", "我的收藏");
                 startActivity(collection);
                 break;
             case R.id.ll_mine_scan:
                 Intent scan = new Intent(context, WinportActivity.class);
-                scan.putExtra("type", 4);
+                scan.putExtra("type", TypeList.SCAN);
                 scan.putExtra("title", "最近浏览");
                 startActivity(scan);
                 break;
@@ -214,7 +215,7 @@ public class MineFragment extends BaseFragment {
     }
 
     private void scanHeadImage() {
-        startActivity(new Intent(context,WinportActivity.class).putExtra("type",6));
+        startActivity(new Intent(context, WinportActivity.class).putExtra("type", TypeList.SCAN_HEAD));
     }
 
     String headImage = "headImg.jpg";
@@ -303,6 +304,12 @@ public class MineFragment extends BaseFragment {
 
                 });
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        PermissionsManager.getInstance().notifyPermissionsChange(permissions,
+                grantResults);
     }
 
     //开启裁剪

@@ -8,7 +8,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="15dp"
         android:paddingLeft="15dp"
         android:paddingTop="15dp">
 
@@ -16,7 +15,7 @@
             android:id="@+id/img"
             android:layout_width="110dp"
             android:layout_height="82dp"
-            android:background="@color/colorPrimary" />
+            android:background="#e5e5e5" />
 
         <ImageView
             android:id="@+id/mark"
@@ -27,7 +26,8 @@
             android:layout_alignRight="@+id/img"
             android:layout_alignTop="@+id/img"
             android:scaleType="centerInside"
-            android:src="@mipmap/icon_winport_off" />
+            android:src="@mipmap/icon_winport_off"
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -125,7 +125,7 @@
 
 
         <TextView
-            android:id="@+id/release_time"
+            android:id="@+id/update_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/img"
@@ -159,57 +159,59 @@
             android:layout_height="34dp"
             android:layout_alignLeft="@+id/address"
             android:layout_below="@+id/tag_divider"
-            android:layout_marginTop="15dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="gone"></LinearLayout>
+    </RelativeLayout>
 
-            <TextView
-                android:id="@+id/item1"
-                android:layout_width="wrap_content"
-                android:layout_height="14dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/bg_round_rectangle"
-                android:gravity="center"
-                android:minWidth="40sp"
-                android:paddingLeft="2dp"
-                android:paddingRight="2dp"
-                android:text="可明火"
-                android:textColor="#FFA73B"
-                android:textSize="10sp" />
-
-            <TextView
-                android:id="@+id/item2"
-                android:layout_width="wrap_content"
-                android:layout_height="14dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/bg_round_rectangle"
-                android:gravity="center"
-                android:minWidth="40sp"
-                android:paddingLeft="2dp"
-                android:paddingRight="2dp"
-                android:text="可办照"
-                android:textColor="#FFA73B"
-                android:textSize="10sp" />
-
-            <TextView
-                android:id="@+id/item3"
-                android:layout_width="wrap_content"
-                android:layout_height="14dp"
-                android:background="@drawable/bg_round_rectangle"
-                android:gravity="center"
-                android:minWidth="40sp"
-                android:paddingLeft="2dp"
-                android:paddingRight="2dp"
-                android:text="证照齐全"
-                android:textColor="#FFA73B"
-                android:textSize="10sp" />
-        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:visibility="visible">
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/divider_height"
-            android:layout_below="@+id/tag"
             android:background="@color/divider_color" />
-    </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/appoint_time"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:gravity="left|center_vertical"
+                android:text="2015/02/06   21:30:00约看"
+                android:textColor="#999999"
+                android:textSize="13sp" />
+
+            <View
+                android:layout_width="@dimen/divider_height"
+                android:layout_height="14dp"
+                android:background="@color/divider_color" />
+
+            <TextView
+                android:id="@+id/sign"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:gravity="center"
+                android:text="签约租铺"
+                android:textColor="#999999"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/bg" />
 </LinearLayout>

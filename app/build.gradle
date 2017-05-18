@@ -56,9 +56,13 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     // glide
+
     // retrofit2
+
     // okhttp3
+
     // rxjava
+
     //    compile 'com.jakewharton:butterknife:8.0.1'
     compile files('libs/MobCommons-2017.0412.1554.jar')
     compile files('libs/MobTools-2017.0412.1554.jar')
@@ -93,5 +97,5 @@ dependencies {
     provided 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
     provided 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.hwangjr.rxbus:rxbus:1.0.5'
-
+    compile files('libs/jpush-android-2.2.0.jar')
 }
