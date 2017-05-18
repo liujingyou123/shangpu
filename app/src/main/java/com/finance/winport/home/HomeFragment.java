@@ -22,6 +22,7 @@ import com.finance.winport.dialog.QuyuPopupView;
 import com.finance.winport.dialog.SelectionDialog;
 import com.finance.winport.dialog.SortPopupView;
 import com.finance.winport.home.adapter.ShopsAdapter;
+import com.finance.winport.home.model.BannerResponse;
 import com.finance.winport.home.model.ShopCount;
 import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.home.model.ShopRequset;
@@ -91,8 +92,10 @@ public class HomeFragment extends BaseFragment implements IHomeView {
         if (mPresenter == null) {
             mPresenter = new HomePresenter(this);
         }
+        mRequest.queryType = 1;
         mPresenter.getShopList(mRequest);
         mPresenter.getShopCount();
+        mPresenter.getBanner();
     }
 
     private void initListView() {
@@ -382,6 +385,11 @@ public class HomeFragment extends BaseFragment implements IHomeView {
             headerView.setTvLimtArea(dataBean.getCountHundredArea());
             headerView.setTvNearStation(dataBean.getCountNearStation());
         }
+    }
+
+    @Override
+    public void showBanners(BannerResponse response) {
+        headerView.setUrls(response.getData());
     }
 
 

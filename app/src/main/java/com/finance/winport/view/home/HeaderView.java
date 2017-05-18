@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.finance.winport.R;
+import com.finance.winport.home.model.BannerResponse;
 import com.finance.winport.image.GlideImageLoader;
 import com.finance.winport.view.StopWatchTextView;
 import com.youth.banner.Banner;
@@ -44,7 +45,7 @@ public class HeaderView extends RelativeLayout {
     @BindView(R.id.tv_near_station)
     StopWatchTextView tvNearStation;
 
-    private List<String> mUrls = new ArrayList<>();
+    private List<BannerResponse.DataBean> mUrls = new ArrayList<>();
     private Context mContext;
 
     public HeaderView(Context context) {
@@ -69,7 +70,8 @@ public class HeaderView extends RelativeLayout {
         showBaner();
     }
 
-    public void setUrls(List<String> urls) {
+    public void setUrls(List<BannerResponse.DataBean> urls) {
+        mUrls.clear();
         mUrls.addAll(urls);
         showBaner();
     }
@@ -78,11 +80,12 @@ public class HeaderView extends RelativeLayout {
         headerBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
         headerBanner.setIndicatorGravity(BannerConfig.CENTER);
         headerBanner.setImageLoader(new GlideImageLoader());
+
         ArrayList<String> list = new ArrayList<>();
-        list.add("http://img5.imgtn.bdimg.com/it/u=611483611,2895064642&fm=23&gp=0.jpg");
-        list.add("http://img0.imgtn.bdimg.com/it/u=3597903479,3025957499&fm=23&gp=0.jpg");
-        list.add("http://img3.imgtn.bdimg.com/it/u=2110963888,887379731&fm=23&gp=0.jpg");
-        list.add("http://img2.imgtn.bdimg.com/it/u=3161191814,1771697536&fm=23&gp=0.jpg");
+
+        for (int i = 0; i < mUrls.size(); i++) {
+            list.add(mUrls.get(i).getAdPicUrl());
+        }
 
         headerBanner.setImages(list);
         headerBanner.start();

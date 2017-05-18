@@ -1,6 +1,7 @@
 package com.finance.winport.home.api;
 
 import com.finance.winport.base.BaseResponse;
+import com.finance.winport.home.model.BannerResponse;
 import com.finance.winport.home.model.RegionResponse;
 import com.finance.winport.home.model.ShopCount;
 import com.finance.winport.home.model.ShopDetail;
@@ -47,4 +48,7 @@ public interface HomeServices {
     @POST("customerapp/api/shop/countShopFromClient/v1.0.0")
     Observable<ShopCount> getShopCount();
 
+    //广告banner
+    @POST("customerapp/api/base/advList/v1.0.0")
+    Observable<BannerResponse> getBanners(@Body HashMap params);
 }

@@ -14,12 +14,11 @@
         <ImageView
             android:id="@+id/imv_cover"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#ffff00"/>
+            android:layout_height="match_parent" />
         <TextView
             android:id="@+id/tv_scan_num"
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
             android:textColor="#FFFFFFFF"
             android:textSize="11sp"
             android:text="0"
@@ -31,8 +30,8 @@
 
         <TextView
             android:id="@+id/tv_contact_num"
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
             android:textColor="#FFFFFFFF"
             android:textSize="11sp"
             android:text="0"
