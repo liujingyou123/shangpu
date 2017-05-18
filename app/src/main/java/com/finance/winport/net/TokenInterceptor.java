@@ -1,6 +1,9 @@
 package com.finance.winport.net;
 
 import android.text.TextUtils;
+import android.util.Log;
+
+import com.finance.winport.util.SharedPrefsUtil;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -19,13 +22,13 @@ public class TokenInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         String tokenKey = getTokenKey();
-        Request original = chain.request();
-        if (TextUtils.isEmpty(tokenKey)) {
-            return chain.proceed(original);
+        Request newRequest = chain.request();
+        if (!TextUtils.isEmpty(tokenKey)) {
+            newRequest = newRequest.newBuilder()
+                    .addHeader("X-token", tokenKey).build();
         }
-        Request newRequest = original.newBuilder()
-                .addHeader("X-token", tokenKey).addHeader("Content-Type","application/json").build();
 
+        newRequest  = newRequest.newBuilder().addHeader("Content-Type","application/json").build();
         MediaType mediaType = newRequest.body().contentType();
         try {
             if (null != mediaType) {
@@ -43,7 +46,15 @@ public class TokenInterceptor implements Interceptor {
     }
 
     private String getTokenKey() {
-        String ret = "B589650D58D553EDE28D1F5E14E8CC33";  //C8AD6FDEEF19FB0224E31C218E2C4623
-        return ret;
+        String token;
+        try {
+//            token = SharedPrefsUtil.getUserInfo().data.accessToken;
+            token = "8999d7ffa35a6f6b7b322476";
+        } catch (Exception e) {
+            token = "";
+            e.printStackTrace();
+        }
+        Log.d(getClass().getSimpleName(), "token-->" + token);
+        return "50EA1E6878E56AC4877FE9DCF9E3730E";
     }
 }

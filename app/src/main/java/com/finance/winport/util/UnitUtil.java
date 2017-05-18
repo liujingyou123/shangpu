@@ -3,6 +3,10 @@ package com.finance.winport.util;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -79,29 +83,192 @@ public class UnitUtil {
         BigDecimal bg = new BigDecimal(meters);
 
         if (bg.doubleValue() > 999) {
-            ret = bg.setScale(2, BigDecimal.ROUND_HALF_UP).toString();
-            ret = ret + "km";
+            ret = limitKNum(bg.doubleValue()) + "km";
         } else {
             ret = meters + "m";
         }
         return ret;
     }
 
-    public static String formatNum(int num) {
+
+
+    public static String limitNum(double num, double limit) {
         String ret;
-        int yu = num % 10000;
-        if (yu != 0) {
-            ret = m2(num/10000f);
+        if (num > limit) {
+            ret = formatNum(num)+"万";
         } else {
-            ret = num / 10000 + "";
+            ret = formatDNum(num)+"元";
+        }
+        return ret;
+    }
+
+    /**
+     * 数字格式化（千） eg.   1234 = 1.23   1200 = 1.2
+     * @param num
+     * @return
+     */
+    public static String limitKNum(double num) {
+        String ret;
+        int qian = (int) (num/1000);
+        int bai = (int) (num%1000)/100;
+        int shi = (int)(num%100)/10;
+
+        if (shi != 0) {
+            ret = qian+"."+bai+""+shi;
+        } else {
+            if (bai!=0) {
+                ret = qian+"."+bai+"";
+            } else {
+                ret = qian+"";
+            }
         }
 
         return ret;
     }
 
-    public static String m2(float num) {
-        DecimalFormat df = new DecimalFormat("#.00");
-        return df.format(num);
+    /**
+     * 数字格式化（万） eg.   12345 = 1.23   12000 = 1.2
+     * @param num
+     * @return
+     */
+    public static String formatNum(double num) {
+        String ret;
+        int wang = (int) (num/10000);
+        int qian = (int) (num%10000) / 1000;
+        int bai = (int) (num%100)/10;
 
+        if (bai != 0) {
+            ret = wang+"."+qian+""+bai;
+        } else {
+            if (qian!=0) {
+                ret = wang+"."+qian+"";
+            } else {
+                ret = wang+"";
+            }
+        }
+
+        return ret;
+    }
+
+    /**
+     * 处理小数点  1.0 ——> 1   1.10 ——> 1.1
+     * @param num
+     * @return
+     */
+    public static String formatMNum(float num) {
+        String ret;
+        DecimalFormat df = new DecimalFormat("#.##");
+        ret = df.format(num);
+        return ret;
+
+    }
+
+    /**
+     * 处理小数点  1.0 ——> 1   1.10 ——> 1.1
+     * @param num
+     * @return
+     */
+    public static String formatDNum(double num) {
+        String ret;
+        DecimalFormat df = new DecimalFormat("#.##");
+        ret = df.format(num);
+        return ret;
+
+    }
+
+    public static String formatArea(float in) {
+        String number = null;
+        int inInt = (int) in;
+        if (inInt == in) {
+            number = inInt + "";
+        } else {
+            number = in + "";
+        }
+
+        return number;
+    }
+
+    public static String formatFloat(float in) {
+        String number = null;
+        int inInt = (int) in;
+
+        number = inInt + "";
+
+        return number;
+    }
+
+    public static String formatString(String num) {
+        String number = null;
+        try {
+            if (!TextUtils.isEmpty(num)) {
+                float in = Float.parseFloat(num);
+                number = formatFloat(in);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return number;
+    }
+
+    public static String formatStringArea(String num) {
+        String number = null;
+        try {
+            if (!TextUtils.isEmpty(num)) {
+                float in = Float.parseFloat(num);
+                number = formatArea(in);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return number;
+    }
+
+    public static String formatDouble(double in) {
+        String number = null;
+        int inInt = (int) in;
+        number = inInt + "";
+        return number;
+    }
+
+    public static String formatDoubleArea(double in) {
+        String number = null;
+        int inInt = (int) in;
+        if (inInt == in) {
+            number = inInt + "";
+        } else {
+            number = in + "";
+        }
+
+        return number;
+    }
+
+    public static String toJsonString(Object obj) {
+        Gson gson = new Gson();
+        String json = gson.toJson(obj);
+        Log.e("params json = ", json);
+        return json;
+    }
+
+    public static String toJsonStringWithIgnore(Object object) {
+        Gson gson = new GsonBuilder().setExclusionStrategies(new FooAnnotationExclusionStrategy()).create();
+        String json = gson.toJson(object);
+        Log.e("params json = ", json);
+        return json;
+    }
+
+
+    public static float stringToFloat(String num) {
+        float ret = 0f;
+        try {
+            if (!TextUtils.isEmpty(num)) {
+                ret = Float.parseFloat(num);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ret;
     }
 }

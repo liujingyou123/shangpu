@@ -1,7 +1,10 @@
 package com.finance.winport.home.presenter;
 
+import com.finance.winport.base.BaseResponse;
 import com.finance.winport.home.api.HomeServices;
+import com.finance.winport.home.model.BannerResponse;
 import com.finance.winport.home.model.RegionResponse;
+import com.finance.winport.home.model.ShopCount;
 import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.home.model.ShopRequset;
 import com.finance.winport.home.view.IHomeView;
@@ -61,6 +64,36 @@ public class HomePresenter {
 
     }
 
+    /**
+     * 今日新铺-无转让费等数据接口
+     */
+    public void getShopCount() {
+        ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).getShopCount(), new NetSubscriber<ShopCount>() {
+            @Override
+            public void response(ShopCount response) {
+                if (mIHomeView != null) {
+                    mIHomeView.showShopCount(response);
+                }
+            }
 
+        });
+    }
+
+    /**
+     * 广告banner
+     */
+    public void getBanner() {
+        HashMap<String ,String> hashMap = new HashMap<>();
+        hashMap.put("position","0");
+        ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).getBanners(hashMap), new NetSubscriber<BannerResponse>() {
+            @Override
+            public void response(BannerResponse response) {
+                if (mIHomeView != null) {
+                    mIHomeView.showBanners(response);
+                }
+            }
+
+        });
+    }
 
 }

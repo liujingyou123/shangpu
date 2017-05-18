@@ -7,10 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.log.XLog;
 import com.finance.winport.util.UnitUtil;
 
 import butterknife.BindView;
@@ -36,6 +38,10 @@ public class ScrollTabView extends LinearLayout {
     LinearLayout viewTabs;
     @BindView(R.id.view_select_tab)
     View viewSelectTab;
+    @BindView(R.id.tv_yingyufanwei)
+    TextView tvYingyufanwei;
+    @BindView(R.id.view_hs)
+    PositionHScrollView viewHs;
     private Context mContext;
 
     private int selectIndex;
@@ -65,25 +71,31 @@ public class ScrollTabView extends LinearLayout {
         LayoutInflater.from(context).inflate(R.layout.view_scrolltabview, this);
         ButterKnife.bind(this, this);
 
-        tvZhoubian.setSelected(true);
+        init();
 
     }
 
-//    /**
-//     * 设施选中到text
-//     */
-//    private void setSelectView(View view) {
-//        tvZhoubian.setSelected(false);
-//        tvLinpu.setSelected(false);
-//        tvMienmian.setSelected(false);
-//        tvYingyufeiyong.setSelected(false);
-//        tvPeitaosheshi.setSelected(false);
-//
-//        view.setSelected(true);
-//    }
+    private void init() {
+        viewHs.setOnScrollChangedListener(new PositionHScrollView.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged(int l, int t, int oldl, int oldt) {
+                viewSelectTab.setX(getOffsetByIndex(selectIndex));
+            }
+        });
+
+    }
+
 
     public void setSelectPosition(int position) {
         Log.e("position", "s = " + selectIndex + " po" + position);
+        if (viewSelectTab.getVisibility() == View.GONE) {
+            viewSelectTab.setVisibility(View.VISIBLE);
+
+            if (selectIndex == 0 && position == 0) {
+                viewSelectTab.setX(55);
+                tvZhoubian.setSelected(true);
+            }
+        }
         if (selectIndex != position) {
             selectIndex = position;
             tvZhoubian.setSelected(false);
@@ -91,6 +103,7 @@ public class ScrollTabView extends LinearLayout {
             tvMienmian.setSelected(false);
             tvYingyufeiyong.setSelected(false);
             tvPeitaosheshi.setSelected(false);
+            tvYingyufanwei.setSelected(false);
 
             if (position == 0) {
                 tvZhoubian.setSelected(true);
@@ -99,8 +112,10 @@ public class ScrollTabView extends LinearLayout {
             } else if (position == 2) {
                 tvMienmian.setSelected(true);
             } else if (position == 3) {
-                tvYingyufeiyong.setSelected(true);
+                tvYingyufanwei.setSelected(true);
             } else if (position == 4) {
+                tvYingyufeiyong.setSelected(true);
+            } else if (position == 5) {
                 tvPeitaosheshi.setSelected(true);
             }
 
@@ -109,26 +124,38 @@ public class ScrollTabView extends LinearLayout {
 
     }
 
+    private int getOffsetByIndex(int index) {
+        View subView = viewTabs.getChildAt(index);
+
+        int[] location = new int[2];
+        subView.getLocationOnScreen(location);
+        int x = location[0];
+        int offset = 0;
+
+
+        if (subView != null) {
+            int width = subView.getWidth();
+            int tabWidth = viewSelectTab.getWidth();
+            offset = (width - tabWidth) / 2;
+        }
+
+        return (x + offset);
+    }
+
     private void setSeletViewTab(int index) {
         View subView = viewTabs.getChildAt(index);
         if (subView != null) {
-            int left = subView.getLeft();
-            int right = subView.getRight();
-            int centerPointX = (left + right) / 2;
-
-            int seletViewHelftWidth = UnitUtil.dip2px(mContext, 18) / 2;
-            int seletViewLeft = centerPointX - seletViewHelftWidth;
-
             viewSelectTab.setPivotY(0);
             viewSelectTab.setPivotX(0);
-            ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(viewSelectTab, "translationX", viewSelectTab.getTranslationX(), seletViewLeft - UnitUtil.dip2px(mContext, 18));
+
+            ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(viewSelectTab, "translationX", viewSelectTab.getTranslationX(), getOffsetByIndex(index));
             objectAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
             objectAnimator.setDuration(300);
             objectAnimator.start();
         }
     }
 
-    @OnClick({R.id.tv_zhoubian, R.id.tv_linpu, R.id.tv_mienmian, R.id.tv_yingyufeiyong, R.id.tv_peitaosheshi})
+    @OnClick({R.id.tv_zhoubian, R.id.tv_linpu, R.id.tv_mienmian, R.id.tv_yingyufeiyong, R.id.tv_peitaosheshi, R.id.tv_yingyufanwei})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_zhoubian:
@@ -149,16 +176,22 @@ public class ScrollTabView extends LinearLayout {
                     mOnSelectViewListener.onSelectViewPosition(2);
                 }
                 break;
-            case R.id.tv_yingyufeiyong:
+            case R.id.tv_yingyufanwei:
                 setSelectPosition(3);
                 if (mOnSelectViewListener != null) {
                     mOnSelectViewListener.onSelectViewPosition(3);
                 }
                 break;
-            case R.id.tv_peitaosheshi:
+            case R.id.tv_yingyufeiyong:
                 setSelectPosition(4);
                 if (mOnSelectViewListener != null) {
                     mOnSelectViewListener.onSelectViewPosition(4);
+                }
+                break;
+            case R.id.tv_peitaosheshi:
+                setSelectPosition(5);
+                if (mOnSelectViewListener != null) {
+                    mOnSelectViewListener.onSelectViewPosition(5);
                 }
                 break;
         }

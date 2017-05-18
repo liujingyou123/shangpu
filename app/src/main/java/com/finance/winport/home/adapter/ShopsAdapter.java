@@ -38,7 +38,7 @@ public class ShopsAdapter extends BaseAdapter {
         if (mData != null) {
             ret = mData.size();
         }
-        return 50;
+        return ret;
     }
 
     @Override

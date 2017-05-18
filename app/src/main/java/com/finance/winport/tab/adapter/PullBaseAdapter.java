@@ -55,7 +55,7 @@ public abstract class PullBaseAdapter<E> extends BaseAdapter {
         Log.i(TAG, "initFooterView getCount=" + getCount() + ", maxTotal=" + maxTotal);
         if (getCount() < maxTotal) {
             isLoadMore = true;
-            baseView.setMode(PtrFrameLayout.Mode.LOAD_MORE);
+            baseView.setMode(PtrFrameLayout.Mode.BOTH);
         } else {
             isLoadMore = false;
             baseView.setMode(PtrFrameLayout.Mode.REFRESH);

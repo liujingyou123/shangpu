@@ -8,6 +8,8 @@
     <string name="l_album_name_download">下载</string>
     <string name="l_album_name_screen_shot">屏幕截图</string>
 
-    <string name="list_winport_tip">一周内共%1$s人看了您的旺铺，超过了%2$s的老板</string>
-    <string name="list_scan_winport_tip">一个月内共浏览了%1$s家旺铺，超过了%2$s的老板</string>
+    <string name="list_winport_tip">一周内共 %1$s 人看了您的旺铺，超过了 %2$s 的老板</string>
+    <string name="list_collection_tip">共收藏了 %1$s 家旺铺，超过了 %2$s 的老板</string>
+    <string name="list_appoint_tip">共约看过了 %1$s 家旺铺，超过了 %2$s 的老板</string>
+    <string name="list_browser_tip">一个月内共浏览了 %1$s 家旺铺，超过了 %2$s 的老板</string>
 </resources>

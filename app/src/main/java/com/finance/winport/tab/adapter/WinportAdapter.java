@@ -15,8 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.tab.TypeList;
 import com.finance.winport.tab.WinportActivity;
-import com.finance.winport.tab.model.WinportModel;
+import com.finance.winport.tab.model.WinportList;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 
 import java.util.List;
@@ -28,9 +29,9 @@ import butterknife.ButterKnife;
  * Created by xzw on 2017/5/12.
  */
 
-public class WinportAdapter extends PullBaseAdapter<WinportModel> {
+public class WinportAdapter extends PullBaseAdapter<WinportList> {
 
-    public WinportAdapter(PtrClassicFrameLayout baseView, List<WinportModel> baseData, int maxTotal) {
+    public WinportAdapter(PtrClassicFrameLayout baseView, List<WinportList> baseData, int maxTotal) {
         super(baseView, baseData, maxTotal);
     }
 
@@ -54,7 +55,7 @@ public class WinportAdapter extends PullBaseAdapter<WinportModel> {
             @Override
             public void onClick(View v) {
                 Intent dropOff = new Intent(context, WinportActivity.class);
-                dropOff.putExtra("type", 5);
+                dropOff.putExtra("type", TypeList.OFF_SHELF);
                 context.startActivity(dropOff);
             }
         });
