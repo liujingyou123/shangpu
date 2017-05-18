@@ -1,11 +1,9 @@
 package com.finance.winport.view.home;
 
 import android.content.Context;
-import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -37,10 +35,14 @@ public class HeaderView extends RelativeLayout {
     LinearLayout llBaiping;
     @BindView(R.id.ll_nears)
     LinearLayout llNears;
-    //    @BindView(R.id.ll_banner)
-//    LinearLayout llBanner;
     @BindView(R.id.header_banner)
     Banner headerBanner;
+    @BindView(R.id.tv_no_change)
+    StopWatchTextView tvNoChange;
+    @BindView(R.id.tv_limt_area)
+    StopWatchTextView tvLimtArea;
+    @BindView(R.id.tv_near_station)
+    StopWatchTextView tvNearStation;
 
     private List<String> mUrls = new ArrayList<>();
     private Context mContext;
@@ -73,15 +75,6 @@ public class HeaderView extends RelativeLayout {
     }
 
     private void showBaner() {
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-//                Banner banner = new Banner(mContext);
-//                llBanner.addView(banner, lp);
-//            }
-//        }, 1000);
-
         headerBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
         headerBanner.setIndicatorGravity(BannerConfig.CENTER);
         headerBanner.setImageLoader(new GlideImageLoader());
@@ -97,8 +90,20 @@ public class HeaderView extends RelativeLayout {
     }
 
 
-    public void setTodayShop(float number) {
+    public void setTodayShop(int number) {
         tvTodayShop.setShowNumber(number);
+    }
+
+    public void setNoChange(int number) {
+        tvNoChange.setShowNumber(number);
+    }
+
+    public void setTvLimtArea(int number) {
+        tvLimtArea.setShowNumber(number);
+    }
+
+    public void setTvNearStation(int number) {
+        tvNearStation.setShowNumber(number);
     }
 
     public void setNewShopsListener(OnClickListener onClickListener) {

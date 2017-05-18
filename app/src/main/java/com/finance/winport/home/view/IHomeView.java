@@ -1,6 +1,7 @@
 package com.finance.winport.home.view;
 
 import com.finance.winport.home.model.RegionResponse;
+import com.finance.winport.home.model.ShopCount;
 import com.finance.winport.home.model.ShopListResponse;
 
 /**
@@ -10,6 +11,6 @@ import com.finance.winport.home.model.ShopListResponse;
 public interface IHomeView {
     void showShopList(ShopListResponse response);
     void showMoreList(ShopListResponse response);
-
+    void showShopCount(ShopCount response);
     void onError();
 }

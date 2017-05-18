@@ -2,6 +2,7 @@ package com.finance.winport.home.api;
 
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.home.model.RegionResponse;
+import com.finance.winport.home.model.ShopCount;
 import com.finance.winport.home.model.ShopDetail;
 import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.home.model.ShopRequset;
@@ -40,5 +41,10 @@ public interface HomeServices {
     //直拨房东电话记录接口
     @POST("customerapp/api/shop/createLiaisonRecord/v1.0.0")
     Observable<BaseResponse> recordCall(@Body HashMap params);
+
+    //今日新铺-无转让费等数据接口
+    @Headers("Content-Type: application/json")
+    @POST("customerapp/api/shop/countShopFromClient/v1.0.0")
+    Observable<ShopCount> getShopCount();
 
 }

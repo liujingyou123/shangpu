@@ -36,7 +36,7 @@
             android:textColor="#FFFFFFFF"
             android:textSize="11sp"
             android:text="0"
-            android:drawableLeft="@mipmap/list_icon_view"
+            android:drawableLeft="@mipmap/list_icon_contact"
             android:drawablePadding="3dp"
             android:paddingLeft="5dp"
             android:gravity="center_vertical"
