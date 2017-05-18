@@ -246,6 +246,8 @@ public class ScanWinportFragment extends BaseFragment {
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("pageSize", pageSize);
         params.put("pageNumber", pageNumber);
+        params.put("longitude", longitude);
+        params.put("latitude", latitude);
         PersonManager.getInstance().getCollectionList(params, new NetworkCallback<ScanShopList>() {
             @Override
             public void success(ScanShopList response) {
@@ -272,6 +274,8 @@ public class ScanWinportFragment extends BaseFragment {
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("pageSize", pageSize);
         params.put("pageNumber", pageNumber);
+        params.put("longitude", longitude);
+        params.put("latitude", latitude);
         PersonManager.getInstance().getScanList(params, new NetworkCallback<ScanShopList>() {
             @Override
             public void success(ScanShopList response) {
