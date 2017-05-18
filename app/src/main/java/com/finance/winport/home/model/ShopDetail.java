@@ -1,14 +1,17 @@
 package com.finance.winport.home.model;
 
+import android.support.annotation.NonNull;
+
 import com.finance.winport.base.BaseResponse;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by liuworkmac on 17/5/17.
  */
 
-public class ShopDetail extends BaseResponse {
+public class ShopDetail extends BaseResponse implements Serializable{
 
 
     /**
@@ -73,7 +76,8 @@ public class ShopDetail extends BaseResponse {
         this.data = data;
     }
 
-    public static class DataBean {
+
+    public static class DataBean implements Serializable{
         private String address;
         private float area;
         private int blockId;
@@ -403,6 +407,16 @@ public class ShopDetail extends BaseResponse {
             return operateStatus;
         }
 
+        public String getOperateStatusName() {
+            String ret = null;
+            if (operateStatus == 0) {
+                ret = "正在经营";
+            } else if (operateStatus ==1) {
+                ret = "停业";
+            }
+            return ret;
+        }
+
         public void setOperateStatus(int operateStatus) {
             this.operateStatus = operateStatus;
         }
@@ -581,7 +595,7 @@ public class ShopDetail extends BaseResponse {
             this.supportList = supportList;
         }
 
-        public static class ImageListBean {
+        public static class ImageListBean implements Serializable{
             private int imgIndex;
             private String imgUrl;
             private int isCover;
@@ -611,7 +625,7 @@ public class ShopDetail extends BaseResponse {
             }
         }
 
-        public static class NearInfoListBean {
+        public static class NearInfoListBean implements Comparable, Serializable{
             private int industryId;
             private String industryName;
             private String name;
@@ -674,6 +688,12 @@ public class ShopDetail extends BaseResponse {
 
             public void setNearImg(List<String> nearImg) {
                 this.nearImg = nearImg;
+            }
+
+            @Override
+            public int compareTo(@NonNull Object o) {
+                NearInfoListBean listBean = (NearInfoListBean) o;
+                return this.nearSeat - listBean.nearSeat;
             }
         }
 

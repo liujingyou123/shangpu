@@ -37,4 +37,8 @@ public interface HomeServices {
     @POST("customerapp/api/shop/queryShopDetail/v1.0.0")
     Observable<ShopDetail> getShopDetail(@Body HashMap params);
 
+    //直拨房东电话记录接口
+    @POST("customerapp/api/shop/createLiaisonRecord/v1.0.0")
+    Observable<BaseResponse> recordCall(@Body HashMap params);
+
 }

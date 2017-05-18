@@ -5,6 +5,7 @@ import com.finance.winport.home.api.HomeServices;
 import com.finance.winport.home.model.ShopDetail;
 import com.finance.winport.home.view.IShopDetailView;
 import com.finance.winport.net.LoadingNetSubscriber;
+import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.util.ToolsUtil;
 
 import java.util.HashMap;
@@ -55,4 +56,16 @@ public class ShopDetailPresenter {
             }
         });
     }
+
+    public void recordCall(String shopId, String phone) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("shopId", shopId);
+        hashMap.put("phone", phone);
+        ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).collectShop(hashMap), new NetSubscriber<BaseResponse>() {
+            @Override
+            public void response(BaseResponse response) {
+            }
+        });
+    }
+
 }

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.finance.winport.R;
+import com.finance.winport.account.LoginActivity;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.dialog.ShareDialog;
@@ -26,6 +28,7 @@ import com.finance.winport.home.model.ShopDetail;
 import com.finance.winport.home.presenter.ShopDetailPresenter;
 import com.finance.winport.home.view.IShopDetailView;
 import com.finance.winport.image.GlideImageLoader;
+import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.PositionScrollView;
@@ -198,6 +201,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     private ShareAction mShareAction;
     private String shopId;
     private ShopDetailPresenter mPresenter;
+    private ShopDetail mShopDetail;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -350,6 +354,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 break;
             case R.id.tv_shop_more:
                 Intent intent = new Intent(ShopDetailActivity.this, ShopMoreActivity.class);
+                intent.putExtra("shop", mShopDetail);
                 startActivity(intent);
                 break;
 
@@ -359,19 +364,43 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 break;
 
             case R.id.tv_yuyue:
-                Intent orderIntent = new Intent(ShopDetailActivity.this, OrderShopActivity.class);
-                startActivity(orderIntent);
+                if (SharedPrefsUtil.getUserInfo() != null) {
+                    Intent orderIntent = new Intent(ShopDetailActivity.this, OrderShopActivity.class);
+                    orderIntent.putExtra("shopId", mShopDetail.getData().getId());
+                    if (mShopDetail.getData().getIsVisit() != 0) { //已预约  签约租铺
+                        orderIntent.putExtra("type", 1);
+                    } else {
+                        orderIntent.putExtra("type", 2);
+                    }
+                    startActivity(orderIntent);
+                } else {
+                    Intent intent1 = new Intent(this, LoginActivity.class);
+                    startActivity(intent1);
+                }
+
                 break;
             case R.id.tv_call:
+                if (SharedPrefsUtil.getUserInfo() != null) {
+                    if (mNoticeDialog == null) {
+                        mNoticeDialog = new NoticeDialog(this);
+                        mNoticeDialog.setMessage("房东电话：" + mShopDetail.getData().getContactTel());
+                        mNoticeDialog.setPositiveBtn("拨打");
 
-                if (mNoticeDialog == null) {
-                    mNoticeDialog = new NoticeDialog(this);
-                    mNoticeDialog.setMessage("房东电话：1111111111");
-                    mNoticeDialog.setPositiveBtn("拨打");
+                        mNoticeDialog.setOkClickListener(new NoticeDialog.OnPreClickListner() {
+                            @Override
+                            public void onClick() {
+                                mPresenter.recordCall(mShopDetail.getData().getId()+"", mShopDetail.getData().getContactTel());
+                            }
+                        });
+                    }
+                    if (!mNoticeDialog.isShowing()) {
+                        mNoticeDialog.show();
+                    }
+                } else {
+                    Intent intent1 = new Intent(this, LoginActivity.class);
+                    startActivity(intent1);
                 }
-                if (!mNoticeDialog.isShowing()) {
-                    mNoticeDialog.show();
-                }
+
                 break;
             case R.id.tv_collection:
                 mPresenter.collectShop(shopId);
@@ -423,13 +452,16 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     public void collectedShop(boolean isSuccess) {
         if (isSuccess) {
             tvCollection.setSelected(true);
+            tvCollection.setText("已收藏");
         } else {
             tvCollection.setSelected(false);
+            tvCollection.setText("收藏");
         }
     }
 
     @Override
     public void getShopDetail(ShopDetail shopDetail) {
+        mShopDetail = shopDetail;
         ShopDetail.DataBean data = shopDetail.getData();
         tvName.setText("由 小二 " + data.getClerkName() + " 于" + data.getIssueShopTime() + " 实勘核实");
         tvShopAddress.setText(" 　 " + data.getAddress());
@@ -561,8 +593,11 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         }
 
 
-        SupportTagAdapter supportTagAdapter = new SupportTagAdapter(this, data.getSupportList());
-        gvSupport.setAdapter(supportTagAdapter);
+        if (data.getSupportList() != null && data.getSupportList().size() > 0) {
+            SupportTagAdapter supportTagAdapter = new SupportTagAdapter(this, data.getSupportList());
+            gvSupport.setAdapter(supportTagAdapter);
+        }
+
 
         if (data.getImageList() != null && data.getImageList().size() > 0) {
             ArrayList<String> list = new ArrayList<>();
@@ -587,6 +622,30 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             tag.setAdapter(new TagAdapter(this, data.getFeatureList()));
         }
 
+        if (data.getIsCollected() != 0) { //未收藏
+            tvCollection.setSelected(true);
+            tvCollection.setText("已收藏");
+            tvCollection.setClickable(false);
+            tvCollection.setEnabled(false);
+        } else {
+            tvCollection.setSelected(false);
+            tvCollection.setText("收藏");
+            tvCollection.setClickable(true);
+            tvCollection.setEnabled(true);
+        }
+
+        if (data.getIsVisit() != 0) { //已预约
+            tvYuyue.setText("签约租铺");
+            tvCall.setVisibility(View.GONE);
+        } else {
+            tvCall.setVisibility(View.VISIBLE);
+        }
+
+        if (TextUtils.isEmpty(data.getContactTel())) {
+            tvCall.setVisibility(View.GONE);
+        } else {
+            tvCall.setVisibility(View.VISIBLE);
+        }
     }
 
 

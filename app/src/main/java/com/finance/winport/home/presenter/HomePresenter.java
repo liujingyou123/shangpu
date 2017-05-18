@@ -1,5 +1,6 @@
 package com.finance.winport.home.presenter;
 
+import com.finance.winport.base.BaseResponse;
 import com.finance.winport.home.api.HomeServices;
 import com.finance.winport.home.model.RegionResponse;
 import com.finance.winport.home.model.ShopListResponse;
@@ -60,7 +61,5 @@ public class HomePresenter {
         });
 
     }
-
-
 
 }
