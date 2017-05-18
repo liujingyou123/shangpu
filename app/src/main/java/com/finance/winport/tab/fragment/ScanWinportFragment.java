@@ -111,7 +111,7 @@ public class ScanWinportFragment extends BaseFragment {
     }
 
     private void initListView() {
-        mListView.setAdapter(new ScanWinportAdapter(refreshView, null, 0));
+//        mListView.setAdapter(new ScanWinportAdapter(refreshView, null, 0));
     }
 
     private void initRefreshView() {
@@ -166,7 +166,7 @@ public class ScanWinportFragment extends BaseFragment {
 
     // 收藏次数和排名
 //    private void queryScanCount() {
-//        PersonManager.getInstance().queryScanCount(new HashMap<String, Object>(), new NetworkCallback<ScanCount>() {
+//        UserManager.getInstance().queryScanCount(new HashMap<String, Object>(), new NetworkCallback<ScanCount>() {
 //            @Override
 //            public void success(ScanCount response) {
 //                setTip("", "");

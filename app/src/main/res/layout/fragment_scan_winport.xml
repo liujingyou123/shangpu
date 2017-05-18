@@ -43,7 +43,6 @@
                 android:divider="@null"
                 android:dividerHeight="0dp"
                 android:fadingEdge="none"
-                android:listSelector="@null"
                 android:scrollbarStyle="outsideOverlay" />
         </com.finance.winport.view.refreshview.PtrClassicFrameLayout>
 

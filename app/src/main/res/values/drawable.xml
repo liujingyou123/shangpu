@@ -6,6 +6,6 @@
     <drawable name="color_ok_unpress">#ffa73b</drawable>
     <drawable name="color_rest_pressed">#f2f2f2</drawable>
     <drawable name="color_rest_unpress">#ffffff</drawable>
-    <drawable name="select">@color/bg</drawable>
+    <drawable name="select">#F2F2F2</drawable>
     <drawable name="unselect">@color/white</drawable>
 </resources>

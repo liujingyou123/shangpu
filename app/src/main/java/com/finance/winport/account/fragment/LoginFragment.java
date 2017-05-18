@@ -1,13 +1,8 @@
 package com.finance.winport.account.fragment;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -18,8 +13,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -31,9 +24,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.finance.winport.R;
+import com.finance.winport.account.model.ImageVerifyCode;
+import com.finance.winport.account.model.Message;
+import com.finance.winport.account.model.UserInfo;
+import com.finance.winport.account.net.UserManager;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.image.Batman;
+import com.finance.winport.tab.net.NetworkCallback;
+import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.StringUtil;
 import com.finance.winport.util.TextViewUtil;
+import com.finance.winport.util.ToastUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.CountDownButton;
 
@@ -41,6 +42,8 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
 
 
 /**
@@ -65,19 +68,23 @@ public class LoginFragment extends BaseFragment {
     CountDownButton countDown;
     @BindView(R.id.ll_verify_code)
     LinearLayout llVerifyCode;
-    @BindView(R.id.invite_code)
-    EditText inviteCode;
+    @BindView(R.id.et_invite_code)
+    EditText etInviteCode;
     @BindView(R.id.login)
     Button login;
     @BindView(R.id.contact)
     CheckBox contact;
     @BindView(R.id.contact_tip)
     TextView contactTip;
-    private String phoneNo;
-    private String checkCode;
+    @BindView(R.id.pic_code)
+    ImageView picCode;
+    private String userPhone;
+    private String messageId;
+    private String picVerifyCode;
+    private String picVerifyId;
+    private String smsVerifyCode;
+    private String inviteCode;
     private boolean isVoiceEnable = true;
-    private String type = "0";//0经纪人、1经纪公司、2经纪门店
-    private String megId;
 
     @Nullable
     @Override
@@ -90,7 +97,6 @@ public class LoginFragment extends BaseFragment {
 
     private void initView() {
         phoneView.setFilters(new InputFilter[]{TextViewUtil.phoneFormat()});
-//        phoneView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
         phoneView.setInputType(InputType.TYPE_CLASS_PHONE);
         verifyCodeView.setInputType(InputType.TYPE_CLASS_NUMBER);
         login.setEnabled(false);
@@ -165,7 +171,7 @@ public class LoginFragment extends BaseFragment {
             public void onClick(View v) {
                 if (check()) {
                     counting();
-//                    getVerifyCode();
+                    getVerifyCode();
                     verifyCodeView.requestFocus();
                 }
             }
@@ -173,23 +179,72 @@ public class LoginFragment extends BaseFragment {
     }
 
 
-//    private void getVerifyCode() {
-//        HashMap<String, Object> params = new HashMap<>();
-//        params.put("phone", phoneNo);
-//        UserManager.getInstance().getVerifyCode(params, new NetworkCallback<VerifyCode>() {
-//            @Override
-//            public void success(VerifyCode response) {
-//
-//                megId = response.getData().getMsgId();
-//
-//            }
-//
-//            @Override
-//            public void failure(Throwable throwable) {
-//                ToastUtil.show(context, throwable.getMessage());
-//            }
-//        });
-//    }
+    private void getVerifyCode() {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("userPhone", userPhone);
+        params.put("sendType", 0);//0-短信 1-语音，默认0
+        params.put("useScene", 0);//0-登录 1-贷款申请 2-租铺签约 3-寻租申请 4-带我踩盘 5-商铺纠错 6-预约看铺
+        UserManager.getInstance().getVerifyCode(params, new NetworkCallback<Message>() {
+            @Override
+            public void success(Message response) {
+                messageId = response.data.messageId;
+            }
+
+            @Override
+            public void failure(Throwable throwable) {
+                ToastUtil.show(context, throwable.getMessage());
+            }
+        });
+    }
+
+    private void login() {
+        userPhone = UnitUtil.trim(phoneView.getText().toString().trim());
+        smsVerifyCode = verifyCodeView.getText().toString().trim();
+        inviteCode = etInviteCode.getText().toString().trim();
+        picVerifyCode = verifyCodeViewImage.getText().toString().trim();
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("userPhone", userPhone);
+        params.put("smsVerifyCode", smsVerifyCode);
+        params.put("messageId", messageId);
+        params.put("inviteCode", inviteCode);
+        params.put("picVerifyCode", picVerifyCode);
+        params.put("picVerifyId", picVerifyId);
+        params.put("deviceId", JPushInterface.getRegistrationID(context.getApplicationContext()));
+        params.put("osType", 1);//0-iOS 1-Android
+        UserManager.getInstance().login(params, new NetworkCallback<UserInfo>() {
+            @Override
+            public void success(UserInfo response) {
+                SharedPrefsUtil.saveUserInfo(response);
+                getActivity().finish();
+            }
+
+            @Override
+            public void failure(Throwable throwable) {
+                verifyCodeView.setText("");
+                ToastUtil.show(context, throwable.getMessage());
+            }
+        });
+    }
+
+    // 获取图片验证码
+    private void getPicCode() {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("useScene", 0);//0-登录 1-贷款申请 2-租铺签约 3-寻租申请 4-带我踩盘 5-商铺纠错 6-预约看铺
+        UserManager.getInstance().getPicCode(params, new NetworkCallback<ImageVerifyCode>() {
+            @Override
+            public void success(ImageVerifyCode response) {
+                if (response != null && response.isSuccess()) {
+                    picVerifyId = response.data.picVerifyId;
+                    Batman.getInstance().fromNet(response.data.picUrl, picCode);
+                }
+            }
+
+            @Override
+            public void failure(Throwable throwable) {
+
+            }
+        });
+    }
 
 
     private void counting() {
@@ -197,15 +252,14 @@ public class LoginFragment extends BaseFragment {
     }
 
     private boolean check() {
-        phoneNo = UnitUtil.trim(phoneView.getText().toString().trim());
-        checkCode = verifyCodeView.getText().toString().trim();
-        if (!StringUtil.isCellPhone(phoneNo)) {
-            Toast.makeText(context, "请输入正确的电话号码",Toast.LENGTH_SHORT).show();
+        userPhone = UnitUtil.trim(phoneView.getText().toString().trim());
+        smsVerifyCode = verifyCodeView.getText().toString().trim();
+        if (!StringUtil.isCellPhone(userPhone)) {
+            Toast.makeText(context, "请输入正确的电话号码", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
     }
-
 
 
 //    private void debug() {
@@ -231,8 +285,16 @@ public class LoginFragment extends BaseFragment {
         return super.handleDispatchKeyEvent(event);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+
+    @OnClick(R.id.pic_code)
+    public void onPicClicked() {
+        getPicCode();
+    }
+
+    @OnClick(R.id.login)
+    public void onLoginClicked() {
+        if (check()) {
+            login();
+        }
     }
 }

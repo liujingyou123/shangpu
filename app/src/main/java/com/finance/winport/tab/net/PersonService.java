@@ -1,4 +1,4 @@
-package com.finance.winport.tab.net.api;
+package com.finance.winport.tab.net;
 
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.tab.model.AppointRanking;

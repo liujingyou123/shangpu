@@ -1,6 +1,9 @@
 package com.finance.winport.net;
 
 import android.text.TextUtils;
+import android.util.Log;
+
+import com.finance.winport.util.SharedPrefsUtil;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -19,12 +22,11 @@ public class TokenInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         String tokenKey = getTokenKey();
-        Request original = chain.request();
-        if (TextUtils.isEmpty(tokenKey)) {
-            return chain.proceed(original);
+        Request newRequest = chain.request();
+        if (!TextUtils.isEmpty(tokenKey)) {
+            newRequest = newRequest.newBuilder()
+                    .addHeader("X-token", tokenKey).build();
         }
-        Request newRequest = original.newBuilder()
-                .addHeader("X-token", tokenKey).build();
         MediaType mediaType = newRequest.body().contentType();
         try {
             if (mediaType != null) {
@@ -42,7 +44,14 @@ public class TokenInterceptor implements Interceptor {
     }
 
     private String getTokenKey() {
-        String ret = "C8AD6FDEEF19FB0224E31C218E2C4623";
-        return ret;
+        String token;
+        try {
+            token = SharedPrefsUtil.getUserInfo().data.accessToken;
+        } catch (Exception e) {
+            token = "";
+            e.printStackTrace();
+        }
+        Log.d(getClass().getSimpleName(), "token-->" + token);
+        return token;
     }
 }
