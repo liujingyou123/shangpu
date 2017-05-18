@@ -22,6 +22,8 @@ import com.finance.winport.dialog.QuyuPopupView;
 import com.finance.winport.dialog.SelectionDialog;
 import com.finance.winport.dialog.SortPopupView;
 import com.finance.winport.home.adapter.ShopsAdapter;
+import com.finance.winport.home.model.BannerResponse;
+import com.finance.winport.home.model.ShopCount;
 import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.home.model.ShopRequset;
 import com.finance.winport.home.presenter.HomePresenter;
@@ -48,7 +50,7 @@ import butterknife.Unbinder;
 /**
  * 首页
  */
-public class HomeFragment extends BaseFragment implements IHomeView{
+public class HomeFragment extends BaseFragment implements IHomeView {
 
     @BindView(R.id.ls_shops)
     ListView lsShops;
@@ -70,6 +72,7 @@ public class HomeFragment extends BaseFragment implements IHomeView{
     private SortPopupView sortPopupView;
     private SelectionDialog selectionDialog;
     private ShopRequset mRequest = new ShopRequset();
+    private HeaderView headerView;
 
     @Nullable
     @Override
@@ -89,11 +92,14 @@ public class HomeFragment extends BaseFragment implements IHomeView{
         if (mPresenter == null) {
             mPresenter = new HomePresenter(this);
         }
+        mRequest.queryType = 1;
         mPresenter.getShopList(mRequest);
+        mPresenter.getShopCount();
+        mPresenter.getBanner();
     }
 
     private void initListView() {
-        final HeaderView headerView = new HeaderView(this.getContext());
+        headerView = new HeaderView(this.getContext());
         final SelectView selectView = new SelectView(this.getContext());
 
         headerView.setNewShopsListener(new View.OnClickListener() {
@@ -130,7 +136,7 @@ public class HomeFragment extends BaseFragment implements IHomeView{
         selectView.setOnLocationClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lsShops.smoothScrollToPositionFromTop(1,-1, 300);
+                lsShops.smoothScrollToPositionFromTop(1, -1, 300);
                 showShowQuYuDialog(300);
             }
         });
@@ -138,7 +144,7 @@ public class HomeFragment extends BaseFragment implements IHomeView{
         selectView.setOnSortClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lsShops.smoothScrollToPositionFromTop(1,-1, 300);
+                lsShops.smoothScrollToPositionFromTop(1, -1, 300);
                 showPaiXuDailog(300);
             }
         });
@@ -146,7 +152,7 @@ public class HomeFragment extends BaseFragment implements IHomeView{
         selectView.setOnCsClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lsShops.smoothScrollToPositionFromTop(1,-1, 300);
+                lsShops.smoothScrollToPositionFromTop(1, -1, 300);
                 showShaiXuandialog(300);
             }
         });
@@ -181,7 +187,9 @@ public class HomeFragment extends BaseFragment implements IHomeView{
             lsShops.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    ShopListResponse.DataBean.Shop shop = (ShopListResponse.DataBean.Shop) parent.getItemAtPosition(position);
                     Intent intent = new Intent(HomeFragment.this.getContext(), ShopDetailActivity.class);
+//                    intent.putExtra("shopId", shop.getId());
                     startActivity(intent);
                 }
             });
@@ -191,7 +199,7 @@ public class HomeFragment extends BaseFragment implements IHomeView{
         refreshView.setPtrHandler(new PtrDefaultHandler2() {
             @Override
             public void onLoadMoreBegin(PtrFrameLayout frame) {
-                mRequest.pageNumber ++;
+                mRequest.pageNumber++;
                 mPresenter.getMoreShopList(mRequest);
             }
 
@@ -363,6 +371,25 @@ public class HomeFragment extends BaseFragment implements IHomeView{
                 adapter.notifyDataSetChanged();
             }
         }
+    }
+
+    @Override
+    public void showShopCount(ShopCount response) {
+        if (headerView != null) {
+            ShopCount.DataBean dataBean = response.getData();
+            if (dataBean == null) {
+                return;
+            }
+            headerView.setTodayShop(dataBean.getCountNewShop());
+            headerView.setNoChange(dataBean.getCountNoTransferFee());
+            headerView.setTvLimtArea(dataBean.getCountHundredArea());
+            headerView.setTvNearStation(dataBean.getCountNearStation());
+        }
+    }
+
+    @Override
+    public void showBanners(BannerResponse response) {
+        headerView.setUrls(response.getData());
     }
 
 

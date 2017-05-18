@@ -1,10 +1,13 @@
 package com.finance.winport.home.model;
 
+import java.io.Serializable;
+
 /**
  * Created by liuworkmac on 17/5/15.
  */
 
-public class Tag {
+public class Tag implements Serializable{
+    private String parentId; //业态 父id
     private String color;
     private int id;
     private String name;
