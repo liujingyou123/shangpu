@@ -1,11 +1,12 @@
 package com.finance.winport.tab.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,21 +16,26 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
+import com.finance.winport.MainActivity;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
-import com.finance.winport.net.NetSubscriber;
+import com.finance.winport.home.event.HomeEvent;
+import com.finance.winport.map.MyLocation;
 import com.finance.winport.tab.TypeList;
 import com.finance.winport.tab.adapter.AppointWinportAdapter;
 import com.finance.winport.tab.adapter.CollectionWinportAdapter;
 import com.finance.winport.tab.adapter.ScanWinportAdapter;
 import com.finance.winport.tab.model.AppointRanking;
 import com.finance.winport.tab.model.AppointShopList;
-import com.finance.winport.tab.model.ScanCount;
+import com.finance.winport.tab.model.ScanShopList;
 import com.finance.winport.tab.net.NetworkCallback;
 import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.List;
@@ -86,12 +92,12 @@ public class ScanWinportFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        asyncData();
+        getCurrentLocation();
     }
 
     private void initView() {
+        location = new MyLocation(context);
         setTitle();
-        setTip("19200", "90%");
         initRefreshView();
         initListView();
     }
@@ -103,11 +109,24 @@ public class ScanWinportFragment extends BaseFragment {
     private void setTip(String count, String rank) {
         String s1 = count;
         String s2 = rank;
-        String s = getString(R.string.list_scan_winport_tip, s1, s2);
+        String s = "";
+        switch (type) {
+            case SCAN:
+                s = getString(R.string.list_browser_tip, s1, s2);
+                break;
+            case COLLECTION:
+                s = getString(R.string.list_collection_tip, s1, s2);
+                break;
+            case APPOINT:
+                s = getString(R.string.list_appoint_tip, s1, s2);
+                break;
+        }
+        if (TextUtils.isEmpty(s)) return;
         SpannableString sp = new SpannableString(s);
         sp.setSpan(new ForegroundColorSpan(Color.parseColor("#ff0000")), s.indexOf(s1), s.indexOf(s1) + s1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sp.setSpan(new ForegroundColorSpan(Color.parseColor("#ff0000")), s.indexOf(s2), s.indexOf(s2) + s2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tip.setText(sp);
+        tip.setVisibility(View.VISIBLE);
     }
 
     private void initListView() {
@@ -121,25 +140,39 @@ public class ScanWinportFragment extends BaseFragment {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 pageNumber = 1;
-                asyncData();
+                getCurrentLocation();
             }
 
             @Override
             public void onLoadMoreBegin(PtrFrameLayout frame) {
                 pageNumber++;
-                asyncData();
+                getCurrentLocation();
             }
         });
 
     }
 
+    MyLocation location;
+    String longitude;
+    String latitude;
+
+    private void getCurrentLocation() {
+        location.start(new MyLocation.XLocationListener() {
+            @Override
+            public void result(boolean result, BDLocation location) {
+                longitude = location.getLongitude() + "";
+                latitude = location.getLatitude() + "";
+                asyncData();
+            }
+        });
+    }
 
     // 约看次数和排名
     private void getAppointRanking() {
         PersonManager.getInstance().getAppointRanking(new HashMap<String, Object>(), new NetworkCallback<AppointRanking>() {
             @Override
             public void success(AppointRanking response) {
-                setTip("", "");
+                setTip(response.data.total, response.data.rate);
             }
 
             @Override
@@ -149,12 +182,12 @@ public class ScanWinportFragment extends BaseFragment {
         });
     }
 
-    // 浏览次数和排名
-    private void queryScanCount() {
-        PersonManager.getInstance().queryScanCount(new HashMap<String, Object>(), new NetworkCallback<ScanCount>() {
+    // 最近浏览次数和排名
+    private void queryBrowserCount() {
+        PersonManager.getInstance().queryBrowserCount(new HashMap<String, Object>(), new NetworkCallback<AppointRanking>() {
             @Override
-            public void success(ScanCount response) {
-                setTip("", "");
+            public void success(AppointRanking response) {
+                setTip(response.data.total, response.data.rate);
             }
 
             @Override
@@ -165,32 +198,11 @@ public class ScanWinportFragment extends BaseFragment {
     }
 
     // 收藏次数和排名
-//    private void queryScanCount() {
-//        UserManager.getInstance().queryScanCount(new HashMap<String, Object>(), new NetworkCallback<ScanCount>() {
-//            @Override
-//            public void success(ScanCount response) {
-//                setTip("", "");
-//            }
-//
-//            @Override
-//            public void failure(Throwable throwable) {
-//
-//            }
-//        });
-//    }
-
-
-    // 获取约看列表
-    private void getAppointList() {
-        HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("pageSize", pageSize);
-        params.put("pageNumber", pageNumber);
-        PersonManager.getInstance().getAppointList(params, new NetworkCallback<AppointShopList>() {
+    private void queryCollectionCount() {
+        PersonManager.getInstance().queryCollectionCount(new HashMap<String, Object>(), new NetworkCallback<AppointRanking>() {
             @Override
-            public void success(AppointShopList response) {
-                if (response != null && response.isSuccess()) {
-                    setAppointAdapter(response.data.data, response.data.totalSize);
-                }
+            public void success(AppointRanking response) {
+                setTip(response.data.total, response.data.rate);
             }
 
             @Override
@@ -200,14 +212,85 @@ public class ScanWinportFragment extends BaseFragment {
         });
     }
 
+
+    // 获取约看列表
+    private void getAppointList() {
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("pageSize", pageSize);
+        params.put("pageNumber", pageNumber);
+        params.put("longitude", longitude);
+        params.put("latitude", latitude);
+        PersonManager.getInstance().getAppointList(params, new NetworkCallback<AppointShopList>() {
+            @Override
+            public void success(AppointShopList response) {
+                if (getView() == null) return;
+                refreshView.refreshComplete();
+                if (response != null && response.isSuccess() && response.data.totalSize > 0) {
+                    setAppointAdapter(response.data.data, response.data.totalSize);
+                } else {
+                    showEmptyView(true);
+                }
+            }
+
+            @Override
+            public void failure(Throwable throwable) {
+                if (getView() == null) return;
+                refreshView.refreshComplete();
+                showEmptyView(true);
+            }
+        });
+    }
+
     //获取收藏列表
     private void getCollectionList() {
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("pageSize", pageSize);
+        params.put("pageNumber", pageNumber);
+        PersonManager.getInstance().getCollectionList(params, new NetworkCallback<ScanShopList>() {
+            @Override
+            public void success(ScanShopList response) {
+                if (getView() == null) return;
+                refreshView.refreshComplete();
+                if (response != null && response.isSuccess() && response.data.totalSize > 0) {
+                    setCollectionAdapter(response.data.data, response.data.totalSize);
+                } else {
+                    showEmptyView(true);
+                }
+            }
 
+            @Override
+            public void failure(Throwable throwable) {
+                if (getView() == null) return;
+                refreshView.refreshComplete();
+                showEmptyView(true);
+            }
+        });
     }
 
     // 获取浏览列表
     private void getScanList() {
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("pageSize", pageSize);
+        params.put("pageNumber", pageNumber);
+        PersonManager.getInstance().getScanList(params, new NetworkCallback<ScanShopList>() {
+            @Override
+            public void success(ScanShopList response) {
+                if (getView() == null) return;
+                refreshView.refreshComplete();
+                if (response != null && response.isSuccess() && response.data.totalSize > 0) {
+                    setScanAdapter(response.data.data, response.data.totalSize);
+                } else {
+                    showEmptyView(true);
+                }
+            }
 
+            @Override
+            public void failure(Throwable throwable) {
+                if (getView() == null) return;
+                refreshView.refreshComplete();
+                showEmptyView(true);
+            }
+        });
     }
 
     // 约看
@@ -227,39 +310,39 @@ public class ScanWinportFragment extends BaseFragment {
         }
     }
 
-//    // 收藏
-//    private CollectionWinportAdapter collectionWinportAdapter;
-//
-//    private void setCollectionAdapter(List<AppointShopList.DataBeanX.DataBean> list, int totalCount) {
-//        if (collectionWinportAdapter == null) {
-//            collectionWinportAdapter = new CollectionWinportAdapter(refreshView, list, totalCount);
-//            mListView.setAdapter(collectionWinportAdapter);
-//        } else {
-//            if (pageNumber == 1) {
-//                collectionWinportAdapter.refreshData(list, totalCount);
-//                mListView.setSelection(0);
-//            } else {
-//                collectionWinportAdapter.updateData(list, totalCount);
-//            }
-//        }
-//    }
+    // 收藏
+    private CollectionWinportAdapter collectionWinportAdapter;
 
-//    // 最近浏览
-//    private ScanWinportAdapter scanWinportAdapter;
-//
-//    private void setScanAdapter(List<AppointShopList.DataBeanX.DataBean> list, int totalCount) {
-//        if (scanWinportAdapter == null) {
-//            scanWinportAdapter = new ScanWinportAdapter(refreshView, list, totalCount);
-//            mListView.setAdapter(scanWinportAdapter);
-//        } else {
-//            if (pageNumber == 1) {
-//                scanWinportAdapter.refreshData(list, totalCount);
-//                mListView.setSelection(0);
-//            } else {
-//                scanWinportAdapter.updateData(list, totalCount);
-//            }
-//        }
-//    }
+    private void setCollectionAdapter(List<ScanShopList.DataBeanX.DataBean> list, int totalCount) {
+        if (collectionWinportAdapter == null) {
+            collectionWinportAdapter = new CollectionWinportAdapter(refreshView, list, totalCount);
+            mListView.setAdapter(collectionWinportAdapter);
+        } else {
+            if (pageNumber == 1) {
+                collectionWinportAdapter.refreshData(list, totalCount);
+                mListView.setSelection(0);
+            } else {
+                collectionWinportAdapter.updateData(list, totalCount);
+            }
+        }
+    }
+
+    // 最近浏览
+    private ScanWinportAdapter scanWinportAdapter;
+
+    private void setScanAdapter(List<ScanShopList.DataBeanX.DataBean> list, int totalCount) {
+        if (scanWinportAdapter == null) {
+            scanWinportAdapter = new ScanWinportAdapter(refreshView, list, totalCount);
+            mListView.setAdapter(scanWinportAdapter);
+        } else {
+            if (pageNumber == 1) {
+                scanWinportAdapter.refreshData(list, totalCount);
+                mListView.setSelection(0);
+            } else {
+                scanWinportAdapter.updateData(list, totalCount);
+            }
+        }
+    }
 
 
     private void showEmptyView(boolean show) {
@@ -290,24 +373,24 @@ public class ScanWinportFragment extends BaseFragment {
                 getAppointList();
                 break;
             case COLLECTION:
+                queryCollectionCount();
                 getCollectionList();
                 break;
             case SCAN:
-                queryScanCount();
+                queryBrowserCount();
                 getScanList();
                 break;
         }
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                refreshView.refreshComplete();
-//            }
-//        }, 2 * 1000);
     }
 
 
     @OnClick(R.id.imv_focus_house_back)
     public void onViewClicked() {
         handleBack();
+    }
+
+    @OnClick(R.id.confirm)
+    public void onConfirmClicked() {
+        startActivity(new Intent(context, MainActivity.class));
     }
 }

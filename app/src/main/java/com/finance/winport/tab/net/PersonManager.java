@@ -6,8 +6,10 @@ import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.tab.model.AppointRanking;
 import com.finance.winport.tab.model.AppointShopList;
 import com.finance.winport.tab.model.AppointStatistics;
+import com.finance.winport.tab.model.CollectionShopList;
 import com.finance.winport.tab.model.Prediction;
 import com.finance.winport.tab.model.ScanCount;
+import com.finance.winport.tab.model.ScanShopList;
 import com.finance.winport.tab.model.WinportList;
 import com.finance.winport.util.ToolsUtil;
 
@@ -27,6 +29,30 @@ public class PersonManager {
 
     public static PersonManager getInstance() {
         return instance;
+    }
+
+    // 我发布的旺铺列表
+    public Subscription getWinportList(HashMap<String, Object> params, final NetworkCallback<WinportList> callback) {
+        return Ironman.getInstance()
+                .createService(PersonService.class)
+                .getWinportList(params)
+                .compose(ToolsUtil.<WinportList>applayScheduers())
+                .subscribe(new NetSubscriber<WinportList>() {
+                    @Override
+                    public void response(WinportList response) {
+                        if (callback != null) {
+                            callback.success(response);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if (callback != null) {
+                            callback.failure(e);
+                        }
+                    }
+                });
     }
 
     // 获取约看列表
@@ -53,15 +79,39 @@ public class PersonManager {
                 });
     }
 
-    // 我发布的旺铺列表
-    public Subscription getWinportList(HashMap<String, Object> params, final NetworkCallback<WinportList> callback) {
+    // 获取收藏列表
+    public Subscription getCollectionList(HashMap<String, Object> params, final NetworkCallback<ScanShopList> callback) {
         return Ironman.getInstance()
                 .createService(PersonService.class)
-                .getWinportList(params)
-                .compose(ToolsUtil.<WinportList>applayScheduers())
-                .subscribe(new NetSubscriber<WinportList>() {
+                .getCollectionList(params)
+                .compose(ToolsUtil.<ScanShopList>applayScheduers())
+                .subscribe(new NetSubscriber<ScanShopList>() {
                     @Override
-                    public void response(WinportList response) {
+                    public void response(ScanShopList response) {
+                        if (callback != null) {
+                            callback.success(response);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if (callback != null) {
+                            callback.failure(e);
+                        }
+                    }
+                });
+    }
+
+    // 获取最近浏览列表
+    public Subscription getScanList(HashMap<String, Object> params, final NetworkCallback<ScanShopList> callback) {
+        return Ironman.getInstance()
+                .createService(PersonService.class)
+                .getScanList(params)
+                .compose(ToolsUtil.<ScanShopList>applayScheduers())
+                .subscribe(new NetSubscriber<ScanShopList>() {
+                    @Override
+                    public void response(ScanShopList response) {
                         if (callback != null) {
                             callback.success(response);
                         }
@@ -197,15 +247,39 @@ public class PersonManager {
                 });
     }
 
-    // 预约统计
-    public Subscription getAppointStatistics(HashMap<String, Object> params, final NetworkCallback<AppointStatistics> callback) {
+    // 最近浏览总数和排名统计接口
+    public Subscription queryBrowserCount(HashMap<String, Object> params, final NetworkCallback<AppointRanking> callback) {
         return Ironman.getInstance()
                 .createService(PersonService.class)
-                .getAppointStatistics(params)
-                .compose(ToolsUtil.<AppointStatistics>applayScheduers())
-                .subscribe(new NetSubscriber<AppointStatistics>() {
+                .queryBrowserCount(params)
+                .compose(ToolsUtil.<AppointRanking>applayScheduers())
+                .subscribe(new NetSubscriber<AppointRanking>() {
                     @Override
-                    public void response(AppointStatistics response) {
+                    public void response(AppointRanking response) {
+                        if (callback != null) {
+                            callback.success(response);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if (callback != null) {
+                            callback.failure(e);
+                        }
+                    }
+                });
+    }
+
+    // 收藏总数和排名统计接口
+    public Subscription queryCollectionCount(HashMap<String, Object> params, final NetworkCallback<AppointRanking> callback) {
+        return Ironman.getInstance()
+                .createService(PersonService.class)
+                .queryCollectionCount(params)
+                .compose(ToolsUtil.<AppointRanking>applayScheduers())
+                .subscribe(new NetSubscriber<AppointRanking>() {
+                    @Override
+                    public void response(AppointRanking response) {
                         if (callback != null) {
                             callback.success(response);
                         }
@@ -230,6 +304,30 @@ public class PersonManager {
                 .subscribe(new NetSubscriber<AppointRanking>() {
                     @Override
                     public void response(AppointRanking response) {
+                        if (callback != null) {
+                            callback.success(response);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if (callback != null) {
+                            callback.failure(e);
+                        }
+                    }
+                });
+    }
+
+    // 预约统计
+    public Subscription getAppointStatistics(HashMap<String, Object> params, final NetworkCallback<AppointStatistics> callback) {
+        return Ironman.getInstance()
+                .createService(PersonService.class)
+                .getAppointStatistics(params)
+                .compose(ToolsUtil.<AppointStatistics>applayScheduers())
+                .subscribe(new NetSubscriber<AppointStatistics>() {
+                    @Override
+                    public void response(AppointStatistics response) {
                         if (callback != null) {
                             callback.success(response);
                         }

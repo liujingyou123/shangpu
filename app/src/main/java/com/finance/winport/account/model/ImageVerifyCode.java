@@ -9,7 +9,7 @@ import com.finance.winport.base.BaseResponse;
 public class ImageVerifyCode extends BaseResponse {
     public DataBean data;
 
-    public class DataBean {
+    public static class DataBean {
         public String base64Str;//base64字符串
         public String picUrl;//图片url　
         public String picVerifyCode;//验证码　

@@ -78,6 +78,14 @@ public class LoginFragment extends BaseFragment {
     TextView contactTip;
     @BindView(R.id.pic_code)
     ImageView picCode;
+    @BindView(R.id.close)
+    ImageView close;
+    @BindView(R.id.view_line1)
+    View viewLine1;
+    @BindView(R.id.view_line2)
+    View viewLine2;
+    @BindView(R.id.view_line3)
+    View viewLine3;
     private String userPhone;
     private String messageId;
     private String picVerifyCode;
@@ -214,8 +222,13 @@ public class LoginFragment extends BaseFragment {
         UserManager.getInstance().login(params, new NetworkCallback<UserInfo>() {
             @Override
             public void success(UserInfo response) {
-                SharedPrefsUtil.saveUserInfo(response);
-                getActivity().finish();
+                if (response != null && response.isSuccess()) {
+                    SharedPrefsUtil.saveUserInfo(response);
+                    getActivity().finish();
+                } else {
+                    verifyCodeView.setText("");
+                    ToastUtil.show(context, response == null ? "null response" : response.errMsg);
+                }
             }
 
             @Override
@@ -296,5 +309,11 @@ public class LoginFragment extends BaseFragment {
         if (check()) {
             login();
         }
+    }
+
+
+    @OnClick(R.id.close)
+    public void onCloseClicked() {
+        handleBack();
     }
 }

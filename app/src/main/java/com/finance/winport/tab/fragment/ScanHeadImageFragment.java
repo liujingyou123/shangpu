@@ -1,5 +1,6 @@
 package com.finance.winport.tab.fragment;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,7 +12,9 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.image.Batman;
+import com.finance.winport.image.BatmanCallBack;
 import com.finance.winport.tab.event.SelectImageEvent;
+import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.view.imagepreview.ZoomImageView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -40,9 +43,9 @@ public class ScanHeadImageFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            headUrl = getArguments().getString("head");
-        }
+//        if (getArguments() != null) {
+//            headUrl = getArguments().getString("head");
+//        }
     }
 
     @Nullable
@@ -57,7 +60,18 @@ public class ScanHeadImageFragment extends BaseFragment {
     private void initView() {
         tvFocusHouse.setText("头像");
         tvFocusRight.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.icon_camera, 0, 0, 0);
-        Batman.getInstance().fromNet(headUrl, img);
+        headUrl = SharedPrefsUtil.getUserInfo().data.headPortrait;
+        Batman.getInstance().fromNet(headUrl, new BatmanCallBack() {
+            @Override
+            public void onSuccess(Bitmap bitmap) {
+                img.setImageBitmap(bitmap);
+            }
+
+            @Override
+            public void onFailure(Exception error) {
+
+            }
+        });
     }
 
 

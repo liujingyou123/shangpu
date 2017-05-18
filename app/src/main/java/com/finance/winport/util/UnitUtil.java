@@ -3,6 +3,10 @@ package com.finance.winport.util;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -103,5 +107,101 @@ public class UnitUtil {
         DecimalFormat df = new DecimalFormat("#.00");
         return df.format(num);
 
+    }
+
+    public static String formatArea(float in) {
+        String number = null;
+        int inInt = (int) in;
+        if (inInt == in) {
+            number = inInt + "";
+        } else {
+            number = in + "";
+        }
+
+        return number;
+    }
+
+    public static String formatFloat(float in) {
+        String number = null;
+        int inInt = (int) in;
+
+        number = inInt + "";
+
+        return number;
+    }
+
+    public static String formatString(String num) {
+        String number = null;
+        try {
+            if (!TextUtils.isEmpty(num)) {
+                float in = Float.parseFloat(num);
+                number = formatFloat(in);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return number;
+    }
+
+    public static String formatStringArea(String num) {
+        String number = null;
+        try {
+            if (!TextUtils.isEmpty(num)) {
+                float in = Float.parseFloat(num);
+                number = formatArea(in);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return number;
+    }
+
+    public static String formatDouble(double in) {
+        String number = null;
+        int inInt = (int) in;
+        number = inInt + "";
+        return number;
+    }
+
+    public static String formatDoubleArea(double in) {
+        String number = null;
+        int inInt = (int) in;
+        if (inInt == in) {
+            number = inInt + "";
+        } else {
+            number = in + "";
+        }
+
+        return number;
+    }
+
+    public static String toJsonString(Object obj) {
+        Gson gson = new Gson();
+        String json = gson.toJson(obj);
+        Log.e("params json = ", json);
+        return json;
+    }
+
+    public static String toJsonStringWithIgnore(Object object) {
+        Gson gson = new GsonBuilder().setExclusionStrategies(new FooAnnotationExclusionStrategy()).create();
+        String json = gson.toJson(object);
+        Log.e("params json = ", json);
+        return json;
+    }
+
+
+    public static float stringToFloat(String num) {
+        float ret = 0f;
+        try {
+            if (!TextUtils.isEmpty(num)) {
+                ret = Float.parseFloat(num);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ret;
     }
 }
