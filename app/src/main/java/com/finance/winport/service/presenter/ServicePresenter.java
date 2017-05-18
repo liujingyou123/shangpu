@@ -6,6 +6,7 @@ import com.finance.winport.home.model.ShopRequset;
 import com.finance.winport.home.view.IHomeView;
 import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.service.api.FindServices;
+import com.finance.winport.service.model.FindLoanCountResponse;
 import com.finance.winport.service.model.ShopOrderCountResponse;
 import com.finance.winport.util.ToolsUtil;
 
@@ -27,6 +28,19 @@ public class ServicePresenter {
             public void response(ShopOrderCountResponse response) {
                 if (mServiceView != null) {
                     mServiceView.shopOrderCount(response);
+                }
+            }
+        });
+
+    }
+
+    public void getFindLoanCount() {
+
+        ToolsUtil.subscribe(ToolsUtil.createService(FindServices.class).getFindLoanCount(), new NetSubscriber<FindLoanCountResponse>() {
+            @Override
+            public void response(FindLoanCountResponse response) {
+                if (mServiceView != null) {
+                    mServiceView.findLoanCount(response);
                 }
             }
         });

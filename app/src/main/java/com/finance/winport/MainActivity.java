@@ -9,7 +9,7 @@ import com.finance.winport.home.event.HomeEvent;
 import com.finance.winport.home.HomeFragment;
 import com.finance.winport.trade.TradeCircleFragment;
 import com.finance.winport.tab.MineFragment;
-import com.finance.winport.tab.ServiceFragment;
+import com.finance.winport.service.ServiceFragment;
 import com.finance.winport.view.BottomTabView;
 
 import org.greenrobot.eventbus.EventBus;

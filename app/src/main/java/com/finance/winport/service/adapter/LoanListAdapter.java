@@ -1,7 +1,6 @@
 package com.finance.winport.service.adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +9,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.service.model.LoanListResponse;
 
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,10 +23,13 @@ import butterknife.ButterKnife;
 public class LoanListAdapter extends BaseAdapter {
     protected Context context;
 
-    //    public LoanListAdapter(Context context, List<MessageListResponse.DataBean> baseData) {
-//        this.baseData = baseData;
-//        this.context = context;
-//    }
+    private List<LoanListResponse.DataBeanX.DataBean> baseData;
+
+    public LoanListAdapter(Context context, List<LoanListResponse.DataBeanX.DataBean> baseData) {
+        this.baseData = baseData;
+        this.context = context;
+    }
+
     public LoanListAdapter(Context context) {
         this.context = context;
     }
@@ -33,12 +37,12 @@ public class LoanListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 10;
+        return baseData.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return position;
+        return baseData.get(position);
     }
 
     @Override
@@ -58,7 +62,13 @@ public class LoanListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        holder.loanMoneyValue.setText(baseData.get(position).getLoanLimit()+"万元");
+        holder.loanDeadlineValue.setText(baseData.get(position).getLoanMaturity()+"个月");
+        holder.status.setText(baseData.get(position).getApplyTime()+" 申请 | "+baseData.get(position).getStatus());
+
         return convertView;
+
+
     }
 
     private void readMessage(int messageId, final int position) {
@@ -77,7 +87,9 @@ public class LoanListAdapter extends BaseAdapter {
 //        });
     }
 
+
     static class ViewHolder {
+
 
         @BindView(R.id.loan_money)
         TextView loanMoney;
@@ -91,13 +103,11 @@ public class LoanListAdapter extends BaseAdapter {
         RelativeLayout center;
         @BindView(R.id.bottom_divider)
         View bottomDivider;
+        @BindView(R.id.status)
+        TextView status;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
     }
-
-
-
-
 }
