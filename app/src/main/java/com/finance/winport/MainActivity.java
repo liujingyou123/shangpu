@@ -7,7 +7,7 @@ import com.finance.winport.base.BaseActivity;
 import com.finance.winport.home.HomeFragment;
 import com.finance.winport.trade.TradeCircleFragment;
 import com.finance.winport.tab.MineFragment;
-import com.finance.winport.tab.ServiceFragment;
+import com.finance.winport.service.ServiceFragment;
 import com.finance.winport.view.BottomTabView;
 
 import butterknife.BindView;

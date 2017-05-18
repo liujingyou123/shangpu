@@ -24,10 +24,11 @@ public class TokenInterceptor implements Interceptor {
             return chain.proceed(original);
         }
         Request newRequest = original.newBuilder()
-                .addHeader("X-token", tokenKey).build();
+                .addHeader("X-token", tokenKey).addHeader("Content-Type","application/json").build();
+
         MediaType mediaType = newRequest.body().contentType();
         try {
-            if (mediaType != null) {
+            if (null != mediaType) {
                 Field field = mediaType.getClass().getDeclaredField("mediaType");
                 field.setAccessible(true);
                 field.set(mediaType, "application/json");
@@ -42,7 +43,7 @@ public class TokenInterceptor implements Interceptor {
     }
 
     private String getTokenKey() {
-        String ret = "C8AD6FDEEF19FB0224E31C218E2C4623";
+        String ret = "B589650D58D553EDE28D1F5E14E8CC33";  //C8AD6FDEEF19FB0224E31C218E2C4623
         return ret;
     }
 }

@@ -11,6 +11,10 @@ import com.finance.winport.base.BaseActivity;
 import com.finance.winport.dialog.SelectHouseTypeDialog;
 import com.finance.winport.mine.adapter.TagAdapter;
 import com.finance.winport.mine.adapter.TagItem;
+import com.finance.winport.mine.model.IndustryListResponse;
+import com.finance.winport.mine.presenter.IShopFocusView;
+import com.finance.winport.mine.presenter.ShopFocusPresenter;
+import com.finance.winport.service.presenter.ServicePresenter;
 import com.finance.winport.view.tagview.TagCloudLayout;
 
 import java.util.ArrayList;
@@ -21,7 +25,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class ShopFocusActivity extends BaseActivity {
+public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
 
     @BindView(R.id.imv_focus_house_back)
     ImageView imvFocusHouseBack;
@@ -39,6 +43,12 @@ public class ShopFocusActivity extends BaseActivity {
     RelativeLayout selectArea;
 
     private TagAdapter tagAdapter;
+    private TagAdapter industryTagAdapter;//经营业态
+
+    private ShopFocusPresenter mPresenter;
+
+    private List<TagItem> selectList = new ArrayList<>();
+    private TagItem selectIndustry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +56,15 @@ public class ShopFocusActivity extends BaseActivity {
         setContentView(R.layout.activity_shop_focus);
         ButterKnife.bind(this);
         setTagList();
+        getData();
     }
 
+    private void getData() {
+        if (mPresenter == null) {
+            mPresenter = new ShopFocusPresenter(this);
+        }
+        mPresenter.getIndustryList();
+    }
 
     private void setTagList() {
 
@@ -105,8 +122,50 @@ public class ShopFocusActivity extends BaseActivity {
                 if (item != null) {
                     if (item.isSelected()) {
                         tagAdapter.setMultiItemSelect(item, false);
+                        selectList.remove(selectList.indexOf(item));
+                        StringBuilder s = new StringBuilder();
+                        for (int i = 0; i <selectList.size() ; i++) {
+                            if(i==0){
+
+                                if(selectList.size()==1){
+
+                                    s.append(selectList.get(i).getTagName());
+                                }
+                                else{
+                                    s.append(selectList.get(i).getTagName()+"\n");
+                                }
+                            }
+                            else if(selectList.size()<5){
+                                s.append("-"+selectList.get(i).getTagName());
+                            }else if(i==3){
+                                s.append("-"+selectList.get(i).getTagName()+"\n");
+                            }
+                        }
+                        focusContent.setText("江湾镇-餐饮类-"+s.toString());
                     } else {
                         tagAdapter.setMultiItemSelect(item, true);
+                        selectList.add(item);
+                        StringBuilder s = new StringBuilder();
+                        for (int i = 0; i <selectList.size() ; i++) {
+                            if(i==0){
+
+                                if(selectList.size()==1){
+
+                                    s.append(selectList.get(i).getTagName());
+                                }
+                                else{
+                                    s.append(selectList.get(i).getTagName()+"\n");
+                                }
+                            }
+                            else if(selectList.size()<5){
+                                s.append("-"+selectList.get(i).getTagName());
+                            }else if(i==3){
+                                s.append("-"+selectList.get(i).getTagName()+"\n");
+                            }else{
+                                s.append("-"+selectList.get(i).getTagName());
+                            }
+                        }
+                        focusContent.setText("江湾镇-餐饮类-"+s.toString());
                     }
                 }
             }
@@ -160,6 +219,47 @@ public class ShopFocusActivity extends BaseActivity {
                 showLouCeng();
                 break;
         }
+    }
+
+    @Override
+    public void shopIndustryList(IndustryListResponse response) {
+        List<TagItem> list = new ArrayList<>();
+        String[] textColor = {"#646464", "#ff7725"};
+        String[] bgColor = {"#f0f0f0", "#ffffff"};
+        String[] strokeColor = {"#646464", "#ff7725"};
+        for (int i = 0; i <response.getData().size() ; i++) {
+            TagItem item = new TagItem();
+            item.setTextColor(textColor);
+            item.setBgColor(bgColor);
+            item.setStrokeColor(strokeColor);
+            item.setTagId(response.getData().get(i).getIndustryId() + "");
+            item.setTagName(response.getData().get(i).getIndustryName());
+            list.add(item);
+        }
+        if (industryTagAdapter == null) {
+            industryTagAdapter = new TagAdapter(context, list);
+            tag.setAdapter(industryTagAdapter);
+        } else {
+            industryTagAdapter.update(list);
+        }
+
+        tag.setItemClickListener(new TagCloudLayout.TagItemClickListener() {
+                                         @Override
+                                         public void itemClick(int position) {
+                                             TagItem item = (TagItem) industryTagAdapter.getItem(position);
+                                             if (item != null) {
+                                                 if (!item.isSelected()) {// 未选择状态
+
+                                                     industryTagAdapter.setSingleItemSelect(position);
+
+                                                 } else {//已选择状态
+                                                     industryTagAdapter.setSingleItemUnSelect(position);
+                                                 }
+                                             }
+                                         }
+                                     }
+
+        );
     }
 
 //    @OnClick(R.id.select_area)

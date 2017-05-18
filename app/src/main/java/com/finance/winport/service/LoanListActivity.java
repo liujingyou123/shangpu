@@ -9,14 +9,23 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.service.adapter.LoanListAdapter;
+import com.finance.winport.service.model.LoanListResponse;
+import com.finance.winport.service.presenter.ILoanListView;
+import com.finance.winport.service.presenter.LoanListPresenter;
+import com.finance.winport.service.presenter.ServicePresenter;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
+import com.finance.winport.view.refreshview.PtrDefaultHandler2;
+import com.finance.winport.view.refreshview.PtrFrameLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class LoanListActivity extends BaseActivity {
+public class LoanListActivity extends BaseActivity implements ILoanListView{
 
     @BindView(R.id.imv_focus_house_back)
     ImageView imvFocusHouseBack;
@@ -34,6 +43,12 @@ public class LoanListActivity extends BaseActivity {
     RelativeLayout empty;
     private LoanListAdapter adapter;
 
+    private LoanListPresenter mPresenter;
+
+    private int pageNum = 1;
+
+    private List<LoanListResponse.DataBeanX.DataBean> list = new ArrayList<>();;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,17 +56,39 @@ public class LoanListActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         init();
-        setAdapter();
+        getData();
+    }
+
+    private void getData() {
+        if (mPresenter == null) {
+            mPresenter = new LoanListPresenter(this);
+        }
+        mPresenter.getLoanList(pageNum);
     }
 
 
     public void init(){
         tvFocusHouse.setText("我的贷款申请");
+        refreshView.setMode(PtrFrameLayout.Mode.LOAD_MORE);
+        refreshView.setPtrHandler(new PtrDefaultHandler2() {
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+//                pageNumber = 1;
+//                asyncData();
+            }
+
+            @Override
+            public void onLoadMoreBegin(PtrFrameLayout frame) {
+                pageNum++;
+                getData();
+            }
+        });
     }
 
-    private void setAdapter() {
+    private void setAdapter(LoanListResponse response) {
+        list.addAll(response.getData().getData());
         if (adapter == null) {
-            adapter = new LoanListAdapter(LoanListActivity.this);
+            adapter = new LoanListAdapter(LoanListActivity.this,list);
             mListView.setAdapter(adapter);
 //            totalPage = (int) Math.ceil(adapter.getTotalCount() / (float) LIMIT);
         } else {
@@ -67,5 +104,12 @@ public class LoanListActivity extends BaseActivity {
     @OnClick(R.id.imv_focus_house_back)
     public void onViewClicked() {
         finish();
+    }
+
+    @Override
+    public void shopLoanList(LoanListResponse response) {
+
+        refreshView.refreshComplete();
+        setAdapter(response);
     }
 }
