@@ -42,4 +42,6 @@ public class ShopRequset {
 
     public List<String> supportTagList; //配套标签集合
 
+    public String shopType; //街铺主题类型  0-今日新铺 1-无转让费  2-百平小铺（80-120）  3-临近地铁（1km)
+
 }
