@@ -264,10 +264,25 @@ public class HomeFragment extends BaseFragment implements IHomeView {
             public void run() {
                 if (sortPopupView == null) {
                     sortPopupView = new SortPopupView(HomeFragment.this.getContext());
+                    sortPopupView.setOnSortSelectListener(new SortPopupView.OnSortSelectListener() {
+                        @Override
+                        public void onSortSelect(String sortType, String sortTypeName) {
+                            if ("0".equals(sortType)) {
+                                mRequest.sortType = null;
+                                selectionView.setSortText("排序");
+                                selectionView.onSortUnClick();
+                            } else {
+                                mRequest.sortType = sortType;
+                                selectionView.setSortText(sortTypeName);
+                            }
+                            mRequest.pageNumber = 1;
+                            mPresenter.getShopList(mRequest);
+                        }
+                    });
                     sortPopupView.setOnDismissListener(new PopupWindow.OnDismissListener() {
                         @Override
                         public void onDismiss() {
-                            selectionView.onSortUnClick();
+//                            selectionView.onSortUnClick();
                         }
                     });
                 }
