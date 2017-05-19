@@ -405,10 +405,26 @@ public class HomeFragment extends BaseFragment implements IHomeView {
                 selectionView.setQuYuText(requset.blockName);
                 mRequest.blockId = requset.blockId;
                 mRequest.districtId = requset.districtId;
+                mRequest.metroId = null;
+                mRequest.stationId = null;
             } else if (!TextUtils.isEmpty(requset.districtId)) {
                 mRequest.districtId = requset.districtId;
                 mRequest.blockId = null;
+                mRequest.metroId = null;
+                mRequest.stationId = null;
                 selectionView.setQuYuText(requset.districtName);
+            } else if (!TextUtils.isEmpty(requset.stationId)) {
+                selectionView.setQuYuText(requset.stationName);
+                mRequest.metroId = requset.metroId;
+                mRequest.stationId = requset.stationId;
+                mRequest.blockId = null;
+                mRequest.districtId = null;
+            } else if (!TextUtils.isEmpty(requset.metroId)) {
+                selectionView.setQuYuText(requset.metroName);
+                mRequest.metroId = requset.metroId;
+                mRequest.stationId = null;
+                mRequest.blockId = null;
+                mRequest.districtId = null;
             } else {
                 selectionView.onLocationUnClick();
                 selectionView.setQuYuText("区域");

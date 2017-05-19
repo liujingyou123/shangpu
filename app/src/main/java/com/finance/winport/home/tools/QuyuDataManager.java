@@ -1,5 +1,6 @@
 package com.finance.winport.home.tools;
 
+import com.finance.winport.home.model.MetroResponse;
 import com.finance.winport.home.model.RegionResponse;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.List;
 public class QuyuDataManager {
     private static final QuyuDataManager ourInstance = new QuyuDataManager();
     private List<RegionResponse.Region> mRegionData = new ArrayList<>();
+    private List<MetroResponse.Metro> mMetrosData = new ArrayList<>();
 
 
     public static QuyuDataManager getInstance() {
@@ -65,7 +67,53 @@ public class QuyuDataManager {
             rets.add(block1);
         }
         return rets;
-
     }
 
+
+    public void addMetro(List<MetroResponse.Metro> metroData) {
+        mMetrosData.clear();
+        mMetrosData.addAll(metroData);
+    }
+
+
+    public List<MetroResponse.Metro> getMetrosNoAll() {
+        return mMetrosData;
+    }
+    public List<MetroResponse.Metro> getMetros() {
+        List<MetroResponse.Metro> metros = new ArrayList<>();
+        MetroResponse.Metro allmetros = new MetroResponse.Metro();
+        allmetros.setLineName("全部");
+        allmetros.setLineId("-1");
+        metros.add(allmetros);
+        metros.addAll(mMetrosData);
+        return metros;
+    }
+
+    public List<MetroResponse.Metro.Station> getStationByMetroId(String id) {
+        MetroResponse.Metro metro = null;
+        for (int i=0;i<mMetrosData.size(); i++) {
+            if (id.equals(mMetrosData.get(i).getLineId())) {
+                metro = mMetrosData.get(i);
+                break;
+            }
+        }
+        return getStations(metro);
+    }
+
+    public List<MetroResponse.Metro.Station> getStations(MetroResponse.Metro metro) {
+        List<MetroResponse.Metro.Station> rets = new ArrayList<>();
+        MetroResponse.Metro.Station station = new MetroResponse.Metro.Station();
+        station.setStationName("全部");
+        station.setStationId("-1");
+        station.setLineId(metro.getLineId());
+        station.setLineName(metro.getLineName());
+        rets.add(station);
+        for (int i=0; i< metro.getStationList().size(); i++) {
+            MetroResponse.Metro.Station station1 = metro.getStationList().get(i);
+            station1.setLineId(metro.getLineId());
+            station1.setLineName(metro.getLineName());
+            rets.add(station1);
+        }
+        return rets;
+    }
 }

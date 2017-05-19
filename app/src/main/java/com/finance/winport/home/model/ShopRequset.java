@@ -20,7 +20,11 @@ public class ShopRequset {
     public String blockName;
 
     public String metroId;
+    @FooAnnotation
+    public String metroName;
     public String stationId;
+    @FooAnnotation
+    public String stationName;
 
 
 

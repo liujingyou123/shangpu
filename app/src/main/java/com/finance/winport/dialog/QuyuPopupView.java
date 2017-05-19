@@ -12,8 +12,11 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.home.adapter.BlockAdapter;
+import com.finance.winport.home.adapter.MetroAdapter;
 import com.finance.winport.home.adapter.RegionAdapter;
+import com.finance.winport.home.adapter.StationAdapter;
 import com.finance.winport.home.api.HomeServices;
+import com.finance.winport.home.model.MetroResponse;
 import com.finance.winport.home.model.RegionResponse;
 import com.finance.winport.home.model.ShopRequset;
 import com.finance.winport.home.tools.QuyuDataManager;
@@ -36,6 +39,14 @@ import butterknife.OnClick;
 
 public class QuyuPopupView extends AnimPopup {
 
+    @BindView(R.id.ls_three)
+    ListView lsThree;
+    @BindView(R.id.ls_four)
+    ListView lsFour;
+    @BindView(R.id.ll_list_metro)
+    LinearLayout llListMetro;
+    @BindView(R.id.ll_list_region)
+    LinearLayout llListRegion;
     private Context context;
     @BindView(R.id.tv_quyu)
     TextView tvQuyu;
@@ -53,12 +64,16 @@ public class QuyuPopupView extends AnimPopup {
     private RegionAdapter regionAdapter;
     private BlockAdapter blockAdapter;
 
+    private MetroAdapter metroAdapter;
+    private StationAdapter stationAdapter;
+
     private ShopRequset mRequest = new ShopRequset();
 
     public QuyuPopupView(Context context) {
         super(context);
         initView(context);
         getDistrict();
+        getMetros();
     }
 
     private void initView(Context context) {
@@ -87,6 +102,8 @@ public class QuyuPopupView extends AnimPopup {
                 if ("-1".equals(region.getRegionId())) { //全部
                     mRequest = new ShopRequset();
                     EventBus.getDefault().post(mRequest);
+                    metroAdapter.setSelectPostion(-1);
+                    stationAdapter.setSelectPosition(-1);
                     dismiss();
                 } else {
                     setBlockData(region);
@@ -110,22 +127,86 @@ public class QuyuPopupView extends AnimPopup {
                 RegionResponse.Region.Block ret = (RegionResponse.Region.Block) parent.getItemAtPosition(position);
 
                 if ("-1".equals(ret.getBlockId())) { //全部
+                    mRequest = new ShopRequset();
                     mRequest.districtId = ret.getRegionId();
                     mRequest.districtName = ret.getRegionName();
                     mRequest.blockId = null;
                     mRequest.blockName = null;
                 } else {
+                    mRequest = new ShopRequset();
                     mRequest.districtId = ret.getRegionId();
                     mRequest.districtName = ret.getRegionName();
                     mRequest.blockId = ret.getBlockId();
                     mRequest.blockName = ret.getBlockName();
                 }
 
+                metroAdapter.setSelectPostion(-1);
+                stationAdapter.setSelectPosition(-1);
+
                 EventBus.getDefault().post(mRequest);
                 dismiss();
 
             }
         });
+
+        if (metroAdapter == null) {
+            metroAdapter = new MetroAdapter(context);
+        }
+        lsThree.setAdapter(metroAdapter);
+        lsThree.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                metroAdapter.setSelectPostion(position);
+                MetroResponse.Metro metro = (MetroResponse.Metro) parent.getItemAtPosition(position);
+                if ("-1".equals(metro.getLineId())) { //全部
+                    mRequest = new ShopRequset();
+                    EventBus.getDefault().post(mRequest);
+                    regionAdapter.setSelectPostion(-1);
+                    blockAdapter.setSelectPosition(-1);
+                    dismiss();
+                } else {
+                    setStationData(metro);
+                    if (mRequest.metroId == metro.getLineId()) {
+                        stationAdapter.setSelectId(mRequest.stationId);
+                    }
+                }
+
+
+            }
+        });
+
+        if (stationAdapter == null) {
+            stationAdapter = new StationAdapter(context);
+        }
+        lsFour.setAdapter(stationAdapter);
+        lsFour.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                stationAdapter.setSelectPosition(position);
+                MetroResponse.Metro.Station ret = (MetroResponse.Metro.Station) parent.getItemAtPosition(position);
+                if ("-1".equals(ret.getStationId())) { //全部
+                    mRequest = new ShopRequset();
+                    mRequest.metroId = ret.getLineId();
+                    mRequest.metroName = ret.getLineName();
+                    mRequest.stationId = null;
+                    mRequest.stationName = null;
+                } else {
+                    mRequest = new ShopRequset();
+                    mRequest.metroId = ret.getLineId();
+                    mRequest.metroName = ret.getLineName();
+                    mRequest.stationId = ret.getStationId();
+                    mRequest.stationName = ret.getStationName();
+                }
+
+                regionAdapter.setSelectPostion(-1);
+                blockAdapter.setSelectPosition(-1);
+
+                EventBus.getDefault().post(mRequest);
+                dismiss();
+
+            }
+        });
+
     }
 
     @Override
@@ -186,14 +267,108 @@ public class QuyuPopupView extends AnimPopup {
         });
     }
 
+    private void getMetros() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("cityId", "310000");
+        ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).getMetros(map), new NetSubscriber<MetroResponse>() {
+            @Override
+            public void response(MetroResponse response) {
+                if (response != null && response.getData() != null) {
+                    QuyuDataManager.getInstance().addMetro(response.getData());
+                    metroAdapter.initData();
+                }
+
+            }
+
+        });
+    }
+
     private void showInitSelect() {
         if (mRequest.metroId != null || mRequest.stationId != null) { //上次选的是地铁
             tvQuyu.setSelected(false);
             tvDitie.setSelected(true);
-        } else {  //上次选的是区域 或者 没选
+
+            llListRegion.setVisibility(View.GONE);
+            llListMetro.setVisibility(View.VISIBLE);
+
+            if (mRequest.metroId != null) {
+                metroAdapter.setSelectId(mRequest.metroId);
+            } else {
+                lsFour.setVisibility(View.GONE);
+            }
+
+            if (mRequest.stationId != null) {
+                lsFour.setVisibility(View.VISIBLE);
+                stationAdapter.initDatasWithReiionAndBlockId(mRequest.metroId, mRequest.stationId);
+            }
+        } else if (mRequest.districtId != null || mRequest.blockId != null) {  //上次选的是区域
+            tvQuyu.setSelected(true);
+            tvDitie.setSelected(false);
+            llListRegion.setVisibility(View.VISIBLE);
+            llListMetro.setVisibility(View.GONE);
+            if (mRequest.districtId != null) {
+                regionAdapter.setSelectId(mRequest.districtId);
+            } else {
+                lsTwo.setVisibility(View.GONE);
+            }
+
+            if (mRequest.blockId != null) {
+                lsTwo.setVisibility(View.VISIBLE);
+                blockAdapter.initDatasWithReiionAndBlockId(mRequest.districtId, mRequest.blockId);
+            }
+        } else { //没选
             tvQuyu.setSelected(true);
             tvDitie.setSelected(false);
 
+            llListRegion.setVisibility(View.VISIBLE);
+            llListMetro.setVisibility(View.GONE);
+
+            lsTwo.setVisibility(View.GONE);
+            lsFour.setVisibility(View.GONE);
+            regionAdapter.setSelectPostion(-1);
+            blockAdapter.setSelectPosition(-1);
+            metroAdapter.setSelectPostion(-1);
+            stationAdapter.setSelectPosition(-1);
+        }
+    }
+
+    /**
+     * 设置区域 地铁选中状态
+     *
+     * @param index
+     */
+    private void setQuyuOrDitieSelect(int index) {
+        if (index == 1) {
+            llListRegion.setVisibility(View.VISIBLE);
+            llListMetro.setVisibility(View.GONE);
+            tvQuyu.setSelected(true);
+            tvDitie.setSelected(false);
+
+        } else if (index == 2) {
+            llListRegion.setVisibility(View.GONE);
+            llListMetro.setVisibility(View.VISIBLE);
+            tvQuyu.setSelected(false);
+            tvDitie.setSelected(true);
+        }
+
+        if (mRequest.metroId != null || mRequest.stationId != null) { //上次选的是地铁
+            regionAdapter.setSelectPostion(-1);
+            stationAdapter.setSelectPosition(-1);
+            lsTwo.setVisibility(View.GONE);
+            if (mRequest.metroId != null) {
+                metroAdapter.setSelectId(mRequest.metroId);
+            } else {
+                lsFour.setVisibility(View.GONE);
+            }
+
+            if (mRequest.stationId != null) {
+                lsFour.setVisibility(View.VISIBLE);
+                stationAdapter.initDatasWithReiionAndBlockId(mRequest.metroId, mRequest.stationId);
+            }
+        } else {  //上次选的是区域 或者 没选
+            metroAdapter.setSelectPostion(-1);
+            stationAdapter.setSelectPosition(-1);
+            lsFour.setVisibility(View.GONE);
             if (mRequest.districtId != null) {
                 regionAdapter.setSelectId(mRequest.districtId);
             } else {
@@ -207,31 +382,29 @@ public class QuyuPopupView extends AnimPopup {
         }
     }
 
-    /**
-     * 设置区域 地铁选中状态
-     *
-     * @param index
-     */
-    private void setQuyuOrDitieSelect(int index) {
-        if (index == 1) {
-
-        } else if (index == 2) {
-
-        }
-    }
-
     private void setBlockData(RegionResponse.Region region) {
         lsTwo.setVisibility(View.VISIBLE);
         blockAdapter.initDataAndNotify(region);
+    }
+
+    private void setStationData(MetroResponse.Metro metro) {
+        lsFour.setVisibility(View.VISIBLE);
+        stationAdapter.initDataAndNotify(metro);
     }
 
     @OnClick({R.id.tv_quyu, R.id.tv_ditie})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_quyu:
+                if (tvQuyu.isSelected()) {
+                    return;
+                }
                 setQuyuOrDitieSelect(1);
                 break;
             case R.id.tv_ditie:
+                if (tvDitie.isSelected()) {
+                    return;
+                }
                 setQuyuOrDitieSelect(2);
                 break;
         }
