@@ -2,6 +2,7 @@ package com.finance.winport.tab.adapter;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.text.SpannableString;
@@ -18,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.home.ShopDetailActivity;
 import com.finance.winport.image.Batman;
 import com.finance.winport.tab.model.AppointShopList;
 import com.finance.winport.util.UnitUtil;
@@ -39,11 +41,6 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
         super(baseView, baseData, maxTotal);
     }
 
-//    @Override
-//    public int getCount() {
-//        return 20;
-//    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
@@ -54,25 +51,38 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        AppointShopList.DataBeanX.DataBean item = baseData.get(position);
+        final AppointShopList.DataBeanX.DataBean item = baseData.get(position);
         holder.address.setText(item.address + item.rentTypeName);
         holder.district.setText(item.districtName + " " + item.blockName);
-//        holder.area.setText();
-        holder.price.setText(Math.round(item.rent) + "元");
-        String sFee = Math.round(item.transferFee/10000) + "";
-        SpannableString sp = new SpannableString("转让费" + sFee + "万元");
-        sp.setSpan(new ForegroundColorSpan(Color.parseColor("#FF7540"))
-                , sp.toString().indexOf(sFee), sp.toString().indexOf(sFee) + sFee.length()
-                , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        holder.fee.setText(sp);
+        holder.area.setText(UnitUtil.formatArea(item.area) + "㎡");
+        String sRent = Math.round(item.rent) + "";
+        String sFee = Math.round(item.transferFee / 10000) + "";
+        if (item.rentStatus == 3) {//rentStatus 出租状态 0-待出租 1-出租中 2-已出租  3-已下架（撤下）
+            holder.price.setText(sRent + "元/月");
+            holder.fee.setText(sFee);
+            holder.mark.setVisibility(View.VISIBLE);
+            holder.overlay.setVisibility(View.VISIBLE);
+        } else {
+            SpannableString sr = new SpannableString(sRent + "元");
+            sr.setSpan(new ForegroundColorSpan(Color.parseColor("#FF7540"))
+                    , 0, sr.length()
+                    , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            holder.price.setText(sr);
+            SpannableString sp = new SpannableString("转让费" + sFee + "万元");
+            sp.setSpan(new ForegroundColorSpan(Color.parseColor("#FF7540"))
+                    , sp.toString().indexOf(sFee), sp.toString().indexOf(sFee) + sFee.length()
+                    , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            holder.fee.setText(sp);
+            holder.mark.setVisibility(View.GONE);
+            holder.overlay.setVisibility(View.GONE);
+        }
         holder.distance.setText("距您" + UnitUtil.mTokm(item.distance + ""));
         holder.updateTime.setText(item.updateTime + "更新");
         holder.appointTime.setText(item.applyTime + "约看");
-        //rentStatus 出租状态 0-待出租 1-出租中 2-已出租  3-已下架（撤下）
-        holder.mark.setVisibility(item.rentStatus == 3 ? View.VISIBLE : View.GONE);
         holder.scan.setText(item.visitCount + "");
         holder.call.setText(item.contactCount + "");
         Batman.getInstance().fromNet(item.coverImg, holder.img);
+        setTag(holder, item);
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -80,7 +90,14 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
                 return true;
             }
         });
-        setTag(holder, item);
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent details = new Intent(context, ShopDetailActivity.class);
+                details.putExtra("shopId", item.id);
+                context.startActivity(details);
+            }
+        });
         return convertView;
     }
 
@@ -190,6 +207,8 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
         TextView appointTime;
         @BindView(R.id.sign)
         TextView sign;
+        @BindView(R.id.overlay)
+        View overlay;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

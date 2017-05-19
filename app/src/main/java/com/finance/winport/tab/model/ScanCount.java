@@ -1,5 +1,6 @@
 package com.finance.winport.tab.model;
 
+import com.finance.winport.account.model.Message;
 import com.finance.winport.base.BaseResponse;
 
 /**
@@ -8,5 +9,11 @@ import com.finance.winport.base.BaseResponse;
  */
 
 public class ScanCount extends BaseResponse {
+    public Message.DataBean data;
+
+    public static class DataBean {
+        public String weekCount;
+        public String rate;
+    }
 
 }

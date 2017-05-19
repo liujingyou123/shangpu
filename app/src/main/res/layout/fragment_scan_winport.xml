@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:orientation="vertical">
 
     <include layout="@layout/title_fouce_house" />
@@ -18,7 +19,8 @@
         android:paddingRight="24dp"
         android:text="@string/list_winport_tip"
         android:textColor="#333333"
-        android:textSize="13sp" />
+        android:textSize="13sp"
+        android:visibility="gone" />
 
     <FrameLayout
         android:layout_width="match_parent"

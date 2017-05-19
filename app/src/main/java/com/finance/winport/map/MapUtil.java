@@ -29,14 +29,14 @@ import com.finance.winport.R;
  */
 
 public class MapUtil {
-    public static final int DEFAULT_ZOOM = 18;
+    public static final int DEFAULT_ZOOM = 17;
 
     public static void setDefaultLocation(BaiduMap baiduMap){
         BDLocation location = new BDLocation();
         //陆家嘴
         location.setLatitude(31.243280);
         location.setLongitude(121.508596);
-        setMyLocation(baiduMap, location, 11);
+        setMyLocation(baiduMap, location, 12);
     }
 
     public static void setMyLocation(BaiduMap baiduMap, BDLocation location){
@@ -45,7 +45,7 @@ public class MapUtil {
 
     public static void setMyLocation(BaiduMap baiduMap, BDLocation location, int zoom){
 
-        setMapZoom(baiduMap, zoom);
+        setMapZoom(baiduMap, location, zoom);
 
         // 开启定位图层
         baiduMap.setMyLocationEnabled(true);
@@ -58,18 +58,19 @@ public class MapUtil {
         baiduMap.setMyLocationData(locData);
 
         // 设置定位图层的配置（定位模式，是否允许方向信息，用户自定义定位图标）
-        BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_location_center);
-
-        MyLocationConfiguration config = new MyLocationConfiguration(MyLocationConfiguration.LocationMode.FOLLOWING, false, mCurrentMarker, Color.parseColor("#1A4287FF"), Color.TRANSPARENT);
-        baiduMap.setMyLocationConfiguration(config);
+//        BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_location_center);
+//
+//        MyLocationConfiguration config = new MyLocationConfiguration(MyLocationConfiguration.LocationMode.NORMAL, false, mCurrentMarker, Color.parseColor("#1A4287FF"), Color.TRANSPARENT);
+//        baiduMap.setMyLocationConfiguration(config);
         // 当不需要定位图层时关闭定位图层
 //        baiduMap.setMyLocationEnabled(false);
     }
 
-    public static void setMapZoom(BaiduMap baiduMap, int zoom){
+    public static void setMapZoom(BaiduMap baiduMap, BDLocation location, int zoom){
         //定义地图状态
         MapStatus mMapStatus = new MapStatus.Builder()
                 .zoom(zoom)
+                .target(new LatLng(location.getLatitude(),location.getLongitude()))
                 .build();
 
         //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化

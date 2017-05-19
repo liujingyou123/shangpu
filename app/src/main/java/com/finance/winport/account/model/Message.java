@@ -9,7 +9,7 @@ import com.finance.winport.base.BaseResponse;
 public class Message extends BaseResponse {
     public DataBean data;
 
-    public class DataBean {
+    public static class DataBean {
         public String messageId;
     }
 

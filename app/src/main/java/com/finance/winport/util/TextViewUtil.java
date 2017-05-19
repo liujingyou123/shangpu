@@ -231,7 +231,7 @@ public class TextViewUtil {
 
                 String dValue = dest.toString();
 
-                if (dValue.length() == 13 || !(isNumeric(source.toString()))) {
+                if (dValue.length() == 13 || !(isNumeric(source.toString().replaceAll(" ","")))) {
                     return "";
                 }
 

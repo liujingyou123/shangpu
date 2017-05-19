@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.service.model.FindLoanCountResponse;
 import com.finance.winport.service.model.ShopOrderCountResponse;
 import com.finance.winport.service.presenter.IFindServiceView;
 import com.finance.winport.service.presenter.ServicePresenter;
@@ -109,13 +110,25 @@ public class ShopOrderFragment extends BaseFragment implements IFindServiceView 
     public void shopOrderCount(ShopOrderCountResponse response) {
 
 
-        SpannableString builder = new SpannableString(response.getData().getAmount() + "位");
+        SpannableString builder = new SpannableString(response.getData().getAmount() + "间");
         ForegroundColorSpan redSpan = new ForegroundColorSpan(Color.parseColor("#666666"));
         builder.setSpan(redSpan, builder.length() - 1, builder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        builder.setSpan(new AbsoluteSizeSpan((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, UnitUtil.dip2px(getActivity(), 14), getResources().getDisplayMetrics())), builder.length() - 1, builder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.setSpan(new AbsoluteSizeSpan((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, getResources().getDisplayMetrics())), builder.length() - 1, builder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         shopCount.setText(builder);
 
+        SpannableString builder1 = new SpannableString(response.getData().getVisit() + "位");
+        ForegroundColorSpan redSpan1 = new ForegroundColorSpan(Color.parseColor("#666666"));
+        builder1.setSpan(redSpan1, builder1.length() - 1, builder1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        builder1.setSpan(new AbsoluteSizeSpan((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, getResources().getDisplayMetrics())), builder1.length() - 1, builder1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        bossCount.setText(builder1);
+
+
+    }
+
+    @Override
+    public void findLoanCount(FindLoanCountResponse response) {
 
     }
 

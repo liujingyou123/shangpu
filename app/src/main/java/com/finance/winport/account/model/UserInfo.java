@@ -9,8 +9,9 @@ import com.finance.winport.base.BaseResponse;
 public class UserInfo extends BaseResponse {
     public DataBean data;
 
-    public class DataBean {
+    public static class DataBean {
         public String accessToken;
+        public String headPortrait;
     }
 
 

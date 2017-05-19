@@ -15,8 +15,21 @@
             android:id="@+id/headImg"
             android:layout_width="match_parent"
             android:layout_height="190dp"
-            android:layout_alignParentTop="true" />
+            android:layout_alignParentTop="true"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/bg_login_top" />
 
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingBottom="12dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="12dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/icon_login_close" />
 
         <EditText
             android:id="@+id/phone_view"

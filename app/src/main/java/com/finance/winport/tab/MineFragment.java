@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.account.LoginActivity;
+import com.finance.winport.account.model.UserInfo;
 import com.finance.winport.aliyunoss.AliOss;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.dialog.LoadingDialog;
@@ -35,6 +36,7 @@ import com.finance.winport.permission.PermissionsManager;
 import com.finance.winport.permission.PermissionsResultAction;
 import com.finance.winport.tab.event.SelectImageEvent;
 import com.finance.winport.util.LoadingDialogUtil;
+import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.view.StopWatchTextView;
 import com.finance.winport.view.imagepreview.ImagePreviewActivity;
 import com.finance.winport.view.picker.Picker;
@@ -144,6 +146,12 @@ public class MineFragment extends BaseFragment {
         unbinder.unbind();
     }
 
+    private boolean isLogin() {
+        UserInfo info = SharedPrefsUtil.getUserInfo();
+        return info != null;
+    }
+
+
     @OnClick({R.id.tv_focus_right, R.id.modify, R.id.schedule_list, R.id.setting, R.id.phone
             , R.id.concern, R.id.shop_img, R.id.ll_mine_winport, R.id.ll_mine_collection
             , R.id.ll_mine_appoint, R.id.ll_mine_scan, R.id.fierce_prediction, R.id.suggest})
@@ -162,44 +170,59 @@ public class MineFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
                 break;
             case R.id.phone:
-                if (false) {// not login
+                if (!isLogin()) {// not login
                     toLogin();
                 }
                 break;
             case R.id.concern:
-                if (true) {// already login
+                if (isLogin()) {// already login
                     toConcern();
                 } else {
                     toLogin();
                 }
                 break;
             case R.id.shop_img:
-                if (true) {// already login
+                if (isLogin()) {// already login
                     scanHeadImage();
-//                    selectImage(REQUEST_CODE_HEAD);
                 } else {//not login
                     toLogin();
                 }
                 break;
             case R.id.ll_mine_winport:
+                if (!isLogin()) {
+                    toLogin();
+                    return;
+                }
                 Intent release = new Intent(context, WinportActivity.class);
                 release.putExtra("type", TypeList.RELEASE);
                 release.putExtra("title", "我发布的旺铺");
                 startActivity(release);
                 break;
             case R.id.ll_mine_appoint:
+                if (!isLogin()) {
+                    toLogin();
+                    return;
+                }
                 Intent appoint = new Intent(context, WinportActivity.class);
                 appoint.putExtra("type", TypeList.APPOINT);
                 appoint.putExtra("title", "我的约看");
                 startActivity(appoint);
                 break;
             case R.id.ll_mine_collection:
+                if (!isLogin()) {
+                    toLogin();
+                    return;
+                }
                 Intent collection = new Intent(context, WinportActivity.class);
                 collection.putExtra("type", TypeList.COLLECTION);
                 collection.putExtra("title", "我的收藏");
                 startActivity(collection);
                 break;
             case R.id.ll_mine_scan:
+                if (!isLogin()) {
+                    toLogin();
+                    return;
+                }
                 Intent scan = new Intent(context, WinportActivity.class);
                 scan.putExtra("type", TypeList.SCAN);
                 scan.putExtra("title", "最近浏览");
@@ -209,13 +232,22 @@ public class MineFragment extends BaseFragment {
                 startActivity(new Intent(context, FiercePredictionActivity.class));
                 break;
             case R.id.suggest:
+                if (!isLogin()) {
+                    toLogin();
+                    return;
+                }
                 startActivity(new Intent(context, SuggestActivity.class));
                 break;
         }
     }
 
     private void scanHeadImage() {
-        startActivity(new Intent(context, WinportActivity.class).putExtra("type", TypeList.SCAN_HEAD));
+        UserInfo info = SharedPrefsUtil.getUserInfo();
+        if (info != null && !TextUtils.isEmpty(info.data.headPortrait)) {
+            startActivity(new Intent(context, WinportActivity.class).putExtra("type", TypeList.SCAN_HEAD));
+        } else {
+            selectImage(REQUEST_CODE_HEAD);
+        }
     }
 
     String headImage = "headImg.jpg";
@@ -269,6 +301,11 @@ public class MineFragment extends BaseFragment {
             @Override
             protected void onPostExecute(final String s) {
                 LoadingDialogUtil.getInstance().hideLoading();
+                UserInfo info = SharedPrefsUtil.getUserInfo();
+                if (info != null) {
+                    info.data.headPortrait = s;
+                    SharedPrefsUtil.saveUserInfo(info);
+                }
                 Batman.getInstance().fromNet(path, new BatmanCallBack() {
                     @Override
                     public void onSuccess(Bitmap bitmap) {

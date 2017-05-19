@@ -1,4 +1,4 @@
-package com.finance.winport.tab;
+package com.finance.winport.service;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,17 +14,12 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
-import com.finance.winport.mine.MyScheduleListActivity;
-import com.finance.winport.mine.adapter.NoticeCollectionAdapter;
-import com.finance.winport.mine.adapter.ScheduleListAdapter;
 import com.finance.winport.mine.adapter.ServiceScheduleListAdapter;
-import com.finance.winport.service.FindLoanActivity;
-import com.finance.winport.service.LoanListActivity;
-import com.finance.winport.service.ShopOrderActivity;
-import com.finance.winport.service.ShopRentActivity;
+import com.finance.winport.service.model.FindServiceResponse;
+import com.finance.winport.service.presenter.FindServiceHomePresenter;
+import com.finance.winport.service.presenter.IFindServiceHomeView;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.BannerView.Banner;
-import com.finance.winport.view.BannerView.ZoomOutSlideTransformer;
 
 import org.joda.time.DateTime;
 
@@ -41,7 +36,7 @@ import noman.weekcalendar.listener.OnDateClickListener;
  *
  */
 
-public class ServiceFragment extends BaseFragment {
+public class ServiceFragment extends BaseFragment implements IFindServiceHomeView {
 
 
     @BindView(R.id.banner)
@@ -69,7 +64,21 @@ public class ServiceFragment extends BaseFragment {
     @BindView(R.id.cal)
     LinearLayout cal;
     Unbinder unbinder1;
+    @BindView(R.id.old_user)
+    LinearLayout oldUser;
+    @BindView(R.id.head)
+    TextView head;
+    @BindView(R.id.head_line)
+    View headLine;
+    @BindView(R.id.visit_count)
+    TextView visitCount;
+    @BindView(R.id.money)
+    TextView money;
+    @BindView(R.id.status)
+    TextView status;
     private ServiceScheduleListAdapter adapter;
+
+    private FindServiceHomePresenter mPresenter;
 
     @Nullable
     @Override
@@ -85,6 +94,14 @@ public class ServiceFragment extends BaseFragment {
     }
 
 
+    private void getData() {
+        if (mPresenter == null) {
+            mPresenter = new FindServiceHomePresenter(this);
+        }
+        mPresenter.getFindServiceHome();
+    }
+
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
@@ -96,12 +113,24 @@ public class ServiceFragment extends BaseFragment {
 
     private void init() {
 
-        weekCalendar = new WeekCalendar(getContext(),getChildFragmentManager());
+//        if()
+
+        getData();
+
+
+    }
+
+    public void initOld(FindServiceResponse response) {
+        oldUser.setVisibility(View.VISIBLE);
+        head.setVisibility(View.VISIBLE);
+        headLine.setVisibility(View.VISIBLE);
+        banner.stopAutoPlay();
+        weekCalendar = new WeekCalendar(getContext(), getChildFragmentManager());
         LinearLayout.LayoutParams alpTab = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 UnitUtil.dip2px(context, 55));
 
-        cal.addView(weekCalendar,alpTab);
-        banner.start();
+        cal.addView(weekCalendar, alpTab);
+
 //        banner.setBannerAnimation(ZoomOutSlideTransformer.class);
         weekCalendar.setFm(getChildFragmentManager());
         weekCalendar.setOnDateClickListener(new OnDateClickListener() {
@@ -116,7 +145,7 @@ public class ServiceFragment extends BaseFragment {
 
             mListView.setAdapter(adapter);
             ViewGroup.LayoutParams parm = mListView.getLayoutParams();
-            parm.height = UnitUtil.dip2px(getActivity(),75*3);
+            parm.height = UnitUtil.dip2px(getActivity(), 75 * 3);
 
 //            totalPage = (int) Math.ceil(adapter.getTotalCount() / (float) LIMIT);
         } else {
@@ -129,7 +158,16 @@ public class ServiceFragment extends BaseFragment {
             adapter.notifyDataSetChanged();
         }
 
+        address.setText(response.getData().getShopObject().getAddress());
+        visitCount.setText("一周内"+response.getData().getShopObject().getVisitCount()+"位老板浏览了此店铺");
+        time.setText(response.getData().getLoadDTO().getApplyTime());
+        money.setText(response.getData().getLoadDTO().getLoanLimit()+"万元  "+response.getData().getLoadDTO().getLoanMaturity()+"个月");
+        status.setText(response.getData().getLoadDTO().getStatus());
+    }
 
+    public void initNew() {
+        banner.setVisibility(View.VISIBLE);
+        banner.start();
     }
 
     @Override
@@ -173,4 +211,14 @@ public class ServiceFragment extends BaseFragment {
     }
 
 
+    @Override
+    public void showServiceHome(FindServiceResponse response) {
+
+        if (response.getData().getIsNew() == 0) {
+            initOld(response);
+        } else {
+
+            initNew();
+        }
+    }
 }

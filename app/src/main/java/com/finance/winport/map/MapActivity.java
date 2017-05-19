@@ -2,8 +2,10 @@ package com.finance.winport.map;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,8 @@ import android.widget.TextView;
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.map.UiSettings;
@@ -23,16 +27,27 @@ import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.dialog.SelectionDialog;
+import com.finance.winport.map.model.MapAreaRequest;
+import com.finance.winport.map.model.MapAreaResponse;
+import com.finance.winport.map.model.MapShopRequest;
+import com.finance.winport.map.model.MapShopResponse;
+import com.finance.winport.map.presenter.IMapView;
+import com.finance.winport.map.presenter.MapPresenter;
+import com.finance.winport.service.presenter.FindServiceHomePresenter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class MapActivity extends BaseActivity implements MyLocation.XLocationListener {
+public class MapActivity extends BaseActivity implements MyLocation.XLocationListener,IMapView {
 
     public static final int TYPE_RANGE = 0;
-    public static final int TYPE_ITEM_SHOP = 1;
+    public static final int TYPE_RANGE_PLATE = 1;
+    public static final int TYPE_ITEM_SHOP = 2;
     //    public static final int TYPE_ITEM_INFO = 2;
     public static final int TYPE_ITEM_SELECTED = 3;
 
@@ -61,6 +76,8 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
     private MyLocation myLocation;
     private LoadingDialog loadingDialog;
     private SelectionDialog selectionDialog;
+
+    private MapPresenter mapPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,16 +111,35 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
             @Override
             public void onMapStatusChangeFinish(MapStatus mapStatus) {
                 Log.i("mapstatus", "" + mapStatus.toString());
-                mBaiduMap.clear();
-
+                Log.i("jjjjjjjjjjjjjjjjjjk", "" + mapStatus.toString());
+//                mBaiduMap.clear();
+//
                 if (mapStatus.zoom <= 14) {
-                    addRange(new LatLng(31.181564, 121.440023), "徐家汇\n200间");
+                    MapAreaRequest request = new MapAreaRequest();
+                    request.setMaxLat(mapStatus.bound.northeast.latitude+"");
+                    request.setMaxLon(mapStatus.bound.northeast.longitude+"");
+                    request.setMinLat(mapStatus.bound.southwest.latitude+"");
+                    request.setMinLon(mapStatus.bound.southwest.longitude+"");
+                    request.setType("0");
+                    mapPresenter.getMapArea(request);
                 }
 
-                if (mapStatus.zoom >= 16) {
-                    addItem(TYPE_ITEM_SHOP, new LatLng(31.310116, 121.498283), "财大科技园");
-                    addItem(TYPE_ITEM_SHOP, new LatLng(31.309165, 121.496214), "永和大王");
-                    addItem(TYPE_ITEM_SHOP, new LatLng(31.307385, 121.499802), "KFC");
+                else if (mapStatus.zoom <= 16) {
+                    MapAreaRequest request = new MapAreaRequest();
+                    request.setMaxLat(mapStatus.bound.northeast.latitude+"");
+                    request.setMaxLon(mapStatus.bound.northeast.longitude+"");
+                    request.setMinLat(mapStatus.bound.southwest.latitude+"");
+                    request.setMinLon(mapStatus.bound.southwest.longitude+"");
+                    request.setType("1");
+                    mapPresenter.getMapArea(request);
+                }
+                else{
+                    MapShopRequest request = new MapShopRequest();
+                    request.setMaxLat(mBaiduMap.getMapStatus().bound.northeast.latitude+"");
+                    request.setMaxLon(mBaiduMap.getMapStatus().bound.northeast.longitude+"");
+                    request.setMinLat(mBaiduMap.getMapStatus().bound.southwest.latitude+"");
+                    request.setMinLon(mBaiduMap.getMapStatus().bound.southwest.longitude+"");
+                    mapPresenter.getMapShop(request);
                 }
             }
         });
@@ -112,6 +148,7 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
             @Override
             public boolean onMarkerClick(Marker marker) {
                 int type = marker.getExtraInfo().getInt("type", -1);
+                String id = marker.getExtraInfo().getString("id");
 
 //                Logger.i("marker type : " + type);
 
@@ -120,7 +157,11 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
                         showShopDetail(marker, type);
                         break;
                     case TYPE_RANGE:
-                        showRangeDetail();
+
+                        showRangePlate(id);
+                        break;
+                    case TYPE_RANGE_PLATE:
+                        showRangeDetail(id);
                         break;
                     default:
 //                        Logger.e("unknow type !!!!");
@@ -195,24 +236,75 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 //            return;
 //        }
 
-        if (result) {
+        if (!result) {
             Log.e("定位", "定位成功！！！");
             MapUtil.setMyLocation(mBaiduMap, location);
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Log.i("eeeeeeeeeeeeeeqqq", mBaiduMap.getMapStatus().bound.northeast.latitude+"");
+                    Log.i("eeeeeeeeeeeeeeqqq", mBaiduMap.getMapStatus().bound.northeast.longitude+"");
+                    Log.i("eeeeeeeeeeeeeeqqq", mBaiduMap.getMapStatus().bound.southwest.latitude+"");
+                    Log.i("eeeeeeeeeeeeeeqqq", mBaiduMap.getMapStatus().bound.southwest.longitude+"");
+                    if (mapPresenter == null) {
+                        mapPresenter = new MapPresenter(MapActivity.this);
+                    }
+
+                    MapShopRequest request = new MapShopRequest();
+                    request.setMaxLat(mBaiduMap.getMapStatus().bound.northeast.latitude+"");
+                    request.setMaxLon(mBaiduMap.getMapStatus().bound.northeast.longitude+"");
+                    request.setMinLat(mBaiduMap.getMapStatus().bound.southwest.latitude+"");
+                    request.setMinLon(mBaiduMap.getMapStatus().bound.southwest.longitude+"");
+                    List<Integer> list = new ArrayList<>();
+                    list.add(4);
+                    list.add(5);
+                    request.setAreaList(list);
+                    mapPresenter.getMapShop(request);
+                }
+            },1000);
+
         } else {
             Log.e("定位", "定位失败！！！");
+            if (mapPresenter == null) {
+                mapPresenter = new MapPresenter(MapActivity.this);
+            }
+
+            MapAreaRequest request = new MapAreaRequest();
+            request.setType("0");
+//            List<Integer> list = new ArrayList<>();
+//            list.add(4);
+//            list.add(5);
+//            request.setAreaList(list);
+            mapPresenter.getMapArea(request);
+
         }
 
         loadingDialog.dismiss();
+
+
+
+
     }
 
-    private void showRangeDetail() {
-        MapUtil.changeMapStatus(mBaiduMap, new LatLng(31.308071, 121.498149), MapUtil.DEFAULT_ZOOM);
+    private void showRangePlate(String id) {
 
-        mBaiduMap.clear();
 
-        addItem(TYPE_ITEM_SHOP, new LatLng(31.310116, 121.498283), "财大科技园");
-        addItem(TYPE_ITEM_SHOP, new LatLng(31.309165, 121.496214), "永和大王");
-        addItem(TYPE_ITEM_SHOP, new LatLng(31.307385, 121.499802), "KFC");
+        if (mapPresenter == null) {
+            mapPresenter = new MapPresenter(MapActivity.this);
+        }
+
+        MapAreaRequest request = new MapAreaRequest();
+        request.setType("1");
+        request.setDistrictId(id);
+        mapPresenter.getMapArea(request);
+
+    }
+
+    private void showRangeDetail(String id) {
+        MapShopRequest request = new MapShopRequest();
+        request.setBlockId(id);
+        mapPresenter.getMapShop(request);
     }
 
     private void showShopDetail(final Marker marker, final int type) {
@@ -233,19 +325,32 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
     }
 
 
-    private void addRange(LatLng latLng, String msg) {
+    private void addRange(LatLng latLng, String msg, String id) {
         View view = LayoutInflater.from(MapActivity.this).inflate(R.layout.map_range, null);
         TextView tv = (TextView) view.findViewById(R.id.tv_msg);
         tv.setText(msg);
         Bundle bundle = new Bundle();
         bundle.putInt("type", TYPE_RANGE);
+        bundle.putString("id", id);
         MapUtil.setMarker(mBaiduMap, latLng, view, bundle);
     }
 
-    private void addItem(int type, LatLng latLng, String msg) {
+    private void addRangePlate(LatLng latLng, String msg, String id) {
+        View view = LayoutInflater.from(MapActivity.this).inflate(R.layout.map_range, null);
+        TextView tv = (TextView) view.findViewById(R.id.tv_msg);
+        tv.setText(msg);
+        Bundle bundle = new Bundle();
+        bundle.putInt("type", TYPE_RANGE_PLATE);
+        bundle.putString("id", id);
+        MapUtil.setMarker(mBaiduMap, latLng, view, bundle);
+    }
+
+
+    private void addItem(int type, LatLng latLng, String msg, String id) {
         Bundle bundle = new Bundle();
         bundle.putInt("type", type);
         bundle.putString("msg", msg);
+        bundle.putString("id", id);
         MapUtil.setMarker(mBaiduMap, latLng, getItemView(type, msg), bundle);
     }
 
@@ -280,4 +385,59 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         }, 300);
     }
 
+    @Override
+    public void showMapShop(MapShopResponse response) {
+        MapStatus mMapStatus = new MapStatus.Builder()
+                .target(new LatLng(Double.parseDouble(response.getData().get(0).getLatitude()), Double.parseDouble(response.getData().get(0).getLongitude())))
+                .zoom(17)
+                .build();
+        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+        mBaiduMap.setMapStatus(mMapStatusUpdate);
+        mBaiduMap.clear();
+
+        for (int i = 0; i < response.getData().size(); i++) {
+            if(mBaiduMap.getMapStatus().bound.contains(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())))){
+
+                addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(response.getData().get(i).getLatitude()), Double.parseDouble(response.getData().get(i).getLongitude())), response.getData().get(i).getName(), response.getData().get(i).getShopId()+"");
+            }
+        }
+
+
+
+
+
+    }
+
+    @Override
+    public void showMapArea(MapAreaResponse response) {
+
+        mBaiduMap.clear();
+
+        for (int i = 0; i < response.getData().size(); i++) {
+            if(!TextUtils.isEmpty(response.getData().get(i).getName())&&!TextUtils.isEmpty(response.getData().get(i).getLatitude())&&!TextUtils.isEmpty(response.getData().get(i).getLongitude()))
+            addRange(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())), response.getData().get(i).getName().toString(), response.getData().get(i).getBizId()+"");
+        }
+
+
+
+    }
+
+    @Override
+    public void showMapPlate(MapAreaResponse response) {
+        MapStatus mMapStatus = new MapStatus.Builder()
+                .target(new LatLng(Double.parseDouble(response.getData().get(0).getLatitude()), Double.parseDouble(response.getData().get(0).getLongitude())))
+                .zoom(15)
+                .build();
+        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+        mBaiduMap.setMapStatus(mMapStatusUpdate);
+        mBaiduMap.clear();
+        for (int i = 0; i < response.getData().size(); i++) {
+            if(!TextUtils.isEmpty(response.getData().get(i).getName())&&!TextUtils.isEmpty(response.getData().get(i).getLatitude())&&!TextUtils.isEmpty(response.getData().get(i).getLongitude())){
+                if(mBaiduMap.getMapStatus().bound.contains(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())))){
+
+                    addRangePlate(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())), response.getData().get(i).getName().toString(), response.getData().get(i).getBizId()+"");
+                }
+            }
+        }
+    }
 }

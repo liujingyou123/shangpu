@@ -17,6 +17,17 @@
             android:layout_height="82dp"
             android:background="#e5e5e5" />
 
+        <View
+            android:id="@+id/overlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/img"
+            android:layout_alignLeft="@+id/img"
+            android:layout_alignRight="@+id/img"
+            android:layout_alignTop="@+id/img"
+            android:background="#99000000"
+            android:visibility="gone" />
+
         <ImageView
             android:id="@+id/mark"
             android:layout_width="wrap_content"
@@ -161,7 +172,9 @@
             android:layout_below="@+id/tag_divider"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:visibility="gone"></LinearLayout>
+            android:visibility="gone">
+
+        </LinearLayout>
     </RelativeLayout>
 
     <LinearLayout

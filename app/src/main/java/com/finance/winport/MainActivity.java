@@ -1,14 +1,19 @@
 package com.finance.winport;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 
 import com.finance.winport.base.BaseActivity;
+import com.finance.winport.home.event.HomeEvent;
 import com.finance.winport.home.HomeFragment;
 import com.finance.winport.trade.TradeCircleFragment;
 import com.finance.winport.tab.MineFragment;
-import com.finance.winport.tab.ServiceFragment;
+import com.finance.winport.service.ServiceFragment;
 import com.finance.winport.view.BottomTabView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -102,4 +107,12 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
     protected void onDestroy() {
         super.onDestroy();
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleHome(HOME);
+        tabView.setTabDisplay(HOME);
+    }
+
 }

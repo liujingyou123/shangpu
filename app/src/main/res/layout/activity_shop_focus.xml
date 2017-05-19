@@ -10,6 +10,7 @@
         android:layout_height="162dp"
         android:scaleType="fitXY"
         android:src="@mipmap/send_bg" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -48,154 +49,167 @@
                 android:layout_centerInParent="true"
                 android:gravity="center"
                 android:singleLine="true"
-                android:textColor="#ffffff"
                 android:text="商铺关注设置"
+                android:textColor="#ffffff"
                 android:textSize="18sp" />
         </RelativeLayout>
 
 
-
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="108dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="42dp"
-            android:background="#ffffff"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <View
-                    android:layout_width="100dp"
-                    android:layout_height="0.5dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:background="#e5e5e5" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginTop="15dp"
-                    android:text="已关注的旺铺"
-                    android:textColor="#333333"
-                    android:textSize="15sp" />
-
-                <View
-                    android:layout_width="100dp"
-                    android:layout_height="0.5dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp"
-                    android:background="#e5e5e5" />
-            </RelativeLayout>
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
 
-            <TextView
-                android:id="@+id/focus_content"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="请设置您关注的旺铺类型"
-                android:textColor="#999999"
-                android:textSize="14sp" />
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="108dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="42dp"
+                    android:background="#ffffff"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:layout_width="100dp"
+                            android:layout_height="0.5dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:background="#e5e5e5" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="15dp"
+                            android:text="已关注的旺铺"
+                            android:textColor="#333333"
+                            android:textSize="15sp" />
+
+                        <View
+                            android:layout_width="100dp"
+                            android:layout_height="0.5dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="15dp"
+                            android:background="#e5e5e5" />
+                    </RelativeLayout>
+
+
+                    <TextView
+                        android:id="@+id/focus_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="请设置您关注的旺铺类型"
+                        android:textColor="#999999"
+                        android:textSize="14sp" />
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="9dp"
+                    android:text="您打算在哪儿开店"
+                    android:textColor="#999999"
+                    android:textSize="12sp" />
+
+
+                <RelativeLayout
+                    android:id="@+id/select_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="9dp"
+                    android:background="#ffffff">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="18dp"
+                        android:gravity="center"
+                        android:text="客服电话"
+                        android:textColor="#333333"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="15dp"
+                        android:src="@mipmap/arrow" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="9dp"
+                    android:text="您打算经营哪种生意"
+                    android:textColor="#999999"
+                    android:textSize="12sp" />
+
+
+                <com.finance.winport.view.tagview.TagCloudLayout
+                    android:id="@+id/tag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="9dp"
+                    android:background="#ffffff"
+                    android:padding="15dp"
+                    app:lineSpacing="10dp"
+                    app:tagSpacing="10dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="9dp"
+                    android:text="您关注旺铺的面积"
+                    android:textColor="#999999"
+                    android:textSize="12sp" />
+
+                <com.finance.winport.view.tagview.TagCloudLayout
+                    android:id="@+id/area_tag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="9dp"
+                    android:background="#ffffff"
+                    android:padding="15dp"
+                    app:lineSpacing="10dp"
+                    app:tagSpacing="10dp" />
 
 
 
-        </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="您打算在哪儿开店"
-            android:textColor="#999999"
-            android:textSize="12sp"
-            android:layout_marginTop="9dp"
-            android:layout_marginLeft="15dp"/>
-
-
-        <RelativeLayout
-            android:id="@+id/select_area"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:layout_marginTop="9dp"
-            android:background="#ffffff">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="18dp"
-                android:gravity="center"
-                android:text="客服电话"
-                android:textColor="#333333"
-                android:textSize="14sp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:src="@mipmap/arrow" />
-
-        </RelativeLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="您打算经营哪种生意"
-            android:textColor="#999999"
-            android:textSize="12sp"
-            android:layout_marginTop="9dp"
-            android:layout_marginLeft="15dp"/>
-
-
-        <com.finance.winport.view.tagview.TagCloudLayout
-            android:id="@+id/tag"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginTop="9dp"
-            android:background="#ffffff"
-            app:lineSpacing="10dp"
-            app:tagSpacing="10dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="您关注旺铺的面积"
-            android:textColor="#999999"
-            android:textSize="12sp"
-            android:layout_marginTop="9dp"
-            android:layout_marginLeft="15dp"/>
-
-        <com.finance.winport.view.tagview.TagCloudLayout
-            android:id="@+id/area_tag"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="9dp"
-            android:background="#ffffff"
-            android:padding="15dp"
-            app:lineSpacing="10dp"
-            app:tagSpacing="10dp" />
+            </LinearLayout>
+        </ScrollView>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:gravity="center"
             android:layout_marginTop="30dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:background="#ffa73b"
+            android:gravity="center"
             android:text="提交预约"
-            android:textSize="15sp"
             android:textColor="#ffffff"
-            android:background="@drawable/bg_service_btn"/>
-
+            android:textSize="15sp" />
 
 
     </LinearLayout>

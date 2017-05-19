@@ -42,6 +42,7 @@ public class MyLocation {
         isLocation = true;
         this.listener = listener;
         mLocationClient.start();
+        mLocationClient.requestLocation();
     }
 
     public void stop(){

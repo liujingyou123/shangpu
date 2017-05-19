@@ -106,6 +106,16 @@ public class TagAdapter extends BaseAdapter {
         list.get(selectPos).setSelected(true);
         notifyDataSetChanged();
     }
+    public void setSingleItemUnSelect(int selectPos) {
+        if (list == null) return;
+        if (this.selectPos != -1) {
+            list.get(this.selectPos).setSelected(false);
+        }
+        this.selectPos = selectPos;
+        list.get(selectPos).setSelected(false);
+        notifyDataSetChanged();
+    }
+
 
     public void update(List<TagItem> list) {
         this.list = list;
