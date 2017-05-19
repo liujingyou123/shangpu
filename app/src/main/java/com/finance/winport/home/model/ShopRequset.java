@@ -2,6 +2,8 @@ package com.finance.winport.home.model;
 
 import com.finance.winport.util.FooAnnotation;
 
+import java.util.List;
+
 /**
  * Created by liuworkmac on 17/5/16.
  */
@@ -27,5 +29,17 @@ public class ShopRequset {
     public String stationName;
 
     public String sortType; //排序方式  1-最近更新  2-距离最近  3-联络最多 4-查看最多
+
+    public List<String> rentList; //租金集合
+
+    public List<String> transferList; //转让费集合
+
+    public List<String> areaList; //面积集合
+
+    public String width; //面宽数据
+
+    public List<String> featureTagList; //特色标签集合
+
+    public List<String> supportTagList; //配套标签集合
 
 }

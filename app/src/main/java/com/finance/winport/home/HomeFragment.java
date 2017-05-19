@@ -28,6 +28,7 @@ import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.home.model.ShopRequset;
 import com.finance.winport.home.presenter.HomePresenter;
 import com.finance.winport.home.view.IHomeView;
+import com.finance.winport.log.XLog;
 import com.finance.winport.map.MapActivity;
 import com.finance.winport.view.home.HeaderView;
 import com.finance.winport.view.home.SelectView;
@@ -304,10 +305,39 @@ public class HomeFragment extends BaseFragment implements IHomeView {
             public void run() {
                 if (selectionDialog == null) {
                     selectionDialog = new SelectionDialog(HomeFragment.this.getContext());
-                    selectionDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    selectionDialog.setOnSelectListener(new SelectionDialog.OnSelectListener() {
                         @Override
-                        public void onDismiss(DialogInterface dialog) {
+                        public void onSelect(ShopRequset request) {
                             selectionView.onCsUnClick();
+                            if (request.rentList != null && request.rentList.size() > 0) {
+                                mRequest.rentList = request.rentList;
+                            } else {
+                                mRequest.rentList = null;
+                            }
+                            if (request.transferList != null && request.transferList.size() > 0) {
+                                mRequest.transferList = request.transferList;
+                            } else {
+                                mRequest.transferList = null;
+                            }
+                            if (request.areaList != null && request.areaList.size() > 0) {
+                                mRequest.areaList = request.areaList;
+                            } else {
+                                mRequest.areaList = null;
+                            }
+                            mRequest.width = request.width;
+                            if (request.featureTagList != null && request.featureTagList.size() > 0) {
+                                mRequest.featureTagList = request.featureTagList;
+                            } else {
+                                mRequest.featureTagList = null;
+                            }
+                            if (request.supportTagList != null && request.supportTagList.size() > 0) {
+                                mRequest.supportTagList = request.supportTagList;
+                            } else {
+                                mRequest.supportTagList = null;
+                            }
+
+                            mRequest.pageNumber = 1;
+                            mPresenter.getShopList(mRequest);
                         }
                     });
                 }
@@ -368,8 +398,8 @@ public class HomeFragment extends BaseFragment implements IHomeView {
         if (response != null) {
             if (refreshView.isRefreshing()) {
                 refreshView.refreshComplete();
-                mData.clear();
             }
+            mData.clear();
             mData.addAll(response.getData().getData());
             if (adapter != null) {
                 adapter.notifyDataSetChanged();

@@ -8,6 +8,7 @@ import com.finance.winport.home.model.ShopCount;
 import com.finance.winport.home.model.ShopDetail;
 import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.home.model.ShopRequset;
+import com.finance.winport.home.model.TagResponse;
 
 import java.util.HashMap;
 
@@ -55,4 +56,8 @@ public interface HomeServices {
     //地铁
     @POST("customerapp/api/base/queryMetro/v1.0.0")
     Observable<MetroResponse> getMetros(@Body HashMap params);
+
+    //标签接口
+    @POST("customerapp/api/base/tagList/v1.0.0")
+    Observable<TagResponse> getTagList(@Body HashMap params);
 }
