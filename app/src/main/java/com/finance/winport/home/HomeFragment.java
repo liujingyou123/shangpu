@@ -1,6 +1,5 @@
 package com.finance.winport.home;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,7 +27,6 @@ import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.home.model.ShopRequset;
 import com.finance.winport.home.presenter.HomePresenter;
 import com.finance.winport.home.view.IHomeView;
-import com.finance.winport.log.XLog;
 import com.finance.winport.map.MapActivity;
 import com.finance.winport.view.home.HeaderView;
 import com.finance.winport.view.home.SelectView;
@@ -71,6 +69,7 @@ public class HomeFragment extends BaseFragment implements IHomeView {
     private SelectionDialog selectionDialog;
     private ShopRequset mRequest = new ShopRequset();
     private HeaderView headerView;
+    private SelectView heardSelectView;
 
     @Nullable
     @Override
@@ -95,7 +94,7 @@ public class HomeFragment extends BaseFragment implements IHomeView {
 
     private void initListView() {
         headerView = new HeaderView(this.getContext());
-        final SelectView selectView = new SelectView(this.getContext());
+        heardSelectView = new SelectView(this.getContext());
 
         headerView.setNewShopsListener(new View.OnClickListener() {
             @Override
@@ -128,7 +127,7 @@ public class HomeFragment extends BaseFragment implements IHomeView {
             }
         });
 
-        selectView.setOnLocationClickListener(new View.OnClickListener() {
+        heardSelectView.setOnLocationClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 lsShops.smoothScrollToPositionFromTop(1, -1, 300);
@@ -136,7 +135,7 @@ public class HomeFragment extends BaseFragment implements IHomeView {
             }
         });
 
-        selectView.setOnSortClickListener(new View.OnClickListener() {
+        heardSelectView.setOnSortClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 lsShops.smoothScrollToPositionFromTop(1, -1, 300);
@@ -144,7 +143,7 @@ public class HomeFragment extends BaseFragment implements IHomeView {
             }
         });
 
-        selectView.setOnCsClickListener(new View.OnClickListener() {
+        heardSelectView.setOnCsClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 lsShops.smoothScrollToPositionFromTop(1, -1, 300);
@@ -175,7 +174,7 @@ public class HomeFragment extends BaseFragment implements IHomeView {
 
 
         lsShops.addHeaderView(headerView);
-        lsShops.addHeaderView(selectView);
+        lsShops.addHeaderView(heardSelectView);
         if (adapter == null) {
             adapter = new ShopsAdapter(this.getContext(), mData);
             lsShops.setAdapter(adapter);
@@ -253,6 +252,7 @@ public class HomeFragment extends BaseFragment implements IHomeView {
                     }
                     quyuPopupView.showAsDropDown(selectionView);
                     selectionView.onLocationClick();
+                    heardSelectView.onLocationClick();
                 }
 
             }
@@ -270,11 +270,16 @@ public class HomeFragment extends BaseFragment implements IHomeView {
                         public void onSortSelect(String sortType, String sortTypeName) {
                             if ("0".equals(sortType)) {
                                 mRequest.sortType = null;
+
                                 selectionView.setSortText("排序");
                                 selectionView.onSortUnClick();
+
+                                heardSelectView.setSortText("排序");
+                                heardSelectView.onSortUnClick();
                             } else {
                                 mRequest.sortType = sortType;
                                 selectionView.setSortText(sortTypeName);
+                                heardSelectView.setSortText(sortTypeName);
                             }
                             mRequest.pageNumber = 1;
                             mPresenter.getShopList(mRequest);
@@ -293,6 +298,7 @@ public class HomeFragment extends BaseFragment implements IHomeView {
                     }
                     sortPopupView.showAsDropDown(selectionView);
                     selectionView.onSortClick();
+                    heardSelectView.onSortClick();
                 }
 
             }
@@ -309,6 +315,7 @@ public class HomeFragment extends BaseFragment implements IHomeView {
                         @Override
                         public void onSelect(ShopRequset request) {
                             selectionView.onCsUnClick();
+                            heardSelectView.onCsUnClick();
                             if (request.rentList != null && request.rentList.size() > 0) {
                                 mRequest.rentList = request.rentList;
                             } else {
@@ -350,6 +357,7 @@ public class HomeFragment extends BaseFragment implements IHomeView {
                     }
                     selectionDialog.show();
                     selectionView.onCsClick();
+                    heardSelectView.onCsUnClick();
                 }
 
             }
@@ -399,7 +407,7 @@ public class HomeFragment extends BaseFragment implements IHomeView {
             if (refreshView.isRefreshing()) {
                 refreshView.refreshComplete();
             }
-            mData.clear();
+//            mData.clear();
             mData.addAll(response.getData().getData());
             if (adapter != null) {
                 adapter.notifyDataSetChanged();
@@ -447,6 +455,7 @@ public class HomeFragment extends BaseFragment implements IHomeView {
         if (requset != null) {
             if (!TextUtils.isEmpty(requset.blockId)) {
                 selectionView.setQuYuText(requset.blockName);
+                heardSelectView.setQuYuText(requset.blockName);
                 mRequest.blockId = requset.blockId;
                 mRequest.districtId = requset.districtId;
                 mRequest.metroId = null;
@@ -457,14 +466,17 @@ public class HomeFragment extends BaseFragment implements IHomeView {
                 mRequest.metroId = null;
                 mRequest.stationId = null;
                 selectionView.setQuYuText(requset.districtName);
+                heardSelectView.setQuYuText(requset.districtName);
             } else if (!TextUtils.isEmpty(requset.stationId)) {
                 selectionView.setQuYuText(requset.stationName);
+                heardSelectView.setQuYuText(requset.stationName);
                 mRequest.metroId = requset.metroId;
                 mRequest.stationId = requset.stationId;
                 mRequest.blockId = null;
                 mRequest.districtId = null;
             } else if (!TextUtils.isEmpty(requset.metroId)) {
                 selectionView.setQuYuText(requset.metroName);
+                heardSelectView.setQuYuText(requset.metroName);
                 mRequest.metroId = requset.metroId;
                 mRequest.stationId = null;
                 mRequest.blockId = null;
@@ -472,6 +484,8 @@ public class HomeFragment extends BaseFragment implements IHomeView {
             } else {
                 selectionView.onLocationUnClick();
                 selectionView.setQuYuText("区域");
+                heardSelectView.onLocationUnClick();
+                heardSelectView.setQuYuText("区域");
                 mRequest.districtId = null;
                 mRequest.blockId = null;
             }
