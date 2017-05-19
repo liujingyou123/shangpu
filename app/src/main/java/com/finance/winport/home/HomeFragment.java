@@ -35,9 +35,6 @@ import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
 import com.finance.winport.view.refreshview.XPtrFrameLayout;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,9 +76,6 @@ public class HomeFragment extends BaseFragment implements IHomeView {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.home_fragment, container, false);
         unbinder = ButterKnife.bind(this, root);
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
         initListView();
         getData();
 
@@ -187,9 +181,9 @@ public class HomeFragment extends BaseFragment implements IHomeView {
             lsShops.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                    ShopListResponse.DataBean.Shop shop = (ShopListResponse.DataBean.Shop) parent.getItemAtPosition(position);
+                    ShopListResponse.DataBean.Shop shop = (ShopListResponse.DataBean.Shop) parent.getItemAtPosition(position);
                     Intent intent = new Intent(HomeFragment.this.getContext(), ShopDetailActivity.class);
-//                    intent.putExtra("shopId", shop.getId());
+                    intent.putExtra("shopId", shop.getId());
                     startActivity(intent);
                 }
             });
@@ -239,6 +233,12 @@ public class HomeFragment extends BaseFragment implements IHomeView {
             public void run() {
                 if (quyuPopupView == null) {
                     quyuPopupView = new QuyuPopupView(HomeFragment.this.getContext());
+                    quyuPopupView.setOnSelectionListener(new QuyuPopupView.OnSelectListener() {
+                        @Override
+                        public void onSelect(ShopRequset requst) {
+                            onQuyuHandle(requst);
+                        }
+                    });
                     quyuPopupView.setOnDismissListener(new PopupWindow.OnDismissListener() {
                         @Override
                         public void onDismiss() {
@@ -398,8 +398,7 @@ public class HomeFragment extends BaseFragment implements IHomeView {
         refreshView.refreshComplete();
     }
 
-    @Subscribe
-    public void onQuyuEvent(ShopRequset requset) {
+    public void onQuyuHandle(ShopRequset requset) {
         if (requset != null) {
             if (!TextUtils.isEmpty(requset.blockId)) {
                 selectionView.setQuYuText(requset.blockName);
@@ -440,6 +439,5 @@ public class HomeFragment extends BaseFragment implements IHomeView {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 }

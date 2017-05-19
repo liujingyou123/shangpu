@@ -25,8 +25,6 @@ import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.util.ToolsUtil;
 import com.finance.winport.util.UnitUtil;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -69,6 +67,8 @@ public class QuyuPopupView extends AnimPopup {
 
     private ShopRequset mRequest = new ShopRequset();
 
+    private OnSelectListener mOnSelectListener;
+
     public QuyuPopupView(Context context) {
         super(context);
         initView(context);
@@ -101,7 +101,11 @@ public class QuyuPopupView extends AnimPopup {
 
                 if ("-1".equals(region.getRegionId())) { //全部
                     mRequest = new ShopRequset();
-                    EventBus.getDefault().post(mRequest);
+
+                    if (mOnSelectListener != null) {
+                        mOnSelectListener.onSelect(mRequest);
+                    }
+//                    EventBus.getDefault().post(mRequest);
                     metroAdapter.setSelectPostion(-1);
                     stationAdapter.setSelectPosition(-1);
                     dismiss();
@@ -142,8 +146,10 @@ public class QuyuPopupView extends AnimPopup {
 
                 metroAdapter.setSelectPostion(-1);
                 stationAdapter.setSelectPosition(-1);
-
-                EventBus.getDefault().post(mRequest);
+                if (mOnSelectListener != null) {
+                    mOnSelectListener.onSelect(mRequest);
+                }
+//                EventBus.getDefault().post(mRequest);
                 dismiss();
 
             }
@@ -160,7 +166,10 @@ public class QuyuPopupView extends AnimPopup {
                 MetroResponse.Metro metro = (MetroResponse.Metro) parent.getItemAtPosition(position);
                 if ("-1".equals(metro.getLineId())) { //全部
                     mRequest = new ShopRequset();
-                    EventBus.getDefault().post(mRequest);
+                    if (mOnSelectListener != null) {
+                        mOnSelectListener.onSelect(mRequest);
+                    }
+//                    EventBus.getDefault().post(mRequest);
                     regionAdapter.setSelectPostion(-1);
                     blockAdapter.setSelectPosition(-1);
                     dismiss();
@@ -201,7 +210,10 @@ public class QuyuPopupView extends AnimPopup {
                 regionAdapter.setSelectPostion(-1);
                 blockAdapter.setSelectPosition(-1);
 
-                EventBus.getDefault().post(mRequest);
+                if (mOnSelectListener != null) {
+                    mOnSelectListener.onSelect(mRequest);
+                }
+//                EventBus.getDefault().post(mRequest);
                 dismiss();
 
             }
@@ -408,5 +420,13 @@ public class QuyuPopupView extends AnimPopup {
                 setQuyuOrDitieSelect(2);
                 break;
         }
+    }
+
+    public void setOnSelectionListener(OnSelectListener onSelectListener) {
+        this.mOnSelectListener = onSelectListener;
+    }
+
+    public interface OnSelectListener {
+        void onSelect(ShopRequset requst);
     }
 }
