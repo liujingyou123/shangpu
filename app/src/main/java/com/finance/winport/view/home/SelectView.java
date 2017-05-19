@@ -74,18 +74,23 @@ public class SelectView extends LinearLayout {
 
     public void onLocationClick() {
         tvLocation.setSelected(true);
-        tvSort.setSelected(false);
+
+        if ("排序".equals(tvSort.getText().toString())) {
+            tvSort.setSelected(false);
+        }
     }
 
     public void onSortClick() {
-        tvLocation.setSelected(false);
+        if ("位置".equals(tvLocation.getText().toString())) {
+            tvLocation.setSelected(false);
+        }
         tvSort.setSelected(true);
-        tvCS.setSelected(false);
+//        tvCS.setSelected(false);
     }
 
     public void onCsClick() {
-        tvLocation.setSelected(false);
-        tvSort.setSelected(false);
+//        tvLocation.setSelected(false);
+//        tvSort.setSelected(false);
         tvCS.setSelected(true);
     }
 
@@ -109,6 +114,10 @@ public class SelectView extends LinearLayout {
 
     public void setQuYuText(String text) {
         tvLocation.setText(text);
+    }
+
+    public void setSortText(String text) {
+        tvSort.setText(text);
     }
 
     public void setOnLocationClickListener(OnClickListener onLocationClickListener) {

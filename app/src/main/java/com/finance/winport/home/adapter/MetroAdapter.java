@@ -1,6 +1,6 @@
 package com.finance.winport.home.adapter;
 /**
- * Created by liuworkmac on 17/5/17.
+ * Created by liuworkmac on 17/5/19.
  */
 
 import android.content.Context;
@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.home.model.MetroResponse;
 import com.finance.winport.home.model.RegionResponse;
 import com.finance.winport.home.tools.QuyuDataManager;
 
@@ -20,17 +21,17 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RegionAdapter extends BaseAdapter {
+public class MetroAdapter extends BaseAdapter {
     private Context mContext;
-    private ArrayList<RegionResponse.Region> mData = new ArrayList<>();
+    private List<MetroResponse.Metro> mData = new ArrayList<>();
     private int selectPosition = -1;
 
-    public RegionAdapter(Context mContext) {
+    public MetroAdapter(Context mContext) {
         this.mContext = mContext;
     }
 
     public void initData() {
-        mData.addAll(QuyuDataManager.getInstance().getRegions());
+        mData.addAll(QuyuDataManager.getInstance().getMetros());
         notifyDataSetChanged();
     }
 
@@ -40,8 +41,8 @@ public class RegionAdapter extends BaseAdapter {
     }
 
     public void setSelectId(String id) {
-        for (int i=0; i<mData.size(); i++) {
-            if (mData.get(i).getRegionId().equals(id)) {
+        for (int i = 0; i < mData.size(); i++) {
+            if (mData.get(i).getLineId().equals(id)) {
                 setSelectPostion(i);
                 break;
             }
@@ -58,8 +59,8 @@ public class RegionAdapter extends BaseAdapter {
     }
 
     @Override
-    public RegionResponse.Region getItem(int i) {
-        RegionResponse.Region ret = null;
+    public MetroResponse.Metro getItem(int i) {
+        MetroResponse.Metro ret = null;
         if (mData != null) {
             ret = mData.get(i);
         }
@@ -81,10 +82,10 @@ public class RegionAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        RegionResponse.Region ret = mData.get(i);
+        MetroResponse.Metro ret = mData.get(i);
         if (ret != null) {
-            viewHolder.tvText.setText(ret.getRegionName());
-            if ((i == selectPosition) && !"-1".equals(ret.getRegionId())) {
+            viewHolder.tvText.setText(ret.getLineName());
+            if ((i == selectPosition) && !"-1".equals(ret.getLineId())) {
                 viewHolder.tvText.setSelected(true);
             } else {
                 viewHolder.tvText.setSelected(false);
@@ -92,7 +93,6 @@ public class RegionAdapter extends BaseAdapter {
         }
         return view;
     }
-
 
     static class ViewHolder {
         @BindView(R.id.tv_text)

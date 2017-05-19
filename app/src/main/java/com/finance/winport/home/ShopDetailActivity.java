@@ -224,7 +224,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             mPresenter = new ShopDetailPresenter(this);
         }
 
-        shopId = "4";
+//        shopId = "4";
         mPresenter.getShopDetail(shopId);
     }
 

@@ -1,9 +1,10 @@
 package com.finance.winport.home.adapter;
 /**
- * Created by liuworkmac on 17/5/17.
+ * Created by liuworkmac on 17/5/19.
  */
 
 import android.content.Context;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.home.model.MetroResponse;
 import com.finance.winport.home.model.RegionResponse;
 import com.finance.winport.home.tools.QuyuDataManager;
 
@@ -20,32 +22,45 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RegionAdapter extends BaseAdapter {
+public class StationAdapter extends BaseAdapter {
     private Context mContext;
-    private ArrayList<RegionResponse.Region> mData = new ArrayList<>();
+    private List<MetroResponse.Metro.Station> mData = new ArrayList<>();
     private int selectPosition = -1;
 
-    public RegionAdapter(Context mContext) {
+    public StationAdapter(Context mContext) {
         this.mContext = mContext;
     }
 
-    public void initData() {
-        mData.addAll(QuyuDataManager.getInstance().getRegions());
-        notifyDataSetChanged();
-    }
-
-    public void setSelectPostion(int position) {
+    public void setSelectPosition(int position) {
         this.selectPosition = position;
         notifyDataSetChanged();
     }
 
     public void setSelectId(String id) {
-        for (int i=0; i<mData.size(); i++) {
-            if (mData.get(i).getRegionId().equals(id)) {
-                setSelectPostion(i);
+        for (int i = 0; i < mData.size(); i++) {
+            if (mData.get(i).getStationId().equals(id)) {
+                setSelectPosition(i);
                 break;
             }
         }
+    }
+
+    public void initDataAndNotify(MetroResponse.Metro metro) {
+        mData.clear();
+        mData.addAll(QuyuDataManager.getInstance().getStations(metro));
+        selectPosition = -1;
+        notifyDataSetChanged();
+    }
+
+    public void initDatas(MetroResponse.Metro metro) {
+        mData.clear();
+        mData.addAll(QuyuDataManager.getInstance().getStations(metro));
+    }
+
+    public void initDatasWithReiionAndBlockId(String lineId, String stationId) {
+        mData.clear();
+        mData.addAll(QuyuDataManager.getInstance().getStationByMetroId(lineId));
+        setSelectId(stationId);
     }
 
     @Override
@@ -58,8 +73,8 @@ public class RegionAdapter extends BaseAdapter {
     }
 
     @Override
-    public RegionResponse.Region getItem(int i) {
-        RegionResponse.Region ret = null;
+    public MetroResponse.Metro.Station getItem(int i) {
+        MetroResponse.Metro.Station ret = null;
         if (mData != null) {
             ret = mData.get(i);
         }
@@ -81,10 +96,18 @@ public class RegionAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        RegionResponse.Region ret = mData.get(i);
-        if (ret != null) {
-            viewHolder.tvText.setText(ret.getRegionName());
-            if ((i == selectPosition) && !"-1".equals(ret.getRegionId())) {
+
+        MetroResponse.Metro.Station station = mData.get(i);
+        if (station != null) {
+
+            String name = station.getStationName();
+            if (name.length() > 6) {
+                viewHolder.tvText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+            } else {
+                viewHolder.tvText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+            }
+            viewHolder.tvText.setText(name);
+            if (selectPosition == i && !"-1".equals(station.getStationId())) {
                 viewHolder.tvText.setSelected(true);
             } else {
                 viewHolder.tvText.setSelected(false);
@@ -92,7 +115,6 @@ public class RegionAdapter extends BaseAdapter {
         }
         return view;
     }
-
 
     static class ViewHolder {
         @BindView(R.id.tv_text)
