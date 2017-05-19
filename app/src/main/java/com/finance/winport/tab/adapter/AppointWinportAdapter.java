@@ -9,6 +9,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,12 +20,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.base.BaseResponse;
+import com.finance.winport.dialog.LoadingDialog;
+import com.finance.winport.home.OrderShopActivity;
 import com.finance.winport.home.ShopDetailActivity;
 import com.finance.winport.image.Batman;
+import com.finance.winport.tab.event.RefreshEvent;
 import com.finance.winport.tab.model.AppointShopList;
+import com.finance.winport.tab.net.NetworkCallback;
+import com.finance.winport.tab.net.PersonManager;
+import com.finance.winport.util.ToastUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -36,13 +47,21 @@ import butterknife.ButterKnife;
  */
 
 public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataBeanX.DataBean> {
+    LoadingDialog loading;
 
     public AppointWinportAdapter(PtrClassicFrameLayout baseView, List<AppointShopList.DataBeanX.DataBean> baseData, int maxTotal) {
         super(baseView, baseData, maxTotal);
+        loading = new LoadingDialog(context);
+    }
+
+    private void removeAndUpdate(int position) {
+        baseData.remove(position);
+        notifyDataSetChanged();
+//        EventBus.getDefault().post(new RefreshEvent());
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.list_winport_appoint_item, null);
@@ -57,24 +76,51 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
         holder.area.setText(UnitUtil.formatArea(item.area) + "㎡");
         String sRent = Math.round(item.rent) + "";
         String sFee = Math.round(item.transferFee / 10000) + "";
+        boolean hasFee = item.transferFee > 0;
         if (item.rentStatus == 3) {//rentStatus 出租状态 0-待出租 1-出租中 2-已出租  3-已下架（撤下）
             holder.price.setText(sRent + "元/月");
-            holder.fee.setText(sFee);
             holder.mark.setVisibility(View.VISIBLE);
             holder.overlay.setVisibility(View.VISIBLE);
+            holder.sign.setEnabled(false);
+            if (item.isFace == 0) {// 面议
+                holder.fee.setText("面议");
+            } else {
+                if (hasFee) {
+                    holder.fee.setText("转让费" + sFee + "万元");
+                } else {
+                    holder.fee.setText("无转让费");
+                }
+            }
         } else {
+            holder.sign.setEnabled(true);
             SpannableString sr = new SpannableString(sRent + "元");
             sr.setSpan(new ForegroundColorSpan(Color.parseColor("#FF7540"))
                     , 0, sr.length()
                     , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             holder.price.setText(sr);
-            SpannableString sp = new SpannableString("转让费" + sFee + "万元");
-            sp.setSpan(new ForegroundColorSpan(Color.parseColor("#FF7540"))
-                    , sp.toString().indexOf(sFee), sp.toString().indexOf(sFee) + sFee.length()
-                    , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            holder.fee.setText(sp);
             holder.mark.setVisibility(View.GONE);
             holder.overlay.setVisibility(View.GONE);
+            if (item.isFace == 0) {// 面议
+                holder.fee.setText("面议");
+            } else {
+                if (hasFee) {
+                    SpannableString sp = new SpannableString("转让费" + sFee + "万元");
+                    sp.setSpan(new ForegroundColorSpan(Color.parseColor("#FF7540"))
+                            , sp.toString().indexOf(sFee), sp.toString().indexOf(sFee) + sFee.length()
+                            , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    holder.fee.setText(sp);
+                } else {
+                    holder.fee.setText("无转让费");
+                }
+            }
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent details = new Intent(context, ShopDetailActivity.class);
+                    details.putExtra("shopId", item.id);
+                    context.startActivity(details);
+                }
+            });
         }
         holder.distance.setText("距您" + UnitUtil.mTokm(item.distance + ""));
         holder.updateTime.setText(item.updateTime + "更新");
@@ -86,16 +132,17 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                showDeleteAlert();
+                showDeleteAlert(item.visitId + "", position);
                 return true;
             }
         });
-        convertView.setOnClickListener(new View.OnClickListener() {
+        holder.sign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent details = new Intent(context, ShopDetailActivity.class);
-                details.putExtra("shopId", item.id);
-                context.startActivity(details);
+                Intent orderIntent = new Intent(context, OrderShopActivity.class);
+                orderIntent.putExtra("shopId", item.id);
+                orderIntent.putExtra("type", 1);
+                context.startActivity(orderIntent);
             }
         });
         return convertView;
@@ -155,7 +202,7 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
         return gradientDrawable;
     }
 
-    void showDeleteAlert() {
+    void showDeleteAlert(final String visitId, final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         SpannableString pButton = new SpannableString("确认");
         SpannableString nButton = new SpannableString("取消");
@@ -165,7 +212,7 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
                 .setPositiveButton(pButton, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        deleteAppoint(visitId, position);
                     }
                 }).setNegativeButton(nButton, new DialogInterface.OnClickListener() {
                     @Override
@@ -175,6 +222,31 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
                 }).create();
         dialog.show();
     }
+
+    private void deleteAppoint(String visitId, final int position) {
+        loading.show();
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("visitId", visitId);
+        PersonManager.getInstance().deleteAppoint(params, new NetworkCallback<BaseResponse>() {
+            @Override
+            public void success(BaseResponse response) {
+                loading.dismiss();
+                if (response != null && response.isSuccess()) {
+                    removeAndUpdate(position);
+                    ToastUtil.show(context, "已删除");
+                } else {
+                    ToastUtil.show(context, response == null ? "null response" : response.errMsg);
+                }
+            }
+
+            @Override
+            public void failure(Throwable throwable) {
+                loading.dismiss();
+                ToastUtil.show(context, throwable.getMessage());
+            }
+        });
+    }
+
 
     static class ViewHolder {
         @BindView(R.id.img)

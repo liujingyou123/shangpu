@@ -9,7 +9,7 @@ import com.finance.winport.base.BaseResponse;
  */
 
 public class ScanCount extends BaseResponse {
-    public Message.DataBean data;
+    public DataBean data;
 
     public static class DataBean {
         public String weekCount;
