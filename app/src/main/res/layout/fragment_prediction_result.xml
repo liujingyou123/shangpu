@@ -3,6 +3,7 @@
     xmlns:ptr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <include layout="@layout/title_black_house" />
@@ -27,7 +28,9 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/bg_red_rectangle"
+                android:background="@drawable/bg_prediction"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:scrollbars="none">
 
                 <RelativeLayout
@@ -94,8 +97,9 @@
                         android:layout_marginLeft="6dp"
                         android:layout_toRightOf="@+id/wealth"
                         android:numStars="10"
+                        android:isIndicator="true"
                         android:layout_marginBottom="2dp"
-                        android:rating="6" />
+                        tools:rating="6" />
 
                     <TextView
                         android:id="@+id/customer"
@@ -116,8 +120,9 @@
                         android:layout_marginLeft="6dp"
                         android:layout_toRightOf="@+id/customer"
                         android:numStars="10"
+                        android:isIndicator="true"
                         android:layout_marginBottom="2dp"
-                        android:rating="4" />
+                        tools:rating="4" />
 
                     <TextView
                         android:id="@+id/prospect"
@@ -138,8 +143,9 @@
                         android:layout_marginLeft="6dp"
                         android:layout_toRightOf="@+id/prospect"
                         android:numStars="10"
+                        android:isIndicator="true"
                         android:layout_marginBottom="2dp"
-                        android:rating="3" />
+                        tools:rating="3" />
 
                     <TextView
                         android:id="@+id/result"
@@ -149,7 +155,7 @@
                         android:layout_marginBottom="40dp"
                         android:layout_marginTop="36dp"
                         android:lineSpacingExtra="8dp"
-                        android:text="算命，即是指推测人命运休咎之行为，属玄学范畴。研究算命的学术叫易学，也叫命理术数；理论核心是阴阳五行、天干地支及伏羲八卦，理论系统较为复杂深奥。"
+                        tools:text="算命，即是指推测人命运休咎之行为，属玄学范畴。研究算命的学术叫易学，也叫命理术数；理论核心是阴阳五行、天干地支及伏羲八卦，理论系统较为复杂深奥。"
                         android:textColor="#999999"
                         android:textSize="14sp" />
                 </RelativeLayout>

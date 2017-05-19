@@ -1,5 +1,7 @@
 package com.finance.winport.tab.adapter;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -17,14 +19,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.base.BaseResponse;
+import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.home.ShopDetailActivity;
 import com.finance.winport.image.Batman;
+import com.finance.winport.tab.event.RefreshEvent;
 import com.finance.winport.tab.model.AppointShopList;
 import com.finance.winport.tab.model.ScanShopList;
 import com.finance.winport.tab.model.WinportList;
+import com.finance.winport.tab.net.NetworkCallback;
+import com.finance.winport.tab.net.PersonManager;
+import com.finance.winport.util.ToastUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -36,13 +47,21 @@ import butterknife.ButterKnife;
  */
 
 public class ScanWinportAdapter extends PullBaseAdapter<ScanShopList.DataBeanX.DataBean> {
+    LoadingDialog loading;
 
     public ScanWinportAdapter(PtrClassicFrameLayout baseView, List<ScanShopList.DataBeanX.DataBean> baseData, int maxTotal) {
         super(baseView, baseData, maxTotal);
+        loading = new LoadingDialog(context);
+    }
+
+    private void removeAndUpdate(int position) {
+        baseData.remove(position);
+        notifyDataSetChanged();
+//        EventBus.getDefault().post(new RefreshEvent());
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.list_winport_scan_item, null);
@@ -58,24 +77,44 @@ public class ScanWinportAdapter extends PullBaseAdapter<ScanShopList.DataBeanX.D
         holder.area.setText(UnitUtil.formatArea(item.area) + "㎡");
         String sRent = Math.round(item.rent) + "";
         String sFee = Math.round(item.transferFee / 10000) + "";
+        boolean hasFee = item.transferFee > 0;
         if (item.rentStatus == 3) {//rentStatus 出租状态 0-待出租 1-出租中 2-已出租  3-已下架（撤下）
             holder.price.setText(sRent + "元/月");
-            holder.fee.setText("转让费" + sFee + "万元");
             holder.mark.setVisibility(View.VISIBLE);
             holder.overlay.setVisibility(View.VISIBLE);
+            if (item.isFace == 0) {// 面议
+                holder.fee.setText("面议");
+            } else {
+                if (hasFee) {
+                    holder.fee.setText("转让费" + sFee + "万元");
+                } else {
+                    holder.fee.setText("无转让费");
+                }
+            }
+            convertView.setEnabled(false);
         } else {
+            convertView.setEnabled(true);
             SpannableString sr = new SpannableString(sRent + "元");
             sr.setSpan(new ForegroundColorSpan(Color.parseColor("#FF7540"))
                     , 0, sr.length()
                     , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             holder.price.setText(sr);
-            SpannableString sp = new SpannableString("转让费" + sFee + "万元");
-            sp.setSpan(new ForegroundColorSpan(Color.parseColor("#FF7540"))
-                    , sp.toString().indexOf(sFee), sp.toString().indexOf(sFee) + sFee.length()
-                    , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            holder.fee.setText(sp);
             holder.mark.setVisibility(View.GONE);
             holder.overlay.setVisibility(View.GONE);
+            if (item.isFace == 0) {// 面议
+                holder.fee.setText("面议");
+            } else {
+                if (hasFee) {
+                    SpannableString sp = new SpannableString("转让费" + sFee + "万元");
+                    sp.setSpan(new ForegroundColorSpan(Color.parseColor("#FF7540"))
+                            , sp.toString().indexOf(sFee), sp.toString().indexOf(sFee) + sFee.length()
+                            , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    holder.fee.setText(sp);
+                } else {
+                    holder.fee.setText("无转让费");
+                }
+            }
+
         }
         holder.distance.setText("距您" + UnitUtil.mTokm(item.distance + ""));
         holder.scan.setText(item.visitCount + "");
@@ -85,6 +124,7 @@ public class ScanWinportAdapter extends PullBaseAdapter<ScanShopList.DataBeanX.D
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                showDeleteScanAlert(item.browseId + "", position);
                 return true;
             }
         });
@@ -98,6 +138,52 @@ public class ScanWinportAdapter extends PullBaseAdapter<ScanShopList.DataBeanX.D
         });
         return convertView;
     }
+
+    void showDeleteScanAlert(final String browseId, final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        SpannableString pButton = new SpannableString("确认");
+        SpannableString nButton = new SpannableString("取消");
+        pButton.setSpan(new ForegroundColorSpan(Color.parseColor("#FFA73B")), 0, pButton.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        nButton.setSpan(new ForegroundColorSpan(Color.parseColor("#FFA73B")), 0, nButton.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        AlertDialog dialog = builder.setTitle("提示").setMessage("删除浏览")
+                .setPositiveButton(pButton, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteScan(browseId, position);
+                    }
+                }).setNegativeButton(nButton, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).create();
+        dialog.show();
+    }
+
+    private void deleteScan(String browseId, final int position) {
+        loading.show();
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("browseId", browseId);
+        PersonManager.getInstance().deleteScan(params, new NetworkCallback<BaseResponse>() {
+            @Override
+            public void success(BaseResponse response) {
+                loading.dismiss();
+                if (response != null && response.isSuccess()) {
+                    removeAndUpdate(position);
+                    ToastUtil.show(context, "已删除");
+                } else {
+                    ToastUtil.show(context, response == null ? "null response" : response.errMsg);
+                }
+            }
+
+            @Override
+            public void failure(Throwable throwable) {
+                loading.dismiss();
+                ToastUtil.show(context, throwable.getMessage());
+            }
+        });
+    }
+
 
     private void setTag(ScanWinportAdapter.ViewHolder holder, ScanShopList.DataBeanX.DataBean item) {
         holder.tag.removeAllViews();

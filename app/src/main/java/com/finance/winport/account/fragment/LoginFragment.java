@@ -1,6 +1,8 @@
 package com.finance.winport.account.fragment;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +11,7 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -248,7 +251,7 @@ public class LoginFragment extends BaseFragment {
             public void success(ImageVerifyCode response) {
                 if (response != null && response.isSuccess()) {
                     picVerifyId = response.data.picVerifyId;
-                    Batman.getInstance().fromNet(response.data.picUrl, picCode);
+                    picCode.setImageBitmap(fromBase64(response.data.base64Str));
                 }
             }
 
@@ -257,6 +260,19 @@ public class LoginFragment extends BaseFragment {
 
             }
         });
+    }
+
+    public static Bitmap fromBase64(String base64) {
+        Bitmap bitmap = null;
+        if (!TextUtils.isEmpty(base64)) {
+            try {
+                byte[] bytes = Base64.decode(base64, Base64.DEFAULT);
+                bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            } catch (OutOfMemoryError error) {
+                error.printStackTrace();
+            }
+        }
+        return bitmap;
     }
 
 

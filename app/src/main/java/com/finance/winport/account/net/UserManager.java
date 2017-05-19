@@ -3,17 +3,9 @@ package com.finance.winport.account.net;
 import com.finance.winport.account.model.ImageVerifyCode;
 import com.finance.winport.account.model.Message;
 import com.finance.winport.account.model.UserInfo;
-import com.finance.winport.base.BaseResponse;
 import com.finance.winport.net.Ironman;
 import com.finance.winport.net.NetSubscriber;
-import com.finance.winport.tab.model.AppointRanking;
-import com.finance.winport.tab.model.AppointShopList;
-import com.finance.winport.tab.model.AppointStatistics;
-import com.finance.winport.tab.model.Prediction;
-import com.finance.winport.tab.model.ScanCount;
-import com.finance.winport.tab.model.WinportList;
 import com.finance.winport.tab.net.NetworkCallback;
-import com.finance.winport.tab.net.PersonService;
 import com.finance.winport.util.ToolsUtil;
 
 import java.util.HashMap;

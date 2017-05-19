@@ -15,9 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.image.Batman;
 import com.finance.winport.tab.TypeList;
 import com.finance.winport.tab.WinportActivity;
 import com.finance.winport.tab.model.WinportList;
+import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 
 import java.util.List;
@@ -29,15 +31,10 @@ import butterknife.ButterKnife;
  * Created by xzw on 2017/5/12.
  */
 
-public class WinportAdapter extends PullBaseAdapter<WinportList> {
+public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBean> {
 
-    public WinportAdapter(PtrClassicFrameLayout baseView, List<WinportList> baseData, int maxTotal) {
+    public WinportAdapter(PtrClassicFrameLayout baseView, List<WinportList.DataBeanX.DataBean> baseData, int maxTotal) {
         super(baseView, baseData, maxTotal);
-    }
-
-    @Override
-    public int getCount() {
-        return 20;
     }
 
     @Override
@@ -50,6 +47,14 @@ public class WinportAdapter extends PullBaseAdapter<WinportList> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        final WinportList.DataBeanX.DataBean item = baseData.get(position);
+        holder.address.setText(item.address + item.rentTypeName);
+        holder.historyCount.setText("历史带看申请" + item.visitCount + "组");
+        holder.scanCount.setText(item.scanCount + "人/次浏览");
+        holder.area.setText(UnitUtil.formatArea(item.area) + "㎡");
+        holder.releaseTime.setText(item.publishTime);
+        Batman.getInstance().fromNet(item.coverImg, holder.img);
+
         //下架
         holder.dropOff.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +68,7 @@ public class WinportAdapter extends PullBaseAdapter<WinportList> {
         holder.contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showContactAlert("13133333333");
+                showContactAlert(item.clerkPhone);
             }
         });
 
