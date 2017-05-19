@@ -30,7 +30,6 @@ public class RegionResponse extends BaseResponse{
     public static class Region {
         private String regionId;
         private String regionName;
-        private boolean isChecked;
         /**
          * blockId : 139
          * blockName : 董家渡
@@ -62,18 +61,11 @@ public class RegionResponse extends BaseResponse{
             this.blockList = blockList;
         }
 
-        public boolean isChecked() {
-            return isChecked;
-        }
-
-        public void setChecked(boolean checked) {
-            isChecked = checked;
-        }
-
         public static class Block {
+            private String regionId;
+            private String regionName;
             private String blockId;
             private String blockName;
-            private boolean isChecked;
 
             public String getBlockId() {
                 return blockId;
@@ -91,12 +83,20 @@ public class RegionResponse extends BaseResponse{
                 this.blockName = blockName;
             }
 
-            public boolean isChecked() {
-                return isChecked;
+            public String getRegionId() {
+                return regionId;
             }
 
-            public void setChecked(boolean checked) {
-                isChecked = checked;
+            public void setRegionId(String regionId) {
+                this.regionId = regionId;
+            }
+
+            public String getRegionName() {
+                return regionName;
+            }
+
+            public void setRegionName(String regionName) {
+                this.regionName = regionName;
             }
         }
     }

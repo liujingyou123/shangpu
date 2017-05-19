@@ -16,6 +16,7 @@ import com.finance.winport.home.adapter.RegionAdapter;
 import com.finance.winport.home.api.HomeServices;
 import com.finance.winport.home.model.RegionResponse;
 import com.finance.winport.home.model.ShopRequset;
+import com.finance.winport.home.tools.QuyuDataManager;
 import com.finance.winport.log.XLog;
 import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.util.ToolsUtil;
@@ -23,9 +24,7 @@ import com.finance.winport.util.UnitUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,10 +50,8 @@ public class QuyuPopupView extends AnimPopup {
     @BindView(R.id.background)
     View viewBg;
 
-    private List<RegionResponse.Region> mRegionData = new ArrayList<>();
     private RegionAdapter regionAdapter;
     private BlockAdapter blockAdapter;
-    private List<RegionResponse.Region.Block> mBlockData = new ArrayList<>();
 
     private ShopRequset mRequest = new ShopRequset();
 
@@ -70,7 +67,6 @@ public class QuyuPopupView extends AnimPopup {
         ButterKnife.bind(this, contentView);
         setContentView(contentView);
 
-        setQuyuOrDitieSelect(1);
         contentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,36 +75,23 @@ public class QuyuPopupView extends AnimPopup {
         });
 
         if (regionAdapter == null) {
-            regionAdapter = new RegionAdapter(context, mRegionData);
+            regionAdapter = new RegionAdapter(context);
         }
         lsOne.setAdapter(regionAdapter);
         lsOne.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                regionAdapter.setSelectPostion(position);
                 RegionResponse.Region region = (RegionResponse.Region) parent.getItemAtPosition(position);
-                if (region != null) {
-                    for (int i = 0; i < mRegionData.size(); i++) {
-                        mRegionData.get(i).setChecked(false);
-                    }
-                    region.setChecked(true);
-                    regionAdapter.notifyDataSetChanged();
 
-
-                    if (position == 0) {  //全部
-                        //TODO 全部
-                        lsTwo.setVisibility(View.GONE);
-                        setBlockData(null);
-                        dismiss();
-
-                        mRequest = new ShopRequset();
-                        mRequest.districtId = region.getRegionId();
-                        mRequest.districtName = region.getRegionName();
-                        EventBus.getDefault().post(mRequest);
-                    } else {
-                        mRequest.districtId = region.getRegionId();
-                        mRequest.districtName = region.getRegionName();
-
-                        setBlockData(region);
+                if ("-1".equals(region.getRegionId())) { //全部
+                    mRequest = new ShopRequset();
+                    EventBus.getDefault().post(mRequest);
+                    dismiss();
+                } else {
+                    setBlockData(region);
+                    if (mRequest.districtId == region.getRegionId()) {
+                        blockAdapter.setSelectId(mRequest.blockId);
                     }
                 }
 
@@ -117,26 +100,30 @@ public class QuyuPopupView extends AnimPopup {
         });
 
         if (blockAdapter == null) {
-            blockAdapter = new BlockAdapter(context, mBlockData);
+            blockAdapter = new BlockAdapter(context);
         }
         lsTwo.setAdapter(blockAdapter);
         lsTwo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                blockAdapter.setSelectPosition(position);
                 RegionResponse.Region.Block ret = (RegionResponse.Region.Block) parent.getItemAtPosition(position);
-                if (ret != null) {
-                    for (int i = 0; i < mBlockData.size(); i++) {
-                        mBlockData.get(i).setChecked(false);
-                    }
-                    ret.setChecked(true);
-                    blockAdapter.notifyDataSetChanged();
 
+                if ("-1".equals(ret.getBlockId())) { //全部
+                    mRequest.districtId = ret.getRegionId();
+                    mRequest.districtName = ret.getRegionName();
+                    mRequest.blockId = null;
+                    mRequest.blockName = null;
+                } else {
+                    mRequest.districtId = ret.getRegionId();
+                    mRequest.districtName = ret.getRegionName();
                     mRequest.blockId = ret.getBlockId();
                     mRequest.blockName = ret.getBlockName();
-                    EventBus.getDefault().post(mRequest);
-                    dismiss();
-
                 }
+
+                EventBus.getDefault().post(mRequest);
+                dismiss();
+
             }
         });
     }
@@ -145,6 +132,8 @@ public class QuyuPopupView extends AnimPopup {
     public void showAsDropDown(View anchor) {
         initWindowAttribute(anchor);
         super.showAsDropDown(anchor);
+
+        showInitSelect();
     }
 
     private void initWindowAttribute(View anchor) {
@@ -188,17 +177,34 @@ public class QuyuPopupView extends AnimPopup {
             @Override
             public void response(RegionResponse response) {
                 if (response != null && response.getData() != null) {
-                    RegionResponse.Region allRegion = new RegionResponse.Region();
-                    allRegion.setRegionName("全部");
-                    allRegion.setRegionId("-1");
-                    mRegionData.add(allRegion);
-                    mRegionData.addAll(response.getData());
-                    regionAdapter.notifyDataSetChanged();
+                    QuyuDataManager.getInstance().addRegion(response.getData());
+                    regionAdapter.initData();
                 }
 
             }
 
         });
+    }
+
+    private void showInitSelect() {
+        if (mRequest.metroId != null || mRequest.stationId != null) { //上次选的是地铁
+            tvQuyu.setSelected(false);
+            tvDitie.setSelected(true);
+        } else {  //上次选的是区域 或者 没选
+            tvQuyu.setSelected(true);
+            tvDitie.setSelected(false);
+
+            if (mRequest.districtId != null) {
+                regionAdapter.setSelectId(mRequest.districtId);
+            } else {
+                lsTwo.setVisibility(View.GONE);
+            }
+
+            if (mRequest.blockId != null) {
+                lsTwo.setVisibility(View.VISIBLE);
+                blockAdapter.initDatasWithReiionAndBlockId(mRequest.districtId, mRequest.blockId);
+            }
+        }
     }
 
     /**
@@ -208,28 +214,15 @@ public class QuyuPopupView extends AnimPopup {
      */
     private void setQuyuOrDitieSelect(int index) {
         if (index == 1) {
-            tvQuyu.setSelected(true);
-            tvDitie.setSelected(false);
+
         } else if (index == 2) {
-            tvQuyu.setSelected(false);
-            tvDitie.setSelected(true);
+
         }
     }
 
     private void setBlockData(RegionResponse.Region region) {
-        if (region != null && region.getBlockList() != null) {
-            lsTwo.setVisibility(View.VISIBLE);
-            mBlockData.clear();
-            RegionResponse.Region.Block block = new RegionResponse.Region.Block();
-            block.setBlockName("全部");
-            block.setBlockId("-1");
-            mBlockData.add(block);
-            mBlockData.addAll(region.getBlockList());
-            blockAdapter.notifyDataSetChanged();
-        } else {
-            mBlockData.clear();
-            blockAdapter.notifyDataSetChanged();
-        }
+        lsTwo.setVisibility(View.VISIBLE);
+        blockAdapter.initDataAndNotify(region);
     }
 
     @OnClick({R.id.tv_quyu, R.id.tv_ditie})

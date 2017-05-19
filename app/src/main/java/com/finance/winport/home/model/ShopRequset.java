@@ -19,5 +19,9 @@ public class ShopRequset {
     @FooAnnotation
     public String blockName;
 
+    public String metroId;
+    public String stationId;
+
+
 
 }

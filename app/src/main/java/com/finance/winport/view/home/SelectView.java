@@ -74,18 +74,18 @@ public class SelectView extends LinearLayout {
 
     public void onLocationClick() {
         tvLocation.setSelected(true);
-        tvSort.setSelected(false);
+//        tvSort.setSelected(false);
     }
 
     public void onSortClick() {
-        tvLocation.setSelected(false);
+//        tvLocation.setSelected(false);
         tvSort.setSelected(true);
-        tvCS.setSelected(false);
+//        tvCS.setSelected(false);
     }
 
     public void onCsClick() {
-        tvLocation.setSelected(false);
-        tvSort.setSelected(false);
+//        tvLocation.setSelected(false);
+//        tvSort.setSelected(false);
         tvCS.setSelected(true);
     }
 

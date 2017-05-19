@@ -402,22 +402,18 @@ public class HomeFragment extends BaseFragment implements IHomeView {
     public void onQuyuEvent(ShopRequset requset) {
         if (requset != null) {
             if (!TextUtils.isEmpty(requset.blockId)) {
-                if ("-1".equals(requset.blockId)) {
-                    selectionView.setQuYuText(requset.districtName);
-                    mRequest.blockId = null;
-                } else {
-                    selectionView.setQuYuText(requset.blockName);
-                    mRequest.blockId = requset.blockId;
-                }
-            }
-            if (!TextUtils.isEmpty(requset.districtId)) {
-                if ("-1".equals(requset.districtId)) {
-                    selectionView.setQuYuText("区域");
-                    mRequest.districtId = null;
-                    mRequest.blockId = null;
-                } else {
-                    mRequest.districtId = requset.districtId;
-                }
+                selectionView.setQuYuText(requset.blockName);
+                mRequest.blockId = requset.blockId;
+                mRequest.districtId = requset.districtId;
+            } else if (!TextUtils.isEmpty(requset.districtId)) {
+                mRequest.districtId = requset.districtId;
+                mRequest.blockId = null;
+                selectionView.setQuYuText(requset.districtName);
+            } else {
+                selectionView.onLocationUnClick();
+                selectionView.setQuYuText("区域");
+                mRequest.districtId = null;
+                mRequest.blockId = null;
             }
 
             mRequest.pageNumber = 1;
