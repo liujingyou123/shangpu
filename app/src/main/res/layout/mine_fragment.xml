@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,13 +47,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp">
 
-                <ImageView
+                <com.finance.winport.view.roundview.RoundedImageView
                     android:id="@+id/shop_img"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="15dp"
-                    android:scaleType="fitXY"
+                    app:oval="true"
+                    android:scaleType="centerCrop"
                     android:src="@mipmap/send_rent_icon1" />
 
                 <TextView
@@ -61,7 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="11dp"
+                    android:layout_marginTop="10dp"
                     android:layout_toRightOf="@+id/shop_img"
                     android:text="138****1189"
                     android:textColor="#ffffff"
@@ -71,10 +73,8 @@
                     android:id="@+id/concern"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/phone"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_toRightOf="@+id/shop_img"
+                    android:layout_alignLeft="@+id/phone"
+                    android:layout_alignBottom="@+id/shop_img"
                     android:hint="去设置关注的旺铺"
                     android:singleLine="true"
                     android:layout_marginRight="80dp"
@@ -284,12 +284,12 @@
                     android:id="@+id/day"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_above="@+id/solar"
                     android:layout_alignLeft="@+id/lunar"
                     android:layout_alignRight="@+id/lunar"
                     android:gravity="center"
                     android:singleLine="true"
                     android:text="27"
-                    android:layout_above="@+id/solar"
                     android:textColor="#4A4A4A"
                     android:textSize="30sp" />
 
@@ -297,11 +297,11 @@
                     android:id="@+id/solar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_above="@+id/lunar"
                     android:layout_alignLeft="@+id/lunar"
                     android:layout_alignRight="@+id/lunar"
                     android:layout_marginBottom="4dp"
                     android:layout_marginTop="2dp"
-                    android:layout_above="@+id/lunar"
                     android:gravity="center"
                     android:singleLine="true"
                     android:text="2017-04"

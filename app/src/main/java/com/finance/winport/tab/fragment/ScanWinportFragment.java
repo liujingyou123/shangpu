@@ -20,14 +20,16 @@ import com.baidu.location.BDLocation;
 import com.finance.winport.MainActivity;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
-import com.finance.winport.home.event.HomeEvent;
+import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.map.MyLocation;
 import com.finance.winport.tab.TypeList;
 import com.finance.winport.tab.adapter.AppointWinportAdapter;
 import com.finance.winport.tab.adapter.CollectionWinportAdapter;
 import com.finance.winport.tab.adapter.ScanWinportAdapter;
+import com.finance.winport.tab.event.RefreshEvent;
 import com.finance.winport.tab.model.AppointRanking;
 import com.finance.winport.tab.model.AppointShopList;
+import com.finance.winport.tab.model.CollectionShopList;
 import com.finance.winport.tab.model.ScanShopList;
 import com.finance.winport.tab.net.NetworkCallback;
 import com.finance.winport.tab.net.PersonManager;
@@ -36,6 +38,7 @@ import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.HashMap;
 import java.util.List;
@@ -70,15 +73,31 @@ public class ScanWinportFragment extends BaseFragment {
     PtrClassicFrameLayout refreshView;
     String title;
     TypeList type;
+    LoadingDialog loading;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        EventBus.getDefault().register(this);
         if (getArguments() != null) {
             title = getArguments().getString("title");
             type = (TypeList) getArguments().getSerializable("type");
         }
     }
+
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        EventBus.getDefault().unregister(this);
+//    }
+
+//    @Subscribe
+//    public void refresh(RefreshEvent event) {
+//        if (event != null) {
+//            loading.show();
+//            getCurrentLocation();
+//        }
+//    }
 
     @Nullable
     @Override
@@ -92,10 +111,12 @@ public class ScanWinportFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        loading.show();
         getCurrentLocation();
     }
 
     private void initView() {
+        loading = new LoadingDialog(context);
         location = new MyLocation(context);
         setTitle();
         initRefreshView();
@@ -160,8 +181,10 @@ public class ScanWinportFragment extends BaseFragment {
         location.start(new MyLocation.XLocationListener() {
             @Override
             public void result(boolean result, BDLocation location) {
-                longitude = location.getLongitude() + "";
-                latitude = location.getLatitude() + "";
+                if (result) {
+                    longitude = location.getLongitude() + "";
+                    latitude = location.getLatitude() + "";
+                }
                 asyncData();
             }
         });
@@ -225,6 +248,7 @@ public class ScanWinportFragment extends BaseFragment {
             public void success(AppointShopList response) {
                 if (getView() == null) return;
                 refreshView.refreshComplete();
+                loading.dismiss();
                 if (response != null && response.isSuccess() && response.data.totalSize > 0) {
                     setAppointAdapter(response.data.data, response.data.totalSize);
                 } else {
@@ -237,6 +261,7 @@ public class ScanWinportFragment extends BaseFragment {
                 if (getView() == null) return;
                 refreshView.refreshComplete();
                 showEmptyView(true);
+                loading.dismiss();
             }
         });
     }
@@ -246,11 +271,14 @@ public class ScanWinportFragment extends BaseFragment {
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("pageSize", pageSize);
         params.put("pageNumber", pageNumber);
-        PersonManager.getInstance().getCollectionList(params, new NetworkCallback<ScanShopList>() {
+        params.put("longitude", longitude);
+        params.put("latitude", latitude);
+        PersonManager.getInstance().getCollectionList(params, new NetworkCallback<CollectionShopList>() {
             @Override
-            public void success(ScanShopList response) {
+            public void success(CollectionShopList response) {
                 if (getView() == null) return;
                 refreshView.refreshComplete();
+                loading.dismiss();
                 if (response != null && response.isSuccess() && response.data.totalSize > 0) {
                     setCollectionAdapter(response.data.data, response.data.totalSize);
                 } else {
@@ -263,6 +291,7 @@ public class ScanWinportFragment extends BaseFragment {
                 if (getView() == null) return;
                 refreshView.refreshComplete();
                 showEmptyView(true);
+                loading.dismiss();
             }
         });
     }
@@ -272,11 +301,14 @@ public class ScanWinportFragment extends BaseFragment {
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("pageSize", pageSize);
         params.put("pageNumber", pageNumber);
+        params.put("longitude", longitude);
+        params.put("latitude", latitude);
         PersonManager.getInstance().getScanList(params, new NetworkCallback<ScanShopList>() {
             @Override
             public void success(ScanShopList response) {
                 if (getView() == null) return;
                 refreshView.refreshComplete();
+                loading.dismiss();
                 if (response != null && response.isSuccess() && response.data.totalSize > 0) {
                     setScanAdapter(response.data.data, response.data.totalSize);
                 } else {
@@ -289,6 +321,7 @@ public class ScanWinportFragment extends BaseFragment {
                 if (getView() == null) return;
                 refreshView.refreshComplete();
                 showEmptyView(true);
+                loading.dismiss();
             }
         });
     }
@@ -313,7 +346,7 @@ public class ScanWinportFragment extends BaseFragment {
     // 收藏
     private CollectionWinportAdapter collectionWinportAdapter;
 
-    private void setCollectionAdapter(List<ScanShopList.DataBeanX.DataBean> list, int totalCount) {
+    private void setCollectionAdapter(List<CollectionShopList.DataBeanX.DataBean> list, int totalCount) {
         if (collectionWinportAdapter == null) {
             collectionWinportAdapter = new CollectionWinportAdapter(refreshView, list, totalCount);
             mListView.setAdapter(collectionWinportAdapter);

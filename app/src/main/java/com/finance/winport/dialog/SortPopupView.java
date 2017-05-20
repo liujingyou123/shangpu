@@ -36,6 +36,7 @@ public class SortPopupView extends AnimPopup {
     @BindView(R.id.mListView)
     ListView mListView;
     private List<String> mData = new ArrayList<>();
+    private OnSortSelectListener mOnSortSelectListener;
 
     public SortPopupView(Context context) {
         super(context);
@@ -50,6 +51,11 @@ public class SortPopupView extends AnimPopup {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                adapter.setSelectPostion(position);
+                String string = (String) parent.getItemAtPosition(position);
+                if (mOnSortSelectListener != null) {
+                    mOnSortSelectListener.onSortSelect((position)+"", string);
+                }
                 dismiss();
             }
         });
@@ -59,6 +65,12 @@ public class SortPopupView extends AnimPopup {
                 dismiss();
             }
         });
+
+        mData.add("默认排序");
+        mData.add("最近更新");
+        mData.add("距离最近");
+        mData.add("联络最多");
+        mData.add("查看最多");
 
         if (adapter == null) {
             adapter = new SortAdapter(context, mData);
@@ -103,4 +115,10 @@ public class SortPopupView extends AnimPopup {
         setDismissAnim(dismissSet);
     }
 
+    public void setOnSortSelectListener(OnSortSelectListener onSortSelectListener) {
+        this.mOnSortSelectListener = onSortSelectListener;
+    }
+    public interface OnSortSelectListener {
+        void onSortSelect(String sortType, String sortTypeName);
+    }
 }

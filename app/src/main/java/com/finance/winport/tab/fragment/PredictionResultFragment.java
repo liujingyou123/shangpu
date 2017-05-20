@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.tab.model.Prediction;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,10 +42,14 @@ public class PredictionResultFragment extends BaseFragment {
     TextView result;
     @BindView(R.id.confirm)
     TextView confirm;
+    Prediction prediction;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            prediction = (Prediction) getArguments().getSerializable("result");
+        }
     }
 
     @Nullable
@@ -53,11 +58,21 @@ public class PredictionResultFragment extends BaseFragment {
         View root = LayoutInflater.from(context).inflate(R.layout.fragment_prediction_result, container, false);
         ButterKnife.bind(this, root);
         initView();
+        setResult();
         return root;
     }
 
     private void initView() {
-        tvFocusHouse.setText("店名测凶吉");
+        tvFocusHouse.setText("店名测吉凶");
+    }
+
+    private void setResult() {
+        if (prediction != null) {
+            wealthStar.setRating(prediction.data.moneyLuck);
+            customerStar.setRating(prediction.data.guestLuck);
+            prospectStar.setRating(prediction.data.future);
+            result.setText(prediction.data.description);
+        }
     }
 
 

@@ -140,7 +140,6 @@ public class OffShelfFragment extends BaseFragment {
         String tag = fragment.getClass().getName();
         FragmentManager fm = getActivity().getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        int count = fm.getBackStackEntryCount();
         ft.setCustomAnimations(R.anim.activity_open_enter, R.anim.activity_open_exit, R.anim.activity_close_enter, R.anim.activity_close_exit);
         ft.replace(R.id.rl_fragment_content, fragment, tag);
         ft.addToBackStack(tag);

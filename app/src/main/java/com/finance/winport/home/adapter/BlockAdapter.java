@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.home.model.RegionResponse;
+import com.finance.winport.home.tools.QuyuDataManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -20,12 +22,45 @@ import butterknife.ButterKnife;
 
 public class BlockAdapter extends BaseAdapter {
     private Context mContext;
-    private List<RegionResponse.Region.Block> mData;
+    private List<RegionResponse.Region.Block> mData = new ArrayList<>();
+    private int selectPosition = -1;
 
-    public BlockAdapter(Context mContext, List<RegionResponse.Region.Block> mData) {
+    public BlockAdapter(Context mContext) {
         this.mContext = mContext;
-        this.mData = mData;
     }
+
+    public void setSelectPosition(int position) {
+        this.selectPosition = position;
+        notifyDataSetChanged();
+    }
+
+    public void setSelectId(String id) {
+        for (int i = 0; i < mData.size(); i++) {
+            if (mData.get(i).getBlockId().equals(id)) {
+                setSelectPosition(i);
+                break;
+            }
+        }
+    }
+
+    public void initDataAndNotify(RegionResponse.Region region) {
+        mData.clear();
+        mData.addAll(QuyuDataManager.getInstance().getBlocks(region));
+        selectPosition = -1;
+        notifyDataSetChanged();
+    }
+
+    public void initDatas(RegionResponse.Region region) {
+        mData.clear();
+        mData.addAll(QuyuDataManager.getInstance().getBlocks(region));
+    }
+
+    public void initDatasWithReiionAndBlockId(String regionId, String blockId) {
+        mData.clear();
+        mData.addAll(QuyuDataManager.getInstance().getBlockByRegionId(regionId));
+        setSelectId(blockId);
+    }
+
 
     @Override
     public int getCount() {
@@ -64,7 +99,7 @@ public class BlockAdapter extends BaseAdapter {
         RegionResponse.Region.Block block = mData.get(i);
         if (block != null) {
             viewHolder.tvText.setText(block.getBlockName());
-            if (block.isChecked()) {
+            if (selectPosition == i && !"-1".equals(block.getBlockId())) {
                 viewHolder.tvText.setSelected(true);
             } else {
                 viewHolder.tvText.setSelected(false);

@@ -20,10 +20,16 @@ import butterknife.ButterKnife;
 public class SortAdapter extends BaseAdapter {
     private Context mContext;
     private List<String> mData;
+    private int selectPostion = -1;
 
     public SortAdapter(Context mContext, List<String> mData) {
         this.mContext = mContext;
         this.mData = mData;
+    }
+
+    public void setSelectPostion(int position) {
+        this.selectPostion = position;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -32,7 +38,7 @@ public class SortAdapter extends BaseAdapter {
         if (mData != null) {
             ret = mData.size();
         }
-        return 10;
+        return ret;
     }
 
     @Override
@@ -61,7 +67,13 @@ public class SortAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        viewHolder.tvText.setText("全部");
+        String tmp = mData.get(i);
+        if (selectPostion == i && selectPostion != 0) {
+            viewHolder.tvText.setSelected(true);
+        } else {
+            viewHolder.tvText.setSelected(false);
+        }
+        viewHolder.tvText.setText(tmp);
         return view;
     }
 

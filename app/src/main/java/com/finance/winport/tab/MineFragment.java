@@ -6,12 +6,10 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.sax.RootElement;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +22,6 @@ import com.finance.winport.account.LoginActivity;
 import com.finance.winport.account.model.UserInfo;
 import com.finance.winport.aliyunoss.AliOss;
 import com.finance.winport.base.BaseFragment;
-import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.image.Batman;
 import com.finance.winport.image.BatmanCallBack;
 import com.finance.winport.mine.MyNoticeActivity;
@@ -39,10 +36,12 @@ import com.finance.winport.mine.presenter.ShopFocusPresenter;
 import com.finance.winport.permission.PermissionsManager;
 import com.finance.winport.permission.PermissionsResultAction;
 import com.finance.winport.tab.event.SelectImageEvent;
+import com.finance.winport.tab.model.UnReadMsg;
+import com.finance.winport.tab.net.NetworkCallback;
+import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.util.LoadingDialogUtil;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.view.StopWatchTextView;
-import com.finance.winport.view.imagepreview.ImagePreviewActivity;
 import com.finance.winport.view.picker.Picker;
 import com.finance.winport.view.picker.engine.GlideEngine;
 import com.finance.winport.view.picker.utils.PicturePickerUtils;
@@ -53,18 +52,13 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import rx.Observable;
-import rx.Scheduler;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -141,7 +135,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.mine_fragment, container, false);
         unbinder = ButterKnife.bind(this, root);
-        getData();
+        init();
         return root;
     }
 
@@ -150,6 +144,15 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
             mPresenter = new PersonalInfoPresenter(this);
         }
         mPresenter.getPersonalInfo();
+
+    }
+
+    private void init() {
+        if (isLogin()) {
+            setHeadImage(SharedPrefsUtil.getUserInfo().data.headPortrait);
+            getData();
+        }
+        getUnReadMsg();
     }
 
     private void setHuangLi() {
@@ -165,6 +168,39 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     private boolean isLogin() {
         UserInfo info = SharedPrefsUtil.getUserInfo();
         return info != null;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            getUnReadMsg();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getUnReadMsg();
+    }
+
+    //获取未读消息
+    private void getUnReadMsg() {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("receiveType", 0);//0:客户 1：业务员
+        PersonManager.getInstance().getUnReadMsg(params, new NetworkCallback<UnReadMsg>() {
+            @Override
+            public void success(UnReadMsg response) {
+                if (response != null && response.isSuccess()) {
+                    ivFocusRight.setActivated(response.data);
+                }
+            }
+
+            @Override
+            public void failure(Throwable throwable) {
+
+            }
+        });
     }
 
 
@@ -326,18 +362,22 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
                     info.data.headPortrait = s;
                     SharedPrefsUtil.saveUserInfo(info);
                 }
-                Batman.getInstance().fromNet(path, new BatmanCallBack() {
-                    @Override
-                    public void onSuccess(Bitmap bitmap) {
-                        shopImg.setImageBitmap(bitmap);
-                    }
-
-                    @Override
-                    public void onFailure(Exception error) {
-                    }
-                });
+                setHeadImage(path);
             }
         }.execute(path);
+    }
+
+    private void setHeadImage(String path) {
+        Batman.getInstance().fromNet(path, new BatmanCallBack() {
+            @Override
+            public void onSuccess(Bitmap bitmap) {
+                shopImg.setImageBitmap(bitmap);
+            }
+
+            @Override
+            public void onFailure(Exception error) {
+            }
+        });
     }
 
     private void selectImage(final int requestCode) {

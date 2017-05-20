@@ -5,11 +5,11 @@ import com.finance.winport.net.Ironman;
 import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.tab.model.AppointRanking;
 import com.finance.winport.tab.model.AppointShopList;
-import com.finance.winport.tab.model.AppointStatistics;
 import com.finance.winport.tab.model.CollectionShopList;
 import com.finance.winport.tab.model.Prediction;
 import com.finance.winport.tab.model.ScanCount;
 import com.finance.winport.tab.model.ScanShopList;
+import com.finance.winport.tab.model.UnReadMsg;
 import com.finance.winport.tab.model.WinportList;
 import com.finance.winport.util.ToolsUtil;
 
@@ -80,14 +80,14 @@ public class PersonManager {
     }
 
     // 获取收藏列表
-    public Subscription getCollectionList(HashMap<String, Object> params, final NetworkCallback<ScanShopList> callback) {
+    public Subscription getCollectionList(HashMap<String, Object> params, final NetworkCallback<CollectionShopList> callback) {
         return Ironman.getInstance()
                 .createService(PersonService.class)
                 .getCollectionList(params)
-                .compose(ToolsUtil.<ScanShopList>applayScheduers())
-                .subscribe(new NetSubscriber<ScanShopList>() {
+                .compose(ToolsUtil.<CollectionShopList>applayScheduers())
+                .subscribe(new NetSubscriber<CollectionShopList>() {
                     @Override
-                    public void response(ScanShopList response) {
+                    public void response(CollectionShopList response) {
                         if (callback != null) {
                             callback.success(response);
                         }
@@ -319,15 +319,16 @@ public class PersonManager {
                 });
     }
 
-    // 预约统计
-    public Subscription getAppointStatistics(HashMap<String, Object> params, final NetworkCallback<AppointStatistics> callback) {
+
+    // 删除约看
+    public Subscription deleteAppoint(HashMap<String, Object> params, final NetworkCallback<BaseResponse> callback) {
         return Ironman.getInstance()
                 .createService(PersonService.class)
-                .getAppointStatistics(params)
-                .compose(ToolsUtil.<AppointStatistics>applayScheduers())
-                .subscribe(new NetSubscriber<AppointStatistics>() {
+                .deleteAppoint(params)
+                .compose(ToolsUtil.<BaseResponse>applayScheduers())
+                .subscribe(new NetSubscriber<BaseResponse>() {
                     @Override
-                    public void response(AppointStatistics response) {
+                    public void response(BaseResponse response) {
                         if (callback != null) {
                             callback.success(response);
                         }
@@ -343,15 +344,62 @@ public class PersonManager {
                 });
     }
 
-    // 删除约看
-    public Subscription deleteAppoint(HashMap<String, Object> params, final NetworkCallback<BaseResponse> callback) {
+    // 取消收藏
+    public Subscription cancelCollection(HashMap<String, Object> params, final NetworkCallback<BaseResponse> callback) {
         return Ironman.getInstance()
                 .createService(PersonService.class)
-                .deleteAppoint(params)
+                .cancelCollection(params)
                 .compose(ToolsUtil.<BaseResponse>applayScheduers())
                 .subscribe(new NetSubscriber<BaseResponse>() {
                     @Override
                     public void response(BaseResponse response) {
+                        if (callback != null) {
+                            callback.success(response);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if (callback != null) {
+                            callback.failure(e);
+                        }
+                    }
+                });
+    }
+
+    // 删除浏览
+    public Subscription deleteScan(HashMap<String, Object> params, final NetworkCallback<BaseResponse> callback) {
+        return Ironman.getInstance()
+                .createService(PersonService.class)
+                .deleteScan(params)
+                .compose(ToolsUtil.<BaseResponse>applayScheduers())
+                .subscribe(new NetSubscriber<BaseResponse>() {
+                    @Override
+                    public void response(BaseResponse response) {
+                        if (callback != null) {
+                            callback.success(response);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if (callback != null) {
+                            callback.failure(e);
+                        }
+                    }
+                });
+    }
+    // 我的未读消息
+    public Subscription getUnReadMsg(HashMap<String, Object> params, final NetworkCallback<UnReadMsg> callback) {
+        return Ironman.getInstance()
+                .createService(PersonService.class)
+                .getUnReadMsg(params)
+                .compose(ToolsUtil.<UnReadMsg>applayScheduers())
+                .subscribe(new NetSubscriber<UnReadMsg>() {
+                    @Override
+                    public void response(UnReadMsg response) {
                         if (callback != null) {
                             callback.success(response);
                         }

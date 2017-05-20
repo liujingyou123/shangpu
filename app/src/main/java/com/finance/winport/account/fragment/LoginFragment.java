@@ -1,6 +1,8 @@
 package com.finance.winport.account.fragment;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +11,7 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +32,6 @@ import com.finance.winport.account.model.Message;
 import com.finance.winport.account.model.UserInfo;
 import com.finance.winport.account.net.UserManager;
 import com.finance.winport.base.BaseFragment;
-import com.finance.winport.image.Batman;
 import com.finance.winport.tab.net.NetworkCallback;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.StringUtil;
@@ -86,6 +88,8 @@ public class LoginFragment extends BaseFragment {
     View viewLine2;
     @BindView(R.id.view_line3)
     View viewLine3;
+    @BindView(R.id.clear)
+    ImageView clear;
     private String userPhone;
     private String messageId;
     private String picVerifyCode;
@@ -93,6 +97,8 @@ public class LoginFragment extends BaseFragment {
     private String smsVerifyCode;
     private String inviteCode;
     private boolean isVoiceEnable = true;
+    private static final int CODE_LIMIT_COUNT = 3;// 单词获取验证码限制次数
+    private int requestCodeCount;//获取验证码次数
 
     @Nullable
     @Override
@@ -104,6 +110,8 @@ public class LoginFragment extends BaseFragment {
     }
 
     private void initView() {
+        imageVerifyCode.setVisibility(View.GONE);
+        clear.setVisibility(View.GONE);
         phoneView.setFilters(new InputFilter[]{TextViewUtil.phoneFormat()});
         phoneView.setInputType(InputType.TYPE_CLASS_PHONE);
         verifyCodeView.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -111,7 +119,7 @@ public class LoginFragment extends BaseFragment {
         contact.setChecked(true);
         int start = 0;
         int end = contactTip.getText().toString().indexOf("》") + 1;
-        TextViewUtil.setPartialColor(contactTip, start, end, (Color.parseColor("#000000")));
+        TextViewUtil.setPartialColor(contactTip, start, end, (Color.parseColor("#8C9AC9")));
         initCountDownButton();
 
         contact.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -152,6 +160,12 @@ public class LoginFragment extends BaseFragment {
             } else {
                 login.setEnabled(false);
             }
+
+            if (!TextUtils.isEmpty(UnitUtil.trim(phoneView.getText().toString()))) {
+                clear.setVisibility(View.VISIBLE);
+            } else {
+                clear.setVisibility(View.GONE);
+            }
         }
     };
 
@@ -179,11 +193,22 @@ public class LoginFragment extends BaseFragment {
             public void onClick(View v) {
                 if (check()) {
                     counting();
-                    getVerifyCode();
                     verifyCodeView.requestFocus();
+                    if (requestCodeCount >= CODE_LIMIT_COUNT) {
+                        showPicCode();
+                    } else {
+                        getVerifyCode();
+                    }
                 }
             }
         });
+    }
+
+    private void showPicCode() {
+        if (imageVerifyCode.getVisibility() == View.GONE) {
+            getPicCode();
+        }
+        imageVerifyCode.setVisibility(View.VISIBLE);
     }
 
 
@@ -196,6 +221,7 @@ public class LoginFragment extends BaseFragment {
             @Override
             public void success(Message response) {
                 messageId = response.data.messageId;
+                requestCodeCount++;
             }
 
             @Override
@@ -234,6 +260,9 @@ public class LoginFragment extends BaseFragment {
             @Override
             public void failure(Throwable throwable) {
                 verifyCodeView.setText("");
+                if (requestCodeCount >= CODE_LIMIT_COUNT) {
+                    showPicCode();
+                }
                 ToastUtil.show(context, throwable.getMessage());
             }
         });
@@ -248,7 +277,8 @@ public class LoginFragment extends BaseFragment {
             public void success(ImageVerifyCode response) {
                 if (response != null && response.isSuccess()) {
                     picVerifyId = response.data.picVerifyId;
-                    Batman.getInstance().fromNet(response.data.picUrl, picCode);
+                    picVerifyCode = response.data.picVerifyCode;
+                    picCode.setImageBitmap(fromBase64(response.data.base64Str));
                 }
             }
 
@@ -257,6 +287,19 @@ public class LoginFragment extends BaseFragment {
 
             }
         });
+    }
+
+    public static Bitmap fromBase64(String base64) {
+        Bitmap bitmap = null;
+        if (!TextUtils.isEmpty(base64)) {
+            try {
+                byte[] bytes = Base64.decode(base64, Base64.DEFAULT);
+                bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            } catch (OutOfMemoryError error) {
+                error.printStackTrace();
+            }
+        }
+        return bitmap;
     }
 
 
@@ -270,6 +313,13 @@ public class LoginFragment extends BaseFragment {
         if (!StringUtil.isCellPhone(userPhone)) {
             Toast.makeText(context, "请输入正确的电话号码", Toast.LENGTH_SHORT).show();
             return false;
+        }
+        //校验图片验证码
+        if (imageVerifyCode.getVisibility() == View.VISIBLE) {
+            if (!TextUtils.equals(picVerifyCode, verifyCodeViewImage.getText().toString().trim())) {
+                ToastUtil.show(context, "图片验证码不正确");
+                return false;
+            }
         }
         return true;
     }
@@ -315,5 +365,16 @@ public class LoginFragment extends BaseFragment {
     @OnClick(R.id.close)
     public void onCloseClicked() {
         handleBack();
+    }
+
+
+    @OnClick(R.id.clear)
+    public void onPhoneClearClicked() {
+        phoneView.setText("");
+    }
+
+    @OnClick(R.id.contact_tip)
+    public void onContractClicked() {
+        pushFragment(new UserContractFragment());
     }
 }

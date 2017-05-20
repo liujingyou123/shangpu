@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.home.model.RegionResponse;
+import com.finance.winport.home.tools.QuyuDataManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -20,11 +22,30 @@ import butterknife.ButterKnife;
 
 public class RegionAdapter extends BaseAdapter {
     private Context mContext;
-    private List<RegionResponse.Region> mData;
+    private ArrayList<RegionResponse.Region> mData = new ArrayList<>();
+    private int selectPosition = -1;
 
-    public RegionAdapter(Context mContext, List<RegionResponse.Region> mData) {
+    public RegionAdapter(Context mContext) {
         this.mContext = mContext;
-        this.mData = mData;
+    }
+
+    public void initData() {
+        mData.addAll(QuyuDataManager.getInstance().getRegions());
+        notifyDataSetChanged();
+    }
+
+    public void setSelectPostion(int position) {
+        this.selectPosition = position;
+        notifyDataSetChanged();
+    }
+
+    public void setSelectId(String id) {
+        for (int i=0; i<mData.size(); i++) {
+            if (mData.get(i).getRegionId().equals(id)) {
+                setSelectPostion(i);
+                break;
+            }
+        }
     }
 
     @Override
@@ -63,7 +84,7 @@ public class RegionAdapter extends BaseAdapter {
         RegionResponse.Region ret = mData.get(i);
         if (ret != null) {
             viewHolder.tvText.setText(ret.getRegionName());
-            if (ret.isChecked()) {
+            if ((i == selectPosition) && !"-1".equals(ret.getRegionId())) {
                 viewHolder.tvText.setSelected(true);
             } else {
                 viewHolder.tvText.setSelected(false);
@@ -71,6 +92,7 @@ public class RegionAdapter extends BaseAdapter {
         }
         return view;
     }
+
 
     static class ViewHolder {
         @BindView(R.id.tv_text)

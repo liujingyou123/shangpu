@@ -1,9 +1,9 @@
 package com.finance.winport.home;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,6 +18,9 @@ import com.finance.winport.dialog.SelectionDialog;
 import com.finance.winport.dialog.SortPopupView;
 import com.finance.winport.home.adapter.ShopsAdapter;
 import com.finance.winport.home.model.ShopListResponse;
+import com.finance.winport.home.model.ShopRequset;
+import com.finance.winport.home.presenter.ShopListPresenter;
+import com.finance.winport.home.view.IShopListView;
 import com.finance.winport.view.home.SelectView;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
@@ -34,7 +37,7 @@ import butterknife.OnClick;
  * Created by liuworkmac on 17/5/9.
  */
 
-public class ShopsListActivity extends BaseActivity {
+public class ShopsListActivity extends BaseActivity implements IShopListView {
 
     @BindView(R.id.tv_focus_house)
     TextView tvFocusHouse;
@@ -52,6 +55,10 @@ public class ShopsListActivity extends BaseActivity {
     private SortPopupView sortPopupView;
     private SelectionDialog selectionDialog;
 
+    private ShopRequset mRequest = new ShopRequset();
+    private ShopListPresenter mPresenter;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +66,15 @@ public class ShopsListActivity extends BaseActivity {
         ButterKnife.bind(this);
         init();
         getIntentData();
+        getData();
+
+    }
+
+    private void getData() {
+        if (mPresenter == null) {
+            mPresenter = new ShopListPresenter(this);
+        }
+        mPresenter.getShopList(mRequest);
     }
 
     private void init() {
@@ -69,8 +85,13 @@ public class ShopsListActivity extends BaseActivity {
             lsShops.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent = new Intent(ShopsListActivity.this, ShopDetailActivity.class);
-                    startActivity(intent);
+                    ShopListResponse.DataBean.Shop shop = (ShopListResponse.DataBean.Shop) parent.getItemAtPosition(position);
+                    if (shop != null) {
+                        Intent intent = new Intent(ShopsListActivity.this, ShopDetailActivity.class);
+                        intent.putExtra("shopId", shop.getId()+"");
+                        startActivity(intent);
+                    }
+
                 }
             });
         }
@@ -78,11 +99,14 @@ public class ShopsListActivity extends BaseActivity {
         refreshView.setPtrHandler(new PtrDefaultHandler2() {
             @Override
             public void onLoadMoreBegin(PtrFrameLayout frame) {
-
+                mRequest.pageNumber++;
+                mPresenter.getMoreShopList(mRequest);
             }
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
+                mRequest.pageNumber = 1;
+                mPresenter.getShopList(mRequest);
             }
         });
 
@@ -124,7 +148,9 @@ public class ShopsListActivity extends BaseActivity {
                 tvFocusHouse.setText("临近地铁");
 
             }
+            mRequest.shopType = index + "";
         }
+
     }
 
     @OnClick(R.id.imv_focus_house_back)
@@ -155,10 +181,16 @@ public class ShopsListActivity extends BaseActivity {
     private void showShowQuYuDialog() {
         if (quyuPopupView == null) {
             quyuPopupView = new QuyuPopupView(this);
+            quyuPopupView.setOnSelectionListener(new QuyuPopupView.OnSelectListener() {
+                @Override
+                public void onSelect(ShopRequset requst) {
+                    onQuyuHandle(requst);
+                }
+            });
             quyuPopupView.setOnDismissListener(new PopupWindow.OnDismissListener() {
                 @Override
                 public void onDismiss() {
-                    selectView.onLocationUnClick();
+//                    selectView.onLocationUnClick();
                 }
             });
         }
@@ -174,10 +206,25 @@ public class ShopsListActivity extends BaseActivity {
     private void showPaiXuDailog() {
         if (sortPopupView == null) {
             sortPopupView = new SortPopupView(this);
+            sortPopupView.setOnSortSelectListener(new SortPopupView.OnSortSelectListener() {
+                @Override
+                public void onSortSelect(String sortType, String sortTypeName) {
+                    if ("0".equals(sortType)) {
+                        mRequest.sortType = null;
+                        selectView.setSortText("排序");
+                        selectView.onSortUnClick();
+                    } else {
+                        mRequest.sortType = sortType;
+                        selectView.setSortText(sortTypeName);
+                    }
+                    mRequest.pageNumber = 1;
+                    mPresenter.getShopList(mRequest);
+                }
+            });
             sortPopupView.setOnDismissListener(new PopupWindow.OnDismissListener() {
                 @Override
                 public void onDismiss() {
-                    selectView.onSortUnClick();
+//                            selectionView.onSortUnClick();
                 }
             });
         }
@@ -193,10 +240,39 @@ public class ShopsListActivity extends BaseActivity {
     private void showShaiXuandialog() {
         if (selectionDialog == null) {
             selectionDialog = new SelectionDialog(this);
-            selectionDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            selectionDialog.setOnSelectListener(new SelectionDialog.OnSelectListener() {
                 @Override
-                public void onDismiss(DialogInterface dialog) {
+                public void onSelect(ShopRequset request) {
                     selectView.onCsUnClick();
+                    if (request.rentList != null && request.rentList.size() > 0) {
+                        mRequest.rentList = request.rentList;
+                    } else {
+                        mRequest.rentList = null;
+                    }
+                    if (request.transferList != null && request.transferList.size() > 0) {
+                        mRequest.transferList = request.transferList;
+                    } else {
+                        mRequest.transferList = null;
+                    }
+                    if (request.areaList != null && request.areaList.size() > 0) {
+                        mRequest.areaList = request.areaList;
+                    } else {
+                        mRequest.areaList = null;
+                    }
+                    mRequest.width = request.width;
+                    if (request.featureTagList != null && request.featureTagList.size() > 0) {
+                        mRequest.featureTagList = request.featureTagList;
+                    } else {
+                        mRequest.featureTagList = null;
+                    }
+                    if (request.supportTagList != null && request.supportTagList.size() > 0) {
+                        mRequest.supportTagList = request.supportTagList;
+                    } else {
+                        mRequest.supportTagList = null;
+                    }
+
+                    mRequest.pageNumber = 1;
+                    mPresenter.getShopList(mRequest);
                 }
             });
         }
@@ -207,10 +283,82 @@ public class ShopsListActivity extends BaseActivity {
             if (quyuPopupView != null && quyuPopupView.isShowing()) {
                 quyuPopupView.dismiss();
             }
-            sortPopupView.dismiss();
-            quyuPopupView.dismiss();
             selectionDialog.show();
             selectView.onCsClick();
         }
+    }
+
+    public void onQuyuHandle(ShopRequset requset) {
+        if (requset != null) {
+            if (!TextUtils.isEmpty(requset.blockId)) {
+                selectView.setQuYuText(requset.blockName);
+                mRequest.blockId = requset.blockId;
+                mRequest.districtId = requset.districtId;
+                mRequest.metroId = null;
+                mRequest.stationId = null;
+            } else if (!TextUtils.isEmpty(requset.districtId)) {
+                mRequest.districtId = requset.districtId;
+                mRequest.blockId = null;
+                mRequest.metroId = null;
+                mRequest.stationId = null;
+                selectView.setQuYuText(requset.districtName);
+            } else if (!TextUtils.isEmpty(requset.stationId)) {
+                selectView.setQuYuText(requset.stationName);
+                mRequest.metroId = requset.metroId;
+                mRequest.stationId = requset.stationId;
+                mRequest.blockId = null;
+                mRequest.districtId = null;
+            } else if (!TextUtils.isEmpty(requset.metroId)) {
+                selectView.setQuYuText(requset.metroName);
+                mRequest.metroId = requset.metroId;
+                mRequest.stationId = null;
+                mRequest.blockId = null;
+                mRequest.districtId = null;
+            } else {
+                selectView.onLocationUnClick();
+                selectView.setQuYuText("区域");
+                mRequest.districtId = null;
+                mRequest.blockId = null;
+            }
+
+            mRequest.pageNumber = 1;
+            mPresenter.getShopList(mRequest);
+        }
+    }
+
+    @Override
+    public void showShopList(ShopListResponse response) {
+        if (response != null) {
+            if (refreshView.isRefreshing()) {
+                refreshView.refreshComplete();
+            }
+            mData.clear();
+            if (response.getData().getData() == null || response.getData().getData().size() == 0) {
+                mData.add(null);
+                refreshView.setMode(PtrFrameLayout.Mode.REFRESH);
+            } else {
+                mData.addAll(response.getData().getData());
+                refreshView.setMode(PtrFrameLayout.Mode.BOTH);
+            }
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    @Override
+    public void showMoreList(ShopListResponse response) {
+        if (response != null) {
+            refreshView.refreshComplete();
+            mData.addAll(response.getData().getData());
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    @Override
+    public void onError() {
+        refreshView.refreshComplete();
     }
 }

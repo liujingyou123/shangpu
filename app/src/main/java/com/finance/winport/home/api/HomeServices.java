@@ -2,11 +2,14 @@ package com.finance.winport.home.api;
 
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.home.model.BannerResponse;
+import com.finance.winport.home.model.CollectionResponse;
+import com.finance.winport.home.model.MetroResponse;
 import com.finance.winport.home.model.RegionResponse;
 import com.finance.winport.home.model.ShopCount;
 import com.finance.winport.home.model.ShopDetail;
 import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.home.model.ShopRequset;
+import com.finance.winport.home.model.TagResponse;
 
 import java.util.HashMap;
 
@@ -30,10 +33,9 @@ public interface HomeServices {
     @POST("customerapp/api/base/area/v1.0.0")
     Observable<RegionResponse> getDistrict(@Body HashMap params);
 
-
     //收藏
     @POST("customerapp/api/shop/createCollected/v1.0.0")
-    Observable<BaseResponse> collectShop(@Body HashMap params);
+    Observable<CollectionResponse> collectShop(@Body HashMap params);
 
     //商铺详情
     @POST("customerapp/api/shop/queryShopDetail/v1.0.0")
@@ -51,4 +53,12 @@ public interface HomeServices {
     //广告banner
     @POST("customerapp/api/base/advList/v1.0.0")
     Observable<BannerResponse> getBanners(@Body HashMap params);
+
+    //地铁
+    @POST("customerapp/api/base/queryMetro/v1.0.0")
+    Observable<MetroResponse> getMetros(@Body HashMap params);
+
+    //标签接口
+    @POST("customerapp/api/base/tagList/v1.0.0")
+    Observable<TagResponse> getTagList(@Body HashMap params);
 }

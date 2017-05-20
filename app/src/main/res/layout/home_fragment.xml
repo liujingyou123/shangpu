@@ -26,7 +26,7 @@
             android:divider="@null"
             android:dividerHeight="0dp"
             android:fadingEdge="none"
-            android:scrollbarStyle="outsideOverlay" />
+            android:scrollbars="none"/>
     </com.finance.winport.view.refreshview.XPtrFrameLayout>
 
     <com.finance.winport.view.home.SelectView
