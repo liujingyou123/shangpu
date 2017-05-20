@@ -63,7 +63,7 @@ public class AppointShopList extends BaseResponse {
              * applyTime : null
              */
 
-            public int id;
+            public String id;
             public String coverImg;
             public String address;
             public String rentTypeName;

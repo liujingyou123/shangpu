@@ -62,7 +62,7 @@ public class CollectionShopList extends BaseResponse {
              * rentStatus : 1
              */
 
-            public int id;
+            public String id;
             public String coverImg;
             public String address;
             public String rentTypeName;
