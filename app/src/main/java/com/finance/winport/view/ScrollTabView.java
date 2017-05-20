@@ -121,8 +121,16 @@ public class ScrollTabView extends LinearLayout {
 
             setSeletViewTab(position);
         }
-
     }
+
+    public void setLinpuGone() {
+        tvLinpu.setVisibility(View.GONE);
+    }
+
+    public void setYingYuFeiyongGone() {
+        tvYingyufeiyong.setVisibility(View.GONE);
+    }
+
 
     private int getOffsetByIndex(int index) {
         View subView = viewTabs.getChildAt(index);

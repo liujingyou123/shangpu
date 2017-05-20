@@ -520,7 +520,6 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         showPrice(1);
         TextViewUtil.setPartialSizeAndColor(tvZhuanprice, 0, zhuan.length(), 18, 0, zhuan.length(), Color.parseColor("#FF5851"));
 
-
         if (data.getNearInfoList() != null && data.getNearInfoList().size() > 0) {
             viewSpaceLinpu.setVisibility(View.VISIBLE);
             llLinpu.setVisibility(View.VISIBLE);
@@ -546,6 +545,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         } else {
             viewSpaceLinpu.setVisibility(View.GONE);
             llLinpu.setVisibility(View.GONE);
+            stv.setLinpuGone();
         }
 
         tvCenggao.setText((data.getHeight() == 0 ? "--" : data.getHeight() + "m"));
@@ -566,6 +566,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         } else if (data.getElectricRate() == 0 && data.getWaterRate() == 0 && data.getGasRate() == 0 && data.getPropertyRate() == 0) {
             viewSpaceJingyingfeiyong.setVisibility(View.GONE);
             llJingyingfeiyong.setVisibility(View.GONE);
+            stv.setYingYuFeiyongGone();
         } else {
             viewSpaceJingyingfeiyong.setVisibility(View.VISIBLE);
             llJingyingfeiyongone.setVisibility(View.GONE);
