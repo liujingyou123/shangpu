@@ -5,6 +5,7 @@ package com.finance.winport.trade.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.GridLayout;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.finance.winport.R;
 import com.finance.winport.dialog.NoticeDelDialog;
 import com.finance.winport.image.Batman;
 import com.finance.winport.trade.model.Trade;
+import com.finance.winport.trade.presenter.TradeCirclePresenter;
 import com.finance.winport.util.UnitUtil;
 
 import java.util.List;
@@ -29,10 +31,12 @@ import butterknife.ButterKnife;
 public class TradeCircleAdapter extends BaseAdapter {
     private Context mContext;
     private List<Trade> mData;
+    private TradeCirclePresenter mPresenter;
 
-    public TradeCircleAdapter(Context mContext, List<Trade> mData) {
+    public TradeCircleAdapter(Context mContext, List<Trade> mData, TradeCirclePresenter presenter) {
         this.mContext = mContext;
         this.mData = mData;
+        this.mPresenter = presenter;
     }
 
     @Override
@@ -41,7 +45,7 @@ public class TradeCircleAdapter extends BaseAdapter {
         if (mData != null) {
             ret = mData.size();
         }
-        return 20;
+        return ret;
     }
 
     @Override
@@ -59,7 +63,7 @@ public class TradeCircleAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder;
         if (view == null) {
             view = LayoutInflater.from(mContext).inflate(R.layout.adapter_item_trade, null);
@@ -69,79 +73,72 @@ public class TradeCircleAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        int index = i + 1;
-
-        viewHolder.glImages.setVisibility(View.VISIBLE);
-        viewHolder.tvSub.setVisibility(View.GONE);
-        viewHolder.rlHref.setVisibility(View.GONE);
-
-//        viewHolder.glImages.removeAllViews();
-//
-//        if (index == 1) {
-//            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 247.5f));
-//
-//
-//            viewHolder.glImages.setLayoutParams(lp);
-//            viewHolder.glImages.setColumnCount(1);
-//            viewHolder.glImages.setRowCount(1);
-//        } else if (index == 2) {
-//            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 120f));
-//
-//            viewHolder.glImages.setLayoutParams(lp);
-//            viewHolder.glImages.setColumnCount(2);
-//            viewHolder.glImages.setRowCount(1);
-//        } else if (index == 3) {
-//            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 85f));
-//
-//            viewHolder.glImages.setLayoutParams(lp);
-//            viewHolder.glImages.setColumnCount(3);
-//            viewHolder.glImages.setRowCount(1);
-//        } else if (index == 4) {
-//            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 247.5f));
-//
-//            viewHolder.glImages.setLayoutParams(lp);
-//            viewHolder.glImages.setColumnCount(2);
-//            viewHolder.glImages.setRowCount(2);
-//        } else if (index == 5 || index == 6) {
-//            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 163.5f));
-//
-//            viewHolder.glImages.setLayoutParams(lp);
-//            viewHolder.glImages.setColumnCount(3);
-//            viewHolder.glImages.setRowCount(2);
-//        } else if (index == 7 || index == 8 || index == 9) {
-//            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 247.5f));
-//
-//            viewHolder.glImages.setLayoutParams(lp);
-//            viewHolder.glImages.setColumnCount(3);
-//            viewHolder.glImages.setRowCount(3);
-//        } else {
-//            viewHolder.glImages.setVisibility(View.GONE);
-//            viewHolder.tvSub.setVisibility(View.VISIBLE);
-//            viewHolder.rlHref.setVisibility(View.VISIBLE);
-//        }
-//
-//        for (int j = 0; j < index; j++) {
-//            viewHolder.glImages.addView(getView());
-//        }
-////
-        viewHolder.imvDel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NoticeDelDialog dialog = new NoticeDelDialog(mContext);
-                dialog.show();
+        Trade trade = mData.get(i);
+        if (trade != null) {
+            viewHolder.tvTitle.setText(trade.getTitle());
+            viewHolder.tvTime.setText(trade.getDateTime());
+            viewHolder.tvZan.setText(trade.getPraiseNumber() + "");
+            if (TextUtils.isEmpty(trade.getLikeStatus()) && "1".equals(trade.getLikeStatus())) {
+                viewHolder.tvZan.setSelected(true);
+            } else {
+                viewHolder.tvZan.setSelected(false);
             }
-        });
+            viewHolder.tvComments.setText(trade.getCommentNumber() + "");
+            if (trade != null && trade.getImgList().size() > 0) {
+                viewHolder.glImages.setVisibility(View.VISIBLE);
+                setGridLayout(viewHolder, trade.getImgList());
+            } else {
+                viewHolder.glImages.setVisibility(View.GONE);
+            }
 
-        setGridLayout(viewHolder, index);
+            if (!TextUtils.isEmpty(trade.getContent())) {
+                viewHolder.tvSub.setVisibility(View.VISIBLE);
+                viewHolder.tvSub.setText(trade.getContent());
+            } else {
+                viewHolder.tvSub.setVisibility(View.GONE);
+            }
+            if (trade.getH5obj() != null) {
+                viewHolder.rlHref.setVisibility(View.VISIBLE);
+                Batman.getInstance().fromNet(trade.getH5obj().getUrl(), viewHolder.imvHref);
+                viewHolder.tvHrefTitle.setText(trade.getH5obj().getTitle());
+                viewHolder.tvHrefSub.setText(trade.getH5obj().getContent());
+
+            } else {
+                viewHolder.rlHref.setVisibility(View.GONE);
+            }
+
+            viewHolder.tvZan.setOnClickListener(new View.OnClickListener() {
+                int index = i;
+
+                @Override
+                public void onClick(View v) {
+                    if (v.isSelected()) {  //取消点赞
+                        mPresenter.cancelzanTopic(mData.get(index).getTopicId()+"",index);
+                    } else { //点在
+                        mPresenter.zanTopic(mData.get(index).getTopicId()+"",index);
+                    }
+                }
+            });
+
+            viewHolder.imvDel.setOnClickListener(new View.OnClickListener() {
+                int index = i;
+
+                @Override
+                public void onClick(View v) {
+                    NoticeDelDialog dialog = new NoticeDelDialog(mContext);
+                    dialog.show();
+                }
+            });
+        }
+
         return view;
     }
 
-    private void setGridLayout(ViewHolder viewHolder, int imageSize) {
+    private void setGridLayout(ViewHolder viewHolder, List<Trade.imgBean> imageUrls) {
+        int imageSize = imageUrls.size();
         viewHolder.glImages.removeAllViews();
-
         if (imageSize == 1) {
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 247.5f));
-
 
             viewHolder.glImages.setLayoutParams(lp);
             viewHolder.glImages.setColumnCount(1);
@@ -170,20 +167,22 @@ public class TradeCircleAdapter extends BaseAdapter {
             viewHolder.glImages.setLayoutParams(lp);
             viewHolder.glImages.setColumnCount(3);
             viewHolder.glImages.setRowCount(2);
-        } else if (imageSize == 7 || imageSize == 8 || imageSize == 9) {
+        } else { // if (imageSize == 7 || imageSize == 8 || imageSize == 9)
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 247.5f));
 
             viewHolder.glImages.setLayoutParams(lp);
             viewHolder.glImages.setColumnCount(3);
             viewHolder.glImages.setRowCount(3);
-        } else { //TODO  这里仅做UI调试
-            viewHolder.glImages.setVisibility(View.GONE);
-            viewHolder.tvSub.setVisibility(View.VISIBLE);
-            viewHolder.rlHref.setVisibility(View.VISIBLE);
         }
+//        else {
+//            viewHolder.glImages.setVisibility(View.GONE);
+//            viewHolder.tvSub.setVisibility(View.VISIBLE);
+//            viewHolder.rlHref.setVisibility(View.VISIBLE);
+//        }
 
+        imageSize = (imageSize > 9 ? 9 : imageSize);
         for (int j = 0; j < imageSize; j++) {
-            viewHolder.glImages.addView(getView(null));
+            viewHolder.glImages.addView(getView(imageUrls.get(j).getImgUrl()));
         }
     }
 
@@ -191,8 +190,7 @@ public class TradeCircleAdapter extends BaseAdapter {
 
         ImageView imageView = new ImageView(mContext);
 
-        //TODO 真是数据 用URL
-        Batman.getInstance().fromNet("http://img0.imgtn.bdimg.com/it/u=941334686,3174396022&fm=23&gp=0.jpg", imageView);
+        Batman.getInstance().fromNet(url, imageView);
         GridLayout.Spec rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1.0f);
         GridLayout.Spec columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1.0f);
 
