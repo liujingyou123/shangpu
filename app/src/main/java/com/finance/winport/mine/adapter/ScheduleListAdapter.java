@@ -8,8 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.mine.model.ScheduleListResponse;
 
-import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,11 +20,13 @@ import butterknife.ButterKnife;
  */
 public class ScheduleListAdapter extends BaseAdapter {
     protected Context context;
+    private List<ScheduleListResponse.DataBean.ScheduleListBean> baseData;
 
-    //    public LoanListAdapter(Context context, List<MessageListResponse.DataBean> baseData) {
-//        this.baseData = baseData;
-//        this.context = context;
-//    }
+    public ScheduleListAdapter(Context context, List<ScheduleListResponse.DataBean.ScheduleListBean> baseData) {
+        this.baseData = baseData;
+        this.context = context;
+    }
+
     public ScheduleListAdapter(Context context) {
         this.context = context;
     }
@@ -31,12 +34,12 @@ public class ScheduleListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 10;
+        return baseData.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return position;
+        return baseData.get(position);
     }
 
     @Override
@@ -56,27 +59,36 @@ public class ScheduleListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        holder.time.setText(baseData.get(position).getOrderTime());
+        if (baseData.get(position).getServiceType() == 0) {
+
+            holder.type.setText("旺铺寻租");
+        } else if (baseData.get(position).getServiceType() == 1) {
+
+            holder.type.setText("带我踩盘");
+        } else if (baseData.get(position).getServiceType() == 2) {
+
+            holder.type.setText("签约租铺");
+        }
+        holder.address.setText(baseData.get(position).getDistrict() + baseData.get(position).getAddress());
+        if (baseData.get(position).getStatus() == 2) {
+
+            holder.status.setVisibility(View.VISIBLE);
+        }
+        else{
+            holder.status.setVisibility(View.GONE);
+        }
         return convertView;
     }
 
-    private void readMessage(int messageId, final int position) {
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("messId", messageId);
-//        ServiceExecutor.readMessage(params, new ResultCallBack<Response>() {
-//            @Override
-//            public void onSuccess(Response response) {
-////                setCheckPosition(position);
-//                EventBusManager.post(new NoticeRefreshEvent(true));
-//            }
-//
-//            @Override
-//            public void onFailure(String errorMsg) {
-//            }
-//        });
-    }
+
 
 
     static class ViewHolder {
+        @BindView(R.id.time)
+        TextView time;
+        @BindView(R.id.status)
+        TextView status;
         @BindView(R.id.bottom_divider)
         View bottomDivider;
         @BindView(R.id.type)

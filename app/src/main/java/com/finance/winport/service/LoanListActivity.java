@@ -47,7 +47,7 @@ public class LoanListActivity extends BaseActivity implements ILoanListView{
 
     private int pageNum = 1;
 
-    private List<LoanListResponse.DataBeanX.DataBean> list = new ArrayList<>();;
+    private List<LoanListResponse.DataBeanX.DataBean> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

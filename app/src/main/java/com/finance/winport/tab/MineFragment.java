@@ -32,6 +32,10 @@ import com.finance.winport.mine.MyScheduleListActivity;
 import com.finance.winport.mine.SettingsActivity;
 import com.finance.winport.mine.ShopFocusActivity;
 import com.finance.winport.mine.SuggestActivity;
+import com.finance.winport.mine.model.PersonalInfoResponse;
+import com.finance.winport.mine.presenter.IPersonalInfoView;
+import com.finance.winport.mine.presenter.PersonalInfoPresenter;
+import com.finance.winport.mine.presenter.ShopFocusPresenter;
 import com.finance.winport.permission.PermissionsManager;
 import com.finance.winport.permission.PermissionsResultAction;
 import com.finance.winport.tab.event.SelectImageEvent;
@@ -48,6 +52,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -69,7 +74,7 @@ import static android.app.Activity.RESULT_OK;
  *
  */
 
-public class MineFragment extends BaseFragment {
+public class MineFragment extends BaseFragment implements IPersonalInfoView {
     private static final int REQUEST_CODE_HEAD = 10;
     @BindView(R.id.mine_winport)
     StopWatchTextView mineWinport;
@@ -108,6 +113,9 @@ public class MineFragment extends BaseFragment {
     @BindView(R.id.concern)
     TextView concern;
     Unbinder unbinder;
+    private PersonalInfoPresenter mPresenter;
+    private ArrayList<Integer> selectList = new ArrayList<>();
+    private String industryName,blockName;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -133,7 +141,15 @@ public class MineFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.mine_fragment, container, false);
         unbinder = ButterKnife.bind(this, root);
+        getData();
         return root;
+    }
+
+    private void getData() {
+        if (mPresenter == null) {
+            mPresenter = new PersonalInfoPresenter(this);
+        }
+        mPresenter.getPersonalInfo();
     }
 
     private void setHuangLi() {
@@ -283,7 +299,11 @@ public class MineFragment extends BaseFragment {
 
     // 关注的旺铺页面
     private void toConcern() {
-        startActivity(new Intent(getActivity(), ShopFocusActivity.class));
+        Intent intent = new Intent(getActivity(), ShopFocusActivity.class);
+        intent.putIntegerArrayListExtra("areaList",selectList);
+        intent.putExtra("industryName",industryName);
+        intent.putExtra("blockName",blockName);
+        startActivity(intent);
     }
 
     private void upLoadImage(final String path) {
@@ -380,4 +400,150 @@ public class MineFragment extends BaseFragment {
     }
 
 
+    @Override
+    public void showPersonalInfo(PersonalInfoResponse response) {
+
+
+        selectList.add(1);
+        selectList.add(3);
+        selectList.add(4);
+        selectList.add(5);
+        selectList.add(6);
+//        selectList = response.getData().getList();
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i <selectList.size() ; i++) {
+            if(i==0){
+
+                if(selectList.size()==1){
+
+                    switch (selectList.get(i)) {
+                        case 0:
+                            s.append("20㎡以下");
+                            break;
+                        case 1:
+                            s.append("20-50㎡");
+                            break;
+                        case 2:
+                            s.append("50-100㎡");
+                            break;
+                        case 3:
+                            s.append("100-200㎡");
+                            break;
+                        case 4:
+                            s.append("200-500㎡");
+                            break;
+                        case 5:
+                            s.append("500-1000㎡");
+                            break;
+                        case 6:
+                            s.append("1000㎡以上");
+                            break;
+                    }
+
+                }
+                else{
+                    switch (selectList.get(i)) {
+                        case 0:
+                            s.append("20㎡以下"+"\n");
+                            break;
+                        case 1:
+                            s.append("20-50㎡"+"\n");
+                            break;
+                        case 2:
+                            s.append("50-100㎡"+"\n");
+                            break;
+                        case 3:
+                            s.append("100-200㎡"+"\n");
+                            break;
+                        case 4:
+                            s.append("200-500㎡"+"\n");
+                            break;
+                        case 5:
+                            s.append("500-1000㎡"+"\n");
+                            break;
+                        case 6:
+                            s.append("1000㎡以上"+"\n");
+                            break;
+                    }
+                }
+            }
+            else if(selectList.size()<5){
+                switch (selectList.get(i)) {
+                    case 0:
+                        s.append("-"+"20㎡以下");
+                        break;
+                    case 1:
+                        s.append("-"+"20-50㎡");
+                        break;
+                    case 2:
+                        s.append("-"+"50-100㎡");
+                        break;
+                    case 3:
+                        s.append("-"+"100-200㎡");
+                        break;
+                    case 4:
+                        s.append("-"+"200-500㎡");
+                        break;
+                    case 5:
+                        s.append("-"+"500-1000㎡");
+                        break;
+                    case 6:
+                        s.append("-"+"1000㎡以上");
+                        break;
+                }
+            }else if(i==3){
+                switch (selectList.get(i)) {
+                    case 0:
+                        s.append("-"+"20㎡以下\n");
+                        break;
+                    case 1:
+                        s.append("-"+"20-50㎡\n");
+                        break;
+                    case 2:
+                        s.append("-"+"50-100㎡\n");
+                        break;
+                    case 3:
+                        s.append("-"+"100-200㎡\n");
+                        break;
+                    case 4:
+                        s.append("-"+"200-500㎡\n");
+                        break;
+                    case 5:
+                        s.append("-"+"500-1000㎡\n");
+                        break;
+                    case 6:
+                        s.append("-"+"1000㎡以上\n");
+                        break;
+                }
+            }else{
+                switch (selectList.get(i)) {
+                    case 0:
+                        s.append("-"+"20㎡以下");
+                        break;
+                    case 1:
+                        s.append("-"+"20-50㎡");
+                        break;
+                    case 2:
+                        s.append("-"+"50-100㎡");
+                        break;
+                    case 3:
+                        s.append("-"+"100-200㎡");
+                        break;
+                    case 4:
+                        s.append("-"+"200-500㎡");
+                        break;
+                    case 5:
+                        s.append("-"+"500-1000㎡");
+                        break;
+                    case 6:
+                        s.append("-"+"1000㎡以上");
+                        break;
+                }
+            }
+        }
+        phone.setText(response.getData().getPhone());
+        industryName = response.getData().getIndustryName();
+        blockName = response.getData().getBlockName();
+        concern.setText(response.getData().getBlockName()+"-"+response.getData().getIndustryName()+"-"+s.toString());
+    }
 }

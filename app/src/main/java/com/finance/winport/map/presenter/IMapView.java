@@ -11,7 +11,9 @@ import com.finance.winport.service.model.ShopOrderCountResponse;
 
 public interface IMapView {
     void showMapShop(MapShopResponse response);
+    void showRemoveMapShop(MapShopResponse response);
     void showMapArea(MapAreaResponse response);
     void showMapPlate(MapAreaResponse response);
+    void showRemoveMapPlate(MapAreaResponse response);
 
 }

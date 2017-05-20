@@ -1,5 +1,7 @@
 package com.finance.winport.map.presenter;
 
+import android.text.TextUtils;
+
 import com.finance.winport.map.api.MapServices;
 import com.finance.winport.map.model.MapAreaRequest;
 import com.finance.winport.map.model.MapAreaResponse;
@@ -26,14 +28,21 @@ public class MapPresenter {
         this.mServiceView = mServiceView;
     }
 
-    public void getMapShop(MapShopRequest request) {
+    public void getMapShop(final MapShopRequest request) {
 
 
         ToolsUtil.subscribe(ToolsUtil.createService(MapServices.class).getMapShop(request), new NetSubscriber<MapShopResponse>() {
             @Override
             public void response(MapShopResponse response) {
                 if (mServiceView != null) {
-                    mServiceView.showMapShop(response);
+
+                    if(TextUtils.isEmpty(request.getBlockId())){
+                        mServiceView.showRemoveMapShop(response);
+                    }
+                    else{
+
+                        mServiceView.showMapShop(response);
+                    }
                 }
             }
         });
@@ -52,7 +61,13 @@ public class MapPresenter {
                         mServiceView.showMapArea(response);
                     }
                     else{
-                        mServiceView.showMapPlate(response);
+                        if (TextUtils.isEmpty(request.getDistrictId())) {
+                            mServiceView.showRemoveMapPlate(response);
+
+                        }
+                        else{
+                            mServiceView.showMapPlate(response);
+                        }
                     }
                 }
             }

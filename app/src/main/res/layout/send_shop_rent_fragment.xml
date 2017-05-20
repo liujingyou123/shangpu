@@ -227,7 +227,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="267dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="#ffffff"
                     android:orientation="vertical">
@@ -447,6 +447,7 @@
         </ScrollView>
 
         <TextView
+            android:id="@+id/submit"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="#ffa73b"

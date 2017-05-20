@@ -1,6 +1,7 @@
 package com.finance.winport.service.fragment;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.InputFilter;
@@ -15,6 +16,12 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.base.BaseResponse;
+import com.finance.winport.service.SendSuccessActivity;
+import com.finance.winport.service.model.OrderShopRequest;
+import com.finance.winport.service.presenter.ISendOrderView;
+import com.finance.winport.service.presenter.SendOrderPresenter;
+import com.finance.winport.service.presenter.ServicePresenter;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.view.CountDownButton;
 import com.finance.winport.view.HeaderTextView;
@@ -30,7 +37,7 @@ import butterknife.OnClick;
  *
  */
 
-public class SendShopOrderFragment extends BaseFragment {
+public class SendShopOrderFragment extends BaseFragment implements ISendOrderView{
 
 
     @BindView(R.id.imv_focus_house_back)
@@ -73,6 +80,7 @@ public class SendShopOrderFragment extends BaseFragment {
     View imgLine;
     @BindView(R.id.modify_area)
     LinearLayout modifyArea;
+    private SendOrderPresenter mPresenter;
 
     @Nullable
     @Override
@@ -97,7 +105,19 @@ public class SendShopOrderFragment extends BaseFragment {
         phoneView.setText("188 7878 7998");
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.order_time, R.id.modify})
+    private void getData() {
+        OrderShopRequest request = new OrderShopRequest();
+        request.setContactName(nameView.getText());
+        request.setContactMobile(phoneView.getText());
+        request.setShopId("1");
+        request.setSubscribeTime(orderTime.getText());
+        if (mPresenter == null) {
+            mPresenter = new SendOrderPresenter(this);
+        }
+        mPresenter.getShopOrderResult(request);
+    }
+
+    @OnClick({R.id.imv_focus_house_back, R.id.order_time, R.id.modify, R.id.submit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -125,7 +145,17 @@ public class SendShopOrderFragment extends BaseFragment {
                 animator1.start();
                 modify.setVisibility(View.GONE);
                 break;
+
+            case R.id.submit:
+                getData();
+                break;
         }
+    }
+
+    @Override
+    public void shopSendOrderResult(BaseResponse response) {
+
+        startActivity(new Intent(getActivity(), SendSuccessActivity.class));
     }
 
 //    @OnClick(R.id.imv_focus_house_back)

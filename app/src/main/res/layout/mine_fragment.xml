@@ -76,6 +76,8 @@
                     android:layout_marginTop="10dp"
                     android:layout_toRightOf="@+id/shop_img"
                     android:hint="去设置关注的旺铺"
+                    android:singleLine="true"
+                    android:layout_marginRight="80dp"
                     android:textColorHint="#999999"
                     android:textColor="#999999"
                     android:textSize="13sp" />

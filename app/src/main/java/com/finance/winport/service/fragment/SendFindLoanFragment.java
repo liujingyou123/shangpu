@@ -1,6 +1,7 @@
 package com.finance.winport.service.fragment;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.InputFilter;
@@ -15,10 +16,15 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.dialog.ScrollSelectDialog;
+import com.finance.winport.service.SendSuccessActivity;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.view.CountDownButton;
 import com.finance.winport.view.HeaderTextView;
 import com.finance.winport.view.dialog.DateSelectDialog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -79,6 +85,9 @@ public class SendFindLoanFragment extends BaseFragment {
     HeaderTextView orderTime;
     @BindView(R.id.modify_area)
     LinearLayout modifyArea;
+    ScrollSelectDialog scrollDialog;
+    @BindView(R.id.loan_time)
+    HeaderTextView loanTime;
 
 
     @Nullable
@@ -97,16 +106,17 @@ public class SendFindLoanFragment extends BaseFragment {
     }
 
     public void init() {
-        phoneView.setText("18878787998");
+
         phoneView.setFilters(new InputFilter[]{TextViewUtil.phoneFormat()});
 //        phoneView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
         phoneView.setInputType(InputType.TYPE_CLASS_PHONE);
         verifyCodeView.setInputType(InputType.TYPE_CLASS_NUMBER);
         inputLoanMoney.setInputType(InputType.TYPE_CLASS_NUMBER);
+        phoneView.setText("188 7878 7998");
 
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.modify, R.id.order_time})
+    @OnClick({R.id.imv_focus_house_back, R.id.modify, R.id.order_time, R.id.loan_time, R.id.submit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -119,7 +129,7 @@ public class SendFindLoanFragment extends BaseFragment {
 //                imgLine.setVisibility(View.VISIBLE);
                 modifyArea.setVisibility(View.VISIBLE);
 
-                ObjectAnimator animator1 = new ObjectAnimator().ofFloat(modifyArea, "scaleY", 0f,  1f);
+                ObjectAnimator animator1 = new ObjectAnimator().ofFloat(modifyArea, "scaleY", 0f, 1f);
                 animator1.setDuration(200);
                 animator1.setInterpolator(new LinearInterpolator());
                 animator1.start();
@@ -133,6 +143,31 @@ public class SendFindLoanFragment extends BaseFragment {
                     }
                 });
                 dialog.show();
+                break;
+
+            case R.id.loan_time:
+                List<String> list = new ArrayList<>();
+                list.add("1个月");
+                list.add("3个月");
+                list.add("6个月");
+                list.add("12个月");
+                list.add("24个月");
+                list.add("36个月");
+                if (scrollDialog == null) {
+
+                    scrollDialog = new ScrollSelectDialog(getContext(), list, new ScrollSelectDialog.OnSelectListener() {
+                        @Override
+                        public void onSelect(String data) {
+
+                            loanTime.setText(data);
+
+                        }
+                    });
+                }
+                scrollDialog.show();
+                break;
+            case R.id.submit:
+                startActivity(new Intent(getActivity(), SendSuccessActivity.class));
                 break;
         }
     }
