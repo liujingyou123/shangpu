@@ -76,6 +76,10 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
     TextView money;
     @BindView(R.id.status)
     TextView status;
+    @BindView(R.id.shop_area)
+    LinearLayout shopArea;
+    @BindView(R.id.loan_area)
+    LinearLayout loanArea;
     private ServiceScheduleListAdapter adapter;
 
     private FindServiceHomePresenter mPresenter;
@@ -158,11 +162,23 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
             adapter.notifyDataSetChanged();
         }
 
-        address.setText(response.getData().getShopObject().getAddress());
-        visitCount.setText("一周内"+response.getData().getShopObject().getVisitCount()+"位老板浏览了此店铺");
-        time.setText(response.getData().getLoadDTO().getApplyTime());
-        money.setText(response.getData().getLoadDTO().getLoanLimit()+"万元  "+response.getData().getLoadDTO().getLoanMaturity()+"个月");
-        status.setText(response.getData().getLoadDTO().getStatus());
+        if(response.getData().getShopObject() == null){
+            shopArea.setVisibility(View.GONE);
+        }
+        else {
+
+            address.setText(response.getData().getShopObject().getAddress());
+            visitCount.setText("一周内" + response.getData().getShopObject().getVisitCount() + "位老板浏览了此店铺");
+        }
+        if (response.getData().getLoadDTO() == null) {
+
+            loanArea.setVisibility(View.GONE);
+        }else {
+
+            time.setText(response.getData().getLoadDTO().getApplyTime());
+            money.setText(response.getData().getLoadDTO().getLoanLimit() + "万元  " + response.getData().getLoadDTO().getLoanMaturity() + "个月");
+            status.setText(response.getData().getLoadDTO().getStatus());
+        }
     }
 
     public void initNew() {

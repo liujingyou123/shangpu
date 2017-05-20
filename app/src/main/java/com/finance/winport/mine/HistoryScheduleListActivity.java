@@ -12,14 +12,22 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.mine.adapter.ScheduleListAdapter;
+import com.finance.winport.mine.model.ScheduleListResponse;
+import com.finance.winport.mine.presenter.IScheduleListView;
+import com.finance.winport.mine.presenter.ScheduleListPresenter;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
+import com.finance.winport.view.refreshview.PtrDefaultHandler2;
+import com.finance.winport.view.refreshview.PtrFrameLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class HistoryScheduleListActivity extends BaseActivity {
+public class HistoryScheduleListActivity extends BaseActivity implements IScheduleListView {
 
     @BindView(R.id.imv_focus_house_back)
     ImageView imvFocusHouseBack;
@@ -37,19 +45,49 @@ public class HistoryScheduleListActivity extends BaseActivity {
     RelativeLayout empty;
     private ScheduleListAdapter adapter;
 
+    private int pageNum = 1;
+    private List<ScheduleListResponse.DataBean.ScheduleListBean> list = new ArrayList<>();
+    private ScheduleListPresenter mPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_schedule_list);
         ButterKnife.bind(this);
-        setAdapter();
+        init();
+        getData();
+    }
+
+    private void getData() {
+        if (mPresenter == null) {
+            mPresenter = new ScheduleListPresenter(this);
+        }
+        mPresenter.getScheduleList(pageNum,1);
     }
 
 
-    private void setAdapter() {
+    public void init(){
         tvFocusHouse.setText("历史日程");
+        refreshView.setMode(PtrFrameLayout.Mode.LOAD_MORE);
+        refreshView.setPtrHandler(new PtrDefaultHandler2() {
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+//                pageNumber = 1;
+//                asyncData();
+            }
+
+            @Override
+            public void onLoadMoreBegin(PtrFrameLayout frame) {
+                pageNum++;
+                getData();
+            }
+        });
+    }
+
+    private void setAdapter(ScheduleListResponse response) {
+        list.addAll(response.getData().getScheduleList());
         if (adapter == null) {
-            adapter = new ScheduleListAdapter(HistoryScheduleListActivity.this);
+            adapter = new ScheduleListAdapter(HistoryScheduleListActivity.this,list);
             mListView.setAdapter(adapter);
 //            totalPage = (int) Math.ceil(adapter.getTotalCount() / (float) LIMIT);
         } else {
@@ -63,7 +101,9 @@ public class HistoryScheduleListActivity extends BaseActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(HistoryScheduleListActivity.this,ScheduleDetailActivity.class));
+                Intent intent = new Intent(HistoryScheduleListActivity.this,ScheduleDetailActivity.class);
+                intent.putExtra("scheduleId",list.get(position).getScheduleId());
+                startActivity(intent);
             }
         });
     }
@@ -71,5 +111,11 @@ public class HistoryScheduleListActivity extends BaseActivity {
     @OnClick(R.id.imv_focus_house_back)
     public void onViewClicked() {
         finish();
+    }
+
+    @Override
+    public void showScheduleList(ScheduleListResponse response) {
+        refreshView.refreshComplete();
+        setAdapter(response);
     }
 }

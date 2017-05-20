@@ -196,7 +196,7 @@ public class FindServiceResponse extends BaseResponse {
 
             private int id;
             private String coverImg;
-            private Object visitCount;
+            private String visitCount;
             private String address;
 
             public int getId() {
@@ -215,11 +215,11 @@ public class FindServiceResponse extends BaseResponse {
                 this.coverImg = coverImg;
             }
 
-            public Object getVisitCount() {
+            public String getVisitCount() {
                 return visitCount;
             }
 
-            public void setVisitCount(Object visitCount) {
+            public void setVisitCount(String visitCount) {
                 this.visitCount = visitCount;
             }
 

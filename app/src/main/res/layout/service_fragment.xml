@@ -124,7 +124,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="18dp"
-                        android:drawableLeft="@mipmap/calendar"
+                        android:drawableLeft="@mipmap/personal_icon_scedular"
                         android:drawablePadding="10dp"
                         android:gravity="center"
                         android:text="我的日程"
@@ -205,6 +205,7 @@
                 android:scrollbars="none" />
 
             <LinearLayout
+                android:id="@+id/shop_area"
                 android:layout_width="match_parent"
                 android:layout_height="165dp"
                 android:layout_marginLeft="10dp"
@@ -299,6 +300,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/loan_area"
                 android:layout_width="match_parent"
                 android:layout_height="149dp"
                 android:layout_marginBottom="10dp"

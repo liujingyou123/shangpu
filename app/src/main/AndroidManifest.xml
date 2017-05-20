@@ -97,17 +97,20 @@
         <activity
             android:name=".service.ShopRentActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan"/>
         <!-- 预约看铺 -->
         <activity
             android:name=".service.ShopOrderActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan"/>
         <!-- 找资金 -->
         <activity
             android:name=".service.FindLoanActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan"/>
         <!-- 更多 -->
         <activity
             android:name=".home.ShopMoreActivity"
@@ -222,6 +225,12 @@
         <!-- 反馈页面 -->
         <activity
             android:name=".mine.SuggestActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <!-- 发布成功页面 -->
+        <activity
+            android:name=".service.SendSuccessActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
