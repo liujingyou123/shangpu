@@ -2,6 +2,7 @@ package com.finance.winport.home.api;
 
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.home.model.BannerResponse;
+import com.finance.winport.home.model.CollectionResponse;
 import com.finance.winport.home.model.MetroResponse;
 import com.finance.winport.home.model.RegionResponse;
 import com.finance.winport.home.model.ShopCount;
@@ -34,7 +35,7 @@ public interface HomeServices {
 
     //收藏
     @POST("customerapp/api/shop/createCollected/v1.0.0")
-    Observable<BaseResponse> collectShop(@Body HashMap params);
+    Observable<CollectionResponse> collectShop(@Body HashMap params);
 
     //商铺详情
     @POST("customerapp/api/shop/queryShopDetail/v1.0.0")

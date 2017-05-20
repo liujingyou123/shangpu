@@ -24,6 +24,7 @@ import com.finance.winport.dialog.ShareDialog;
 import com.finance.winport.home.adapter.SupportTagAdapter;
 import com.finance.winport.home.adapter.TagAdapter;
 import com.finance.winport.home.adapter.TagDetailAdapter;
+import com.finance.winport.home.model.CollectionResponse;
 import com.finance.winport.home.model.ShopDetail;
 import com.finance.winport.home.presenter.ShopDetailPresenter;
 import com.finance.winport.home.view.IShopDetailView;
@@ -31,6 +32,7 @@ import com.finance.winport.image.GlideImageLoader;
 import com.finance.winport.log.XLog;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.TextViewUtil;
+import com.finance.winport.util.ToastUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.PositionScrollView;
 import com.finance.winport.view.ScrollTabView;
@@ -410,7 +412,17 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
 
                 break;
             case R.id.tv_collection:
-                mPresenter.collectShop(shopId);
+//                if (SharedPrefsUtil.getUserInfo() != null) {
+                    if (tvCollection.isSelected()) {
+                        mPresenter.cancelCollectShop(mShopDetail.getData().getIsCollected() + "");
+                    } else {
+                        mPresenter.collectShop(shopId);
+                    }
+//                } else {
+//                    Intent intent1 = new Intent(this, LoginActivity.class);
+//                    startActivity(intent1);
+//                }
+
                 break;
 
             case R.id.imv_change:
@@ -465,13 +477,27 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     }
 
     @Override
-    public void collectedShop(boolean isSuccess) {
-        if (isSuccess) {
+    public void collectedShop(CollectionResponse response) {
+        if (response != null && response.isSuccess()) {
+            mShopDetail.getData().setIsCollected(response.getData());
+            ToastUtil.show(this, "收藏成功");
             tvCollection.setSelected(true);
             tvCollection.setText("已收藏");
         } else {
             tvCollection.setSelected(false);
             tvCollection.setText("收藏");
+        }
+    }
+
+    @Override
+    public void cancelCollectedShop(boolean isSuccess) {
+        if (isSuccess) {
+            ToastUtil.show(this, "已取消收藏");
+            tvCollection.setSelected(false);
+            tvCollection.setText("收藏");
+        } else {
+            tvCollection.setSelected(true);
+            tvCollection.setText("已收藏");
         }
     }
 
@@ -663,13 +689,9 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         if (data.getIsCollected() != 0) { //未收藏
             tvCollection.setSelected(true);
             tvCollection.setText("已收藏");
-            tvCollection.setClickable(false);
-            tvCollection.setEnabled(false);
         } else {
             tvCollection.setSelected(false);
             tvCollection.setText("收藏");
-            tvCollection.setClickable(true);
-            tvCollection.setEnabled(true);
         }
 
         if (data.getIsVisit() != 0) { //已预约
