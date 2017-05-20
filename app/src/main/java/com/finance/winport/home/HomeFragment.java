@@ -182,9 +182,11 @@ public class HomeFragment extends BaseFragment implements IHomeView {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     ShopListResponse.DataBean.Shop shop = (ShopListResponse.DataBean.Shop) parent.getItemAtPosition(position);
-                    Intent intent = new Intent(HomeFragment.this.getContext(), ShopDetailActivity.class);
-                    intent.putExtra("shopId", shop.getId());
-                    startActivity(intent);
+                    if (shop != null) {
+                        Intent intent = new Intent(HomeFragment.this.getContext(), ShopDetailActivity.class);
+                        intent.putExtra("shopId", shop.getId());
+                        startActivity(intent);
+                    }
                 }
             });
         }
@@ -407,8 +409,15 @@ public class HomeFragment extends BaseFragment implements IHomeView {
             if (refreshView.isRefreshing()) {
                 refreshView.refreshComplete();
             }
-//            mData.clear();
-            mData.addAll(response.getData().getData());
+            mData.clear();
+
+            if (response.getData().getData() == null || response.getData().getData().size() == 0) {
+                mData.add(null);
+                refreshView.setMode(PtrFrameLayout.Mode.REFRESH);
+            } else {
+                mData.addAll(response.getData().getData());
+                refreshView.setMode(PtrFrameLayout.Mode.BOTH);
+            }
             if (adapter != null) {
                 adapter.notifyDataSetChanged();
             }

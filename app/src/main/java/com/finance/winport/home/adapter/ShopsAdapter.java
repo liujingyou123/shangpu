@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
@@ -55,6 +56,20 @@ public class ShopsAdapter extends BaseAdapter {
         return i;
     }
 
+    public int getItemType(int position) {
+        int ret = 0;
+        if (mData != null && mData.size() > position) {
+            ShopListResponse.DataBean.Shop shop = mData.get(position);
+            if (shop == null) {
+                ret = 1;
+            } else {
+                ret = 2;
+            }
+        }
+
+        return ret;
+    }
+
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder;
@@ -66,28 +81,37 @@ public class ShopsAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        if (mData != null && i< mData.size()-1) {
+        if (mData != null && i < mData.size()) {
             ShopListResponse.DataBean.Shop ret = mData.get(i);
-            if (ret != null) {
-                viewHolder.tvShopname.setText(ret.getAddress()+ret.getRentTypeName());
-                viewHolder.tvAddress.setText(ret.getDistrictName()+" "+ret.getBlockName());
-                viewHolder.tvArea.setText(ret.getArea()+"㎡");
-                viewHolder.tvAverMoney.setText(ret.getRent()+"元／月");
-                viewHolder.tvDistance.setText(UnitUtil.mTokm(ret.getDistance()));
-                viewHolder.tvChangeMoney.setText("转让费"+UnitUtil.formatNum(ret.getTransferFee()) + "万元");
-                viewHolder.tvUpdateTime.setText(ret.getUpdateTime());
-                viewHolder.tvScanNum.setText(ret.getVisitCount()+"");
-                viewHolder.tvContactNum.setText(ret.getContactCount()+"");
+            int type = getItemType(i);
+            if (type == 1) {
+                viewHolder.rlData.setVisibility(View.GONE);
+                viewHolder.viewTrans.setVisibility(View.VISIBLE);
+            } else {
+                if (ret != null) {
+                    viewHolder.rlData.setVisibility(View.VISIBLE);
+                    viewHolder.viewTrans.setVisibility(View.GONE);
+                    viewHolder.tvShopname.setText(ret.getAddress() + ret.getRentTypeName());
+                    viewHolder.tvAddress.setText(ret.getDistrictName() + " " + ret.getBlockName());
+                    viewHolder.tvArea.setText(ret.getArea() + "㎡");
+                    viewHolder.tvAverMoney.setText(ret.getRent() + "元／月");
+                    viewHolder.tvDistance.setText(UnitUtil.mTokm(ret.getDistance()));
+                    viewHolder.tvChangeMoney.setText("转让费" + UnitUtil.formatNum(ret.getTransferFee()) + "万元");
+                    viewHolder.tvUpdateTime.setText(ret.getUpdateTime());
+                    viewHolder.tvScanNum.setText(ret.getVisitCount() + "");
+                    viewHolder.tvContactNum.setText(ret.getContactCount() + "");
 
-                Batman.getInstance().fromNet(ret.getCoverImg(), viewHolder.imvCover);
+                    Batman.getInstance().fromNet(ret.getCoverImg(), viewHolder.imvCover);
 
-                if (ret.getFeatureList() != null && ret.getFeatureList().size() > 0) {
-                    viewHolder.tgView.setAdapter(new TagAdapter(mContext, ret.getFeatureList()));
-                    viewHolder.llTag.setVisibility(View.VISIBLE);
-                } else {
-                    viewHolder.llTag.setVisibility(View.GONE);
+                    if (ret.getFeatureList() != null && ret.getFeatureList().size() > 0) {
+                        viewHolder.tgView.setAdapter(new TagAdapter(mContext, ret.getFeatureList()));
+                        viewHolder.llTag.setVisibility(View.VISIBLE);
+                    } else {
+                        viewHolder.llTag.setVisibility(View.GONE);
+                    }
                 }
             }
+
         }
 
 
@@ -122,6 +146,10 @@ public class ShopsAdapter extends BaseAdapter {
         TextView tvScanNum;
         @BindView(R.id.tv_contact_num)
         TextView tvContactNum;
+        @BindView(R.id.rl_data)
+        RelativeLayout rlData;
+        @BindView(R.id.view_trans)
+        View viewTrans;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
