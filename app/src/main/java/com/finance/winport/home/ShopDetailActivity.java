@@ -50,6 +50,7 @@ import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
 
 import java.lang.ref.WeakReference;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -127,8 +128,6 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     View viewLine;
     @BindView(R.id.tv_name_price)
     TextView tvNamePrice;
-    @BindView(R.id.imv_change)
-    ImageView imvChange;
     @BindView(R.id.tv_price)
     TextView tvPrice;
     @BindView(R.id.view_line_one)
@@ -203,6 +202,8 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     private String shopId;
     private ShopDetailPresenter mPresenter;
     private ShopDetail mShopDetail;
+    private String rent;
+    private String rent2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -343,7 +344,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         }
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.imv_back, R.id.tv_share, R.id.tv_shop_more, R.id.tv_jiucuo, R.id.tv_yuyue, R.id.tv_call, R.id.tv_collection})
+    @OnClick({R.id.imv_focus_house_back, R.id.imv_back, R.id.tv_share, R.id.tv_shop_more, R.id.tv_jiucuo, R.id.tv_yuyue, R.id.tv_call, R.id.tv_collection, R.id.imv_change})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -412,6 +413,15 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 mPresenter.collectShop(shopId);
                 break;
 
+            case R.id.imv_change:
+                String type = (String) tvPrice.getTag();
+                if ("1".equals(type)) {
+                    showPrice(2);
+                } else {
+                    showPrice(1);
+                }
+                break;
+
         }
     }
 
@@ -465,6 +475,30 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         }
     }
 
+    private void showPrice(int type) {
+        ShopDetail.DataBean data = mShopDetail.getData();
+        String price = UnitUtil.limitNum(data.getRent(), 99999);
+        if (type == 1) {
+            tvPrice.setTag("1");
+            String showRent = price + "/月";
+            tvPrice.setText(showRent + "(" + data.getRentWayName() + ")");
+            TextViewUtil.setPartialSizeAndColor(tvPrice, 0, showRent.length(), 18, 0, showRent.length(), Color.parseColor("#FF5851"));
+        } else {
+            tvPrice.setTag("2");
+            int rent = data.getRent();
+            BigDecimal bDrent = new BigDecimal(rent);
+            BigDecimal bDArea = new BigDecimal(data.getArea());
+            BigDecimal bDDay = new BigDecimal(30);
+
+            String preRent = bDrent.divide(bDArea, 10, BigDecimal.ROUND_HALF_UP).divide(bDDay, 10, BigDecimal.ROUND_HALF_UP).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
+            String showPre = preRent + "元/㎡/月";
+            tvPrice.setText(showPre + "(" + data.getRentWayName() + ")");
+            TextViewUtil.setPartialSizeAndColor(tvPrice, 0, showPre.length(), 18, 0, showPre.length(), Color.parseColor("#FF5851"));
+
+        }
+
+    }
+
     @Override
     public void getShopDetail(ShopDetail shopDetail) {
         mShopDetail = shopDetail;
@@ -473,8 +507,6 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         tvShopAddress.setText(" 　 " + data.getAddress());
         tvScan.setText(data.getVisitCount() + "浏览");
         tvLianxi.setText(data.getContactCount() + "联系");
-        String price = UnitUtil.limitNum(data.getRent(), 99999);
-        tvPrice.setText(price + "/月(" + data.getRentWayName() + ")");
 
         tvRentType.setText(data.getRentTypeName());
         String compactResidue = "";
@@ -485,8 +517,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         String zhuan = UnitUtil.limitNum(data.getTransferFee(), 0);
         tvZhuanprice.setText(zhuan + compactResidue);
         tvArea.setText(UnitUtil.formatMNum(data.getArea()) + "㎡");
-
-        TextViewUtil.setPartialSizeAndColor(tvPrice, 0, price.length() + 2, 18, 0, price.length() + 2, Color.parseColor("#FF5851"));
+        showPrice(1);
         TextViewUtil.setPartialSizeAndColor(tvZhuanprice, 0, zhuan.length(), 18, 0, zhuan.length(), Color.parseColor("#FF5851"));
 
 
