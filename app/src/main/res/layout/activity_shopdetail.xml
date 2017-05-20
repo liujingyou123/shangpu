@@ -117,7 +117,7 @@
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
-                android:text="由 小二 黄小厨 于2016.02.03 实勘核实"
+                android:text="由 小二 －－－ 于2016.02.03 实勘核实"
                 android:textColor="#999999"
                 android:textSize="12sp" />
 
@@ -150,7 +150,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="15dp"
-                        android:text="浦东新区松江大学城徐虹北路08号楼6弄230号"
+                        android:text="－－"
                         android:textColor="#333333"
                         android:textSize="20sp" />
                 </RelativeLayout>
@@ -230,7 +230,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_name_price"
                     android:layout_marginTop="10dp"
-                    android:text="20000元/月(年付)"
+                    android:text="----"
                     android:textColor="#FF151515"
                     android:textSize="12sp"/>
 
@@ -263,7 +263,7 @@
                     android:layout_alignLeft="@id/tv_name_zhuanprice"
                     android:layout_below="@id/tv_name_zhuanprice"
                     android:layout_marginTop="10dp"
-                    android:text="48万(带租约)"
+                    android:text="---"
                     android:textColor="#FF151515"
                     android:textSize="12sp" />
 
@@ -296,7 +296,7 @@
                     android:layout_alignLeft="@id/tv_name_area"
                     android:layout_below="@id/tv_name_area"
                     android:layout_marginTop="10dp"
-                    android:text="45.8㎡"
+                    android:text="---"
                     android:textColor="#FF5851"
                     android:textSize="18sp" />
             </RelativeLayout>
@@ -684,7 +684,7 @@
                 <TextView
                     style="@style/second_title_arrow"
                     android:drawableRight="@null"
-                    android:text="经营费用" />
+                    android:text="营运费用" />
 
                 <View
                     style="@style/view_line"

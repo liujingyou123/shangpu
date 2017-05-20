@@ -1,5 +1,6 @@
 package com.finance.winport.home.view;
 
+import com.finance.winport.home.model.CollectionResponse;
 import com.finance.winport.home.model.ShopDetail;
 
 /**
@@ -7,6 +8,7 @@ import com.finance.winport.home.model.ShopDetail;
  */
 
 public interface IShopDetailView {
-    void collectedShop(boolean isSuccess);
+    void collectedShop(CollectionResponse response);
+    void cancelCollectedShop(boolean isSuccess);
     void getShopDetail(ShopDetail shopDetail);
 }

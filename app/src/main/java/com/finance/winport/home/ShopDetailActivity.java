@@ -24,12 +24,15 @@ import com.finance.winport.dialog.ShareDialog;
 import com.finance.winport.home.adapter.SupportTagAdapter;
 import com.finance.winport.home.adapter.TagAdapter;
 import com.finance.winport.home.adapter.TagDetailAdapter;
+import com.finance.winport.home.model.CollectionResponse;
 import com.finance.winport.home.model.ShopDetail;
 import com.finance.winport.home.presenter.ShopDetailPresenter;
 import com.finance.winport.home.view.IShopDetailView;
 import com.finance.winport.image.GlideImageLoader;
+import com.finance.winport.log.XLog;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.TextViewUtil;
+import com.finance.winport.util.ToastUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.PositionScrollView;
 import com.finance.winport.view.ScrollTabView;
@@ -49,6 +52,7 @@ import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
 
 import java.lang.ref.WeakReference;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -126,8 +130,6 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     View viewLine;
     @BindView(R.id.tv_name_price)
     TextView tvNamePrice;
-    @BindView(R.id.imv_change)
-    ImageView imvChange;
     @BindView(R.id.tv_price)
     TextView tvPrice;
     @BindView(R.id.view_line_one)
@@ -202,6 +204,8 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     private String shopId;
     private ShopDetailPresenter mPresenter;
     private ShopDetail mShopDetail;
+    private String rent;
+    private String rent2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -325,6 +329,11 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         int titleView = UnitUtil.dip2px(context, 97);
 
         if (scrollY >= 0) {
+            if (scrollY == 0) {
+                imvBack.setImageResource(R.mipmap.icon_white_back);
+            } else {
+                imvBack.setImageResource(R.mipmap.icon_back);
+            }
             float deltaY = top - titleView - scrollY;
             if (deltaY >= 0) {
                 float fraction = deltaY / (top - titleView);
@@ -337,7 +346,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         }
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.imv_back, R.id.tv_share, R.id.tv_shop_more, R.id.tv_jiucuo, R.id.tv_yuyue, R.id.tv_call, R.id.tv_collection})
+    @OnClick({R.id.imv_focus_house_back, R.id.imv_back, R.id.tv_share, R.id.tv_shop_more, R.id.tv_jiucuo, R.id.tv_yuyue, R.id.tv_call, R.id.tv_collection, R.id.imv_change})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -389,7 +398,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                         mNoticeDialog.setOkClickListener(new NoticeDialog.OnPreClickListner() {
                             @Override
                             public void onClick() {
-                                mPresenter.recordCall(mShopDetail.getData().getId()+"", mShopDetail.getData().getContactTel());
+                                mPresenter.recordCall(mShopDetail.getData().getId() + "", mShopDetail.getData().getContactTel());
                             }
                         });
                     }
@@ -403,7 +412,26 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
 
                 break;
             case R.id.tv_collection:
-                mPresenter.collectShop(shopId);
+//                if (SharedPrefsUtil.getUserInfo() != null) {
+                    if (tvCollection.isSelected()) {
+                        mPresenter.cancelCollectShop(mShopDetail.getData().getIsCollected() + "");
+                    } else {
+                        mPresenter.collectShop(shopId);
+                    }
+//                } else {
+//                    Intent intent1 = new Intent(this, LoginActivity.class);
+//                    startActivity(intent1);
+//                }
+
+                break;
+
+            case R.id.imv_change:
+                String type = (String) tvPrice.getTag();
+                if ("1".equals(type)) {
+                    showPrice(2);
+                } else {
+                    showPrice(1);
+                }
                 break;
 
         }
@@ -449,14 +477,52 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     }
 
     @Override
-    public void collectedShop(boolean isSuccess) {
-        if (isSuccess) {
+    public void collectedShop(CollectionResponse response) {
+        if (response != null && response.isSuccess()) {
+            mShopDetail.getData().setIsCollected(response.getData());
+            ToastUtil.show(this, "收藏成功");
             tvCollection.setSelected(true);
             tvCollection.setText("已收藏");
         } else {
             tvCollection.setSelected(false);
             tvCollection.setText("收藏");
         }
+    }
+
+    @Override
+    public void cancelCollectedShop(boolean isSuccess) {
+        if (isSuccess) {
+            ToastUtil.show(this, "已取消收藏");
+            tvCollection.setSelected(false);
+            tvCollection.setText("收藏");
+        } else {
+            tvCollection.setSelected(true);
+            tvCollection.setText("已收藏");
+        }
+    }
+
+    private void showPrice(int type) {
+        ShopDetail.DataBean data = mShopDetail.getData();
+        String price = UnitUtil.limitNum(data.getRent(), 99999);
+        if (type == 1) {
+            tvPrice.setTag("1");
+            String showRent = price + "/月";
+            tvPrice.setText(showRent + "(" + data.getRentWayName() + ")");
+            TextViewUtil.setPartialSizeAndColor(tvPrice, 0, showRent.length(), 18, 0, showRent.length(), Color.parseColor("#FF5851"));
+        } else {
+            tvPrice.setTag("2");
+            int rent = data.getRent();
+            BigDecimal bDrent = new BigDecimal(rent);
+            BigDecimal bDArea = new BigDecimal(data.getArea());
+            BigDecimal bDDay = new BigDecimal(30);
+
+            String preRent = bDrent.divide(bDArea, 10, BigDecimal.ROUND_HALF_UP).divide(bDDay, 10, BigDecimal.ROUND_HALF_UP).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
+            String showPre = preRent + "元/㎡/月";
+            tvPrice.setText(showPre + "(" + data.getRentWayName() + ")");
+            TextViewUtil.setPartialSizeAndColor(tvPrice, 0, showPre.length(), 18, 0, showPre.length(), Color.parseColor("#FF5851"));
+
+        }
+
     }
 
     @Override
@@ -467,8 +533,6 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         tvShopAddress.setText(" 　 " + data.getAddress());
         tvScan.setText(data.getVisitCount() + "浏览");
         tvLianxi.setText(data.getContactCount() + "联系");
-        String price = UnitUtil.limitNum(data.getRent(), 99999);
-        tvPrice.setText(price + "/月(" + data.getRentWayName() + ")");
 
         tvRentType.setText(data.getRentTypeName());
         String compactResidue = "";
@@ -479,10 +543,8 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         String zhuan = UnitUtil.limitNum(data.getTransferFee(), 0);
         tvZhuanprice.setText(zhuan + compactResidue);
         tvArea.setText(UnitUtil.formatMNum(data.getArea()) + "㎡");
-
-        TextViewUtil.setPartialSizeAndColor(tvPrice, 0, price.length() + 2, 18, 0, price.length() + 2, Color.parseColor("#FF5851"));
+        showPrice(1);
         TextViewUtil.setPartialSizeAndColor(tvZhuanprice, 0, zhuan.length(), 18, 0, zhuan.length(), Color.parseColor("#FF5851"));
-
 
         if (data.getNearInfoList() != null && data.getNearInfoList().size() > 0) {
             viewSpaceLinpu.setVisibility(View.VISIBLE);
@@ -509,6 +571,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         } else {
             viewSpaceLinpu.setVisibility(View.GONE);
             llLinpu.setVisibility(View.GONE);
+            stv.setLinpuGone();
         }
 
         tvCenggao.setText((data.getHeight() == 0 ? "--" : data.getHeight() + "m"));
@@ -529,6 +592,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         } else if (data.getElectricRate() == 0 && data.getWaterRate() == 0 && data.getGasRate() == 0 && data.getPropertyRate() == 0) {
             viewSpaceJingyingfeiyong.setVisibility(View.GONE);
             llJingyingfeiyong.setVisibility(View.GONE);
+            stv.setYingYuFeiyongGone();
         } else {
             viewSpaceJingyingfeiyong.setVisibility(View.VISIBLE);
             llJingyingfeiyongone.setVisibility(View.GONE);
@@ -625,13 +689,9 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         if (data.getIsCollected() != 0) { //未收藏
             tvCollection.setSelected(true);
             tvCollection.setText("已收藏");
-            tvCollection.setClickable(false);
-            tvCollection.setEnabled(false);
         } else {
             tvCollection.setSelected(false);
             tvCollection.setText("收藏");
-            tvCollection.setClickable(true);
-            tvCollection.setEnabled(true);
         }
 
         if (data.getIsVisit() != 0) { //已预约
