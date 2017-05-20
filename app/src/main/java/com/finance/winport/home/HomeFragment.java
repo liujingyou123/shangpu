@@ -184,7 +184,7 @@ public class HomeFragment extends BaseFragment implements IHomeView {
                     ShopListResponse.DataBean.Shop shop = (ShopListResponse.DataBean.Shop) parent.getItemAtPosition(position);
                     if (shop != null) {
                         Intent intent = new Intent(HomeFragment.this.getContext(), ShopDetailActivity.class);
-                        intent.putExtra("shopId", shop.getId());
+                        intent.putExtra("shopId", shop.getId()+"");
                         startActivity(intent);
                     }
                 }

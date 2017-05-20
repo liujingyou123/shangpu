@@ -28,6 +28,7 @@ import com.finance.winport.home.model.ShopDetail;
 import com.finance.winport.home.presenter.ShopDetailPresenter;
 import com.finance.winport.home.view.IShopDetailView;
 import com.finance.winport.image.GlideImageLoader;
+import com.finance.winport.log.XLog;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.UnitUtil;
@@ -325,6 +326,11 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         int titleView = UnitUtil.dip2px(context, 97);
 
         if (scrollY >= 0) {
+            if (scrollY == 0) {
+                imvBack.setImageResource(R.mipmap.icon_white_back);
+            } else {
+                imvBack.setImageResource(R.mipmap.icon_back);
+            }
             float deltaY = top - titleView - scrollY;
             if (deltaY >= 0) {
                 float fraction = deltaY / (top - titleView);
@@ -389,7 +395,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                         mNoticeDialog.setOkClickListener(new NoticeDialog.OnPreClickListner() {
                             @Override
                             public void onClick() {
-                                mPresenter.recordCall(mShopDetail.getData().getId()+"", mShopDetail.getData().getContactTel());
+                                mPresenter.recordCall(mShopDetail.getData().getId() + "", mShopDetail.getData().getContactTel());
                             }
                         });
                     }

@@ -88,7 +88,7 @@ public class ShopsListActivity extends BaseActivity implements IShopListView {
                     ShopListResponse.DataBean.Shop shop = (ShopListResponse.DataBean.Shop) parent.getItemAtPosition(position);
                     if (shop != null) {
                         Intent intent = new Intent(ShopsListActivity.this, ShopDetailActivity.class);
-                        intent.putExtra("shopId", shop.getId());
+                        intent.putExtra("shopId", shop.getId()+"");
                         startActivity(intent);
                     }
 
