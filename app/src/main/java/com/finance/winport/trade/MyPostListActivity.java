@@ -107,9 +107,16 @@ public class MyPostListActivity extends BaseActivity implements ITradeCircleView
 
     @Override
     public void showTradeCircle(TradeCircleResponse response) {
-        mData.clear();
-        mData.addAll(response.getData().getPage().getData());
-        mAdapter.notifyDataSetChanged();
+        if (response.getData().getPage().getData() == null || response.getData().getPage().getData().size() == 0) {
+            llEmpty.setVisibility(View.VISIBLE);
+            refreshView.setVisibility(View.GONE);
+        } else {
+            mData.clear();
+            mData.addAll(response.getData().getPage().getData());
+            llEmpty.setVisibility(View.GONE);
+            refreshView.setVisibility(View.VISIBLE);
+            mAdapter.notifyDataSetChanged();
+        }
         refreshView.refreshComplete();
     }
 
