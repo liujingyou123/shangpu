@@ -3,6 +3,7 @@ package com.finance.winport.trade.api;
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.trade.model.PublicTopic;
 import com.finance.winport.trade.model.TradeCircleResponse;
+import com.finance.winport.trade.model.TradeDetailResponse;
 
 import java.util.HashMap;
 
@@ -31,6 +32,15 @@ public interface TradeService {
     @POST("customerapp/api/topic/topicListByUserId/v1.0.0")
     Observable<BaseResponse> getMyTopics(@Body HashMap<String ,String> params);
 
+    //发布帖子
     @POST("customerapp/api/topic/publishTopic/v1.0.0")
     Observable<BaseResponse> publishTopic(@Body PublicTopic params);
+
+    //帖子详情
+    @POST("customerapp/api/topic/topicDetail/v1.0.0")
+    Observable<TradeDetailResponse> getTopicDetail(@Body HashMap params);
+
+    //发布评论
+    @POST("customerapp/api/topic/publishComment/v1.0.0")
+    Observable<BaseResponse> commentTopic(@Body HashMap params);
 }

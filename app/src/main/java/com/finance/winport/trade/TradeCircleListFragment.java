@@ -105,8 +105,12 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
         lsCircles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(TradeCircleListFragment.this.getContext(), TradeCircleDetailActivity.class);
-                startActivity(intent);
+                Trade trade = (Trade) parent.getItemAtPosition(position);
+                if (trade != null) {
+                    Intent intent = new Intent(TradeCircleListFragment.this.getContext(), TradeCircleDetailActivity.class);
+                    intent.putExtra("topicId", trade.getTopicId() + "");
+                    startActivity(intent);
+                }
             }
         });
     }
