@@ -38,7 +38,6 @@ public class TradeCircleDetailPresener {
     public void zanTopic(final String topicId) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("topicId", topicId);
-        hashMap.put("likeType", "0");
         ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).zanTopic(hashMap), new NetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
@@ -59,7 +58,7 @@ public class TradeCircleDetailPresener {
 
     public void cancelzanTopic(final String topicId) {
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("likeId", topicId);
+        hashMap.put("topicId", topicId);
         ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).cancelzanTopic(hashMap), new NetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {

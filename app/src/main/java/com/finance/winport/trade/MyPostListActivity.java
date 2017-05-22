@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
+import com.finance.winport.trade.adapter.MyTradeCircleAdapter;
 import com.finance.winport.trade.adapter.TradeCircleAdapter;
 import com.finance.winport.trade.model.Trade;
 import com.finance.winport.trade.model.TradeCircleResponse;
@@ -43,7 +44,7 @@ public class MyPostListActivity extends BaseActivity implements ITradeCircleView
     @BindView(R.id.ll_empty)
     LinearLayout llEmpty;
 
-    private TradeCircleAdapter mAdapter;
+    private MyTradeCircleAdapter mAdapter;
     private List<Trade> mData = new ArrayList<>();
     private TradeCirclePresenter mPresenter;
     private int pageNumber = 1;
@@ -68,7 +69,7 @@ public class MyPostListActivity extends BaseActivity implements ITradeCircleView
     private void init() {
         tvFocusHouse.setText("我发布的帖子");
         if (mAdapter == null) {
-            mAdapter = new TradeCircleAdapter(this, mData, mPresenter);
+            mAdapter = new MyTradeCircleAdapter(this, mData, mPresenter);
         }
         lsCircles.setAdapter(mAdapter);
 
