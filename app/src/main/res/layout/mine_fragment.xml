@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,9 +54,9 @@
                     android:layout_height="60dp"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="15dp"
-                    app:oval="true"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/send_rent_icon1" />
+                    android:src="@mipmap/send_rent_icon1"
+                    app:oval="true" />
 
                 <TextView
                     android:id="@+id/phone"
@@ -73,13 +74,13 @@
                     android:id="@+id/concern"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/phone"
                     android:layout_alignBottom="@+id/shop_img"
+                    android:layout_alignLeft="@+id/phone"
+                    android:layout_marginBottom="10dp"
                     android:hint="去设置关注的旺铺"
                     android:singleLine="true"
-                    android:layout_marginRight="80dp"
-                    android:textColorHint="#999999"
                     android:textColor="#999999"
+                    android:textColorHint="#999999"
                     android:textSize="13sp" />
 
                 <TextView
@@ -278,7 +279,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="15dp">
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
                 <TextView
                     android:id="@+id/day"
@@ -289,9 +291,9 @@
                     android:layout_alignRight="@+id/lunar"
                     android:gravity="center"
                     android:singleLine="true"
-                    android:text="27"
                     android:textColor="#4A4A4A"
-                    android:textSize="30sp" />
+                    android:textSize="30sp"
+                    tools:text="27" />
 
                 <TextView
                     android:id="@+id/solar"
@@ -304,9 +306,9 @@
                     android:layout_marginTop="2dp"
                     android:gravity="center"
                     android:singleLine="true"
-                    android:text="2017-04"
                     android:textColor="#9b9b9b"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    tools:text="2017-04" />
 
                 <TextView
                     android:id="@+id/lunar"
@@ -315,9 +317,9 @@
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="12dp"
                     android:singleLine="true"
-                    android:text="十二月二十八"
                     android:textColor="#4A4A4A"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    tools:text="十二月二十八" />
 
                 <View
                     android:id="@+id/divider"
@@ -339,9 +341,9 @@
                     android:drawablePadding="6dp"
                     android:gravity="center_vertical"
                     android:singleLine="true"
-                    android:text="收账 出行 会亲友 搬家 理发"
                     android:textColor="#4A4A4A"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    tools:text="收账 出行 会亲友 搬家 理发" />
 
                 <TextView
                     android:id="@+id/ji"
@@ -355,9 +357,9 @@
                     android:drawablePadding="6dp"
                     android:gravity="center_vertical"
                     android:singleLine="true"
-                    android:text="嫁娶 探病 盖屋"
                     android:textColor="#4A4A4A"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    tools:text="嫁娶 探病 盖屋" />
             </RelativeLayout>
         </LinearLayout>
 

@@ -32,6 +32,7 @@ public class CommentDialog extends BottomDialog {
     EditText et;
 
     private Handler mhandler;
+
     public CommentDialog(@NonNull final Context context) {
         super(context);
         setContentView(R.layout.dialog_work_comment);
@@ -47,7 +48,7 @@ public class CommentDialog extends BottomDialog {
                 mhandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        ((BaseActivity)context).showSoftInput(et);
+                        ((BaseActivity) context).showSoftInput(et);
                     }
                 }, 10);
             }
@@ -66,28 +67,34 @@ public class CommentDialog extends BottomDialog {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() == 0){
+                if (s.length() == 0) {
                     btnOk.setAlpha(0.5f);
-                }else{
+                } else {
                     btnOk.setAlpha(1.0f);
                 }
             }
         });
     }
 
-    @OnClick({R.id.btn_cancel, R.id.btn_ok})
+    @OnClick({R.id.btn_cancel})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_cancel:
                 et.setText("");
                 dismiss();
                 break;
-            case R.id.btn_ok:
-                break;
         }
     }
 
-    public String getContent(){
+    public String getContent() {
         return et.getText().toString();
+    }
+
+    public void setOkDoneListener(View.OnClickListener onClickListener) {
+        btnOk.setOnClickListener(onClickListener);
+    }
+
+    public interface OnDoneClickListener {
+        void onDoneClick();
     }
 }

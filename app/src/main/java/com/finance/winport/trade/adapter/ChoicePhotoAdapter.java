@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.finance.winport.R;
 import com.finance.winport.image.Batman;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,6 +38,15 @@ public class ChoicePhotoAdapter extends BaseAdapter {
         if (mData != null && mData.size() == 0) {
             mData.add(actionUrl);
         }
+    }
+
+    public List<String> getListData() {
+        List<String> ret = new ArrayList<>();
+        ret.addAll(mData);
+        if (ret != null) {
+            ret.remove(actionUrl);
+        }
+        return ret;
     }
 
     @Override

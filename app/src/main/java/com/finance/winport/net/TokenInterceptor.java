@@ -28,7 +28,7 @@ public class TokenInterceptor implements Interceptor {
                     .addHeader("X-token", tokenKey).build();
         }
 
-        newRequest  = newRequest.newBuilder().addHeader("Content-Type","application/json").build();
+        newRequest = newRequest.newBuilder().addHeader("Content-Type", "application/json").build();
         MediaType mediaType = newRequest.body().contentType();
         try {
             if (null != mediaType) {
@@ -46,15 +46,18 @@ public class TokenInterceptor implements Interceptor {
     }
 
     private String getTokenKey() {
-        String token;
+        String token = null;
         try {
-//            token = SharedPrefsUtil.getUserInfo().data.accessToken;
-            token = "8999d7ffa35a6f6b7b322476";
+            if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().data != null) {
+                token = SharedPrefsUtil.getUserInfo().data.accessToken;
+            }
+//            token = "8999d7ffa35a6f6b7b322476";
         } catch (Exception e) {
             token = "";
             e.printStackTrace();
         }
         Log.d(getClass().getSimpleName(), "token-->" + token);
-        return "82958F583CD3D2DECEF52ADF71C5A3C6";  //50EA1E6878E56AC4877FE9DCF9E3730E
+//        return "82958F583CD3D2DECEF52ADF71C5A3C6";  //50EA1E6878E56AC4877FE9DCF9E3730E
+        return token;
     }
 }

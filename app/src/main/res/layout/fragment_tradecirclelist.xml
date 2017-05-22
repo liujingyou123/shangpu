@@ -16,7 +16,7 @@
         android:background="@drawable/bg_comments_num"
         android:gravity="center"/>
 
-    <com.finance.winport.view.refreshview.PtrClassicFrameLayout
+    <com.finance.winport.view.refreshview.XPtrFrameLayout
         android:id="@+id/refresh_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,5 +35,5 @@
             android:dividerHeight="10dp"
             android:fadingEdge="none"
             android:scrollbars="none"/>
-    </com.finance.winport.view.refreshview.PtrClassicFrameLayout>
+    </com.finance.winport.view.refreshview.XPtrFrameLayout>
 </LinearLayout>

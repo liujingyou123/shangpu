@@ -49,10 +49,25 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         }
         final WinportList.DataBeanX.DataBean item = baseData.get(position);
         holder.address.setText(item.address + item.rentTypeName);
-        holder.historyCount.setText("历史带看申请" + item.visitCount + "组");
         holder.scanCount.setText(item.scanCount + "人/次浏览");
         holder.area.setText(UnitUtil.formatArea(item.area) + "㎡");
         holder.releaseTime.setText(item.publishTime);
+        //rentStatus 出租状态 0-待出租 1-出租中 2-已出租  3-已下架（撤下）
+        if (item.rentStatus == 3) {
+            holder.historyCount.setText("历史带看申请" + item.visitCount + "组");
+            setViewAndChildrenEnabled(convertView, false);
+            holder.release.setEnabled(true);
+        } else {
+            setViewAndChildrenEnabled(convertView, true);
+            String vcs = "历史带看申请" + item.visitCount + "组";
+            SpannableString sp = new SpannableString(vcs);
+            sp.setSpan(new ForegroundColorSpan(Color.parseColor("#333333"))
+                    , vcs.indexOf(item.visitCount)
+                    , vcs.indexOf(item.visitCount) + item.visitCount.length()
+                    , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            holder.historyCount.setText(sp);
+
+        }
         Batman.getInstance().fromNet(item.coverImg, holder.img);
 
         //下架
@@ -82,6 +97,18 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         //
         return convertView;
     }
+
+    private static void setViewAndChildrenEnabled(View view, boolean enabled) {
+        view.setEnabled(enabled);
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                View child = viewGroup.getChildAt(i);
+                setViewAndChildrenEnabled(child, enabled);
+            }
+        }
+    }
+
 
     static class ViewHolder {
         @BindView(R.id.img)

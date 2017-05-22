@@ -1,6 +1,6 @@
 package com.finance.winport.trade.adapter;
 /**
- * Created by liuworkmac on 17/5/10.
+ * Created by liuworkmac on 17/5/22.
  */
 
 import android.content.Context;
@@ -28,13 +28,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
-public class TradeCircleAdapter extends BaseAdapter {
+public class MyTradeCircleAdapter extends BaseAdapter {
     private Context mContext;
     private List<Trade> mData;
     private TradeCirclePresenter mPresenter;
 
-    public TradeCircleAdapter(Context mContext, List<Trade> mData, TradeCirclePresenter presenter) {
+    public MyTradeCircleAdapter(Context mContext, List<Trade> mData, TradeCirclePresenter presenter) {
         this.mContext = mContext;
         this.mData = mData;
         this.mPresenter = presenter;
@@ -128,26 +127,22 @@ public class TradeCircleAdapter extends BaseAdapter {
                 }
             });
 
-            if ("1".equals(trade.getCanBeDelete())) {
-                viewHolder.imvDel.setVisibility(View.VISIBLE);
-                viewHolder.imvDel.setOnClickListener(new View.OnClickListener() {
-                    int index = i;
+            viewHolder.imvDel.setVisibility(View.VISIBLE);
+            viewHolder.imvDel.setOnClickListener(new View.OnClickListener() {
+                int index = i;
 
-                    @Override
-                    public void onClick(View v) {
-                        NoticeDelDialog dialog = new NoticeDelDialog(mContext);
-                        dialog.setOkClickListener(new NoticeDialog.OnPreClickListner() {
-                            @Override
-                            public void onClick() {
-                                mPresenter.deleteTopic(mData.get(index).getTopicId() + "");
-                            }
-                        });
-                        dialog.show();
-                    }
-                });
-            } else {
-                viewHolder.imvDel.setVisibility(View.GONE);
-            }
+                @Override
+                public void onClick(View v) {
+                    NoticeDelDialog dialog = new NoticeDelDialog(mContext);
+                    dialog.setOkClickListener(new NoticeDialog.OnPreClickListner() {
+                        @Override
+                        public void onClick() {
+                            mPresenter.deleteTopic(mData.get(index).getTopicId() + "");
+                        }
+                    });
+                    dialog.show();
+                }
+            });
 
         }
 
