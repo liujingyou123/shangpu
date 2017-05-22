@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -45,6 +46,8 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
     XPtrFrameLayout xpfl;
     @BindView(R.id.tv_focus_house)
     TextView tvFocusHouse;
+    @BindView(R.id.imv_right)
+    ImageView imvRight;
 
     private TradeCircleDetailPresener mPresenter;
     private String topicId;
@@ -113,7 +116,7 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
         });
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.btn_comment, R.id.tv_praise_num})
+    @OnClick({R.id.imv_focus_house_back, R.id.btn_comment, R.id.tv_praise_num, R.id.imv_right})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -129,6 +132,9 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
                     mPresenter.cancelzanTopic(topicId);
                 }
                 break;
+            case R.id.imv_right:
+                mPresenter.deleteTopic(topicId);
+                break;
         }
     }
 
@@ -139,6 +145,12 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
             tvPraiseNum.setSelected(false);
         } else {
             tvPraiseNum.setSelected(true);
+        }
+
+        if ("1".equals(mData.getCanBeDelete())) {
+            imvRight.setVisibility(View.VISIBLE);
+        } else {
+            imvRight.setVisibility(View.GONE);
         }
         tvPraiseNum.setText(response.getData().getPraiseNumber() + "");
         tvCommentNum.setText(response.getData().getCommentNumber() + "");

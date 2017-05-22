@@ -74,17 +74,17 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
                 Batman.getInstance().fromNet(mData.getHeadPicture(), viewHolder.ivHeaderIcon);
                 viewHolder.tvHeaderTime.setText(mData.getDateTime());
                 viewHolder.tvTitle.setText(mData.getTitle());
-                if ("1".equals(mData.getCanBeDelete())) {
-                    viewHolder.imvDel.setVisibility(View.VISIBLE);
-                    viewHolder.imvDel.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mPresenter.deleteTopic(topicId);
-                        }
-                    });
-                } else {
-                    viewHolder.imvDel.setVisibility(View.GONE);
-                }
+//                if ("1".equals(mData.getCanBeDelete())) {
+//                    viewHolder.imvDel.setVisibility(View.VISIBLE);
+//                    viewHolder.imvDel.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            mPresenter.deleteTopic(topicId);
+//                        }
+//                    });
+//                } else {
+//                    viewHolder.imvDel.setVisibility(View.GONE);
+//                }
                 if (mData != null && mData.getImgList().size() > 0) {
                     viewHolder.glImages.setVisibility(View.VISIBLE);
                     setGridLayout(viewHolder, mData.getImgList());

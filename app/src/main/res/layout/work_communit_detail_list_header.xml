@@ -151,7 +151,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginTop="15dp"
-            android:src="@mipmap/business_icon_del" />
+            android:src="@mipmap/business_icon_del"
+            android:visibility="gone"/>
     </RelativeLayout>
 
 
