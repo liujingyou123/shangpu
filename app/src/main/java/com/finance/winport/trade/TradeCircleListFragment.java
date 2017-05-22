@@ -61,8 +61,8 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onResume() {
+        super.onResume();
         getData();
     }
 
@@ -135,13 +135,19 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
         if (isSuccess) {
 //            View view = lsCircles.getChildAt(position-lsCircles.getFirstVisiblePosition());
 //            view.findViewById(R.id.tv_zan).setSelected(true);
-
             mPresenter.getTradeCircles(type, pageNumber);
         }
     }
 
     @Override
     public void cancelTopic(boolean isSuccess, int position, String topId) {
+        if (isSuccess) {
+            mPresenter.getTradeCircles(type, pageNumber);
+        }
+    }
+
+    @Override
+    public void deleteTopic(boolean isSuccess, String topId) {
         if (isSuccess) {
             mPresenter.getTradeCircles(type, pageNumber);
         }

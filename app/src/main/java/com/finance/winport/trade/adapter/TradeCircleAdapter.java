@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.dialog.NoticeDelDialog;
+import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.image.Batman;
 import com.finance.winport.trade.model.Trade;
 import com.finance.winport.trade.presenter.TradeCirclePresenter;
@@ -78,6 +79,13 @@ public class TradeCircleAdapter extends BaseAdapter {
             viewHolder.tvTitle.setText(trade.getTitle());
             viewHolder.tvTime.setText(trade.getDateTime());
             viewHolder.tvZan.setText(trade.getPraiseNumber() + "");
+
+            if ("1".equals(trade.getKind())) {
+                viewHolder.imvFire.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.imvFire.setVisibility(View.GONE);
+            }
+
             if (TextUtils.isEmpty(trade.getLikeStatus()) && "1".equals(trade.getLikeStatus())) {
                 viewHolder.tvZan.setSelected(true);
             } else {
@@ -113,22 +121,34 @@ public class TradeCircleAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     if (v.isSelected()) {  //取消点赞
-                        mPresenter.cancelzanTopic(mData.get(index).getTopicId()+"",index);
+                        mPresenter.cancelzanTopic(mData.get(index).getTopicId() + "", index);
                     } else { //点在
-                        mPresenter.zanTopic(mData.get(index).getTopicId()+"",index);
+                        mPresenter.zanTopic(mData.get(index).getTopicId() + "", index);
                     }
                 }
             });
 
-            viewHolder.imvDel.setOnClickListener(new View.OnClickListener() {
-                int index = i;
+            if ("1".equals(trade.getCanBeDelete())) {
+                viewHolder.imvDel.setVisibility(View.VISIBLE);
+                viewHolder.imvDel.setOnClickListener(new View.OnClickListener() {
+                    int index = i;
 
-                @Override
-                public void onClick(View v) {
-                    NoticeDelDialog dialog = new NoticeDelDialog(mContext);
-                    dialog.show();
-                }
-            });
+                    @Override
+                    public void onClick(View v) {
+                        NoticeDelDialog dialog = new NoticeDelDialog(mContext);
+                        dialog.setOkClickListener(new NoticeDialog.OnPreClickListner() {
+                            @Override
+                            public void onClick() {
+                                mPresenter.deleteTopic(mData.get(index).getTopicId() + "");
+                            }
+                        });
+                        dialog.show();
+                    }
+                });
+            } else {
+                viewHolder.imvDel.setVisibility(View.GONE);
+            }
+
         }
 
         return view;
@@ -224,6 +244,8 @@ public class TradeCircleAdapter extends BaseAdapter {
         TextView tvComments;
         @BindView(R.id.imv_del)
         ImageView imvDel;
+        @BindView(R.id.imv_fire)
+        ImageView imvFire;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

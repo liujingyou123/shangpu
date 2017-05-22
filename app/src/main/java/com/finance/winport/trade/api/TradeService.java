@@ -43,4 +43,8 @@ public interface TradeService {
     //发布评论
     @POST("customerapp/api/topic/publishComment/v1.0.0")
     Observable<BaseResponse> commentTopic(@Body HashMap params);
+
+    //删除帖子
+    @POST("customerapp/api/topic/deleteTopic/v1.0.0")
+    Observable<BaseResponse> deleteTopic(@Body HashMap params);
 }

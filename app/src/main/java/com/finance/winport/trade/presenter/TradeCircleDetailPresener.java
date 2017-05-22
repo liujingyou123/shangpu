@@ -105,4 +105,30 @@ public class TradeCircleDetailPresener {
             }
         });
     }
+
+    /**
+     * 删除帖子
+     *
+     * @param topicId
+     */
+    public void deleteTopic(final String topicId) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("likeId", topicId);
+        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).cancelzanTopic(hashMap), new NetSubscriber<BaseResponse>() {
+            @Override
+            public void response(BaseResponse response) {
+                if (mITradeDetailView != null) {
+                    mITradeDetailView.deleteTopic(true, topicId);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                if (mITradeDetailView != null) {
+                    mITradeDetailView.deleteTopic(false, topicId);
+                }
+            }
+        });
+    }
 }

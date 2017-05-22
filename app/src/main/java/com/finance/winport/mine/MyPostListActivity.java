@@ -122,6 +122,11 @@ public class MyPostListActivity extends BaseActivity implements ITradeCircleView
     }
 
     @Override
+    public void deleteTopic(boolean isSuccess, String topId) {
+
+    }
+
+    @Override
     public void onError() {
 
     }

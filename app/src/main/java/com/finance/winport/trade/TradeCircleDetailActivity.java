@@ -172,4 +172,11 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
             mPresenter.getTradeCircleDetail(topicId);
         }
     }
+
+    @Override
+    public void deleteTopic(boolean isSuccess, String topId) {
+        if (isSuccess) {
+            finish();
+        }
+    }
 }

@@ -15,4 +15,6 @@ public interface ITradeDetailView {
 
     void commentTopic(boolean isSuccess);
 
+    void deleteTopic(boolean isSuccess, String topId);
+
 }

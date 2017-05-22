@@ -46,6 +46,7 @@ public class TradeDetailResponse extends BaseResponse{
         private H5Object h5obj;
         private String phone;
         private String headPicture;
+        private String canBeDelete;
         /**
          * dateTime : 2017-05-10 14:59:31
          * headPicture : https://b-ssl.duitang.com/uploads/item/201607/23/20160723192350_RCwMK.png
@@ -167,6 +168,14 @@ public class TradeDetailResponse extends BaseResponse{
 
         public void setPhone(String phone) {
             this.phone = phone;
+        }
+
+        public String getCanBeDelete() {
+            return canBeDelete;
+        }
+
+        public void setCanBeDelete(String canBeDelete) {
+            this.canBeDelete = canBeDelete;
         }
 
         public static class H5Object {

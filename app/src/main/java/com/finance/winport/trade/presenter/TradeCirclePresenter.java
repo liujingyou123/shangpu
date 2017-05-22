@@ -87,12 +87,18 @@ public class TradeCirclePresenter {
             public void onError(Throwable e) {
                 super.onError(e);
                 if (mITradeCircleView != null) {
-                    mITradeCircleView.zanTopic(false, position,topicId);
+                    mITradeCircleView.zanTopic(false, position, topicId);
                 }
             }
         });
     }
 
+    /**
+     * 取消点赞
+     *
+     * @param topicId
+     * @param position
+     */
     public void cancelzanTopic(final String topicId, final int position) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("likeId", topicId);
@@ -108,20 +114,21 @@ public class TradeCirclePresenter {
             public void onError(Throwable e) {
                 super.onError(e);
                 if (mITradeCircleView != null) {
-                    mITradeCircleView.cancelTopic(false, position,topicId);
+                    mITradeCircleView.cancelTopic(false, position, topicId);
                 }
             }
         });
     }
 
     /**
-     *  我的帖子
+     * 我的帖子
+     *
      * @param pageNumber
      */
     public void getMyTopics(int pageNumber) {
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("pageNumber", pageNumber+"");
-        hashMap.put("pageSize", 10+"");
+        hashMap.put("pageNumber", pageNumber + "");
+        hashMap.put("pageSize", 10 + "");
         ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).getMyTopics(hashMap), new NetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
@@ -135,6 +142,32 @@ public class TradeCirclePresenter {
                 super.onError(e);
                 if (mITradeCircleView != null) {
                     mITradeCircleView.onError();
+                }
+            }
+        });
+    }
+
+    /**
+     * 删除帖子
+     *
+     * @param topicId
+     */
+    public void deleteTopic(final String topicId) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("likeId", topicId);
+        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).cancelzanTopic(hashMap), new NetSubscriber<BaseResponse>() {
+            @Override
+            public void response(BaseResponse response) {
+                if (mITradeCircleView != null) {
+                    mITradeCircleView.deleteTopic(true, topicId);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                if (mITradeCircleView != null) {
+                    mITradeCircleView.deleteTopic(false, topicId);
                 }
             }
         });

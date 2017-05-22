@@ -19,6 +19,25 @@ public class Trade {
     private String url;
     private List<imgBean> imgList;
     private Href h5obj;
+    private String kind;
+    private String canBeDelete;
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
+
+    public String getCanBeDelete() {
+        return canBeDelete;
+    }
+
+    public void setCanBeDelete(String canBeDelete) {
+        this.canBeDelete = canBeDelete;
+    }
+
     public int getCommentNumber() {
         return commentNumber;
     }
