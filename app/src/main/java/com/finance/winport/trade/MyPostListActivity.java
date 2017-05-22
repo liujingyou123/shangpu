@@ -1,4 +1,4 @@
-package com.finance.winport.mine;
+package com.finance.winport.trade;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
-import com.finance.winport.trade.TradeCircleDetailActivity;
 import com.finance.winport.trade.adapter.TradeCircleAdapter;
 import com.finance.winport.trade.model.Trade;
 import com.finance.winport.trade.model.TradeCircleResponse;
@@ -57,41 +56,45 @@ public class MyPostListActivity extends BaseActivity implements ITradeCircleView
         init();
         getData();
     }
+
     private void getData() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (mPresenter == null) {
-                    mPresenter = new TradeCirclePresenter();
-                }
-                mPresenter.getMyTopics(pageNumber);
-            }
-        }, 100);
+        if (mPresenter == null) {
+            mPresenter = new TradeCirclePresenter();
+            mPresenter.setmITradeCircleView(this);
+        }
+        mPresenter.getMyTopics(pageNumber);
     }
 
     private void init() {
         tvFocusHouse.setText("我发布的帖子");
-        mAdapter = new TradeCircleAdapter(this, mData, mPresenter);
-
+        if (mAdapter == null) {
+            mAdapter = new TradeCircleAdapter(this, mData, mPresenter);
+        }
         lsCircles.setAdapter(mAdapter);
 
         refreshView.setPtrHandler(new PtrDefaultHandler2() {
             @Override
             public void onLoadMoreBegin(PtrFrameLayout frame) {
-
+                pageNumber++;
+                mPresenter.getMyTopics(pageNumber);
             }
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-
+                pageNumber = 1;
+                mPresenter.getMyTopics(pageNumber);
             }
         });
 
         lsCircles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MyPostListActivity.this, TradeCircleDetailActivity.class);
-                startActivity(intent);
+                Trade trade = (Trade) parent.getItemAtPosition(position);
+                if (trade != null) {
+                    Intent intent = new Intent(MyPostListActivity.this, TradeCircleDetailActivity.class);
+                    intent.putExtra("topicId", trade.getTopicId() + "");
+                    startActivity(intent);
+                }
             }
         });
     }
@@ -103,31 +106,44 @@ public class MyPostListActivity extends BaseActivity implements ITradeCircleView
 
     @Override
     public void showTradeCircle(TradeCircleResponse response) {
-
+        mData.clear();
+        mData.addAll(response.getData().getPage().getData());
+        mAdapter.notifyDataSetChanged();
+        refreshView.refreshComplete();
     }
 
     @Override
     public void showMoreTradeCircle(TradeCircleResponse response) {
-
+        mData.addAll(response.getData().getPage().getData());
+        mAdapter.notifyDataSetChanged();
+        refreshView.refreshComplete();
     }
 
     @Override
     public void zanTopic(boolean isSuccess, int position, String topId) {
-
+        if (isSuccess) {
+//            View view = lsCircles.getChildAt(position-lsCircles.getFirstVisiblePosition());
+//            view.findViewById(R.id.tv_zan).setSelected(true);
+            mPresenter.getMyTopics(pageNumber);
+        }
     }
 
     @Override
     public void cancelTopic(boolean isSuccess, int position, String topId) {
-
+        if (isSuccess) {
+            mPresenter.getMyTopics(pageNumber);
+        }
     }
 
     @Override
     public void deleteTopic(boolean isSuccess, String topId) {
-
+        if (isSuccess) {
+            mPresenter.getMyTopics(pageNumber);
+        }
     }
 
     @Override
     public void onError() {
-
+        refreshView.refreshComplete();
     }
 }

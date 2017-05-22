@@ -3,6 +3,7 @@ package com.finance.winport.trade.presenter;
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.trade.api.TradeService;
+import com.finance.winport.trade.model.MyTopicResponse;
 import com.finance.winport.trade.model.TradeCircleResponse;
 import com.finance.winport.trade.view.ITradeCircleView;
 import com.finance.winport.util.ToolsUtil;
@@ -129,11 +130,11 @@ public class TradeCirclePresenter {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("pageNumber", pageNumber + "");
         hashMap.put("pageSize", 10 + "");
-        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).getMyTopics(hashMap), new NetSubscriber<BaseResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).getMyTopics(hashMap), new NetSubscriber<TradeCircleResponse>() {
             @Override
-            public void response(BaseResponse response) {
+            public void response(TradeCircleResponse response) {
                 if (mITradeCircleView != null) {
-                    mITradeCircleView.showTradeCircle(null);
+                    mITradeCircleView.showTradeCircle(response);
                 }
             }
 

@@ -11,7 +11,6 @@ import android.widget.ImageView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
-import com.finance.winport.mine.MyPostListActivity;
 import com.finance.winport.util.SlidingTagPagerItem;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.SlidingTabLayout;

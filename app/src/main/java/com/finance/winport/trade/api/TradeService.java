@@ -1,6 +1,7 @@
 package com.finance.winport.trade.api;
 
 import com.finance.winport.base.BaseResponse;
+import com.finance.winport.trade.model.MyTopicResponse;
 import com.finance.winport.trade.model.PublicTopic;
 import com.finance.winport.trade.model.TradeCircleResponse;
 import com.finance.winport.trade.model.TradeDetailResponse;
@@ -28,9 +29,9 @@ public interface TradeService {
     @POST("customerapp/api/topic/unlikeTopic/v1.0.0")
     Observable<BaseResponse> cancelzanTopic(@Body HashMap<String, String> params);
 
-    //我发布的帖子 //TODO 没有数据没有model
+    //我发布的帖子
     @POST("customerapp/api/topic/topicListByUserId/v1.0.0")
-    Observable<BaseResponse> getMyTopics(@Body HashMap<String, String> params);
+    Observable<TradeCircleResponse> getMyTopics(@Body HashMap<String, String> params);
 
     //发布帖子
     @POST("customerapp/api/topic/publishTopic/v1.0.0")
