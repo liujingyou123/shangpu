@@ -375,11 +375,11 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             case R.id.tv_yuyue:
                 if (SharedPrefsUtil.getUserInfo() != null) {
                     Intent orderIntent = new Intent(ShopDetailActivity.this, OrderShopActivity.class);
-                    orderIntent.putExtra("shopId", mShopDetail.getData().getId());
+                    orderIntent.putExtra("shopId", mShopDetail.getData().getId()+"");
                     if (mShopDetail.getData().getIsVisit() != 0) { //已预约  签约租铺
-                        orderIntent.putExtra("type", 1);
+                        orderIntent.putExtra("type", 1);  //签约租铺
                     } else {
-                        orderIntent.putExtra("type", 2);
+                        orderIntent.putExtra("type", 2); //预约看铺
                     }
                     startActivity(orderIntent);
                 } else {
@@ -412,16 +412,16 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
 
                 break;
             case R.id.tv_collection:
-//                if (SharedPrefsUtil.getUserInfo() != null) {
+                if (SharedPrefsUtil.getUserInfo() != null) {
                     if (tvCollection.isSelected()) {
                         mPresenter.cancelCollectShop(mShopDetail.getData().getIsCollected() + "");
                     } else {
                         mPresenter.collectShop(shopId);
                     }
-//                } else {
-//                    Intent intent1 = new Intent(this, LoginActivity.class);
-//                    startActivity(intent1);
-//                }
+                } else {
+                    Intent intent1 = new Intent(this, LoginActivity.class);
+                    startActivity(intent1);
+                }
 
                 break;
 

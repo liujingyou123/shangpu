@@ -8,16 +8,22 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.finance.winport.R;
+import com.finance.winport.aliyunoss.AliOss;
 import com.finance.winport.base.BaseActivity;
+import com.finance.winport.base.BaseResponse;
+import com.finance.winport.net.LoadingNetSubscriber;
 import com.finance.winport.permission.PermissionsManager;
 import com.finance.winport.permission.PermissionsResultAction;
 import com.finance.winport.trade.adapter.ChoicePhotoAdapter;
+import com.finance.winport.trade.api.TradeService;
+import com.finance.winport.trade.model.PublicTopic;
 import com.finance.winport.util.ToastUtil;
+import com.finance.winport.util.ToolsUtil;
 import com.finance.winport.view.picker.Picker;
 import com.finance.winport.view.picker.engine.GlideEngine;
 import com.finance.winport.view.picker.utils.PicturePickerUtils;
@@ -29,6 +35,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Action2;
+import rx.functions.Func0;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by liuworkmac on 17/5/11.
@@ -46,11 +59,15 @@ public class EditNoteActivity extends BaseActivity {
     TextView tvPhotoNum;
     @BindView(R.id.gv_photos)
     TagCloudLayout gvPhotos;
+    @BindView(R.id.et_title)
+    EditText etTitle;
 
     private int textSize;
     private ChoicePhotoAdapter mAdapter;
     private List<String> mData = new ArrayList<>();
     private int REQUEST_CODE_PHOTO = 200;
+
+    private PublicTopic mPublicTopic = new PublicTopic();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -114,6 +131,7 @@ public class EditNoteActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.btn_done:
+                uploadImage();
                 break;
         }
     }
@@ -151,4 +169,61 @@ public class EditNoteActivity extends BaseActivity {
                 });
 
     }
+
+    private void uploadImage() {
+        Observable.from(mData).map(new Func1<String, String>() {
+            @Override
+            public String call(String s) {
+                return AliOss.getInstance().putObjectFromByteArray(AliOss.DIR_SHOP_TOPIC, s);
+            }
+        }).collect(new Func0<List<String>>() {
+            @Override
+            public List<String> call() {
+                return new ArrayList<String>();
+            }
+        }, new Action2<List<String>, String>() {
+            @Override
+            public void call(List<String> strings, String s) {
+                if (strings != null) {
+                    strings.add(s);
+                }
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<List<String>>() {
+                    @Override
+                    public void call(List<String> strings) {
+                        publishTopic(strings);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ToastUtil.show(EditNoteActivity.this, "上传图片失败!");
+                    }
+                });
+    }
+
+    private void publishTopic(List<String> images) {
+        if (etTitle.getText() == null || TextUtils.isEmpty(etTitle.getText().toString())) {
+            ToastUtil.show(this, "请输入帖子标题");
+            return;
+        }
+
+        mPublicTopic.title = etTitle.getText().toString();
+        if (etElse.getText() == null || TextUtils.isEmpty(etElse.getText().toString())) {
+            ToastUtil.show(this, "请输入帖子内容");
+            return;
+        }
+        mPublicTopic.content = etTitle.getText().toString();
+
+        mPublicTopic.imageList = images;
+
+        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).publishTopic(mPublicTopic), new LoadingNetSubscriber<BaseResponse>() {
+            @Override
+            public void response(BaseResponse response) {
+
+            }
+        });
+    }
+
 }

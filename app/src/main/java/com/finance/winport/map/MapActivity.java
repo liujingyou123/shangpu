@@ -98,6 +98,7 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         settings.setAllGesturesEnabled(false);
         settings.setScrollGesturesEnabled(true);
         settings.setZoomGesturesEnabled(true);
+        mBaiduMap.setMaxAndMinZoomLevel(19, 12);
 
         mBaiduMap.setOnMapStatusChangeListener(new BaiduMap.OnMapStatusChangeListener() {
             @Override
@@ -409,6 +410,18 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
     }
 
     @Override
+    public void showRemoveMapShop(MapShopResponse response) {
+        mBaiduMap.clear();
+
+        for (int i = 0; i < response.getData().size(); i++) {
+            if(mBaiduMap.getMapStatus().bound.contains(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())))){
+
+                addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(response.getData().get(i).getLatitude()), Double.parseDouble(response.getData().get(i).getLongitude())), response.getData().get(i).getName(), response.getData().get(i).getShopId()+"");
+            }
+        }
+    }
+
+    @Override
     public void showMapArea(MapAreaResponse response) {
 
         mBaiduMap.clear();
@@ -430,6 +443,20 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
                 .build();
         MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
         mBaiduMap.setMapStatus(mMapStatusUpdate);
+        mBaiduMap.clear();
+        for (int i = 0; i < response.getData().size(); i++) {
+            if(!TextUtils.isEmpty(response.getData().get(i).getName())&&!TextUtils.isEmpty(response.getData().get(i).getLatitude())&&!TextUtils.isEmpty(response.getData().get(i).getLongitude())){
+                if(mBaiduMap.getMapStatus().bound.contains(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())))){
+
+                    addRangePlate(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())), response.getData().get(i).getName().toString(), response.getData().get(i).getBizId()+"");
+                }
+            }
+        }
+    }
+
+    @Override
+    public void showRemoveMapPlate(MapAreaResponse response) {
+
         mBaiduMap.clear();
         for (int i = 0; i < response.getData().size(); i++) {
             if(!TextUtils.isEmpty(response.getData().get(i).getName())&&!TextUtils.isEmpty(response.getData().get(i).getLatitude())&&!TextUtils.isEmpty(response.getData().get(i).getLongitude())){

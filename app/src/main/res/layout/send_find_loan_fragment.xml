@@ -266,6 +266,7 @@
                     </LinearLayout>
 
                     <com.finance.winport.view.HeaderTextView
+                        android:id="@+id/loan_time"
                         android:layout_width="match_parent"
                         android:layout_height="44dp"
                         android:gravity="center_vertical"
@@ -477,6 +478,7 @@
         </ScrollView>
 
         <TextView
+            android:id="@+id/submit"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="#ffa73b"

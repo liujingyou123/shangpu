@@ -7,16 +7,29 @@
     android:paddingLeft="15dp"
     android:paddingRight="15dp">
 
-    <TextView
-        android:id="@+id/tv_title"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:drawableLeft="@mipmap/business_icon_top"
-        android:drawablePadding="3dp"
-        android:gravity="center_vertical"
-        android:text="魔都最火的10间商铺"
-        android:textColor="#FF333333"
-        android:textSize="15sp" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/imv_fire"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerInside"
+            android:src="@mipmap/business_icon_top"/>
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:text="魔都最火的10间商铺"
+            android:textColor="#FF333333"
+            android:textSize="15sp"
+            android:layout_marginLeft="3dp"/>
+    </LinearLayout>
+
 
     <!-- 文字 超链接-->
 
@@ -44,8 +57,7 @@
             android:layout_width="80dp"
             android:layout_height="60dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="7.5dp"
-            android:background="#ffff00" />
+            android:layout_marginLeft="7.5dp" />
 
         <TextView
             android:id="@+id/tv_href_title"

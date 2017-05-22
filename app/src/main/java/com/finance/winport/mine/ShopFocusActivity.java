@@ -50,6 +50,11 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
     private List<TagItem> selectList = new ArrayList<>();
     private TagItem selectIndustry;
 
+    private List<Integer> list1 = new ArrayList<>();
+
+//    private ArrayList<Integer> selectList = new ArrayList<>();
+    private String industryName,blockName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +73,143 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
 
     private void setTagList() {
 
-        focusContent.setText("江湾镇-餐饮类-20~50㎡\n500~1000㎡");
+        industryName = getIntent().getStringExtra("industryName");
+        blockName = getIntent().getStringExtra("blockName");
+        list1 = getIntent().getIntegerArrayListExtra("areaList");
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i <list1.size() ; i++) {
+            if(i==0){
+
+                if(list1.size()==1){
+
+                    switch (list1.get(i)) {
+                        case 0:
+                            s.append("20㎡以下");
+                            break;
+                        case 1:
+                            s.append("20-50㎡");
+                            break;
+                        case 2:
+                            s.append("50-100㎡");
+                            break;
+                        case 3:
+                            s.append("100-200㎡");
+                            break;
+                        case 4:
+                            s.append("200-500㎡");
+                            break;
+                        case 5:
+                            s.append("500-1000㎡");
+                            break;
+                        case 6:
+                            s.append("1000㎡以上");
+                            break;
+                    }
+
+                }
+                else{
+                    switch (list1.get(i)) {
+                        case 0:
+                            s.append("20㎡以下"+"\n");
+                            break;
+                        case 1:
+                            s.append("20-50㎡"+"\n");
+                            break;
+                        case 2:
+                            s.append("50-100㎡"+"\n");
+                            break;
+                        case 3:
+                            s.append("100-200㎡"+"\n");
+                            break;
+                        case 4:
+                            s.append("200-500㎡"+"\n");
+                            break;
+                        case 5:
+                            s.append("500-1000㎡"+"\n");
+                            break;
+                        case 6:
+                            s.append("1000㎡以上"+"\n");
+                            break;
+                    }
+                }
+            }
+            else if(list1.size()<5){
+                switch (list1.get(i)) {
+                    case 0:
+                        s.append("-"+"20㎡以下");
+                        break;
+                    case 1:
+                        s.append("-"+"20-50㎡");
+                        break;
+                    case 2:
+                        s.append("-"+"50-100㎡");
+                        break;
+                    case 3:
+                        s.append("-"+"100-200㎡");
+                        break;
+                    case 4:
+                        s.append("-"+"200-500㎡");
+                        break;
+                    case 5:
+                        s.append("-"+"500-1000㎡");
+                        break;
+                    case 6:
+                        s.append("-"+"1000㎡以上");
+                        break;
+                }
+            }else if(i==3){
+                switch (list1.get(i)) {
+                    case 0:
+                        s.append("-"+"20㎡以下\n");
+                        break;
+                    case 1:
+                        s.append("-"+"20-50㎡\n");
+                        break;
+                    case 2:
+                        s.append("-"+"50-100㎡\n");
+                        break;
+                    case 3:
+                        s.append("-"+"100-200㎡\n");
+                        break;
+                    case 4:
+                        s.append("-"+"200-500㎡\n");
+                        break;
+                    case 5:
+                        s.append("-"+"500-1000㎡\n");
+                        break;
+                    case 6:
+                        s.append("-"+"1000㎡以上\n");
+                        break;
+                }
+            }else{
+                switch (list1.get(i)) {
+                    case 0:
+                        s.append("-"+"20㎡以下");
+                        break;
+                    case 1:
+                        s.append("-"+"20-50㎡");
+                        break;
+                    case 2:
+                        s.append("-"+"50-100㎡");
+                        break;
+                    case 3:
+                        s.append("-"+"100-200㎡");
+                        break;
+                    case 4:
+                        s.append("-"+"200-500㎡");
+                        break;
+                    case 5:
+                        s.append("-"+"500-1000㎡");
+                        break;
+                    case 6:
+                        s.append("-"+"1000㎡以上");
+                        break;
+                }
+            }
+        }
+        focusContent.setText(blockName+"-"+industryName+"-"+s.toString());
+
+//        focusContent.setText("江湾镇-餐饮类-20~50㎡\n500~1000㎡");
 
         List<TagItem> list = new ArrayList<>();
         String[] textColor = {"#646464", "#ff7725"};
@@ -115,6 +256,16 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
             tagAdapter.update(list);
         }
 
+        list1.add(0);
+        list1.add(2);
+        list1.add(5);
+        for (int i = 0; i <list1.size() ; i++) {
+            for (int j = 0; j<list.size(); j++){
+                if(list.get(j).getTagId().equals(list1.get(i)+"")){
+                    tagAdapter.setMultiItemSelect(list.get(j), true);
+                }
+            }
+        }
         areaTag.setItemClickListener(new TagCloudLayout.TagItemClickListener() {
             @Override
             public void itemClick(int position) {
@@ -123,49 +274,49 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
                     if (item.isSelected()) {
                         tagAdapter.setMultiItemSelect(item, false);
                         selectList.remove(selectList.indexOf(item));
-                        StringBuilder s = new StringBuilder();
-                        for (int i = 0; i <selectList.size() ; i++) {
-                            if(i==0){
-
-                                if(selectList.size()==1){
-
-                                    s.append(selectList.get(i).getTagName());
-                                }
-                                else{
-                                    s.append(selectList.get(i).getTagName()+"\n");
-                                }
-                            }
-                            else if(selectList.size()<5){
-                                s.append("-"+selectList.get(i).getTagName());
-                            }else if(i==3){
-                                s.append("-"+selectList.get(i).getTagName()+"\n");
-                            }
-                        }
-                        focusContent.setText("江湾镇-餐饮类-"+s.toString());
+//                        StringBuilder s = new StringBuilder();
+//                        for (int i = 0; i <selectList.size() ; i++) {
+//                            if(i==0){
+//
+//                                if(selectList.size()==1){
+//
+//                                    s.append(selectList.get(i).getTagName());
+//                                }
+//                                else{
+//                                    s.append(selectList.get(i).getTagName()+"\n");
+//                                }
+//                            }
+//                            else if(selectList.size()<5){
+//                                s.append("-"+selectList.get(i).getTagName());
+//                            }else if(i==3){
+//                                s.append("-"+selectList.get(i).getTagName()+"\n");
+//                            }
+//                        }
+//                        focusContent.setText("江湾镇-餐饮类-"+s.toString());
                     } else {
                         tagAdapter.setMultiItemSelect(item, true);
                         selectList.add(item);
-                        StringBuilder s = new StringBuilder();
-                        for (int i = 0; i <selectList.size() ; i++) {
-                            if(i==0){
-
-                                if(selectList.size()==1){
-
-                                    s.append(selectList.get(i).getTagName());
-                                }
-                                else{
-                                    s.append(selectList.get(i).getTagName()+"\n");
-                                }
-                            }
-                            else if(selectList.size()<5){
-                                s.append("-"+selectList.get(i).getTagName());
-                            }else if(i==3){
-                                s.append("-"+selectList.get(i).getTagName()+"\n");
-                            }else{
-                                s.append("-"+selectList.get(i).getTagName());
-                            }
-                        }
-                        focusContent.setText("江湾镇-餐饮类-"+s.toString());
+//                        StringBuilder s = new StringBuilder();
+//                        for (int i = 0; i <selectList.size() ; i++) {
+//                            if(i==0){
+//
+//                                if(selectList.size()==1){
+//
+//                                    s.append(selectList.get(i).getTagName());
+//                                }
+//                                else{
+//                                    s.append(selectList.get(i).getTagName()+"\n");
+//                                }
+//                            }
+//                            else if(selectList.size()<5){
+//                                s.append("-"+selectList.get(i).getTagName());
+//                            }else if(i==3){
+//                                s.append("-"+selectList.get(i).getTagName()+"\n");
+//                            }else{
+//                                s.append("-"+selectList.get(i).getTagName());
+//                            }
+//                        }
+//                        focusContent.setText("江湾镇-餐饮类-"+s.toString());
                     }
                 }
             }
@@ -241,6 +392,12 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
             tag.setAdapter(industryTagAdapter);
         } else {
             industryTagAdapter.update(list);
+        }
+
+        for (int i = 0; i <list.size(); i++) {
+            if(list.get(i).getTagId().equals("")){
+                industryTagAdapter.setSingleItemSelect(i);
+            }
         }
 
         tag.setItemClickListener(new TagCloudLayout.TagItemClickListener() {

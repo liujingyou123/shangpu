@@ -65,7 +65,8 @@ public class DateSelectDialog extends BottomSelectDialog implements WheelPicker.
         month = calendar.get(Calendar.MONTH) + 1;
         day = calendar.get(Calendar.DAY_OF_MONTH);
         hour = calendar.get(Calendar.HOUR_OF_DAY);
-        minute = calendar.get(Calendar.MINUTE);
+//        minute = calendar.get(Calendar.MINUTE);
+        minute = 0;
 
         List<String> data_year = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
@@ -83,9 +84,12 @@ public class DateSelectDialog extends BottomSelectDialog implements WheelPicker.
         }
 
         List<String> data_minute = new ArrayList<>();
-        for (int i = 0; i < 60; i++) {
-            data_minute.add((i > 9 ? i : "0" + i) + "分");
-        }
+//        for (int i = 0; i < 60; i++) {
+//            data_minute.add((i > 9 ? i : "0" + i) + "分");
+//        }
+
+        data_minute.add("00分");
+        data_minute.add("30分");
 
 
         wpYear.setData(data_year);
@@ -147,7 +151,7 @@ public class DateSelectDialog extends BottomSelectDialog implements WheelPicker.
             System.out.println("cancel   " + year + "年" + month + "月" + day + "日 " + hour + "时" + minute + "分");
         } else {
             System.out.println("ok   " + year + "年" + month + "月" + day + "日 " + hour + "时" + minute + "分");
-            String dateStr = year + "-" + month + "-" + day + " " + hour + ":" + minute;
+            String dateStr = year + "-" + (month > 9 ? month : "0" + month) + "-" + (day > 9 ? day : "0" + day) + " " + (hour > 9 ? hour : "0" + hour) + ":" + (minute > 9 ? minute : "0" + minute);
             listener.onResult(dateStr);
         }
 

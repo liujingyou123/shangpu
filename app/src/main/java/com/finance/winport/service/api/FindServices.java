@@ -6,6 +6,7 @@ import com.finance.winport.home.model.ShopRequset;
 import com.finance.winport.service.model.FindLoanCountResponse;
 import com.finance.winport.service.model.FindServiceResponse;
 import com.finance.winport.service.model.LoanListResponse;
+import com.finance.winport.service.model.OrderShopRequest;
 import com.finance.winport.service.model.ShopOrderCountResponse;
 
 import java.util.HashMap;
@@ -36,6 +37,11 @@ public interface FindServices {
     //找服务首页
     @POST("customerapp/api/customer/serviceInfo/v1.0.0")
     Observable<FindServiceResponse> getFindService();
+
+
+    //预约看铺
+    @POST("customerapp/api/customer/applyVisit/v1.0.0")
+    Observable<BaseResponse> sendOrderShop(@Body OrderShopRequest request);
 
 
 

@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.map.AddrSelectActivity;
+import com.finance.winport.service.SendSuccessActivity;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.view.CountDownButton;
 import com.finance.winport.view.HeaderTextView;
@@ -107,7 +108,7 @@ public class SendShopRentFragment extends BaseFragment {
         phoneView.setText("188 7878 7998");
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.order_time, R.id.map_address, R.id.modify})
+    @OnClick({R.id.imv_focus_house_back, R.id.order_time, R.id.map_address, R.id.modify, R.id.submit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -137,6 +138,9 @@ public class SendShopRentFragment extends BaseFragment {
                 animator1.setInterpolator(new LinearInterpolator());
                 animator1.start();
                 modify.setVisibility(View.GONE);
+                break;
+            case R.id.submit:
+                startActivity(new Intent(getActivity(), SendSuccessActivity.class));
                 break;
         }
     }
