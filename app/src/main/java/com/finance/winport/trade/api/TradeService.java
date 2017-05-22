@@ -1,6 +1,7 @@
 package com.finance.winport.trade.api;
 
 import com.finance.winport.base.BaseResponse;
+import com.finance.winport.trade.model.PublicTopic;
 import com.finance.winport.trade.model.TradeCircleResponse;
 
 import java.util.HashMap;
@@ -29,4 +30,7 @@ public interface TradeService {
     //我发布的帖子 //TODO 没有数据没有model
     @POST("customerapp/api/topic/topicListByUserId/v1.0.0")
     Observable<BaseResponse> getMyTopics(@Body HashMap<String ,String> params);
+
+    @POST("customerapp/api/topic/publishTopic/v1.0.0")
+    Observable<BaseResponse> publishTopic(@Body PublicTopic params);
 }

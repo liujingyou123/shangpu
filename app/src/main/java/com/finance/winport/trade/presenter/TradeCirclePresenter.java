@@ -114,6 +114,10 @@ public class TradeCirclePresenter {
         });
     }
 
+    /**
+     *  我的帖子
+     * @param pageNumber
+     */
     public void getMyTopics(int pageNumber) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("pageNumber", pageNumber+"");

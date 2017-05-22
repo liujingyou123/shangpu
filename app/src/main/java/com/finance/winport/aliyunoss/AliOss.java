@@ -33,6 +33,7 @@ public class AliOss {
     public static final String DIR_SECONDHOUSE_TYPE = "house/type/";
     public static final String DIR_SECONDHOUSE_COMMUNITY = "house/community/";
     public static final String DIR_SIGN_DEAL="entrustprotocol/"; //创建协议
+    public static final String DIR_SHOP_TOPIC="shop_topic/"; //旺铺发帖
     // 运行sample前需要配置以下字段为有效的值
     private static final String endpoint = "http://oss-cn-shanghai.aliyuncs.com";
     private static final String accessKeyId = "LTAI3Xqadr8ORvUr";
