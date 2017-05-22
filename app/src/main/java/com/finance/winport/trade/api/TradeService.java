@@ -26,7 +26,7 @@ public interface TradeService {
     Observable<BaseResponse> zanTopic(@Body HashMap<String, String> params);
 
     //取消点赞
-    @POST("customerapp/api/topic/unlikeTopic/v1.0.0")
+    @POST("customerapp/api/topic/unLikeTopic/v1.0.0")
     Observable<BaseResponse> cancelzanTopic(@Body HashMap<String, String> params);
 
     //我发布的帖子

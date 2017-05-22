@@ -64,6 +64,9 @@ public class CheckGroup extends LinearLayout {
                             if (checkedBox != null && checkedBox == buttonView) {
                                 checkedBox = null;
                             }
+                            if (mOnCheckedBoxListener != null) {
+                                mOnCheckedBoxListener.onCheckedBox((CheckBox) buttonView);
+                            }
                         }
 
                     }
