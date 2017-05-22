@@ -117,6 +117,17 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
                 return;
             }
 
+            if ("1".equals(info.getIsOwn())) {
+                viewHolder.imvDel.setVisibility(View.VISIBLE);
+                viewHolder.imvDel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mPresenter.deleteComment(topicId);
+                    }
+                });
+            } else {
+                viewHolder.imvDel.setVisibility(View.GONE);
+            }
             viewHolder.tvPhone.setText(info.getPhone());
             viewHolder.tvTime.setText(info.getDateTime() + "评论");
             viewHolder.tvComment.setText(info.getCommentContent());
@@ -217,6 +228,8 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         TextView tvTime;
         @BindView(R.id.tv_comment)
         TextView tvComment;
+        @BindView(R.id.imv_del)
+        ImageView imvDel;
 
         public ItemViewHolder(View itemView) {
             super(itemView);

@@ -154,8 +154,8 @@ public class TradeCirclePresenter {
      */
     public void deleteTopic(final String topicId) {
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("likeId", topicId);
-        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).cancelzanTopic(hashMap), new NetSubscriber<BaseResponse>() {
+        hashMap.put("topicId", topicId);
+        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).deleteTopic(hashMap), new NetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
                 if (mITradeCircleView != null) {

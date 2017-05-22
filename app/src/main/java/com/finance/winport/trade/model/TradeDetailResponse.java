@@ -8,7 +8,7 @@ import java.util.List;
  * Created by liuworkmac on 17/5/22.
  */
 
-public class TradeDetailResponse extends BaseResponse{
+public class TradeDetailResponse extends BaseResponse {
 
 
     /**
@@ -226,6 +226,7 @@ public class TradeDetailResponse extends BaseResponse{
             private String id;
             private String phone;
             private String commentContent;
+            private String isOwn;
 
             public String getDateTime() {
                 return dateTime;
@@ -265,6 +266,14 @@ public class TradeDetailResponse extends BaseResponse{
 
             public void setCommentContent(String commentContent) {
                 this.commentContent = commentContent;
+            }
+
+            public String getIsOwn() {
+                return isOwn;
+            }
+
+            public void setIsOwn(String isOwn) {
+                this.isOwn = isOwn;
             }
         }
 
