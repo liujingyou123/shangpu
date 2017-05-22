@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -15,6 +16,19 @@
             android:layout_height="82dp"
             android:background="@color/bg" />
 
+        <ImageView
+            android:id="@+id/mark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/img"
+            android:layout_alignLeft="@+id/img"
+            android:layout_alignRight="@+id/img"
+            android:layout_alignTop="@+id/img"
+            android:background="@drawable/bg_mark_background"
+            android:scaleType="centerInside"
+            android:src="@drawable/bg_mark_foreground" />
+
+
         <TextView
             android:id="@+id/address"
             android:layout_width="wrap_content"
@@ -24,9 +38,9 @@
             android:layout_toLeftOf="@+id/area"
             android:layout_toRightOf="@+id/img"
             android:maxLines="2"
-            android:text="徐虹北路230号转租徐虹北路230号转租"
-            android:textColor="#333333"
-            android:textSize="15sp" />
+            android:textColor="@color/color_list_text_dark_selector"
+            android:textSize="15sp"
+            tools:text="徐虹北路230号转租徐虹北路230号转租" />
 
         <TextView
             android:id="@+id/history_count"
@@ -35,9 +49,9 @@
             android:layout_alignLeft="@+id/address"
             android:layout_below="@+id/address"
             android:layout_marginTop="9dp"
-            android:text="历史带看申请20组"
-            android:textColor="#999999"
-            android:textSize="14sp" />
+            android:textColor="@color/color_list_text_light_selector"
+            android:textSize="14sp"
+            tools:text="历史带看申请20组" />
 
         <TextView
             android:id="@+id/scan_count"
@@ -45,9 +59,9 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/img"
             android:layout_alignLeft="@+id/address"
-            android:text="19802人/次浏览"
-            android:textColor="#999999"
-            android:textSize="12sp" />
+            android:textColor="@color/color_list_text_light_selector"
+            android:textSize="12sp"
+            tools:text="19802人/次浏览" />
 
         <TextView
             android:id="@+id/release_time"
@@ -55,17 +69,19 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/img"
             android:layout_alignParentRight="true"
-            android:text="2小时前发布"
-            android:textColor="#999999"
-            android:textSize="12sp" />
+            android:textColor="@color/color_list_text_light_selector"
+            android:textSize="12sp"
+            tools:text="2小时前发布" />
 
         <TextView
             android:id="@+id/area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:text="100㎡"
-            android:textColor="#333333" />
+            android:layout_alignParentTop="true"
+            android:textColor="@color/color_list_text_dark_selector"
+            tools:text="100㎡" />
 
 
     </RelativeLayout>

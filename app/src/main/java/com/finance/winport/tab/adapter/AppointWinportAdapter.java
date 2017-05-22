@@ -77,11 +77,9 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
         String sRent = Math.round(item.rent) + "";
         String sFee = Math.round(item.transferFee / 10000) + "";
         boolean hasFee = item.transferFee > 0;
-        if (item.rentStatus == 3) {//rentStatus 出租状态 0-待出租 1-出租中 2-已出租  3-已下架（撤下）
+        //rentStatus 出租状态 0-待出租 1-出租中 2-已出租  3-已下架（撤下）
+        if (item.rentStatus == 3) {
             holder.price.setText(sRent + "元/月");
-            holder.mark.setVisibility(View.VISIBLE);
-            holder.overlay.setVisibility(View.VISIBLE);
-            holder.sign.setEnabled(false);
             if (item.isFace == 0) {// 面议
                 holder.fee.setText("面议");
             } else {
@@ -91,15 +89,14 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
                     holder.fee.setText("无转让费");
                 }
             }
+            setViewAndChildrenEnabled(convertView, false);
         } else {
-            holder.sign.setEnabled(true);
+            setViewAndChildrenEnabled(convertView, true);
             SpannableString sr = new SpannableString(sRent + "元");
             sr.setSpan(new ForegroundColorSpan(Color.parseColor("#FF7540"))
                     , 0, sr.length()
                     , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             holder.price.setText(sr);
-            holder.mark.setVisibility(View.GONE);
-            holder.overlay.setVisibility(View.GONE);
             if (item.isFace == 0) {// 面议
                 holder.fee.setText("面议");
             } else {
@@ -113,14 +110,6 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
                     holder.fee.setText("无转让费");
                 }
             }
-            convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent details = new Intent(context, ShopDetailActivity.class);
-                    details.putExtra("shopId", item.id);
-                    context.startActivity(details);
-                }
-            });
         }
         holder.distance.setText("距您" + UnitUtil.mTokm(item.distance + ""));
         holder.updateTime.setText(item.updateTime + "更新");
@@ -129,6 +118,14 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
         holder.call.setText(item.contactCount + "");
         Batman.getInstance().fromNet(item.coverImg, holder.img);
         setTag(holder, item);
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent details = new Intent(context, ShopDetailActivity.class);
+                details.putExtra("shopId", item.id);
+                context.startActivity(details);
+            }
+        });
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -147,6 +144,18 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
         });
         return convertView;
     }
+
+    private static void setViewAndChildrenEnabled(View view, boolean enabled) {
+        view.setEnabled(enabled);
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                View child = viewGroup.getChildAt(i);
+                setViewAndChildrenEnabled(child, enabled);
+            }
+        }
+    }
+
 
     private void setTag(ViewHolder holder, AppointShopList.DataBeanX.DataBean item) {
         holder.tag.removeAllViews();
@@ -279,8 +288,6 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
         TextView appointTime;
         @BindView(R.id.sign)
         TextView sign;
-        @BindView(R.id.overlay)
-        View overlay;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

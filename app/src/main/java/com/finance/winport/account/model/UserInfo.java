@@ -12,6 +12,8 @@ public class UserInfo extends BaseResponse {
     public static class DataBean {
         public String accessToken;
         public String headPortrait;
+        public String userPhone;
+
     }
 
 

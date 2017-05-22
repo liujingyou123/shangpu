@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,9 @@ import com.finance.winport.mine.SuggestActivity;
 import com.finance.winport.permission.PermissionsManager;
 import com.finance.winport.permission.PermissionsResultAction;
 import com.finance.winport.tab.event.SelectImageEvent;
+import com.finance.winport.tab.model.Lunar;
 import com.finance.winport.tab.model.UnReadMsg;
+import com.finance.winport.tab.model.WinportCounts;
 import com.finance.winport.tab.net.NetworkCallback;
 import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.util.LoadingDialogUtil;
@@ -54,6 +57,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import rx.Observable;
+import rx.Subscriber;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -128,6 +135,7 @@ public class MineFragment extends BaseFragment {
         View root = inflater.inflate(R.layout.mine_fragment, container, false);
         unbinder = ButterKnife.bind(this, root);
         init();
+        asyncRelevant();
         return root;
     }
 
@@ -135,11 +143,51 @@ public class MineFragment extends BaseFragment {
         if (isLogin()) {
             setHeadImage(SharedPrefsUtil.getUserInfo().data.headPortrait);
         }
-        getUnReadMsg();
     }
 
-    private void setHuangLi() {
+    private void setHuangLi(Lunar.DataBean data) {
+        day.setText(data.day);
+        solar.setText(data.year + "-" + data.month);
+        lunar.setText(data.lunarmonth + data.lunarday);
+        Observable.from(data.huangli.yi).take(5).subscribe(new Subscriber<String>() {
+            StringBuilder sb = new StringBuilder();
 
+            @Override
+            public void onCompleted() {
+                yi.setText(sb.toString());
+                Log.d("Mine", "yi-onCompleted->");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(String s) {
+                sb.append(s + " ");
+                Log.d("Mine", "yi-onNext->" + s);
+            }
+        });
+
+        Observable.from(data.huangli.ji).take(5).subscribe(new Subscriber<String>() {
+            StringBuilder sb = new StringBuilder();
+
+            @Override
+            public void onCompleted() {
+                ji.setText(sb.toString());
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(String s) {
+                sb.append(s + " ");
+            }
+        });
     }
 
     @Override
@@ -157,14 +205,23 @@ public class MineFragment extends BaseFragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            getUnReadMsg();
+            asyncRelevant();
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getUnReadMsg();
+        asyncRelevant();
+    }
+
+    //获取个人中心相关数据
+    private void asyncRelevant() {
+        if (isLogin()) {
+            getUnReadMsg();
+            getWinportCounts();
+            getLunar();
+        }
     }
 
     //获取未读消息
@@ -176,6 +233,46 @@ public class MineFragment extends BaseFragment {
             public void success(UnReadMsg response) {
                 if (response != null && response.isSuccess()) {
                     ivFocusRight.setActivated(response.data);
+                }
+            }
+
+            @Override
+            public void failure(Throwable throwable) {
+
+            }
+        });
+    }
+
+    //我的发布、约看、收藏、浏览、未来日程 总数统计接口
+    private void getWinportCounts() {
+        HashMap<String, Object> params = new HashMap<>();
+        PersonManager.getInstance().getWinportCounts(params, new NetworkCallback<WinportCounts>() {
+            @Override
+            public void success(WinportCounts response) {
+                if (response != null && response.isSuccess()) {
+                    mineWinport.setText(response.data.issuerCount);
+                    mineAppoint.setText(response.data.visitCount);
+                    mineCollection.setText(response.data.collectedCount);
+                    mineScan.setText(response.data.browseCount);
+                }
+            }
+
+            @Override
+            public void failure(Throwable throwable) {
+
+            }
+        });
+    }
+
+    //获取农历
+    private void getLunar() {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("currentDate", "2017-5-22");
+        PersonManager.getInstance().getLunar(params, new NetworkCallback<Lunar>() {
+            @Override
+            public void success(Lunar response) {
+                if (response != null && response.isSuccess()) {
+                    setHuangLi(response.data);
                 }
             }
 

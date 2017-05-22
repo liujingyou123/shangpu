@@ -6,10 +6,12 @@ import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.tab.model.AppointRanking;
 import com.finance.winport.tab.model.AppointShopList;
 import com.finance.winport.tab.model.CollectionShopList;
+import com.finance.winport.tab.model.Lunar;
 import com.finance.winport.tab.model.Prediction;
 import com.finance.winport.tab.model.ScanCount;
 import com.finance.winport.tab.model.ScanShopList;
 import com.finance.winport.tab.model.UnReadMsg;
+import com.finance.winport.tab.model.WinportCounts;
 import com.finance.winport.tab.model.WinportList;
 import com.finance.winport.util.ToolsUtil;
 
@@ -391,6 +393,7 @@ public class PersonManager {
                     }
                 });
     }
+
     // 我的未读消息
     public Subscription getUnReadMsg(HashMap<String, Object> params, final NetworkCallback<UnReadMsg> callback) {
         return Ironman.getInstance()
@@ -407,7 +410,52 @@ public class PersonManager {
 
                     @Override
                     public void onError(Throwable e) {
-                        super.onError(e);
+                        if (callback != null) {
+                            callback.failure(e);
+                        }
+                    }
+                });
+    }
+
+    // 我的发布、约看、收藏、浏览、未来日程 总数统计接口
+    public Subscription getWinportCounts(HashMap<String, Object> params, final NetworkCallback<WinportCounts> callback) {
+        return Ironman.getInstance()
+                .createService(PersonService.class)
+                .getWinportCounts(params)
+                .compose(ToolsUtil.<WinportCounts>applayScheduers())
+                .subscribe(new NetSubscriber<WinportCounts>() {
+                    @Override
+                    public void response(WinportCounts response) {
+                        if (callback != null) {
+                            callback.success(response);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (callback != null) {
+                            callback.failure(e);
+                        }
+                    }
+                });
+    }
+
+    // 农历接口
+    public Subscription getLunar(HashMap<String, Object> params, final NetworkCallback<Lunar> callback) {
+        return Ironman.getInstance()
+                .createService(PersonService.class)
+                .getLunar(params)
+                .compose(ToolsUtil.<Lunar>applayScheduers())
+                .subscribe(new NetSubscriber<Lunar>() {
+                    @Override
+                    public void response(Lunar response) {
+                        if (callback != null) {
+                            callback.success(response);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
                         if (callback != null) {
                             callback.failure(e);
                         }
