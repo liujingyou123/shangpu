@@ -8,6 +8,7 @@ import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.service.api.FindServices;
 import com.finance.winport.service.model.FindLoanCountResponse;
 import com.finance.winport.service.model.ShopOrderCountResponse;
+import com.finance.winport.service.model.ShopRentCountResponse;
 import com.finance.winport.util.ToolsUtil;
 
 /**
@@ -41,6 +42,19 @@ public class ServicePresenter {
             public void response(FindLoanCountResponse response) {
                 if (mServiceView != null) {
                     mServiceView.findLoanCount(response);
+                }
+            }
+        });
+
+    }
+
+    public void getShopRentCount() {
+
+        ToolsUtil.subscribe(ToolsUtil.createService(FindServices.class).getRentCount(), new NetSubscriber<ShopRentCountResponse>() {
+            @Override
+            public void response(ShopRentCountResponse response) {
+                if (mServiceView != null) {
+                    mServiceView.showRentCount(response);
                 }
             }
         });

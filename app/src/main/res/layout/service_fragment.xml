@@ -132,6 +132,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/undo_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -247,6 +248,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/shop"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -291,6 +293,7 @@
                     android:background="#e5e5e5" />
 
                 <TextView
+                    android:id="@+id/shop_more"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
