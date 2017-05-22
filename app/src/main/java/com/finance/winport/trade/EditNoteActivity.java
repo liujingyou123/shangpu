@@ -131,7 +131,11 @@ public class EditNoteActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.btn_done:
-                uploadImage();
+                if (mAdapter.getListData() == null || mAdapter.getListData().size() == 0) {
+                    publishTopic(null);
+                } else {
+                    uploadImage();
+                }
                 break;
         }
     }
@@ -171,7 +175,7 @@ public class EditNoteActivity extends BaseActivity {
     }
 
     private void uploadImage() {
-        Observable.from(mData).map(new Func1<String, String>() {
+        Observable.from(mAdapter.getListData()).map(new Func1<String, String>() {
             @Override
             public String call(String s) {
                 return AliOss.getInstance().putObjectFromByteArray(AliOss.DIR_SHOP_TOPIC, s);
@@ -204,6 +208,10 @@ public class EditNoteActivity extends BaseActivity {
     }
 
     private void publishTopic(List<String> images) {
+        if (images != null) {
+            mPublicTopic.imageList = images;
+        }
+
         if (etTitle.getText() == null || TextUtils.isEmpty(etTitle.getText().toString())) {
             ToastUtil.show(this, "请输入帖子标题");
             return;
@@ -214,14 +222,15 @@ public class EditNoteActivity extends BaseActivity {
             ToastUtil.show(this, "请输入帖子内容");
             return;
         }
-        mPublicTopic.content = etTitle.getText().toString();
+        mPublicTopic.content = etElse.getText().toString();
 
-        mPublicTopic.imageList = images;
 
         ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).publishTopic(mPublicTopic), new LoadingNetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
-
+                if(response.isSuccess()) {
+                    ToastUtil.show(EditNoteActivity.this, "发布成功");
+                }
             }
         });
     }

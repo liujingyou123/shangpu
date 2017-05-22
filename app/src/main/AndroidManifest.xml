@@ -160,7 +160,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <!-- 我发布的帖子 -->
         <activity
-            android:name=".mine.MyPostListActivity"
+            android:name=".trade.MyPostListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 

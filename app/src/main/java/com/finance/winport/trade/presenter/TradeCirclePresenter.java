@@ -3,6 +3,7 @@ package com.finance.winport.trade.presenter;
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.trade.api.TradeService;
+import com.finance.winport.trade.model.MyTopicResponse;
 import com.finance.winport.trade.model.TradeCircleResponse;
 import com.finance.winport.trade.view.ITradeCircleView;
 import com.finance.winport.util.ToolsUtil;
@@ -74,7 +75,6 @@ public class TradeCirclePresenter {
     public void zanTopic(final String topicId, final int position) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("topicId", topicId);
-        hashMap.put("likeType", "0");
         ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).zanTopic(hashMap), new NetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
@@ -87,15 +87,21 @@ public class TradeCirclePresenter {
             public void onError(Throwable e) {
                 super.onError(e);
                 if (mITradeCircleView != null) {
-                    mITradeCircleView.zanTopic(false, position,topicId);
+                    mITradeCircleView.zanTopic(false, position, topicId);
                 }
             }
         });
     }
 
+    /**
+     * 取消点赞
+     *
+     * @param topicId
+     * @param position
+     */
     public void cancelzanTopic(final String topicId, final int position) {
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("likeId", topicId);
+        hashMap.put("topicId", topicId);
         ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).cancelzanTopic(hashMap), new NetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
@@ -108,25 +114,26 @@ public class TradeCirclePresenter {
             public void onError(Throwable e) {
                 super.onError(e);
                 if (mITradeCircleView != null) {
-                    mITradeCircleView.cancelTopic(false, position,topicId);
+                    mITradeCircleView.cancelTopic(false, position, topicId);
                 }
             }
         });
     }
 
     /**
-     *  我的帖子
+     * 我的帖子
+     *
      * @param pageNumber
      */
     public void getMyTopics(int pageNumber) {
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("pageNumber", pageNumber+"");
-        hashMap.put("pageSize", 10+"");
-        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).getMyTopics(hashMap), new NetSubscriber<BaseResponse>() {
+        hashMap.put("pageNumber", pageNumber + "");
+        hashMap.put("pageSize", 10 + "");
+        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).getMyTopics(hashMap), new NetSubscriber<TradeCircleResponse>() {
             @Override
-            public void response(BaseResponse response) {
+            public void response(TradeCircleResponse response) {
                 if (mITradeCircleView != null) {
-                    mITradeCircleView.showTradeCircle(null);
+                    mITradeCircleView.showTradeCircle(response);
                 }
             }
 
@@ -135,6 +142,32 @@ public class TradeCirclePresenter {
                 super.onError(e);
                 if (mITradeCircleView != null) {
                     mITradeCircleView.onError();
+                }
+            }
+        });
+    }
+
+    /**
+     * 删除帖子
+     *
+     * @param topicId
+     */
+    public void deleteTopic(final String topicId) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("topicId", topicId);
+        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).deleteTopic(hashMap), new NetSubscriber<BaseResponse>() {
+            @Override
+            public void response(BaseResponse response) {
+                if (mITradeCircleView != null) {
+                    mITradeCircleView.deleteTopic(true, topicId);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                if (mITradeCircleView != null) {
+                    mITradeCircleView.deleteTopic(false, topicId);
                 }
             }
         });

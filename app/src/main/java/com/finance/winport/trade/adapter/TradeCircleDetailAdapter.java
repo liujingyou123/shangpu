@@ -3,6 +3,7 @@ package com.finance.winport.trade.adapter;
 import android.content.Context;
 import android.support.v7.widget.GridLayout;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
 import com.finance.winport.R;
 import com.finance.winport.image.Batman;
+import com.finance.winport.trade.model.TradeDetailResponse;
+import com.finance.winport.trade.presenter.TradeCircleDetailPresener;
 import com.finance.winport.util.UnitUtil;
 
 import java.util.List;
@@ -22,19 +24,25 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class WorkCommunitDetailListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int TYPE_HEADER = 0;
     public static final int TYPE_NORMAL = 1;
-    private List<String> datas;
-
+    private TradeDetailResponse.DataBean mData;
     private LayoutInflater layoutInflater;
 
     private Context mContext;
+    private TradeCircleDetailPresener mPresenter;
+    private String topicId;
 
-    public WorkCommunitDetailListAdapter(Context context, List<String> datas) {
+    public TradeCircleDetailAdapter(Context context, TradeDetailResponse.DataBean data) {
         this.mContext = context;
-        this.datas = datas;
+        this.mData = data;
         this.layoutInflater = LayoutInflater.from(context);
+    }
+
+    public void setPresenterAndId(TradeCircleDetailPresener presenter, String topicId) {
+        this.mPresenter = presenter;
+        this.topicId = topicId;
     }
 
     @Override
@@ -60,40 +68,84 @@ public class WorkCommunitDetailListAdapter extends RecyclerView.Adapter<Recycler
 
         if (holder instanceof HeaderViewHolder) {
             HeaderViewHolder viewHolder = (HeaderViewHolder) holder;
-            viewHolder.tvHeaderPhone.setText("133****4559");
-            int index = 11 + 1;
+            if (mData != null) {
+                viewHolder.tvHeaderPhone.setText(mData.getPhone());
+                viewHolder.tvHeaderMsg.setText("关注　" + mData.getAttentionContent());
+                Batman.getInstance().fromNet(mData.getHeadPicture(), viewHolder.ivHeaderIcon);
+                viewHolder.tvHeaderTime.setText(mData.getDateTime());
+                viewHolder.tvTitle.setText(mData.getTitle());
+//                if ("1".equals(mData.getCanBeDelete())) {
+//                    viewHolder.imvDel.setVisibility(View.VISIBLE);
+//                    viewHolder.imvDel.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            mPresenter.deleteTopic(topicId);
+//                        }
+//                    });
+//                } else {
+//                    viewHolder.imvDel.setVisibility(View.GONE);
+//                }
+                if (mData != null && mData.getImgList().size() > 0) {
+                    viewHolder.glImages.setVisibility(View.VISIBLE);
+                    setGridLayout(viewHolder, mData.getImgList());
+                } else {
+                    viewHolder.glImages.setVisibility(View.GONE);
+                }
 
-            viewHolder.glImages.setVisibility(View.VISIBLE);
-            viewHolder.tvSub.setVisibility(View.GONE);
-            viewHolder.rlHref.setVisibility(View.GONE);
+                if (!TextUtils.isEmpty(mData.getContent())) {
+                    viewHolder.tvSub.setVisibility(View.VISIBLE);
+                    viewHolder.tvSub.setText(mData.getContent());
+                } else {
+                    viewHolder.tvSub.setVisibility(View.GONE);
+                }
+                if (mData.getH5obj() != null) {
+                    viewHolder.rlHref.setVisibility(View.VISIBLE);
+                    Batman.getInstance().fromNet(mData.getH5obj().getUrl(), viewHolder.imvHref);
+                    viewHolder.tvHrefTitle.setText(mData.getH5obj().getTitle());
+                    viewHolder.tvHrefSub.setText(mData.getH5obj().getContent());
 
-            setGridLayout(viewHolder, index);
+                } else {
+                    viewHolder.rlHref.setVisibility(View.GONE);
+                }
+            }
 
         } else {
             ItemViewHolder viewHolder = (ItemViewHolder) holder;
 
-            final String info = getItem(position);
+            final TradeDetailResponse.DataBean.Comment info = getItem(position);
             if (info == null) {
                 return;
             }
 
-            viewHolder.tvPhone.setText("187****3112");
-            viewHolder.tvTime.setText(info + "分钟前评论");
+            if ("1".equals(info.getIsOwn())) {
+                viewHolder.imvDel.setVisibility(View.VISIBLE);
+                viewHolder.imvDel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mPresenter.deleteComment(topicId);
+                    }
+                });
+            } else {
+                viewHolder.imvDel.setVisibility(View.GONE);
+            }
+            viewHolder.tvPhone.setText(info.getPhone());
+            viewHolder.tvTime.setText(info.getDateTime() + "评论");
+            viewHolder.tvComment.setText(info.getCommentContent());
+            Batman.getInstance().fromNet(info.getHeadPicture(), viewHolder.ivIcon);
 
         }
     }
 
     @Override
     public int getItemCount() {
-        return datas == null ? 1 : datas.size() + 1;
+        return mData == null || mData.getCommentList() == null ? 1 : mData.getCommentList().size() + 1;
     }
 
-    private void setGridLayout(HeaderViewHolder viewHolder, int imageSize) {
+    private void setGridLayout(HeaderViewHolder viewHolder, List<TradeDetailResponse.DataBean.Img> imageUrls) {
+        int imageSize = imageUrls.size();
         viewHolder.glImages.removeAllViews();
-
         if (imageSize == 1) {
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 247.5f));
-
 
             viewHolder.glImages.setLayoutParams(lp);
             viewHolder.glImages.setColumnCount(1);
@@ -122,20 +174,22 @@ public class WorkCommunitDetailListAdapter extends RecyclerView.Adapter<Recycler
             viewHolder.glImages.setLayoutParams(lp);
             viewHolder.glImages.setColumnCount(3);
             viewHolder.glImages.setRowCount(2);
-        } else if (imageSize == 7 || imageSize == 8 || imageSize == 9) {
+        } else { // if (imageSize == 7 || imageSize == 8 || imageSize == 9)
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(mContext, 247.5f));
 
             viewHolder.glImages.setLayoutParams(lp);
             viewHolder.glImages.setColumnCount(3);
             viewHolder.glImages.setRowCount(3);
-        } else { //TODO  这里仅做UI调试
-            viewHolder.glImages.setVisibility(View.GONE);
-            viewHolder.tvSub.setVisibility(View.VISIBLE);
-            viewHolder.rlHref.setVisibility(View.VISIBLE);
         }
+//        else {
+//            viewHolder.glImages.setVisibility(View.GONE);
+//            viewHolder.tvSub.setVisibility(View.VISIBLE);
+//            viewHolder.rlHref.setVisibility(View.VISIBLE);
+//        }
 
+        imageSize = (imageSize > 9 ? 9 : imageSize);
         for (int j = 0; j < imageSize; j++) {
-            viewHolder.glImages.addView(getView(null));
+            viewHolder.glImages.addView(getView(imageUrls.get(j).getImgUrl()));
         }
     }
 
@@ -143,8 +197,7 @@ public class WorkCommunitDetailListAdapter extends RecyclerView.Adapter<Recycler
 
         ImageView imageView = new ImageView(mContext);
 
-        //TODO 真是数据 用URL
-        Batman.getInstance().fromNet("http://img0.imgtn.bdimg.com/it/u=941334686,3174396022&fm=23&gp=0.jpg", imageView);
+        Batman.getInstance().fromNet(url, imageView);
         GridLayout.Spec rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1.0f);
         GridLayout.Spec columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1.0f);
 
@@ -154,12 +207,16 @@ public class WorkCommunitDetailListAdapter extends RecyclerView.Adapter<Recycler
 
         return imageView;
     }
-    private String getItem(int pos) {
-        if (datas == null || datas.size() == 0) {
+
+    private TradeDetailResponse.DataBean.Comment getItem(int pos) {
+        if (mData == null) {
             return null;
         }
 
-        return datas.get(pos - 1);
+        if (pos <= mData.getCommentList().size()) {
+
+        }
+        return mData.getCommentList().get(pos - 1);
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -171,6 +228,8 @@ public class WorkCommunitDetailListAdapter extends RecyclerView.Adapter<Recycler
         TextView tvTime;
         @BindView(R.id.tv_comment)
         TextView tvComment;
+        @BindView(R.id.imv_del)
+        ImageView imvDel;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
@@ -201,6 +260,8 @@ public class WorkCommunitDetailListAdapter extends RecyclerView.Adapter<Recycler
         RelativeLayout rlHref;
         @BindView(R.id.gl_images)
         GridLayout glImages;
+        @BindView(R.id.imv_del)
+        ImageView imvDel;
 
         public HeaderViewHolder(View itemView) {
             super(itemView);

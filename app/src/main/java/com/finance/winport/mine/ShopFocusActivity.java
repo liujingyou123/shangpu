@@ -1,6 +1,7 @@
 package com.finance.winport.mine;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -8,16 +9,22 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
-import com.finance.winport.dialog.SelectHouseTypeDialog;
+import com.finance.winport.base.BaseResponse;
+import com.finance.winport.dialog.ScrollSelectDialog;
+import com.finance.winport.home.api.HomeServices;
+import com.finance.winport.home.model.RegionResponse;
 import com.finance.winport.mine.adapter.TagAdapter;
 import com.finance.winport.mine.adapter.TagItem;
+import com.finance.winport.mine.model.CommitFocusRequest;
 import com.finance.winport.mine.model.IndustryListResponse;
 import com.finance.winport.mine.presenter.IShopFocusView;
 import com.finance.winport.mine.presenter.ShopFocusPresenter;
-import com.finance.winport.service.presenter.ServicePresenter;
+import com.finance.winport.net.NetSubscriber;
+import com.finance.winport.util.ToolsUtil;
 import com.finance.winport.view.tagview.TagCloudLayout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -41,6 +48,8 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
     TextView focusContent;
     @BindView(R.id.select_area)
     RelativeLayout selectArea;
+    @BindView(R.id.district)
+    TextView district;
 
     private TagAdapter tagAdapter;
     private TagAdapter industryTagAdapter;//经营业态
@@ -52,8 +61,13 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
 
     private List<Integer> list1 = new ArrayList<>();
 
-//    private ArrayList<Integer> selectList = new ArrayList<>();
-    private String industryName,blockName;
+    //    private ArrayList<Integer> selectList = new ArrayList<>();
+    private String industryName, blockName,districtName,industryId,districtId,blockId;
+    private HashMap<String, List<String>> hashMap = new HashMap<>();
+    private HashMap<String, List<RegionResponse.Region.Block>> hashMapBlock = new HashMap<>();
+    ScrollSelectDialog scrollDialog;
+    List<String> list = new ArrayList<String>();
+    List<RegionResponse.Region> regionList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +76,7 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
         ButterKnife.bind(this);
         setTagList();
         getData();
+        getDistrict();
     }
 
     private void getData() {
@@ -71,16 +86,37 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
         mPresenter.getIndustryList();
     }
 
+    private void commit(){
+        CommitFocusRequest request = new CommitFocusRequest();
+        request.setAreas(list1);
+        request.setBlockId(blockId);
+        request.setBlockName(blockName);
+        request.setDistrictId(districtId);
+        request.setDistrictName(districtName);
+        request.setIndustryId(industryId);
+        request.setIndustryName(industryName);
+        request.setCityId("310000");
+        request.setCityName("上海市");
+        if (mPresenter == null) {
+            mPresenter = new ShopFocusPresenter(this);
+        }
+        mPresenter.commitFocus(request);
+    }
+
     private void setTagList() {
 
         industryName = getIntent().getStringExtra("industryName");
         blockName = getIntent().getStringExtra("blockName");
+        districtName = getIntent().getStringExtra("districtName");
+        industryId = getIntent().getStringExtra("industryId");
+        districtId = getIntent().getStringExtra("districtId");
+        blockId = getIntent().getStringExtra("blockId");
         list1 = getIntent().getIntegerArrayListExtra("areaList");
         StringBuilder s = new StringBuilder();
-        for (int i = 0; i <list1.size() ; i++) {
-            if(i==0){
+        for (int i = 0; i < list1.size(); i++) {
+            if (i == 0) {
 
-                if(list1.size()==1){
+                if (list1.size() == 1) {
 
                     switch (list1.get(i)) {
                         case 0:
@@ -106,112 +142,115 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
                             break;
                     }
 
-                }
-                else{
+                } else {
                     switch (list1.get(i)) {
                         case 0:
-                            s.append("20㎡以下"+"\n");
+                            s.append("20㎡以下" + "\n");
                             break;
                         case 1:
-                            s.append("20-50㎡"+"\n");
+                            s.append("20-50㎡" + "\n");
                             break;
                         case 2:
-                            s.append("50-100㎡"+"\n");
+                            s.append("50-100㎡" + "\n");
                             break;
                         case 3:
-                            s.append("100-200㎡"+"\n");
+                            s.append("100-200㎡" + "\n");
                             break;
                         case 4:
-                            s.append("200-500㎡"+"\n");
+                            s.append("200-500㎡" + "\n");
                             break;
                         case 5:
-                            s.append("500-1000㎡"+"\n");
+                            s.append("500-1000㎡" + "\n");
                             break;
                         case 6:
-                            s.append("1000㎡以上"+"\n");
+                            s.append("1000㎡以上" + "\n");
                             break;
                     }
                 }
-            }
-            else if(list1.size()<5){
+            } else if (list1.size() < 5) {
                 switch (list1.get(i)) {
                     case 0:
-                        s.append("-"+"20㎡以下");
+                        s.append("-" + "20㎡以下");
                         break;
                     case 1:
-                        s.append("-"+"20-50㎡");
+                        s.append("-" + "20-50㎡");
                         break;
                     case 2:
-                        s.append("-"+"50-100㎡");
+                        s.append("-" + "50-100㎡");
                         break;
                     case 3:
-                        s.append("-"+"100-200㎡");
+                        s.append("-" + "100-200㎡");
                         break;
                     case 4:
-                        s.append("-"+"200-500㎡");
+                        s.append("-" + "200-500㎡");
                         break;
                     case 5:
-                        s.append("-"+"500-1000㎡");
+                        s.append("-" + "500-1000㎡");
                         break;
                     case 6:
-                        s.append("-"+"1000㎡以上");
+                        s.append("-" + "1000㎡以上");
                         break;
                 }
-            }else if(i==3){
+            } else if (i == 3) {
                 switch (list1.get(i)) {
                     case 0:
-                        s.append("-"+"20㎡以下\n");
+                        s.append("-" + "20㎡以下\n");
                         break;
                     case 1:
-                        s.append("-"+"20-50㎡\n");
+                        s.append("-" + "20-50㎡\n");
                         break;
                     case 2:
-                        s.append("-"+"50-100㎡\n");
+                        s.append("-" + "50-100㎡\n");
                         break;
                     case 3:
-                        s.append("-"+"100-200㎡\n");
+                        s.append("-" + "100-200㎡\n");
                         break;
                     case 4:
-                        s.append("-"+"200-500㎡\n");
+                        s.append("-" + "200-500㎡\n");
                         break;
                     case 5:
-                        s.append("-"+"500-1000㎡\n");
+                        s.append("-" + "500-1000㎡\n");
                         break;
                     case 6:
-                        s.append("-"+"1000㎡以上\n");
+                        s.append("-" + "1000㎡以上\n");
                         break;
                 }
-            }else{
+            } else {
                 switch (list1.get(i)) {
                     case 0:
-                        s.append("-"+"20㎡以下");
+                        s.append("-" + "20㎡以下");
                         break;
                     case 1:
-                        s.append("-"+"20-50㎡");
+                        s.append("-" + "20-50㎡");
                         break;
                     case 2:
-                        s.append("-"+"50-100㎡");
+                        s.append("-" + "50-100㎡");
                         break;
                     case 3:
-                        s.append("-"+"100-200㎡");
+                        s.append("-" + "100-200㎡");
                         break;
                     case 4:
-                        s.append("-"+"200-500㎡");
+                        s.append("-" + "200-500㎡");
                         break;
                     case 5:
-                        s.append("-"+"500-1000㎡");
+                        s.append("-" + "500-1000㎡");
                         break;
                     case 6:
-                        s.append("-"+"1000㎡以上");
+                        s.append("-" + "1000㎡以上");
                         break;
                 }
             }
         }
-        focusContent.setText(blockName+"-"+industryName+"-"+s.toString());
+        if(TextUtils.isEmpty(blockName)&&TextUtils.isEmpty(industryName)){
+
+        }else{
+
+            focusContent.setText(blockName + "-" + industryName + "-" + s.toString());
+        }
 
 //        focusContent.setText("江湾镇-餐饮类-20~50㎡\n500~1000㎡");
 
-        List<TagItem> list = new ArrayList<>();
+        List<TagItem> arealist = new ArrayList<>();
         String[] textColor = {"#646464", "#ff7725"};
         String[] bgColor = {"#f0f0f0", "#ffffff"};
         String[] strokeColor = {"#646464", "#ff7725"};
@@ -247,22 +286,23 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
                     break;
             }
 
-            list.add(item);
+            arealist.add(item);
         }
         if (tagAdapter == null) {
-            tagAdapter = new TagAdapter(context, list);
+            tagAdapter = new TagAdapter(context, arealist);
             areaTag.setAdapter(tagAdapter);
         } else {
-            tagAdapter.update(list);
+            tagAdapter.update(arealist);
         }
 
-        list1.add(0);
-        list1.add(2);
-        list1.add(5);
-        for (int i = 0; i <list1.size() ; i++) {
-            for (int j = 0; j<list.size(); j++){
-                if(list.get(j).getTagId().equals(list1.get(i)+"")){
-                    tagAdapter.setMultiItemSelect(list.get(j), true);
+//        list1.add(0);
+//        list1.add(2);
+//        list1.add(5);
+        for (int i = 0; i < list1.size(); i++) {
+            for (int j = 0; j < arealist.size(); j++) {
+                if (arealist.get(j).getTagId().equals(list1.get(i) + "")) {
+                    tagAdapter.setMultiItemSelect(arealist.get(j), true);
+                    selectList.add(arealist.get(j));
                 }
             }
         }
@@ -274,6 +314,7 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
                     if (item.isSelected()) {
                         tagAdapter.setMultiItemSelect(item, false);
                         selectList.remove(selectList.indexOf(item));
+                        list1.remove(item.getTagId());
 //                        StringBuilder s = new StringBuilder();
 //                        for (int i = 0; i <selectList.size() ; i++) {
 //                            if(i==0){
@@ -296,6 +337,7 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
                     } else {
                         tagAdapter.setMultiItemSelect(item, true);
                         selectList.add(item);
+                        list1.add(Integer.parseInt(item.getTagId()));
 //                        StringBuilder s = new StringBuilder();
 //                        for (int i = 0; i <selectList.size() ; i++) {
 //                            if(i==0){
@@ -334,33 +376,37 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
      * 楼层
      */
     private void showLouCeng() {
-        List<String> its0 = new ArrayList<>();
-        for (int i = 1; i < 101; i++) {
-            its0.add("" + i + "层");
+        if (scrollDialog == null) {
+
+            scrollDialog = new ScrollSelectDialog(ShopFocusActivity.this, list, hashMap, new ScrollSelectDialog.OnSelectListener() {
+                @Override
+                public void onSelect(String data) {
+
+                    district.setText(data);
+                    districtName = data.split("-")[0];
+                    blockName = data.split("-")[1];
+                    for (int i = 0; i <list.size() ; i++) {
+                        if(districtName.equals(regionList.get(i).getRegionName())){
+                            districtId = regionList.get(i).getRegionId();
+                        }
+                    }
+                    List<RegionResponse.Region.Block> blockList = new ArrayList<>();
+                    blockList = hashMapBlock.get(districtName);
+                    for (int j = 0; j <blockList.size() ; j++) {
+                        if(blockName.equals(blockList.get(j).getBlockName())){
+                            blockId = blockList.get(j).getBlockId();
+                        }
+                    }
+
+
+
+                }
+            });
         }
-
-        List<String> its1 = new ArrayList<>();
-        for (int i = 1; i < 101; i++) {
-            its1.add("" + i + "层");
-        }
-
-
-        final SelectHouseTypeDialog dialog = new SelectHouseTypeDialog(this);
-        dialog.setList(its0, its1);
-
-        dialog.setOnItemSelectListener(new SelectHouseTypeDialog.OnItemSelectListener() {
-            @Override
-            public void onItemSelect(int indexone, int indextwo, int indexthree) {
-
-
-
-            }
-        });
-
-        dialog.show();
+        scrollDialog.show();
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.select_area})
+    @OnClick({R.id.imv_focus_house_back, R.id.select_area, R.id.commit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -368,6 +414,9 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
                 break;
             case R.id.select_area:
                 showLouCeng();
+                break;
+            case R.id.commit:
+                commit();
                 break;
         }
     }
@@ -378,7 +427,7 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
         String[] textColor = {"#646464", "#ff7725"};
         String[] bgColor = {"#f0f0f0", "#ffffff"};
         String[] strokeColor = {"#646464", "#ff7725"};
-        for (int i = 0; i <response.getData().size() ; i++) {
+        for (int i = 0; i < response.getData().size(); i++) {
             TagItem item = new TagItem();
             item.setTextColor(textColor);
             item.setBgColor(bgColor);
@@ -394,32 +443,65 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
             industryTagAdapter.update(list);
         }
 
-        for (int i = 0; i <list.size(); i++) {
-            if(list.get(i).getTagId().equals("")){
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getTagId().equals(industryId)) {
                 industryTagAdapter.setSingleItemSelect(i);
             }
         }
 
+
         tag.setItemClickListener(new TagCloudLayout.TagItemClickListener() {
-                                         @Override
-                                         public void itemClick(int position) {
-                                             TagItem item = (TagItem) industryTagAdapter.getItem(position);
-                                             if (item != null) {
-                                                 if (!item.isSelected()) {// 未选择状态
+                                     @Override
+                                     public void itemClick(int position) {
+                                         TagItem item = (TagItem) industryTagAdapter.getItem(position);
+                                         if (item != null) {
+                                             if (!item.isSelected()) {// 未选择状态
 
-                                                     industryTagAdapter.setSingleItemSelect(position);
+                                                 industryTagAdapter.setSingleItemSelect(position);
+                                                 industryName = item.getTagName();
+                                                 industryId = item.getTagId();
 
-                                                 } else {//已选择状态
-                                                     industryTagAdapter.setSingleItemUnSelect(position);
-                                                 }
+                                             } else {//已选择状态
+                                                 industryTagAdapter.setSingleItemUnSelect(position);
+                                                 industryId = "";
+                                                 industryName = "";
                                              }
                                          }
                                      }
+                                 }
 
         );
     }
 
-//    @OnClick(R.id.select_area)
-//    public void onViewClicked() {
-//    }
+    @Override
+    public void commitFocus(BaseResponse response) {
+        finish();
+    }
+
+
+    private void getDistrict() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("cityId", "310000");
+
+        ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).getDistrict(map), new NetSubscriber<RegionResponse>() {
+            @Override
+            public void response(RegionResponse response) {
+
+                regionList = response.getData();
+                for (int i = 0; i < response.getData().size(); i++) {
+                    List<String> list1 = new ArrayList<String>();
+                    list.add(response.getData().get(i).getRegionName());
+
+                    for (int j = 0; j < response.getData().get(i).getBlockList().size(); j++) {
+                        list1.add(response.getData().get(i).getBlockList().get(j).getBlockName());
+                    }
+                    hashMap.put(response.getData().get(i).getRegionName(), list1);
+                    hashMapBlock.put(response.getData().get(i).getRegionName(),response.getData().get(i).getBlockList());
+                }
+
+            }
+
+        });
+    }
+
 }

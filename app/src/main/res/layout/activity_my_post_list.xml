@@ -16,8 +16,7 @@
         ptr:ptr_keep_header_when_refresh="true"
         ptr:ptr_pull_to_fresh="false"
         ptr:ptr_ratio_of_header_height_to_refresh="1.2"
-        ptr:ptr_resistance="1.7"
-        android:visibility="gone">
+        ptr:ptr_resistance="1.7">
 
         <ListView
             android:id="@+id/ls_circles"
@@ -60,6 +59,7 @@
             style="@style/btn_done"
             android:layout_marginTop="150dp"
             android:background="@drawable/bg_done"
-            android:text="去发表自己的想法" />
+            android:text="去发表自己的想法"
+            android:visibility="gone"/>
     </LinearLayout>
 </LinearLayout>

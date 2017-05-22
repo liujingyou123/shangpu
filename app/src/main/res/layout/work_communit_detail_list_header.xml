@@ -60,6 +60,7 @@
         android:layout_marginTop="15dp"
         android:background="#ffffff"
         android:orientation="vertical">
+
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
@@ -78,13 +79,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="金铺多成立于2017年4月，是金铺多集团旗下的国内首家专业商业地产网站，专注于商业地产信息服务。金铺和专注于买房信息服务的安居客以及专注于租房信息服务的好租组成了金铺多集团专业找房网站集群。"
-            android:textColor="#FF666666"
-            android:textSize="14sp"
+            android:ellipsize="end"
             android:lineSpacingExtra="5dp"
             android:maxHeight="90dp"
-            android:ellipsize="end"
-            android:maxLines="4"/>
+            android:maxLines="4"
+            android:text="金铺多成立于2017年4月，是金铺多集团旗下的国内首家专业商业地产网站，专注于商业地产信息服务。金铺和专注于买房信息服务的安居客以及专注于租房信息服务的好租组成了金铺多集团专业找房网站集群。"
+            android:textColor="#FF666666"
+            android:textSize="14sp" />
 
         <RelativeLayout
             android:id="@+id/rl_href"
@@ -130,14 +131,29 @@
             android:layout_height="wrap_content"></android.support.v7.widget.GridLayout>
     </LinearLayout>
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_underline"
-        android:paddingBottom="15dp"
-        android:paddingTop="15dp"
-        android:text="最新评论"
-        android:textColor="#FF999999"
-        android:textSize="12sp" />
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_underline"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:text="最新评论"
+            android:textColor="#FF999999"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/imv_del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="15dp"
+            android:src="@mipmap/business_icon_del"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
 
 </LinearLayout>

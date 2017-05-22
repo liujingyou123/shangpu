@@ -8,8 +8,14 @@ import com.finance.winport.trade.model.TradeCircleResponse;
 
 public interface ITradeCircleView {
     void showTradeCircle(TradeCircleResponse response);
+
     void showMoreTradeCircle(TradeCircleResponse response);
-    void zanTopic(boolean isSuccess, int position , String topId);
-    void cancelTopic(boolean isSuccess, int position , String topId);
+
+    void zanTopic(boolean isSuccess, int position, String topId);
+
+    void cancelTopic(boolean isSuccess, int position, String topId);
+
+    void deleteTopic(boolean isSuccess, String topId);
+
     void onError();
 }

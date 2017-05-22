@@ -61,4 +61,8 @@ public interface HomeServices {
     //标签接口
     @POST("customerapp/api/base/tagList/v1.0.0")
     Observable<TagResponse> getTagList(@Body HashMap params);
+
+    //商铺纠错接口
+    @POST("customerapp/api/shop/createCorrect/v1.0.0")
+    Observable<BaseResponse> createCorrect(@Body HashMap params);
 }

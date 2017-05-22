@@ -368,8 +368,15 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 break;
 
             case R.id.tv_jiucuo:
-                Intent intentjiucuo = new Intent(ShopDetailActivity.this, MisTakeActivity.class);
-                startActivity(intentjiucuo);
+                if (SharedPrefsUtil.getUserInfo() != null) {
+                    Intent intentjiucuo = new Intent(ShopDetailActivity.this, MisTakeActivity.class);
+                    intentjiucuo.putExtra("shopId", mShopDetail.getData().getId()+"");
+                    startActivity(intentjiucuo);
+                } else {
+                    Intent intent1 = new Intent(this, LoginActivity.class);
+                    startActivity(intent1);
+                }
+
                 break;
 
             case R.id.tv_yuyue:

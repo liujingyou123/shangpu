@@ -1,15 +1,27 @@
 package com.finance.winport.service.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.service.model.FindLoanCountResponse;
+import com.finance.winport.service.model.ShopOrderCountResponse;
+import com.finance.winport.service.model.ShopRentCountResponse;
+import com.finance.winport.service.presenter.IFindServiceView;
+import com.finance.winport.service.presenter.ServicePresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,7 +33,7 @@ import butterknife.OnClick;
  *
  */
 
-public class ShopRentFragment extends BaseFragment {
+public class ShopRentFragment extends BaseFragment implements IFindServiceView {
 
 
     @BindView(R.id.imv_focus_house_back)
@@ -42,6 +54,14 @@ public class ShopRentFragment extends BaseFragment {
     ImageView icon5;
     @BindView(R.id.send_btn)
     TextView sendBtn;
+    @BindView(R.id.rl_title_root)
+    RelativeLayout rlTitleRoot;
+    @BindView(R.id.boss_count)
+    TextView bossCount;
+    @BindView(R.id.day_count)
+    TextView dayCount;
+
+    private ServicePresenter mPresenter;
 
     @Nullable
     @Override
@@ -49,9 +69,23 @@ public class ShopRentFragment extends BaseFragment {
         View root = inflater.inflate(R.layout.shop_rent_fragment, container, false);
         ButterKnife.bind(this, root);
         tvFocusHouse.setText("旺铺寻租");
+        getData();
         return root;
     }
 
+
+    private void getData() {
+        SpannableString builder1 = new SpannableString(30 + "天");
+        ForegroundColorSpan redSpan1 = new ForegroundColorSpan(Color.parseColor("#666666"));
+        builder1.setSpan(redSpan1, builder1.length() - 1, builder1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        builder1.setSpan(new AbsoluteSizeSpan((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, getResources().getDisplayMetrics())), builder1.length() - 1, builder1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        dayCount.setText(builder1);
+        if (mPresenter == null) {
+            mPresenter = new ServicePresenter(this);
+        }
+        mPresenter.getShopRentCount();
+    }
 
     @Override
     public void onDestroyView() {
@@ -72,4 +106,24 @@ public class ShopRentFragment extends BaseFragment {
     }
 
 
+    @Override
+    public void shopOrderCount(ShopOrderCountResponse response) {
+
+    }
+
+    @Override
+    public void findLoanCount(FindLoanCountResponse response) {
+
+    }
+
+    @Override
+    public void showRentCount(ShopRentCountResponse response) {
+
+        SpannableString builder1 = new SpannableString(response.getData() + "位");
+        ForegroundColorSpan redSpan1 = new ForegroundColorSpan(Color.parseColor("#666666"));
+        builder1.setSpan(redSpan1, builder1.length() - 1, builder1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        builder1.setSpan(new AbsoluteSizeSpan((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, getResources().getDisplayMetrics())), builder1.length() - 1, builder1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        bossCount.setText(builder1);
+    }
 }

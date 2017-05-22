@@ -118,7 +118,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     Unbinder unbinder;
     private PersonalInfoPresenter mPresenter;
     private ArrayList<Integer> selectList = new ArrayList<>();
-    private String industryName, blockName;
+    private String industryName,blockName,districtName,industryId,blockId,districtId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -455,9 +455,13 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     // 关注的旺铺页面
     private void toConcern() {
         Intent intent = new Intent(getActivity(), ShopFocusActivity.class);
-        intent.putIntegerArrayListExtra("areaList", selectList);
-        intent.putExtra("industryName", industryName);
-        intent.putExtra("blockName", blockName);
+        intent.putIntegerArrayListExtra("areaList",selectList);
+        intent.putExtra("industryName",industryName);
+        intent.putExtra("blockName",blockName);
+        intent.putExtra("districtName",districtName);
+        intent.putExtra("industryId",industryId);
+        intent.putExtra("districtId",districtId);
+        intent.putExtra("blockId",blockId);
         startActivity(intent);
     }
 
@@ -701,6 +705,10 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
         phone.setText(response.getData().getPhone());
         industryName = response.getData().getIndustryName();
         blockName = response.getData().getBlockName();
-        concern.setText(response.getData().getBlockName() + "-" + response.getData().getIndustryName() + "-" + s.toString());
+        districtName = response.getData().getDistrictName();
+        industryId = response.getData().getIndustryId()+"";
+        blockId = response.getData().getBlockId()+"";
+        districtId = response.getData().getDistrictId()+"";
+        concern.setText(response.getData().getBlockName()+"-"+response.getData().getIndustryName()+"-"+s.toString());
     }
 }
