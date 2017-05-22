@@ -3,14 +3,17 @@ package com.finance.winport.tab;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
-import android.util.Log;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +36,6 @@ import com.finance.winport.mine.SuggestActivity;
 import com.finance.winport.mine.model.PersonalInfoResponse;
 import com.finance.winport.mine.presenter.IPersonalInfoView;
 import com.finance.winport.mine.presenter.PersonalInfoPresenter;
-import com.finance.winport.mine.presenter.ShopFocusPresenter;
 import com.finance.winport.permission.PermissionsManager;
 import com.finance.winport.permission.PermissionsResultAction;
 import com.finance.winport.tab.event.SelectImageEvent;
@@ -64,8 +66,6 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import rx.Observable;
 import rx.Subscriber;
-import rx.functions.Action1;
-import rx.functions.Func1;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -95,6 +95,8 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     TextView yi;
     @BindView(R.id.ji)
     TextView ji;
+    @BindView(R.id.mine_schedule)
+    TextView mineSchedule;
     private int type;//image type
     private List<String> mSelected;
     @BindView(R.id.tv_focus_right)
@@ -116,7 +118,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     Unbinder unbinder;
     private PersonalInfoPresenter mPresenter;
     private ArrayList<Integer> selectList = new ArrayList<>();
-    private String industryName,blockName;
+    private String industryName, blockName;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -172,7 +174,6 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
             @Override
             public void onCompleted() {
                 yi.setText(sb.toString());
-                Log.d("Mine", "yi-onCompleted->");
             }
 
             @Override
@@ -183,7 +184,6 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
             @Override
             public void onNext(String s) {
                 sb.append(s + " ");
-                Log.d("Mine", "yi-onNext->" + s);
             }
         });
 
@@ -267,10 +267,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
             @Override
             public void success(WinportCounts response) {
                 if (response != null && response.isSuccess()) {
-                    mineWinport.setText(response.data.issuerCount);
-                    mineAppoint.setText(response.data.visitCount);
-                    mineCollection.setText(response.data.collectedCount);
-                    mineScan.setText(response.data.browseCount);
+                    setWinportCounts(response);
                 }
             }
 
@@ -281,10 +278,35 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
         });
     }
 
+    //设置发布、约看、收藏、浏览、日程数
+    private void setWinportCounts(WinportCounts response) {
+        if (response == null || response.data == null) return;
+        if (!TextUtils.equals(mineWinport.getText().toString().trim(), response.data.issuerCount + "")) {
+            mineWinport.setShowNumber(response.data.issuerCount);
+        }
+        if (!TextUtils.equals(mineAppoint.getText().toString().trim(), response.data.visitCount + "")) {
+            mineAppoint.setShowNumber(response.data.visitCount);
+        }
+        if (!TextUtils.equals(mineCollection.getText().toString().trim(), response.data.collectedCount + "")) {
+            mineCollection.setShowNumber(response.data.collectedCount);
+        }
+        if (!TextUtils.equals(mineScan.getText().toString().trim(), response.data.browseCount + "")) {
+            mineScan.setShowNumber(response.data.browseCount);
+        }
+        if (response.data.scheduleCount > 0) {
+            String sc = getString(R.string.mine_schedule, response.data.scheduleCount + "");
+            SpannableString sp = new SpannableString(sc);
+            int start = sc.indexOf(response.data.scheduleCount + "");
+            int end = start + (response.data.scheduleCount + "").length();
+            sp.setSpan(new ForegroundColorSpan(Color.parseColor("#333333")), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            mineSchedule.setText(sp);
+        }
+
+    }
+
     //获取农历
     private void getLunar() {
         HashMap<String, Object> params = new HashMap<>();
-        params.put("currentDate", "2017-5-22");
         PersonManager.getInstance().getLunar(params, new NetworkCallback<Lunar>() {
             @Override
             public void success(Lunar response) {
@@ -433,9 +455,9 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     // 关注的旺铺页面
     private void toConcern() {
         Intent intent = new Intent(getActivity(), ShopFocusActivity.class);
-        intent.putIntegerArrayListExtra("areaList",selectList);
-        intent.putExtra("industryName",industryName);
-        intent.putExtra("blockName",blockName);
+        intent.putIntegerArrayListExtra("areaList", selectList);
+        intent.putExtra("industryName", industryName);
+        intent.putExtra("blockName", blockName);
         startActivity(intent);
     }
 
@@ -548,10 +570,10 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
         selectList.add(6);
 //        selectList = response.getData().getList();
         StringBuilder s = new StringBuilder();
-        for (int i = 0; i <selectList.size() ; i++) {
-            if(i==0){
+        for (int i = 0; i < selectList.size(); i++) {
+            if (i == 0) {
 
-                if(selectList.size()==1){
+                if (selectList.size() == 1) {
 
                     switch (selectList.get(i)) {
                         case 0:
@@ -577,103 +599,101 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
                             break;
                     }
 
-                }
-                else{
+                } else {
                     switch (selectList.get(i)) {
                         case 0:
-                            s.append("20㎡以下"+"\n");
+                            s.append("20㎡以下" + "\n");
                             break;
                         case 1:
-                            s.append("20-50㎡"+"\n");
+                            s.append("20-50㎡" + "\n");
                             break;
                         case 2:
-                            s.append("50-100㎡"+"\n");
+                            s.append("50-100㎡" + "\n");
                             break;
                         case 3:
-                            s.append("100-200㎡"+"\n");
+                            s.append("100-200㎡" + "\n");
                             break;
                         case 4:
-                            s.append("200-500㎡"+"\n");
+                            s.append("200-500㎡" + "\n");
                             break;
                         case 5:
-                            s.append("500-1000㎡"+"\n");
+                            s.append("500-1000㎡" + "\n");
                             break;
                         case 6:
-                            s.append("1000㎡以上"+"\n");
+                            s.append("1000㎡以上" + "\n");
                             break;
                     }
                 }
-            }
-            else if(selectList.size()<5){
+            } else if (selectList.size() < 5) {
                 switch (selectList.get(i)) {
                     case 0:
-                        s.append("-"+"20㎡以下");
+                        s.append("-" + "20㎡以下");
                         break;
                     case 1:
-                        s.append("-"+"20-50㎡");
+                        s.append("-" + "20-50㎡");
                         break;
                     case 2:
-                        s.append("-"+"50-100㎡");
+                        s.append("-" + "50-100㎡");
                         break;
                     case 3:
-                        s.append("-"+"100-200㎡");
+                        s.append("-" + "100-200㎡");
                         break;
                     case 4:
-                        s.append("-"+"200-500㎡");
+                        s.append("-" + "200-500㎡");
                         break;
                     case 5:
-                        s.append("-"+"500-1000㎡");
+                        s.append("-" + "500-1000㎡");
                         break;
                     case 6:
-                        s.append("-"+"1000㎡以上");
+                        s.append("-" + "1000㎡以上");
                         break;
                 }
-            }else if(i==3){
+            } else if (i == 3) {
                 switch (selectList.get(i)) {
                     case 0:
-                        s.append("-"+"20㎡以下\n");
+                        s.append("-" + "20㎡以下\n");
                         break;
                     case 1:
-                        s.append("-"+"20-50㎡\n");
+                        s.append("-" + "20-50㎡\n");
                         break;
                     case 2:
-                        s.append("-"+"50-100㎡\n");
+                        s.append("-" + "50-100㎡\n");
                         break;
                     case 3:
-                        s.append("-"+"100-200㎡\n");
+                        s.append("-" + "100-200㎡\n");
                         break;
                     case 4:
-                        s.append("-"+"200-500㎡\n");
+                        s.append("-" + "200-500㎡\n");
                         break;
                     case 5:
-                        s.append("-"+"500-1000㎡\n");
+                        s.append("-" + "500-1000㎡\n");
                         break;
                     case 6:
-                        s.append("-"+"1000㎡以上\n");
+                        s.append("-" + "1000㎡以上\n");
                         break;
                 }
-            }else{
+            } else {
                 switch (selectList.get(i)) {
                     case 0:
-                        s.append("-"+"20㎡以下");
+                        s.append("-" + "20㎡以下");
                         break;
                     case 1:
-                        s.append("-"+"20-50㎡");
+                        s.append("-" + "20-50㎡");
                         break;
                     case 2:
-                        s.append("-"+"50-100㎡");
+                        s.append("-" + "50-100㎡");
                         break;
                     case 3:
-                        s.append("-"+"100-200㎡");
+                        s.append("-" + "100-200㎡");
                         break;
                     case 4:
-                        s.append("-"+"200-500㎡");
+                        s.append("-" + "200-500㎡");
                         break;
                     case 5:
-                        s.append("-"+"500-1000㎡");
+                        s.append("-" + "500-1000㎡");
                         break;
                     case 6:
-                        s.append("-"+"1000㎡以上");
+                        s.append("-" + "1000㎡以上");
                         break;
                 }
             }
@@ -681,6 +701,6 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
         phone.setText(response.getData().getPhone());
         industryName = response.getData().getIndustryName();
         blockName = response.getData().getBlockName();
-        concern.setText(response.getData().getBlockName()+"-"+response.getData().getIndustryName()+"-"+s.toString());
+        concern.setText(response.getData().getBlockName() + "-" + response.getData().getIndustryName() + "-" + s.toString());
     }
 }

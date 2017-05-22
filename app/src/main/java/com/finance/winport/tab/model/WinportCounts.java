@@ -25,10 +25,10 @@ public class WinportCounts extends BaseResponse {
          * visitCount : 1
          */
 
-        public String issuerCount;
-        public String browseCount;
-        public String scheduleCount;
-        public String collectedCount;
-        public String visitCount;
+        public int issuerCount;
+        public int browseCount;
+        public int scheduleCount;
+        public int collectedCount;
+        public int visitCount;
     }
 }

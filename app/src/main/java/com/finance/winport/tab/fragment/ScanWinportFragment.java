@@ -116,11 +116,11 @@ public class ScanWinportFragment extends BaseFragment {
     }
 
     private void initView() {
+        tip.setVisibility(View.GONE);
         loading = new LoadingDialog(context);
         location = new MyLocation(context);
         setTitle();
         initRefreshView();
-        initListView();
     }
 
     private void setTitle() {
@@ -150,9 +150,9 @@ public class ScanWinportFragment extends BaseFragment {
         tip.setVisibility(View.VISIBLE);
     }
 
-    private void initListView() {
+//    private void initListView() {
 //        mListView.setAdapter(new ScanWinportAdapter(refreshView, null, 0));
-    }
+//    }
 
     private void initRefreshView() {
         refreshView.autoLoadMore();

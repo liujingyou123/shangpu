@@ -22,6 +22,8 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.dialog.LoadingDialog;
+import com.finance.winport.dialog.NoticeDelDialog;
+import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.home.OrderShopActivity;
 import com.finance.winport.home.ShopDetailActivity;
 import com.finance.winport.image.Batman;
@@ -158,7 +160,7 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
 
 
     private void setTag(ViewHolder holder, AppointShopList.DataBeanX.DataBean item) {
-        holder.tag.removeAllViews();
+        reset(holder);
         if (item.featureList != null && item.featureList.size() > 0) {
             int count = 0;
             for (int i = 0; i < item.featureList.size(); i++) {
@@ -182,6 +184,12 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
                 holder.tagDivider.setVisibility(View.INVISIBLE);
             }
         }
+    }
+
+    private void reset(ViewHolder holder) {
+        holder.tag.removeAllViews();
+        holder.tag.setVisibility(View.GONE);
+        holder.tagDivider.setVisibility(View.INVISIBLE);
     }
 
     private TextView createItem(String name, String color) {
@@ -212,24 +220,16 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
     }
 
     void showDeleteAlert(final String visitId, final int position) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        SpannableString pButton = new SpannableString("确认");
-        SpannableString nButton = new SpannableString("取消");
-        pButton.setSpan(new ForegroundColorSpan(Color.parseColor("#FFA73B")), 0, pButton.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        nButton.setSpan(new ForegroundColorSpan(Color.parseColor("#FFA73B")), 0, nButton.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        AlertDialog dialog = builder.setTitle("提示").setMessage("删除约看")
-                .setPositiveButton(pButton, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        deleteAppoint(visitId, position);
-                    }
-                }).setNegativeButton(nButton, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                }).create();
-        dialog.show();
+        NoticeDialog n = new NoticeDialog(context);
+        n.setMessage("删除约看");
+        n.setPositiveBtn("确认");
+        n.setOkClickListener(new NoticeDialog.OnPreClickListner() {
+            @Override
+            public void onClick() {
+                deleteAppoint(visitId, position);
+            }
+        });
+        n.show();
     }
 
     private void deleteAppoint(String visitId, final int position) {

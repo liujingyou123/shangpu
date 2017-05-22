@@ -48,13 +48,12 @@ public class TokenInterceptor implements Interceptor {
     private String getTokenKey() {
         String token;
         try {
-//            token = SharedPrefsUtil.getUserInfo().data.accessToken;
-            token = "8999d7ffa35a6f6b7b322476";
+            token = SharedPrefsUtil.getUserInfo().data.accessToken;
         } catch (Exception e) {
             token = "";
             e.printStackTrace();
         }
         Log.d(getClass().getSimpleName(), "token-->" + token);
-        return "82958F583CD3D2DECEF52ADF71C5A3C6";  //50EA1E6878E56AC4877FE9DCF9E3730E
+        return "0CB9F815528983E3707F944A9113AADD";  //50EA1E6878E56AC4877FE9DCF9E3730E
     }
 }

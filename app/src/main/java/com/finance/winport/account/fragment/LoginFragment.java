@@ -27,11 +27,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.finance.winport.R;
+import com.finance.winport.account.event.JPushEvent;
 import com.finance.winport.account.model.ImageVerifyCode;
 import com.finance.winport.account.model.Message;
 import com.finance.winport.account.model.UserInfo;
 import com.finance.winport.account.net.UserManager;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.tab.net.NetworkCallback;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.StringUtil;
@@ -39,6 +41,9 @@ import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.ToastUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.CountDownButton;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.HashMap;
 
@@ -97,8 +102,28 @@ public class LoginFragment extends BaseFragment {
     private String smsVerifyCode;
     private String inviteCode;
     private boolean isVoiceEnable = true;
-    private static final int CODE_LIMIT_COUNT = 3;// 单词获取验证码限制次数
+    private static final int CODE_LIMIT_COUNT = 1;// 单词获取验证码限制次数
     private int requestCodeCount;//获取验证码次数
+    private boolean isFirstPic;
+
+    private LoadingDialog loading;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+//        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+//        EventBus.getDefault().unregister(this);
+    }
+
+//    @Subscribe
+//    public void onLoginEvent(JPushEvent event) {
+//        login();
+//    }
 
     @Nullable
     @Override
@@ -110,6 +135,7 @@ public class LoginFragment extends BaseFragment {
     }
 
     private void initView() {
+        loading = new LoadingDialog(context);
         imageVerifyCode.setVisibility(View.GONE);
         clear.setVisibility(View.GONE);
         phoneView.setFilters(new InputFilter[]{TextViewUtil.phoneFormat()});
@@ -198,6 +224,9 @@ public class LoginFragment extends BaseFragment {
                         showPicCode();
                     } else {
                         getVerifyCode();
+                        if (!isFirstPic) {// 如果还没有图片验证码,就预加载一张
+                            getPicCode();
+                        }
                     }
                 }
             }
@@ -205,7 +234,7 @@ public class LoginFragment extends BaseFragment {
     }
 
     private void showPicCode() {
-        if (imageVerifyCode.getVisibility() == View.GONE) {
+        if (!isFirstPic && imageVerifyCode.getVisibility() == View.GONE) {
             getPicCode();
         }
         imageVerifyCode.setVisibility(View.VISIBLE);
@@ -231,6 +260,16 @@ public class LoginFragment extends BaseFragment {
         });
     }
 
+    void initJPush() {
+        if (TextUtils.isEmpty(JPushInterface.getRegistrationID(context))) {
+            JPushInterface.init(context);
+            loading.show();
+        } else {
+            loading.show();
+            login();
+        }
+    }
+
     private void login() {
         userPhone = UnitUtil.trim(phoneView.getText().toString().trim());
         smsVerifyCode = verifyCodeView.getText().toString().trim();
@@ -248,6 +287,8 @@ public class LoginFragment extends BaseFragment {
         UserManager.getInstance().login(params, new NetworkCallback<UserInfo>() {
             @Override
             public void success(UserInfo response) {
+                if (getView() == null) return;
+                loading.dismiss();
                 if (response != null && response.isSuccess()) {
                     response.data.userPhone = userPhone;
                     SharedPrefsUtil.saveUserInfo(response);
@@ -260,6 +301,8 @@ public class LoginFragment extends BaseFragment {
 
             @Override
             public void failure(Throwable throwable) {
+                if (getView() == null) return;
+                loading.dismiss();
                 verifyCodeView.setText("");
                 if (requestCodeCount >= CODE_LIMIT_COUNT) {
                     showPicCode();
@@ -277,6 +320,7 @@ public class LoginFragment extends BaseFragment {
             @Override
             public void success(ImageVerifyCode response) {
                 if (response != null && response.isSuccess()) {
+                    isFirstPic = true;
                     picVerifyId = response.data.picVerifyId;
                     picVerifyCode = response.data.picVerifyCode;
                     picCode.setImageBitmap(fromBase64(response.data.base64Str));
@@ -358,7 +402,9 @@ public class LoginFragment extends BaseFragment {
     @OnClick(R.id.login)
     public void onLoginClicked() {
         if (check()) {
+            loading.show();
             login();
+//            initJPush();
         }
     }
 
