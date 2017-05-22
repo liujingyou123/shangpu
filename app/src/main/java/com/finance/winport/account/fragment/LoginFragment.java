@@ -249,6 +249,7 @@ public class LoginFragment extends BaseFragment {
             @Override
             public void success(UserInfo response) {
                 if (response != null && response.isSuccess()) {
+                    response.data.userPhone = userPhone;
                     SharedPrefsUtil.saveUserInfo(response);
                     getActivity().finish();
                 } else {

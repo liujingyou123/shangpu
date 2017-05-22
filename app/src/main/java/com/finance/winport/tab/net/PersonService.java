@@ -4,12 +4,14 @@ import com.finance.winport.base.BaseResponse;
 import com.finance.winport.tab.model.AppointRanking;
 import com.finance.winport.tab.model.AppointShopList;
 import com.finance.winport.tab.model.CollectionShopList;
+import com.finance.winport.tab.model.Lunar;
 import com.finance.winport.tab.model.NotifyList;
 import com.finance.winport.tab.model.NotifyType;
 import com.finance.winport.tab.model.Prediction;
 import com.finance.winport.tab.model.ScanCount;
 import com.finance.winport.tab.model.ScanShopList;
 import com.finance.winport.tab.model.UnReadMsg;
+import com.finance.winport.tab.model.WinportCounts;
 import com.finance.winport.tab.model.WinportList;
 
 import java.util.HashMap;
@@ -94,4 +96,12 @@ public interface PersonService {
     // 我的未读消息
     @POST("customerapp/api/notice/isUnRead/v1.0.0")
     Observable<UnReadMsg> getUnReadMsg(@Body HashMap<String, Object> params);
+
+    // 我的发布、约看、收藏、浏览、未来日程 总数统计接口
+    @POST("customerapp/api/customer/indexStatistics/v1.0.0")
+    Observable<WinportCounts> getWinportCounts(@Body HashMap<String, Object> params);
+
+    // 农历接口
+    @POST("customerapp/api/nongli/wnl/v1.0.0")
+    Observable<Lunar> getLunar(@Body HashMap<String, Object> params);
 }

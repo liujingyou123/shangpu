@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/selector_list_item"
@@ -17,16 +18,6 @@
             android:layout_height="82dp"
             android:background="@color/bg" />
 
-        <View
-            android:id="@+id/overlay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/img"
-            android:layout_alignLeft="@+id/img"
-            android:layout_alignRight="@+id/img"
-            android:layout_alignTop="@+id/img"
-            android:background="#99000000"
-            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/mark"
@@ -36,9 +27,9 @@
             android:layout_alignLeft="@+id/img"
             android:layout_alignRight="@+id/img"
             android:layout_alignTop="@+id/img"
+            android:background="@drawable/bg_mark_background"
             android:scaleType="centerInside"
-            android:visibility="gone"
-            android:src="@mipmap/icon_winport_off" />
+            android:src="@drawable/bg_mark_foreground" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -46,6 +37,7 @@
             android:layout_alignBottom="@+id/img"
             android:layout_alignLeft="@+id/img"
             android:layout_alignRight="@+id/img"
+            android:background="#99000000"
             android:gravity="center">
 
             <TextView
@@ -55,9 +47,9 @@
                 android:layout_marginRight="9dp"
                 android:drawableLeft="@mipmap/icon_scan"
                 android:drawablePadding="3dp"
-                android:text="21980"
                 android:textColor="#ffffff"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                tools:text="21980" />
 
             <TextView
                 android:id="@+id/call"
@@ -65,9 +57,9 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/icon_call"
                 android:drawablePadding="3dp"
-                android:text="2390"
                 android:textColor="#ffffff"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                tools:text="2390" />
         </LinearLayout>
 
         <TextView
@@ -79,9 +71,9 @@
             android:layout_toLeftOf="@+id/area"
             android:layout_toRightOf="@+id/img"
             android:singleLine="true"
-            android:text="徐虹北路230号转租徐虹北路230号转租"
-            android:textColor="#333333"
-            android:textSize="15sp" />
+            android:textColor="@color/color_list_text_dark_selector"
+            android:textSize="15sp"
+            tools:text="徐虹北路230号转租徐虹北路230号转租" />
 
         <TextView
             android:id="@+id/district"
@@ -92,9 +84,9 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="6dp"
             android:singleLine="true"
-            android:text="浦东新区 松江大学城…"
-            android:textColor="#999999"
-            android:textSize="12sp" />
+            android:textColor="@color/color_list_text_light_selector"
+            android:textSize="12sp"
+            tools:text="浦东新区 松江大学城…" />
 
         <TextView
             android:id="@+id/price"
@@ -105,9 +97,9 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="6dp"
             android:singleLine="true"
-            android:text="20000元/月"
-            android:textColor="#999999"
-            android:textSize="12sp" />
+            android:textColor="@color/color_appoint_selector"
+            android:textSize="12sp"
+            tools:text="20000元/月" />
 
         <TextView
             android:id="@+id/distance"
@@ -118,9 +110,9 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="6dp"
             android:singleLine="true"
-            android:text="距您2.5km"
-            android:textColor="#999999"
-            android:textSize="11sp" />
+            android:textColor="@color/color_list_text_light_selector"
+            android:textSize="11sp"
+            tools:text="距您2.5km" />
 
         <TextView
             android:id="@+id/fee"
@@ -130,9 +122,9 @@
             android:layout_below="@+id/district"
             android:layout_marginRight="15dp"
             android:layout_marginTop="6dp"
-            android:text="转让费8万元"
-            android:textColor="#999999"
-            android:textSize="11sp" />
+            android:textColor="@color/color_list_text_light_selector"
+            android:textSize="11sp"
+            tools:text="转让费8万元" />
 
 
         <TextView
@@ -141,9 +133,9 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/img"
             android:layout_alignLeft="@+id/address"
-            android:text="2小时前发布"
-            android:textColor="#999999"
-            android:textSize="11sp" />
+            android:textColor="@color/color_list_text_tiny_light_selector"
+            android:textSize="11sp"
+            tools:text="2小时前发布" />
 
         <TextView
             android:id="@+id/area"
@@ -151,8 +143,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="15dp"
-            android:text="100㎡"
-            android:textColor="#333333" />
+            android:textColor="@color/color_list_text_dark_selector"
+            tools:text="100㎡" />
 
         <View
             android:id="@+id/tag_divider"
