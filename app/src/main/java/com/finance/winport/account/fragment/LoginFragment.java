@@ -243,7 +243,9 @@ public class LoginFragment extends BaseFragment {
         params.put("inviteCode", inviteCode);
         params.put("picVerifyCode", picVerifyCode);
         params.put("picVerifyId", picVerifyId);
-        params.put("deviceId", JPushInterface.getRegistrationID(context.getApplicationContext()));
+//        params.put("deviceId", JPushInterface.getRegistrationID(context.getApplicationContext()));
+        params.put("deviceId", "ddssdsdgsdsdd");
+
         params.put("osType", 1);//0-iOS 1-Android
         UserManager.getInstance().login(params, new NetworkCallback<UserInfo>() {
             @Override

@@ -27,37 +27,40 @@
                 android:textSize="12sp" />
 
             <com.finance.winport.view.CheckGroup
+                android:id="@+id/ll_tags"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#ffffff"
                 android:orientation="vertical"
                 android:paddingLeft="15dp">
 
-                <com.finance.winport.view.MistakeItem
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"></com.finance.winport.view.MistakeItem>
+                <!--<com.finance.winport.view.MistakeItem-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="45dp"></com.finance.winport.view.MistakeItem>-->
 
-                <View style="@style/view_line" />
+                <!--<View style="@style/view_line" />-->
 
-                <com.finance.winport.view.MistakeItem
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"></com.finance.winport.view.MistakeItem>
+                <!--<com.finance.winport.view.MistakeItem-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="45dp"></com.finance.winport.view.MistakeItem>-->
 
-                <View style="@style/view_line" />
+                <!--<View style="@style/view_line" />-->
 
-                <com.finance.winport.view.MistakeItem
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"></com.finance.winport.view.MistakeItem>
+                <!--<com.finance.winport.view.MistakeItem-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="45dp"></com.finance.winport.view.MistakeItem>-->
 
             </com.finance.winport.view.CheckGroup>
 
             <!-- 其他 -->
             <RelativeLayout
+                android:id="@+id/rl_else"
                 android:layout_width="match_parent"
                 android:layout_height="103dp"
                 android:background="#ffffff"
                 android:orientation="vertical"
-                android:paddingLeft="15dp">
+                android:paddingLeft="15dp"
+                android:visibility="gone">
 
                 <View
                     android:id="@+id/view_line_l"
@@ -142,16 +145,17 @@
 
                     <EditText
                         android:id="@+id/et_phone"
-                        android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="25dp"
+                        android:layout_weight="1"
                         android:background="#00000000"
                         android:gravity="left|center_vertical"
                         android:hint="请输入联系电话"
                         android:textColor="#333333"
                         android:textColorHint="#999999"
                         android:textSize="14sp" />
+
                     <TextView
                         android:id="@+id/tv_change"
                         android:layout_width="wrap_content"
@@ -187,7 +191,7 @@
                             android:textSize="14sp" />
 
                         <EditText
-                            android:id="@+id/et_code"
+                            android:id="@+id/verify_code_view"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="25dp"
@@ -195,23 +199,25 @@
                             android:background="#00000000"
                             android:gravity="left|center_vertical"
                             android:hint="请输入短信验证码"
+                            android:maxLength="200"
                             android:textColor="#333333"
                             android:textColorHint="#999999"
-                            android:textSize="14sp"
-                            android:maxLength="200"/>
+                            android:textSize="14sp" />
 
-                        <TextView
+                        <com.finance.winport.view.CountDownButton
+                            android:id="@+id/countDown"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingRight="15dp"
-                            android:text="发送验证码"
-                            android:textColor="#FFFFA73B"
+                            android:layout_marginRight="15dp"
+                            android:gravity="center"
+                            android:text="获取验证码"
+                            android:textColor="@color/color_count_down_btn_selector"
                             android:textSize="14sp" />
                     </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/ll_image_code"
+                    android:id="@+id/image_verify_code"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -235,7 +241,7 @@
                             android:textSize="14sp" />
 
                         <EditText
-                            android:id="@+id/et_image_code"
+                            android:id="@+id/verify_code_view_image"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="25dp"
@@ -243,17 +249,17 @@
                             android:background="#00000000"
                             android:gravity="left|center_vertical"
                             android:hint="填写图片验证"
+                            android:maxLength="200"
                             android:textColor="#333333"
                             android:textColorHint="#999999"
-                            android:textSize="14sp"
-                            android:maxLength="200"/>
+                            android:textSize="14sp" />
 
                         <ImageView
+                            android:id="@+id/pic_code"
                             android:layout_width="80dp"
                             android:layout_height="33.5dp"
-                            android:scaleType="fitXY"
-                            android:background="#ffff00"
-                            android:layout_marginRight="15dp"/>
+                            android:layout_marginRight="15dp"
+                            android:scaleType="fitXY" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -269,11 +275,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
                 android:text="收到您的举报信息后，我们将会联系您核实"
                 android:textColor="#FF999999"
-                android:textSize="12sp"
-                android:gravity="center"
-                android:layout_marginTop="10dp"/>
+                android:textSize="12sp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
