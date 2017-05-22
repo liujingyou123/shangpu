@@ -1,5 +1,6 @@
 package com.finance.winport.mine.api;
 
+import com.finance.winport.mine.model.CommitFocusRequest;
 import com.finance.winport.mine.model.IndustryListResponse;
 import com.finance.winport.mine.model.PersonalInfoResponse;
 import com.finance.winport.mine.model.ScheduleDetailResponse;
@@ -7,6 +8,7 @@ import com.finance.winport.mine.model.ScheduleListResponse;
 import com.finance.winport.service.model.FindLoanCountResponse;
 import com.finance.winport.service.model.LoanListResponse;
 import com.finance.winport.service.model.ShopOrderCountResponse;
+import com.sina.weibo.sdk.api.share.BaseResponse;
 
 import java.util.HashMap;
 
@@ -36,6 +38,10 @@ public interface MineServices {
     //日程详情
     @POST("customerapp/api/user/schedule/detail/v1.0.0")
     Observable<ScheduleDetailResponse> getScheduleDetail(@Body HashMap map);
+
+    //商铺关注设置
+    @POST("customerapp/api/customer/updateFollow/v1.0.0")
+    Observable<com.finance.winport.base.BaseResponse> commitFocus(@Body CommitFocusRequest request);
 
 
 

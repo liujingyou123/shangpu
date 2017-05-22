@@ -18,6 +18,7 @@ import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.service.model.FindLoanCountResponse;
 import com.finance.winport.service.model.ShopOrderCountResponse;
+import com.finance.winport.service.model.ShopRentCountResponse;
 import com.finance.winport.service.presenter.IFindServiceView;
 import com.finance.winport.service.presenter.ServicePresenter;
 import com.finance.winport.util.UnitUtil;
@@ -129,6 +130,11 @@ public class ShopOrderFragment extends BaseFragment implements IFindServiceView 
 
     @Override
     public void findLoanCount(FindLoanCountResponse response) {
+
+    }
+
+    @Override
+    public void showRentCount(ShopRentCountResponse response) {
 
     }
 

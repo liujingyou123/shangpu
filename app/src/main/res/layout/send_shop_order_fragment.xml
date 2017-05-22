@@ -305,7 +305,7 @@
                     android:gravity="center_vertical">
 
                     <com.finance.winport.view.HeaderTextView
-                        android:id="@+id/img_code_view"
+                        android:id="@+id/img_code_txt"
                         android:layout_width="0dp"
                         android:layout_height="44dp"
                         android:layout_weight="1"
@@ -322,6 +322,7 @@
                         app:text_size="15sp" />
 
                     <ImageView
+                        android:id="@+id/img_code_view"
                         android:layout_width="80dp"
                         android:layout_height="34dp"
                         android:layout_marginRight="15dp"

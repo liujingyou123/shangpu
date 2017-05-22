@@ -8,8 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.service.model.CalendarListResponse;
 
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,11 +21,13 @@ import butterknife.ButterKnife;
  */
 public class ServiceScheduleListAdapter extends BaseAdapter {
     protected Context context;
+    private List<CalendarListResponse.DataBean.DateListBean.ScheduleListBean> baseData;
 
-    //    public LoanListAdapter(Context context, List<MessageListResponse.DataBean> baseData) {
-//        this.baseData = baseData;
-//        this.context = context;
-//    }
+    public ServiceScheduleListAdapter(Context context, List<CalendarListResponse.DataBean.DateListBean.ScheduleListBean> baseData) {
+        this.baseData = baseData;
+        this.context = context;
+    }
+
     public ServiceScheduleListAdapter(Context context) {
         this.context = context;
     }
@@ -31,12 +35,12 @@ public class ServiceScheduleListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return baseData.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return position;
+        return baseData.get(position);
     }
 
     @Override
@@ -56,29 +60,29 @@ public class ServiceScheduleListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        holder.time.setText(baseData.get(position).getOrderTime());
+        if (baseData.get(position).getServiceType() == 0) {
+
+            holder.type.setText("旺铺寻租");
+        } else if (baseData.get(position).getServiceType() == 1) {
+
+            holder.type.setText("带我踩盘");
+        } else if (baseData.get(position).getServiceType() == 2) {
+
+            holder.type.setText("签约租铺");
+        }
+        holder.address.setText(baseData.get(position).getDistrict() + baseData.get(position).getAddress());
         return convertView;
     }
 
-    private void readMessage(int messageId, final int position) {
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("messId", messageId);
-//        ServiceExecutor.readMessage(params, new ResultCallBack<Response>() {
-//            @Override
-//            public void onSuccess(Response response) {
-////                setCheckPosition(position);
-//                EventBusManager.post(new NoticeRefreshEvent(true));
-//            }
-//
-//            @Override
-//            public void onFailure(String errorMsg) {
-//            }
-//        });
-    }
+
 
 
     static class ViewHolder {
         @BindView(R.id.type)
         TextView type;
+        @BindView(R.id.time)
+        TextView time;
         @BindView(R.id.address)
         TextView address;
 

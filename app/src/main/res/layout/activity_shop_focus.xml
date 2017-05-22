@@ -138,13 +138,14 @@
                     android:background="#ffffff">
 
                     <TextView
+                        android:id="@+id/district"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="18dp"
                         android:gravity="center"
-                        android:text="客服电话"
+                        android:hint="请输入区域板块"
                         android:textColor="#333333"
                         android:textSize="14sp" />
 
@@ -198,10 +199,11 @@
                     app:tagSpacing="10dp" />
 
 
-
             </LinearLayout>
         </ScrollView>
+
         <TextView
+            android:id="@+id/commit"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginTop="30dp"
