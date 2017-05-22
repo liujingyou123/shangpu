@@ -57,9 +57,11 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         if (item.rentStatus == 3) {
             holder.historyCount.setText("历史带看申请" + item.visitCount + "组");
             setViewAndChildrenEnabled(convertView, false);
+            holder.llOnSale.setVisibility(View.GONE);
             holder.release.setEnabled(true);
             holder.release.setVisibility(View.VISIBLE);
         } else {
+            holder.llOnSale.setVisibility(View.VISIBLE);
             holder.release.setVisibility(View.GONE);
             setViewAndChildrenEnabled(convertView, true);
             String vcs = "历史带看申请" + item.visitCount + "组";
@@ -79,6 +81,7 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
             public void onClick(View v) {
                 Intent dropOff = new Intent(context, WinportActivity.class);
                 dropOff.putExtra("type", TypeList.OFF_SHELF);
+                dropOff.putExtra("shopId", item.id);
                 context.startActivity(dropOff);
             }
         });
@@ -132,6 +135,8 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         TextView dropOff;
         @BindView(R.id.release)
         TextView release;
+        @BindView(R.id.ll_onSale)
+        View llOnSale;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

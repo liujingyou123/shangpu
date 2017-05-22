@@ -27,7 +27,7 @@ public class WinportActivity extends BaseActivity {
             case RELEASE:// 我发布的
                 BaseFragment release = new MineWinportFragment();
                 release.setArguments(getIntent().getExtras());
-                pushFragment(release);
+                pushFragment(release, false);
                 break;
             case APPOINT:// 最近浏览、收藏、约看
             case COLLECTION:

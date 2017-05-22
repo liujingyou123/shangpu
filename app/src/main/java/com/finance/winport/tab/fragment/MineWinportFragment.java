@@ -4,10 +4,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,7 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.dialog.LoadingDialog;
+import com.finance.winport.service.fragment.SendShopRentFragment;
 import com.finance.winport.tab.adapter.WinportAdapter;
 import com.finance.winport.tab.model.ScanCount;
 import com.finance.winport.tab.model.WinportList;
@@ -84,8 +88,6 @@ public class MineWinportFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        loading.show();
-        asyncData();
     }
 
     private void initView() {
@@ -138,6 +140,13 @@ public class MineWinportFragment extends BaseFragment {
         queryScanCount();
         getWinportList();
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loading.show();
+        asyncData();
     }
 
     private void showEmptyView(boolean show) {
@@ -213,6 +222,18 @@ public class MineWinportFragment extends BaseFragment {
 
     @OnClick(R.id.confirm)
     public void onConfirmClicked() {
+        pushFragment(new SendShopRentFragment(), false);
+    }
 
+    public void pushFragment(BaseFragment fragment, boolean addToBackStack) {
+        String tag = fragment.getClass().getName();
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.setCustomAnimations(R.anim.activity_open_enter, R.anim.activity_open_exit, R.anim.activity_close_enter, R.anim.activity_close_exit);
+        ft.replace(R.id.rl_fragment_content, fragment, tag);
+        if (addToBackStack) {
+            ft.addToBackStack(tag);
+        }
+        ft.commit();
     }
 }
