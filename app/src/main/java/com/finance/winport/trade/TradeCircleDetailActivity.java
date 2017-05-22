@@ -167,6 +167,7 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
 
     @Override
     public void commentTopic(boolean isSuccess) {
+        commentDialog.dismiss();
         if (isSuccess) {
             mPresenter.getTradeCircleDetail(topicId);
         }

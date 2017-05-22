@@ -88,7 +88,7 @@ public class TradeCircleDetailPresener {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("topicId", topicId);
         hashMap.put("content", content);
-        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).commentTopic(hashMap), new NetSubscriber<BaseResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).commentTopic(hashMap), new LoadingNetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
                 if (mITradeDetailView != null) {
