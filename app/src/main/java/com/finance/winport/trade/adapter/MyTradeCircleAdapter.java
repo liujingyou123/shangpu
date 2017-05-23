@@ -86,7 +86,7 @@ public class MyTradeCircleAdapter extends BaseAdapter {
                 viewHolder.imvFire.setVisibility(View.GONE);
             }
 
-            if (TextUtils.isEmpty(trade.getLikeStatus()) && "1".equals(trade.getLikeStatus())) {
+            if (!TextUtils.isEmpty(trade.getLikeStatus()) && "1".equals(trade.getLikeStatus())) {
                 viewHolder.tvZan.setSelected(true);
             } else {
                 viewHolder.tvZan.setSelected(false);
