@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.tab.adapter.PullBaseAdapter;
 import com.finance.winport.tab.model.NotifyList;
 import com.finance.winport.trade.TradeCircleDetailActivity;
@@ -25,8 +26,6 @@ import butterknife.ButterKnife;
  * 服务通知
  */
 public class BusinessNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.BussinessNoticeBean> {
-    protected Context context;
-
     public BusinessNoticeAdapter(PtrClassicFrameLayout baseView, List<NotifyList.DataBean.BussinessNoticeBean> baseData, int maxTotal) {
         super(baseView, baseData, maxTotal);
     }
@@ -50,6 +49,11 @@ public class BusinessNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.B
     }
 
     @Override
+    public int getViewTypeCount() {
+        return 2;
+    }
+
+    @Override
     public View getView(final int position, View convertView, ViewGroup viewGroup) {
         final NotifyList.DataBean.BussinessNoticeBean item = baseData.get(position);
         if (getItemViewType(position) == 0) {// 评论通知
@@ -66,7 +70,7 @@ public class BusinessNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.B
             holder.post.setText(item.postName);
             holder.content.setText(item.contentOrReason);
             holder.doTime.setText(item.commentOrOprationTime);
-            convertView.setOnClickListener(new View.OnClickListener() {
+            holder.details.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     context.startActivity(new Intent(context, TradeCircleDetailActivity.class).putExtra("topicId", item.bussinessId + ""));
@@ -86,10 +90,10 @@ public class BusinessNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.B
             holder.post.setText(item.postName);
             holder.reason.setText(item.contentOrReason);
             holder.doTime.setText(item.commentOrOprationTime);
-            convertView.setOnClickListener(new View.OnClickListener() {
+            holder.details.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    showAlert();
                 }
             });
         }
@@ -97,9 +101,10 @@ public class BusinessNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.B
         return convertView;
     }
 
-    private void readMessage(int messageId, final int position) {
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("messId", messageId);
+    private void showAlert() {
+        NoticeDialog alert = new NoticeDialog(context);
+        alert.setOneButton();
+        alert.setMessage("您的帖子已经被删除，无法查看");
     }
 
     static class ViewHolderOff {

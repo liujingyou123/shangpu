@@ -136,7 +136,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="15dp"
-                android:text="旧日程："
+                android:text="新日程："
                 android:textColor="#999999"
                 android:textSize="14sp" />
 

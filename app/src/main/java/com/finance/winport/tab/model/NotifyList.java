@@ -29,8 +29,10 @@ public class NotifyList extends BaseResponse {
             public String shopAddress;
             public String oldSchedule;
             public String currentSchedule;
-            public String scheduleCount;
+            public int scheduleCount;
             public String serviceName;
+            public String reason;
+            public int serviceStatus;
             public String serviceTel;
         }
 

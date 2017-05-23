@@ -13,8 +13,6 @@ import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.mine.adapter.NoticeCollectionAdapter;
-import com.finance.winport.mine.adapter.ScheduleListAdapter;
-import com.finance.winport.tab.model.NotifyList;
 import com.finance.winport.tab.model.NotifyType;
 import com.finance.winport.tab.net.NetworkCallback;
 import com.finance.winport.tab.net.PersonManager;
@@ -43,8 +41,6 @@ public class MyNoticeActivity extends BaseActivity {
     ListView lsCircles;
     @BindView(R.id.refresh_view)
     PtrClassicFrameLayout refreshView;
-    @BindView(R.id.empty_img)
-    ImageView emptyImg;
     @BindView(R.id.empty)
     RelativeLayout empty;
     private NoticeCollectionAdapter adapter;
@@ -76,8 +72,13 @@ public class MyNoticeActivity extends BaseActivity {
             @Override
             public void failure(Throwable throwable) {
                 loading.dismiss();
+                setEmpty(true);
             }
         });
+    }
+
+    private void setEmpty(boolean show) {
+        empty.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     private void setAdapter(List<NotifyType.DataBean.BaseNoticeDTOListBean> list) {
@@ -85,15 +86,9 @@ public class MyNoticeActivity extends BaseActivity {
             adapter = new NoticeCollectionAdapter(context, list);
             lsCircles.setAdapter(adapter);
         }
-        lsCircles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(MyNoticeActivity.this, NoticeListActivity.class));
-            }
-        });
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.tv_focus_right})
+    @OnClick({R.id.imv_focus_house_back, R.id.tv_focus_right, R.id.confirm})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -102,6 +97,15 @@ public class MyNoticeActivity extends BaseActivity {
             case R.id.tv_focus_right:
                 startActivity(new Intent(MyNoticeActivity.this, HistoryScheduleListActivity.class));
                 break;
+            case R.id.confirm:
+                handleBack();
+                break;
+        }
+    }
+
+    static class ViewHolder {
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
         }
     }
 }

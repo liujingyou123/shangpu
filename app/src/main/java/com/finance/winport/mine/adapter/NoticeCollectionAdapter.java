@@ -1,6 +1,7 @@
 package com.finance.winport.mine.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 
 
 import com.finance.winport.R;
+import com.finance.winport.mine.MyNoticeActivity;
+import com.finance.winport.mine.NoticeListActivity;
 import com.finance.winport.tab.model.NotifyType;
 
 import java.util.List;
@@ -85,6 +88,14 @@ public class NoticeCollectionAdapter extends BaseAdapter {
         } else {
             holder.indicator.setVisibility(View.GONE);
         }
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, NoticeListActivity.class)
+                        .putExtra("type", getMesType(position))
+                        .putExtra("title", getTitle(position)));
+            }
+        });
         return convertView;
     }
 
@@ -127,7 +138,7 @@ public class NoticeCollectionAdapter extends BaseAdapter {
         @BindView(R.id.content)
         TextView content;
         @BindView(R.id.indicator)
-        TextView indicator;
+        ImageView indicator;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
