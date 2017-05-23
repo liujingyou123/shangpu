@@ -1,9 +1,11 @@
 package com.finance.winport.net;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.base.WinPortApplication;
+import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.ToastUtil;
 
 import org.json.JSONException;
@@ -49,7 +51,11 @@ public abstract class NetSubscriber<T> extends Subscriber<T> {
             return;
         }
         if (response instanceof BaseResponse && !((BaseResponse) response).isSuccess()) {
-            onError(new Throwable(((BaseResponse) response).getErrMsg()));
+            String errorMsg = ((BaseResponse) response).getErrMsg();
+            if (TextUtils.isEmpty(errorMsg)) {
+                errorMsg = "success is false";
+            }
+            onError(new Throwable(errorMsg));
             return;
         }
 
