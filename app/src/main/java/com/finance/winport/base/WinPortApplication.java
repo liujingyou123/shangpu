@@ -42,6 +42,7 @@ public class WinPortApplication extends Application {
         PlatformConfig.setWeixin("", "");
         PlatformConfig.setQQZone("", "");
         PlatformConfig.setSinaWeibo("4150536070", "2386b3299bcd0be389a41e9e8436e91f", "http://sns.whalecloud.com");
+//        PlatformConfig.setSinaWeibo("4134918725", "9e35ab6be6dc22d85417f50f19f44527", "http://sns.whalecloud.com");
 
     }
 
