@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.trade.adapter.TradeCircleAdapter;
+import com.finance.winport.trade.model.EventBustTag;
 import com.finance.winport.trade.model.Trade;
 import com.finance.winport.trade.model.TradeCircleResponse;
 import com.finance.winport.trade.presenter.TradeCirclePresenter;
@@ -21,6 +22,9 @@ import com.finance.winport.trade.view.ITradeCircleView;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
 import com.finance.winport.view.refreshview.XPtrFrameLayout;
+import com.hwangjr.rxbus.RxBus;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,10 +121,22 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
 
     @Override
     public void showTradeCircle(TradeCircleResponse response) {
-        mData.clear();
-        mData.addAll(response.getData().getPage().getData());
-        mAdapter.notifyDataSetChanged();
-        refreshView.refreshComplete();
+        if (response.getData() != null && response.getData().getPage() != null && response.getData().getPage().getData() != null) {
+            mData.clear();
+            mData.addAll(response.getData().getPage().getData());
+            mAdapter.notifyDataSetChanged();
+            refreshView.refreshComplete();
+
+            if ("1".equals(response.getData().getCreateTopicOpen())) {
+                EventBustTag eventBustTag = new EventBustTag();
+                eventBustTag.isOpenCreateTopic = false;
+                EventBus.getDefault().post(eventBustTag);
+            } else {
+                EventBustTag eventBustTag = new EventBustTag();
+                EventBus.getDefault().post(eventBustTag);
+            }
+        }
+
     }
 
     @Override

@@ -81,7 +81,7 @@ public class TagAdapter extends BaseAdapter {
     private GradientDrawable getDrawable(String strokeColor) {
         GradientDrawable gradientDrawable = new GradientDrawable();
         gradientDrawable.setCornerRadius(UnitUtil.dip2px(mContext, 2));
-        gradientDrawable.setStroke(1, Color.parseColor("#ffffff"));
+        gradientDrawable.setStroke(1, Color.parseColor(strokeColor));
         return gradientDrawable;
     }
 

@@ -31,7 +31,7 @@ public interface TradeService {
 
     //我发布的帖子
     @POST("customerapp/api/topic/topicListByUserId/v1.0.0")
-    Observable<TradeCircleResponse> getMyTopics(@Body HashMap<String, String> params);
+    Observable<MyTopicResponse> getMyTopics(@Body HashMap<String, String> params);
 
     //发布帖子
     @POST("customerapp/api/topic/publishTopic/v1.0.0")

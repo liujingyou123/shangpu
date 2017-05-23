@@ -5,6 +5,7 @@ import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.trade.api.TradeService;
 import com.finance.winport.trade.model.MyTopicResponse;
 import com.finance.winport.trade.model.TradeCircleResponse;
+import com.finance.winport.trade.view.IMyTopicListView;
 import com.finance.winport.trade.view.ITradeCircleView;
 import com.finance.winport.util.ToolsUtil;
 
@@ -17,11 +18,17 @@ import java.util.HashMap;
 public class TradeCirclePresenter {
     private ITradeCircleView mITradeCircleView;
 
+    private IMyTopicListView mIMyTopicListView;
+
     public TradeCirclePresenter() {
     }
 
     public void setmITradeCircleView(ITradeCircleView iTradeCircleView) {
         this.mITradeCircleView = iTradeCircleView;
+    }
+
+    public void setmIMyTopicListView(IMyTopicListView mIMyTopicListView) {
+        this.mIMyTopicListView = mIMyTopicListView;
     }
 
     public void getTradeCircles(String type, int pageNumber) {
@@ -129,19 +136,19 @@ public class TradeCirclePresenter {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("pageNumber", pageNumber + "");
         hashMap.put("pageSize", 10 + "");
-        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).getMyTopics(hashMap), new NetSubscriber<TradeCircleResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).getMyTopics(hashMap), new NetSubscriber<MyTopicResponse>() {
             @Override
-            public void response(TradeCircleResponse response) {
-                if (mITradeCircleView != null) {
-                    mITradeCircleView.showTradeCircle(response);
+            public void response(MyTopicResponse response) {
+                if (mIMyTopicListView != null) {
+                    mIMyTopicListView.showTopics(response);
                 }
             }
 
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                if (mITradeCircleView != null) {
-                    mITradeCircleView.onError();
+                if (mIMyTopicListView != null) {
+                    mIMyTopicListView.onError();
                 }
             }
         });

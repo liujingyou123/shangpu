@@ -11,9 +11,12 @@ import android.widget.ImageView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.trade.model.EventBustTag;
 import com.finance.winport.util.SlidingTagPagerItem;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.SlidingTabLayout;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +39,8 @@ public class TradeCircleFragment extends BaseFragment {
     @BindView(R.id.id_view_pager)
     ViewPager idViewPager;
     Unbinder unbinder;
+    @BindView(R.id.imv_edit_m)
+    ImageView imvEditM;
     private List<SlidingTagPagerItem> mTab = new ArrayList<>();
 
     @Nullable
@@ -73,6 +78,15 @@ public class TradeCircleFragment extends BaseFragment {
                 Intent intent = new Intent(this.getContext(), EditNoteActivity.class);
                 startActivity(intent);
                 break;
+        }
+    }
+
+    @Subscribe
+    public void showEdit(EventBustTag eventBustTag) {
+        if (eventBustTag.isOpenCreateTopic) {
+            imvEditM.setVisibility(View.VISIBLE);
+        } else {
+            imvEditM.setVisibility(View.GONE);
         }
     }
 
