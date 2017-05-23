@@ -247,7 +247,12 @@ public class HomeFragment extends BaseFragment implements IHomeView {
                     quyuPopupView.setOnDismissListener(new PopupWindow.OnDismissListener() {
                         @Override
                         public void onDismiss() {
-//                            selectionView.onLocationUnClick();
+                            ShopRequset requset = quyuPopupView.getShopRequest();
+                            if (requset == null || (TextUtils.isEmpty(requset.districtId) && TextUtils.isEmpty(requset.blockId)
+                                    && TextUtils.isEmpty(requset.metroId) && TextUtils.isEmpty(requset.stationId))) {
+                                selectionView.onLocationUnClick();
+                            }
+//
                         }
                     });
                 }
@@ -293,7 +298,10 @@ public class HomeFragment extends BaseFragment implements IHomeView {
                     sortPopupView.setOnDismissListener(new PopupWindow.OnDismissListener() {
                         @Override
                         public void onDismiss() {
-//                            selectionView.onSortUnClick();
+                            if (TextUtils.isEmpty(mRequest.sortType)) {
+                                selectionView.onSortUnClick();
+
+                            }
                         }
                     });
                 }
