@@ -1,24 +1,19 @@
 package com.finance.winport.service.presenter;
 
-import com.finance.winport.base.BaseResponse;
 import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.service.api.FindServices;
-import com.finance.winport.service.model.LoanListResponse;
 import com.finance.winport.service.model.OrderShopRequest;
 import com.finance.winport.service.model.SendOrderShopResponse;
 import com.finance.winport.util.ToolsUtil;
-import com.sina.weibo.sdk.api.share.Base;
-
-import java.util.HashMap;
 
 /**
  * Created by jge on 17/5/17.
  */
 
-public class SendOrderPresenter {
+public class SendRentPresenter {
     private ISendOrderView mServiceView;
 
-    public SendOrderPresenter(ISendOrderView mServiceView) {
+    public SendRentPresenter(ISendOrderView mServiceView) {
         this.mServiceView = mServiceView;
     }
 
@@ -42,7 +37,7 @@ public class SendOrderPresenter {
 
     }
 
-    public void getShopSignResult(OrderShopRequest request) {
+    public void getShopSignrResult(OrderShopRequest request) {
 
         ToolsUtil.subscribe(ToolsUtil.createService(FindServices.class).sendSignShop(request), new NetSubscriber<SendOrderShopResponse>() {
             @Override

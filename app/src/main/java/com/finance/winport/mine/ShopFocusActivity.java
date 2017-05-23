@@ -88,7 +88,7 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
 
     private void commit(){
         CommitFocusRequest request = new CommitFocusRequest();
-        request.setAreas(list1);
+        request.setList(list1);
         request.setBlockId(blockId);
         request.setBlockName(blockName);
         request.setDistrictId(districtId);

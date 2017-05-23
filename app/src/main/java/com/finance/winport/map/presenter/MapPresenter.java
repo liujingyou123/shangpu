@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.finance.winport.map.api.MapServices;
 import com.finance.winport.map.model.MapAreaRequest;
 import com.finance.winport.map.model.MapAreaResponse;
+import com.finance.winport.map.model.MapShopDetailResponse;
 import com.finance.winport.map.model.MapShopRequest;
 import com.finance.winport.map.model.MapShopResponse;
 import com.finance.winport.mine.api.MineServices;
@@ -69,6 +70,25 @@ public class MapPresenter {
                             mServiceView.showMapPlate(response);
                         }
                     }
+                }
+            }
+        });
+
+    }
+
+
+    public void getMapShopDetail(String id) {
+
+
+        HashMap<String,String> map = new HashMap<>();
+        map.put("shopId",id);
+        ToolsUtil.subscribe(ToolsUtil.createService(MapServices.class).getMapShopDetail(map), new NetSubscriber<MapShopDetailResponse>() {
+            @Override
+            public void response(MapShopDetailResponse response) {
+                if (mServiceView != null) {
+
+
+                        mServiceView.showMapShopDetail(response);
                 }
             }
         });

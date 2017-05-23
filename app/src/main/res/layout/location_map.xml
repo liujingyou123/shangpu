@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="56dp"-->
+        <!--android:background="#2c67e6">-->
+
+        <!--<ImageView-->
+            <!--android:id="@+id/back"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:src="@mipmap/icon_house_title_bar_back"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="15dp" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="30dp"-->
+            <!--android:layout_toRightOf="@+id/back"-->
+            <!--android:text="楼盘信息"-->
+            <!--android:textColor="#ffffff"-->
+            <!--android:textSize="18sp" />-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_marginRight="15dp"-->
+            <!--android:text="导航"-->
+            <!--android:textColor="#ffffff"-->
+            <!--android:textSize="18sp" />-->
+    <!--</RelativeLayout>-->
+
+    <include layout="@layout/title_fouce_house"/>
+    <com.baidu.mapapi.map.MapView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/map_view"
+        android:clickable="true"
+        android:layout_weight="1">
+
+    </com.baidu.mapapi.map.MapView>
+
+    <!--<com.library.view.BottomTabView-->
+        <!--android:id="@+id/tabView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="52dp"-->
+        <!--android:layout_gravity="bottom"-->
+        <!--android:background="@drawable/bg_top_divider"-->
+        <!--android:paddingTop="8dp"-->
+        <!--app:bottom_labels="@array/round_service"-->
+        <!--app:tab_count="4"-->
+        <!--app:tab_drawable_padding="2dp"-->
+        <!--app:tab_text_size="10sp" />-->
+
+    <com.finance.winport.view.BottomTabView
+        android:id="@+id/tabView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bg_top_divider"
+        android:paddingTop="2dp"
+        app:bottom_labels="@array/map_tabs"
+        app:tab_count="6"
+        app:tab_textColor_selector="@drawable/bg_map_bottom_selection"
+        app:tab_drawable_padding="4dp"
+        app:tab_text_size="11sp" />
+
+</LinearLayout>

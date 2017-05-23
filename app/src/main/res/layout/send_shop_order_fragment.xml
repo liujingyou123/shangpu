@@ -258,6 +258,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/phone_view"
+                    android:visibility="gone"
                     android:layout_marginLeft="15dp"
                     android:gravity="center_vertical">
 
@@ -290,6 +291,7 @@
                 </LinearLayout>
 
                 <View
+                    android:visibility="gone"
                     android:id="@+id/code_line"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
@@ -297,6 +299,7 @@
                     android:background="#e5e5e5" />
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/ll_img_code"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -330,6 +333,7 @@
                 </LinearLayout>
 
                 <View
+                    android:visibility="gone"
                     android:id="@+id/img_line"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"

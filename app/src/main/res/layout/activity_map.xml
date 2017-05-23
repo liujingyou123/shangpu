@@ -69,6 +69,7 @@
         android:background="@mipmap/map_icon_locate" />
 
     <LinearLayout
+        android:id="@+id/select_area"
         android:layout_width="130dp"
         android:layout_height="36dp"
         android:layout_gravity="bottom|center_horizontal"

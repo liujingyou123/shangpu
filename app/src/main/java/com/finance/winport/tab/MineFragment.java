@@ -160,6 +160,10 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
             setHeadImage(SharedPrefsUtil.getUserInfo().data.headPortrait);
             getData();
         }
+        else{
+            phone.setText("未登录");
+            modify.setVisibility(View.GONE);
+        }
     }
 
     private void setHuangLi(Lunar.DataBean data) {

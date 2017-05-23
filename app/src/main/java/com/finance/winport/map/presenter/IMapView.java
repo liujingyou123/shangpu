@@ -1,6 +1,7 @@
 package com.finance.winport.map.presenter;
 
 import com.finance.winport.map.model.MapAreaResponse;
+import com.finance.winport.map.model.MapShopDetailResponse;
 import com.finance.winport.map.model.MapShopResponse;
 import com.finance.winport.service.model.FindLoanCountResponse;
 import com.finance.winport.service.model.ShopOrderCountResponse;
@@ -15,5 +16,6 @@ public interface IMapView {
     void showMapArea(MapAreaResponse response);
     void showMapPlate(MapAreaResponse response);
     void showRemoveMapPlate(MapAreaResponse response);
+    void showMapShopDetail(MapShopDetailResponse response);
 
 }

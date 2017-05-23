@@ -204,6 +204,19 @@
                 android:divider="@null"
                 android:fadingEdge="none"
                 android:scrollbars="none" />
+            <TextView
+                android:id="@+id/empty"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:background="#ffffff"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:text="您今天没有日程安排哟~"
+                android:textColor="#999999"
+                android:textSize="13sp"
+                android:gravity="center"/>
 
             <LinearLayout
                 android:id="@+id/shop_area"
