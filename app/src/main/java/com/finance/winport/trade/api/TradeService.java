@@ -1,6 +1,7 @@
 package com.finance.winport.trade.api;
 
 import com.finance.winport.base.BaseResponse;
+import com.finance.winport.trade.model.CommentResponse;
 import com.finance.winport.trade.model.MyTopicResponse;
 import com.finance.winport.trade.model.PublicTopic;
 import com.finance.winport.trade.model.TradeCircleResponse;
@@ -52,4 +53,8 @@ public interface TradeService {
     //删除帖子
     @POST("customerapp/api/topic/deleteTopic/v1.0.0")
     Observable<BaseResponse> deleteTopic(@Body HashMap params);
+
+    //评论列表
+    @POST("customerapp/api/topic/topicCommentList/v1.0.0")
+    Observable<CommentResponse> getComments(@Body HashMap params);
 }

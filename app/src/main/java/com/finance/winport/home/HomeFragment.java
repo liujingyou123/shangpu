@@ -29,6 +29,7 @@ import com.finance.winport.home.presenter.HomePresenter;
 import com.finance.winport.home.view.IHomeView;
 import com.finance.winport.map.MapActivity;
 import com.finance.winport.tab.model.UnReadMsg;
+import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.view.home.HeaderView;
 import com.finance.winport.view.home.SelectView;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;

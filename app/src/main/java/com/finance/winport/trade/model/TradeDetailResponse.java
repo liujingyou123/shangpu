@@ -54,7 +54,7 @@ public class TradeDetailResponse extends BaseResponse {
          * phone : 1681656880
          */
 
-        private List<Comment> commentList;
+//        private List<Comment> commentList;
         /**
          * createTime : 1494399571000
          * id : 1
@@ -138,13 +138,13 @@ public class TradeDetailResponse extends BaseResponse {
             this.headPicture = headPicture;
         }
 
-        public List<Comment> getCommentList() {
-            return commentList;
-        }
-
-        public void setCommentList(List<Comment> commentList) {
-            this.commentList = commentList;
-        }
+//        public List<Comment> getCommentList() {
+//            return commentList;
+//        }
+//
+//        public void setCommentList(List<Comment> commentList) {
+//            this.commentList = commentList;
+//        }
 
         public List<Img> getImgList() {
             return imgList;
@@ -220,62 +220,62 @@ public class TradeDetailResponse extends BaseResponse {
 
         }
 
-        public static class Comment {
-            private String dateTime;
-            private String headPicture;
-            private String id;
-            private String phone;
-            private String commentContent;
-            private String isOwn;
-
-            public String getDateTime() {
-                return dateTime;
-            }
-
-            public void setDateTime(String dateTime) {
-                this.dateTime = dateTime;
-            }
-
-            public String getHeadPicture() {
-                return headPicture;
-            }
-
-            public void setHeadPicture(String headPicture) {
-                this.headPicture = headPicture;
-            }
-
-            public String getId() {
-                return id;
-            }
-
-            public void setId(String id) {
-                this.id = id;
-            }
-
-            public String getPhone() {
-                return phone;
-            }
-
-            public void setPhone(String phone) {
-                this.phone = phone;
-            }
-
-            public String getCommentContent() {
-                return commentContent;
-            }
-
-            public void setCommentContent(String commentContent) {
-                this.commentContent = commentContent;
-            }
-
-            public String getIsOwn() {
-                return isOwn;
-            }
-
-            public void setIsOwn(String isOwn) {
-                this.isOwn = isOwn;
-            }
-        }
+//        public static class Comment {
+//            private String dateTime;
+//            private String headPicture;
+//            private String id;
+//            private String phone;
+//            private String commentContent;
+//            private String isOwn;
+//
+//            public String getDateTime() {
+//                return dateTime;
+//            }
+//
+//            public void setDateTime(String dateTime) {
+//                this.dateTime = dateTime;
+//            }
+//
+//            public String getHeadPicture() {
+//                return headPicture;
+//            }
+//
+//            public void setHeadPicture(String headPicture) {
+//                this.headPicture = headPicture;
+//            }
+//
+//            public String getId() {
+//                return id;
+//            }
+//
+//            public void setId(String id) {
+//                this.id = id;
+//            }
+//
+//            public String getPhone() {
+//                return phone;
+//            }
+//
+//            public void setPhone(String phone) {
+//                this.phone = phone;
+//            }
+//
+//            public String getCommentContent() {
+//                return commentContent;
+//            }
+//
+//            public void setCommentContent(String commentContent) {
+//                this.commentContent = commentContent;
+//            }
+//
+//            public String getIsOwn() {
+//                return isOwn;
+//            }
+//
+//            public void setIsOwn(String isOwn) {
+//                this.isOwn = isOwn;
+//            }
+//        }
 
         public static class Img {
             private long createTime;

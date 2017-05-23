@@ -14,10 +14,13 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.image.Batman;
+import com.finance.winport.log.XLog;
+import com.finance.winport.trade.model.CommentResponse;
 import com.finance.winport.trade.model.TradeDetailResponse;
 import com.finance.winport.trade.presenter.TradeCircleDetailPresener;
 import com.finance.winport.util.UnitUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -27,22 +30,44 @@ import butterknife.ButterKnife;
 public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int TYPE_HEADER = 0;
     public static final int TYPE_NORMAL = 1;
-    private TradeDetailResponse.DataBean mData;
+    private TradeDetailResponse.DataBean mData = new TradeDetailResponse.DataBean();
+    private List<CommentResponse.DataBean.Comment> mComments = new ArrayList<>();
     private LayoutInflater layoutInflater;
 
     private Context mContext;
     private TradeCircleDetailPresener mPresenter;
     private String topicId;
 
-    public TradeCircleDetailAdapter(Context context, TradeDetailResponse.DataBean data) {
+    public TradeCircleDetailAdapter(Context context, String topicId) {
         this.mContext = context;
-        this.mData = data;
         this.layoutInflater = LayoutInflater.from(context);
+        this.topicId = topicId;
     }
 
-    public void setPresenterAndId(TradeCircleDetailPresener presenter, String topicId) {
-        this.mPresenter = presenter;
-        this.topicId = topicId;
+    public void setTraddeDetail(TradeDetailResponse.DataBean data) {
+        if (data != null) {
+            mData.setPraiseNumber(data.getPraiseNumber());
+            mData.setAttentionContent(data.getAttentionContent());
+            mData.setCanBeDelete(data.getCanBeDelete());
+            mData.setCommentNumber(data.getCommentNumber());
+            mData.setContent(data.getContent());
+            mData.setDateTime(data.getDateTime());
+            mData.setH5obj(data.getH5obj());
+            mData.setHeadPicture(data.getHeadPicture());
+            mData.setImgList(data.getImgList());
+            mData.setLikeStatus(data.getLikeStatus());
+            mData.setPhone(data.getPhone());
+            mData.setPublishType(data.getPublishType());
+            mData.setTitle(data.getTitle());
+        }
+
+        notifyDataSetChanged();
+    }
+
+    public void setComments(List<CommentResponse.DataBean.Comment> comments) {
+        mComments.clear();
+        mComments.addAll(comments);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -85,7 +110,7 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
 //                } else {
 //                    viewHolder.imvDel.setVisibility(View.GONE);
 //                }
-                if (mData != null && mData.getImgList().size() > 0) {
+                if (mData != null && mData.getImgList() != null && mData.getImgList().size() > 0) {
                     viewHolder.glImages.setVisibility(View.VISIBLE);
                     setGridLayout(viewHolder, mData.getImgList());
                 } else {
@@ -112,7 +137,7 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         } else {
             ItemViewHolder viewHolder = (ItemViewHolder) holder;
 
-            final TradeDetailResponse.DataBean.Comment info = getItem(position);
+            final CommentResponse.DataBean.Comment info = getItem(position);
             if (info == null) {
                 return;
             }
@@ -130,7 +155,7 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
             }
             viewHolder.tvPhone.setText(info.getPhone());
             viewHolder.tvTime.setText(info.getDateTime() + "评论");
-            viewHolder.tvComment.setText(info.getCommentContent());
+            viewHolder.tvComment.setText(info.getContent());
             Batman.getInstance().fromNet(info.getHeadPicture(), viewHolder.ivIcon);
 
         }
@@ -138,7 +163,11 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public int getItemCount() {
-        return mData == null || mData.getCommentList() == null ? 1 : mData.getCommentList().size() + 1;
+        int ret = 1;
+        if (mComments != null && mComments.size() > 0) {
+            ret = mComments.size() + 1;
+        }
+        return ret;
     }
 
     private void setGridLayout(HeaderViewHolder viewHolder, List<TradeDetailResponse.DataBean.Img> imageUrls) {
@@ -208,15 +237,15 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         return imageView;
     }
 
-    private TradeDetailResponse.DataBean.Comment getItem(int pos) {
-        if (mData == null) {
+    private CommentResponse.DataBean.Comment getItem(int pos) {
+        if (mComments == null) {
             return null;
         }
 
-        if (pos <= mData.getCommentList().size()) {
+        if (pos <= mComments.size()) {
 
         }
-        return mData.getCommentList().get(pos - 1);
+        return mComments.get(pos - 1);
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
