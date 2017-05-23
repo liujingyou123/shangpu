@@ -13,16 +13,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.log.XLog;
 import com.finance.winport.trade.adapter.TradeCircleAdapter;
 import com.finance.winport.trade.model.EventBustTag;
 import com.finance.winport.trade.model.Trade;
 import com.finance.winport.trade.model.TradeCircleResponse;
 import com.finance.winport.trade.presenter.TradeCirclePresenter;
 import com.finance.winport.trade.view.ITradeCircleView;
+import com.finance.winport.util.ToastUtil;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
 import com.finance.winport.view.refreshview.XPtrFrameLayout;
-import com.hwangjr.rxbus.RxBus;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -150,22 +151,64 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
     public void zanTopic(boolean isSuccess, int position, String topId) {
         if (isSuccess) {
 //            View view = lsCircles.getChildAt(position-lsCircles.getFirstVisiblePosition());
-//            view.findViewById(R.id.tv_zan).setSelected(true);
-            mPresenter.getTradeCircles(type, pageNumber);
+//            TextView textView = (TextView) view.findViewById(R.id.tv_zan);
+//            if (textView != null) {
+//                textView.setSelected(true);
+//
+//            }
+//            mPresenter.getTradeCircles(type, pageNumber);
+
+            for (int i = 0; i < mData.size(); i++) {
+                Trade trade = mData.get(i);
+                if (topId.equals(trade.getTopicId() + "")) {
+                    trade.setLikeStatus("1");
+                    trade.setPraiseNumber(trade.getPraiseNumber() + 1);
+                    mAdapter.notifyDataSetChanged();
+                    break;
+                }
+            }
+
+            ToastUtil.show(this.getContext(), "点赞成功");
+        } else {
+            ToastUtil.show(this.getContext(), "点赞失败");
         }
     }
 
     @Override
     public void cancelTopic(boolean isSuccess, int position, String topId) {
         if (isSuccess) {
-            mPresenter.getTradeCircles(type, pageNumber);
+//            mPresenter.getTradeCircles(type, pageNumber);
+            for (int i = 0; i < mData.size(); i++) {
+                Trade trade = mData.get(i);
+                if (topId.equals(trade.getTopicId() + "")) {
+                    trade.setLikeStatus("0");
+                    trade.setPraiseNumber(trade.getPraiseNumber() - 1);
+                    mAdapter.notifyDataSetChanged();
+                    break;
+                }
+            }
+
+            ToastUtil.show(this.getContext(), "取消成功");
+
+        } else {
+            ToastUtil.show(this.getContext(), "取消失败");
+
         }
     }
 
     @Override
     public void deleteTopic(boolean isSuccess, String topId) {
         if (isSuccess) {
-            mPresenter.getTradeCircles(type, pageNumber);
+
+            for (int i = 0; i < mData.size(); i++) {
+                Trade trade = mData.get(i);
+                if (topId.equals(trade.getTopicId() + "")) {
+                    mData.remove(trade);
+                    mAdapter.notifyDataSetChanged();
+                    break;
+                }
+            }
+//            mPresenter.getTradeCircles(type, pageNumber);
         }
     }
 

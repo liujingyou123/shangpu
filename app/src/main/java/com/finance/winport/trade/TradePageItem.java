@@ -17,9 +17,9 @@ public class TradePageItem extends SlidingTagPagerItem {
     @Override
     public Fragment createFragment() {
         TradeCircleListFragment fragment = null;
-        if ("1".equals(getMsg())) {
+        if ("0".equals(getMsg())) {
             fragment = new TradeCircleListFragment();
-        } else if ("2".equals(getMsg())) {
+        } else if ("1".equals(getMsg())) {
             fragment = new TradeCircleListFragment();
         }
 

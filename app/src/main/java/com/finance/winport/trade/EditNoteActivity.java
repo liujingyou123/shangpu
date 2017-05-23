@@ -17,6 +17,7 @@ import com.finance.winport.aliyunoss.AliOss;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.net.LoadingNetSubscriber;
+import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.permission.PermissionsManager;
 import com.finance.winport.permission.PermissionsResultAction;
 import com.finance.winport.trade.adapter.ChoicePhotoAdapter;
@@ -194,17 +195,30 @@ public class EditNoteActivity extends BaseActivity {
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<List<String>>() {
+                .subscribe(new LoadingNetSubscriber<List<String>>() {
                     @Override
-                    public void call(List<String> strings) {
-                        publishTopic(strings);
+                    public void response(List<String> response) {
+                        publishTopic(response);
                     }
-                }, new Action1<Throwable>() {
+
                     @Override
-                    public void call(Throwable throwable) {
+                    public void onError(Throwable e) {
+                        super.onError(e);
                         ToastUtil.show(EditNoteActivity.this, "上传图片失败!");
                     }
                 });
+
+//        new Action1<List<String>>() {
+//            @Override
+//            public void call(List<String> strings) {
+//                publishTopic(strings);
+//            }
+//        }, new Action1<Throwable>() {
+//            @Override
+//            public void call(Throwable throwable) {
+//                ToastUtil.show(EditNoteActivity.this, "上传图片失败!");
+//            }
+//        }
     }
 
     private void publishTopic(List<String> images) {
@@ -225,11 +239,12 @@ public class EditNoteActivity extends BaseActivity {
         mPublicTopic.content = etElse.getText().toString();
 
 
-        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).publishTopic(mPublicTopic), new LoadingNetSubscriber<BaseResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).publishTopic(mPublicTopic), new NetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
-                if(response.isSuccess()) {
+                if (response.isSuccess()) {
                     ToastUtil.show(EditNoteActivity.this, "发布成功");
+                    EditNoteActivity.this.finish();
                 }
             }
         });

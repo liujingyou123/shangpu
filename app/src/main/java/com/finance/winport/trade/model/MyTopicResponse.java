@@ -165,6 +165,22 @@ public class MyTopicResponse extends BaseResponse {
             private int commentNumber;
             private List<imgBean> imgList;
 
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+
+                MyTopic myTopic = (MyTopic) o;
+
+                return topicId == myTopic.topicId;
+
+            }
+
+            @Override
+            public int hashCode() {
+                return topicId;
+            }
+
             public int getPraiseNumber() {
                 return praiseNumber;
             }

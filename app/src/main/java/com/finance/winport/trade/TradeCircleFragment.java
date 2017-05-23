@@ -62,8 +62,8 @@ public class TradeCircleFragment extends BaseFragment {
 
 
     private void initView() {
-        mTab.add(new TradePageItem("最新", "1"));
-        mTab.add(new TradePageItem("最火", "2"));
+        mTab.add(new TradePageItem("最新", "0"));
+        mTab.add(new TradePageItem("最火", "1"));
         idViewPager.setAdapter(new SlidingTabPagerAdapter(this.getChildFragmentManager(), mTab));
         idTab.setViewPager(idViewPager, UnitUtil.dip2px(this.getContext(), 134));
     }
