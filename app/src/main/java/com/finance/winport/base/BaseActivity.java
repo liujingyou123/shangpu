@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.finance.winport.MainActivity;
 import com.finance.winport.R;
 import com.finance.winport.util.LoadingDialogUtil;
+import com.finance.winport.util.SelectDialogUtil;
 
 import java.util.List;
 
@@ -46,6 +47,7 @@ public class BaseActivity extends AppCompatActivity{
             }
         });
 //        RxBus.get().register(this);
+        SelectDialogUtil.getInstance().init(this);
     }
 
     @Override
