@@ -1,12 +1,16 @@
 package com.finance.winport.tab.net;
 
 import com.finance.winport.base.BaseResponse;
+import com.finance.winport.home.api.HomeServices;
+import com.finance.winport.home.model.TagResponse;
 import com.finance.winport.net.Ironman;
 import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.tab.model.AppointRanking;
 import com.finance.winport.tab.model.AppointShopList;
 import com.finance.winport.tab.model.CollectionShopList;
 import com.finance.winport.tab.model.Lunar;
+import com.finance.winport.tab.model.NotifyList;
+import com.finance.winport.tab.model.NotifyType;
 import com.finance.winport.tab.model.Prediction;
 import com.finance.winport.tab.model.ScanCount;
 import com.finance.winport.tab.model.ScanShopList;
@@ -449,6 +453,75 @@ public class PersonManager {
                 .subscribe(new NetSubscriber<Lunar>() {
                     @Override
                     public void response(Lunar response) {
+                        if (callback != null) {
+                            callback.success(response);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (callback != null) {
+                            callback.failure(e);
+                        }
+                    }
+                });
+    }
+
+    // 标签接口
+    public Subscription getTagList(HashMap<String, Object> params, final NetworkCallback<TagResponse> callback) {
+        return Ironman.getInstance()
+                .createService(HomeServices.class)
+                .getTagList(params)
+                .compose(ToolsUtil.<TagResponse>applayScheduers())
+                .subscribe(new NetSubscriber<TagResponse>() {
+                    @Override
+                    public void response(TagResponse response) {
+                        if (callback != null) {
+                            callback.success(response);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (callback != null) {
+                            callback.failure(e);
+                        }
+                    }
+                });
+    }
+
+    // 通知类型列表
+    public Subscription getNotifyType(HashMap<String, Object> params, final NetworkCallback<NotifyType> callback) {
+        return Ironman.getInstance()
+                .createService(PersonService.class)
+                .getNotifyType(params)
+                .compose(ToolsUtil.<NotifyType>applayScheduers())
+                .subscribe(new NetSubscriber<NotifyType>() {
+                    @Override
+                    public void response(NotifyType response) {
+                        if (callback != null) {
+                            callback.success(response);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (callback != null) {
+                            callback.failure(e);
+                        }
+                    }
+                });
+    }
+
+    // 通知列表
+    public Subscription getNotifyList(HashMap<String, Object> params, final NetworkCallback<NotifyList> callback) {
+        return Ironman.getInstance()
+                .createService(PersonService.class)
+                .getNotifyList(params)
+                .compose(ToolsUtil.<NotifyList>applayScheduers())
+                .subscribe(new NetSubscriber<NotifyList>() {
+                    @Override
+                    public void response(NotifyList response) {
                         if (callback != null) {
                             callback.success(response);
                         }

@@ -1,9 +1,7 @@
 package com.finance.winport.mine;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -11,8 +9,7 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
-import com.finance.winport.mine.adapter.NoticeListAdapter;
-import com.finance.winport.mine.adapter.ScheduleListAdapter;
+import com.finance.winport.mine.adapter.ServiceNoticeAdapter;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 
 import butterknife.BindView;
@@ -34,39 +31,29 @@ public class NoticeListActivity extends BaseActivity {
     PtrClassicFrameLayout refreshView;
     @BindView(R.id.rl_title_root)
     RelativeLayout rlTitleRoot;
-    private NoticeListAdapter adapter;
+    private ServiceNoticeAdapter adapter;
+    private int type;
+    private String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notice_list);
         ButterKnife.bind(this);
-        setAdapter();
+        initView();
     }
 
-
-    private void setAdapter() {
+    private void initView() {
         tvFocusHouse.setText("服务");
-        if (adapter == null) {
-            adapter = new NoticeListAdapter(NoticeListActivity.this);
-            mListView.setAdapter(adapter);
-//            totalPage = (int) Math.ceil(adapter.getTotalCount() / (float) LIMIT);
-        } else {
-//            if (pageNumber == 1) {
-//                adapter.refreshData(list, totalCount);
-//            } else {
-//                adapter.updateData(list, totalCount);
-//            }
-
-            adapter.notifyDataSetChanged();
-        }
-//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                startActivity(new Intent(NoticeListActivity.this,ScheduleDetailActivity.class));
-//            }
-//        });
     }
+
+
+//    private void setAdapter() {
+//        if (adapter == null) {
+//            adapter = new ServiceNoticeAdapter(context,);
+//            mListView.setAdapter(adapter);
+//        }
+//    }
 
     @OnClick({R.id.imv_focus_house_back})
     public void onViewClicked(View view) {
@@ -78,8 +65,4 @@ public class NoticeListActivity extends BaseActivity {
         }
     }
 
-//    @OnClick(R.id.imv_focus_house_back)
-//    public void onViewClicked() {
-//        finish();
-//    }
 }

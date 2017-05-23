@@ -11,9 +11,17 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
+import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.mine.adapter.NoticeCollectionAdapter;
 import com.finance.winport.mine.adapter.ScheduleListAdapter;
+import com.finance.winport.tab.model.NotifyList;
+import com.finance.winport.tab.model.NotifyType;
+import com.finance.winport.tab.net.NetworkCallback;
+import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
+
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,31 +48,42 @@ public class MyNoticeActivity extends BaseActivity {
     @BindView(R.id.empty)
     RelativeLayout empty;
     private NoticeCollectionAdapter adapter;
+    LoadingDialog loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notice_collection);
         ButterKnife.bind(this);
-        setAdapter();
+        initView();
+        getNotifyType();
     }
 
-
-    private void setAdapter() {
+    private void initView() {
         tvFocusHouse.setText("通知");
-//        tvFocusRight.setText("历史");
-        if (adapter == null) {
-            adapter = new NoticeCollectionAdapter(MyNoticeActivity.this);
-            lsCircles.setAdapter(adapter);
-//            totalPage = (int) Math.ceil(adapter.getTotalCount() / (float) LIMIT);
-        } else {
-//            if (pageNumber == 1) {
-//                adapter.refreshData(list, totalCount);
-//            } else {
-//                adapter.updateData(list, totalCount);
-//            }
+        loading = new LoadingDialog(context);
+    }
 
-            adapter.notifyDataSetChanged();
+    private void getNotifyType() {
+        loading.show();
+        PersonManager.getInstance().getNotifyType(new HashMap<String, Object>(), new NetworkCallback<NotifyType>() {
+            @Override
+            public void success(NotifyType response) {
+                loading.dismiss();
+                setAdapter(response.data.baseNoticeDTOList);
+            }
+
+            @Override
+            public void failure(Throwable throwable) {
+                loading.dismiss();
+            }
+        });
+    }
+
+    private void setAdapter(List<NotifyType.DataBean.BaseNoticeDTOListBean> list) {
+        if (adapter == null) {
+            adapter = new NoticeCollectionAdapter(context, list);
+            lsCircles.setAdapter(adapter);
         }
         lsCircles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -85,9 +104,4 @@ public class MyNoticeActivity extends BaseActivity {
                 break;
         }
     }
-
-//    @OnClick(R.id.imv_focus_house_back)
-//    public void onViewClicked() {
-//        finish();
-//    }
 }

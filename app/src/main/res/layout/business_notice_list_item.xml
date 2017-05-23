@@ -14,28 +14,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffff"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:background="#ffffff"
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
-            android:text="小二重新安排了您预约看铺的日程"
+            android:text="130****2320评论了您的帖子"
             android:textColor="#333333"
             android:textSize="15sp" />
 
 
-
         <TextView
-            android:id="@+id/type"
+            android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
             android:text="2016/10/31"
             android:textColor="#999999"
             android:textSize="13sp" />
@@ -57,22 +57,25 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="15dp"
+                android:text="帖      子："
                 android:textColor="#999999"
-                android:textSize="14sp"
-                android:text="服务类型："/>
+                android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/post"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="85dp"
+                android:paddingRight="15dp"
+                android:singleLine="true"
+                android:text="魔都十大风靡美食"
                 android:textColor="#333333"
-                android:textSize="14sp"
-                android:text="服务类型："/>
-
+                android:textSize="14sp" />
 
 
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -83,20 +86,24 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="15dp"
+                android:text="评论内容："
                 android:textColor="#999999"
-                android:textSize="14sp"
-                android:text="商铺地址："/>
+                android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="85dp"
+                android:paddingRight="15dp"
+                android:singleLine="true"
+                android:text="楼主睿智，6666！"
                 android:textColor="#333333"
-                android:textSize="14sp"
-                android:text="上海市徐汇区武东路198号"/>
+                android:textSize="14sp" />
 
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -107,105 +114,49 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="15dp"
+                android:text="评论时间："
                 android:textColor="#999999"
-                android:textSize="14sp"
-                android:text="商铺地址："/>
+                android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/do_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="85dp"
+                android:text="2017/02/26   14:30:56"
                 android:textColor="#333333"
-                android:textSize="14sp"
-                android:text="上海市徐汇区武东路198号"/>
+                android:textSize="14sp" />
 
         </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="15dp"
-                android:textColor="#999999"
-                android:textSize="14sp"
-                android:text="旧日程："/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="85dp"
-                android:textColor="#333333"
-                android:textSize="14sp"
-                android:text="上海市徐汇区武东路198号"/>
-
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="15dp"
-                android:textColor="#999999"
-                android:textSize="14sp"
-                android:text="旧日程："/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="85dp"
-                android:textColor="#333333"
-                android:textSize="14sp"
-                android:text="上海市徐汇区武东路198号"/>
-
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:text="如需帮助，请联系您的专属小二赵清清/13023200988或您也可联系客服中心电话40012340988咨询"
-            android:textColor="#999999"
-            android:textSize="13sp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginTop="15dp"
             android:background="#e5e5e5" />
+
         <RelativeLayout
+            android:id="@+id/details"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:gravity="center_vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="15dp"
+                android:text="查看详情"
                 android:textColor="#333333"
-                android:textSize="15sp"
-                android:text="查看详情"/>
+                android:textSize="15sp" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/arrow"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="15dp"/>
-
-
+                android:layout_marginRight="15dp"
+                android:src="@mipmap/arrow" />
 
         </RelativeLayout>
 

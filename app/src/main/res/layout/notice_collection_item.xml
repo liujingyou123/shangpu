@@ -33,9 +33,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:gravity="center"
+                android:text="预约看房"
                 android:textColor="#333333"
-                android:textSize="14sp"
-                android:text="预约看房" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/date"
@@ -43,21 +43,23 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:drawablePadding="10dp"
+                android:drawableRight="@mipmap/icon_arrow_right"
+                android:text="2018-12-33 12:12"
                 android:textColor="#969696"
-                android:textSize="11sp"
-                android:visibility="visible"
-                android:text="2018-12-33 12:12" />
+                android:textSize="14sp"
+                android:visibility="visible" />
 
-            <TextView
+            <ImageView
                 android:id="@id/indicator"
-                android:layout_width="5dp"
-                android:layout_height="5dp"
-                android:layout_marginLeft="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/type"
+                android:layout_alignTop="@+id/type"
+                android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/type"
-                android:background="@drawable/shape_notice_indicator"
-                android:gravity="center"
-                android:textColor="#ffffff"
-                android:textSize="10sp"
+                android:scaleType="centerInside"
+                android:src="@drawable/shape_notice_indicator"
                 android:visibility="gone" />
 
 
@@ -67,14 +69,14 @@
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginRight="80dp"
+            android:layout_marginTop="6dp"
             android:ellipsize="end"
-            android:paddingRight="15dp"
             android:singleLine="true"
+            android:text="小二重新安排了您约房东的日程"
             android:textColor="#969696"
-            android:textSize="12sp"
-            android:visibility="visible"
-            android:text="王先生向您提交了看房申请" />
+            android:textSize="13sp"
+            android:visibility="visible" />
 
     </LinearLayout>
 </LinearLayout>
