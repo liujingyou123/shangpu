@@ -12,4 +12,6 @@
     <string name="list_collection_tip">共收藏了 %1$s 家旺铺，超过了 %2$s 的老板</string>
     <string name="list_appoint_tip">共约看过了 %1$s 家旺铺，超过了 %2$s 的老板</string>
     <string name="list_browser_tip">一个月内共浏览了 %1$s 家旺铺，超过了 %2$s 的老板</string>
+    <string name="mine_schedule">老板，未来您有 %1$s 个安排</string>
+    <string name="hot_line">021-3122 0899</string>
 </resources>

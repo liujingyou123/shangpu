@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.dialog.LoadingDialog;
+import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.home.ShopDetailActivity;
 import com.finance.winport.image.Batman;
 import com.finance.winport.tab.event.RefreshEvent;
@@ -75,6 +76,7 @@ public class ScanWinportAdapter extends PullBaseAdapter<ScanShopList.DataBeanX.D
         holder.address.setText(item.address + item.rentTypeName);
         holder.district.setText(item.districtName + " " + item.blockName);
         holder.area.setText(UnitUtil.formatArea(item.area) + "㎡");
+        holder.releaseTime.setText(item.updateTime + "更新");
         String sRent = Math.round(item.rent) + "";
         String sFee = Math.round(item.transferFee / 10000) + "";
         boolean hasFee = item.transferFee > 0;
@@ -148,24 +150,16 @@ public class ScanWinportAdapter extends PullBaseAdapter<ScanShopList.DataBeanX.D
 
 
     void showDeleteScanAlert(final String browseId, final int position) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        SpannableString pButton = new SpannableString("确认");
-        SpannableString nButton = new SpannableString("取消");
-        pButton.setSpan(new ForegroundColorSpan(Color.parseColor("#FFA73B")), 0, pButton.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        nButton.setSpan(new ForegroundColorSpan(Color.parseColor("#FFA73B")), 0, nButton.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        AlertDialog dialog = builder.setTitle("提示").setMessage("删除浏览")
-                .setPositiveButton(pButton, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        deleteScan(browseId, position);
-                    }
-                }).setNegativeButton(nButton, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                }).create();
-        dialog.show();
+        NoticeDialog n = new NoticeDialog(context);
+        n.setMessage("删除浏览");
+        n.setPositiveBtn("确认");
+        n.setOkClickListener(new NoticeDialog.OnPreClickListner() {
+            @Override
+            public void onClick() {
+                deleteScan(browseId, position);
+            }
+        });
+        n.show();
     }
 
     private void deleteScan(String browseId, final int position) {
@@ -194,7 +188,7 @@ public class ScanWinportAdapter extends PullBaseAdapter<ScanShopList.DataBeanX.D
 
 
     private void setTag(ScanWinportAdapter.ViewHolder holder, ScanShopList.DataBeanX.DataBean item) {
-        holder.tag.removeAllViews();
+        reset(holder);
         if (item.featureList != null && item.featureList.size() > 0) {
             int count = 0;
             for (int i = 0; i < item.featureList.size(); i++) {
@@ -218,6 +212,12 @@ public class ScanWinportAdapter extends PullBaseAdapter<ScanShopList.DataBeanX.D
                 holder.tagDivider.setVisibility(View.INVISIBLE);
             }
         }
+    }
+
+    private void reset(ViewHolder holder) {
+        holder.tag.removeAllViews();
+        holder.tag.setVisibility(View.GONE);
+        holder.tagDivider.setVisibility(View.INVISIBLE);
     }
 
     private TextView createItem(String name, String color) {

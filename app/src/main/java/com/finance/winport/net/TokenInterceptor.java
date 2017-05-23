@@ -51,13 +51,11 @@ public class TokenInterceptor implements Interceptor {
             if (SharedPrefsUtil.getUserInfo() != null && SharedPrefsUtil.getUserInfo().data != null) {
                 token = SharedPrefsUtil.getUserInfo().data.accessToken;
             }
-//            token = "8999d7ffa35a6f6b7b322476";
         } catch (Exception e) {
             token = "";
             e.printStackTrace();
         }
         Log.d(getClass().getSimpleName(), "token-->" + token);
-//        return "82958F583CD3D2DECEF52ADF71C5A3C6";  //50EA1E6878E56AC4877FE9DCF9E3730E
         return token;
     }
 }

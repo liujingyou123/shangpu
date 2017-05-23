@@ -1,6 +1,8 @@
 package com.finance.winport.base;
 
 import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.finance.winport.BuildConfig;
 import com.finance.winport.aliyunoss.AliOss;
@@ -41,6 +43,12 @@ public class WinPortApplication extends Application {
         PlatformConfig.setQQZone("", "");
         PlatformConfig.setSinaWeibo("4150536070", "2386b3299bcd0be389a41e9e8436e91f", "http://sns.whalecloud.com");
 
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     public static WinPortApplication getInstance() {

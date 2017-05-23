@@ -77,6 +77,8 @@
                     android:layout_alignBottom="@+id/shop_img"
                     android:layout_alignLeft="@+id/phone"
                     android:layout_marginBottom="10dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_toLeftOf="@+id/modify"
                     android:hint="去设置关注的旺铺"
                     android:singleLine="true"
                     android:textColor="#999999"
@@ -389,6 +391,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/mine_schedule"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -397,9 +400,9 @@
                     android:drawablePadding="10dp"
                     android:drawableRight="@mipmap/arrow"
                     android:gravity="center"
-                    android:text="老板，未来您有5个安排"
                     android:textColor="#999999"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    tools:text="老板，未来您有5个安排" />
 
             </RelativeLayout>
 
@@ -545,7 +548,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
                 android:gravity="center"
-                android:text="021-3122 0899"
+                android:text="@string/hot_line"
                 android:textColor="#999999"
                 android:textSize="13sp" />
 

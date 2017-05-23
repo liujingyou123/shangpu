@@ -22,8 +22,13 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.base.BaseResponse;
+import com.finance.winport.dialog.LoadingDialog;
+import com.finance.winport.tab.net.NetworkCallback;
+import com.finance.winport.tab.net.PersonManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -53,10 +58,16 @@ public class OffShelfFragment extends BaseFragment {
     TextView remain;
     @BindView(R.id.rl_other)
     RelativeLayout rlOther;
+    private String shopId;
+    private LoadingDialog loading;
+    private String tagId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            shopId = getArguments().getString("shopId");
+        }
     }
 
     @Nullable
@@ -69,6 +80,8 @@ public class OffShelfFragment extends BaseFragment {
     }
 
     private void initView() {
+        loading = new LoadingDialog(context);
+        confirm.setEnabled(false);
         tvFocusHouse.setText("下架旺铺");
         clear.setVisibility(View.GONE);
         remain.setText("0" + "/" + COUNT + "字");
@@ -116,6 +129,8 @@ public class OffShelfFragment extends BaseFragment {
                     } else {
                         rlOther.setVisibility(View.GONE);
                     }
+                    tagId = position + "";
+                    confirm.setEnabled(true);
                 }
             }
         });
@@ -131,7 +146,7 @@ public class OffShelfFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.confirm:
-                pushFragment(new OffShelfResultFragment());
+                offShelfSHop();
                 break;
         }
     }
@@ -144,6 +159,29 @@ public class OffShelfFragment extends BaseFragment {
         ft.replace(R.id.rl_fragment_content, fragment, tag);
         ft.addToBackStack(tag);
         ft.commit();
+    }
+
+    //下架商铺
+    private void offShelfSHop() {
+        loading.show();
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("shopId", shopId);
+        params.put("tagId", tagId);
+        params.put("undoContent", other.getText().toString());
+        PersonManager.getInstance().offShelfSHop(params, new NetworkCallback<BaseResponse>() {
+            @Override
+            public void success(BaseResponse response) {
+                if (getView() == null) return;
+                loading.dismiss();
+                pushFragment(new OffShelfResultFragment());
+            }
+
+            @Override
+            public void failure(Throwable throwable) {
+                if (getView() == null) return;
+                loading.dismiss();
+            }
+        });
     }
 
 
