@@ -9,6 +9,9 @@ import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.home.model.ShopRequset;
 import com.finance.winport.home.view.IHomeView;
 import com.finance.winport.net.NetSubscriber;
+import com.finance.winport.net.NoneNetSubscriber;
+import com.finance.winport.tab.model.UnReadMsg;
+import com.finance.winport.tab.net.PersonService;
 import com.finance.winport.util.ToolsUtil;
 
 import java.util.HashMap;
@@ -90,6 +93,20 @@ public class HomePresenter {
             public void response(BannerResponse response) {
                 if (mIHomeView != null) {
                     mIHomeView.showBanners(response);
+                }
+            }
+
+        });
+    }
+
+    public void getIsUnReader() {
+        HashMap<String ,Object> hashMap = new HashMap<>();
+        hashMap.put("receiveType","0");
+        ToolsUtil.subscribe(ToolsUtil.createService(PersonService.class).getUnReadMsg(hashMap), new NoneNetSubscriber<UnReadMsg>() {
+            @Override
+            public void response(UnReadMsg response) {
+                if (mIHomeView != null) {
+                    mIHomeView.isUnReadMsg(response);
                 }
             }
 

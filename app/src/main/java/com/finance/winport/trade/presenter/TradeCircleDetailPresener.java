@@ -4,6 +4,7 @@ import com.finance.winport.base.BaseResponse;
 import com.finance.winport.net.LoadingNetSubscriber;
 import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.trade.api.TradeService;
+import com.finance.winport.trade.model.CommentResponse;
 import com.finance.winport.trade.model.TradeDetailResponse;
 import com.finance.winport.trade.view.ITradeDetailView;
 import com.finance.winport.util.ToolsUtil;
@@ -139,7 +140,7 @@ public class TradeCircleDetailPresener {
     public void deleteComment(final String topicId) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("topicId", topicId);
-        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).deleteTopic(hashMap), new NetSubscriber<BaseResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).deleteComment(hashMap), new NetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
                 if (mITradeDetailView != null) {
@@ -153,6 +154,31 @@ public class TradeCircleDetailPresener {
                 if (mITradeDetailView != null) {
                     mITradeDetailView.deleteTopic(false, topicId);
                 }
+            }
+        });
+    }
+
+    /**
+     * 获取评论
+     *
+     * @param topicId
+     */
+    public void getComment(final String topicId, String pageNumber) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("topicId", topicId);
+        hashMap.put("pageNumber", pageNumber);
+        hashMap.put("pageSize", "10");
+        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).getComments(hashMap), new NetSubscriber<CommentResponse>() {
+            @Override
+            public void response(CommentResponse response) {
+                if (mITradeDetailView != null) {
+                    mITradeDetailView.showComments(response);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
             }
         });
     }

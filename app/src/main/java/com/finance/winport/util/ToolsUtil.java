@@ -5,6 +5,7 @@ import android.util.Log;
 import com.finance.winport.log.XLog;
 import com.finance.winport.net.Ironman;
 import com.finance.winport.net.NetSubscriber;
+import com.finance.winport.net.NoneNetSubscriber;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -47,6 +48,10 @@ public class ToolsUtil {
     }
 
     public static <T> Subscription subscribe(rx.Observable<T> observable, NetSubscriber<T> subscriber) {
+        return observable.compose(ToolsUtil.<T>applayScheduers()).subscribe(subscriber);
+    }
+
+    public static <T> Subscription subscribe(rx.Observable<T> observable, NoneNetSubscriber<T> subscriber) {
         return observable.compose(ToolsUtil.<T>applayScheduers()).subscribe(subscriber);
     }
 }

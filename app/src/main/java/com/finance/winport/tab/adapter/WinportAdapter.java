@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.image.Batman;
 import com.finance.winport.tab.TypeList;
 import com.finance.winport.tab.WinportActivity;
@@ -56,8 +57,12 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         if (item.rentStatus == 3) {
             holder.historyCount.setText("历史带看申请" + item.visitCount + "组");
             setViewAndChildrenEnabled(convertView, false);
+            holder.llOnSale.setVisibility(View.GONE);
             holder.release.setEnabled(true);
+            holder.release.setVisibility(View.VISIBLE);
         } else {
+            holder.llOnSale.setVisibility(View.VISIBLE);
+            holder.release.setVisibility(View.GONE);
             setViewAndChildrenEnabled(convertView, true);
             String vcs = "历史带看申请" + item.visitCount + "组";
             SpannableString sp = new SpannableString(vcs);
@@ -76,6 +81,7 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
             public void onClick(View v) {
                 Intent dropOff = new Intent(context, WinportActivity.class);
                 dropOff.putExtra("type", TypeList.OFF_SHELF);
+                dropOff.putExtra("shopId", item.id);
                 context.startActivity(dropOff);
             }
         });
@@ -91,7 +97,7 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         holder.release.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showContactAlert(item.clerkPhone);
             }
         });
         //
@@ -129,6 +135,8 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         TextView dropOff;
         @BindView(R.id.release)
         TextView release;
+        @BindView(R.id.ll_onSale)
+        View llOnSale;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
@@ -136,23 +144,15 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
     }
 
     void showContactAlert(final String phone) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        SpannableString pButton = new SpannableString("拨打");
-        SpannableString nButton = new SpannableString("取消");
-        pButton.setSpan(new ForegroundColorSpan(Color.parseColor("#FFA73B")), 0, pButton.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        nButton.setSpan(new ForegroundColorSpan(Color.parseColor("#FFA73B")), 0, nButton.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        AlertDialog dialog = builder.setTitle("提示").setMessage("直拨小二电话：" + phone)
-                .setPositiveButton(pButton, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        context.startActivity(new Intent().setAction(Intent.ACTION_DIAL).setData(Uri.parse("tel:" + phone)));
-                    }
-                }).setNegativeButton(nButton, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                }).create();
-        dialog.show();
+        NoticeDialog n = new NoticeDialog(context);
+        n.setMessage("直拨小二电话：" + phone);
+        n.setPositiveBtn("确认");
+        n.setOkClickListener(new NoticeDialog.OnPreClickListner() {
+            @Override
+            public void onClick() {
+                context.startActivity(new Intent().setAction(Intent.ACTION_DIAL).setData(Uri.parse("tel:" + phone)));
+            }
+        });
+        n.show();
     }
 }

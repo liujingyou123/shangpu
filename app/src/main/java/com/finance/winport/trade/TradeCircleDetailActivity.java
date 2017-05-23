@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.dialog.CommentDialog;
 import com.finance.winport.trade.adapter.TradeCircleDetailAdapter;
+import com.finance.winport.trade.model.CommentResponse;
 import com.finance.winport.trade.model.TradeDetailResponse;
 import com.finance.winport.trade.presenter.TradeCircleDetailPresener;
 import com.finance.winport.trade.view.ITradeDetailView;
@@ -45,51 +47,62 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
     XPtrFrameLayout xpfl;
     @BindView(R.id.tv_focus_house)
     TextView tvFocusHouse;
+    @BindView(R.id.imv_right)
+    ImageView imvRight;
 
     private TradeCircleDetailPresener mPresenter;
     private String topicId;
     private TradeDetailResponse.DataBean mData;
+    private int pageNumber = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_communit_detail);
         ButterKnife.bind(this);
+        initData();
 
         initView();
-        initData();
         getData();
     }
 
-    private void getData() {
+    private void initData() {
         Intent intent = getIntent();
         if (intent != null) {
             topicId = getIntent().getStringExtra("topicId");
         }
+    }
+
+    private void getData() {
 
         if (mPresenter == null) {
             mPresenter = new TradeCircleDetailPresener(this);
         }
 
         mPresenter.getTradeCircleDetail(topicId);
+        mPresenter.getComment(topicId, pageNumber + "");
     }
 
     private void initView() {
         tvFocusHouse.setText("详情");
         rv.setLayoutManager(new LinearLayoutManager(this));
-        xpfl.setMode(PtrFrameLayout.Mode.NONE);
+        adapter = new TradeCircleDetailAdapter(this, topicId);
+        rv.setAdapter(adapter);
+        xpfl.setMode(PtrFrameLayout.Mode.BOTH);
         xpfl.setPtrHandler(new PtrDefaultHandler2() {
             @Override
             public void onLoadMoreBegin(PtrFrameLayout frame) {
+                pageNumber++;
+                mPresenter.getComment(topicId, pageNumber + "");
             }
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
+                pageNumber = 1;
+                mPresenter.getComment(topicId, pageNumber + "");
             }
         });
-    }
 
-    private void initData() {
         commentDialog = new CommentDialog(this);
         commentDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
@@ -113,7 +126,7 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
         });
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.btn_comment, R.id.tv_praise_num})
+    @OnClick({R.id.imv_focus_house_back, R.id.btn_comment, R.id.tv_praise_num, R.id.imv_right})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -129,6 +142,9 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
                     mPresenter.cancelzanTopic(topicId);
                 }
                 break;
+            case R.id.imv_right:
+                mPresenter.deleteTopic(topicId);
+                break;
         }
     }
 
@@ -140,11 +156,15 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
         } else {
             tvPraiseNum.setSelected(true);
         }
+
+        if ("1".equals(mData.getCanBeDelete())) {
+            imvRight.setVisibility(View.VISIBLE);
+        } else {
+            imvRight.setVisibility(View.GONE);
+        }
         tvPraiseNum.setText(response.getData().getPraiseNumber() + "");
         tvCommentNum.setText(response.getData().getCommentNumber() + "");
-
-        adapter = new TradeCircleDetailAdapter(this, mData);
-        rv.setAdapter(adapter);
+        adapter.setTraddeDetail(response.getData());
     }
 
     @Override
@@ -169,7 +189,7 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
     public void commentTopic(boolean isSuccess) {
         commentDialog.dismiss();
         if (isSuccess) {
-            mPresenter.getTradeCircleDetail(topicId);
+            mPresenter.getComment(topicId, pageNumber + "");
         }
     }
 
@@ -178,5 +198,11 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
         if (isSuccess) {
             finish();
         }
+    }
+
+    @Override
+    public void showComments(CommentResponse response) {
+        adapter.setComments(response.getData().getData());
+
     }
 }

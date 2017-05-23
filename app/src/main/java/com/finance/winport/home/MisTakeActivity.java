@@ -18,7 +18,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.mapapi.map.Text;
 import com.finance.winport.R;
 import com.finance.winport.account.model.ImageVerifyCode;
 import com.finance.winport.account.model.Message;
@@ -77,6 +76,8 @@ public class MisTakeActivity extends BaseActivity {
     EditText verifyCodeViewImage;
     @BindView(R.id.pic_code)
     ImageView picCode;
+    @BindView(R.id.btn_done)
+    TextView btnDone;
 
     private int textSize;
     private List<Tag> data;
@@ -188,13 +189,21 @@ public class MisTakeActivity extends BaseActivity {
         llTags.setOnCheckedBoxListener(new CheckGroup.onCheckedBoxListener() {
             @Override
             public void onCheckedBox(CheckBox checkBox) {
-                Tag tag = (Tag) checkBox.getTag();
-                if ("其他".equals(tag.getName())) {
-                    rlElse.setVisibility(View.VISIBLE);
+                if (checkBox.isChecked()) {
+                    Tag tag = (Tag) checkBox.getTag();
+                    if ("其他".equals(tag.getName())) {
+                        rlElse.setVisibility(View.VISIBLE);
+                    } else {
+                        rlElse.setVisibility(View.GONE);
+                    }
+                    tagId = tag.getId() + "";
                 } else {
-                    rlElse.setVisibility(View.GONE);
+                    Tag tag = (Tag) checkBox.getTag();
+                    if ("其他".equals(tag.getName())) {
+                        rlElse.setVisibility(View.GONE);
+                    }
+                    tagId = "";
                 }
-                tagId = tag.getId() + "";
 
             }
         });

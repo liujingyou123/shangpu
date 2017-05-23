@@ -1,5 +1,6 @@
 package com.finance.winport.trade.view;
 
+import com.finance.winport.trade.model.CommentResponse;
 import com.finance.winport.trade.model.TradeDetailResponse;
 
 /**
@@ -17,4 +18,5 @@ public interface ITradeDetailView {
 
     void deleteTopic(boolean isSuccess, String topId);
 
+    void showComments(CommentResponse response);
 }

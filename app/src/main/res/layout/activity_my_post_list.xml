@@ -3,10 +3,10 @@
     xmlns:ptr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/bg">
+    android:background="@color/bg"
+    android:orientation="vertical">
 
-    <include layout="@layout/title_fouce_house"/>
+    <include layout="@layout/title_fouce_house" />
 
     <com.finance.winport.view.refreshview.PtrClassicFrameLayout
         android:id="@+id/refresh_view"
@@ -21,29 +21,30 @@
         <ListView
             android:id="@+id/ls_circles"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:choiceMode="singleChoice"
             android:divider="@color/bg"
             android:dividerHeight="10dp"
             android:fadingEdge="none"
-            android:scrollbars="none"/>
+            android:scrollbars="none" />
     </com.finance.winport.view.refreshview.PtrClassicFrameLayout>
 
     <LinearLayout
         android:id="@+id/ll_empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:background="#ffffff"
         android:gravity="center_horizontal"
-        android:background="#ffffff">
-        <View
-            style="@style/view_line"/>
+        android:orientation="vertical">
+
+        <View style="@style/view_line" />
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
             android:scaleType="centerInside"
-            android:src="@mipmap/state_errore_correction"
-            android:layout_marginTop="100dp" />
+            android:src="@mipmap/state_errore_correction" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -60,6 +61,6 @@
             android:layout_marginTop="150dp"
             android:background="@drawable/bg_done"
             android:text="去发表自己的想法"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </LinearLayout>
 </LinearLayout>

@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.finance.winport.account.event.JPushEvent;
+
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,6 +33,7 @@ public class JPushReceiver extends BroadcastReceiver {
 
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
             String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
+            EventBus.getDefault().post(new JPushEvent(regId));
             Log.d(TAG, "[JPushReceiver] 接收Registration Id : " + regId);
             //send the Registration Id to your server...
 

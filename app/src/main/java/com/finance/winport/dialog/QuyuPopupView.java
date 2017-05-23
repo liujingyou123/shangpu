@@ -422,6 +422,10 @@ public class QuyuPopupView extends AnimPopup {
         }
     }
 
+    public ShopRequset getShopRequest() {
+        return mRequest;
+    }
+
     public void setOnSelectionListener(OnSelectListener onSelectListener) {
         this.mOnSelectListener = onSelectListener;
     }

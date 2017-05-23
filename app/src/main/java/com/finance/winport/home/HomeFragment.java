@@ -18,7 +18,6 @@ import android.widget.RelativeLayout;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.dialog.QuyuPopupView;
-import com.finance.winport.dialog.SelectionDialog;
 import com.finance.winport.dialog.SortPopupView;
 import com.finance.winport.home.adapter.ShopsAdapter;
 import com.finance.winport.home.model.BannerResponse;
@@ -28,11 +27,16 @@ import com.finance.winport.home.model.ShopRequset;
 import com.finance.winport.home.presenter.HomePresenter;
 import com.finance.winport.home.view.IHomeView;
 import com.finance.winport.map.MapActivity;
+import com.finance.winport.tab.model.UnReadMsg;
+import com.finance.winport.util.SelectDialogUtil;
 import com.finance.winport.view.home.HeaderView;
 import com.finance.winport.view.home.SelectView;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
 import com.finance.winport.view.refreshview.XPtrFrameLayout;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +70,7 @@ public class HomeFragment extends BaseFragment implements IHomeView {
 
     private QuyuPopupView quyuPopupView;
     private SortPopupView sortPopupView;
-    private SelectionDialog selectionDialog;
+//    private SelectionDialog selectionDialog;
     private ShopRequset mRequest = new ShopRequset();
     private HeaderView headerView;
     private SelectView heardSelectView;
@@ -79,6 +83,10 @@ public class HomeFragment extends BaseFragment implements IHomeView {
         initListView();
         getData();
 
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+
         return root;
     }
 
@@ -90,6 +98,7 @@ public class HomeFragment extends BaseFragment implements IHomeView {
         mPresenter.getShopList(mRequest);
         mPresenter.getShopCount();
         mPresenter.getBanner();
+        mPresenter.getIsUnReader();
     }
 
     private void initListView() {
@@ -184,7 +193,7 @@ public class HomeFragment extends BaseFragment implements IHomeView {
                     ShopListResponse.DataBean.Shop shop = (ShopListResponse.DataBean.Shop) parent.getItemAtPosition(position);
                     if (shop != null) {
                         Intent intent = new Intent(HomeFragment.this.getContext(), ShopDetailActivity.class);
-                        intent.putExtra("shopId", shop.getId()+"");
+                        intent.putExtra("shopId", shop.getId() + "");
                         startActivity(intent);
                     }
                 }
@@ -244,7 +253,12 @@ public class HomeFragment extends BaseFragment implements IHomeView {
                     quyuPopupView.setOnDismissListener(new PopupWindow.OnDismissListener() {
                         @Override
                         public void onDismiss() {
-//                            selectionView.onLocationUnClick();
+                            ShopRequset requset = quyuPopupView.getShopRequest();
+                            if (requset == null || (TextUtils.isEmpty(requset.districtId) && TextUtils.isEmpty(requset.blockId)
+                                    && TextUtils.isEmpty(requset.metroId) && TextUtils.isEmpty(requset.stationId))) {
+                                selectionView.onLocationUnClick();
+                            }
+//
                         }
                     });
                 }
@@ -290,7 +304,10 @@ public class HomeFragment extends BaseFragment implements IHomeView {
                     sortPopupView.setOnDismissListener(new PopupWindow.OnDismissListener() {
                         @Override
                         public void onDismiss() {
-//                            selectionView.onSortUnClick();
+                            if (TextUtils.isEmpty(mRequest.sortType)) {
+                                selectionView.onSortUnClick();
+
+                            }
                         }
                     });
                 }
@@ -307,60 +324,111 @@ public class HomeFragment extends BaseFragment implements IHomeView {
         }, time);
     }
 
+    private void showSelectDialog() {
+        if (!SelectDialogUtil.getInstance().isShowing()) {
+
+            if (sortPopupView != null && sortPopupView.isShowing()) {
+                sortPopupView.dismiss();
+            }
+            if (quyuPopupView != null && quyuPopupView.isShowing()) {
+                quyuPopupView.dismiss();
+            }
+            SelectDialogUtil.getInstance().showDialog();
+            selectionView.onCsClick();
+            heardSelectView.onCsUnClick();
+        }
+    }
+
+    @Subscribe
+    public void getSelectDilogData(ShopRequset request) {
+        selectionView.onCsUnClick();
+        heardSelectView.onCsUnClick();
+        if (request.rentList != null && request.rentList.size() > 0) {
+            mRequest.rentList = request.rentList;
+        } else {
+            mRequest.rentList = null;
+        }
+        if (request.transferList != null && request.transferList.size() > 0) {
+            mRequest.transferList = request.transferList;
+        } else {
+            mRequest.transferList = null;
+        }
+        if (request.areaList != null && request.areaList.size() > 0) {
+            mRequest.areaList = request.areaList;
+        } else {
+            mRequest.areaList = null;
+        }
+        mRequest.width = request.width;
+        if (request.featureTagList != null && request.featureTagList.size() > 0) {
+            mRequest.featureTagList = request.featureTagList;
+        } else {
+            mRequest.featureTagList = null;
+        }
+        if (request.supportTagList != null && request.supportTagList.size() > 0) {
+            mRequest.supportTagList = request.supportTagList;
+        } else {
+            mRequest.supportTagList = null;
+        }
+
+        mRequest.pageNumber = 1;
+        mPresenter.getShopList(mRequest);
+    }
+
     private void showShaiXuandialog(int time) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (selectionDialog == null) {
-                    selectionDialog = new SelectionDialog(HomeFragment.this.getContext());
-                    selectionDialog.setOnSelectListener(new SelectionDialog.OnSelectListener() {
-                        @Override
-                        public void onSelect(ShopRequset request) {
-                            selectionView.onCsUnClick();
-                            heardSelectView.onCsUnClick();
-                            if (request.rentList != null && request.rentList.size() > 0) {
-                                mRequest.rentList = request.rentList;
-                            } else {
-                                mRequest.rentList = null;
-                            }
-                            if (request.transferList != null && request.transferList.size() > 0) {
-                                mRequest.transferList = request.transferList;
-                            } else {
-                                mRequest.transferList = null;
-                            }
-                            if (request.areaList != null && request.areaList.size() > 0) {
-                                mRequest.areaList = request.areaList;
-                            } else {
-                                mRequest.areaList = null;
-                            }
-                            mRequest.width = request.width;
-                            if (request.featureTagList != null && request.featureTagList.size() > 0) {
-                                mRequest.featureTagList = request.featureTagList;
-                            } else {
-                                mRequest.featureTagList = null;
-                            }
-                            if (request.supportTagList != null && request.supportTagList.size() > 0) {
-                                mRequest.supportTagList = request.supportTagList;
-                            } else {
-                                mRequest.supportTagList = null;
-                            }
-
-                            mRequest.pageNumber = 1;
-                            mPresenter.getShopList(mRequest);
-                        }
-                    });
-                }
-                if (!selectionDialog.isShowing()) {
-                    if (sortPopupView != null && sortPopupView.isShowing()) {
-                        sortPopupView.dismiss();
-                    }
-                    if (quyuPopupView != null && quyuPopupView.isShowing()) {
-                        quyuPopupView.dismiss();
-                    }
-                    selectionDialog.show();
-                    selectionView.onCsClick();
-                    heardSelectView.onCsUnClick();
-                }
+                showSelectDialog();
+//                if (selectionDialog == null) {
+//                    selectionDialog = new SelectionDialog(HomeFragment.this.getContext());
+//                    selectionDialog.setOnSelectListener(new SelectionDialog.OnSelectListener() {
+//                        @Override
+//                        public void onSelect(ShopRequset request) {
+//                            selectionView.onCsUnClick();
+//                            heardSelectView.onCsUnClick();
+//                            if (request.rentList != null && request.rentList.size() > 0) {
+//                                mRequest.rentList = request.rentList;
+//                            } else {
+//                                mRequest.rentList = null;
+//                            }
+//                            if (request.transferList != null && request.transferList.size() > 0) {
+//                                mRequest.transferList = request.transferList;
+//                            } else {
+//                                mRequest.transferList = null;
+//                            }
+//                            if (request.areaList != null && request.areaList.size() > 0) {
+//                                mRequest.areaList = request.areaList;
+//                            } else {
+//                                mRequest.areaList = null;
+//                            }
+//                            mRequest.width = request.width;
+//                            if (request.featureTagList != null && request.featureTagList.size() > 0) {
+//                                mRequest.featureTagList = request.featureTagList;
+//                            } else {
+//                                mRequest.featureTagList = null;
+//                            }
+//                            if (request.supportTagList != null && request.supportTagList.size() > 0) {
+//                                mRequest.supportTagList = request.supportTagList;
+//                            } else {
+//                                mRequest.supportTagList = null;
+//                            }
+//
+//                            mRequest.pageNumber = 1;
+//                            mPresenter.getShopList(mRequest);
+//                        }
+//                    });
+//                }
+//                if (!selectionDialog.isShowing()) {
+//                    if (sortPopupView != null && sortPopupView.isShowing()) {
+//                        sortPopupView.dismiss();
+//                    }
+//                    if (quyuPopupView != null && quyuPopupView.isShowing()) {
+//                        quyuPopupView.dismiss();
+//                    }
+//                    selectionDialog.show();
+//                    selectionView.onCsClick();
+//                    heardSelectView.onCsUnClick();
+//                }
 
             }
         }, time);
@@ -454,6 +522,11 @@ public class HomeFragment extends BaseFragment implements IHomeView {
         headerView.setUrls(response.getData());
     }
 
+    @Override
+    public void isUnReadMsg(UnReadMsg readMsg) {
+        headerView.setNotice(readMsg.data);
+    }
+
 
     @Override
     public void onError() {
@@ -506,6 +579,7 @@ public class HomeFragment extends BaseFragment implements IHomeView {
 
     @Override
     public void onDestroy() {
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 }

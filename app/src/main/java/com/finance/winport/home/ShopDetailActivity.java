@@ -1,9 +1,12 @@
 package com.finance.winport.home;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -30,6 +33,9 @@ import com.finance.winport.home.presenter.ShopDetailPresenter;
 import com.finance.winport.home.view.IShopDetailView;
 import com.finance.winport.image.GlideImageLoader;
 import com.finance.winport.log.XLog;
+import com.finance.winport.permission.PermissionsManager;
+import com.finance.winport.permission.PermissionsResultAction;
+import com.finance.winport.tab.MineFragment;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.ToastUtil;
@@ -39,6 +45,8 @@ import com.finance.winport.view.ScrollTabView;
 import com.finance.winport.view.home.NearShop;
 import com.finance.winport.view.home.RateView;
 import com.finance.winport.view.imagepreview.ImagePreviewActivity;
+import com.finance.winport.view.picker.Picker;
+import com.finance.winport.view.picker.engine.GlideEngine;
 import com.finance.winport.view.tagview.TagCloudLayout;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
@@ -370,7 +378,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             case R.id.tv_jiucuo:
                 if (SharedPrefsUtil.getUserInfo() != null) {
                     Intent intentjiucuo = new Intent(ShopDetailActivity.this, MisTakeActivity.class);
-                    intentjiucuo.putExtra("shopId", mShopDetail.getData().getId()+"");
+                    intentjiucuo.putExtra("shopId", mShopDetail.getData().getId() + "");
                     startActivity(intentjiucuo);
                 } else {
                     Intent intent1 = new Intent(this, LoginActivity.class);
@@ -382,7 +390,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             case R.id.tv_yuyue:
                 if (SharedPrefsUtil.getUserInfo() != null) {
                     Intent orderIntent = new Intent(ShopDetailActivity.this, OrderShopActivity.class);
-                    orderIntent.putExtra("shopId", mShopDetail.getData().getId()+"");
+                    orderIntent.putExtra("shopId", mShopDetail.getData().getId() + "");
                     if (mShopDetail.getData().getIsVisit() != 0) { //已预约  签约租铺
                         orderIntent.putExtra("type", 1);  //签约租铺
                     } else {
@@ -406,6 +414,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                             @Override
                             public void onClick() {
                                 mPresenter.recordCall(mShopDetail.getData().getId() + "", mShopDetail.getData().getContactTel());
+                                callPhone(mShopDetail.getData().getContactTel());
                             }
                         });
                     }
@@ -807,6 +816,31 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
 
         bannerView.setImages(list);
         bannerView.start();
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        PermissionsManager.getInstance().notifyPermissionsChange(permissions,
+                grantResults);
+    }
+
+    private void callPhone(final String phone) {
+        String[] permissions = new String[]{Manifest.permission.CALL_PHONE};
+        PermissionsManager.getInstance().requestPermissionsIfNecessaryForResult(this, permissions,
+                new PermissionsResultAction() {
+                    @Override
+                    public void onGranted() {
+                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onDenied(String permission) {
+                    }
+
+
+                });
 
     }
 

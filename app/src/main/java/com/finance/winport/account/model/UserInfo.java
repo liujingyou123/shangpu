@@ -13,6 +13,7 @@ public class UserInfo extends BaseResponse {
         public String accessToken;
         public String headPortrait;
         public String userPhone;
+        public String customerId;
 
     }
 
