@@ -57,6 +57,11 @@ public class MyPostListActivity extends BaseActivity implements IMyTopicListView
         setContentView(R.layout.activity_my_post_list);
         ButterKnife.bind(this);
         init();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         getData();
     }
 

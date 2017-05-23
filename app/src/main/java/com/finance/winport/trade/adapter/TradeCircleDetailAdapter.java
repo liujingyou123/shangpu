@@ -95,7 +95,11 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
             HeaderViewHolder viewHolder = (HeaderViewHolder) holder;
             if (mData != null) {
                 viewHolder.tvHeaderPhone.setText(mData.getPhone());
-                viewHolder.tvHeaderMsg.setText("关注　" + mData.getAttentionContent());
+                String str = mData.getAttentionContent();
+                if (TextUtils.isEmpty(str)) {
+                    str = "";
+                }
+                viewHolder.tvHeaderMsg.setText("关注　" + str);
                 Batman.getInstance().fromNet(mData.getHeadPicture(), viewHolder.ivHeaderIcon);
                 viewHolder.tvHeaderTime.setText(mData.getDateTime());
                 viewHolder.tvTitle.setText(mData.getTitle());
