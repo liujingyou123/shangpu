@@ -1,35 +1,27 @@
 package com.finance.winport.trade.model;
 
+import com.finance.winport.base.BaseResponse;
+
 import java.util.List;
 
 /**
  * Created by liuworkmac on 17/5/23.
  */
 
-public class CommentResponse {
+public class CommentResponse extends BaseResponse{
 
 
     /**
-     * data : [{"commentatorId":6,"content":"业务员评论内容","dateTime":"2017-05-10 14:59:31","headPicture":"http://shfc-img.img-cn-shanghai.aliyuncs.com/other/%E4%B8%9A%E5%8A%A1%E5%91%98/2017/05/15/IMG_1494818789325_12268.jpg","id":"10","isOwn":0,"phone":"13681656106"},{"commentatorId":1,"content":"业务员评论内容","dateTime":"2017-05-10 14:59:31","headPicture":"www.baidu.com","id":"19","isOwn":0,"phone":"13681656100"},{"commentatorId":2,"content":"业务员评论内容","dateTime":"2017-05-10 14:59:31","headPicture":"www.baidu.com","id":"20","isOwn":0,"phone":"13681656101"}]
-     * pageNumber : 1
-     * pageSize : 3
      * query : {}
-     * start : 0
+     * data : [{"id":"9","headPicture":"http://shfc-img.img-cn-shanghai.aliyuncs.com/other/%E4%B8%9A%E5%8A%A1%E5%91%98/2017/05/15/IMG_1494818789325_12268.jpg","phone":"13681656104","dateTime":"2017-05-10 14:59:31","content":"业务员评论内容","isOwn":0,"commentatorId":4},{"id":"10","headPicture":"http://shfc-img.img-cn-shanghai.aliyuncs.com/other/%E4%B8%9A%E5%8A%A1%E5%91%98/2017/05/15/IMG_1494818789325_12268.jpg","phone":"13681656106","dateTime":"2017-05-10 14:59:31","content":"业务员评论内容","isOwn":0,"commentatorId":6},{"id":"19","headPicture":"www.baidu.com","phone":"13681656100","dateTime":"2017-05-10 14:59:31","content":"业务员评论内容","isOwn":0,"commentatorId":1},{"id":"20","headPicture":"www.baidu.com","phone":"13681656101","dateTime":"2017-05-10 14:59:31","content":"业务员评论内容","isOwn":0,"commentatorId":2}]
+     * totalSize : 5
+     * pageSize : 4
+     * pageNumber : 1
      * totalPage : 1
-     * totalSize : 4
+     * start : 0
      */
 
     private DataBean data;
-    /**
-     * data : {"data":[{"commentatorId":6,"content":"业务员评论内容","dateTime":"2017-05-10 14:59:31","headPicture":"http://shfc-img.img-cn-shanghai.aliyuncs.com/other/%E4%B8%9A%E5%8A%A1%E5%91%98/2017/05/15/IMG_1494818789325_12268.jpg","id":"10","isOwn":0,"phone":"13681656106"},{"commentatorId":1,"content":"业务员评论内容","dateTime":"2017-05-10 14:59:31","headPicture":"www.baidu.com","id":"19","isOwn":0,"phone":"13681656100"},{"commentatorId":2,"content":"业务员评论内容","dateTime":"2017-05-10 14:59:31","headPicture":"www.baidu.com","id":"20","isOwn":0,"phone":"13681656101"}],"pageNumber":1,"pageSize":3,"query":{},"start":0,"totalPage":1,"totalSize":4}
-     * errCode : 0
-     * errMsg : null
-     * success : false
-     */
-
-    private int errCode;
-    private Object errMsg;
-    private boolean success;
 
     public DataBean getData() {
         return data;
@@ -39,54 +31,30 @@ public class CommentResponse {
         this.data = data;
     }
 
-    public int getErrCode() {
-        return errCode;
-    }
-
-    public void setErrCode(int errCode) {
-        this.errCode = errCode;
-    }
-
-    public Object getErrMsg() {
-        return errMsg;
-    }
-
-    public void setErrMsg(Object errMsg) {
-        this.errMsg = errMsg;
-    }
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
     public static class DataBean {
-        private int pageNumber;
-        private int pageSize;
-        private int start;
-        private int totalPage;
         private int totalSize;
+        private int pageSize;
+        private int pageNumber;
+        private int totalPage;
+        private int start;
         /**
-         * commentatorId : 6
-         * content : 业务员评论内容
-         * dateTime : 2017-05-10 14:59:31
+         * id : 9
          * headPicture : http://shfc-img.img-cn-shanghai.aliyuncs.com/other/%E4%B8%9A%E5%8A%A1%E5%91%98/2017/05/15/IMG_1494818789325_12268.jpg
-         * id : 10
+         * phone : 13681656104
+         * dateTime : 2017-05-10 14:59:31
+         * content : 业务员评论内容
          * isOwn : 0
-         * phone : 13681656106
+         * commentatorId : 4
          */
 
         private List<Comment> data;
 
-        public int getPageNumber() {
-            return pageNumber;
+        public int getTotalSize() {
+            return totalSize;
         }
 
-        public void setPageNumber(int pageNumber) {
-            this.pageNumber = pageNumber;
+        public void setTotalSize(int totalSize) {
+            this.totalSize = totalSize;
         }
 
         public int getPageSize() {
@@ -97,12 +65,12 @@ public class CommentResponse {
             this.pageSize = pageSize;
         }
 
-        public int getStart() {
-            return start;
+        public int getPageNumber() {
+            return pageNumber;
         }
 
-        public void setStart(int start) {
-            this.start = start;
+        public void setPageNumber(int pageNumber) {
+            this.pageNumber = pageNumber;
         }
 
         public int getTotalPage() {
@@ -113,12 +81,12 @@ public class CommentResponse {
             this.totalPage = totalPage;
         }
 
-        public int getTotalSize() {
-            return totalSize;
+        public int getStart() {
+            return start;
         }
 
-        public void setTotalSize(int totalSize) {
-            this.totalSize = totalSize;
+        public void setStart(int start) {
+            this.start = start;
         }
 
         public List<Comment> getData() {
@@ -130,36 +98,20 @@ public class CommentResponse {
         }
 
         public static class Comment {
-            private int commentatorId;
-            private String content;
-            private String dateTime;
-            private String headPicture;
             private String id;
-            private int isOwn;
+            private String headPicture;
             private String phone;
+            private String dateTime;
+            private String content;
+            private int isOwn;
+            private int commentatorId;
 
-            public int getCommentatorId() {
-                return commentatorId;
+            public String getId() {
+                return id;
             }
 
-            public void setCommentatorId(int commentatorId) {
-                this.commentatorId = commentatorId;
-            }
-
-            public String getContent() {
-                return content;
-            }
-
-            public void setContent(String content) {
-                this.content = content;
-            }
-
-            public String getDateTime() {
-                return dateTime;
-            }
-
-            public void setDateTime(String dateTime) {
-                this.dateTime = dateTime;
+            public void setId(String id) {
+                this.id = id;
             }
 
             public String getHeadPicture() {
@@ -170,12 +122,28 @@ public class CommentResponse {
                 this.headPicture = headPicture;
             }
 
-            public String getId() {
-                return id;
+            public String getPhone() {
+                return phone;
             }
 
-            public void setId(String id) {
-                this.id = id;
+            public void setPhone(String phone) {
+                this.phone = phone;
+            }
+
+            public String getDateTime() {
+                return dateTime;
+            }
+
+            public void setDateTime(String dateTime) {
+                this.dateTime = dateTime;
+            }
+
+            public String getContent() {
+                return content;
+            }
+
+            public void setContent(String content) {
+                this.content = content;
             }
 
             public int getIsOwn() {
@@ -186,12 +154,12 @@ public class CommentResponse {
                 this.isOwn = isOwn;
             }
 
-            public String getPhone() {
-                return phone;
+            public int getCommentatorId() {
+                return commentatorId;
             }
 
-            public void setPhone(String phone) {
-                this.phone = phone;
+            public void setCommentatorId(int commentatorId) {
+                this.commentatorId = commentatorId;
             }
         }
     }

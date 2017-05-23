@@ -92,19 +92,21 @@ public class TradeCircleAdapter extends BaseAdapter {
                 viewHolder.tvZan.setSelected(false);
             }
             viewHolder.tvComments.setText(trade.getCommentNumber() + "");
-            if (trade != null && trade.getImgList().size() > 0) {
-                viewHolder.glImages.setVisibility(View.VISIBLE);
-                setGridLayout(viewHolder, trade.getImgList());
-            } else {
-                viewHolder.glImages.setVisibility(View.GONE);
-            }
-
             if (!TextUtils.isEmpty(trade.getContent())) {
                 viewHolder.tvSub.setVisibility(View.VISIBLE);
                 viewHolder.tvSub.setText(trade.getContent());
             } else {
                 viewHolder.tvSub.setVisibility(View.GONE);
             }
+            if (trade != null && trade.getImgList().size() > 0) {
+                viewHolder.glImages.setVisibility(View.VISIBLE);
+                viewHolder.tvSub.setVisibility(View.GONE);
+                setGridLayout(viewHolder, trade.getImgList());
+            } else {
+                viewHolder.glImages.setVisibility(View.GONE);
+            }
+
+
             if (trade.getH5obj() != null) {
                 viewHolder.rlHref.setVisibility(View.VISIBLE);
                 Batman.getInstance().fromNet(trade.getH5obj().getUrl(), viewHolder.imvHref);

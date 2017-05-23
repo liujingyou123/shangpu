@@ -42,6 +42,8 @@
         android:protectionLevel="signature" />
     <uses-permission android:name="com.finance.winport.permission.JPUSH_MESSAGE" />
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <application
         android:name=".base.WinPortApplication"
         android:allowBackup="true"

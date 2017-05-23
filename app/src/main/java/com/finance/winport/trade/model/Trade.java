@@ -194,4 +194,20 @@ public class Trade {
             this.url = url;
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Trade trade = (Trade) o;
+
+        return topicId == trade.topicId;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return topicId;
+    }
 }

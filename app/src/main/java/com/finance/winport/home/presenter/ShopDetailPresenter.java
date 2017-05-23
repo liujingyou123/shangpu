@@ -84,11 +84,11 @@ public class ShopDetailPresenter {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("shopId", shopId);
         hashMap.put("phone", phone);
-//        ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).collectShop(hashMap), new NetSubscriber<BaseResponse>() {
-//            @Override
-//            public void response(BaseResponse response) {
-//            }
-//        });
+        ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).recordCall(hashMap), new NetSubscriber<BaseResponse>() {
+            @Override
+            public void response(BaseResponse response) {
+            }
+        });
     }
 
 }
