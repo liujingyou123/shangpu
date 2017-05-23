@@ -26,6 +26,8 @@ public class NoticeDialog extends Dialog {
     TextView tvMessage;
     @BindView(R.id.tv_ok)
     TextView tvOk;
+    @BindView(R.id.tv_cancel)
+    TextView tvCancel;
     private Context mContext;
     private OnPreClickListner mOnOkPreClickListner;
 
@@ -69,6 +71,10 @@ public class NoticeDialog extends Dialog {
 
     public void setPositiveBtn(String msg) {
         tvOk.setText(msg);
+    }
+
+    public void setOneButton() {
+        tvCancel.setVisibility(View.GONE);
     }
 
     public void setOkClickListener(OnPreClickListner onPreClickListner) {

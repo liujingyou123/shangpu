@@ -19,6 +19,7 @@ import com.finance.winport.R;
 import com.finance.winport.dialog.NoticeDelDialog;
 import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.image.Batman;
+import com.finance.winport.trade.model.MyTopicResponse;
 import com.finance.winport.trade.model.Trade;
 import com.finance.winport.trade.presenter.TradeCirclePresenter;
 import com.finance.winport.util.UnitUtil;
@@ -30,12 +31,12 @@ import butterknife.ButterKnife;
 
 public class MyTradeCircleAdapter extends BaseAdapter {
     private Context mContext;
-    private List<Trade> mData;
+    private List<MyTopicResponse.DataBean.MyTopic> mData;
     private TradeCirclePresenter mPresenter;
 
-    public MyTradeCircleAdapter(Context mContext, List<Trade> mData, TradeCirclePresenter presenter) {
+    public MyTradeCircleAdapter(Context mContext, List<MyTopicResponse.DataBean.MyTopic> data, TradeCirclePresenter presenter) {
         this.mContext = mContext;
-        this.mData = mData;
+        this.mData = data;
         this.mPresenter = presenter;
     }
 
@@ -49,8 +50,8 @@ public class MyTradeCircleAdapter extends BaseAdapter {
     }
 
     @Override
-    public Trade getItem(int i) {
-        Trade ret = null;
+    public MyTopicResponse.DataBean.MyTopic getItem(int i) {
+        MyTopicResponse.DataBean.MyTopic ret = null;
         if (mData != null) {
             ret = mData.get(i);
         }
@@ -73,7 +74,7 @@ public class MyTradeCircleAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        Trade trade = mData.get(i);
+        MyTopicResponse.DataBean.MyTopic trade = mData.get(i);
         if (trade != null) {
             viewHolder.tvTitle.setText(trade.getTitle());
             viewHolder.tvTime.setText(trade.getDateTime());
@@ -85,7 +86,7 @@ public class MyTradeCircleAdapter extends BaseAdapter {
                 viewHolder.imvFire.setVisibility(View.GONE);
             }
 
-            if (TextUtils.isEmpty(trade.getLikeStatus()) && "1".equals(trade.getLikeStatus())) {
+            if (!TextUtils.isEmpty(trade.getLikeStatus()) && "1".equals(trade.getLikeStatus())) {
                 viewHolder.tvZan.setSelected(true);
             } else {
                 viewHolder.tvZan.setSelected(false);
@@ -149,7 +150,7 @@ public class MyTradeCircleAdapter extends BaseAdapter {
         return view;
     }
 
-    private void setGridLayout(ViewHolder viewHolder, List<Trade.imgBean> imageUrls) {
+    private void setGridLayout(ViewHolder viewHolder, List<MyTopicResponse.DataBean.MyTopic.imgBean> imageUrls) {
         int imageSize = imageUrls.size();
         viewHolder.glImages.removeAllViews();
         if (imageSize == 1) {

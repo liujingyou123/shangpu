@@ -28,6 +28,8 @@ import com.finance.winport.home.model.ShopRequset;
 import com.finance.winport.home.presenter.HomePresenter;
 import com.finance.winport.home.view.IHomeView;
 import com.finance.winport.map.MapActivity;
+import com.finance.winport.tab.model.UnReadMsg;
+import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.view.home.HeaderView;
 import com.finance.winport.view.home.SelectView;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
@@ -90,6 +92,7 @@ public class HomeFragment extends BaseFragment implements IHomeView {
         mPresenter.getShopList(mRequest);
         mPresenter.getShopCount();
         mPresenter.getBanner();
+        mPresenter.getIsUnReader();
     }
 
     private void initListView() {
@@ -184,7 +187,7 @@ public class HomeFragment extends BaseFragment implements IHomeView {
                     ShopListResponse.DataBean.Shop shop = (ShopListResponse.DataBean.Shop) parent.getItemAtPosition(position);
                     if (shop != null) {
                         Intent intent = new Intent(HomeFragment.this.getContext(), ShopDetailActivity.class);
-                        intent.putExtra("shopId", shop.getId()+"");
+                        intent.putExtra("shopId", shop.getId() + "");
                         startActivity(intent);
                     }
                 }
@@ -244,7 +247,12 @@ public class HomeFragment extends BaseFragment implements IHomeView {
                     quyuPopupView.setOnDismissListener(new PopupWindow.OnDismissListener() {
                         @Override
                         public void onDismiss() {
-//                            selectionView.onLocationUnClick();
+                            ShopRequset requset = quyuPopupView.getShopRequest();
+                            if (requset == null || (TextUtils.isEmpty(requset.districtId) && TextUtils.isEmpty(requset.blockId)
+                                    && TextUtils.isEmpty(requset.metroId) && TextUtils.isEmpty(requset.stationId))) {
+                                selectionView.onLocationUnClick();
+                            }
+//
                         }
                     });
                 }
@@ -290,7 +298,10 @@ public class HomeFragment extends BaseFragment implements IHomeView {
                     sortPopupView.setOnDismissListener(new PopupWindow.OnDismissListener() {
                         @Override
                         public void onDismiss() {
-//                            selectionView.onSortUnClick();
+                            if (TextUtils.isEmpty(mRequest.sortType)) {
+                                selectionView.onSortUnClick();
+
+                            }
                         }
                     });
                 }
@@ -452,6 +463,11 @@ public class HomeFragment extends BaseFragment implements IHomeView {
     @Override
     public void showBanners(BannerResponse response) {
         headerView.setUrls(response.getData());
+    }
+
+    @Override
+    public void isUnReadMsg(UnReadMsg readMsg) {
+        headerView.setNotice(readMsg.data);
     }
 
 

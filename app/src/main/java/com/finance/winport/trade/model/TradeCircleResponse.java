@@ -36,6 +36,15 @@ public class TradeCircleResponse extends BaseResponse{
          */
 
         private PageBean page;
+        private String createTopicOpen;
+
+        public String getCreateTopicOpen() {
+            return createTopicOpen;
+        }
+
+        public void setCreateTopicOpen(String createTopicOpen) {
+            this.createTopicOpen = createTopicOpen;
+        }
 
         public PageBean getPage() {
             return page;
