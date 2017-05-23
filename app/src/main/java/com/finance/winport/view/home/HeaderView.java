@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -44,6 +45,8 @@ public class HeaderView extends RelativeLayout {
     StopWatchTextView tvLimtArea;
     @BindView(R.id.tv_near_station)
     StopWatchTextView tvNearStation;
+    @BindView(R.id.imv_notice)
+    ImageView imvNotice;
 
     private List<BannerResponse.DataBean> mUrls = new ArrayList<>();
     private Context mContext;
@@ -127,5 +130,13 @@ public class HeaderView extends RelativeLayout {
 
     public View getBannerView() {
         return headerBanner;
+    }
+
+    public void setNotice(boolean isNotice) {
+        if (isNotice) {
+            imvNotice.setImageResource(R.mipmap.label_message_selecteed);
+        } else {
+            imvNotice.setImageResource(R.mipmap.icon_navigation_message);
+        }
     }
 }

@@ -632,7 +632,7 @@ public class ShopDetail extends BaseResponse implements Serializable{
             private int nearId;
             private int nearSeat;
             private String parentId;
-            private List<String> nearImg;
+            private List<ImageListBean> nearImg;
 
             public int getIndustryId() {
                 return industryId;
@@ -682,11 +682,11 @@ public class ShopDetail extends BaseResponse implements Serializable{
                 this.parentId = parentId;
             }
 
-            public List<String> getNearImg() {
+            public List<ImageListBean> getNearImg() {
                 return nearImg;
             }
 
-            public void setNearImg(List<String> nearImg) {
+            public void setNearImg(List<ImageListBean> nearImg) {
                 this.nearImg = nearImg;
             }
 

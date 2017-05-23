@@ -4,6 +4,7 @@ import com.finance.winport.home.model.BannerResponse;
 import com.finance.winport.home.model.RegionResponse;
 import com.finance.winport.home.model.ShopCount;
 import com.finance.winport.home.model.ShopListResponse;
+import com.finance.winport.tab.model.UnReadMsg;
 
 /**
  * Created by liuworkmac on 17/5/16.
@@ -17,6 +18,8 @@ public interface IHomeView {
     void showShopCount(ShopCount response);
 
     void showBanners(BannerResponse response);
+
+    void isUnReadMsg(UnReadMsg readMsg);
 
     void onError();
 }

@@ -167,6 +167,7 @@
         android:textSize="15sp" />
 
     <ImageView
+        android:id="@+id/imv_notice"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_alignParentRight="true"
