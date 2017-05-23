@@ -97,7 +97,7 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         holder.release.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showContactAlert(item.clerkPhone);
             }
         });
         //

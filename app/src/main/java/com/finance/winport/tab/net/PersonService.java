@@ -86,11 +86,11 @@ public interface PersonService {
     Observable<BaseResponse> deleteScan(@Body HashMap<String, Object> params);
 
     // 通知列表
-    @POST("customerapp/api/shop/deleteShopBrowse/v1.0.0")
+    @POST("customerapp/api/notice/getNoticeByTypeList/v1.0.0 ")
     Observable<NotifyList> getNotifyList(@Body HashMap<String, Object> params);
 
     // 通知分类
-    @POST("customerapp/api/shop/deleteShopBrowse/v1.0.0")
+    @POST("customerapp/api/notice/getNoticeList/v1.0.0")
     Observable<NotifyType> getNotifyType(@Body HashMap<String, Object> params);
 
     // 我的未读消息

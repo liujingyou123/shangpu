@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,6 +25,8 @@ import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.dialog.LoadingDialog;
+import com.finance.winport.home.model.Tag;
+import com.finance.winport.home.model.TagResponse;
 import com.finance.winport.tab.net.NetworkCallback;
 import com.finance.winport.tab.net.PersonManager;
 
@@ -58,6 +61,8 @@ public class OffShelfFragment extends BaseFragment {
     TextView remain;
     @BindView(R.id.rl_other)
     RelativeLayout rlOther;
+    @BindView(R.id.content)
+    LinearLayout content;
     private String shopId;
     private LoadingDialog loading;
     private String tagId;
@@ -76,10 +81,12 @@ public class OffShelfFragment extends BaseFragment {
         View root = LayoutInflater.from(context).inflate(R.layout.fragment_off_shelf, container, false);
         ButterKnife.bind(this, root);
         initView();
+        getTagList();
         return root;
     }
 
     private void initView() {
+        content.setVisibility(View.GONE);
         loading = new LoadingDialog(context);
         confirm.setEnabled(false);
         tvFocusHouse.setText("下架旺铺");
@@ -116,20 +123,19 @@ public class OffShelfFragment extends BaseFragment {
     }
 
     private void initListView() {
-        mListView.setAdapter(new OffShelfAdapter(context, initData()));
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (parent.getAdapter() != null && parent.getAdapter() instanceof OffShelfAdapter) {
                     OffShelfAdapter adapter = (OffShelfAdapter) parent.getAdapter();
                     adapter.setSelection(position);
-                    String s = (String) adapter.getItem(position);
-                    if (TextUtils.equals("其他", s)) {
+                    Tag s = (Tag) adapter.getItem(position);
+                    if (TextUtils.equals("其他", s.getName())) {
                         rlOther.setVisibility(View.VISIBLE);
                     } else {
                         rlOther.setVisibility(View.GONE);
                     }
-                    tagId = position + "";
+                    tagId = s.getId() + "";
                     confirm.setEnabled(true);
                 }
             }
@@ -184,6 +190,31 @@ public class OffShelfFragment extends BaseFragment {
         });
     }
 
+    private void getTagList() {
+        HashMap<String, Object> params = new HashMap<>();
+        //1：特色、2：配套、3:纠错、4:下架原因
+        params.put("tagType", 4);
+        PersonManager.getInstance().getTagList(params, new NetworkCallback<TagResponse>() {
+            @Override
+            public void success(TagResponse response) {
+                if (getView() == null) return;
+                if (response != null && response.isSuccess()) {
+                    setTagAdapter(new OffShelfAdapter(context, response.getData()));
+                    content.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void failure(Throwable throwable) {
+
+            }
+        });
+    }
+
+    private void setTagAdapter(OffShelfAdapter adapter) {
+        mListView.setAdapter(adapter);
+    }
+
 
     @OnClick(R.id.clear)
     public void onClearClicked() {
@@ -191,11 +222,11 @@ public class OffShelfFragment extends BaseFragment {
     }
 
     class OffShelfAdapter extends BaseAdapter {
-        List<String> data;
+        List<Tag> data;
         Context context;
         int selection = -1;
 
-        public OffShelfAdapter(Context context, List<String> data) {
+        public OffShelfAdapter(Context context, List<Tag> data) {
             this.data = data;
             this.context = context;
         }
@@ -235,7 +266,7 @@ public class OffShelfFragment extends BaseFragment {
             } else {
                 holder.reason.setSelected(false);
             }
-            holder.reason.setText(data.get(position));
+            holder.reason.setText(data.get(position).getName());
             return convertView;
         }
 

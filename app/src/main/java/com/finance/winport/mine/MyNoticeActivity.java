@@ -11,9 +11,15 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
+import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.mine.adapter.NoticeCollectionAdapter;
-import com.finance.winport.mine.adapter.ScheduleListAdapter;
+import com.finance.winport.tab.model.NotifyType;
+import com.finance.winport.tab.net.NetworkCallback;
+import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
+
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,46 +41,54 @@ public class MyNoticeActivity extends BaseActivity {
     ListView lsCircles;
     @BindView(R.id.refresh_view)
     PtrClassicFrameLayout refreshView;
-    @BindView(R.id.empty_img)
-    ImageView emptyImg;
     @BindView(R.id.empty)
     RelativeLayout empty;
     private NoticeCollectionAdapter adapter;
+    LoadingDialog loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notice_collection);
         ButterKnife.bind(this);
-        setAdapter();
+        initView();
+        getNotifyType();
     }
 
-
-    private void setAdapter() {
+    private void initView() {
         tvFocusHouse.setText("通知");
-//        tvFocusRight.setText("历史");
-        if (adapter == null) {
-            adapter = new NoticeCollectionAdapter(MyNoticeActivity.this);
-            lsCircles.setAdapter(adapter);
-//            totalPage = (int) Math.ceil(adapter.getTotalCount() / (float) LIMIT);
-        } else {
-//            if (pageNumber == 1) {
-//                adapter.refreshData(list, totalCount);
-//            } else {
-//                adapter.updateData(list, totalCount);
-//            }
+        loading = new LoadingDialog(context);
+    }
 
-            adapter.notifyDataSetChanged();
-        }
-        lsCircles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    private void getNotifyType() {
+        loading.show();
+        PersonManager.getInstance().getNotifyType(new HashMap<String, Object>(), new NetworkCallback<NotifyType>() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(MyNoticeActivity.this, NoticeListActivity.class));
+            public void success(NotifyType response) {
+                loading.dismiss();
+                setAdapter(response.data.baseNoticeDTOList);
+            }
+
+            @Override
+            public void failure(Throwable throwable) {
+                loading.dismiss();
+                setEmpty(true);
             }
         });
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.tv_focus_right})
+    private void setEmpty(boolean show) {
+        empty.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    private void setAdapter(List<NotifyType.DataBean.BaseNoticeDTOListBean> list) {
+        if (adapter == null) {
+            adapter = new NoticeCollectionAdapter(context, list);
+            lsCircles.setAdapter(adapter);
+        }
+    }
+
+    @OnClick({R.id.imv_focus_house_back, R.id.tv_focus_right, R.id.confirm})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -83,11 +97,15 @@ public class MyNoticeActivity extends BaseActivity {
             case R.id.tv_focus_right:
                 startActivity(new Intent(MyNoticeActivity.this, HistoryScheduleListActivity.class));
                 break;
+            case R.id.confirm:
+                handleBack();
+                break;
         }
     }
 
-//    @OnClick(R.id.imv_focus_house_back)
-//    public void onViewClicked() {
-//        finish();
-//    }
+    static class ViewHolder {
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
+    }
 }

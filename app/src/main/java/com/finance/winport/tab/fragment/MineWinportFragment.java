@@ -47,13 +47,13 @@ import butterknife.OnClick;
 public class MineWinportFragment extends BaseFragment {
     private final int LIMIT = 10;
     private final int START_PAGE = 1;
+    private int totalPage;
+    private int pageSize = LIMIT;
+    private int pageNumber = START_PAGE;
     @BindView(R.id.confirm)
     TextView confirm;
     @BindView(R.id.empty)
     RelativeLayout empty;
-    private int totalPage;
-    private int pageSize = LIMIT;
-    private int pageNumber = START_PAGE;
     @BindView(R.id.imv_focus_house_back)
     ImageView imvFocusHouseBack;
     @BindView(R.id.tv_focus_house)
@@ -98,7 +98,7 @@ public class MineWinportFragment extends BaseFragment {
     }
 
     private void setTitle() {
-        tvFocusHouse.setText(title);
+        tvFocusHouse.setText("我发布的旺铺");
     }
 
     private void setTip(String count, String rank) {

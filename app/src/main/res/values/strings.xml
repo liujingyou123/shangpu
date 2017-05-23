@@ -14,4 +14,8 @@
     <string name="list_browser_tip">一个月内共浏览了 %1$s 家旺铺，超过了 %2$s 的老板</string>
     <string name="mine_schedule">老板，未来您有 %1$s 个安排</string>
     <string name="hot_line">021-3122 0899</string>
+    <string name="service_contact">如需帮助，请联系您的专属小二%1$s/%2$s或您也可联系客服中心电话40012340988咨询</string>
+    <string name="business_contact">如需帮助，请联系客服中心电话【40012341234】咨询</string>
+    <string name="schedule_count">点击查看今日所有%1$s条日程安排</string>
+
 </resources>
