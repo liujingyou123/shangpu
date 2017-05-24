@@ -113,131 +113,134 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
         blockId = getIntent().getStringExtra("blockId");
         list1 = getIntent().getIntegerArrayListExtra("areaList");
         StringBuilder s = new StringBuilder();
-        for (int i = 0; i < list1.size(); i++) {
-            if (i == 0) {
+        if(list1!=null){
 
-                if (list1.size() == 1) {
+            for (int i = 0; i < list1.size(); i++) {
+                if (i == 0) {
 
+                    if (list1.size() == 1) {
+
+                        switch (list1.get(i)) {
+                            case 0:
+                                s.append("20㎡以下");
+                                break;
+                            case 1:
+                                s.append("20-50㎡");
+                                break;
+                            case 2:
+                                s.append("50-100㎡");
+                                break;
+                            case 3:
+                                s.append("100-200㎡");
+                                break;
+                            case 4:
+                                s.append("200-500㎡");
+                                break;
+                            case 5:
+                                s.append("500-1000㎡");
+                                break;
+                            case 6:
+                                s.append("1000㎡以上");
+                                break;
+                        }
+
+                    } else {
+                        switch (list1.get(i)) {
+                            case 0:
+                                s.append("20㎡以下" + "\n");
+                                break;
+                            case 1:
+                                s.append("20-50㎡" + "\n");
+                                break;
+                            case 2:
+                                s.append("50-100㎡" + "\n");
+                                break;
+                            case 3:
+                                s.append("100-200㎡" + "\n");
+                                break;
+                            case 4:
+                                s.append("200-500㎡" + "\n");
+                                break;
+                            case 5:
+                                s.append("500-1000㎡" + "\n");
+                                break;
+                            case 6:
+                                s.append("1000㎡以上" + "\n");
+                                break;
+                        }
+                    }
+                } else if (list1.size() < 5) {
                     switch (list1.get(i)) {
                         case 0:
-                            s.append("20㎡以下");
+                            s.append("-" + "20㎡以下");
                             break;
                         case 1:
-                            s.append("20-50㎡");
+                            s.append("-" + "20-50㎡");
                             break;
                         case 2:
-                            s.append("50-100㎡");
+                            s.append("-" + "50-100㎡");
                             break;
                         case 3:
-                            s.append("100-200㎡");
+                            s.append("-" + "100-200㎡");
                             break;
                         case 4:
-                            s.append("200-500㎡");
+                            s.append("-" + "200-500㎡");
                             break;
                         case 5:
-                            s.append("500-1000㎡");
+                            s.append("-" + "500-1000㎡");
                             break;
                         case 6:
-                            s.append("1000㎡以上");
+                            s.append("-" + "1000㎡以上");
                             break;
                     }
-
+                } else if (i == 3) {
+                    switch (list1.get(i)) {
+                        case 0:
+                            s.append("-" + "20㎡以下\n");
+                            break;
+                        case 1:
+                            s.append("-" + "20-50㎡\n");
+                            break;
+                        case 2:
+                            s.append("-" + "50-100㎡\n");
+                            break;
+                        case 3:
+                            s.append("-" + "100-200㎡\n");
+                            break;
+                        case 4:
+                            s.append("-" + "200-500㎡\n");
+                            break;
+                        case 5:
+                            s.append("-" + "500-1000㎡\n");
+                            break;
+                        case 6:
+                            s.append("-" + "1000㎡以上\n");
+                            break;
+                    }
                 } else {
                     switch (list1.get(i)) {
                         case 0:
-                            s.append("20㎡以下" + "\n");
+                            s.append("-" + "20㎡以下");
                             break;
                         case 1:
-                            s.append("20-50㎡" + "\n");
+                            s.append("-" + "20-50㎡");
                             break;
                         case 2:
-                            s.append("50-100㎡" + "\n");
+                            s.append("-" + "50-100㎡");
                             break;
                         case 3:
-                            s.append("100-200㎡" + "\n");
+                            s.append("-" + "100-200㎡");
                             break;
                         case 4:
-                            s.append("200-500㎡" + "\n");
+                            s.append("-" + "200-500㎡");
                             break;
                         case 5:
-                            s.append("500-1000㎡" + "\n");
+                            s.append("-" + "500-1000㎡");
                             break;
                         case 6:
-                            s.append("1000㎡以上" + "\n");
+                            s.append("-" + "1000㎡以上");
                             break;
                     }
-                }
-            } else if (list1.size() < 5) {
-                switch (list1.get(i)) {
-                    case 0:
-                        s.append("-" + "20㎡以下");
-                        break;
-                    case 1:
-                        s.append("-" + "20-50㎡");
-                        break;
-                    case 2:
-                        s.append("-" + "50-100㎡");
-                        break;
-                    case 3:
-                        s.append("-" + "100-200㎡");
-                        break;
-                    case 4:
-                        s.append("-" + "200-500㎡");
-                        break;
-                    case 5:
-                        s.append("-" + "500-1000㎡");
-                        break;
-                    case 6:
-                        s.append("-" + "1000㎡以上");
-                        break;
-                }
-            } else if (i == 3) {
-                switch (list1.get(i)) {
-                    case 0:
-                        s.append("-" + "20㎡以下\n");
-                        break;
-                    case 1:
-                        s.append("-" + "20-50㎡\n");
-                        break;
-                    case 2:
-                        s.append("-" + "50-100㎡\n");
-                        break;
-                    case 3:
-                        s.append("-" + "100-200㎡\n");
-                        break;
-                    case 4:
-                        s.append("-" + "200-500㎡\n");
-                        break;
-                    case 5:
-                        s.append("-" + "500-1000㎡\n");
-                        break;
-                    case 6:
-                        s.append("-" + "1000㎡以上\n");
-                        break;
-                }
-            } else {
-                switch (list1.get(i)) {
-                    case 0:
-                        s.append("-" + "20㎡以下");
-                        break;
-                    case 1:
-                        s.append("-" + "20-50㎡");
-                        break;
-                    case 2:
-                        s.append("-" + "50-100㎡");
-                        break;
-                    case 3:
-                        s.append("-" + "100-200㎡");
-                        break;
-                    case 4:
-                        s.append("-" + "200-500㎡");
-                        break;
-                    case 5:
-                        s.append("-" + "500-1000㎡");
-                        break;
-                    case 6:
-                        s.append("-" + "1000㎡以上");
-                        break;
                 }
             }
         }
