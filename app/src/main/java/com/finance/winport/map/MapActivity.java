@@ -105,6 +105,7 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 
     private void initMap() {
 
+        shopRequset = (ShopRequset) getIntent().getSerializableExtra("shopRequest");
         mMapView.showScaleControl(false);
         mBaiduMap = mMapView.getMap();
 
