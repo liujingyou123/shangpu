@@ -128,6 +128,7 @@ public class SelectionDialog extends Dialog implements DialogInterface.OnDismiss
         setCanceledOnTouchOutside(true);
 
         Window window = getWindow();
+        window.setType(WindowManager.LayoutParams.TYPE_TOAST);
         window.setGravity(Gravity.RIGHT);
         WindowManager.LayoutParams lp = window.getAttributes();
         lp.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, mContext.getResources().getDisplayMetrics());
