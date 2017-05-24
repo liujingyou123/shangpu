@@ -51,6 +51,10 @@ public interface MineServices {
     @POST("customerapp/api/customer/updateFollow/v1.0.0")
     Observable<com.finance.winport.base.BaseResponse> commitFocus(@Body CommitFocusRequest request);
 
+    //建议反馈
+    @POST("customerapp/api/feedBack/addFeedBack/v1.0.0")
+    Observable<com.finance.winport.base.BaseResponse> commitFeedBack(@Body HashMap map);
+
 
 
 

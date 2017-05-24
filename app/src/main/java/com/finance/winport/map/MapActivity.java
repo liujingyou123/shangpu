@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
@@ -26,6 +28,7 @@ import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.dialog.SelectionDialog;
+import com.finance.winport.home.model.ShopRequset;
 import com.finance.winport.map.model.MapAreaRequest;
 import com.finance.winport.map.model.MapAreaResponse;
 import com.finance.winport.map.model.MapShopDetailResponse;
@@ -33,6 +36,10 @@ import com.finance.winport.map.model.MapShopRequest;
 import com.finance.winport.map.model.MapShopResponse;
 import com.finance.winport.map.presenter.IMapView;
 import com.finance.winport.map.presenter.MapPresenter;
+import com.finance.winport.util.SelectDialogUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +91,8 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 
     private Marker selectMarker;
 
+    private ShopRequset shopRequset;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,11 +100,14 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         ButterKnife.bind(this);
         loadingDialog = new LoadingDialog(this);
 
+        EventBus.getDefault().register(this);
+
         initMap();
     }
 
     private void initMap() {
 
+        shopRequset = (ShopRequset) getIntent().getSerializableExtra("shopRequest");
         mMapView.showScaleControl(false);
         mBaiduMap = mMapView.getMap();
 
@@ -127,6 +139,12 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
                     request.setMaxLon(mapStatus.bound.northeast.longitude + "");
                     request.setMinLat(mapStatus.bound.southwest.latitude + "");
                     request.setMinLon(mapStatus.bound.southwest.longitude + "");
+                    request.setRentList(shopRequset.rentList);
+                    request.setTransferList(shopRequset.transferList);
+                    request.setAreaList(shopRequset.areaList);
+                    request.setFeatureTagList(shopRequset.featureTagList);
+                    request.setSupportTagList(shopRequset.supportTagList);
+                    request.setWidth(shopRequset.width);
                     request.setType("0");
                     mapPresenter.getMapArea(request);
                 } else if (mapStatus.zoom <= 16) {
@@ -136,6 +154,12 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
                     request.setMaxLon(mapStatus.bound.northeast.longitude + "");
                     request.setMinLat(mapStatus.bound.southwest.latitude + "");
                     request.setMinLon(mapStatus.bound.southwest.longitude + "");
+                    request.setRentList(shopRequset.rentList);
+                    request.setTransferList(shopRequset.transferList);
+                    request.setAreaList(shopRequset.areaList);
+                    request.setFeatureTagList(shopRequset.featureTagList);
+                    request.setSupportTagList(shopRequset.supportTagList);
+                    request.setWidth(shopRequset.width);
                     request.setType("1");
                     mapPresenter.getMapArea(request);
                 } else {
@@ -145,6 +169,12 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
                     request.setMaxLon(mBaiduMap.getMapStatus().bound.northeast.longitude + "");
                     request.setMinLat(mBaiduMap.getMapStatus().bound.southwest.latitude + "");
                     request.setMinLon(mBaiduMap.getMapStatus().bound.southwest.longitude + "");
+                    request.setRentList(shopRequset.rentList);
+                    request.setTransferList(shopRequset.transferList);
+                    request.setAreaList(shopRequset.areaList);
+                    request.setFeatureTagList(shopRequset.featureTagList);
+                    request.setSupportTagList(shopRequset.supportTagList);
+                    request.setWidth(shopRequset.width);
                     mapPresenter.getMapShop(request);
                 }
             }
@@ -288,10 +318,12 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
                     request.setMaxLon(mBaiduMap.getMapStatus().bound.northeast.longitude + "");
                     request.setMinLat(mBaiduMap.getMapStatus().bound.southwest.latitude + "");
                     request.setMinLon(mBaiduMap.getMapStatus().bound.southwest.longitude + "");
-                    List<Integer> list = new ArrayList<>();
-                    list.add(4);
-                    list.add(5);
-                    request.setAreaList(list);
+                    request.setRentList(shopRequset.rentList);
+                    request.setTransferList(shopRequset.transferList);
+                    request.setAreaList(shopRequset.areaList);
+                    request.setFeatureTagList(shopRequset.featureTagList);
+                    request.setSupportTagList(shopRequset.supportTagList);
+                    request.setWidth(shopRequset.width);
                     mapPresenter.getMapShop(request);
                 }
             }, 1000);
@@ -305,6 +337,12 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 
             MapAreaRequest request = new MapAreaRequest();
             request.setType("0");
+            request.setRentList(shopRequset.rentList);
+            request.setTransferList(shopRequset.transferList);
+            request.setAreaList(shopRequset.areaList);
+            request.setFeatureTagList(shopRequset.featureTagList);
+            request.setSupportTagList(shopRequset.supportTagList);
+            request.setWidth(shopRequset.width);
 //            List<Integer> list = new ArrayList<>();
 //            list.add(4);
 //            list.add(5);
@@ -328,6 +366,12 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         MapAreaRequest request = new MapAreaRequest();
         request.setType("1");
         request.setDistrictId(id);
+        request.setRentList(shopRequset.rentList);
+        request.setTransferList(shopRequset.transferList);
+        request.setAreaList(shopRequset.areaList);
+        request.setFeatureTagList(shopRequset.featureTagList);
+        request.setSupportTagList(shopRequset.supportTagList);
+        request.setWidth(shopRequset.width);
         mapPresenter.getMapArea(request);
 
     }
@@ -335,6 +379,12 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
     private void showRangeDetail(String id) {
         MapShopRequest request = new MapShopRequest();
         request.setBlockId(id);
+        request.setRentList(shopRequset.rentList);
+        request.setTransferList(shopRequset.transferList);
+        request.setAreaList(shopRequset.areaList);
+        request.setFeatureTagList(shopRequset.featureTagList);
+        request.setSupportTagList(shopRequset.supportTagList);
+        request.setWidth(shopRequset.width);
         mapPresenter.getMapShop(request);
     }
 
@@ -348,8 +398,14 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         }
 
         selectMarker = marker;
-
-
+//        InfoWindow mInfiWindow = new InfoWindow(BitmapDescriptorFactory.fromResource(R.mipmap.btn_map_selected), selectMarker.getPosition(), 0, new InfoWindow.OnInfoWindowClickListener() {
+//            @Override
+//            public void onInfoWindowClick() {
+//
+//            }
+//        });
+//
+//        mBaiduMap.showInfoWindow(mInfiWindow);
         mapPresenter.getMapShopDetail(marker.getExtraInfo().getString("id"));
 
 //        ShopDetailDialog dialog = new ShopDetailDialog(MapActivity.this, msg);
@@ -410,20 +466,25 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
     }
 
     private void showShaiXuandialog() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (selectionDialog == null) {
-                    selectionDialog = new SelectionDialog(MapActivity.this);
-                    selectionDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                        }
-                    });
-                }
-                selectionDialog.show();
-            }
-        }, 300);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (selectionDialog == null) {
+//                    selectionDialog = new SelectionDialog(MapActivity.this);
+//                    selectionDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//                        @Override
+//                        public void onDismiss(DialogInterface dialog) {
+//                        }
+//                    });
+//                }
+//                selectionDialog.show();
+//            }
+//        }, 300);
+
+
+        SelectDialogUtil.getInstance().showDialog();
+
+
     }
 
     @Override
@@ -536,5 +597,57 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         dialog.show();
 
         MapUtil.changeMarker(selectMarker, getItemView(TYPE_ITEM_SELECTED, msg));
+    }
+
+    @Subscribe
+    public void mainThread(ShopRequset requset){
+
+        shopRequset = requset;
+        if (mBaiduMap.getMapStatus().zoom <= 14) {
+            selectArea.setVisibility(View.GONE);
+            MapAreaRequest request = new MapAreaRequest();
+            request.setMaxLat(mBaiduMap.getMapStatus().bound.northeast.latitude + "");
+            request.setMaxLon(mBaiduMap.getMapStatus().bound.northeast.longitude + "");
+            request.setMinLat(mBaiduMap.getMapStatus().bound.southwest.latitude + "");
+            request.setMinLon(mBaiduMap.getMapStatus().bound.southwest.longitude + "");
+            request.setRentList(shopRequset.rentList);
+            request.setTransferList(shopRequset.transferList);
+            request.setAreaList(shopRequset.areaList);
+            request.setFeatureTagList(shopRequset.featureTagList);
+            request.setSupportTagList(shopRequset.supportTagList);
+            request.setWidth(shopRequset.width);
+            request.setType("0");
+            mapPresenter.getMapArea(request);
+        } else if (mBaiduMap.getMapStatus().zoom <= 16) {
+            selectArea.setVisibility(View.GONE);
+            MapAreaRequest request = new MapAreaRequest();
+            request.setMaxLat(mBaiduMap.getMapStatus().bound.northeast.latitude + "");
+            request.setMaxLon(mBaiduMap.getMapStatus().bound.northeast.longitude + "");
+            request.setMinLat(mBaiduMap.getMapStatus().bound.southwest.latitude + "");
+            request.setMinLon(mBaiduMap.getMapStatus().bound.southwest.longitude + "");
+            request.setRentList(shopRequset.rentList);
+            request.setTransferList(shopRequset.transferList);
+            request.setAreaList(shopRequset.areaList);
+            request.setFeatureTagList(shopRequset.featureTagList);
+            request.setSupportTagList(shopRequset.supportTagList);
+            request.setWidth(shopRequset.width);
+            request.setType("1");
+            mapPresenter.getMapArea(request);
+        } else {
+            selectArea.setVisibility(View.VISIBLE);
+            MapShopRequest request = new MapShopRequest();
+            request.setMaxLat(mBaiduMap.getMapStatus().bound.northeast.latitude + "");
+            request.setMaxLon(mBaiduMap.getMapStatus().bound.northeast.longitude + "");
+            request.setMinLat(mBaiduMap.getMapStatus().bound.southwest.latitude + "");
+            request.setMinLon(mBaiduMap.getMapStatus().bound.southwest.longitude + "");
+            request.setRentList(shopRequset.rentList);
+            request.setTransferList(shopRequset.transferList);
+            request.setAreaList(shopRequset.areaList);
+            request.setFeatureTagList(shopRequset.featureTagList);
+            request.setSupportTagList(shopRequset.supportTagList);
+            request.setWidth(shopRequset.width);
+            mapPresenter.getMapShop(request);
+        }
+
     }
 }

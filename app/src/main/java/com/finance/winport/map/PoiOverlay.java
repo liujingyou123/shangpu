@@ -80,6 +80,16 @@ public class PoiOverlay extends OverlayManager {
                         .icon(BitmapDescriptorFactory.fromResource(R.mipmap.calendar)).extraInfo(bundle)
                         .position(mPoiResult.getAllPoi().get(i).location));
             }
+            else if(type==4){
+                markerList.add(new MarkerOptions()
+                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.calendar)).extraInfo(bundle)
+                        .position(mPoiResult.getAllPoi().get(i).location));
+            }
+            else if(type==5){
+                markerList.add(new MarkerOptions()
+                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.calendar)).extraInfo(bundle)
+                        .position(mPoiResult.getAllPoi().get(i).location));
+            }
 //            markerList.add(new MarkerOptions()
 //                    .icon(BitmapDescriptorFactory.fromAssetWithDpi("Icon_mark"
 //                            + markerSize + ".png")).extraInfo(bundle)

@@ -2,13 +2,14 @@ package com.finance.winport.home.model;
 
 import com.finance.winport.util.FooAnnotation;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by liuworkmac on 17/5/16.
  */
 
-public class ShopRequset {
+public class ShopRequset implements Serializable {
     public int queryType; //筛选类型  0-用户关注条件（需登录且不包含经营范围）  1-非用户关注条件
     public int pageSize = 10;
     public int pageNumber = 1;

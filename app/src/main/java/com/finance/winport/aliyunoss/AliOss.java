@@ -13,6 +13,8 @@ import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback;
 import com.alibaba.sdk.android.oss.callback.OSSProgressCallback;
 import com.alibaba.sdk.android.oss.common.OSSLog;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
+import com.alibaba.sdk.android.oss.common.auth.OSSFederationCredentialProvider;
+import com.alibaba.sdk.android.oss.common.auth.OSSFederationToken;
 import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
 import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
@@ -59,6 +61,13 @@ public class AliOss {
         conf.setMaxErrorRetry(1); // 失败后最大重试次数，默认2次
         OSSLog.enableLog();
         oss = new OSSClient(context.getApplicationContext(), endpoint, credentialProvider, conf);
+
+        OSSCredentialProvider credentialProvider1 = new OSSFederationCredentialProvider() {
+            @Override
+            public OSSFederationToken getFederationToken() {
+                return null;
+            }
+        };
     }
 
     // 从本地文件上传，采用阻塞的同步接口

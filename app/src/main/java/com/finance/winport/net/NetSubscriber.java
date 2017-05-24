@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.base.WinPortApplication;
+import com.finance.winport.log.XLog;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.ToastUtil;
 
@@ -56,6 +57,7 @@ public abstract class NetSubscriber<T> extends Subscriber<T> {
                 errorMsg = "success is false";
             }
             onError(new Throwable(errorMsg));
+            XLog.e(errorMsg);
             return;
         }
 

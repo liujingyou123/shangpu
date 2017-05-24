@@ -475,7 +475,9 @@ public class HomeFragment extends BaseFragment implements IHomeView {
 
     @OnClick(R.id.map_list)
     public void onViewClicked() {
-        startActivity(new Intent(getActivity(), MapActivity.class));
+        Intent intent = new Intent(getActivity(), MapActivity.class);
+        intent.putExtra("shopRequest", mRequest);
+        startActivity(intent);
     }
 
     @Override
@@ -542,12 +544,12 @@ public class HomeFragment extends BaseFragment implements IHomeView {
 
     @Override
     public void showPersonalInfo(PersonalInfoResponse response) {
-        if ("1".equals(response.getData().getIsNew()) && TextUtils.isEmpty(response.getData().getIndustryName())) {
+//        if ("1".equals(response.getData().getIsNew()) && TextUtils.isEmpty(response.getData().getIndustryName())) {
             WelcomeDialog welcomeDialog = new WelcomeDialog(this.getContext());
             welcomeDialog.show();
 
             SpUtil.getInstance().setStringData(SharedPrefsUtil.getUserInfo().data.userPhone, "1");
-        }
+//        }
     }
 
     public void onQuyuHandle(ShopRequset requset) {

@@ -361,7 +361,12 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
                 toConcern();
                 break;
             case R.id.schedule_list:
-                startActivity(new Intent(getActivity(), MyScheduleListActivity.class));
+                if (isLogin()) {// already login
+                    startActivity(new Intent(getActivity(), MyScheduleListActivity.class));
+                } else {
+                    toLogin();
+                }
+
                 break;
             case R.id.setting:
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
