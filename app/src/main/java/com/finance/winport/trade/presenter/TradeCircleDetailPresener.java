@@ -135,16 +135,16 @@ public class TradeCircleDetailPresener {
     /**
      * 删除评论
      *
-     * @param topicId
+     * @param commentId
      */
-    public void deleteComment(final String topicId) {
+    public void deleteComment(final String commentId, final String topicId) {
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("topicId", topicId);
+        hashMap.put("commentId", commentId);
         ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).deleteComment(hashMap), new NetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
                 if (mITradeDetailView != null) {
-                    mITradeDetailView.deleteTopic(true, topicId);
+                    mITradeDetailView.deleteComment(true, topicId, commentId);
                 }
             }
 
@@ -152,7 +152,7 @@ public class TradeCircleDetailPresener {
             public void onError(Throwable e) {
                 super.onError(e);
                 if (mITradeDetailView != null) {
-                    mITradeDetailView.deleteTopic(false, topicId);
+                    mITradeDetailView.deleteComment(false, topicId, commentId);
                 }
             }
         });

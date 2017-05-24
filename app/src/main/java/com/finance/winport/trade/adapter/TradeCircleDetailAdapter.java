@@ -38,10 +38,11 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
     private TradeCircleDetailPresener mPresenter;
     private String topicId;
 
-    public TradeCircleDetailAdapter(Context context, String topicId) {
+    public TradeCircleDetailAdapter(Context context, String topicId, TradeCircleDetailPresener presenter) {
         this.mContext = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.topicId = topicId;
+        this.mPresenter = presenter;
     }
 
     public void setTraddeDetail(TradeDetailResponse.DataBean data) {
@@ -68,6 +69,10 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         mComments.clear();
         mComments.addAll(comments);
         notifyDataSetChanged();
+    }
+
+    public List<CommentResponse.DataBean.Comment> getComments() {
+        return mComments;
     }
 
     @Override
@@ -146,12 +151,13 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
                 return;
             }
 
-            if ("1".equals(info.getIsOwn())) {
+            if ("1".equals(info.getIsOwn()+"")) {
                 viewHolder.imvDel.setVisibility(View.VISIBLE);
                 viewHolder.imvDel.setOnClickListener(new View.OnClickListener() {
+                    int index = position;
                     @Override
                     public void onClick(View v) {
-                        mPresenter.deleteComment(topicId);
+                        mPresenter.deleteComment(getItem(index).getId(), topicId);
                     }
                 });
             } else {

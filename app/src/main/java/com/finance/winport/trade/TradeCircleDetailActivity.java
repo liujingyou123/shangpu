@@ -15,14 +15,19 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.dialog.CommentDialog;
+import com.finance.winport.dialog.NoticeDelDialog;
+import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.trade.adapter.TradeCircleDetailAdapter;
 import com.finance.winport.trade.model.CommentResponse;
 import com.finance.winport.trade.model.TradeDetailResponse;
 import com.finance.winport.trade.presenter.TradeCircleDetailPresener;
 import com.finance.winport.trade.view.ITradeDetailView;
+import com.finance.winport.util.ToastUtil;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
 import com.finance.winport.view.refreshview.XPtrFrameLayout;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,13 +76,13 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
         if (intent != null) {
             topicId = getIntent().getStringExtra("topicId");
         }
-    }
-
-    private void getData() {
 
         if (mPresenter == null) {
             mPresenter = new TradeCircleDetailPresener(this);
         }
+    }
+
+    private void getData() {
 
         mPresenter.getTradeCircleDetail(topicId);
         mPresenter.getComment(topicId, pageNumber + "");
@@ -86,7 +91,7 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
     private void initView() {
         tvFocusHouse.setText("详情");
         rv.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new TradeCircleDetailAdapter(this, topicId);
+        adapter = new TradeCircleDetailAdapter(this, topicId, mPresenter);
         rv.setAdapter(adapter);
         xpfl.setMode(PtrFrameLayout.Mode.BOTH);
         xpfl.setPtrHandler(new PtrDefaultHandler2() {
@@ -143,7 +148,14 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
                 }
                 break;
             case R.id.imv_right:
-                mPresenter.deleteTopic(topicId);
+                NoticeDelDialog dialog = new NoticeDelDialog(this);
+                dialog.setOkClickListener(new NoticeDialog.OnPreClickListner() {
+                    @Override
+                    public void onClick() {
+                        mPresenter.deleteTopic(topicId);
+                    }
+                });
+                dialog.show();
                 break;
         }
     }
@@ -199,6 +211,22 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
     public void deleteTopic(boolean isSuccess, String topId) {
         if (isSuccess) {
             finish();
+        }
+    }
+
+    @Override
+    public void deleteComment(boolean isSuccess, String topId, String commentId) {
+        if (isSuccess) {
+            ToastUtil.show(this, "删除评论成功");
+            List<CommentResponse.DataBean.Comment> comments = adapter.getComments();
+            for (int i = 0; i < comments.size(); i++) {
+                CommentResponse.DataBean.Comment comment = comments.get(i);
+                if (commentId.equals(comment.getId())) {
+                    comments.remove(comment);
+                    adapter.notifyDataSetChanged();
+                    break;
+                }
+            }
         }
     }
 
