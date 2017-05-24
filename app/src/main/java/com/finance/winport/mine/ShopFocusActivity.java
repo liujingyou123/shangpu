@@ -244,6 +244,9 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
                 }
             }
         }
+        else {
+            list1 = new ArrayList<>();
+        }
         if(TextUtils.isEmpty(blockName)&&TextUtils.isEmpty(industryName)){
 
         }else{
