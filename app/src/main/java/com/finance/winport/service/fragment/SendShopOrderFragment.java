@@ -129,14 +129,14 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
 //        phoneView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
         phoneView.setInputType(InputType.TYPE_CLASS_PHONE);
         verifyCodeView.setInputType(InputType.TYPE_CLASS_NUMBER);
-        phoneView.setText("188 7878 7998");
+        phoneView.setText("176 0211 3283");
         initCountDownButton();
     }
 
     private void getData() {
         OrderShopRequest request = new OrderShopRequest();
         request.setContactName(nameView.getText());
-        request.setContactMobile(phoneView.getText());
+        request.setContactMobile(UnitUtil.trim(phoneView.getText().toString().trim()));
         request.setShopId("1");
         request.setSubscribeTime(orderTime.getText());
         request.setSmsVerifyCode(verifyCodeView.getText());
@@ -180,7 +180,10 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
                 break;
 
             case R.id.submit:
-                getData();
+                if (checkCommit()){
+
+                    getData();
+                }
                 break;
         }
     }
@@ -319,6 +322,39 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
                 ToastUtil.show(context, "图片验证码不正确");
                 return false;
             }
+        }
+        return true;
+    }
+
+    private boolean checkCommit() {
+        userPhone = UnitUtil.trim(phoneView.getText().toString().trim());
+        smsVerifyCode = verifyCodeView.getText().toString().trim();
+
+        if (TextUtils.isEmpty(nameView.getText())){
+            Toast.makeText(context, "请输入联系人姓名", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!StringUtil.isCellPhone(userPhone)) {
+            Toast.makeText(context, "请输入正确的电话号码", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        //校验图片验证码
+        if (llVerifyCode.getVisibility() == View.VISIBLE) {
+            if (TextUtils.isEmpty(verifyCodeView.getText())) {
+                ToastUtil.show(context, "请输入短信验证码");
+                return false;
+            }
+        }
+        //校验图片验证码
+        if (llImgCode.getVisibility() == View.VISIBLE) {
+            if (!TextUtils.equals(picVerifyCode, imgCodeTxt.getText().toString().trim())) {
+                ToastUtil.show(context, "图片验证码不正确");
+                return false;
+            }
+        }
+        if (TextUtils.isEmpty(orderTime.getText())){
+            Toast.makeText(context, "请输入约见时间", Toast.LENGTH_SHORT).show();
+            return false;
         }
         return true;
     }

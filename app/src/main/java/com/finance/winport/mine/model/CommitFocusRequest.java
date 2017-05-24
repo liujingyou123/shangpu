@@ -10,7 +10,7 @@ public class CommitFocusRequest {
 
 
 
-    private List<Integer> areas;       //面积集合
+    private List<Integer> list;       //面积集合
     private String cityId;                  //板块id
     private String cityName;                  //板块id
     private String districtId;                  //板块id
@@ -20,12 +20,12 @@ public class CommitFocusRequest {
     private String industryId;                  //板块id
     private String industryName;                  //板块id
 
-    public List<Integer> getAreas() {
-        return areas;
+    public List<Integer> getList() {
+        return list;
     }
 
-    public void setAreas(List<Integer> areas) {
-        this.areas = areas;
+    public void setList(List<Integer> list) {
+        this.list = list;
     }
 
     public String getCityId() {

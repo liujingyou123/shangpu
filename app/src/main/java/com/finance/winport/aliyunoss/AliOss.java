@@ -33,13 +33,13 @@ public class AliOss {
     public static final String DIR_SECONDHOUSE_TYPE = "house/type/";
     public static final String DIR_SECONDHOUSE_COMMUNITY = "house/community/";
     public static final String DIR_SIGN_DEAL="entrustprotocol/"; //创建协议
-    public static final String DIR_SHOP_TOPIC="shop_topic/"; //旺铺发帖
+    public static final String DIR_SHOP_TOPIC="shop/customer/"; //旺铺发帖
     // 运行sample前需要配置以下字段为有效的值
     private static final String endpoint = "http://oss-cn-shanghai.aliyuncs.com";
     private static final String accessKeyId = "LTAI3Xqadr8ORvUr";
     private static final String accessKeySecret = "4PXmUDGcWJd7lZjv1dw8s3heFq0tA2";
 
-    private static final String bucket = "shfcjr-img";
+    private static final String bucket = "shfcjr-attachment";
 
     private static AliOss INSTANCE = new AliOss();
 

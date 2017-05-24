@@ -63,6 +63,10 @@ public interface FindServices {
     @POST("customerapp/api/customer/applyLoad/v1.0.0")
     Observable<BaseResponse> sendFindLoan(@Body FindLoanRequest request);
 
+    //旺铺寻租
+    @POST("customerapp/api/clerkHint/addClerkHint/v1.0.0")
+    Observable<SendOrderShopResponse> sendRentShop(@Body OrderShopRequest request);
+
 
 
 

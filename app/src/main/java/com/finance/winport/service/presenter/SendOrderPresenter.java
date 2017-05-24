@@ -42,7 +42,7 @@ public class SendOrderPresenter {
 
     }
 
-    public void getShopSignrResult(OrderShopRequest request) {
+    public void getShopSignResult(OrderShopRequest request) {
 
         ToolsUtil.subscribe(ToolsUtil.createService(FindServices.class).sendSignShop(request), new NetSubscriber<SendOrderShopResponse>() {
             @Override

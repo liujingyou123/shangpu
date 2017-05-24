@@ -340,7 +340,8 @@
                             android:layout_height="wrap_content"
                             android:text="240"
                             android:textColor="#333333"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"
+                            android:visibility="gone"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -362,7 +363,8 @@
                             android:layout_height="wrap_content"
                             android:text="240"
                             android:textColor="#333333"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"
+                            android:visibility="gone"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -384,7 +386,8 @@
                             android:layout_height="wrap_content"
                             android:text="240"
                             android:textColor="#333333"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"
+                            android:visibility="gone"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -406,7 +409,8 @@
                             android:layout_height="wrap_content"
                             android:text="240"
                             android:textColor="#333333"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"
+                            android:visibility="gone"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -428,7 +432,8 @@
                             android:layout_height="wrap_content"
                             android:text="240"
                             android:textColor="#333333"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"
+                            android:visibility="gone"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -450,7 +455,8 @@
                             android:layout_height="wrap_content"
                             android:text="240"
                             android:textColor="#333333"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"
+                            android:visibility="gone"/>
 
                         <TextView
                             android:layout_width="wrap_content"

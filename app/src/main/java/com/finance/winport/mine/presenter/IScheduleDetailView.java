@@ -1,5 +1,6 @@
 package com.finance.winport.mine.presenter;
 
+import com.finance.winport.base.BaseResponse;
 import com.finance.winport.mine.model.ScheduleDetailResponse;
 import com.finance.winport.mine.model.ScheduleListResponse;
 
@@ -9,5 +10,7 @@ import com.finance.winport.mine.model.ScheduleListResponse;
 
 public interface IScheduleDetailView {
     void showScheduleDetail(ScheduleDetailResponse response);
+    void showensureSchedule(BaseResponse response);
+    void showRevokeSchedule(BaseResponse response);
 
 }

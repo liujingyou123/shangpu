@@ -255,6 +255,28 @@
                         app:text_size="15sp" />
 
                     <com.finance.winport.view.HeaderTextView
+                        android:id="@+id/district"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp"
+                        app:content_background="#00000000"
+                        app:content_height="match_parent"
+                        app:content_padding_right="15dp"
+                        app:content_width="match_parent"
+                        app:editable="false"
+                        app:header_text="区域板块"
+                        app:header_text_size="15sp"
+                        app:header_width="85dp"
+                        app:htv_divider_color="@color/color_line"
+                        app:htv_divider_stretch="false"
+                        app:htv_divider_visible="false"
+                        app:htv_drawable_right="@mipmap/arrow"
+                        app:text_hint="请选择区域板块"
+                        app:text_hint_color="#969696"
+                        app:text_size="15sp" />
+
+                    <com.finance.winport.view.HeaderTextView
                         android:id="@+id/name_view"
                         android:layout_width="match_parent"
                         android:layout_height="44dp"
@@ -325,6 +347,7 @@
                         android:orientation="vertical">
 
                         <LinearLayout
+                            android:visibility="gone"
                             android:id="@+id/ll_verify_code"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -362,6 +385,7 @@
                         </LinearLayout>
 
                         <View
+                            android:visibility="gone"
                             android:id="@+id/code_line"
                             android:layout_width="match_parent"
                             android:layout_height="0.5dp"
@@ -370,6 +394,7 @@
 
 
                         <LinearLayout
+                            android:visibility="gone"
                             android:id="@+id/ll_img_code"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -403,6 +428,7 @@
                         </LinearLayout>
 
                         <View
+                            android:visibility="gone"
                             android:id="@+id/img_line"
                             android:layout_width="match_parent"
                             android:layout_height="0.5dp"

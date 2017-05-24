@@ -24,18 +24,27 @@ import com.finance.winport.account.model.ImageVerifyCode;
 import com.finance.winport.account.model.Message;
 import com.finance.winport.account.net.UserManager;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.dialog.ScrollSelectDialog;
+import com.finance.winport.home.api.HomeServices;
+import com.finance.winport.home.model.RegionResponse;
 import com.finance.winport.map.AddrSelectActivity;
+import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.service.SendSuccessActivity;
+import com.finance.winport.service.model.OrderShopRequest;
+import com.finance.winport.service.presenter.SendOrderPresenter;
 import com.finance.winport.tab.net.NetworkCallback;
 import com.finance.winport.util.StringUtil;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.ToastUtil;
+import com.finance.winport.util.ToolsUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.CountDownButton;
 import com.finance.winport.view.HeaderTextView;
 import com.finance.winport.view.dialog.DateSelectDialog;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -100,6 +109,8 @@ public class SendShopRentFragment extends BaseFragment {
     ImageView imgCodeView;
     @BindView(R.id.submit)
     TextView submit;
+    @BindView(R.id.district)
+    HeaderTextView district;
     private String userPhone;
     private String messageId;
     private String picVerifyCode;
@@ -109,6 +120,12 @@ public class SendShopRentFragment extends BaseFragment {
 
     private int requestCodeCount;//获取验证码次数
     private static final int CODE_LIMIT_COUNT = 3;// 单词获取验证码限制次数
+    ScrollSelectDialog scrollDialog;
+    List<String> list = new ArrayList<String>();
+    List<RegionResponse.Region> regionList = new ArrayList<>();
+    private HashMap<String, List<String>> hashMap = new HashMap<>();
+    private HashMap<String, List<RegionResponse.Region.Block>> hashMapBlock = new HashMap<>();
+    private String blockName, districtName, districtId, blockId;
 
 
     @Nullable
@@ -133,9 +150,10 @@ public class SendShopRentFragment extends BaseFragment {
         verifyCodeView.setInputType(InputType.TYPE_CLASS_NUMBER);
         phoneView.setText("188 7878 7998");
         initCountDownButton();
+        getDistrict();
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.order_time, R.id.map_address, R.id.modify, R.id.submit})
+    @OnClick({R.id.imv_focus_house_back, R.id.order_time, R.id.map_address, R.id.district, R.id.modify, R.id.submit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -152,6 +170,9 @@ public class SendShopRentFragment extends BaseFragment {
                 break;
             case R.id.map_address:
                 startActivityForResult(new Intent(getActivity(), AddrSelectActivity.class), AddrSelectActivity.ACTIVITY_REQUEST_CODE_ADDR_SELECT);
+                break;
+            case R.id.district:
+                showLouCeng();
                 break;
             case R.id.modify:
                 llVerifyCode.setVisibility(View.VISIBLE);
@@ -312,5 +333,80 @@ public class SendShopRentFragment extends BaseFragment {
         }
         return true;
     }
+
+    /**
+     * 楼层
+     */
+    private void showLouCeng() {
+        if (scrollDialog == null) {
+
+            scrollDialog = new ScrollSelectDialog(getContext(), list, hashMap, new ScrollSelectDialog.OnSelectListener() {
+                @Override
+                public void onSelect(String data) {
+
+                    district.setText(data);
+                    districtName = data.split("-")[0];
+                    blockName = data.split("-")[1];
+                    for (int i = 0; i < list.size(); i++) {
+                        if (districtName.equals(regionList.get(i).getRegionName())) {
+                            districtId = regionList.get(i).getRegionId();
+                        }
+                    }
+                    List<RegionResponse.Region.Block> blockList = new ArrayList<>();
+                    blockList = hashMapBlock.get(districtName);
+                    for (int j = 0; j < blockList.size(); j++) {
+                        if (blockName.equals(blockList.get(j).getBlockName())) {
+                            blockId = blockList.get(j).getBlockId();
+                        }
+                    }
+
+
+                }
+            });
+        }
+        scrollDialog.show();
+    }
+
+    private void getDistrict() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("cityId", "310000");
+
+        ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).getDistrict(map), new NetSubscriber<RegionResponse>() {
+            @Override
+            public void response(RegionResponse response) {
+
+                regionList = response.getData();
+                for (int i = 0; i < response.getData().size(); i++) {
+                    List<String> list1 = new ArrayList<String>();
+                    list.add(response.getData().get(i).getRegionName());
+
+                    for (int j = 0; j < response.getData().get(i).getBlockList().size(); j++) {
+                        list1.add(response.getData().get(i).getBlockList().get(j).getBlockName());
+                    }
+                    hashMap.put(response.getData().get(i).getRegionName(), list1);
+                    hashMapBlock.put(response.getData().get(i).getRegionName(), response.getData().get(i).getBlockList());
+                }
+
+            }
+
+        });
+    }
+
+
+//    private void getData() {
+//        OrderShopRequest request = new OrderShopRequest();
+//        request.setContactName(nameView.getText());
+//        request.setContactMobile(UnitUtil.trim(phoneView.getText().toString().trim()));
+//        request.setShopId("1");
+//        request.setSubscribeTime(orderTime.getText());
+//        request.setSmsVerifyCode(verifyCodeView.getText());
+//        request.setMessageId(messageId);
+//        request.setPicVerifyCode(imgCodeTxt.getText().toString().trim());
+//        request.setPicVerifyId(picVerifyId);
+//        if (mPresenter == null) {
+//            mPresenter = new SendOrderPresenter(this);
+//        }
+//        mPresenter.getShopOrderResult(request);
+//    }
 
 }

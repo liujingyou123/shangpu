@@ -2,7 +2,6 @@ package com.finance.winport.map;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -29,11 +28,11 @@ import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.dialog.SelectionDialog;
 import com.finance.winport.map.model.MapAreaRequest;
 import com.finance.winport.map.model.MapAreaResponse;
+import com.finance.winport.map.model.MapShopDetailResponse;
 import com.finance.winport.map.model.MapShopRequest;
 import com.finance.winport.map.model.MapShopResponse;
 import com.finance.winport.map.presenter.IMapView;
 import com.finance.winport.map.presenter.MapPresenter;
-import com.finance.winport.service.presenter.FindServiceHomePresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +42,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class MapActivity extends BaseActivity implements MyLocation.XLocationListener,IMapView {
+public class MapActivity extends BaseActivity implements MyLocation.XLocationListener, IMapView {
 
     public static final int TYPE_RANGE = 0;
     public static final int TYPE_RANGE_PLATE = 1;
@@ -71,6 +70,8 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
     View areaLine;
     @BindView(R.id.ll_area)
     LinearLayout llArea;
+    @BindView(R.id.select_area)
+    LinearLayout selectArea;
 
     private BaiduMap mBaiduMap;
     private MyLocation myLocation;
@@ -78,6 +79,10 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
     private SelectionDialog selectionDialog;
 
     private MapPresenter mapPresenter;
+    private int flag = 0;//0 租金  1 面积
+    private List<MapShopResponse.DataBean> data = new ArrayList<>();
+
+    private Marker selectMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,30 +121,30 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 //                mBaiduMap.clear();
 //
                 if (mapStatus.zoom <= 14) {
+                    selectArea.setVisibility(View.GONE);
                     MapAreaRequest request = new MapAreaRequest();
-                    request.setMaxLat(mapStatus.bound.northeast.latitude+"");
-                    request.setMaxLon(mapStatus.bound.northeast.longitude+"");
-                    request.setMinLat(mapStatus.bound.southwest.latitude+"");
-                    request.setMinLon(mapStatus.bound.southwest.longitude+"");
+                    request.setMaxLat(mapStatus.bound.northeast.latitude + "");
+                    request.setMaxLon(mapStatus.bound.northeast.longitude + "");
+                    request.setMinLat(mapStatus.bound.southwest.latitude + "");
+                    request.setMinLon(mapStatus.bound.southwest.longitude + "");
                     request.setType("0");
                     mapPresenter.getMapArea(request);
-                }
-
-                else if (mapStatus.zoom <= 16) {
+                } else if (mapStatus.zoom <= 16) {
+                    selectArea.setVisibility(View.GONE);
                     MapAreaRequest request = new MapAreaRequest();
-                    request.setMaxLat(mapStatus.bound.northeast.latitude+"");
-                    request.setMaxLon(mapStatus.bound.northeast.longitude+"");
-                    request.setMinLat(mapStatus.bound.southwest.latitude+"");
-                    request.setMinLon(mapStatus.bound.southwest.longitude+"");
+                    request.setMaxLat(mapStatus.bound.northeast.latitude + "");
+                    request.setMaxLon(mapStatus.bound.northeast.longitude + "");
+                    request.setMinLat(mapStatus.bound.southwest.latitude + "");
+                    request.setMinLon(mapStatus.bound.southwest.longitude + "");
                     request.setType("1");
                     mapPresenter.getMapArea(request);
-                }
-                else{
+                } else {
+                    selectArea.setVisibility(View.VISIBLE);
                     MapShopRequest request = new MapShopRequest();
-                    request.setMaxLat(mBaiduMap.getMapStatus().bound.northeast.latitude+"");
-                    request.setMaxLon(mBaiduMap.getMapStatus().bound.northeast.longitude+"");
-                    request.setMinLat(mBaiduMap.getMapStatus().bound.southwest.latitude+"");
-                    request.setMinLon(mBaiduMap.getMapStatus().bound.southwest.longitude+"");
+                    request.setMaxLat(mBaiduMap.getMapStatus().bound.northeast.latitude + "");
+                    request.setMaxLon(mBaiduMap.getMapStatus().bound.northeast.longitude + "");
+                    request.setMinLat(mBaiduMap.getMapStatus().bound.southwest.latitude + "");
+                    request.setMinLon(mBaiduMap.getMapStatus().bound.southwest.longitude + "");
                     mapPresenter.getMapShop(request);
                 }
             }
@@ -155,13 +160,16 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 
                 switch (type) {
                     case TYPE_ITEM_SHOP:
+                        selectArea.setVisibility(View.VISIBLE);
                         showShopDetail(marker, type);
                         break;
                     case TYPE_RANGE:
 
+                        selectArea.setVisibility(View.GONE);
                         showRangePlate(id);
                         break;
                     case TYPE_RANGE_PLATE:
+                        selectArea.setVisibility(View.VISIBLE);
                         showRangeDetail(id);
                         break;
                     default:
@@ -201,7 +209,7 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         mMapView.onDestroy();
     }
 
-    @OnClick({R.id.btn_locate, R.id.back, R.id.map_filter, R.id.ll_money,R.id.ll_area})
+    @OnClick({R.id.btn_locate, R.id.back, R.id.map_filter, R.id.ll_money, R.id.ll_area})
     public void onViewClicked(View view) {
         switch (view.getId()) {
 
@@ -220,12 +228,34 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
                 moneyLine.setVisibility(View.VISIBLE);
                 area.setTextColor(Color.parseColor("#666666"));
                 areaLine.setVisibility(View.INVISIBLE);
+                flag = 0;
+                for (int i = 0; i < data.size(); i++) {
+
+                    if (flag == 0) {
+
+                        addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(data.get(i).getLatitude()), Double.parseDouble(data.get(i).getLongitude())), data.get(i).getRent() + "", data.get(i).getShopId() + "");
+                    } else {
+
+                        addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(data.get(i).getLatitude()), Double.parseDouble(data.get(i).getLongitude())), data.get(i).getArea() + "", data.get(i).getShopId() + "");
+                    }
+                }
                 break;
             case R.id.ll_area:
                 area.setTextColor(Color.parseColor("#ffa73b"));
                 areaLine.setVisibility(View.VISIBLE);
                 rentMoney.setTextColor(Color.parseColor("#666666"));
                 moneyLine.setVisibility(View.INVISIBLE);
+                flag = 1;
+                for (int i = 0; i < data.size(); i++) {
+
+                    if (flag == 0) {
+
+                        addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(data.get(i).getLatitude()), Double.parseDouble(data.get(i).getLongitude())), data.get(i).getRent() + "", data.get(i).getShopId() + "");
+                    } else {
+
+                        addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(data.get(i).getLatitude()), Double.parseDouble(data.get(i).getLongitude())), data.get(i).getArea() + "", data.get(i).getShopId() + "");
+                    }
+                }
                 break;
 
         }
@@ -237,36 +267,38 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 //            return;
 //        }
 
-        if (!result) {
+        if (result) {
             Log.e("定位", "定位成功！！！");
             MapUtil.setMyLocation(mBaiduMap, location);
+            selectArea.setVisibility(View.VISIBLE);
 
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Log.i("eeeeeeeeeeeeeeqqq", mBaiduMap.getMapStatus().bound.northeast.latitude+"");
-                    Log.i("eeeeeeeeeeeeeeqqq", mBaiduMap.getMapStatus().bound.northeast.longitude+"");
-                    Log.i("eeeeeeeeeeeeeeqqq", mBaiduMap.getMapStatus().bound.southwest.latitude+"");
-                    Log.i("eeeeeeeeeeeeeeqqq", mBaiduMap.getMapStatus().bound.southwest.longitude+"");
+                    Log.i("eeeeeeeeeeeeeeqqq", mBaiduMap.getMapStatus().bound.northeast.latitude + "");
+                    Log.i("eeeeeeeeeeeeeeqqq", mBaiduMap.getMapStatus().bound.northeast.longitude + "");
+                    Log.i("eeeeeeeeeeeeeeqqq", mBaiduMap.getMapStatus().bound.southwest.latitude + "");
+                    Log.i("eeeeeeeeeeeeeeqqq", mBaiduMap.getMapStatus().bound.southwest.longitude + "");
                     if (mapPresenter == null) {
                         mapPresenter = new MapPresenter(MapActivity.this);
                     }
 
                     MapShopRequest request = new MapShopRequest();
-                    request.setMaxLat(mBaiduMap.getMapStatus().bound.northeast.latitude+"");
-                    request.setMaxLon(mBaiduMap.getMapStatus().bound.northeast.longitude+"");
-                    request.setMinLat(mBaiduMap.getMapStatus().bound.southwest.latitude+"");
-                    request.setMinLon(mBaiduMap.getMapStatus().bound.southwest.longitude+"");
+                    request.setMaxLat(mBaiduMap.getMapStatus().bound.northeast.latitude + "");
+                    request.setMaxLon(mBaiduMap.getMapStatus().bound.northeast.longitude + "");
+                    request.setMinLat(mBaiduMap.getMapStatus().bound.southwest.latitude + "");
+                    request.setMinLon(mBaiduMap.getMapStatus().bound.southwest.longitude + "");
                     List<Integer> list = new ArrayList<>();
                     list.add(4);
                     list.add(5);
                     request.setAreaList(list);
                     mapPresenter.getMapShop(request);
                 }
-            },1000);
+            }, 1000);
 
         } else {
             Log.e("定位", "定位失败！！！");
+            selectArea.setVisibility(View.GONE);
             if (mapPresenter == null) {
                 mapPresenter = new MapPresenter(MapActivity.this);
             }
@@ -282,8 +314,6 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         }
 
         loadingDialog.dismiss();
-
-
 
 
     }
@@ -313,16 +343,26 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 
         System.out.println("marker click  type : " + type + "  msg : " + msg);
 
-        ShopDetailDialog dialog = new ShopDetailDialog(MapActivity.this, msg);
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                MapUtil.changeMarker(marker, getItemView(type, msg));
-            }
-        });
-        dialog.show();
+        if (mapPresenter == null) {
+            mapPresenter = new MapPresenter(MapActivity.this);
+        }
 
-        MapUtil.changeMarker(marker, getItemView(TYPE_ITEM_SELECTED, msg));
+        selectMarker = marker;
+
+
+        mapPresenter.getMapShopDetail(marker.getExtraInfo().getString("id"));
+
+//        ShopDetailDialog dialog = new ShopDetailDialog(MapActivity.this, msg);
+//        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//            @Override
+//            public void onDismiss(DialogInterface dialog) {
+//                MapUtil.changeMarker(marker, getItemView(type, msg));
+//            }
+//        });
+//        dialog.show();
+//
+//        MapUtil.changeMarker(marker, getItemView(TYPE_ITEM_SELECTED, msg));
+
     }
 
 
@@ -396,15 +436,20 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         mBaiduMap.setMapStatus(mMapStatusUpdate);
         mBaiduMap.clear();
 
+        data = response.getData();
+
         for (int i = 0; i < response.getData().size(); i++) {
-            if(mBaiduMap.getMapStatus().bound.contains(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())))){
+//            if(mBaiduMap.getMapStatus().bound.contains(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())))){
 
-                addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(response.getData().get(i).getLatitude()), Double.parseDouble(response.getData().get(i).getLongitude())), response.getData().get(i).getName(), response.getData().get(i).getShopId()+"");
+            if (flag == 0) {
+
+                addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(response.getData().get(i).getLatitude()), Double.parseDouble(response.getData().get(i).getLongitude())), response.getData().get(i).getRent() + "", response.getData().get(i).getShopId() + "");
+            } else {
+
+                addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(response.getData().get(i).getLatitude()), Double.parseDouble(response.getData().get(i).getLongitude())), response.getData().get(i).getArea() + "", response.getData().get(i).getShopId() + "");
             }
+//            }
         }
-
-
-
 
 
     }
@@ -413,11 +458,18 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
     public void showRemoveMapShop(MapShopResponse response) {
         mBaiduMap.clear();
 
+        data = response.getData();
         for (int i = 0; i < response.getData().size(); i++) {
-            if(mBaiduMap.getMapStatus().bound.contains(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())))){
+//            if(mBaiduMap.getMapStatus().bound.contains(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())))){
 
-                addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(response.getData().get(i).getLatitude()), Double.parseDouble(response.getData().get(i).getLongitude())), response.getData().get(i).getName(), response.getData().get(i).getShopId()+"");
+            if (flag == 0) {
+
+                addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(response.getData().get(i).getLatitude()), Double.parseDouble(response.getData().get(i).getLongitude())), response.getData().get(i).getRent() + "", response.getData().get(i).getShopId() + "");
+            } else {
+
+                addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(response.getData().get(i).getLatitude()), Double.parseDouble(response.getData().get(i).getLongitude())), response.getData().get(i).getArea() + "", response.getData().get(i).getShopId() + "");
             }
+//            }
         }
     }
 
@@ -427,10 +479,9 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         mBaiduMap.clear();
 
         for (int i = 0; i < response.getData().size(); i++) {
-            if(!TextUtils.isEmpty(response.getData().get(i).getName())&&!TextUtils.isEmpty(response.getData().get(i).getLatitude())&&!TextUtils.isEmpty(response.getData().get(i).getLongitude()))
-            addRange(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())), response.getData().get(i).getName().toString(), response.getData().get(i).getBizId()+"");
+            if (!TextUtils.isEmpty(response.getData().get(i).getName()) && !TextUtils.isEmpty(response.getData().get(i).getLatitude()) && !TextUtils.isEmpty(response.getData().get(i).getLongitude()))
+                addRange(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())), response.getData().get(i).getName().toString(), response.getData().get(i).getBizId() + "");
         }
-
 
 
     }
@@ -445,11 +496,11 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         mBaiduMap.setMapStatus(mMapStatusUpdate);
         mBaiduMap.clear();
         for (int i = 0; i < response.getData().size(); i++) {
-            if(!TextUtils.isEmpty(response.getData().get(i).getName())&&!TextUtils.isEmpty(response.getData().get(i).getLatitude())&&!TextUtils.isEmpty(response.getData().get(i).getLongitude())){
-                if(mBaiduMap.getMapStatus().bound.contains(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())))){
+            if (!TextUtils.isEmpty(response.getData().get(i).getName()) && !TextUtils.isEmpty(response.getData().get(i).getLatitude()) && !TextUtils.isEmpty(response.getData().get(i).getLongitude())) {
+//                if(mBaiduMap.getMapStatus().bound.contains(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())))){
 
-                    addRangePlate(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())), response.getData().get(i).getName().toString(), response.getData().get(i).getBizId()+"");
-                }
+                addRangePlate(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())), response.getData().get(i).getName().toString(), response.getData().get(i).getBizId() + "");
+//                }
             }
         }
     }
@@ -459,12 +510,31 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 
         mBaiduMap.clear();
         for (int i = 0; i < response.getData().size(); i++) {
-            if(!TextUtils.isEmpty(response.getData().get(i).getName())&&!TextUtils.isEmpty(response.getData().get(i).getLatitude())&&!TextUtils.isEmpty(response.getData().get(i).getLongitude())){
-                if(mBaiduMap.getMapStatus().bound.contains(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())))){
+            if (!TextUtils.isEmpty(response.getData().get(i).getName()) && !TextUtils.isEmpty(response.getData().get(i).getLatitude()) && !TextUtils.isEmpty(response.getData().get(i).getLongitude())) {
+//                if(mBaiduMap.getMapStatus().bound.contains(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())))){
 
-                    addRangePlate(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())), response.getData().get(i).getName().toString(), response.getData().get(i).getBizId()+"");
-                }
+                addRangePlate(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())), response.getData().get(i).getName().toString(), response.getData().get(i).getBizId() + "");
+//                }
             }
         }
+    }
+
+    @Override
+    public void showMapShopDetail(MapShopDetailResponse response) {
+
+        final int type = selectMarker.getExtraInfo().getInt("type", -1);
+
+        final String msg = selectMarker.getExtraInfo().getString("msg", "default");
+
+        ShopDetailDialog dialog = new ShopDetailDialog(MapActivity.this, response.getData());
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                MapUtil.changeMarker(selectMarker, getItemView(type, msg));
+            }
+        });
+        dialog.show();
+
+        MapUtil.changeMarker(selectMarker, getItemView(TYPE_ITEM_SELECTED, msg));
     }
 }

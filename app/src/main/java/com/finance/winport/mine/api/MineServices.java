@@ -39,6 +39,14 @@ public interface MineServices {
     @POST("customerapp/api/user/schedule/detail/v1.0.0")
     Observable<ScheduleDetailResponse> getScheduleDetail(@Body HashMap map);
 
+    //日程确定服务
+    @POST("customerapp/api/user/schedule/ensure/v1.0.0")
+    Observable<com.finance.winport.base.BaseResponse> ensureSchedule(@Body HashMap map);
+
+    //日程撤销
+    @POST("customerapp/api/user/schedule/revoke/v1.0.0")
+    Observable<com.finance.winport.base.BaseResponse> revokeSchedule(@Body HashMap map);
+
     //商铺关注设置
     @POST("customerapp/api/customer/updateFollow/v1.0.0")
     Observable<com.finance.winport.base.BaseResponse> commitFocus(@Body CommitFocusRequest request);

@@ -6,33 +6,38 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.account.model.UserInfo;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.home.ShopDetailActivity;
 import com.finance.winport.image.Batman;
+import com.finance.winport.mine.MyScheduleListActivity;
 import com.finance.winport.mine.adapter.ServiceScheduleListAdapter;
 import com.finance.winport.service.model.CalendarListResponse;
 import com.finance.winport.service.model.FindServiceResponse;
 import com.finance.winport.service.presenter.FindServiceHomePresenter;
 import com.finance.winport.service.presenter.IFindServiceHomeView;
+import com.finance.winport.tab.TypeList;
+import com.finance.winport.tab.WinportActivity;
+import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.BannerView.Banner;
 
 import org.joda.time.DateTime;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -95,10 +100,19 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
     LinearLayout loanArea;
     @BindView(R.id.undo_count)
     TextView undoCount;
+    @BindView(R.id.empty)
+    TextView empty;
+    @BindView(R.id.shop)
+    RelativeLayout shop;
+    @BindView(R.id.shop_more)
+    TextView shopMore;
     private ServiceScheduleListAdapter adapter;
 
     private FindServiceHomePresenter mPresenter;
     private String id;
+    private List<CalendarListResponse.DataBean.DateListBean> calendarList;
+    List<CalendarListResponse.DataBean.DateListBean.ScheduleListBean> selectList = new ArrayList<>();
+
 
     @Nullable
     @Override
@@ -133,9 +147,14 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
 
     private void init() {
 
-//        if()
+        if(isLogin()){
+            getData();
+        }
 
-        getData();
+        else{
+            initNew();
+        }
+
 
 
     }
@@ -167,6 +186,18 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
             public void onDateClick(DateTime dateTime) {
 
                 Log.i("time", dateTime.toString());
+                for (int i = 0; i < calendarList.size(); i++) {
+                    if (dateTime.toString().substring(0, 10).equals(calendarList.get(i).getDateString())) {
+                        if (calendarList.get(i).getScheduleList().size() == 0) {
+
+                            empty.setVisibility(View.VISIBLE);
+                        }
+                        else{
+                            empty.setVisibility(View.GONE);
+                        }
+                        setAdapter(calendarList.get(i).getScheduleList());
+                    }
+                }
             }
         });
 
@@ -178,7 +209,7 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
             address.setText(response.getData().getShopObject().getAddress());
             visitCount.setText("一周内" + response.getData().getShopObject().getVisitCount() + "位老板浏览了此店铺");
             Batman.getInstance().fromNet(response.getData().getShopObject().getCoverImg(), shopImg);
-            id = response.getData().getShopObject().getId()+"";
+            id = response.getData().getShopObject().getId() + "";
         }
         if (response.getData().getLoadDTO() == null) {
 
@@ -214,7 +245,7 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
 //        banner.stopAutoPlay();
     }
 
-    @OnClick({R.id.rent, R.id.order, R.id.loan, R.id.loan_more, R.id.shop, R.id.shop_more})
+    @OnClick({R.id.rent, R.id.order, R.id.loan, R.id.loan_more, R.id.shop, R.id.shop_more, R.id.undo_count})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rent:
@@ -235,12 +266,18 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
                 break;
             case R.id.shop:
                 Intent detailIntent = new Intent(getActivity(), ShopDetailActivity.class);
-                detailIntent.putExtra("shopId",id);
+                detailIntent.putExtra("shopId", id);
                 startActivity(detailIntent);
                 break;
-            case R.id.shop_more:
+            case R.id.undo_count:
 //                Intent intent = new Intent(getActivity(), LoanListActivity.class);
-//                startActivity(intent);
+                startActivity(new Intent(getActivity(), MyScheduleListActivity.class));
+                break;
+            case R.id.shop_more:
+                Intent release = new Intent(context, WinportActivity.class);
+                release.putExtra("type", TypeList.RELEASE);
+                release.putExtra("title", "我发布的旺铺");
+                startActivity(release);
                 break;
         }
     }
@@ -259,17 +296,24 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
 
     @Override
     public void showCalendar(CalendarListResponse response) {
-        SpannableString builder1 = new SpannableString("老板，未来您有"+response.getData().getUndoScheduleCount() + "个安排");
+        SpannableString builder1 = new SpannableString("老板，未来您有" + response.getData().getUndoScheduleCount() + "个安排");
         ForegroundColorSpan redSpan1 = new ForegroundColorSpan(Color.parseColor("#151515"));
-        builder1.setSpan(redSpan1, 7, builder1.length()-3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder1.setSpan(redSpan1, 7, builder1.length() - 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         undoCount.setText(builder1);
         Date d = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String nowDate = sdf.format(d);
+        calendarList = response.getData().getDateList();
         for (int i = 0; i < response.getData().getDateList().size(); i++) {
 
             if (nowDate.equals(response.getData().getDateList().get(i).getDateString())) {
+                if(response.getData().getDateList().get(i).getScheduleList().size()==0){
+                    empty.setVisibility(View.VISIBLE);
+                }
+                else {
+                    empty.setVisibility(View.GONE);
+                }
                 setAdapter(response.getData().getDateList().get(i).getScheduleList());
             }
         }
@@ -278,22 +322,25 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
 
 
     public void setAdapter(List<CalendarListResponse.DataBean.DateListBean.ScheduleListBean> list) {
-        if (adapter == null) {
-            adapter = new ServiceScheduleListAdapter(getActivity(), list);
+//        selectList.clear();
+//        selectList.addAll(list);
+//        if (adapter == null) {
+        adapter = new ServiceScheduleListAdapter(getActivity(), list);
 
-            mListView.setAdapter(adapter);
-            ViewGroup.LayoutParams parm = mListView.getLayoutParams();
-            parm.height = UnitUtil.dip2px(getActivity(), 75 * list.size());
+        mListView.setAdapter(adapter);
+        ViewGroup.LayoutParams parm = mListView.getLayoutParams();
+        parm.height = UnitUtil.dip2px(getActivity(), 75 * list.size());
 
-//            totalPage = (int) Math.ceil(adapter.getTotalCount() / (float) LIMIT);
-        } else {
-//            if (pageNumber == 1) {
-//                adapter.refreshData(list, totalCount);
-//            } else {
-//                adapter.updateData(list, totalCount);
-//            }
+//        }
+//        else {
+//
+//            adapter.notifyDataSetChanged();
+//        }
+    }
 
-            adapter.notifyDataSetChanged();
-        }
+
+    private boolean isLogin() {
+        UserInfo info = SharedPrefsUtil.getUserInfo();
+        return info != null;
     }
 }

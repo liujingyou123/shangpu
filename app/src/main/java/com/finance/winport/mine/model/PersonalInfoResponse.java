@@ -55,6 +55,7 @@ public class PersonalInfoResponse extends BaseResponse {
         private int industryId;
         private String industryName;
         private List<Integer> list;
+        private String isNew;
 
         public int getCustomerId() {
             return customerId;
@@ -150,6 +151,14 @@ public class PersonalInfoResponse extends BaseResponse {
 
         public void setList(List<Integer> list) {
             this.list = list;
+        }
+
+        public String getIsNew() {
+            return isNew;
+        }
+
+        public void setIsNew(String isNew) {
+            this.isNew = isNew;
         }
     }
 }

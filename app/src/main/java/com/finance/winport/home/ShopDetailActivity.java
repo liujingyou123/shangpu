@@ -33,6 +33,7 @@ import com.finance.winport.home.presenter.ShopDetailPresenter;
 import com.finance.winport.home.view.IShopDetailView;
 import com.finance.winport.image.GlideImageLoader;
 import com.finance.winport.log.XLog;
+import com.finance.winport.map.PoiSearchRoundActivity;
 import com.finance.winport.permission.PermissionsManager;
 import com.finance.winport.permission.PermissionsResultAction;
 import com.finance.winport.tab.MineFragment;
@@ -354,7 +355,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         }
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.imv_back, R.id.tv_share, R.id.tv_shop_more, R.id.tv_jiucuo, R.id.tv_yuyue, R.id.tv_call, R.id.tv_collection, R.id.imv_change})
+    @OnClick({R.id.imv_focus_house_back, R.id.imv_back, R.id.tv_share, R.id.tv_shop_more, R.id.tv_jiucuo, R.id.tv_yuyue, R.id.tv_call, R.id.tv_collection, R.id.imv_change, R.id.ll_near})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
@@ -448,6 +449,17 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 } else {
                     showPrice(1);
                 }
+                break;
+            case R.id.ll_near:
+                try {
+                    Intent intent1 = new Intent(this, PoiSearchRoundActivity.class);
+                    intent1.putExtra("lat", Double.parseDouble(mShopDetail.getData().getLatitude()));
+                    intent1.putExtra("lon", Double.parseDouble(mShopDetail.getData().getLongitude()));
+                    startActivity(intent1);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 break;
 
         }

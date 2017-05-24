@@ -2,6 +2,7 @@ package com.finance.winport.map.api;
 
 import com.finance.winport.map.model.MapAreaRequest;
 import com.finance.winport.map.model.MapAreaResponse;
+import com.finance.winport.map.model.MapShopDetailResponse;
 import com.finance.winport.map.model.MapShopRequest;
 import com.finance.winport.map.model.MapShopResponse;
 import com.finance.winport.mine.model.IndustryListResponse;
@@ -25,6 +26,11 @@ public interface MapServices {
     //街铺地图-区域板块层级店铺数量
     @POST("customerapp/api/map/regionShop/v1.0.0")
     Observable<MapAreaResponse> getMapArea(@Body MapAreaRequest request);
+
+
+    //街铺地图-点击商铺查看概要信息
+    @POST("customerapp/api/map/summary/v1.0.0")
+    Observable<MapShopDetailResponse> getMapShopDetail(@Body HashMap map);
 
 
 
