@@ -10,12 +10,12 @@ public class MapAreaRequest {
 
 
 
-    private List<Integer> rentList;       //租金集合
-    private List<Integer> transferList;   //转让费集合
-    private List<Integer> areaList;       //面积集合
-    private List<Integer> featureTagList; //特色标签集合
-    private List<Integer> supportTagList; //配套标签集合
-    private float width;                  //面宽数据
+    private List<String> rentList;       //租金集合
+    private List<String> transferList;   //转让费集合
+    private List<String> areaList;       //面积集合
+    private List<String> featureTagList; //特色标签集合
+    private List<String> supportTagList; //配套标签集合
+    private String width;                  //面宽数据
     private String districtId;                  //区域id
     private String minLon;                  //最小经度
     private String maxLon;                  //最大经度
@@ -26,51 +26,51 @@ public class MapAreaRequest {
     private String maxLat;                  //最大纬度
     private String type;                  //查询类型
 
-    public List<Integer> getRentList() {
+    public List<String> getRentList() {
         return rentList;
     }
 
-    public void setRentList(List<Integer> rentList) {
+    public void setRentList(List<String> rentList) {
         this.rentList = rentList;
     }
 
-    public List<Integer> getTransferList() {
+    public List<String> getTransferList() {
         return transferList;
     }
 
-    public void setTransferList(List<Integer> transferList) {
+    public void setTransferList(List<String> transferList) {
         this.transferList = transferList;
     }
 
-    public List<Integer> getAreaList() {
+    public List<String> getAreaList() {
         return areaList;
     }
 
-    public void setAreaList(List<Integer> areaList) {
+    public void setAreaList(List<String> areaList) {
         this.areaList = areaList;
     }
 
-    public List<Integer> getFeatureTagList() {
+    public List<String> getFeatureTagList() {
         return featureTagList;
     }
 
-    public void setFeatureTagList(List<Integer> featureTagList) {
+    public void setFeatureTagList(List<String> featureTagList) {
         this.featureTagList = featureTagList;
     }
 
-    public List<Integer> getSupportTagList() {
+    public List<String> getSupportTagList() {
         return supportTagList;
     }
 
-    public void setSupportTagList(List<Integer> supportTagList) {
+    public void setSupportTagList(List<String> supportTagList) {
         this.supportTagList = supportTagList;
     }
 
-    public float getWidth() {
+    public String getWidth() {
         return width;
     }
 
-    public void setWidth(float width) {
+    public void setWidth(String width) {
         this.width = width;
     }
 
