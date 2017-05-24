@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|bottom"
             android:layout_marginBottom="27dp"
-            android:text="正在定位中"
+            android:text="加载中"
             android:textColor="#969696"
             android:textSize="13sp" />
     </FrameLayout>

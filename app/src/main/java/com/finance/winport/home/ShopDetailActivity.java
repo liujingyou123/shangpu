@@ -582,6 +582,9 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             viewShopThree.setIsOwnShop();
             for (int i = 0; i < data.getNearInfoList().size(); i++) {
                 ShopDetail.DataBean.NearInfoListBean tmp = data.getNearInfoList().get(i);
+                if (tmp == null) {
+                    return;
+                }
                 if (tmp.getNearSeat() == 0) {
                     viewShopOne.setVisibility(View.VISIBLE);
                     viewShopOne.setShopName(tmp.getName());
