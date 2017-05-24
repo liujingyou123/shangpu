@@ -19,6 +19,7 @@ import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.dialog.QuyuPopupView;
 import com.finance.winport.dialog.SortPopupView;
+import com.finance.winport.dialog.WelcomeDialog;
 import com.finance.winport.home.adapter.ShopsAdapter;
 import com.finance.winport.home.model.BannerResponse;
 import com.finance.winport.home.model.ShopCount;
@@ -27,8 +28,11 @@ import com.finance.winport.home.model.ShopRequset;
 import com.finance.winport.home.presenter.HomePresenter;
 import com.finance.winport.home.view.IHomeView;
 import com.finance.winport.map.MapActivity;
+import com.finance.winport.mine.model.PersonalInfoResponse;
 import com.finance.winport.tab.model.UnReadMsg;
 import com.finance.winport.util.SelectDialogUtil;
+import com.finance.winport.util.SharedPrefsUtil;
+import com.finance.winport.util.SpUtil;
 import com.finance.winport.view.home.HeaderView;
 import com.finance.winport.view.home.SelectView;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
@@ -70,7 +74,7 @@ public class HomeFragment extends BaseFragment implements IHomeView {
 
     private QuyuPopupView quyuPopupView;
     private SortPopupView sortPopupView;
-//    private SelectionDialog selectionDialog;
+    //    private SelectionDialog selectionDialog;
     private ShopRequset mRequest = new ShopRequset();
     private HeaderView headerView;
     private SelectView heardSelectView;
@@ -99,6 +103,9 @@ public class HomeFragment extends BaseFragment implements IHomeView {
         mPresenter.getShopCount();
         mPresenter.getBanner();
         mPresenter.getIsUnReader();
+        if (SharedPrefsUtil.getUserInfo() != null && TextUtils.isEmpty(SpUtil.getInstance().getStringData(SharedPrefsUtil.getUserInfo().data.userPhone, null))) {
+            mPresenter.getPersonalInfo();
+        }
     }
 
     private void initListView() {
@@ -531,6 +538,16 @@ public class HomeFragment extends BaseFragment implements IHomeView {
     @Override
     public void onError() {
         refreshView.refreshComplete();
+    }
+
+    @Override
+    public void showPersonalInfo(PersonalInfoResponse response) {
+        if ("1".equals(response.getData().getIsNew()) && TextUtils.isEmpty(response.getData().getIndustryName())) {
+            WelcomeDialog welcomeDialog = new WelcomeDialog(this.getContext());
+            welcomeDialog.show();
+
+            SpUtil.getInstance().setStringData(SharedPrefsUtil.getUserInfo().data.userPhone, "1");
+        }
     }
 
     public void onQuyuHandle(ShopRequset requset) {

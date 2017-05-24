@@ -8,6 +8,8 @@ import com.finance.winport.home.model.ShopCount;
 import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.home.model.ShopRequset;
 import com.finance.winport.home.view.IHomeView;
+import com.finance.winport.mine.api.MineServices;
+import com.finance.winport.mine.model.PersonalInfoResponse;
 import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.net.NoneNetSubscriber;
 import com.finance.winport.tab.model.UnReadMsg;
@@ -111,6 +113,19 @@ public class HomePresenter {
             }
 
         });
+    }
+
+    public void getPersonalInfo() {
+
+        ToolsUtil.subscribe(ToolsUtil.createService(MineServices.class).getPersonalInfo(), new NetSubscriber<PersonalInfoResponse>() {
+            @Override
+            public void response(PersonalInfoResponse response) {
+                if (mIHomeView != null) {
+                    mIHomeView.showPersonalInfo(response);
+                }
+            }
+        });
+
     }
 
 }

@@ -4,6 +4,7 @@ import com.finance.winport.home.model.BannerResponse;
 import com.finance.winport.home.model.RegionResponse;
 import com.finance.winport.home.model.ShopCount;
 import com.finance.winport.home.model.ShopListResponse;
+import com.finance.winport.mine.model.PersonalInfoResponse;
 import com.finance.winport.tab.model.UnReadMsg;
 
 /**
@@ -22,4 +23,6 @@ public interface IHomeView {
     void isUnReadMsg(UnReadMsg readMsg);
 
     void onError();
+
+    void showPersonalInfo(PersonalInfoResponse response);
 }

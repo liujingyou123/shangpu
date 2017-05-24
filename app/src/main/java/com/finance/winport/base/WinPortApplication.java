@@ -10,6 +10,7 @@ import com.baidu.mapapi.SDKInitializer;
 import com.finance.winport.image.Batman;
 import com.finance.winport.net.NetworkClient;
 import com.finance.winport.util.SharedPrefsUtil;
+import com.finance.winport.util.SpUtil;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -34,7 +35,7 @@ public class WinPortApplication extends Application {
         UMShareAPI.get(this);
         JPushInterface.setDebugMode(BuildConfig.DEBUG);    // 设置开启日志,发布时请关闭日志
         JPushInterface.init(this); // 初始化 JPush
-
+        SpUtil.getInstance().init(this);
 
     }
 
