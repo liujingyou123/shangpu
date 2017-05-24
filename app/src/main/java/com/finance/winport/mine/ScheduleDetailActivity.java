@@ -1,5 +1,6 @@
 package com.finance.winport.mine;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -7,6 +8,7 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
+import com.finance.winport.base.BaseResponse;
 import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.mine.model.ScheduleDetailResponse;
 import com.finance.winport.mine.presenter.IScheduleDetailView;
@@ -84,6 +86,15 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
                     nNoticeDialog = new NoticeDialog(this);
                     nNoticeDialog.setMessage("撤销服务");
                     nNoticeDialog.setPositiveBtn("确认");
+                    nNoticeDialog.setOkClickListener(new NoticeDialog.OnPreClickListner() {
+                        @Override
+                        public void onClick() {
+                            if (mPresenter == null) {
+                                mPresenter = new ScheduleDetailPresenter(ScheduleDetailActivity.this);
+                            }
+                            mPresenter.revokeSchedule(scheduleId);
+                        }
+                    });
                 }
                 if (!nNoticeDialog.isShowing()) {
                     nNoticeDialog.show();
@@ -104,6 +115,15 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
                     bNoticeDialog = new NoticeDialog(this);
                     bNoticeDialog.setMessage("请确认小二已完成对您的任务");
                     bNoticeDialog.setPositiveBtn("好的");
+                    bNoticeDialog.setOkClickListener(new NoticeDialog.OnPreClickListner() {
+                        @Override
+                        public void onClick() {
+                            if (mPresenter == null) {
+                                mPresenter = new ScheduleDetailPresenter(ScheduleDetailActivity.this);
+                            }
+                            mPresenter.ensureSchedule(scheduleId);
+                        }
+                    });
                 }
                 if (!bNoticeDialog.isShowing()) {
                     bNoticeDialog.show();
@@ -122,9 +142,15 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
         }else if(response.getData().getStatus()==1){
 
             status.setText("已完成");
+            cancel.setEnabled(false);
+            cancel.setTextColor(Color.parseColor("#cccccc"));
+            btnDone.setEnabled(false);
         }else if(response.getData().getStatus()==2){
 
             status.setText("已撤销");
+            cancel.setEnabled(false);
+            cancel.setTextColor(Color.parseColor("#cccccc"));
+            btnDone.setEnabled(false);
         }
 
         if(response.getData().getServiceType()==0){
@@ -144,5 +170,22 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
         orderTime.setText(response.getData().getOrderTime());
 
 
+    }
+
+    @Override
+    public void showensureSchedule(BaseResponse response) {
+        if (mPresenter == null) {
+            mPresenter = new ScheduleDetailPresenter(this);
+        }
+        mPresenter.getScheduleDetail(scheduleId);
+    }
+
+    @Override
+    public void showRevokeSchedule(BaseResponse response) {
+
+        if (mPresenter == null) {
+            mPresenter = new ScheduleDetailPresenter(this);
+        }
+        mPresenter.getScheduleDetail(scheduleId);
     }
 }

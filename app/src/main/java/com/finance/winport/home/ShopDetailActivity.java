@@ -355,7 +355,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         }
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.imv_back, R.id.tv_share, R.id.tv_shop_more, R.id.tv_jiucuo, R.id.tv_yuyue, R.id.tv_call, R.id.tv_collection, R.id.imv_change})
+    @OnClick({R.id.imv_focus_house_back, R.id.imv_back, R.id.tv_share, R.id.tv_shop_more, R.id.tv_jiucuo, R.id.tv_yuyue, R.id.tv_call, R.id.tv_collection, R.id.imv_change, R.id.ll_near})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
