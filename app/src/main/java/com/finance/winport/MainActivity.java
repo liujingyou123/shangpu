@@ -3,6 +3,7 @@ package com.finance.winport;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.home.event.HomeEvent;
@@ -17,6 +18,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.jpush.android.api.JPushInterface;
 
 
 public class MainActivity extends BaseActivity implements BottomTabView.OnTabSelectedListener {
@@ -34,6 +36,7 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        Log.d("main", "deviceId-->" + JPushInterface.getRegistrationID(context.getApplicationContext()));
         fm = getSupportFragmentManager();
         tabView.setOnTabSelectedListener(this);
         tabView.setTabResIds(new int[]{R.drawable.selector_bottom_tab_home

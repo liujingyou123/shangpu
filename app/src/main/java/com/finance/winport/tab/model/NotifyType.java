@@ -19,7 +19,7 @@ public class NotifyType extends BaseResponse {
         public static class BaseNoticeDTOListBean {
 
             public String id;
-            public String createTime;
+            public String creatTimeFormat;
             public int status;
             public int notifyType;//通知类型：0-服务 1-系统 2-生意圈 3-商铺 4-工作
             public String digest;

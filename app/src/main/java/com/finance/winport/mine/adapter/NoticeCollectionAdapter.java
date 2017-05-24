@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 
 import com.finance.winport.R;
-import com.finance.winport.mine.MyNoticeActivity;
 import com.finance.winport.mine.NoticeListActivity;
 import com.finance.winport.tab.model.NotifyType;
 
@@ -74,7 +73,7 @@ public class NoticeCollectionAdapter extends BaseAdapter {
             holder.type.setText("生意圈");
             holder.img.setImageResource(R.mipmap.notice_trade);
         }
-        holder.date.setText(list.get(position).createTime);
+        holder.date.setText(list.get(position).creatTimeFormat);
         String c = list.get(position).digest;
         if (!TextUtils.isEmpty(c)) {
             holder.content.setText(c);

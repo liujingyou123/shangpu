@@ -475,7 +475,9 @@ public class HomeFragment extends BaseFragment implements IHomeView {
 
     @OnClick(R.id.map_list)
     public void onViewClicked() {
-        startActivity(new Intent(getActivity(), MapActivity.class));
+        Intent intent = new Intent(getActivity(), MapActivity.class);
+        intent.putExtra("shopRequest", mRequest);
+        startActivity(intent);
     }
 
     @Override

@@ -54,7 +54,7 @@ public class ServiceNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.Se
     @Override
     public View getView(final int position, View convertView, ViewGroup viewGroup) {
         // 0-时间变动 1-服务撤销 2-服务完成 3-日程提醒
-        if (getItemViewType(position) == 0) {
+        if (getItemViewType(position) == 0) {//0-时间变动
             ViewHolder holder;
             if (convertView == null) {
                 convertView = LayoutInflater.from(context).inflate(R.layout.service_notice_list_item, viewGroup, false);
@@ -78,7 +78,7 @@ public class ServiceNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.Se
                     context.startActivity(new Intent(context, ScheduleDetailActivity.class).putExtra("scheduleId", item.bussinessId));
                 }
             });
-        } else if (getItemViewType(position) == 1) {
+        } else if (getItemViewType(position) == 1) {//1-服务撤销
             ViewHolderOff holder;
             if (convertView == null) {
                 convertView = LayoutInflater.from(context).inflate(R.layout.service_notice_list_item_off, viewGroup, false);
@@ -102,7 +102,7 @@ public class ServiceNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.Se
                 }
             });
 
-        } else if (getItemViewType(position) == 2) {
+        } else if (getItemViewType(position) == 2) {//2-服务完成
             ViewHolderDone holder;
             if (convertView == null) {
                 convertView = LayoutInflater.from(context).inflate(R.layout.service_notice_list_item_done, viewGroup, false);
@@ -120,11 +120,11 @@ public class ServiceNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.Se
             holder.details.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    context.startActivity(new Intent(context, MyScheduleListActivity.class));
+                    context.startActivity(new Intent(context, WinportActivity.class).putExtra("type", TypeList.RELEASE));
                 }
             });
 
-        } else if (getItemViewType(position) == 3) {
+        } else if (getItemViewType(position) == 3) {//3-日程提醒
             ViewHolderAlert holder;
             if (convertView == null) {
                 convertView = LayoutInflater.from(context).inflate(R.layout.service_notice_list_item_alert, viewGroup, false);
@@ -144,7 +144,7 @@ public class ServiceNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.Se
             holder.details.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    context.startActivity(new Intent(context, WinportActivity.class).putExtra("type", TypeList.RELEASE));
+                    context.startActivity(new Intent(context, MyScheduleListActivity.class));
                 }
             });
         }
