@@ -187,9 +187,11 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
 
     @Override
     public void commentTopic(boolean isSuccess) {
+        commentDialog.setContent("");
         commentDialog.dismiss();
         if (isSuccess) {
             mPresenter.getComment(topicId, pageNumber + "");
+
         }
     }
 
