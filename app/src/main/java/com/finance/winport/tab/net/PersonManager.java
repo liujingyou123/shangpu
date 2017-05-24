@@ -483,6 +483,7 @@ public class PersonManager {
 
                     @Override
                     public void onError(Throwable e) {
+                        super.onError(e);
                         if (callback != null) {
                             callback.failure(e);
                         }
@@ -506,6 +507,7 @@ public class PersonManager {
 
                     @Override
                     public void onError(Throwable e) {
+                        super.onError(e);
                         if (callback != null) {
                             callback.failure(e);
                         }
@@ -522,6 +524,30 @@ public class PersonManager {
                 .subscribe(new NetSubscriber<NotifyList>() {
                     @Override
                     public void response(NotifyList response) {
+                        if (callback != null) {
+                            callback.success(response);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if (callback != null) {
+                            callback.failure(e);
+                        }
+                    }
+                });
+    }
+
+    // 更新 registrationId
+    public Subscription updateRegistrationId(HashMap<String, Object> params, final NetworkCallback<BaseResponse> callback) {
+        return Ironman.getInstance()
+                .createService(PersonService.class)
+                .updateRegistrationId(params)
+                .compose(ToolsUtil.<BaseResponse>applayScheduers())
+                .subscribe(new NetSubscriber<BaseResponse>() {
+                    @Override
+                    public void response(BaseResponse response) {
                         if (callback != null) {
                             callback.success(response);
                         }

@@ -3,6 +3,7 @@ package com.finance.winport.account.net;
 import com.finance.winport.account.model.ImageVerifyCode;
 import com.finance.winport.account.model.Message;
 import com.finance.winport.account.model.UserInfo;
+import com.finance.winport.base.BaseResponse;
 import com.finance.winport.net.Ironman;
 import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.tab.net.NetworkCallback;
@@ -83,6 +84,30 @@ public class UserManager {
                 .subscribe(new NetSubscriber<ImageVerifyCode>() {
                     @Override
                     public void response(ImageVerifyCode response) {
+                        if (callback != null) {
+                            callback.success(response);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if (callback != null) {
+                            callback.failure(e);
+                        }
+                    }
+                });
+    }
+
+    // 退出登录
+    public Subscription loginOut(HashMap<String, Object> params, final NetworkCallback<BaseResponse> callback) {
+        return Ironman.getInstance()
+                .createService(UserService.class)
+                .loginOut(params)
+                .compose(ToolsUtil.<BaseResponse>applayScheduers())
+                .subscribe(new NetSubscriber<BaseResponse>() {
+                    @Override
+                    public void response(BaseResponse response) {
                         if (callback != null) {
                             callback.success(response);
                         }

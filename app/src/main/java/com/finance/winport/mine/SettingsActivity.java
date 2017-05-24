@@ -8,9 +8,21 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.finance.winport.BuildConfig;
 import com.finance.winport.R;
 import com.finance.winport.account.LoginActivity;
+import com.finance.winport.account.event.LoginOutEvent;
+import com.finance.winport.account.net.UserManager;
 import com.finance.winport.base.BaseActivity;
+import com.finance.winport.base.BaseResponse;
+import com.finance.winport.dialog.LoadingDialog;
+import com.finance.winport.tab.net.NetworkCallback;
+import com.finance.winport.util.SharedPrefsUtil;
+import com.tencent.tauth.UiError;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +46,7 @@ public class SettingsActivity extends BaseActivity {
     Button loginOut;
     @BindView(R.id.debug)
     Button debug;
+    LoadingDialog loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +57,19 @@ public class SettingsActivity extends BaseActivity {
     }
 
 
-    public void init(){
+    public void init() {
+        loading = new LoadingDialog(context);
         tvFocusHouse.setText("系统设置");
+        if (SharedPrefsUtil.getUserInfo() != null) {
+            loginOut.setVisibility(View.VISIBLE);
+        } else {
+            loginOut.setVisibility(View.GONE);
+        }
+        if (BuildConfig.DEBUG) {
+            debug.setVisibility(View.VISIBLE);
+        } else {
+            debug.setVisibility(View.GONE);
+        }
     }
 
     @OnClick({R.id.imv_focus_house_back, R.id.login_out})
@@ -55,8 +79,37 @@ public class SettingsActivity extends BaseActivity {
                 handleBack();
                 break;
             case R.id.login_out:
-                startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
+                loginOut();
                 break;
         }
+    }
+
+    @OnClick(R.id.debug)
+    public void onDebugClick(View v) {
+//        startActivity(new Intent(context, NetServerIpSetActivity.class));
+    }
+
+    private void loginOut() {
+        loading.show();
+        HashMap<String, Object> params = new HashMap<>();
+        UserManager.getInstance().loginOut(params, new NetworkCallback<BaseResponse>() {
+            @Override
+            public void success(BaseResponse response) {
+                loading.dismiss();
+                toLogin();
+            }
+
+            @Override
+            public void failure(Throwable throwable) {
+                loading.dismiss();
+            }
+        });
+    }
+
+    private void toLogin() {
+        startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
+        SharedPrefsUtil.clearUserInfo();
+        EventBus.getDefault().post(new LoginOutEvent());
+        finish();
     }
 }

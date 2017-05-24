@@ -104,4 +104,9 @@ public interface PersonService {
     // 农历接口
     @POST("customerapp/api/nongli/wnl/v1.0.0")
     Observable<Lunar> getLunar(@Body HashMap<String, Object> params);
+
+    // 更新 registrationId
+    @POST("customerapp/api/user/verify/updateDeviceId/v1.0.0")
+    Observable<BaseResponse> updateRegistrationId(@Body HashMap<String, Object> params);
+
 }

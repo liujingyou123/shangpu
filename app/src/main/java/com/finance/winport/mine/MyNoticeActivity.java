@@ -52,12 +52,17 @@ public class MyNoticeActivity extends BaseActivity {
         setContentView(R.layout.activity_notice_collection);
         ButterKnife.bind(this);
         initView();
-        getNotifyType();
     }
 
     private void initView() {
         tvFocusHouse.setText("通知");
         loading = new LoadingDialog(context);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getNotifyType();
     }
 
     private void getNotifyType() {
