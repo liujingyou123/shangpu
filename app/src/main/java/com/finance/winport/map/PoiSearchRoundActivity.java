@@ -160,7 +160,7 @@ public class PoiSearchRoundActivity extends BaseActivity implements
     @Override
     public void onResume() {
         super.onResume();
-        searchService("公交站");
+        searchService("餐饮");
         mapView.onResume();
 
     }
@@ -267,19 +267,27 @@ public class PoiSearchRoundActivity extends BaseActivity implements
         switch (index) {
             case 0:
                 type=0;
-                searchService("公交站");
+                searchService("餐饮");
                 break;
             case 1:
                 type=1;
-                searchService("教育");
+                searchService("购物");
                 break;
             case 2:
                 type=2;
-                searchService("医疗");
+                searchService("酒店");
                 break;
             case 3:
                 type=3;
-                searchService("生活");
+                searchService("小区");
+                break;
+            case 4:
+                type=4;
+                searchService("学校");
+                break;
+            case 5:
+                type=5;
+                searchService("公交站");
                 break;
         }
     }

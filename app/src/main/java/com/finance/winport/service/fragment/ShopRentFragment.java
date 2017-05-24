@@ -75,12 +75,7 @@ public class ShopRentFragment extends BaseFragment implements IFindServiceView {
 
 
     private void getData() {
-        SpannableString builder1 = new SpannableString(30 + "天");
-        ForegroundColorSpan redSpan1 = new ForegroundColorSpan(Color.parseColor("#666666"));
-        builder1.setSpan(redSpan1, builder1.length() - 1, builder1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        builder1.setSpan(new AbsoluteSizeSpan((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, getResources().getDisplayMetrics())), builder1.length() - 1, builder1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        dayCount.setText(builder1);
         if (mPresenter == null) {
             mPresenter = new ServicePresenter(this);
         }
@@ -119,11 +114,19 @@ public class ShopRentFragment extends BaseFragment implements IFindServiceView {
     @Override
     public void showRentCount(ShopRentCountResponse response) {
 
-        SpannableString builder1 = new SpannableString(response.getData() + "位");
+        SpannableString builder1 = new SpannableString(response.getData().getAvgPeople() + "位");
         ForegroundColorSpan redSpan1 = new ForegroundColorSpan(Color.parseColor("#666666"));
         builder1.setSpan(redSpan1, builder1.length() - 1, builder1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         builder1.setSpan(new AbsoluteSizeSpan((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, getResources().getDisplayMetrics())), builder1.length() - 1, builder1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         bossCount.setText(builder1);
+
+
+        SpannableString builder2 = new SpannableString(30 + "天");
+        ForegroundColorSpan redSpan2 = new ForegroundColorSpan(Color.parseColor("#666666"));
+        builder2.setSpan(redSpan2, builder2.length() - 1, builder2.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        builder2.setSpan(new AbsoluteSizeSpan((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, getResources().getDisplayMetrics())), builder2.length() - 1, builder2.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        dayCount.setText(builder2);
     }
 }

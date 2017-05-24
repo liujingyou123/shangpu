@@ -31,7 +31,11 @@ import com.finance.winport.map.AddrSelectActivity;
 import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.service.SendSuccessActivity;
 import com.finance.winport.service.model.OrderShopRequest;
+import com.finance.winport.service.model.RentShopRequest;
+import com.finance.winport.service.model.SendOrderShopResponse;
+import com.finance.winport.service.presenter.ISendRentView;
 import com.finance.winport.service.presenter.SendOrderPresenter;
+import com.finance.winport.service.presenter.SendRentPresenter;
 import com.finance.winport.tab.net.NetworkCallback;
 import com.finance.winport.util.StringUtil;
 import com.finance.winport.util.TextViewUtil;
@@ -56,7 +60,7 @@ import butterknife.OnClick;
  *
  */
 
-public class SendShopRentFragment extends BaseFragment {
+public class SendShopRentFragment extends BaseFragment implements ISendRentView {
 
 
     @BindView(R.id.imv_focus_house_back)
@@ -127,6 +131,7 @@ public class SendShopRentFragment extends BaseFragment {
     private HashMap<String, List<RegionResponse.Region.Block>> hashMapBlock = new HashMap<>();
     private String blockName, districtName, districtId, blockId;
 
+    private SendRentPresenter mPresenter;
 
     @Nullable
     @Override
@@ -148,9 +153,29 @@ public class SendShopRentFragment extends BaseFragment {
 //        phoneView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
         phoneView.setInputType(InputType.TYPE_CLASS_PHONE);
         verifyCodeView.setInputType(InputType.TYPE_CLASS_NUMBER);
-        phoneView.setText("188 7878 7998");
+        phoneView.setText("176 0211 3283");
         initCountDownButton();
         getDistrict();
+    }
+
+    private void getData() {
+        RentShopRequest request = new RentShopRequest();
+        request.setLinkmanName(nameView.getText());
+        request.setLinkmanPhone(UnitUtil.trim(phoneView.getText().toString().trim()));
+        request.setSubscribeTime(orderTime.getText());
+        request.setSmsVerifyCode(verifyCodeView.getText());
+        request.setMessageId(messageId);
+        request.setPicVerifyCode(imgCodeTxt.getText().toString().trim());
+        request.setPicVerifyId(picVerifyId);
+        request.setShopAddress(mapAddress.getText());
+        request.setDistrictName(districtName);
+        request.setDistrictId(districtId);
+        request.setBlockName(blockName);
+        request.setBlockId(blockId);
+        if (mPresenter == null) {
+            mPresenter = new SendRentPresenter(this);
+        }
+        mPresenter.getShopRentResult(request);
     }
 
     @OnClick({R.id.imv_focus_house_back, R.id.order_time, R.id.map_address, R.id.district, R.id.modify, R.id.submit})
@@ -188,7 +213,11 @@ public class SendShopRentFragment extends BaseFragment {
                 modify.setVisibility(View.GONE);
                 break;
             case R.id.submit:
-                startActivity(new Intent(getActivity(), SendSuccessActivity.class));
+
+                if (checkCommit()){
+
+                    getData();
+                }
                 break;
         }
     }
@@ -392,6 +421,14 @@ public class SendShopRentFragment extends BaseFragment {
         });
     }
 
+    @Override
+    public void shopSendRentResult(SendOrderShopResponse response) {
+
+        Intent intent = new Intent(getActivity(), SendSuccessActivity.class);
+        intent.putExtra("scheduleId",response.getData());
+        startActivity(intent);
+    }
+
 
 //    private void getData() {
 //        OrderShopRequest request = new OrderShopRequest();
@@ -408,5 +445,47 @@ public class SendShopRentFragment extends BaseFragment {
 //        }
 //        mPresenter.getShopOrderResult(request);
 //    }
+
+
+    private boolean checkCommit() {
+        userPhone = UnitUtil.trim(phoneView.getText().toString().trim());
+        smsVerifyCode = verifyCodeView.getText().toString().trim();
+
+        if (TextUtils.isEmpty(mapAddress.getText())){
+            Toast.makeText(context, "请输入旺铺地址", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (TextUtils.isEmpty(district.getText())){
+            Toast.makeText(context, "请输入区域板块", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (TextUtils.isEmpty(nameView.getText())){
+            Toast.makeText(context, "请输入联系人姓名", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!StringUtil.isCellPhone(userPhone)) {
+            Toast.makeText(context, "请输入正确的电话号码", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        //校验图片验证码
+        if (llVerifyCode.getVisibility() == View.VISIBLE) {
+            if (TextUtils.isEmpty(verifyCodeView.getText())) {
+                ToastUtil.show(context, "请输入短信验证码");
+                return false;
+            }
+        }
+        //校验图片验证码
+        if (llImgCode.getVisibility() == View.VISIBLE) {
+            if (!TextUtils.equals(picVerifyCode, imgCodeTxt.getText().toString().trim())) {
+                ToastUtil.show(context, "图片验证码不正确");
+                return false;
+            }
+        }
+        if (TextUtils.isEmpty(orderTime.getText())){
+            Toast.makeText(context, "请输入约见时间", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
 
 }

@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
@@ -396,8 +398,14 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         }
 
         selectMarker = marker;
-
-
+//        InfoWindow mInfiWindow = new InfoWindow(BitmapDescriptorFactory.fromResource(R.mipmap.btn_map_selected), selectMarker.getPosition(), 0, new InfoWindow.OnInfoWindowClickListener() {
+//            @Override
+//            public void onInfoWindowClick() {
+//
+//            }
+//        });
+//
+//        mBaiduMap.showInfoWindow(mInfiWindow);
         mapPresenter.getMapShopDetail(marker.getExtraInfo().getString("id"));
 
 //        ShopDetailDialog dialog = new ShopDetailDialog(MapActivity.this, msg);

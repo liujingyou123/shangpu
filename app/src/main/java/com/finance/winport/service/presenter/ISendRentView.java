@@ -8,6 +8,6 @@ import com.finance.winport.service.model.SendOrderShopResponse;
  */
 
 public interface ISendRentView {
-    void shopSendOrderResult(SendOrderShopResponse response);
+    void shopSendRentResult(SendOrderShopResponse response);
 
 }
