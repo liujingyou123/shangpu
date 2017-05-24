@@ -26,6 +26,8 @@ import com.finance.winport.account.LoginActivity;
 import com.finance.winport.account.model.UserInfo;
 import com.finance.winport.aliyunoss.AliOss;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.base.BaseResponse;
+import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.image.Batman;
 import com.finance.winport.image.BatmanCallBack;
 import com.finance.winport.mine.MyNoticeActivity;
@@ -118,7 +120,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     Unbinder unbinder;
     private PersonalInfoPresenter mPresenter;
     private ArrayList<Integer> selectList = new ArrayList<>();
-    private String industryName,blockName,districtName,industryId,blockId,districtId;
+    private String industryName, blockName, districtName, industryId, blockId, districtId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -161,8 +163,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
         if (isLogin()) {
             setHeadImage(SharedPrefsUtil.getUserInfo().data.headPortrait);
             getData();
-        }
-        else{
+        } else {
             phone.setText("未登录");
             modify.setVisibility(View.GONE);
         }
@@ -459,21 +460,26 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     // 关注的旺铺页面
     private void toConcern() {
         Intent intent = new Intent(getActivity(), ShopFocusActivity.class);
-        intent.putIntegerArrayListExtra("areaList",selectList);
-        intent.putExtra("industryName",industryName);
-        intent.putExtra("blockName",blockName);
-        intent.putExtra("districtName",districtName);
-        intent.putExtra("industryId",industryId);
-        intent.putExtra("districtId",districtId);
-        intent.putExtra("blockId",blockId);
+        intent.putIntegerArrayListExtra("areaList", selectList);
+        intent.putExtra("industryName", industryName);
+        intent.putExtra("blockName", blockName);
+        intent.putExtra("districtName", districtName);
+        intent.putExtra("industryId", industryId);
+        intent.putExtra("districtId", districtId);
+        intent.putExtra("blockId", blockId);
         startActivity(intent);
     }
 
+    LoadingDialog loading;
+
     private void upLoadImage(final String path) {
+        if (loading == null) {
+            loading = new LoadingDialog(context);
+        }
         new AsyncTask<String, Integer, String>() {
             @Override
             protected void onPreExecute() {
-                LoadingDialogUtil.getInstance().showLoading("上传中...");
+                loading.show();
             }
 
             @Override
@@ -483,15 +489,37 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
 
             @Override
             protected void onPostExecute(final String s) {
-                LoadingDialogUtil.getInstance().hideLoading();
-                UserInfo info = SharedPrefsUtil.getUserInfo();
-                if (info != null) {
-                    info.data.headPortrait = s;
-                    SharedPrefsUtil.saveUserInfo(info);
-                }
-                setHeadImage(path);
+                updateHeadInfo(path, s);
             }
         }.execute(path);
+    }
+
+    private void updateHeadInfo(final String path, final String headUrl) {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("headPortrait", headUrl);
+        PersonManager.getInstance().updateHeadInfo(params, new NetworkCallback<BaseResponse>() {
+            @Override
+            public void success(BaseResponse response) {
+                if (getView() == null) return;
+                loading.dismiss();
+                saveHeadInfo(headUrl);
+                setHeadImage(path);
+            }
+
+            @Override
+            public void failure(Throwable throwable) {
+                if (getView() == null) return;
+                loading.dismiss();
+            }
+        });
+    }
+
+    private void saveHeadInfo(String headUrl) {
+        UserInfo info = SharedPrefsUtil.getUserInfo();
+        if (info != null) {
+            info.data.headPortrait = headUrl;
+            SharedPrefsUtil.saveUserInfo(info);
+        }
     }
 
     private void setHeadImage(String path) {
@@ -710,9 +738,9 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
         industryName = response.getData().getIndustryName();
         blockName = response.getData().getBlockName();
         districtName = response.getData().getDistrictName();
-        industryId = response.getData().getIndustryId()+"";
-        blockId = response.getData().getBlockId()+"";
-        districtId = response.getData().getDistrictId()+"";
-        concern.setText(response.getData().getBlockName()+"-"+response.getData().getIndustryName()+"-"+s.toString());
+        industryId = response.getData().getIndustryId() + "";
+        blockId = response.getData().getBlockId() + "";
+        districtId = response.getData().getDistrictId() + "";
+        concern.setText(response.getData().getBlockName() + "-" + response.getData().getIndustryName() + "-" + s.toString());
     }
 }
