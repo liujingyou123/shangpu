@@ -3,6 +3,7 @@ package com.finance.winport.base;
 import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
+import android.util.Log;
 
 import com.finance.winport.BuildConfig;
 import com.finance.winport.aliyunoss.AliOss;
@@ -34,7 +35,6 @@ public class WinPortApplication extends Application {
         UMShareAPI.get(this);
         JPushInterface.setDebugMode(BuildConfig.DEBUG);    // 设置开启日志,发布时请关闭日志
         JPushInterface.init(this); // 初始化 JPush
-
 
     }
 

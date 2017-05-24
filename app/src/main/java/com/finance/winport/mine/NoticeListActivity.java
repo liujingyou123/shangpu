@@ -1,6 +1,7 @@
 package com.finance.winport.mine;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -54,11 +55,10 @@ public class NoticeListActivity extends BaseActivity {
         setContentView(R.layout.activity_notice_list);
         ButterKnife.bind(this);
         initView();
+        initData();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+    private void initData() {
         loading.show();
         asyncData();
     }

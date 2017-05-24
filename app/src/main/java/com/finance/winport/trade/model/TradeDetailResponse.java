@@ -17,7 +17,7 @@ public class TradeDetailResponse extends BaseResponse {
      * commentNumber : 16
      * content : 测试帖子内容
      * dateTime : 2017-05-10 14:59:31
-     * imgList : [{"createTime":1494399571000,"id":1,"imgIndex":0,"imgUrl":"http://temp.im/178x178","topicId":1,"version":1},{"createTime":1494399571000,"id":2,"imgIndex":1,"imgUrl":"http://temp.im/178x178","topicId":1,"version":1},{"createTime":1494399571000,"id":3,"imgIndex":2,"imgUrl":"http://temp.im/178x178","topicId":1,"version":1},{"createTime":1494399571000,"id":4,"imgIndex":3,"imgUrl":"http://temp.im/178x178","topicId":1,"version":1},{"createTime":1494399571000,"id":5,"imgIndex":4,"imgUrl":"http://temp.im/178x178","topicId":1,"version":1},{"createTime":1494399571000,"id":6,"imgIndex":5,"imgUrl":"http://temp.im/178x178","topicId":1,"version":1},{"createTime":1494399571000,"id":7,"imgIndex":6,"imgUrl":"http://temp.im/178x178","topicId":1,"version":1},{"createTime":1494399571000,"id":8,"imgIndex":7,"imgUrl":"http://temp.im/178x178","topicId":1,"version":1},{"createTime":1494399571000,"id":9,"imgIndex":8,"imgUrl":"http://temp.im/178x178","topicId":1,"version":1},{"createTime":1494399571000,"id":10,"imgIndex":9,"imgUrl":"http://temp.im/178x178","topicId":1,"version":1}]
+     * imgList : [{"creatTimeFormat":1494399571000,"id":1,"imgIndex":0,"imgUrl":"http://temp.im/178x178","topicId":1,"version":1},{"creatTimeFormat":1494399571000,"id":2,"imgIndex":1,"imgUrl":"http://temp.im/178x178","topicId":1,"version":1},{"creatTimeFormat":1494399571000,"id":3,"imgIndex":2,"imgUrl":"http://temp.im/178x178","topicId":1,"version":1},{"creatTimeFormat":1494399571000,"id":4,"imgIndex":3,"imgUrl":"http://temp.im/178x178","topicId":1,"version":1},{"creatTimeFormat":1494399571000,"id":5,"imgIndex":4,"imgUrl":"http://temp.im/178x178","topicId":1,"version":1},{"creatTimeFormat":1494399571000,"id":6,"imgIndex":5,"imgUrl":"http://temp.im/178x178","topicId":1,"version":1},{"creatTimeFormat":1494399571000,"id":7,"imgIndex":6,"imgUrl":"http://temp.im/178x178","topicId":1,"version":1},{"creatTimeFormat":1494399571000,"id":8,"imgIndex":7,"imgUrl":"http://temp.im/178x178","topicId":1,"version":1},{"creatTimeFormat":1494399571000,"id":9,"imgIndex":8,"imgUrl":"http://temp.im/178x178","topicId":1,"version":1},{"creatTimeFormat":1494399571000,"id":10,"imgIndex":9,"imgUrl":"http://temp.im/178x178","topicId":1,"version":1}]
      * likeStatus : 1
      * praiseNumber : 4
      * publishType : 0
@@ -56,7 +56,7 @@ public class TradeDetailResponse extends BaseResponse {
 
 //        private List<Comment> commentList;
         /**
-         * createTime : 1494399571000
+         * creatTimeFormat : 1494399571000
          * id : 1
          * imgIndex : 0
          * imgUrl : http://temp.im/178x178

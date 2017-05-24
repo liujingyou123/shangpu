@@ -24,6 +24,8 @@
             android:background="@drawable/bg_shape_r_white"
             android:gravity="center"
             android:hint="请输入您旺铺的店名"
+            android:maxLength="15"
+            android:singleLine="true"
             android:textColor="#333333"
             android:textColorHint="#999999"
             android:textSize="15sp" />

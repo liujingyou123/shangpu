@@ -66,7 +66,13 @@ public class MyNoticeActivity extends BaseActivity {
             @Override
             public void success(NotifyType response) {
                 loading.dismiss();
-                setAdapter(response.data.baseNoticeDTOList);
+                if (response != null && response.data != null
+                        && response.data.baseNoticeDTOList != null
+                        && response.data.baseNoticeDTOList.size() > 0) {
+                    setAdapter(response.data.baseNoticeDTOList);
+                } else {
+                    setEmpty(true);
+                }
             }
 
             @Override

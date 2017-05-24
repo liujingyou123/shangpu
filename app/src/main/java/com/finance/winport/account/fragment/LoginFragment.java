@@ -12,6 +12,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Base64;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -102,28 +103,31 @@ public class LoginFragment extends BaseFragment {
     private String smsVerifyCode;
     private String inviteCode;
     private boolean isVoiceEnable = true;
-    private static final int CODE_LIMIT_COUNT = 1;// 单词获取验证码限制次数
+    private static final int CODE_LIMIT_COUNT = 3;// 单词获取验证码限制次数
     private int requestCodeCount;//获取验证码次数
     private boolean isFirstPic;
 
     private LoadingDialog loading;
+    private boolean init_jpush;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        EventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        EventBus.getDefault().unregister(this);
+        EventBus.getDefault().unregister(this);
     }
 
-//    @Subscribe
-//    public void onLoginEvent(JPushEvent event) {
-//        login();
-//    }
+    @Subscribe
+    public void onLoginEvent(JPushEvent event) {
+        if (init_jpush) {
+            login();
+        }
+    }
 
     @Nullable
     @Override
@@ -261,8 +265,10 @@ public class LoginFragment extends BaseFragment {
     }
 
     void initJPush() {
-        if (TextUtils.isEmpty(JPushInterface.getRegistrationID(context))) {
-            JPushInterface.init(context);
+        Log.d("login", "deviceId-->" + JPushInterface.getRegistrationID(context.getApplicationContext()));
+        if (TextUtils.isEmpty(JPushInterface.getRegistrationID(context.getApplicationContext()))) {
+            JPushInterface.init(context.getApplicationContext());
+            init_jpush = true;
             loading.show();
         } else {
             loading.show();
@@ -283,8 +289,6 @@ public class LoginFragment extends BaseFragment {
         params.put("picVerifyCode", picVerifyCode);
         params.put("picVerifyId", picVerifyId);
         params.put("deviceId", JPushInterface.getRegistrationID(context.getApplicationContext()));
-//        params.put("deviceId", "ddssdsdgsdsdd");
-
         params.put("osType", 1);//0-iOS 1-Android
         UserManager.getInstance().login(params, new NetworkCallback<UserInfo>() {
             @Override
@@ -404,9 +408,9 @@ public class LoginFragment extends BaseFragment {
     @OnClick(R.id.login)
     public void onLoginClicked() {
         if (check()) {
-            loading.show();
-            login();
-//            initJPush();
+            initJPush();
+//            loading.show();
+//            login();
         }
     }
 
