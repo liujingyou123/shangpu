@@ -72,6 +72,7 @@ public class NoticeListActivity extends BaseActivity {
     }
 
     private void initRefreshView() {
+        refreshView.setVisibility(View.GONE);
         refreshView.autoLoadMore();
         refreshView.setMode(PtrFrameLayout.Mode.BOTH);
         refreshView.setPtrHandler(new PtrDefaultHandler2() {
@@ -107,6 +108,7 @@ public class NoticeListActivity extends BaseActivity {
                 loading.dismiss();
                 if (response != null && response.isSuccess()) {
                     setAdapter(response);
+                    refreshView.setVisibility(View.VISIBLE);
                 }
             }
 

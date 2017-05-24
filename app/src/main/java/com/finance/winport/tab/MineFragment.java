@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.account.LoginActivity;
+import com.finance.winport.account.event.LoginOutEvent;
 import com.finance.winport.account.model.UserInfo;
 import com.finance.winport.aliyunoss.AliOss;
 import com.finance.winport.base.BaseFragment;
@@ -46,6 +47,7 @@ import com.finance.winport.tab.model.UnReadMsg;
 import com.finance.winport.tab.model.WinportCounts;
 import com.finance.winport.tab.net.NetworkCallback;
 import com.finance.winport.tab.net.PersonManager;
+import com.finance.winport.trade.MyPostListActivity;
 import com.finance.winport.util.LoadingDialogUtil;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.view.StopWatchTextView;
@@ -141,6 +143,13 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
         }
     }
 
+    @Subscribe
+    public void onLoginOutEvent(LoginOutEvent event) {
+        if (event != null) {
+            init();
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -165,7 +174,14 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
             getData();
         } else {
             phone.setText("未登录");
+            concern.setText("点击登录帐号");
             modify.setVisibility(View.GONE);
+            shopImg.setImageResource(R.mipmap.icon_default_head);
+            mineWinport.setText("--");
+            mineAppoint.setText("--");
+            mineCollection.setText("--");
+            mineScan.setText("--");
+            mineSchedule.setText("");
         }
     }
 
@@ -243,6 +259,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
             getUnReadMsg();
             getWinportCounts();
             getLunar();
+            getData();
         }
     }
 
@@ -328,10 +345,14 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     }
 
 
-    @OnClick({R.id.tv_focus_right, R.id.modify, R.id.schedule_list, R.id.setting, R.id.phone
+    @OnClick({R.id.tv_focus_right, R.id.modify, R.id.schedule_list, R.id.phone
             , R.id.concern, R.id.shop_img, R.id.ll_mine_winport, R.id.ll_mine_collection
-            , R.id.ll_mine_appoint, R.id.ll_mine_scan, R.id.fierce_prediction, R.id.suggest})
-    public void onViewClicked(View view) {
+            , R.id.ll_mine_appoint, R.id.ll_mine_scan, R.id.post, R.id.suggest})
+    public void onRequiredLoginClicked(View view) {
+        if (!isLogin()) {// not login
+            toLogin();
+            return;
+        }
         switch (view.getId()) {
             case R.id.tv_focus_right:
                 startActivity(new Intent(getActivity(), MyNoticeActivity.class));
@@ -346,73 +367,57 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
                 break;
             case R.id.phone:
-                if (!isLogin()) {// not login
-                    toLogin();
-                }
                 break;
             case R.id.concern:
-                if (isLogin()) {// already login
-                    toConcern();
-                } else {
-                    toLogin();
-                }
+                toConcern();
                 break;
             case R.id.shop_img:
-                if (isLogin()) {// already login
-                    scanHeadImage();
-                } else {//not login
-                    toLogin();
-                }
+                scanHeadImage();
                 break;
             case R.id.ll_mine_winport:
-                if (!isLogin()) {
-                    toLogin();
-                    return;
-                }
                 Intent release = new Intent(context, WinportActivity.class);
                 release.putExtra("type", TypeList.RELEASE);
                 release.putExtra("title", "我发布的旺铺");
                 startActivity(release);
                 break;
             case R.id.ll_mine_appoint:
-                if (!isLogin()) {
-                    toLogin();
-                    return;
-                }
                 Intent appoint = new Intent(context, WinportActivity.class);
                 appoint.putExtra("type", TypeList.APPOINT);
                 appoint.putExtra("title", "我的约看");
                 startActivity(appoint);
                 break;
             case R.id.ll_mine_collection:
-                if (!isLogin()) {
-                    toLogin();
-                    return;
-                }
                 Intent collection = new Intent(context, WinportActivity.class);
                 collection.putExtra("type", TypeList.COLLECTION);
                 collection.putExtra("title", "我的收藏");
                 startActivity(collection);
                 break;
             case R.id.ll_mine_scan:
-                if (!isLogin()) {
-                    toLogin();
-                    return;
-                }
                 Intent scan = new Intent(context, WinportActivity.class);
                 scan.putExtra("type", TypeList.SCAN);
                 scan.putExtra("title", "最近浏览");
                 startActivity(scan);
                 break;
-            case R.id.fierce_prediction:
+            case R.id.fierce_prediction://测吉凶
                 startActivity(new Intent(context, FiercePredictionActivity.class));
                 break;
+            case R.id.post:// 我的帖子
+                startActivity(new Intent(context, MyPostListActivity.class));
+                break;
             case R.id.suggest:
-                if (!isLogin()) {
-                    toLogin();
-                    return;
-                }
                 startActivity(new Intent(context, SuggestActivity.class));
+                break;
+        }
+    }
+
+    @OnClick({R.id.setting, R.id.fierce_prediction})
+    public void onViewClick(View v) {
+        switch (v.getId()) {
+            case R.id.setting:
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+                break;
+            case R.id.fierce_prediction:
+                startActivity(new Intent(context, FiercePredictionActivity.class));
                 break;
         }
     }

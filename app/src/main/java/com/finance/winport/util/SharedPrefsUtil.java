@@ -2,6 +2,7 @@ package com.finance.winport.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import com.finance.winport.account.model.UserInfo;
 import com.google.gson.Gson;
@@ -40,7 +41,7 @@ public class SharedPrefsUtil {
         String s = "";
         UserInfo userInfo;
         s = sp.getString(USER_INFO, "");
-        if (s.equals("")) {
+        if (TextUtils.isEmpty(s)) {
             return null;
         } else {
             Gson g = new Gson();

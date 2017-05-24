@@ -32,13 +32,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
-                android:src="@mipmap/arrow"/>
+                android:src="@mipmap/arrow" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="#e5e5e5"/>
+            android:background="#e5e5e5" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="46dp"
@@ -74,7 +75,8 @@
         android:background="@drawable/bg_exit_btn"
         android:text="退出账号"
         android:textColor="#ffffff"
-        android:textSize="15dp" />
+        android:textSize="15dp"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/debug"

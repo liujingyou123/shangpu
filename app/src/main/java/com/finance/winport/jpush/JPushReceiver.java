@@ -7,11 +7,13 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.finance.winport.account.event.JPushEvent;
+import com.finance.winport.tab.net.PersonManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Iterator;
 
 import cn.jpush.android.api.JPushInterface;
@@ -33,8 +35,7 @@ public class JPushReceiver extends BroadcastReceiver {
 
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
             String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
-            //获取 Registration Id 继续登录
-            EventBus.getDefault().post(new JPushEvent(regId));
+            updateRegistrationId(regId);
             Log.d(TAG, "[JPushReceiver] 接收Registration Id : " + regId);
             //send the Registration Id to your server...
 
@@ -60,8 +61,6 @@ public class JPushReceiver extends BroadcastReceiver {
             boolean connected = intent.getBooleanExtra(JPushInterface.EXTRA_CONNECTION_CHANGE, false);
             Log.w(TAG, "[JPushReceiver]" + intent.getAction() + " connected state change to " + connected);
         } else {
-            //获取 Registration Id 失败 继续登录
-            EventBus.getDefault().post(new JPushEvent(""));
             Log.d(TAG, "[JPushReceiver] Unhandled intent - " + intent.getAction());
         }
     }
@@ -103,5 +102,12 @@ public class JPushReceiver extends BroadcastReceiver {
 
     //send msg to target
     private void processNotification(final Context context, Bundle bundle) {
+    }
+
+    //更新registrationId
+    private void updateRegistrationId(String registrationId) {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("deviceId", registrationId);
+        PersonManager.getInstance().updateRegistrationId(params, null);
     }
 }
