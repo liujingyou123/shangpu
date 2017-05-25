@@ -14,7 +14,8 @@
         android:textColor="#FFFF5851"
         android:textSize="13sp"
         android:background="@drawable/bg_comments_num"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:visibility="gone"/>
 
     <com.finance.winport.view.refreshview.XPtrFrameLayout
         android:id="@+id/refresh_view"

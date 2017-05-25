@@ -105,7 +105,7 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
                     str = "";
                 }
                 viewHolder.tvHeaderMsg.setText("关注　" + str);
-                Batman.getInstance().fromNet(mData.getHeadPicture(), viewHolder.ivHeaderIcon);
+                Batman.getInstance().fromNet(mData.getHeadPicture(), viewHolder.ivHeaderIcon, R.mipmap.default_user_small, R.mipmap.default_user_small);
                 viewHolder.tvHeaderTime.setText(mData.getDateTime());
                 viewHolder.tvTitle.setText(mData.getTitle());
 //                if ("1".equals(mData.getCanBeDelete())) {
@@ -151,10 +151,11 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
                 return;
             }
 
-            if ("1".equals(info.getIsOwn()+"")) {
+            if ("1".equals(info.getIsOwn() + "")) {
                 viewHolder.imvDel.setVisibility(View.VISIBLE);
                 viewHolder.imvDel.setOnClickListener(new View.OnClickListener() {
                     int index = position;
+
                     @Override
                     public void onClick(View v) {
                         mPresenter.deleteComment(getItem(index).getId(), topicId);

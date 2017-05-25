@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,14 +9,14 @@
     android:background="@drawable/bg_underline"
     >
 
-    <ImageView
+    <com.finance.winport.view.roundview.RoundedImageView
         android:id="@+id/iv_icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
-        android:background="@mipmap/ic_launcher_round"
-        />
+        android:src="@mipmap/default_user_small"
+        app:corner_radius="20dp"/>
 
     <TextView
         android:id="@+id/tv_phone"

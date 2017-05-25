@@ -10,8 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.finance.winport.R;
+import com.finance.winport.account.LoginActivity;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.trade.model.EventBustTag;
+import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.SlidingTagPagerItem;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.SlidingTabLayout;
@@ -75,8 +77,14 @@ public class TradeCircleFragment extends BaseFragment {
                 gotoMyPostListActivity();
                 break;
             case R.id.imv_edit_m:
-                Intent intent = new Intent(this.getContext(), EditNoteActivity.class);
-                startActivity(intent);
+                if (SharedPrefsUtil.getUserInfo() != null) {
+                    Intent intent = new Intent(this.getContext(), EditNoteActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent1 = new Intent(this.getContext(), LoginActivity.class);
+                    startActivity(intent1);
+                }
+
                 break;
         }
     }
