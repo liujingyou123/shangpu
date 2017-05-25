@@ -3,6 +3,7 @@ package com.finance.winport.service.presenter;
 import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.service.api.FindServices;
 import com.finance.winport.service.model.OrderShopRequest;
+import com.finance.winport.service.model.RentShopRequest;
 import com.finance.winport.service.model.SendOrderShopResponse;
 import com.finance.winport.util.ToolsUtil;
 
@@ -11,21 +12,21 @@ import com.finance.winport.util.ToolsUtil;
  */
 
 public class SendRentPresenter {
-    private ISendOrderView mServiceView;
+    private ISendRentView mServiceView;
 
-    public SendRentPresenter(ISendOrderView mServiceView) {
+    public SendRentPresenter(ISendRentView mServiceView) {
         this.mServiceView = mServiceView;
     }
 
 
 
-    public void getShopOrderResult(OrderShopRequest request) {
+    public void getShopRentResult(RentShopRequest request) {
 
-        ToolsUtil.subscribe(ToolsUtil.createService(FindServices.class).sendOrderShop(request), new NetSubscriber<SendOrderShopResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(FindServices.class).sendRentShop(request), new NetSubscriber<SendOrderShopResponse>() {
             @Override
             public void response(SendOrderShopResponse response) {
                 if (mServiceView != null) {
-                    mServiceView.shopSendOrderResult(response);
+                    mServiceView.shopSendRentResult(response);
                 }
             }
 
@@ -37,21 +38,5 @@ public class SendRentPresenter {
 
     }
 
-    public void getShopSignrResult(OrderShopRequest request) {
 
-        ToolsUtil.subscribe(ToolsUtil.createService(FindServices.class).sendSignShop(request), new NetSubscriber<SendOrderShopResponse>() {
-            @Override
-            public void response(SendOrderShopResponse response) {
-                if (mServiceView != null) {
-                    mServiceView.shopSendOrderResult(response);
-                }
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-            }
-        });
-
-    }
 }

@@ -15,13 +15,13 @@ public class RentShopRequest {
     private String districtId;                  //商铺Id
     private String blockId;                  //商铺Id
     private String shopAddress;                  //商铺Id
-    private String linkman;                  //联系人
-    private String telephone;                  //联系电话
+    private String linkmanName;                  //联系人
+    private String linkmanPhone;                  //联系电话
     private String smsVerifyCode;                  //短信验证码
     private String messageId;                  //短信验证码消息id
     private String picVerifyCode;                  //短图片验证码
     private String picVerifyId;                  //图片验证码id
-    private String meetTime;                  //预约时间
+    private String subscribeTime;                  //预约时间
 
     public String getLatitude() {
         return latitude;
@@ -79,20 +79,20 @@ public class RentShopRequest {
         this.shopAddress = shopAddress;
     }
 
-    public String getLinkman() {
-        return linkman;
+    public String getLinkmanName() {
+        return linkmanName;
     }
 
-    public void setLinkman(String linkman) {
-        this.linkman = linkman;
+    public void setLinkmanName(String linkmanName) {
+        this.linkmanName = linkmanName;
     }
 
-    public String getTelephone() {
-        return telephone;
+    public String getLinkmanPhone() {
+        return linkmanPhone;
     }
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public void setLinkmanPhone(String linkmanPhone) {
+        this.linkmanPhone = linkmanPhone;
     }
 
     public String getSmsVerifyCode() {
@@ -127,11 +127,11 @@ public class RentShopRequest {
         this.picVerifyId = picVerifyId;
     }
 
-    public String getMeetTime() {
-        return meetTime;
+    public String getSubscribeTime() {
+        return subscribeTime;
     }
 
-    public void setMeetTime(String meetTime) {
-        this.meetTime = meetTime;
+    public void setSubscribeTime(String subscribeTime) {
+        this.subscribeTime = subscribeTime;
     }
 }

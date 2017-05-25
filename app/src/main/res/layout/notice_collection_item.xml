@@ -13,7 +13,7 @@
         android:id="@+id/img"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@mipmap/notice_service" />
+        tools:src="@mipmap/notice_service" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,9 +33,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:gravity="center"
-                android:text="预约看房"
                 android:textColor="#333333"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                tools:text="预约看房" />
 
             <TextView
                 android:id="@+id/date"
@@ -45,10 +45,10 @@
                 android:layout_centerVertical="true"
                 android:drawablePadding="10dp"
                 android:drawableRight="@mipmap/icon_arrow_right"
-                android:text="2018-12-33 12:12"
                 android:textColor="#969696"
                 android:textSize="14sp"
-                android:visibility="visible" />
+                android:visibility="visible"
+                tools:text="2018-12-33 12:12" />
 
             <ImageView
                 android:id="@id/indicator"
@@ -73,10 +73,10 @@
             android:layout_marginTop="6dp"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="小二重新安排了您约房东的日程"
             android:textColor="#969696"
             android:textSize="13sp"
-            android:visibility="visible" />
+            android:visibility="visible"
+            tools:text="小二重新安排了您约房东的日程" />
 
     </LinearLayout>
 </LinearLayout>

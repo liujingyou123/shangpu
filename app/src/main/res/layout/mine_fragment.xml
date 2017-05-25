@@ -40,7 +40,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
-                    android:src="@mipmap/personal_icon_notice" />
+                    android:src="@drawable/mine_notice_selector" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -66,7 +66,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_toRightOf="@+id/shop_img"
-                    android:text="138****1189"
+                    android:text="未登录"
                     android:textColor="#ffffff"
                     android:textSize="15sp" />
 
@@ -121,8 +121,8 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
+                    android:hint="--"
                     android:includeFontPadding="false"
-                    android:text="302"
                     android:textColor="#333333"
                     android:textSize="25sp" />
 
@@ -152,8 +152,8 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
+                    android:hint="--"
                     android:includeFontPadding="false"
-                    android:text="302"
                     android:textColor="#333333"
                     android:textSize="25sp" />
 
@@ -183,8 +183,8 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
+                    android:hint="--"
                     android:includeFontPadding="false"
-                    android:text="302"
                     android:textColor="#333333"
                     android:textSize="25sp" />
 
@@ -214,8 +214,8 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
+                    android:hint="--"
                     android:includeFontPadding="false"
-                    android:text="302"
                     android:textColor="#333333"
                     android:textSize="25sp" />
 
@@ -413,6 +413,7 @@
                 android:background="#e5e5e5" />
 
             <RelativeLayout
+                android:id="@+id/post"
                 android:layout_width="match_parent"
                 android:layout_height="54dp">
 

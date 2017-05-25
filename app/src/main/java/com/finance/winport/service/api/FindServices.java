@@ -9,6 +9,7 @@ import com.finance.winport.service.model.FindLoanRequest;
 import com.finance.winport.service.model.FindServiceResponse;
 import com.finance.winport.service.model.LoanListResponse;
 import com.finance.winport.service.model.OrderShopRequest;
+import com.finance.winport.service.model.RentShopRequest;
 import com.finance.winport.service.model.SendOrderShopResponse;
 import com.finance.winport.service.model.ShopOrderCountResponse;
 import com.finance.winport.service.model.ShopRentCountResponse;
@@ -65,7 +66,7 @@ public interface FindServices {
 
     //旺铺寻租
     @POST("customerapp/api/clerkHint/addClerkHint/v1.0.0")
-    Observable<SendOrderShopResponse> sendRentShop(@Body OrderShopRequest request);
+    Observable<SendOrderShopResponse> sendRentShop(@Body RentShopRequest request);
 
 
 

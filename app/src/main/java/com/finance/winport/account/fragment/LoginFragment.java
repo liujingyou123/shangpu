@@ -113,21 +113,21 @@ public class LoginFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
+//        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+//        EventBus.getDefault().unregister(this);
     }
 
-    @Subscribe
-    public void onLoginEvent(JPushEvent event) {
-        if (init_jpush) {
-            login();
-        }
-    }
+//    @Subscribe
+//    public void onLoginEvent(JPushEvent event) {
+//        if (init_jpush) {
+//            login();
+//        }
+//    }
 
     @Nullable
     @Override
@@ -255,6 +255,7 @@ public class LoginFragment extends BaseFragment {
             public void success(Message response) {
                 messageId = response.data.messageId;
                 requestCodeCount++;
+                ToastUtil.show(context, "验证码发送成功");
             }
 
             @Override
@@ -264,17 +265,17 @@ public class LoginFragment extends BaseFragment {
         });
     }
 
-    void initJPush() {
-        Log.d("login", "deviceId-->" + JPushInterface.getRegistrationID(context.getApplicationContext()));
-        if (TextUtils.isEmpty(JPushInterface.getRegistrationID(context.getApplicationContext()))) {
-            JPushInterface.init(context.getApplicationContext());
-            init_jpush = true;
-            loading.show();
-        } else {
-            loading.show();
-            login();
-        }
-    }
+//    void initJPush() {
+//        Log.d("login", "deviceId-->" + JPushInterface.getRegistrationID(context.getApplicationContext()));
+//        if (TextUtils.isEmpty(JPushInterface.getRegistrationID(context.getApplicationContext()))) {
+//            JPushInterface.init(context.getApplicationContext());
+//            init_jpush = true;
+//            loading.show();
+//        } else {
+//            loading.show();
+//            login();
+//        }
+//    }
 
     private void login() {
         userPhone = UnitUtil.trim(phoneView.getText().toString().trim());
@@ -299,6 +300,7 @@ public class LoginFragment extends BaseFragment {
                     response.data.userPhone = userPhone;
                     SharedPrefsUtil.saveUserInfo(response);
                     getActivity().finish();
+                    ToastUtil.show(context, "登录成功");
                 } else {
                     verifyCodeView.setText("");
                     ToastUtil.show(context, response == null ? "null response" : response.errMsg);
@@ -376,13 +378,6 @@ public class LoginFragment extends BaseFragment {
     }
 
 
-//    private void debug() {
-//        Intent improveInfo = new Intent(context, IdentityActivity.class);
-//        startActivity(improveInfo);
-//        getActivity().finish();
-//    }
-
-
     public void hideSoftKeyboard() {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
@@ -408,9 +403,9 @@ public class LoginFragment extends BaseFragment {
     @OnClick(R.id.login)
     public void onLoginClicked() {
         if (check()) {
-            initJPush();
-//            loading.show();
-//            login();
+            loading.show();
+            login();
+//            initJPush();
         }
     }
 

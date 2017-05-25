@@ -56,6 +56,6 @@ public class TokenInterceptor implements Interceptor {
             e.printStackTrace();
         }
         Log.d(getClass().getSimpleName(), "token-->" + token);
-        return "82958F583CD3D2DECEF52ADF71C5A3C6";  //50EA1E6878E56AC4877FE9DCF9E3730E
+        return token;//"0CB9F815528983E3707F944A9113AADD"
     }
 }

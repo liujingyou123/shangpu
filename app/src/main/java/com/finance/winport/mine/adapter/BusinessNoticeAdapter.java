@@ -2,6 +2,7 @@ package com.finance.winport.mine.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +57,7 @@ public class BusinessNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.B
     @Override
     public View getView(final int position, View convertView, ViewGroup viewGroup) {
         final NotifyList.DataBean.BussinessNoticeBean item = baseData.get(position);
+        // 0：评论通知1：帖子被撤通知2：评论被删通知
         if (getItemViewType(position) == 0) {// 评论通知
             ViewHolder holder;
             if (convertView == null) {
@@ -88,12 +90,22 @@ public class BusinessNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.B
             holder.title.setText(item.digest);
             holder.time.setText(item.notifyTime);
             holder.post.setText(item.postName);
-            holder.reason.setText(item.contentOrReason);
+            if (TextUtils.isEmpty(item.contentOrReason)) {
+                holder.reason.setVisibility(View.GONE);
+            } else {
+                holder.reason.setVisibility(View.VISIBLE);
+                holder.reason.setText(item.contentOrReason);
+            }
             holder.doTime.setText(item.commentOrOprationTime);
             holder.details.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showAlert();
+                    if (item.businessType == 1) {//帖子被撤
+                        showAlert();
+                    } else {//评论被删
+                        context.startActivity(new Intent(context, TradeCircleDetailActivity.class)
+                                .putExtra("topicId", item.bussinessId + ""));
+                    }
                 }
             });
         }
