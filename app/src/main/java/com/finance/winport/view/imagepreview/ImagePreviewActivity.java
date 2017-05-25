@@ -27,8 +27,6 @@ public class ImagePreviewActivity extends Activity {
 
     ViewPager idViewpager;
     TextView tvNum;
-    @BindView(R.id.rl_title_root)
-    RelativeLayout rlTitleRoot;
     @BindView(R.id.imv_focus_house_back)
     ImageView imvFocusHouseBack;
     private List<String> mData = new ArrayList<>();
@@ -51,7 +49,6 @@ public class ImagePreviewActivity extends Activity {
         idViewpager = (ViewPager) findViewById(R.id.id_viewpager);
         tvNum = (TextView) findViewById(R.id.tv_focus_house);
 
-        rlTitleRoot.setBackgroundColor(Color.parseColor("#000000"));
         tvNum.setTextColor(Color.parseColor("#ffffff"));
         imvFocusHouseBack.setImageResource(R.mipmap.icon_white_back);
 

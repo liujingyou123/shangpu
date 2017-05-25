@@ -544,12 +544,12 @@ public class HomeFragment extends BaseFragment implements IHomeView {
 
     @Override
     public void showPersonalInfo(PersonalInfoResponse response) {
-//        if ("1".equals(response.getData().getIsNew()) && TextUtils.isEmpty(response.getData().getIndustryName())) {
+        if ("1".equals(response.getData().getIsNew()) && TextUtils.isEmpty(response.getData().getIndustryName())) {
             WelcomeDialog welcomeDialog = new WelcomeDialog(this.getContext());
             welcomeDialog.show();
 
             SpUtil.getInstance().setStringData(SharedPrefsUtil.getUserInfo().data.userPhone, "1");
-//        }
+        }
     }
 
     public void onQuyuHandle(ShopRequset requset) {
