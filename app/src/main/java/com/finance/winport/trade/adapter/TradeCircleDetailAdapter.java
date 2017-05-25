@@ -105,7 +105,7 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
                     str = "";
                 }
                 viewHolder.tvHeaderMsg.setText("关注　" + str);
-                Batman.getInstance().fromNet(mData.getHeadPicture(), viewHolder.ivHeaderIcon, R.mipmap.default_user_small, R.mipmap.default_user_small);
+                Batman.getInstance().fromNet(mData.getHeadPicture(), viewHolder.ivHeaderIcon);
                 viewHolder.tvHeaderTime.setText(mData.getDateTime());
                 viewHolder.tvTitle.setText(mData.getTitle());
 //                if ("1".equals(mData.getCanBeDelete())) {
