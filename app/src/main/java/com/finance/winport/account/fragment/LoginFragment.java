@@ -36,6 +36,7 @@ import com.finance.winport.account.net.UserManager;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.tab.net.NetworkCallback;
+import com.finance.winport.util.NetworkUtil;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.StringUtil;
 import com.finance.winport.util.TextViewUtil;
@@ -221,7 +222,7 @@ public class LoginFragment extends BaseFragment {
         countDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (check()) {
+                if (check(false)) {
                     counting();
                     verifyCodeView.requestFocus();
                     if (requestCodeCount >= CODE_LIMIT_COUNT) {
@@ -360,20 +361,29 @@ public class LoginFragment extends BaseFragment {
         countDown.start();
     }
 
-    private boolean check() {
+    private boolean check(boolean login) {
         userPhone = UnitUtil.trim(phoneView.getText().toString().trim());
         smsVerifyCode = verifyCodeView.getText().toString().trim();
+        if (!NetworkUtil.isNetworkConnected(context)) {
+            ToastUtil.show(context, "没有开启网络");
+            return false;
+        }
         if (!StringUtil.isCellPhone(userPhone)) {
-            Toast.makeText(context, "请输入正确的电话号码", Toast.LENGTH_SHORT).show();
+            if (login) {
+                ToastUtil.show(context, "登录失败请重新登录");
+            } else {
+                ToastUtil.show(context, "请输入正确手机号");
+            }
             return false;
         }
         //校验图片验证码
         if (imageVerifyCode.getVisibility() == View.VISIBLE) {
             if (!TextUtils.equals(picVerifyCode, verifyCodeViewImage.getText().toString().trim())) {
-                ToastUtil.show(context, "图片验证码不正确");
+                ToastUtil.show(context, "登录失败请重新登录");
                 return false;
             }
         }
+
         return true;
     }
 
@@ -402,7 +412,7 @@ public class LoginFragment extends BaseFragment {
 
     @OnClick(R.id.login)
     public void onLoginClicked() {
-        if (check()) {
+        if (check(true)) {
             loading.show();
             login();
 //            initJPush();
