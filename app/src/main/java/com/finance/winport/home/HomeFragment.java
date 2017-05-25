@@ -91,7 +91,7 @@ public class HomeFragment extends BaseFragment implements IHomeView {
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
-        
+
         return root;
     }
 

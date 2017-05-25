@@ -15,12 +15,20 @@ public class Trade {
     private int praiseNumber;
     private String title;
     private int topicId;
-    private String topicType;
+    private String publishType;
     private String url;
     private List<imgBean> imgList;
     private Href h5obj;
     private String kind;
     private String canBeDelete;
+
+    public String getPublishType() {
+        return publishType;
+    }
+
+    public void setPublishType(String publishType) {
+        this.publishType = publishType;
+    }
 
     public String getKind() {
         return kind;
@@ -92,14 +100,6 @@ public class Trade {
 
     public void setTopicId(int topicId) {
         this.topicId = topicId;
-    }
-
-    public String getTopicType() {
-        return topicType;
-    }
-
-    public void setTopicType(String topicType) {
-        this.topicType = topicType;
     }
 
     public String getUrl() {
