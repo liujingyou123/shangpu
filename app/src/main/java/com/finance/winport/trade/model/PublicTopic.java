@@ -8,7 +8,7 @@ import java.util.List;
 
 public class PublicTopic {
 
-    public int publishType = 1;
+    public int publishType;
     public String title;
     public String content;
     public List<String> imageList;

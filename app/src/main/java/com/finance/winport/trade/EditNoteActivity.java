@@ -10,7 +10,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.finance.winport.R;
 import com.finance.winport.aliyunoss.AliOss;
@@ -37,12 +36,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
+import rx.Subscription;
 import rx.functions.Action2;
 import rx.functions.Func0;
 import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by liuworkmac on 17/5/11.
@@ -62,6 +59,8 @@ public class EditNoteActivity extends BaseActivity {
     TagCloudLayout gvPhotos;
     @BindView(R.id.et_title)
     EditText etTitle;
+    @BindView(R.id.btn_done)
+    TextView btnDone;
 
     private int textSize;
     private ChoicePhotoAdapter mAdapter;
@@ -69,6 +68,7 @@ public class EditNoteActivity extends BaseActivity {
     private int REQUEST_CODE_PHOTO = 200;
 
     private PublicTopic mPublicTopic = new PublicTopic();
+    private Subscription mSubscription;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -132,10 +132,13 @@ public class EditNoteActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.btn_done:
-                if (mAdapter.getListData() == null || mAdapter.getListData().size() == 0) {
-                    publishTopic(null);
-                } else {
-                    uploadImage();
+                if (checkAndSetData()) {
+                    btnDone.setEnabled(false);
+                    if (mAdapter.getListData() == null || mAdapter.getListData().size() == 0) {
+                        publishTopic();
+                    } else {
+                        uploadImage();
+                    }
                 }
                 break;
         }
@@ -176,78 +179,95 @@ public class EditNoteActivity extends BaseActivity {
     }
 
     private void uploadImage() {
-        Observable.from(mAdapter.getListData()).map(new Func1<String, String>() {
-            @Override
-            public String call(String s) {
-                return AliOss.getInstance().putObjectFromByteArray(AliOss.DIR_SHOP_TOPIC, s);
-            }
-        }).collect(new Func0<List<String>>() {
-            @Override
-            public List<String> call() {
-                return new ArrayList<String>();
-            }
-        }, new Action2<List<String>, String>() {
-            @Override
-            public void call(List<String> strings, String s) {
-                if (strings != null) {
-                    strings.add(s);
+        if (checkAndSetData()) {
+            mSubscription = Observable.from(mAdapter.getListData()).map(new Func1<String, String>() {
+                @Override
+                public String call(String s) {
+                    return AliOss.getInstance().putObjectFromByteArray(AliOss.DIR_SHOP_TOPIC, s);
                 }
-            }
-        }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new LoadingNetSubscriber<List<String>>() {
-                    @Override
-                    public void response(List<String> response) {
-                        publishTopic(response);
+            }).collect(new Func0<List<String>>() {
+                @Override
+                public List<String> call() {
+                    return new ArrayList<String>();
+                }
+            }, new Action2<List<String>, String>() {
+                @Override
+                public void call(List<String> strings, String s) {
+                    if (strings != null) {
+                        strings.add(s);
                     }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        ToastUtil.show(EditNoteActivity.this, "上传图片失败!");
+                }
+            }).flatMap(new Func1<List<String>, Observable<BaseResponse>>() {
+                @Override
+                public Observable<BaseResponse> call(List<String> strings) {
+                    if (strings != null) {
+                        mPublicTopic.imageList = strings;
                     }
-                });
+                    return ToolsUtil.createService(TradeService.class).publishTopic(mPublicTopic);
+                }
+            }).compose(ToolsUtil.<BaseResponse>applayScheduers()).subscribe(new LoadingNetSubscriber<BaseResponse>() {
+                @Override
+                public void response(BaseResponse response) {
+                    btnDone.setEnabled(true);
+                    if (response.isSuccess()) {
+                        ToastUtil.show(EditNoteActivity.this, "发布成功");
+                        EditNoteActivity.this.finish();
+                    }
+                }
 
-//        new Action1<List<String>>() {
-//            @Override
-//            public void call(List<String> strings) {
-//                publishTopic(strings);
-//            }
-//        }, new Action1<Throwable>() {
-//            @Override
-//            public void call(Throwable throwable) {
-//                ToastUtil.show(EditNoteActivity.this, "上传图片失败!");
-//            }
-//        }
-    }
+                @Override
+                public void onError(Throwable e) {
+                    super.onError(e);
+                    btnDone.setEnabled(true);
+                }
 
-    private void publishTopic(List<String> images) {
-        if (images != null) {
-            mPublicTopic.imageList = images;
+            });
         }
 
+
+    }
+
+
+    private boolean checkAndSetData() {
         if (etTitle.getText() == null || TextUtils.isEmpty(etTitle.getText().toString())) {
             ToastUtil.show(this, "请输入帖子标题");
-            return;
+            return false;
         }
 
         mPublicTopic.title = etTitle.getText().toString();
         if (etElse.getText() == null || TextUtils.isEmpty(etElse.getText().toString())) {
             ToastUtil.show(this, "请输入帖子内容");
-            return;
+            return false;
         }
         mPublicTopic.content = etElse.getText().toString();
+        return true;
+    }
 
-
+    private void publishTopic() {
         ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).publishTopic(mPublicTopic), new NetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
+                btnDone.setEnabled(true);
                 if (response.isSuccess()) {
                     ToastUtil.show(EditNoteActivity.this, "发布成功");
                     EditNoteActivity.this.finish();
                 }
             }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                btnDone.setEnabled(true);
+            }
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mSubscription != null && !mSubscription.isUnsubscribed()) {
+            mSubscription.unsubscribe();
+        }
+    }
 }

@@ -220,6 +220,7 @@ public class TradeCircleAdapter extends BaseAdapter {
         layoutParams.setMargins(6, 6, 6, 6);
         imageView.setLayoutParams(layoutParams);
 
+        imageView.setBackgroundResource(R.drawable.default_image_logo);
         return imageView;
     }
 

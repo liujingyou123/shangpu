@@ -27,6 +27,7 @@ import com.baidu.mapapi.search.core.CityInfo;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
+import com.baidu.mapapi.search.poi.PoiBoundSearchOption;
 import com.baidu.mapapi.search.poi.PoiDetailResult;
 import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.baidu.mapapi.search.poi.PoiIndoorResult;
@@ -110,7 +111,7 @@ public class PoiSearchRoundActivity extends BaseActivity implements
         getBundle();
         mBaiduMap = mapView.getMap();
         mBaiduMap.setMyLocationEnabled(true);
-        mBaiduMap.setMaxAndMinZoomLevel(18, 13);
+        mBaiduMap.setMaxAndMinZoomLevel(21, 17);
         mapView.showZoomControls(true);
         // 初始化搜索模块，注册搜索事件监听
         mPoiSearch = PoiSearch.newInstance();
@@ -370,14 +371,15 @@ public class PoiSearchRoundActivity extends BaseActivity implements
     public void searchService(String keyword) {
         MapStatus mMapStatus = new MapStatus.Builder()
                 .target(center)
-                .zoom(15)
+                .zoom(18)
                 .build();
         MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
         mBaiduMap.setMapStatus(mMapStatusUpdate);
         searchType = 2;
         PoiNearbySearchOption nearbySearchOption = new PoiNearbySearchOption().keyword(keyword).sortType(PoiSortType.distance_from_near_to_far).location(center)
-                .radius(radius).pageNum(1);
-        mPoiSearch.searchNearby(nearbySearchOption);
+                .radius(radius).pageNum(1).pageCapacity(50);
+        PoiBoundSearchOption poiBoundSearchOption = new PoiBoundSearchOption().keyword("").bound(mBaiduMap.getMapStatus().bound).pageNum(1);
+        mPoiSearch.searchInBound(poiBoundSearchOption);
     }
 
     /**

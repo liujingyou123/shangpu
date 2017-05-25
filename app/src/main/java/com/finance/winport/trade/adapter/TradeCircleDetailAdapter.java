@@ -151,10 +151,11 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
                 return;
             }
 
-            if ("1".equals(info.getIsOwn()+"")) {
+            if ("1".equals(info.getIsOwn() + "")) {
                 viewHolder.imvDel.setVisibility(View.VISIBLE);
                 viewHolder.imvDel.setOnClickListener(new View.OnClickListener() {
                     int index = position;
+
                     @Override
                     public void onClick(View v) {
                         mPresenter.deleteComment(getItem(index).getId(), topicId);
