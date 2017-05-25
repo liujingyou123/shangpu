@@ -41,6 +41,7 @@
             android:background="@null"
             android:hint="输入手机号码"
             android:inputType="number"
+            android:singleLine="true"
             android:textColorHint="#999999"
             android:textSize="14sp" />
 
@@ -122,6 +123,7 @@
                 android:background="@null"
                 android:hint="输入验证码"
                 android:inputType="number"
+                android:singleLine="true"
                 android:textColorHint="#999999"
                 android:textSize="14sp" />
 
@@ -155,6 +157,7 @@
             android:background="@null"
             android:hint="邀请码（选填）"
             android:inputType="number"
+            android:singleLine="true"
             android:textColorHint="#999999"
             android:textSize="14sp" />
 
@@ -176,7 +179,6 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="30dp"
             android:background="@drawable/selector_button_bg"
-            android:enabled="true"
             android:text="登录"
             android:textColor="#ffffff"
             android:textSize="15sp" />
