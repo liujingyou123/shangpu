@@ -23,10 +23,10 @@ import cn.jpush.android.api.JPushInterface;
 
 public class MainActivity extends BaseActivity implements BottomTabView.OnTabSelectedListener {
 
-    static final int HOME = 0;
-    static final int SERVICE = 1;
-    static final int BUSINESS = 2;
-    static final int MINE = 3;
+    public static final int HOME = 0;
+    public static final int SERVICE = 1;
+    public static final int BUSINESS = 2;
+    public static final int MINE = 3;
     @BindView(R.id.tabView)
     BottomTabView tabView;
     private FragmentManager fm;
@@ -43,7 +43,16 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
                 , R.drawable.selector_bottom_tab_service, R.drawable
                 .selector_bottom_tab_business, R.drawable
                 .selector_bottom_tab_mine});
-        onTabSelected(HOME);
+
+        Intent intent = getIntent();
+        if (intent == null) {
+            onTabSelected(HOME);
+        } else {
+            int tab = intent.getIntExtra("tab", HOME);
+            onTabSelected(tab);
+        }
+
+
     }
 
     @Override
@@ -110,12 +119,13 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
     protected void onDestroy() {
         super.onDestroy();
     }
-
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        handleHome(HOME);
-        tabView.setTabDisplay(HOME);
+
+        int tab = intent.getIntExtra("tab", HOME);
+        handleHome(tab);
+        tabView.setTabDisplay(tab);
     }
 
 }

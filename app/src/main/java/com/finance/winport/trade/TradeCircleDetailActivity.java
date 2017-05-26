@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.finance.winport.MainActivity;
 import com.finance.winport.R;
 import com.finance.winport.account.LoginActivity;
 import com.finance.winport.base.BaseActivity;
@@ -137,6 +138,10 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
+
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra("tab", MainActivity.BUSINESS);
+                startActivity(intent);
                 finish();
                 break;
             case R.id.btn_comment:
