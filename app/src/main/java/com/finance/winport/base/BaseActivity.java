@@ -47,7 +47,7 @@ public class BaseActivity extends AppCompatActivity{
             }
         });
 //        RxBus.get().register(this);
-        SelectDialogUtil.getInstance().init(this);
+//        SelectDialogUtil.getInstance().init(this);
     }
 
     @Override

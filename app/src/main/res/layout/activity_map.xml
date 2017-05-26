@@ -126,4 +126,13 @@
 
 
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btn_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="105dp"
+        android:layout_marginRight="3dp"
+        android:background="@mipmap/map_btn_list" />
 </FrameLayout>

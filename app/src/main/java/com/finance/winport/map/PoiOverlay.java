@@ -62,32 +62,32 @@ public class PoiOverlay extends OverlayManager {
             bundle.putInt("index", i);
             if(type==0){
                 markerList.add(new MarkerOptions()
-                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.calendar)).extraInfo(bundle)
+                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_map_food)).extraInfo(bundle).anchor(0.5f,0.5f)
                         .position(mPoiResult.getAllPoi().get(i).location));
             }
             else if(type==1){
                 markerList.add(new MarkerOptions()
-                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.calendar)).extraInfo(bundle)
+                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_map_shopping)).extraInfo(bundle).anchor(0.5f,0.5f)
                         .position(mPoiResult.getAllPoi().get(i).location));
             }
             else if(type==2){
                 markerList.add(new MarkerOptions()
-                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.calendar)).extraInfo(bundle)
+                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_map_hotel)).extraInfo(bundle).anchor(0.5f,0.5f)
                         .position(mPoiResult.getAllPoi().get(i).location));
             }
             else if(type==3){
                 markerList.add(new MarkerOptions()
-                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.calendar)).extraInfo(bundle)
+                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_map_community)).extraInfo(bundle).anchor(0.5f,0.5f)
                         .position(mPoiResult.getAllPoi().get(i).location));
             }
             else if(type==4){
                 markerList.add(new MarkerOptions()
-                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.calendar)).extraInfo(bundle)
+                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_map_school)).extraInfo(bundle).anchor(0.5f,0.5f)
                         .position(mPoiResult.getAllPoi().get(i).location));
             }
             else if(type==5){
                 markerList.add(new MarkerOptions()
-                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.calendar)).extraInfo(bundle)
+                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_map_traffic)).extraInfo(bundle).anchor(0.5f,0.5f)
                         .position(mPoiResult.getAllPoi().get(i).location));
             }
 //            markerList.add(new MarkerOptions()

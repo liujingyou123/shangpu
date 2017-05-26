@@ -1,5 +1,6 @@
 package com.finance.winport.service.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,12 +17,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.account.LoginActivity;
+import com.finance.winport.account.model.UserInfo;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.service.model.FindLoanCountResponse;
 import com.finance.winport.service.model.ShopOrderCountResponse;
 import com.finance.winport.service.model.ShopRentCountResponse;
 import com.finance.winport.service.presenter.IFindServiceView;
 import com.finance.winport.service.presenter.ServicePresenter;
+import com.finance.winport.util.SharedPrefsUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -94,13 +98,22 @@ public class ShopRentFragment extends BaseFragment implements IFindServiceView {
                 handleBack();
                 break;
             case R.id.send_btn:
-                BaseFragment sendRent = new SendShopRentFragment();
-                pushFragment(sendRent);
+                if (isLogin()) {
+                    BaseFragment sendRent = new SendShopRentFragment();
+                    pushFragment(sendRent);
+                } else {
+                    startActivity(new Intent(context, LoginActivity.class));
+                }
+
                 break;
         }
     }
 
 
+    private boolean isLogin() {
+        UserInfo info = SharedPrefsUtil.getUserInfo();
+        return info != null;
+    }
     @Override
     public void shopOrderCount(ShopOrderCountResponse response) {
 
@@ -114,7 +127,7 @@ public class ShopRentFragment extends BaseFragment implements IFindServiceView {
     @Override
     public void showRentCount(ShopRentCountResponse response) {
 
-        SpannableString builder1 = new SpannableString(response.getData().getAvgPeople() + "位");
+        SpannableString builder1 = new SpannableString(response.getData().getReleaseTotal() + "位");
         ForegroundColorSpan redSpan1 = new ForegroundColorSpan(Color.parseColor("#666666"));
         builder1.setSpan(redSpan1, builder1.length() - 1, builder1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
@@ -122,7 +135,7 @@ public class ShopRentFragment extends BaseFragment implements IFindServiceView {
         bossCount.setText(builder1);
 
 
-        SpannableString builder2 = new SpannableString(30 + "天");
+        SpannableString builder2 = new SpannableString(response.getData().getAvgPeople() + "天");
         ForegroundColorSpan redSpan2 = new ForegroundColorSpan(Color.parseColor("#666666"));
         builder2.setSpan(redSpan2, builder2.length() - 1, builder2.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 

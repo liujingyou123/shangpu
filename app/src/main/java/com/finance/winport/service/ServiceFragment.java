@@ -3,6 +3,7 @@ package com.finance.winport.service;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -11,10 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.finance.winport.R;
@@ -23,6 +26,7 @@ import com.finance.winport.base.BaseFragment;
 import com.finance.winport.home.ShopDetailActivity;
 import com.finance.winport.image.Batman;
 import com.finance.winport.mine.MyScheduleListActivity;
+import com.finance.winport.mine.ScheduleDetailActivity;
 import com.finance.winport.mine.adapter.ServiceScheduleListAdapter;
 import com.finance.winport.service.model.CalendarListResponse;
 import com.finance.winport.service.model.FindServiceResponse;
@@ -45,6 +49,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import noman.weekcalendar.NowDays;
 import noman.weekcalendar.WeekCalendar;
 import noman.weekcalendar.listener.OnDateClickListener;
 
@@ -106,6 +111,10 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
     RelativeLayout shop;
     @BindView(R.id.shop_more)
     TextView shopMore;
+    @BindView(R.id.month)
+    TextView month;
+    @BindView(R.id.scroll)
+    ScrollView scroll;
     private ServiceScheduleListAdapter adapter;
 
     private FindServiceHomePresenter mPresenter;
@@ -121,7 +130,15 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
 
             root = inflater.inflate(R.layout.service_fragment, container, false);
             unbinder = ButterKnife.bind(this, root);
-            init();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    scroll.fullScroll(ScrollView.FOCUS_UP);
+                }
+            },1000);
+//            init();
+
         }
         unbinder1 = ButterKnife.bind(this, root);
         return root;
@@ -141,22 +158,31 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
         super.onHiddenChanged(hidden);
         if (!hidden) {
             Log.i("onHiddenChanged", "hidden为true onHiddenChanged 方法被调用");
-//            root = LayoutInflater.from(getActivity()).inflate(R.layout.service_fragment,null);
+
+            scroll.fullScroll(ScrollView.FOCUS_UP);
         }
+
     }
 
     private void init() {
 
-        if(isLogin()){
+        if (isLogin()) {
             getData();
-        }
-
-        else{
+        } else {
             initNew();
         }
 
+//        getData();
 
 
+    }
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        init();
     }
 
     private void getCalendarData() {
@@ -168,7 +194,9 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
 
     public void initOld(FindServiceResponse response) {
 
+
         getCalendarData();
+
         oldUser.setVisibility(View.VISIBLE);
         head.setVisibility(View.VISIBLE);
         headLine.setVisibility(View.VISIBLE);
@@ -179,6 +207,11 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
 
         cal.addView(weekCalendar, alpTab);
 
+        Date d = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String nowDate = sdf.format(d);
+
+        month.setText(nowDate.toString().substring(5, 7) + "月");
 //        banner.setBannerAnimation(ZoomOutSlideTransformer.class);
         weekCalendar.setFm(getChildFragmentManager());
         weekCalendar.setOnDateClickListener(new OnDateClickListener() {
@@ -186,13 +219,13 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
             public void onDateClick(DateTime dateTime) {
 
                 Log.i("time", dateTime.toString());
+                month.setText(dateTime.toString().substring(5, 7) + "月");
                 for (int i = 0; i < calendarList.size(); i++) {
                     if (dateTime.toString().substring(0, 10).equals(calendarList.get(i).getDateString())) {
                         if (calendarList.get(i).getScheduleList().size() == 0) {
 
                             empty.setVisibility(View.VISIBLE);
-                        }
-                        else{
+                        } else {
                             empty.setVisibility(View.GONE);
                         }
                         setAdapter(calendarList.get(i).getScheduleList());
@@ -200,6 +233,9 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
                 }
             }
         });
+
+
+
 
 
         if (response.getData().getShopObject() == null) {
@@ -220,6 +256,7 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
             money.setText(response.getData().getLoadDTO().getLoanLimit() + "万元  " + response.getData().getLoadDTO().getLoanMaturity() + "个月");
             status.setText(response.getData().getLoadDTO().getStatus());
         }
+
     }
 
     public void initNew() {
@@ -305,18 +342,40 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String nowDate = sdf.format(d);
         calendarList = response.getData().getDateList();
+
+
         for (int i = 0; i < response.getData().getDateList().size(); i++) {
 
             if (nowDate.equals(response.getData().getDateList().get(i).getDateString())) {
-                if(response.getData().getDateList().get(i).getScheduleList().size()==0){
+                if (response.getData().getDateList().get(i).getScheduleList().size() == 0) {
                     empty.setVisibility(View.VISIBLE);
-                }
-                else {
+                } else {
                     empty.setVisibility(View.GONE);
                 }
                 setAdapter(response.getData().getDateList().get(i).getScheduleList());
             }
         }
+
+
+        NowDays days = new NowDays();
+        days.list = new ArrayList<>();
+        for (int i = 0; i < calendarList.size(); i++) {
+            if (calendarList.get(i).getScheduleList().size() == 0) {
+
+//                empty.setVisibility(View.VISIBLE);
+            } else {
+//                empty.setVisibility(View.GONE);
+                NowDays.SelectDays selectDay = days.new SelectDays();
+                selectDay.year = Integer.parseInt(calendarList.get(i).getDateString().substring(0,4))+"";
+                selectDay.month = Integer.parseInt(calendarList.get(i).getDateString().substring(5,7))+"";
+                selectDay.day = Integer.parseInt(calendarList.get(i).getDateString().substring(8,10))+"";
+
+
+                days.list.add(selectDay);
+            }
+        }
+
+        weekCalendar.setTagSeleted(days);
 
     }
 
@@ -330,6 +389,15 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
         mListView.setAdapter(adapter);
         ViewGroup.LayoutParams parm = mListView.getLayoutParams();
         parm.height = UnitUtil.dip2px(getActivity(), 75 * list.size());
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(),ScheduleDetailActivity.class);
+                intent.putExtra("scheduleId",adapter.getItem(position).getScheduleId());
+                startActivity(intent);
+            }
+        });
 
 //        }
 //        else {

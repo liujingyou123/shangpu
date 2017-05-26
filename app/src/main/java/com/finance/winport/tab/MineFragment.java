@@ -296,6 +296,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
             getUnReadMsg();
             getWinportCounts();
             getData();
+            modify.setVisibility(View.VISIBLE);
         }
         getLunar();
     }
@@ -645,12 +646,12 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     public void showPersonalInfo(PersonalInfoResponse response) {
         isDataOk = true;
 
-        selectList.add(1);
-        selectList.add(3);
-        selectList.add(4);
-        selectList.add(5);
-        selectList.add(6);
-//        selectList = response.getData().getList();
+//        selectList.add(1);
+//        selectList.add(3);
+//        selectList.add(4);
+//        selectList.add(5);
+//        selectList.add(6);
+        selectList = (ArrayList<Integer>) response.getData().getList();
         StringBuilder s = new StringBuilder();
         for (int i = 0; i < selectList.size(); i++) {
             if (i == 0) {
@@ -684,25 +685,25 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
                 } else {
                     switch (selectList.get(i)) {
                         case 0:
-                            s.append("20㎡以下" + "\n");
+                            s.append("20㎡以下");
                             break;
                         case 1:
-                            s.append("20-50㎡" + "\n");
+                            s.append("20-50㎡");
                             break;
                         case 2:
-                            s.append("50-100㎡" + "\n");
+                            s.append("50-100㎡");
                             break;
                         case 3:
-                            s.append("100-200㎡" + "\n");
+                            s.append("100-200㎡");
                             break;
                         case 4:
-                            s.append("200-500㎡" + "\n");
+                            s.append("200-500㎡");
                             break;
                         case 5:
-                            s.append("500-1000㎡" + "\n");
+                            s.append("500-1000㎡");
                             break;
                         case 6:
-                            s.append("1000㎡以上" + "\n");
+                            s.append("1000㎡以上");
                             break;
                     }
                 }
@@ -733,25 +734,25 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
             } else if (i == 3) {
                 switch (selectList.get(i)) {
                     case 0:
-                        s.append("-" + "20㎡以下\n");
+                        s.append("-" + "20㎡以下");
                         break;
                     case 1:
-                        s.append("-" + "20-50㎡\n");
+                        s.append("-" + "20-50㎡");
                         break;
                     case 2:
-                        s.append("-" + "50-100㎡\n");
+                        s.append("-" + "50-100㎡");
                         break;
                     case 3:
-                        s.append("-" + "100-200㎡\n");
+                        s.append("-" + "100-200㎡");
                         break;
                     case 4:
-                        s.append("-" + "200-500㎡\n");
+                        s.append("-" + "200-500㎡");
                         break;
                     case 5:
-                        s.append("-" + "500-1000㎡\n");
+                        s.append("-" + "500-1000㎡");
                         break;
                     case 6:
-                        s.append("-" + "1000㎡以上\n");
+                        s.append("-" + "1000㎡以上");
                         break;
                 }
             } else {
@@ -787,6 +788,23 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
         industryId = response.getData().getIndustryId() + "";
         blockId = response.getData().getBlockId() + "";
         districtId = response.getData().getDistrictId() + "";
-        concern.setText(response.getData().getBlockName() + "-" + response.getData().getIndustryName() + "-" + s.toString());
+        if (TextUtils.isEmpty(response.getData().getBlockName())) {
+
+            if (TextUtils.isEmpty(response.getData().getIndustryName())) {
+
+                concern.setText(s.toString());
+            } else {
+
+                concern.setText(response.getData().getIndustryName() + "-" + s.toString());
+            }
+        } else if (TextUtils.isEmpty(response.getData().getIndustryName())) {
+
+            concern.setText(response.getData().getBlockName() + "-"  + s.toString());
+        } else {
+            concern.setText(response.getData().getBlockName() + "-" + response.getData().getIndustryName() + "-" + s.toString());
+
+        }
+
+
     }
 }

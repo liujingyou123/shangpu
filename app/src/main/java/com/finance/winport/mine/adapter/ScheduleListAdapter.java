@@ -1,6 +1,7 @@
 package com.finance.winport.mine.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,9 +75,13 @@ public class ScheduleListAdapter extends BaseAdapter {
         if (baseData.get(position).getStatus() == 2) {
 
             holder.status.setVisibility(View.VISIBLE);
+            holder.time.setTextColor(Color.parseColor("#999999"));
+            holder.type.setTextColor(Color.parseColor("#999999"));
         }
         else{
             holder.status.setVisibility(View.GONE);
+            holder.time.setTextColor(Color.parseColor("#333333"));
+            holder.type.setTextColor(Color.parseColor("#333333"));
         }
         return convertView;
     }

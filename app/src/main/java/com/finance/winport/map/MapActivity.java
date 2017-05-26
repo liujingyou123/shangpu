@@ -139,11 +139,31 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
                     request.setMaxLon(mapStatus.bound.northeast.longitude + "");
                     request.setMinLat(mapStatus.bound.southwest.latitude + "");
                     request.setMinLon(mapStatus.bound.southwest.longitude + "");
-                    request.setRentList(shopRequset.rentList);
-                    request.setTransferList(shopRequset.transferList);
-                    request.setAreaList(shopRequset.areaList);
-                    request.setFeatureTagList(shopRequset.featureTagList);
-                    request.setSupportTagList(shopRequset.supportTagList);
+                    if (shopRequset.rentList != null && shopRequset.rentList.size() > 0) {
+                        request.setRentList(shopRequset.rentList);
+                    } else {
+                        request.setRentList(null);
+                    }
+                    if (shopRequset.transferList != null && shopRequset.transferList.size() > 0) {
+                        request.setTransferList(shopRequset.transferList);
+                    } else {
+                        request.setTransferList(null);
+                    }
+                    if (shopRequset.areaList != null && shopRequset.areaList.size() > 0) {
+                        request.setAreaList(shopRequset.areaList);
+                    } else {
+                        request.setAreaList(null);
+                    }
+                    if (shopRequset.featureTagList != null && shopRequset.featureTagList.size() > 0) {
+                        request.setFeatureTagList(shopRequset.featureTagList);
+                    } else {
+                        request.setFeatureTagList(null);
+                    }
+                    if (shopRequset.supportTagList != null && shopRequset.supportTagList.size() > 0) {
+                        request.setSupportTagList(shopRequset.supportTagList);
+                    } else {
+                        request.setSupportTagList(null);
+                    }
                     request.setWidth(shopRequset.width);
                     request.setType("0");
                     mapPresenter.getMapArea(request);
@@ -154,11 +174,31 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
                     request.setMaxLon(mapStatus.bound.northeast.longitude + "");
                     request.setMinLat(mapStatus.bound.southwest.latitude + "");
                     request.setMinLon(mapStatus.bound.southwest.longitude + "");
-                    request.setRentList(shopRequset.rentList);
-                    request.setTransferList(shopRequset.transferList);
-                    request.setAreaList(shopRequset.areaList);
-                    request.setFeatureTagList(shopRequset.featureTagList);
-                    request.setSupportTagList(shopRequset.supportTagList);
+                    if (shopRequset.rentList != null && shopRequset.rentList.size() > 0) {
+                        request.setRentList(shopRequset.rentList);
+                    } else {
+                        request.setRentList(null);
+                    }
+                    if (shopRequset.transferList != null && shopRequset.transferList.size() > 0) {
+                        request.setTransferList(shopRequset.transferList);
+                    } else {
+                        request.setTransferList(null);
+                    }
+                    if (shopRequset.areaList != null && shopRequset.areaList.size() > 0) {
+                        request.setAreaList(shopRequset.areaList);
+                    } else {
+                        request.setAreaList(null);
+                    }
+                    if (shopRequset.featureTagList != null && shopRequset.featureTagList.size() > 0) {
+                        request.setFeatureTagList(shopRequset.featureTagList);
+                    } else {
+                        request.setFeatureTagList(null);
+                    }
+                    if (shopRequset.supportTagList != null && shopRequset.supportTagList.size() > 0) {
+                        request.setSupportTagList(shopRequset.supportTagList);
+                    } else {
+                        request.setSupportTagList(null);
+                    }
                     request.setWidth(shopRequset.width);
                     request.setType("1");
                     mapPresenter.getMapArea(request);
@@ -169,11 +209,31 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
                     request.setMaxLon(mBaiduMap.getMapStatus().bound.northeast.longitude + "");
                     request.setMinLat(mBaiduMap.getMapStatus().bound.southwest.latitude + "");
                     request.setMinLon(mBaiduMap.getMapStatus().bound.southwest.longitude + "");
-                    request.setRentList(shopRequset.rentList);
-                    request.setTransferList(shopRequset.transferList);
-                    request.setAreaList(shopRequset.areaList);
-                    request.setFeatureTagList(shopRequset.featureTagList);
-                    request.setSupportTagList(shopRequset.supportTagList);
+                    if (shopRequset.rentList != null && shopRequset.rentList.size() > 0) {
+                        request.setRentList(shopRequset.rentList);
+                    } else {
+                        request.setRentList(null);
+                    }
+                    if (shopRequset.transferList != null && shopRequset.transferList.size() > 0) {
+                        request.setTransferList(shopRequset.transferList);
+                    } else {
+                        request.setTransferList(null);
+                    }
+                    if (shopRequset.areaList != null && shopRequset.areaList.size() > 0) {
+                        request.setAreaList(shopRequset.areaList);
+                    } else {
+                        request.setAreaList(null);
+                    }
+                    if (shopRequset.featureTagList != null && shopRequset.featureTagList.size() > 0) {
+                        request.setFeatureTagList(shopRequset.featureTagList);
+                    } else {
+                        request.setFeatureTagList(null);
+                    }
+                    if (shopRequset.supportTagList != null && shopRequset.supportTagList.size() > 0) {
+                        request.setSupportTagList(shopRequset.supportTagList);
+                    } else {
+                        request.setSupportTagList(null);
+                    }
                     request.setWidth(shopRequset.width);
                     mapPresenter.getMapShop(request);
                 }
@@ -263,10 +323,10 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 
                     if (flag == 0) {
 
-                        addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(data.get(i).getLatitude()), Double.parseDouble(data.get(i).getLongitude())), data.get(i).getRent() + "", data.get(i).getShopId() + "");
+                        addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(data.get(i).getLatitude()), Double.parseDouble(data.get(i).getLongitude())), data.get(i).getRent() + "元/月", data.get(i).getShopId() + "");
                     } else {
 
-                        addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(data.get(i).getLatitude()), Double.parseDouble(data.get(i).getLongitude())), data.get(i).getArea() + "", data.get(i).getShopId() + "");
+                        addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(data.get(i).getLatitude()), Double.parseDouble(data.get(i).getLongitude())), data.get(i).getArea() + "㎡", data.get(i).getShopId() + "");
                     }
                 }
                 break;
@@ -280,10 +340,10 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 
                     if (flag == 0) {
 
-                        addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(data.get(i).getLatitude()), Double.parseDouble(data.get(i).getLongitude())), data.get(i).getRent() + "", data.get(i).getShopId() + "");
+                        addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(data.get(i).getLatitude()), Double.parseDouble(data.get(i).getLongitude())), data.get(i).getRent() + "元/月", data.get(i).getShopId() + "");
                     } else {
 
-                        addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(data.get(i).getLatitude()), Double.parseDouble(data.get(i).getLongitude())), data.get(i).getArea() + "", data.get(i).getShopId() + "");
+                        addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(data.get(i).getLatitude()), Double.parseDouble(data.get(i).getLongitude())), data.get(i).getArea() + "㎡", data.get(i).getShopId() + "");
                     }
                 }
                 break;
@@ -318,11 +378,31 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
                     request.setMaxLon(mBaiduMap.getMapStatus().bound.northeast.longitude + "");
                     request.setMinLat(mBaiduMap.getMapStatus().bound.southwest.latitude + "");
                     request.setMinLon(mBaiduMap.getMapStatus().bound.southwest.longitude + "");
-                    request.setRentList(shopRequset.rentList);
-                    request.setTransferList(shopRequset.transferList);
-                    request.setAreaList(shopRequset.areaList);
-                    request.setFeatureTagList(shopRequset.featureTagList);
-                    request.setSupportTagList(shopRequset.supportTagList);
+                    if (shopRequset.rentList != null && shopRequset.rentList.size() > 0) {
+                        request.setRentList(shopRequset.rentList);
+                    } else {
+                        request.setRentList(null);
+                    }
+                    if (shopRequset.transferList != null && shopRequset.transferList.size() > 0) {
+                        request.setTransferList(shopRequset.transferList);
+                    } else {
+                        request.setTransferList(null);
+                    }
+                    if (shopRequset.areaList != null && shopRequset.areaList.size() > 0) {
+                        request.setAreaList(shopRequset.areaList);
+                    } else {
+                        request.setAreaList(null);
+                    }
+                    if (shopRequset.featureTagList != null && shopRequset.featureTagList.size() > 0) {
+                        request.setFeatureTagList(shopRequset.featureTagList);
+                    } else {
+                        request.setFeatureTagList(null);
+                    }
+                    if (shopRequset.supportTagList != null && shopRequset.supportTagList.size() > 0) {
+                        request.setSupportTagList(shopRequset.supportTagList);
+                    } else {
+                        request.setSupportTagList(null);
+                    }
                     request.setWidth(shopRequset.width);
                     mapPresenter.getMapShop(request);
                 }
@@ -337,11 +417,31 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 
             MapAreaRequest request = new MapAreaRequest();
             request.setType("0");
-            request.setRentList(shopRequset.rentList);
-            request.setTransferList(shopRequset.transferList);
-            request.setAreaList(shopRequset.areaList);
-            request.setFeatureTagList(shopRequset.featureTagList);
-            request.setSupportTagList(shopRequset.supportTagList);
+            if (shopRequset.rentList != null && shopRequset.rentList.size() > 0) {
+                request.setRentList(shopRequset.rentList);
+            } else {
+                request.setRentList(null);
+            }
+            if (shopRequset.transferList != null && shopRequset.transferList.size() > 0) {
+                request.setTransferList(shopRequset.transferList);
+            } else {
+                request.setTransferList(null);
+            }
+            if (shopRequset.areaList != null && shopRequset.areaList.size() > 0) {
+                request.setAreaList(shopRequset.areaList);
+            } else {
+                request.setAreaList(null);
+            }
+            if (shopRequset.featureTagList != null && shopRequset.featureTagList.size() > 0) {
+                request.setFeatureTagList(shopRequset.featureTagList);
+            } else {
+                request.setFeatureTagList(null);
+            }
+            if (shopRequset.supportTagList != null && shopRequset.supportTagList.size() > 0) {
+                request.setSupportTagList(shopRequset.supportTagList);
+            } else {
+                request.setSupportTagList(null);
+            }
             request.setWidth(shopRequset.width);
 //            List<Integer> list = new ArrayList<>();
 //            list.add(4);
@@ -366,11 +466,31 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         MapAreaRequest request = new MapAreaRequest();
         request.setType("1");
         request.setDistrictId(id);
-        request.setRentList(shopRequset.rentList);
-        request.setTransferList(shopRequset.transferList);
-        request.setAreaList(shopRequset.areaList);
-        request.setFeatureTagList(shopRequset.featureTagList);
-        request.setSupportTagList(shopRequset.supportTagList);
+        if (shopRequset.rentList != null && shopRequset.rentList.size() > 0) {
+            request.setRentList(shopRequset.rentList);
+        } else {
+            request.setRentList(null);
+        }
+        if (shopRequset.transferList != null && shopRequset.transferList.size() > 0) {
+            request.setTransferList(shopRequset.transferList);
+        } else {
+            request.setTransferList(null);
+        }
+        if (shopRequset.areaList != null && shopRequset.areaList.size() > 0) {
+            request.setAreaList(shopRequset.areaList);
+        } else {
+            request.setAreaList(null);
+        }
+        if (shopRequset.featureTagList != null && shopRequset.featureTagList.size() > 0) {
+            request.setFeatureTagList(shopRequset.featureTagList);
+        } else {
+            request.setFeatureTagList(null);
+        }
+        if (shopRequset.supportTagList != null && shopRequset.supportTagList.size() > 0) {
+            request.setSupportTagList(shopRequset.supportTagList);
+        } else {
+            request.setSupportTagList(null);
+        }
         request.setWidth(shopRequset.width);
         mapPresenter.getMapArea(request);
 
@@ -379,11 +499,31 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
     private void showRangeDetail(String id) {
         MapShopRequest request = new MapShopRequest();
         request.setBlockId(id);
-        request.setRentList(shopRequset.rentList);
-        request.setTransferList(shopRequset.transferList);
-        request.setAreaList(shopRequset.areaList);
-        request.setFeatureTagList(shopRequset.featureTagList);
-        request.setSupportTagList(shopRequset.supportTagList);
+        if (shopRequset.rentList != null && shopRequset.rentList.size() > 0) {
+            request.setRentList(shopRequset.rentList);
+        } else {
+            request.setRentList(null);
+        }
+        if (shopRequset.transferList != null && shopRequset.transferList.size() > 0) {
+            request.setTransferList(shopRequset.transferList);
+        } else {
+            request.setTransferList(null);
+        }
+        if (shopRequset.areaList != null && shopRequset.areaList.size() > 0) {
+            request.setAreaList(shopRequset.areaList);
+        } else {
+            request.setAreaList(null);
+        }
+        if (shopRequset.featureTagList != null && shopRequset.featureTagList.size() > 0) {
+            request.setFeatureTagList(shopRequset.featureTagList);
+        } else {
+            request.setFeatureTagList(null);
+        }
+        if (shopRequset.supportTagList != null && shopRequset.supportTagList.size() > 0) {
+            request.setSupportTagList(shopRequset.supportTagList);
+        } else {
+            request.setSupportTagList(null);
+        }
         request.setWidth(shopRequset.width);
         mapPresenter.getMapShop(request);
     }
@@ -504,10 +644,10 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 
             if (flag == 0) {
 
-                addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(response.getData().get(i).getLatitude()), Double.parseDouble(response.getData().get(i).getLongitude())), response.getData().get(i).getRent() + "", response.getData().get(i).getShopId() + "");
+                addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(response.getData().get(i).getLatitude()), Double.parseDouble(response.getData().get(i).getLongitude())), response.getData().get(i).getRent() + "元/月", response.getData().get(i).getShopId() + "");
             } else {
 
-                addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(response.getData().get(i).getLatitude()), Double.parseDouble(response.getData().get(i).getLongitude())), response.getData().get(i).getArea() + "", response.getData().get(i).getShopId() + "");
+                addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(response.getData().get(i).getLatitude()), Double.parseDouble(response.getData().get(i).getLongitude())), response.getData().get(i).getArea() + "㎡", response.getData().get(i).getShopId() + "");
             }
 //            }
         }
@@ -525,10 +665,10 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 
             if (flag == 0) {
 
-                addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(response.getData().get(i).getLatitude()), Double.parseDouble(response.getData().get(i).getLongitude())), response.getData().get(i).getRent() + "", response.getData().get(i).getShopId() + "");
+                addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(response.getData().get(i).getLatitude()), Double.parseDouble(response.getData().get(i).getLongitude())), response.getData().get(i).getRent() + "元/月", response.getData().get(i).getShopId() + "");
             } else {
 
-                addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(response.getData().get(i).getLatitude()), Double.parseDouble(response.getData().get(i).getLongitude())), response.getData().get(i).getArea() + "", response.getData().get(i).getShopId() + "");
+                addItem(TYPE_ITEM_SHOP, new LatLng(Double.parseDouble(response.getData().get(i).getLatitude()), Double.parseDouble(response.getData().get(i).getLongitude())), response.getData().get(i).getArea() + "㎡", response.getData().get(i).getShopId() + "");
             }
 //            }
         }
@@ -610,11 +750,31 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
             request.setMaxLon(mBaiduMap.getMapStatus().bound.northeast.longitude + "");
             request.setMinLat(mBaiduMap.getMapStatus().bound.southwest.latitude + "");
             request.setMinLon(mBaiduMap.getMapStatus().bound.southwest.longitude + "");
-            request.setRentList(shopRequset.rentList);
-            request.setTransferList(shopRequset.transferList);
-            request.setAreaList(shopRequset.areaList);
-            request.setFeatureTagList(shopRequset.featureTagList);
-            request.setSupportTagList(shopRequset.supportTagList);
+            if (shopRequset.rentList != null && shopRequset.rentList.size() > 0) {
+                request.setRentList(shopRequset.rentList);
+            } else {
+                request.setRentList(null);
+            }
+            if (shopRequset.transferList != null && shopRequset.transferList.size() > 0) {
+                request.setTransferList(shopRequset.transferList);
+            } else {
+                request.setTransferList(null);
+            }
+            if (shopRequset.areaList != null && shopRequset.areaList.size() > 0) {
+                request.setAreaList(shopRequset.areaList);
+            } else {
+                request.setAreaList(null);
+            }
+            if (shopRequset.featureTagList != null && shopRequset.featureTagList.size() > 0) {
+                request.setFeatureTagList(shopRequset.featureTagList);
+            } else {
+                request.setFeatureTagList(null);
+            }
+            if (shopRequset.supportTagList != null && shopRequset.supportTagList.size() > 0) {
+                request.setSupportTagList(shopRequset.supportTagList);
+            } else {
+                request.setSupportTagList(null);
+            }
             request.setWidth(shopRequset.width);
             request.setType("0");
             mapPresenter.getMapArea(request);
@@ -625,11 +785,31 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
             request.setMaxLon(mBaiduMap.getMapStatus().bound.northeast.longitude + "");
             request.setMinLat(mBaiduMap.getMapStatus().bound.southwest.latitude + "");
             request.setMinLon(mBaiduMap.getMapStatus().bound.southwest.longitude + "");
-            request.setRentList(shopRequset.rentList);
-            request.setTransferList(shopRequset.transferList);
-            request.setAreaList(shopRequset.areaList);
-            request.setFeatureTagList(shopRequset.featureTagList);
-            request.setSupportTagList(shopRequset.supportTagList);
+            if (shopRequset.rentList != null && shopRequset.rentList.size() > 0) {
+                request.setRentList(shopRequset.rentList);
+            } else {
+                request.setRentList(null);
+            }
+            if (shopRequset.transferList != null && shopRequset.transferList.size() > 0) {
+                request.setTransferList(shopRequset.transferList);
+            } else {
+                request.setTransferList(null);
+            }
+            if (shopRequset.areaList != null && shopRequset.areaList.size() > 0) {
+                request.setAreaList(shopRequset.areaList);
+            } else {
+                request.setAreaList(null);
+            }
+            if (shopRequset.featureTagList != null && shopRequset.featureTagList.size() > 0) {
+                request.setFeatureTagList(shopRequset.featureTagList);
+            } else {
+                request.setFeatureTagList(null);
+            }
+            if (shopRequset.supportTagList != null && shopRequset.supportTagList.size() > 0) {
+                request.setSupportTagList(shopRequset.supportTagList);
+            } else {
+                request.setSupportTagList(null);
+            }
             request.setWidth(shopRequset.width);
             request.setType("1");
             mapPresenter.getMapArea(request);
@@ -640,11 +820,32 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
             request.setMaxLon(mBaiduMap.getMapStatus().bound.northeast.longitude + "");
             request.setMinLat(mBaiduMap.getMapStatus().bound.southwest.latitude + "");
             request.setMinLon(mBaiduMap.getMapStatus().bound.southwest.longitude + "");
-            request.setRentList(shopRequset.rentList);
-            request.setTransferList(shopRequset.transferList);
-            request.setAreaList(shopRequset.areaList);
-            request.setFeatureTagList(shopRequset.featureTagList);
-            request.setSupportTagList(shopRequset.supportTagList);
+            if (shopRequset.rentList != null && shopRequset.rentList.size() > 0) {
+                request.setRentList(shopRequset.rentList);
+            } else {
+                request.setRentList(null);
+            }
+            if (shopRequset.transferList != null && shopRequset.transferList.size() > 0) {
+                request.setTransferList(shopRequset.transferList);
+            } else {
+                request.setTransferList(null);
+            }
+            if (shopRequset.areaList != null && shopRequset.areaList.size() > 0) {
+                request.setAreaList(shopRequset.areaList);
+            } else {
+                request.setAreaList(null);
+            }
+            if (shopRequset.featureTagList != null && shopRequset.featureTagList.size() > 0) {
+                request.setFeatureTagList(shopRequset.featureTagList);
+            } else {
+                request.setFeatureTagList(null);
+            }
+            if (shopRequset.supportTagList != null && shopRequset.supportTagList.size() > 0) {
+                request.setSupportTagList(shopRequset.supportTagList);
+            } else {
+                request.setSupportTagList(null);
+            }
+
             request.setWidth(shopRequset.width);
             mapPresenter.getMapShop(request);
         }
