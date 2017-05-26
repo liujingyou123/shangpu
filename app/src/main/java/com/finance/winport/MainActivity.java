@@ -124,7 +124,11 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
         super.onNewIntent(intent);
 
         int tab = intent.getIntExtra("tab", HOME);
-        handleHome(tab);
+        if (tab == BUSINESS) {
+            handleBusiness(tab);
+        } else {
+            handleHome(tab);
+        }
         tabView.setTabDisplay(tab);
     }
 
