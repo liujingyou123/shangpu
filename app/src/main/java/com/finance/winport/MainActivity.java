@@ -119,16 +119,13 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
     protected void onDestroy() {
         super.onDestroy();
     }
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
         int tab = intent.getIntExtra("tab", HOME);
-        if (tab == BUSINESS) {
-            handleBusiness(tab);
-        } else {
-            handleHome(tab);
-        }
+        onTabSelected(tab);
         tabView.setTabDisplay(tab);
     }
 

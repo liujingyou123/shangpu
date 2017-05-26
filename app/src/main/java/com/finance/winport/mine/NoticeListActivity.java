@@ -1,6 +1,8 @@
 package com.finance.winport.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -182,4 +184,12 @@ public class NoticeListActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void handleBack() {
+        if (TextUtils.equals(getIntent().getStringExtra("from"), "outer")) {
+            startActivity(new Intent(context, MyNoticeActivity.class).putExtras(getIntent().getExtras()));
+        } else {
+            super.handleBack();
+        }
+    }
 }
