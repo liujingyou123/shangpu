@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.account.LoginActivity;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.dialog.CommentDialog;
 import com.finance.winport.dialog.NoticeDelDialog;
@@ -22,6 +23,7 @@ import com.finance.winport.trade.model.CommentResponse;
 import com.finance.winport.trade.model.TradeDetailResponse;
 import com.finance.winport.trade.presenter.TradeCircleDetailPresener;
 import com.finance.winport.trade.view.ITradeDetailView;
+import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.ToastUtil;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
@@ -138,14 +140,26 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
                 finish();
                 break;
             case R.id.btn_comment:
-                commentDialog.show();
+                if (SharedPrefsUtil.getUserInfo() != null) {
+                    commentDialog.show();
+                } else {
+                    Intent intent1 = new Intent(this, LoginActivity.class);
+                    startActivity(intent1);
+                }
                 break;
             case R.id.tv_praise_num:
-                if (tvPraiseNum.isSelected()) {  //取消点赞
-                    mPresenter.zanTopic(topicId);
+
+                if (SharedPrefsUtil.getUserInfo() != null) {
+                    if (tvPraiseNum.isSelected()) {  //取消点赞
+                        mPresenter.zanTopic(topicId);
+                    } else {
+                        mPresenter.cancelzanTopic(topicId);
+                    }
                 } else {
-                    mPresenter.cancelzanTopic(topicId);
+                    Intent intent1 = new Intent(this, LoginActivity.class);
+                    startActivity(intent1);
                 }
+
                 break;
             case R.id.imv_right:
                 NoticeDelDialog dialog = new NoticeDelDialog(this);

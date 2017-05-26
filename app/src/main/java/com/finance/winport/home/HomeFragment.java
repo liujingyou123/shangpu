@@ -27,6 +27,7 @@ import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.home.model.ShopRequset;
 import com.finance.winport.home.presenter.HomePresenter;
 import com.finance.winport.home.view.IHomeView;
+import com.finance.winport.log.XLog;
 import com.finance.winport.map.MapActivity;
 import com.finance.winport.mine.model.PersonalInfoResponse;
 import com.finance.winport.tab.model.UnReadMsg;
@@ -98,11 +99,38 @@ public class HomeFragment extends BaseFragment implements IHomeView {
         if (mPresenter == null) {
             mPresenter = new HomePresenter(this);
         }
-        mRequest.queryType = 1;
+        if (SharedPrefsUtil.getUserInfo() != null) {
+            mRequest.queryType = 0;
+        } else {
+            mRequest.queryType = 1;
+        }
         mPresenter.getShopList(mRequest);
         mPresenter.getShopCount();
         mPresenter.getBanner();
         mPresenter.getIsUnReader();
+        if (SharedPrefsUtil.getUserInfo() != null && TextUtils.isEmpty(SpUtil.getInstance().getStringData(SharedPrefsUtil.getUserInfo().data.userPhone, null))) {
+            mPresenter.getPersonalInfo();
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        XLog.e("hidden = " + hidden);
+        if (!hidden) {
+            changeTab();
+        }
+    }
+
+    private void changeTab() {
+        if (SharedPrefsUtil.getUserInfo() != null && mRequest.queryType == 1) {
+            mRequest.queryType = 0;
+            mPresenter.getShopList(mRequest);
+        } else if (SharedPrefsUtil.getUserInfo() == null && mRequest.queryType == 0) {
+            mRequest.queryType = 1;
+            mPresenter.getShopList(mRequest);
+        }
+
         if (SharedPrefsUtil.getUserInfo() != null && TextUtils.isEmpty(SpUtil.getInstance().getStringData(SharedPrefsUtil.getUserInfo().data.userPhone, null))) {
             mPresenter.getPersonalInfo();
         }
@@ -544,12 +572,12 @@ public class HomeFragment extends BaseFragment implements IHomeView {
 
     @Override
     public void showPersonalInfo(PersonalInfoResponse response) {
-//        if ("1".equals(response.getData().getIsNew()) && TextUtils.isEmpty(response.getData().getIndustryName())) {
+        if ("1".equals(response.getData().getIsNew()) && TextUtils.isEmpty(response.getData().getIndustryName())) {
             WelcomeDialog welcomeDialog = new WelcomeDialog(this.getContext());
             welcomeDialog.show();
 
             SpUtil.getInstance().setStringData(SharedPrefsUtil.getUserInfo().data.userPhone, "1");
-//        }
+        }
     }
 
     public void onQuyuHandle(ShopRequset requset) {

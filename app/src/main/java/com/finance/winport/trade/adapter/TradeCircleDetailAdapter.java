@@ -1,6 +1,7 @@
 package com.finance.winport.trade.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.GridLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -19,6 +20,7 @@ import com.finance.winport.trade.model.CommentResponse;
 import com.finance.winport.trade.model.TradeDetailResponse;
 import com.finance.winport.trade.presenter.TradeCircleDetailPresener;
 import com.finance.winport.util.UnitUtil;
+import com.finance.winport.view.imagepreview.ImagePreviewActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,17 +110,13 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
                 Batman.getInstance().fromNet(mData.getHeadPicture(), viewHolder.ivHeaderIcon);
                 viewHolder.tvHeaderTime.setText(mData.getDateTime());
                 viewHolder.tvTitle.setText(mData.getTitle());
-//                if ("1".equals(mData.getCanBeDelete())) {
-//                    viewHolder.imvDel.setVisibility(View.VISIBLE);
-//                    viewHolder.imvDel.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            mPresenter.deleteTopic(topicId);
-//                        }
-//                    });
-//                } else {
-//                    viewHolder.imvDel.setVisibility(View.GONE);
-//                }
+
+                if ("1".equals(mData.getKind())) {
+                    viewHolder.imvFire.setVisibility(View.VISIBLE);
+                } else {
+                    viewHolder.imvFire.setVisibility(View.GONE);
+                }
+
                 if (mData != null && mData.getImgList() != null && mData.getImgList().size() > 0) {
                     viewHolder.glImages.setVisibility(View.VISIBLE);
                     setGridLayout(viewHolder, mData.getImgList());
@@ -181,7 +179,7 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         return ret;
     }
 
-    private void setGridLayout(HeaderViewHolder viewHolder, List<TradeDetailResponse.DataBean.Img> imageUrls) {
+    private void setGridLayout(HeaderViewHolder viewHolder, final ArrayList<TradeDetailResponse.DataBean.Img> imageUrls) {
         int imageSize = imageUrls.size();
         viewHolder.glImages.removeAllViews();
         if (imageSize == 1) {
@@ -228,8 +226,24 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
 //        }
 
         imageSize = (imageSize > 9 ? 9 : imageSize);
+        final ArrayList<String> urls = new ArrayList<>();
         for (int j = 0; j < imageSize; j++) {
-            viewHolder.glImages.addView(getView(imageUrls.get(j).getImgUrl()));
+            String url = imageUrls.get(j).getImgUrl();
+            urls.add(url);
+            ImageView imageView = getView(url);
+            final int finalJ = j;
+            imageView.setOnClickListener(new View.OnClickListener() {
+                int index = finalJ;
+
+                @Override
+                public void onClick(View v) {
+                    Intent intents = new Intent(mContext, ImagePreviewActivity.class);
+                    intents.putExtra("pics", urls);
+                    intents.putExtra("index", index);
+                    mContext.startActivity(intents);
+                }
+            });
+            viewHolder.glImages.addView(imageView);
         }
     }
 
@@ -244,7 +258,7 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams(rowSpec, columnSpec);
         layoutParams.setMargins(6, 6, 6, 6);
         imageView.setLayoutParams(layoutParams);
-
+        imageView.setBackgroundResource(R.drawable.default_image_logo);
         return imageView;
     }
 
@@ -302,6 +316,8 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         GridLayout glImages;
         @BindView(R.id.imv_del)
         ImageView imvDel;
+        @BindView(R.id.imv_fire)
+        ImageView imvFire;
 
         public HeaderViewHolder(View itemView) {
             super(itemView);
