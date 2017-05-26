@@ -31,6 +31,7 @@ import com.finance.winport.service.model.SendOrderShopResponse;
 import com.finance.winport.service.presenter.ISendOrderView;
 import com.finance.winport.service.presenter.SendOrderPresenter;
 import com.finance.winport.tab.net.NetworkCallback;
+import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.StringUtil;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.ToastUtil;
@@ -129,7 +130,7 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
 //        phoneView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
         phoneView.setInputType(InputType.TYPE_CLASS_PHONE);
         verifyCodeView.setInputType(InputType.TYPE_CLASS_NUMBER);
-        phoneView.setText("176 0211 3283");
+        phoneView.setText(SharedPrefsUtil.getUserInfo().data.userPhone.substring(0,3)+" "+SharedPrefsUtil.getUserInfo().data.userPhone.substring(3,7)+" "+SharedPrefsUtil.getUserInfo().data.userPhone.substring(7,11));
         initCountDownButton();
     }
 

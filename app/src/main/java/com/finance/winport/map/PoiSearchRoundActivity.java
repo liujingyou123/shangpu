@@ -3,7 +3,12 @@ package com.finance.winport.map;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +20,7 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.GroundOverlayOptions;
+import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
@@ -111,7 +117,7 @@ public class PoiSearchRoundActivity extends BaseActivity implements
         getBundle();
         mBaiduMap = mapView.getMap();
         mBaiduMap.setMyLocationEnabled(true);
-        mBaiduMap.setMaxAndMinZoomLevel(21, 17);
+        mBaiduMap.setMaxAndMinZoomLevel(21, 18);
         mapView.showZoomControls(true);
         // 初始化搜索模块，注册搜索事件监听
         mPoiSearch = PoiSearch.newInstance();
@@ -124,10 +130,52 @@ public class PoiSearchRoundActivity extends BaseActivity implements
         tvFocusRight.setText("导航");
 
         locationClient = new LocationClient(this);
-        locationClient.registerLocationListener(myListener);
-        setLocationOption();
-        locationClient.start();
-        locationClient.requestLocation();
+//        locationClient.registerLocationListener(myListener);
+//        setLocationOption();
+//        locationClient.start();
+//        locationClient.requestLocation();
+        mBaiduMap.setOnMapStatusChangeListener(new BaiduMap.OnMapStatusChangeListener() {
+            @Override
+            public void onMapStatusChangeStart(MapStatus mapStatus) {
+
+            }
+
+            @Override
+            public void onMapStatusChange(MapStatus mapStatus) {
+
+            }
+
+            @Override
+            public void onMapStatusChangeFinish(MapStatus mapStatus) {
+
+                switch (type) {
+                    case 0:
+                        type = 0;
+                        searchService("餐饮");
+                        break;
+                    case 1:
+                        type = 1;
+                        searchService("购物");
+                        break;
+                    case 2:
+                        type = 2;
+                        searchService("酒店");
+                        break;
+                    case 3:
+                        type = 3;
+                        searchService("小区");
+                        break;
+                    case 4:
+                        type = 4;
+                        searchService("学校");
+                        break;
+                    case 5:
+                        type = 5;
+                        searchService("公交站");
+                        break;
+                }
+            }
+        });
 
     }
 
@@ -161,7 +209,14 @@ public class PoiSearchRoundActivity extends BaseActivity implements
     @Override
     public void onResume() {
         super.onResume();
-        searchService("餐饮");
+        showNearbyArea(center, radius);
+        new Handler(Looper.myLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                searchService("餐饮");
+            }
+        }, 1000);
+
         mapView.onResume();
 
     }
@@ -222,22 +277,34 @@ public class PoiSearchRoundActivity extends BaseActivity implements
                     .show();
         } else {
             mBaiduMap.clear();
+            BitmapDescriptor centerBitmap = BitmapDescriptorFactory
+                    .fromResource(R.mipmap.map_icon_location_center);
+            MarkerOptions ooMarker = new MarkerOptions().position(center).icon(centerBitmap);
+            mBaiduMap.addOverlay(ooMarker);
+            View view = LayoutInflater.from(PoiSearchRoundActivity.this).inflate(R.layout.map_item, null);
+            TextView tv = (TextView) view.findViewById(R.id.tv_msg);
+            tv.setText("测试地址");
+            tv.setBackgroundResource(R.drawable.map_bg_item_shop);
+            BitmapDescriptor centerBitmap1 = BitmapDescriptorFactory
+                    .fromView(view);
+            MarkerOptions ooMarker1 = new MarkerOptions().position(center).icon(centerBitmap1).anchor(0.5f,1f);
+            mBaiduMap.addOverlay(ooMarker1);
             PoiOverlay overlay = new MyPoiOverlay(mBaiduMap);
             mBaiduMap.setOnMarkerClickListener(overlay);
-            overlay.setData(result,type);
+            overlay.setData(result, type);
             overlay.addToMap();
-            overlay.zoomToSpan();
+//            overlay.zoomToSpan();
 
-            switch (searchType) {
-                case 2:
-                    showNearbyArea(center, radius);
-                    break;
-                case 3:
-                    showBound(searchbound);
-                    break;
-                default:
-                    break;
-            }
+//            switch (searchType) {
+//                case 2:
+//                    showNearbyArea(center, radius);
+//                    break;
+//                case 3:
+//                    showBound(searchbound);
+//                    break;
+//                default:
+//                    break;
+//            }
 
             return;
         }
@@ -255,6 +322,19 @@ public class PoiSearchRoundActivity extends BaseActivity implements
         } else {
             Toast.makeText(PoiSearchRoundActivity.this, result.getName() + ": " + result.getAddress(), Toast.LENGTH_SHORT)
                     .show();
+
+
+//            TextView button = new TextView(PoiSearchRoundActivity.this);
+//            button.setBackgroundResource(R.drawable.map_bg_item_select);
+//            button.setText(result.getAddress()+result.getName());
+
+            View view = LayoutInflater.from(PoiSearchRoundActivity.this).inflate(R.layout.map_item, null);
+            TextView tv = (TextView) view.findViewById(R.id.tv_msg);
+            tv.setText(result.getAddress()+result.getName());
+            tv.setBackgroundResource(R.drawable.map_bg_item_select);
+            InfoWindow mInfiWindow = new InfoWindow(view, result.getLocation(), -50);
+
+            mBaiduMap.showInfoWindow(mInfiWindow);
         }
     }
 
@@ -267,27 +347,27 @@ public class PoiSearchRoundActivity extends BaseActivity implements
     public void onTabSelected(int index) {
         switch (index) {
             case 0:
-                type=0;
+                type = 0;
                 searchService("餐饮");
                 break;
             case 1:
-                type=1;
+                type = 1;
                 searchService("购物");
                 break;
             case 2:
-                type=2;
+                type = 2;
                 searchService("酒店");
                 break;
             case 3:
-                type=3;
+                type = 3;
                 searchService("小区");
                 break;
             case 4:
-                type=4;
+                type = 4;
                 searchService("学校");
                 break;
             case 5:
-                type=5;
+                type = 5;
                 searchService("公交站");
                 break;
         }
@@ -325,6 +405,9 @@ public class PoiSearchRoundActivity extends BaseActivity implements
             mPoiSearch.searchPoiDetail((new PoiDetailSearchOption())
                     .poiUid(poi.uid));
             // }
+
+
+
             return true;
         }
     }
@@ -336,10 +419,24 @@ public class PoiSearchRoundActivity extends BaseActivity implements
      * @param radius
      */
     public void showNearbyArea(LatLng center, int radius) {
+        MapStatus mMapStatus = new MapStatus.Builder()
+                .target(center)
+                .zoom(18)
+                .build();
+        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+        mBaiduMap.setMapStatus(mMapStatusUpdate);
         BitmapDescriptor centerBitmap = BitmapDescriptorFactory
                 .fromResource(R.mipmap.map_icon_location_center);
         MarkerOptions ooMarker = new MarkerOptions().position(center).icon(centerBitmap);
         mBaiduMap.addOverlay(ooMarker);
+        View view = LayoutInflater.from(PoiSearchRoundActivity.this).inflate(R.layout.map_item, null);
+        TextView tv = (TextView) view.findViewById(R.id.tv_msg);
+        tv.setText("测试地址");
+        tv.setBackgroundResource(R.drawable.map_bg_item_shop);
+        BitmapDescriptor centerBitmap1 = BitmapDescriptorFactory
+                .fromView(view);
+        MarkerOptions ooMarker1 = new MarkerOptions().position(center).icon(centerBitmap1).anchor(0.5f,1f);
+        mBaiduMap.addOverlay(ooMarker1);
 
 //        OverlayOptions ooCircle = new CircleOptions().fillColor(0xCCCCCC00)
 //                .center(center).stroke(new Stroke(5, 0xFFFF00FF))
@@ -369,23 +466,36 @@ public class PoiSearchRoundActivity extends BaseActivity implements
 
 
     public void searchService(String keyword) {
-        MapStatus mMapStatus = new MapStatus.Builder()
-                .target(center)
-                .zoom(18)
-                .build();
-        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
-        mBaiduMap.setMapStatus(mMapStatusUpdate);
+//        MapStatus mMapStatus = new MapStatus.Builder()
+//                .target(center)
+//                .zoom(18)
+//                .build();
+//        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+//        mBaiduMap.setMapStatus(mMapStatusUpdate);
+//        BitmapDescriptor centerBitmap = BitmapDescriptorFactory
+//                .fromResource(R.mipmap.map_icon_location_center);
+//        MarkerOptions ooMarker = new MarkerOptions().position(center).icon(centerBitmap);
+//        mBaiduMap.addOverlay(ooMarker);
+//        BitmapDescriptor centerBitmap1 = BitmapDescriptorFactory
+//                .fromResource(R.mipmap.map_icon_hotel_selected);
+//        MarkerOptions ooMarker1 = new MarkerOptions().position(mBaiduMap.getMapStatus().bound.northeast).icon(centerBitmap1);
+//        mBaiduMap.addOverlay(ooMarker1);
+//        BitmapDescriptor centerBitmap2 = BitmapDescriptorFactory
+//                .fromResource(R.mipmap.map_icon_hotel_selected);
+//        MarkerOptions ooMarker2 = new MarkerOptions().position(mBaiduMap.getMapStatus().bound.southwest).icon(centerBitmap2);
+//        mBaiduMap.addOverlay(ooMarker2);
         searchType = 2;
+        Log.i("kkkkkkkkkkkkk southwest", mBaiduMap.getMapStatus().bound.southwest.toString());
+        Log.i("kkkkkkkkkkkkk southwest", mBaiduMap.getMapStatus().bound.northeast.toString());
         PoiNearbySearchOption nearbySearchOption = new PoiNearbySearchOption().keyword(keyword).sortType(PoiSortType.distance_from_near_to_far).location(center)
                 .radius(radius).pageNum(1).pageCapacity(50);
-        PoiBoundSearchOption poiBoundSearchOption = new PoiBoundSearchOption().keyword("").bound(mBaiduMap.getMapStatus().bound).pageNum(1);
+        PoiBoundSearchOption poiBoundSearchOption = new PoiBoundSearchOption().keyword(keyword).bound(mBaiduMap.getMapStatus().bound);
         mPoiSearch.searchInBound(poiBoundSearchOption);
+//        mPoiSearch.searchNearby(nearbySearchOption);
     }
 
     /**
      * 开始导航
-     *
-     *
      */
     public void startNavi() {
 //        int lat = (int) (mLat1 * 1E6);
@@ -436,13 +546,13 @@ public class PoiSearchRoundActivity extends BaseActivity implements
         //移动APP调起Android百度地图方式举例
         Intent intent = null;
         try {
-            intent = Intent.getIntent("intent://map/geocoder?location="+center.latitude+","+center.longitude+"&src=上海房产#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end");
+            intent = Intent.getIntent("intent://map/geocoder?location=" + center.latitude + "," + center.longitude + "&src=上海房产#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end");
             startActivity(intent); //启动调用
         } catch (Exception e) {
 
-            intent= new Intent();
+            intent = new Intent();
             intent.setAction("android.intent.action.VIEW");
-            Uri content_url = Uri.parse("http://api.map.baidu.com/geocoder?location="+center.latitude+","+center.longitude+"&output=html&src=上海房产");
+            Uri content_url = Uri.parse("http://api.map.baidu.com/geocoder?location=" + center.latitude + "," + center.longitude + "&output=html&src=上海房产");
             intent.setData(content_url);
 //            intent.setClassName("com.android.browser","com.android.browser.BrowserActivity");
             startActivity(intent);

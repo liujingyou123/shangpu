@@ -1,5 +1,6 @@
 package com.finance.winport.service.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,12 +16,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.account.LoginActivity;
+import com.finance.winport.account.model.UserInfo;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.service.model.FindLoanCountResponse;
 import com.finance.winport.service.model.ShopOrderCountResponse;
 import com.finance.winport.service.model.ShopRentCountResponse;
 import com.finance.winport.service.presenter.IFindServiceView;
 import com.finance.winport.service.presenter.ServicePresenter;
+import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.UnitUtil;
 
 import butterknife.BindView;
@@ -76,7 +80,7 @@ public class ShopOrderFragment extends BaseFragment implements IFindServiceView 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.shop_order_fragment, container, false);
         ButterKnife.bind(this, root);
-        tvFocusHouse.setText("带我踩盘");
+        tvFocusHouse.setText("预约看铺");
         getData();
         return root;
     }
@@ -101,12 +105,21 @@ public class ShopOrderFragment extends BaseFragment implements IFindServiceView 
                 handleBack();
                 break;
             case R.id.sen_btn:
-                BaseFragment sendShop = new SendShopOrderFragment();
-                pushFragment(sendShop);
+                if (isLogin()) {
+                    BaseFragment sendShop = new SendShopOrderFragment();
+                    pushFragment(sendShop);
+                } else {
+                    startActivity(new Intent(context, LoginActivity.class));
+                }
+
                 break;
         }
     }
 
+    private boolean isLogin() {
+        UserInfo info = SharedPrefsUtil.getUserInfo();
+        return info != null;
+    }
     @Override
     public void shopOrderCount(ShopOrderCountResponse response) {
 
