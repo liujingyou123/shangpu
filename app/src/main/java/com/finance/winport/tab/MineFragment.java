@@ -250,9 +250,9 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (!hidden) {
-            asyncRelevant();
-        }
+//        if (!hidden) {
+//            asyncRelevant();
+//        }
     }
 
     @Override
