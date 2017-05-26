@@ -19,9 +19,18 @@ import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvide
 import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
+import com.finance.winport.home.api.HomeServices;
+import com.finance.winport.home.model.AliTokenResponse;
 import com.finance.winport.image.BatmanUtil;
+import com.finance.winport.log.XLog;
+import com.finance.winport.net.Ironman;
+import com.finance.winport.util.ToolsUtil;
 
+import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
+
+import retrofit2.Response;
 
 /**
  * Created by liuworkmac on 16/9/21.
@@ -34,14 +43,14 @@ public class AliOss {
     public static final String DIR_SECONDHOUSE_INNER = "house/inner/";
     public static final String DIR_SECONDHOUSE_TYPE = "house/type/";
     public static final String DIR_SECONDHOUSE_COMMUNITY = "house/community/";
-    public static final String DIR_SIGN_DEAL="entrustprotocol/"; //创建协议
-    public static final String DIR_SHOP_TOPIC="shop/customer/"; //旺铺发帖
+    public static final String DIR_SIGN_DEAL = "entrustprotocol/"; //创建协议
+    public static final String DIR_SHOP_TOPIC = "shop/customer/"; //旺铺发帖
     // 运行sample前需要配置以下字段为有效的值
     private static final String endpoint = "http://oss-cn-shanghai.aliyuncs.com";
     private static final String accessKeyId = "LTAI3Xqadr8ORvUr";
     private static final String accessKeySecret = "4PXmUDGcWJd7lZjv1dw8s3heFq0tA2";
 
-    private static final String bucket = "shfcjr-attachment";
+    private static final String bucket = "wp-oss-file";
 
     private static AliOss INSTANCE = new AliOss();
 
@@ -53,21 +62,39 @@ public class AliOss {
     }
 
     public void init(Context context) {
-        OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(accessKeyId, accessKeySecret);
+        XLog.e("init ");
+//        OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(accessKeyId, accessKeySecret);
+        OSSCredentialProvider credentialProvider1 = new OSSFederationCredentialProvider() {
+            @Override
+            public OSSFederationToken getFederationToken() {
+                XLog.e("getFederationToken ");
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("osType", "android");
+                try {
+                    Response<AliTokenResponse> response = Ironman.getInstance().createService(HomeServices.class).getAliToken(hashMap).execute();
+                    AliTokenResponse response1 = response.body();
+                    AliTokenResponse.DataBean dataBean = response1.getData();
+                    if (dataBean != null) {
+//                        String time = ToolsUtil.dateToGMTStr(ToolsUtil.stringToDate(dataBean.getExpiration()));
+//                        XLog.e("time = " +time);
+//                        String time = "2017-05-26T17:35:31Z";
+                        return new OSSFederationToken(dataBean.getAccessKeyId(), dataBean.getAccessKeySecret(), dataBean.getSecurityToken(), dataBean.getExpiration());
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        };
         ClientConfiguration conf = new ClientConfiguration();
         conf.setConnectionTimeout(15 * 1000); // 连接超时，默认15秒
         conf.setSocketTimeout(15 * 1000); // socket超时，默认15秒
         conf.setMaxConcurrentRequest(5); // 最大并发请求书，默认5个
         conf.setMaxErrorRetry(1); // 失败后最大重试次数，默认2次
         OSSLog.enableLog();
-        oss = new OSSClient(context.getApplicationContext(), endpoint, credentialProvider, conf);
+        oss = new OSSClient(context.getApplicationContext(), endpoint, credentialProvider1, conf);
 
-        OSSCredentialProvider credentialProvider1 = new OSSFederationCredentialProvider() {
-            @Override
-            public OSSFederationToken getFederationToken() {
-                return null;
-            }
-        };
+
     }
 
     // 从本地文件上传，采用阻塞的同步接口
@@ -212,7 +239,7 @@ public class AliOss {
 
         String uploadObject = null;
 
-        uploadObject = virtualDir+ Calendar.getInstance().get(Calendar.YEAR)+"/" +(Calendar.getInstance().get(Calendar.MONTH)+1)+"/"+Calendar.getInstance().get(Calendar.DAY_OF_MONTH)+"/"+ "IMG_" + System.currentTimeMillis() + ".jpg";
+        uploadObject = virtualDir + Calendar.getInstance().get(Calendar.YEAR) + "/" + (Calendar.getInstance().get(Calendar.MONTH) + 1) + "/" + Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "/" + "IMG_" + System.currentTimeMillis() + ".jpg";
 
         byte[] uploadData = BatmanUtil.bitmapToBytes(uploadFilePath);
         // 构造上传请求

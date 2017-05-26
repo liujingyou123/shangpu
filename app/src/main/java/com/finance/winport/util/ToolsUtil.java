@@ -9,6 +9,12 @@ import com.finance.winport.net.NoneNetSubscriber;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.SimpleTimeZone;
+
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -53,5 +59,25 @@ public class ToolsUtil {
 
     public static <T> Subscription subscribe(rx.Observable<T> observable, NoneNetSubscriber<T> subscriber) {
         return observable.compose(ToolsUtil.<T>applayScheduers()).subscribe(subscriber);
+    }
+
+    public static Date stringToDate(String timeStr) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date time = null;
+        try {
+            time = df.parse(timeStr);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return time;
+    }
+
+    public static String dateToGMTStr(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss");
+        Calendar cal = Calendar.getInstance(new SimpleTimeZone(0, "GMT"));
+        format.setCalendar(cal);
+        return format.format(date);
     }
 }

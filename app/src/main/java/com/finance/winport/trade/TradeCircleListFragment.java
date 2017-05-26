@@ -13,13 +13,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.finance.winport.R;
-import com.finance.winport.log.XLog;
+import com.finance.winport.mine.NoticeListActivity;
 import com.finance.winport.trade.adapter.TradeCircleAdapter;
 import com.finance.winport.trade.model.EventBustTag;
 import com.finance.winport.trade.model.Trade;
 import com.finance.winport.trade.model.TradeCircleResponse;
 import com.finance.winport.trade.presenter.TradeCirclePresenter;
 import com.finance.winport.trade.view.ITradeCircleView;
+import com.finance.winport.util.SpUtil;
 import com.finance.winport.util.ToastUtil;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
@@ -32,6 +33,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -118,6 +120,14 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
                 }
             }
         });
+
+        int commentNum = SpUtil.getInstance().getIntData("commentNum", 0);
+        if (commentNum != 0) {
+            tvCommentsNum.setVisibility(View.VISIBLE);
+            tvCommentsNum.setText("老板，有" + commentNum + "位客官评论了您的帖子");
+        } else {
+            tvCommentsNum.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -221,5 +231,15 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.tv_comments_num)
+    public void onViewClicked() {
+        Intent intent = new Intent(this.getContext(), NoticeListActivity.class);
+        intent.putExtra("type", 2);
+        intent.putExtra("title", "生意圈");
+        SpUtil.getInstance().setIntData("commentNum", 0);
+        tvCommentsNum.setVisibility(View.GONE);
+
     }
 }
