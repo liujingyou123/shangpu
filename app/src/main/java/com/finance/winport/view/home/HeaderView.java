@@ -1,6 +1,7 @@
 package com.finance.winport.view.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.RelativeLayout;
 import com.finance.winport.R;
 import com.finance.winport.home.model.BannerResponse;
 import com.finance.winport.image.GlideImageLoader;
+import com.finance.winport.mine.MyNoticeActivity;
 import com.finance.winport.view.StopWatchTextView;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -20,6 +22,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by liuworkmac on 17/5/3.
@@ -138,5 +141,11 @@ public class HeaderView extends RelativeLayout {
         } else {
             imvNotice.setImageResource(R.mipmap.icon_navigation_message);
         }
+    }
+
+    @OnClick(R.id.imv_notice)
+    public void onViewClicked() {
+        Intent intent = new Intent(mContext, MyNoticeActivity.class);
+        mContext.startActivity(intent);
     }
 }
