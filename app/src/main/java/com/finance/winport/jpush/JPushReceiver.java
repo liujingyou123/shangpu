@@ -15,7 +15,9 @@ import android.util.Log;
 import com.finance.winport.R;
 import com.finance.winport.account.event.JPushEvent;
 import com.finance.winport.log.XLog;
+import com.finance.winport.mine.MyScheduleListActivity;
 import com.finance.winport.mine.NoticeListActivity;
+import com.finance.winport.mine.ScheduleDetailActivity;
 import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.trade.TradeCircleDetailActivity;
 import com.google.gson.Gson;
@@ -152,13 +154,19 @@ public class JPushReceiver extends BroadcastReceiver {
                     intent.putExtra("from", "outer");
                     intent.putExtra("type", 2);
                     intent.putExtra("title", "生意圈");
-                } else if ("1".equals(extraReceive.getBizType())) { // 评论被删
+                } else if ("2".equals(extraReceive.getBizType())) { // 评论被删
                     intent = new Intent(context, NoticeListActivity.class);
                     intent.putExtra("from", "outer");
                     intent.putExtra("type", 2);
                     intent.putExtra("title", "生意圈");
                 }
             } else if ("0".equals(extraReceive.getCatalogType())) { //服务
+                if ("3".equals(extraReceive.getBizType())) { //我的日称
+                    intent = new Intent(context, MyScheduleListActivity.class);
+                } else {
+                    intent = new Intent(context, ScheduleDetailActivity.class);
+                    intent.putExtra("scheduleId", extraReceive.getBizId());
+                }
 
             }
         }
