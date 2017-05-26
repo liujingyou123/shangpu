@@ -15,6 +15,7 @@ import android.util.Log;
 import com.finance.winport.R;
 import com.finance.winport.account.event.JPushEvent;
 import com.finance.winport.log.XLog;
+import com.finance.winport.mine.NoticeListActivity;
 import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.trade.TradeCircleDetailActivity;
 import com.google.gson.Gson;
@@ -146,7 +147,19 @@ public class JPushReceiver extends BroadcastReceiver {
                 if ("0".equals(extraReceive.getBizType())) { //评论
                     intent = new Intent(context, TradeCircleDetailActivity.class);
                     intent.putExtra("topicId", extraReceive.getBizId());
+                } else if ("1".equals(extraReceive.getBizType())) { //帖子被删
+                    intent = new Intent(context, NoticeListActivity.class);
+                    intent.putExtra("from", "outer");
+                    intent.putExtra("type", 2);
+                    intent.putExtra("title", "生意圈");
+                } else if ("1".equals(extraReceive.getBizType())) { // 评论被删
+                    intent = new Intent(context, NoticeListActivity.class);
+                    intent.putExtra("from", "outer");
+                    intent.putExtra("type", 2);
+                    intent.putExtra("title", "生意圈");
                 }
+            } else if ("0".equals(extraReceive.getCatalogType())) { //服务
+
             }
         }
 
@@ -156,7 +169,7 @@ public class JPushReceiver extends BroadcastReceiver {
 
 
         Notification.Builder myBuilder = new Notification.Builder(context);
-        myBuilder.setContentTitle(bundle.getString(JPushInterface.EXTRA_TITLE)+"ssss")
+        myBuilder.setContentTitle(bundle.getString(JPushInterface.EXTRA_TITLE) + "ssss")
                 .setContentText(bundle.getString(JPushInterface.EXTRA_MESSAGE) + "xxxx")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(LargeBitmap)
