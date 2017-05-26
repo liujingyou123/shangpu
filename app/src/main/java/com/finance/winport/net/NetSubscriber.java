@@ -43,6 +43,7 @@ public abstract class NetSubscriber<T> extends Subscriber<T> {
         }
 
         ToastUtil.show(WinPortApplication.getInstance().getApplicationContext(), e.getMessage());
+        
     }
 
     @Override

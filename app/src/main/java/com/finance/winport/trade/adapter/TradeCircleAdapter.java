@@ -4,6 +4,7 @@ package com.finance.winport.trade.adapter;
  */
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.GridLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -16,11 +17,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.account.LoginActivity;
 import com.finance.winport.dialog.NoticeDelDialog;
 import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.image.Batman;
 import com.finance.winport.trade.model.Trade;
 import com.finance.winport.trade.presenter.TradeCirclePresenter;
+import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.UnitUtil;
 
 import java.util.List;
@@ -122,11 +125,17 @@ public class TradeCircleAdapter extends BaseAdapter {
 
                 @Override
                 public void onClick(View v) {
-                    if (v.isSelected()) {  //取消点赞
-                        mPresenter.cancelzanTopic(mData.get(index).getTopicId() + "", index);
-                    } else { //点在
-                        mPresenter.zanTopic(mData.get(index).getTopicId() + "", index);
+                    if (SharedPrefsUtil.getUserInfo() != null) {
+                        if (v.isSelected()) {  //取消点赞
+                            mPresenter.cancelzanTopic(mData.get(index).getTopicId() + "", index);
+                        } else { //点在
+                            mPresenter.zanTopic(mData.get(index).getTopicId() + "", index);
+                        }
+                    } else {
+                        Intent intent1 = new Intent(mContext, LoginActivity.class);
+                        mContext.startActivity(intent1);
                     }
+
                 }
             });
 
@@ -220,6 +229,7 @@ public class TradeCircleAdapter extends BaseAdapter {
         layoutParams.setMargins(6, 6, 6, 6);
         imageView.setLayoutParams(layoutParams);
 
+        imageView.setBackgroundResource(R.drawable.default_image_logo);
         return imageView;
     }
 

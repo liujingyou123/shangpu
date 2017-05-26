@@ -17,6 +17,8 @@ import android.view.View.OnTouchListener;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
+import com.finance.winport.log.XLog;
+
 import java.util.Arrays;
 
 /**
@@ -27,7 +29,7 @@ public class ZoomImageView extends ImageView implements OnScaleGestureListener,
         OnTouchListener, ViewTreeObserver.OnGlobalLayoutListener
 
 {
-    private static final String TAG = ZoomImageView.class.getSimpleName();
+    //    private static final String TAG = ZoomImageView.class.getSimpleName();
     public static final float SCALE_MAX = 4.0f;
     private static final float SCALE_MID = 2.0f;
 
@@ -244,8 +246,8 @@ public class ZoomImageView extends ImageView implements OnScaleGestureListener,
         if (rect.height() < height) {
             deltaY = height * 0.5f - rect.bottom + 0.5f * rect.height();
         }
-        Log.e(TAG, "deltaX = " + deltaX + " , deltaY = " + deltaY);
 
+        XLog.e("deltaX = " + deltaX + " , deltaY = " + deltaY);
         mScaleMatrix.postTranslate(deltaX, deltaY);
 
     }
@@ -316,13 +318,10 @@ public class ZoomImageView extends ImageView implements OnScaleGestureListener,
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
-                Log.e(TAG, "rect.width()  " + rectF.width());
-                Log.e(TAG, "rect.right  " + rectF.right);
-                Log.e(TAG, "rect.left  " + rectF.left);
+                XLog.e("rect.width()  " + rectF.width() + " rect.right  " + rectF.right + " rect.left  " + rectF.left);
                 float[] ff = new float[9];
                 mScaleMatrix.getValues(ff);
-
-                Log.e(TAG, "checkMatrixBounds: " + Arrays.toString(ff));
+                XLog.e(Arrays.toString(ff));
                 if (rectF.width() > getWidth() || rectF.height() > getHeight()) {
                     if ((rectF.right == getWidth() || rectF.left == 0)) {
                         getParent().requestDisallowInterceptTouchEvent(false);
@@ -333,7 +332,9 @@ public class ZoomImageView extends ImageView implements OnScaleGestureListener,
                 } else {
                     Log.e("zoom", "onTouch: false");
                 }
-                Log.e(TAG, "ACTION_MOVE");
+                XLog.e("ACTION_MOVE");
+
+//                Log.e(TAG, );
                 float dx = x - mLastX;
                 float dy = y - mLastY;
 
@@ -376,7 +377,7 @@ public class ZoomImageView extends ImageView implements OnScaleGestureListener,
 
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                Log.e(TAG, "ACTION_UP");
+                XLog.e("ACTION_UP");
                 lastPointerCount = 0;
                 break;
         }
@@ -413,7 +414,8 @@ public class ZoomImageView extends ImageView implements OnScaleGestureListener,
             Drawable d = getDrawable();
             if (d == null)
                 return;
-            Log.e(TAG, d.getIntrinsicWidth() + " , " + d.getIntrinsicHeight());
+
+            XLog.e(d.getIntrinsicWidth() + " , " + d.getIntrinsicHeight());
             int width = getWidth();
             int height = getHeight();
             // 拿到图片的宽和高
@@ -433,7 +435,7 @@ public class ZoomImageView extends ImageView implements OnScaleGestureListener,
             }
             initScale = scale;
 
-            Log.e(TAG, "initScale = " + initScale);
+            XLog.e("initScale = " + initScale);
             mScaleMatrix.postTranslate((width - dw) / 2, (height - dh) / 2);
             mScaleMatrix.postScale(scale, scale, getWidth() / 2,
                     getHeight() / 2);

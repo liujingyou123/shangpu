@@ -2,6 +2,7 @@ package com.finance.winport.trade.model;
 
 import com.finance.winport.base.BaseResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,6 +48,7 @@ public class TradeDetailResponse extends BaseResponse {
         private String phone;
         private String headPicture;
         private String canBeDelete;
+        private String kind;
         /**
          * dateTime : 2017-05-10 14:59:31
          * headPicture : https://b-ssl.duitang.com/uploads/item/201607/23/20160723192350_RCwMK.png
@@ -64,7 +66,7 @@ public class TradeDetailResponse extends BaseResponse {
          * version : 1
          */
 
-        private List<Img> imgList;
+        private ArrayList<Img> imgList;
 
         public String getAttentionContent() {
             return attentionContent;
@@ -146,11 +148,11 @@ public class TradeDetailResponse extends BaseResponse {
 //            this.commentList = commentList;
 //        }
 
-        public List<Img> getImgList() {
+        public ArrayList<Img> getImgList() {
             return imgList;
         }
 
-        public void setImgList(List<Img> imgList) {
+        public void setImgList(ArrayList<Img> imgList) {
             this.imgList = imgList;
         }
 
@@ -176,6 +178,14 @@ public class TradeDetailResponse extends BaseResponse {
 
         public void setCanBeDelete(String canBeDelete) {
             this.canBeDelete = canBeDelete;
+        }
+
+        public String getKind() {
+            return kind;
+        }
+
+        public void setKind(String kind) {
+            this.kind = kind;
         }
 
         public static class H5Object {

@@ -55,7 +55,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="15dp"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/send_rent_icon1"
+                    android:src="@mipmap/icon_default_head"
                     app:oval="true" />
 
                 <TextView

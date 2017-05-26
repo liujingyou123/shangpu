@@ -169,6 +169,10 @@ public final class Batman {
         mButler.fromNetWithFitCenter(mContext, url, imageView, -1, -1, 0, 0);
     }
 
+    public void fromNetWithFitCenter(String url, ImageView imageView, int defaultImage, int failedImage) {
+        mButler.fromNetWithFitCenter(mContext, url, imageView, defaultImage, failedImage, 0, 0);
+    }
+
     public Bitmap getBitMap(Context context, String url) {
         return mButler.getBitMap(context, url);
     }

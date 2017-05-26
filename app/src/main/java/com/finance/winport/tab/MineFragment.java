@@ -155,9 +155,15 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.mine_fragment, container, false);
         unbinder = ButterKnife.bind(this, root);
+        initView();
         init();
         asyncRelevant();
         return root;
+    }
+
+    private void initView() {
+        yi.setVisibility(View.GONE);
+        ji.setVisibility(View.GONE);
     }
 
     private void getData() {
@@ -195,6 +201,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
             @Override
             public void onCompleted() {
                 yi.setText(sb.toString());
+                yi.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -214,6 +221,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
             @Override
             public void onCompleted() {
                 ji.setText(sb.toString());
+                ji.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -242,9 +250,9 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (!hidden) {
-            asyncRelevant();
-        }
+//        if (!hidden) {
+//            asyncRelevant();
+//        }
     }
 
     @Override
@@ -258,10 +266,10 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
         if (isLogin()) {
             getUnReadMsg();
             getWinportCounts();
-            getLunar();
             getData();
             modify.setVisibility(View.VISIBLE);
         }
+        getLunar();
     }
 
     //获取未读消息
@@ -362,12 +370,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
                 toConcern();
                 break;
             case R.id.schedule_list:
-                if (isLogin()) {// already login
-                    startActivity(new Intent(getActivity(), MyScheduleListActivity.class));
-                } else {
-                    toLogin();
-                }
-
+                startActivity(new Intent(getActivity(), MyScheduleListActivity.class));
                 break;
             case R.id.setting:
                 startActivity(new Intent(getActivity(), SettingsActivity.class));

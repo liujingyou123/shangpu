@@ -1,7 +1,8 @@
 package com.finance.winport.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -45,6 +46,8 @@ public class NoticeListActivity extends BaseActivity {
     PtrClassicFrameLayout refreshView;
     @BindView(R.id.rl_title_root)
     RelativeLayout rlTitleRoot;
+    @BindView(R.id.empty)
+    RelativeLayout empty;
     private int type;//通知类型：0-服务 1-系统 2-生意圈 3-商铺 4-工作
     private String title;
     LoadingDialog loading;
@@ -91,6 +94,10 @@ public class NoticeListActivity extends BaseActivity {
 
     }
 
+    private void setEmpty(boolean show) {
+        empty.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
     private void asyncData() {
         getNotifyList();
     }
@@ -109,6 +116,8 @@ public class NoticeListActivity extends BaseActivity {
                 if (response != null && response.isSuccess()) {
                     setAdapter(response);
                     refreshView.setVisibility(View.VISIBLE);
+                } else {
+                    setEmpty(true);
                 }
             }
 
@@ -116,6 +125,7 @@ public class NoticeListActivity extends BaseActivity {
             public void failure(Throwable throwable) {
                 refreshView.refreshComplete();
                 loading.dismiss();
+                setEmpty(true);
             }
         });
     }
@@ -174,4 +184,12 @@ public class NoticeListActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void handleBack() {
+        if (TextUtils.equals(getIntent().getStringExtra("from"), "outer")) {
+            startActivity(new Intent(context, MyNoticeActivity.class).putExtras(getIntent().getExtras()));
+        } else {
+            super.handleBack();
+        }
+    }
 }

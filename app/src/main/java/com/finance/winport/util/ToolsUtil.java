@@ -38,7 +38,7 @@ public class ToolsUtil {
         return new Observable.Transformer<T, T>() {
             @Override
             public Observable<T> call(Observable<T> tObservable) {
-                return tObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+                return tObservable.retryWhen(new RetryWithDelay()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
             }
         };
     }

@@ -10,6 +10,7 @@ import com.finance.winport.home.model.ShopRequset;
 import com.finance.winport.home.view.IHomeView;
 import com.finance.winport.mine.api.MineServices;
 import com.finance.winport.mine.model.PersonalInfoResponse;
+import com.finance.winport.net.LoadingNetSubscriber;
 import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.net.NoneNetSubscriber;
 import com.finance.winport.tab.model.UnReadMsg;
@@ -30,7 +31,7 @@ public class HomePresenter {
     }
 
     public void getShopList(ShopRequset requset) {
-        ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).getShops(requset), new NetSubscriber<ShopListResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).getShops(requset), new LoadingNetSubscriber<ShopListResponse>() {
             @Override
             public void response(ShopListResponse response) {
                 if (mIHomeView != null) {

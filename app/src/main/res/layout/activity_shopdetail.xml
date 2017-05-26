@@ -105,7 +105,8 @@
                 app:indicator_drawable_unselected="@drawable/dot_banner_unselect"
                 app:indicator_height="6dp"
                 app:indicator_margin="5dp"
-                app:indicator_width="6dp"></com.youth.banner.Banner>
+                app:indicator_width="6dp"
+                android:background="@drawable/default_image_logo"></com.youth.banner.Banner>
 
 
             <TextView
