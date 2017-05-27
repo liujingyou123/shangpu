@@ -48,11 +48,11 @@ public class PersonalInfoResponse extends BaseResponse {
         private String headPortrait;
         private int cityId;
         private String cityName;
-        private int districtId;
+        private String districtId;
         private String districtName;
-        private int blockId;
+        private String blockId;
         private String blockName;
-        private int industryId;
+        private String industryId;
         private String industryName;
         private List<Integer> list;
         private String isNew;
@@ -97,11 +97,11 @@ public class PersonalInfoResponse extends BaseResponse {
             this.cityName = cityName;
         }
 
-        public int getDistrictId() {
+        public String getDistrictId() {
             return districtId;
         }
 
-        public void setDistrictId(int districtId) {
+        public void setDistrictId(String districtId) {
             this.districtId = districtId;
         }
 
@@ -113,11 +113,11 @@ public class PersonalInfoResponse extends BaseResponse {
             this.districtName = districtName;
         }
 
-        public int getBlockId() {
+        public String getBlockId() {
             return blockId;
         }
 
-        public void setBlockId(int blockId) {
+        public void setBlockId(String blockId) {
             this.blockId = blockId;
         }
 
@@ -129,11 +129,11 @@ public class PersonalInfoResponse extends BaseResponse {
             this.blockName = blockName;
         }
 
-        public int getIndustryId() {
+        public String getIndustryId() {
             return industryId;
         }
 
-        public void setIndustryId(int industryId) {
+        public void setIndustryId(String industryId) {
             this.industryId = industryId;
         }
 

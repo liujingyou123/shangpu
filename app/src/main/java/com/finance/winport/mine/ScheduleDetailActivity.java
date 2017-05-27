@@ -2,6 +2,7 @@ package com.finance.winport.mine;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,7 +55,7 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
     private NoticeDialog nNoticeDialog;//撤销服务弹框
     private NoticeDialog bNoticeDialog;//确认服务弹框
     private ScheduleDetailPresenter mPresenter;
-    private int scheduleId;
+    private String scheduleId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +68,15 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
 
     public void init() {
 
-        scheduleId = getIntent().getIntExtra("scheduleId", -1);
+        scheduleId = getIntent().getStringExtra("scheduleId");
 
         if (mPresenter == null) {
             mPresenter = new ScheduleDetailPresenter(this);
         }
-        mPresenter.getScheduleDetail(scheduleId);
+        if(!TextUtils.isEmpty(scheduleId)){
+
+            mPresenter.getScheduleDetail(scheduleId);
+        }
     }
 
     @OnClick({R.id.imv_focus_house_back, R.id.cancel, R.id.service_phone, R.id.btn_done})

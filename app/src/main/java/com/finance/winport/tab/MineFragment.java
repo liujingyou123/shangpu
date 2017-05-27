@@ -626,123 +626,123 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
                 if (selectList.size() == 1) {
 
                     switch (selectList.get(i)) {
-                        case 0:
+                        case 1:
                             s.append("20㎡以下");
                             break;
-                        case 1:
+                        case 2:
                             s.append("20-50㎡");
                             break;
-                        case 2:
+                        case 3:
                             s.append("50-100㎡");
                             break;
-                        case 3:
+                        case 4:
                             s.append("100-200㎡");
                             break;
-                        case 4:
+                        case 5:
                             s.append("200-500㎡");
                             break;
-                        case 5:
+                        case 6:
                             s.append("500-1000㎡");
                             break;
-                        case 6:
+                        case 7:
                             s.append("1000㎡以上");
                             break;
                     }
 
                 } else {
                     switch (selectList.get(i)) {
-                        case 0:
+                        case 1:
                             s.append("20㎡以下");
                             break;
-                        case 1:
+                        case 2:
                             s.append("20-50㎡");
                             break;
-                        case 2:
+                        case 3:
                             s.append("50-100㎡");
                             break;
-                        case 3:
+                        case 4:
                             s.append("100-200㎡");
                             break;
-                        case 4:
+                        case 5:
                             s.append("200-500㎡");
                             break;
-                        case 5:
+                        case 6:
                             s.append("500-1000㎡");
                             break;
-                        case 6:
+                        case 7:
                             s.append("1000㎡以上");
                             break;
                     }
                 }
             } else if (selectList.size() < 5) {
                 switch (selectList.get(i)) {
-                    case 0:
+                    case 1:
                         s.append("-" + "20㎡以下");
                         break;
-                    case 1:
+                    case 2:
                         s.append("-" + "20-50㎡");
                         break;
-                    case 2:
+                    case 3:
                         s.append("-" + "50-100㎡");
                         break;
-                    case 3:
+                    case 4:
                         s.append("-" + "100-200㎡");
                         break;
-                    case 4:
+                    case 5:
                         s.append("-" + "200-500㎡");
                         break;
-                    case 5:
+                    case 6:
                         s.append("-" + "500-1000㎡");
                         break;
-                    case 6:
+                    case 7:
                         s.append("-" + "1000㎡以上");
                         break;
                 }
             } else if (i == 3) {
                 switch (selectList.get(i)) {
-                    case 0:
+                    case 1:
                         s.append("-" + "20㎡以下");
                         break;
-                    case 1:
+                    case 2:
                         s.append("-" + "20-50㎡");
                         break;
-                    case 2:
+                    case 3:
                         s.append("-" + "50-100㎡");
                         break;
-                    case 3:
+                    case 4:
                         s.append("-" + "100-200㎡");
                         break;
-                    case 4:
+                    case 5:
                         s.append("-" + "200-500㎡");
                         break;
-                    case 5:
+                    case 6:
                         s.append("-" + "500-1000㎡");
                         break;
-                    case 6:
+                    case 7:
                         s.append("-" + "1000㎡以上");
                         break;
                 }
             } else {
                 switch (selectList.get(i)) {
-                    case 0:
+                    case 1:
                         s.append("-" + "20㎡以下");
                         break;
-                    case 1:
+                    case 2:
                         s.append("-" + "20-50㎡");
                         break;
-                    case 2:
+                    case 3:
                         s.append("-" + "50-100㎡");
                         break;
-                    case 3:
+                    case 4:
                         s.append("-" + "100-200㎡");
                         break;
-                    case 4:
+                    case 5:
                         s.append("-" + "200-500㎡");
                         break;
-                    case 5:
+                    case 6:
                         s.append("-" + "500-1000㎡");
                         break;
-                    case 6:
+                    case 7:
                         s.append("-" + "1000㎡以上");
                         break;
                 }
@@ -752,9 +752,9 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
         industryName = response.getData().getIndustryName();
         blockName = response.getData().getBlockName();
         districtName = response.getData().getDistrictName();
-        industryId = response.getData().getIndustryId() + "";
-        blockId = response.getData().getBlockId() + "";
-        districtId = response.getData().getDistrictId() + "";
+        industryId = response.getData().getIndustryId();
+        blockId = response.getData().getBlockId();
+        districtId = response.getData().getDistrictId();
         if (TextUtils.isEmpty(response.getData().getBlockName())) {
 
             if (TextUtils.isEmpty(response.getData().getIndustryName())) {
