@@ -200,6 +200,7 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
         oldUser.setVisibility(View.VISIBLE);
         head.setVisibility(View.VISIBLE);
         headLine.setVisibility(View.VISIBLE);
+        banner.setVisibility(View.GONE);
         banner.stopAutoPlay();
         weekCalendar = new WeekCalendar(getContext(), getChildFragmentManager());
         LinearLayout.LayoutParams alpTab = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
@@ -261,6 +262,9 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
 
     public void initNew() {
         banner.setVisibility(View.VISIBLE);
+        oldUser.setVisibility(View.GONE);
+        head.setVisibility(View.GONE);
+        headLine.setVisibility(View.GONE);
         banner.start();
     }
 

@@ -20,9 +20,9 @@ public class ScheduleDetailPresenter {
         this.mServiceView = mServiceView;
     }
 
-    public void getScheduleDetail(int id) {
+    public void getScheduleDetail(String id) {
 
-        HashMap<String,Object> map = new HashMap<>();
+        HashMap<String,String> map = new HashMap<>();
         map.put("scheduleId",id);
         ToolsUtil.subscribe(ToolsUtil.createService(MineServices.class).getScheduleDetail(map), new NetSubscriber<ScheduleDetailResponse>() {
             @Override
@@ -36,9 +36,9 @@ public class ScheduleDetailPresenter {
     }
 
 
-    public void ensureSchedule(int id) {
+    public void ensureSchedule(String id) {
 
-        HashMap<String,Object> map = new HashMap<>();
+        HashMap<String,String> map = new HashMap<>();
         map.put("scheduleId",id);
         ToolsUtil.subscribe(ToolsUtil.createService(MineServices.class).ensureSchedule(map), new NetSubscriber<com.finance.winport.base.BaseResponse>() {
             @Override
@@ -52,9 +52,9 @@ public class ScheduleDetailPresenter {
     }
 
 
-    public void revokeSchedule(int id) {
+    public void revokeSchedule(String id) {
 
-        HashMap<String,Object> map = new HashMap<>();
+        HashMap<String,String> map = new HashMap<>();
         map.put("scheduleId",id);
         ToolsUtil.subscribe(ToolsUtil.createService(MineServices.class).revokeSchedule(map), new NetSubscriber<com.finance.winport.base.BaseResponse>() {
             @Override

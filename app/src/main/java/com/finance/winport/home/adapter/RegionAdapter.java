@@ -39,8 +39,16 @@ public class RegionAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void setDataWithRegionId(String id) {
+        if (mData.size() == 0) {
+            mData.addAll(QuyuDataManager.getInstance().getRegions());
+        }
+        setSelectId(id);
+
+    }
+
     public void setSelectId(String id) {
-        for (int i=0; i<mData.size(); i++) {
+        for (int i = 0; i < mData.size(); i++) {
             if (mData.get(i).getRegionId().equals(id)) {
                 setSelectPostion(i);
                 break;

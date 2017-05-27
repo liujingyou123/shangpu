@@ -72,8 +72,6 @@ public class QuyuPopupView extends AnimPopup {
     public QuyuPopupView(Context context) {
         super(context);
         initView(context);
-        getDistrict();
-        getMetros();
     }
 
     private void initView(Context context) {
@@ -221,12 +219,21 @@ public class QuyuPopupView extends AnimPopup {
 
     }
 
+    public void setRequest(ShopRequset request) {
+        if (request != null) {
+            mRequest.districtId = request.districtId;
+            mRequest.blockId = request.blockId;
+        }
+    }
+
     @Override
     public void showAsDropDown(View anchor) {
         initWindowAttribute(anchor);
         super.showAsDropDown(anchor);
 
-        showInitSelect();
+//        showInitSelect();
+        getDistrict();
+        getMetros();
     }
 
     private void initWindowAttribute(View anchor) {
@@ -264,19 +271,26 @@ public class QuyuPopupView extends AnimPopup {
 
 
     private void getDistrict() {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("cityId", "310000");
-        ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).getDistrict(map), new NetSubscriber<RegionResponse>() {
-            @Override
-            public void response(RegionResponse response) {
-                if (response != null && response.getData() != null) {
-                    QuyuDataManager.getInstance().addRegion(response.getData());
-                    regionAdapter.initData();
+        if (QuyuDataManager.getInstance().getRegionsNoAll() == null || QuyuDataManager.getInstance().getRegionsNoAll().size() == 0) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("cityId", "310000");
+            ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).getDistrict(map), new NetSubscriber<RegionResponse>() {
+                @Override
+                public void response(RegionResponse response) {
+                    if (response != null && response.getData() != null) {
+                        QuyuDataManager.getInstance().addRegion(response.getData());
+                        regionAdapter.initData();
+
+                        showInitSelect();
+                    }
+
                 }
 
-            }
+            });
+        } else {
+            showInitSelect();
+        }
 
-        });
     }
 
     private void getMetros() {
@@ -319,7 +333,8 @@ public class QuyuPopupView extends AnimPopup {
             llListRegion.setVisibility(View.VISIBLE);
             llListMetro.setVisibility(View.GONE);
             if (mRequest.districtId != null) {
-                regionAdapter.setSelectId(mRequest.districtId);
+                lsOne.setVisibility(View.VISIBLE);
+                regionAdapter.setDataWithRegionId(mRequest.districtId);
             } else {
                 lsTwo.setVisibility(View.GONE);
             }
