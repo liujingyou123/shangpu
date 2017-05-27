@@ -76,6 +76,12 @@ public class SelecTagAdapter extends BaseAdapter {
             }
             viewHolder.cbTag.setText(tag.getName());
 
+            if (isSelectById(mData.get(i).getId()+"")) {
+                viewHolder.cbTag.setChecked(true);
+            } else {
+                viewHolder.cbTag.setChecked(false);
+            }
+
             viewHolder.cbTag.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 int index = i;
 
@@ -96,6 +102,27 @@ public class SelecTagAdapter extends BaseAdapter {
 
     public List<String> getSelectList() {
         return selectList;
+    }
+
+    public boolean isSelectById(String id) {
+        boolean ret = false;
+
+        if (selectList != null && selectList.size() > 0) {
+            for (int i = 0; i < selectList.size(); i++) {
+                if (selectList.get(i).equals(id)) {
+                    ret = true;
+                    break;
+                }
+            }
+        }
+
+
+        return ret;
+    }
+
+    public void setSelectList(List<String> list) {
+        selectList.clear();
+        selectList.addAll(list);
     }
 
     public void clearSelectList() {

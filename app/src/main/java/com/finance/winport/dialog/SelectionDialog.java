@@ -122,6 +122,10 @@ public class SelectionDialog extends Dialog implements DialogInterface.OnDismiss
     private ShopRequset requset = new ShopRequset();
     private OnSelectListener mOnSelectListener;
 
+    private List<String> featureSelect = new ArrayList<>(); //从外部传进来的选中的特色
+    private List<String> supportSelect = new ArrayList<>(); //从外部传进来的选中的配套
+
+
     public SelectionDialog(Context context) {
         super(context, R.style.customDialog);
         init(context);
@@ -136,7 +140,7 @@ public class SelectionDialog extends Dialog implements DialogInterface.OnDismiss
         setCanceledOnTouchOutside(true);
 
         Window window = getWindow();
-        window.setType(WindowManager.LayoutParams.TYPE_TOAST);
+//        window.setType(WindowManager.LayoutParams.TYPE_TOAST);
         window.setGravity(Gravity.RIGHT);
         WindowManager.LayoutParams lp = window.getAttributes();
         lp.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, mContext.getResources().getDisplayMetrics());
@@ -158,9 +162,6 @@ public class SelectionDialog extends Dialog implements DialogInterface.OnDismiss
         initPriceClickListener();
         initAreaClickListener();
 
-        getTagList("1");
-        getTagList("2");
-
         setOnDismissListener(this);
     }
 
@@ -176,6 +177,7 @@ public class SelectionDialog extends Dialog implements DialogInterface.OnDismiss
                 if ("1".equals(type)) {
                     featureData.addAll(response.getData());
                     featureAdapter = new SelecTagAdapter(mContext, response.getData());
+                    featureAdapter.setSelectList(featureSelect);
                     tcFeature.setAdapter(featureAdapter);
                 } else if ("2".equals(type)) {
                     supportData.addAll(response.getData());
@@ -369,6 +371,18 @@ public class SelectionDialog extends Dialog implements DialogInterface.OnDismiss
     }
 
     @Override
+    public void show() {
+        if (featureAdapter == null) {
+            getTagList("1");
+        }
+
+        if (supportAdapter == null) {
+            getTagList("2");
+        }
+        super.show();
+    }
+
+    @Override
     public void onDismiss(DialogInterface dialog) {
         if (mOnSelectListener != null) {
             mOnSelectListener.onSelect(requset);
@@ -379,7 +393,11 @@ public class SelectionDialog extends Dialog implements DialogInterface.OnDismiss
         void onSelect(ShopRequset request);
     }
 
-
+    /**
+     * 初始化面积
+     *
+     * @param mArea
+     */
     public void initAreaData(List<String> mArea) {
         if (mArea != null && mArea.size() > 0) {
             for (int i = 0; i < mArea.size(); i++) {
@@ -395,6 +413,74 @@ public class SelectionDialog extends Dialog implements DialogInterface.OnDismiss
             requset.areaList = area;
         }
     }
+
+    /**
+     * 初始化租金
+     *
+     * @param mRent
+     */
+    public void initRentData(List<String> mRent) {
+        if (mRent != null && mRent.size() > 0) {
+            for (int i = 0; i < mRent.size(); i++) {
+                int rentId = Integer.parseInt(mRent.get(i));
+                if (rentId < 4) {
+                    ((CheckBox) llRentOne.getChildAt(rentId - 1)).setChecked(true);
+                } else if (rentId < 7) {
+                    ((CheckBox) llRentTwo.getChildAt(rentId - 4)).setChecked(true);
+                }
+            }
+            requset.rentList = rent;
+        }
+    }
+
+    /**
+     * 初始化转让费
+     */
+    public void initPriceData(List<String> mPrice) {
+        if (mPrice != null && mPrice.size() > 0) {
+            for (int i = 0; i < mPrice.size(); i++) {
+                int priceId = Integer.parseInt(mPrice.get(i));
+                if (priceId < 4) {
+                    ((CheckBox) llPriceOne.getChildAt(priceId - 1)).setChecked(true);
+                } else if (priceId < 7) {
+                    ((CheckBox) llPriceTwo.getChildAt(priceId - 4)).setChecked(true);
+                }
+            }
+            requset.transferList = price;
+        }
+    }
+
+    /**
+     * 门面数据
+     *
+     * @param width
+     */
+    public void initWidth(String width) {
+        etWidth.setText(width);
+    }
+
+    /**
+     * 特色标签集合
+     *
+     * @param selectList
+     */
+    public void initFeatureData(List<String> selectList) {
+        if (selectList != null && selectList.size() > 0) {
+            featureSelect.addAll(selectList);
+        }
+    }
+
+    /**
+     * 配套设置
+     *
+     * @param selectList
+     */
+    public void initSupportData(List<String> selectList) {
+        if (selectList != null && selectList.size() > 0) {
+            supportSelect.addAll(selectList);
+        }
+    }
+
 
     /**
      * 无转让费
