@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Space;
 import android.widget.TextView;
 
 import com.finance.winport.R;
@@ -72,6 +73,8 @@ public class NoticeListActivity extends BaseActivity {
         title = getIntent().getStringExtra("title");
         tvFocusHouse.setText(title);
         loading = new LoadingDialog(context);
+        mListView.addHeaderView(new Space(context));
+        mListView.addFooterView(new Space(context));
         initRefreshView();
     }
 

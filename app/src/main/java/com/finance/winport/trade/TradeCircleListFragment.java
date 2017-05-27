@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.mine.NoticeListActivity;
 import com.finance.winport.trade.adapter.TradeCircleAdapter;
+import com.finance.winport.trade.model.EventBusCommentNum;
 import com.finance.winport.trade.model.EventBustTag;
 import com.finance.winport.trade.model.Trade;
 import com.finance.winport.trade.model.TradeCircleResponse;
@@ -27,6 +28,7 @@ import com.finance.winport.view.refreshview.PtrFrameLayout;
 import com.finance.winport.view.refreshview.XPtrFrameLayout;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +64,9 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tradecirclelist, null);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         unbinder = ButterKnife.bind(this, view);
         init();
         return view;
@@ -120,7 +125,15 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
                 }
             }
         });
+        commentNum();
+    }
 
+    @Subscribe
+    public void getCommentNum(EventBusCommentNum num) {
+        commentNum();
+    }
+
+    private void commentNum() {
         int commentNum = SpUtil.getInstance().getIntData("commentNum", 0);
         if (commentNum != 0) {
             tvCommentsNum.setVisibility(View.VISIBLE);
@@ -231,6 +244,7 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        EventBus.getDefault().register(this);
     }
 
     @OnClick(R.id.tv_comments_num)
@@ -238,8 +252,10 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
         Intent intent = new Intent(this.getContext(), NoticeListActivity.class);
         intent.putExtra("type", 2);
         intent.putExtra("title", "生意圈");
+        startActivity(intent);
         SpUtil.getInstance().setIntData("commentNum", 0);
         tvCommentsNum.setVisibility(View.GONE);
+        EventBus.getDefault().post(new EventBusCommentNum());
 
     }
 }

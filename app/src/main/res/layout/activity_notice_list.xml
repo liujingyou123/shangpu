@@ -33,8 +33,11 @@
                 android:id="@+id/mListView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:divider="@null"
+                android:divider="@color/bg"
+                android:dividerHeight="10dp"
                 android:fadingEdge="none"
+                android:footerDividersEnabled="true"
+                android:headerDividersEnabled="true"
                 android:scrollbars="none" />
         </com.finance.winport.view.refreshview.PtrClassicFrameLayout>
 

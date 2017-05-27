@@ -55,7 +55,7 @@ public class UserContractFragment extends BaseFragment {
                 return super.shouldOverrideUrlLoading(view, url);
             }
         });
-        web.loadUrl("");
+        web.loadUrl("http://wph5.tst.shfc999.com/agreement.html");
     }
 
     @OnClick(R.id.imv_focus_house_back)

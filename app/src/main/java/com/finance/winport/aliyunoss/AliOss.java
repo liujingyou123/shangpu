@@ -38,8 +38,8 @@ import retrofit2.Response;
  */
 public class AliOss {
     private OSS oss;
-    //经纪人目录
-    public static final String DIR_REALTOR = "realtor/headimage/";
+    //用户端目录
+    public static final String DIR_CUSTOMER = "customer/headimage/";
     public static final String DIR_SECONDHOUSE_INNER = "house/inner/";
     public static final String DIR_SECONDHOUSE_TYPE = "house/type/";
     public static final String DIR_SECONDHOUSE_COMMUNITY = "house/community/";

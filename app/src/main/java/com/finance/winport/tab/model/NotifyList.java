@@ -21,7 +21,7 @@ public class NotifyList extends BaseResponse {
         public List<BussinessNoticeBean> bussinessNoticeRespDTOList;
 
         public static class ServiceNoticeBean {
-            public int serviceType;
+            public String serviceType;
             public String digest;
             public int bussinessId;
             public String notifyTime;
@@ -37,7 +37,7 @@ public class NotifyList extends BaseResponse {
         }
 
         public static class BussinessNoticeBean {
-            public int businessType;
+            public String bussinessType;
             public String digest;
             public int status;
             public int bussinessId;

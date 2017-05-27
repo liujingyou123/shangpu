@@ -1,5 +1,6 @@
 package com.finance.winport.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -16,7 +17,11 @@ public class OrderShopActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ordershop);
-        pushFragment(new SendShopOrderFragment());
+        Bundle bundle = getIntent().getBundleExtra("bundle");
+
+        SendShopOrderFragment fragment = new SendShopOrderFragment();
+        fragment.setArguments(bundle);
+        pushFragment(fragment);
 
     }
 }

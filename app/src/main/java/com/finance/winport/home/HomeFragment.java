@@ -20,6 +20,7 @@ import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.dialog.QuyuPopupView;
+import com.finance.winport.dialog.SelectionDialog;
 import com.finance.winport.dialog.SortPopupView;
 import com.finance.winport.dialog.WelcomeDialog;
 import com.finance.winport.home.adapter.ShopsAdapter;
@@ -78,7 +79,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 
     private QuyuPopupView quyuPopupView;
     private SortPopupView sortPopupView;
-    //    private SelectionDialog selectionDialog;
+    private SelectionDialog selectionDialog;
     private ShopRequset mRequest = new ShopRequset();
     private HeaderView headerView;
     private SelectView heardSelectView;
@@ -111,11 +112,12 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         mPresenter.getShopCount();
         mPresenter.getBanner();
         mPresenter.getIsUnReader();
-        if (SharedPrefsUtil.getUserInfo() != null && TextUtils.isEmpty(SpUtil.getInstance().getStringData(SharedPrefsUtil.getUserInfo().data.userPhone, null))) {
-            mPresenter.getPersonalInfo();
-        }
 
         getCurrentLocation();
+
+        if (SharedPrefsUtil.getUserInfo() != null) {
+            mPresenter.getPersonalInfo();
+        }
     }
 
     @Override
@@ -308,10 +310,12 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                             if (requset == null || (TextUtils.isEmpty(requset.districtId) && TextUtils.isEmpty(requset.blockId)
                                     && TextUtils.isEmpty(requset.metroId) && TextUtils.isEmpty(requset.stationId))) {
                                 selectionView.onLocationUnClick();
+                                heardSelectView.onLocationUnClick();
                             }
 //
                         }
                     });
+                    quyuPopupView.setRequest(mRequest);
                 }
                 if (!quyuPopupView.isShowing()) {
                     if (sortPopupView != null && sortPopupView.isShowing()) {
@@ -375,16 +379,79 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         }, time);
     }
 
-    private void showSelectDialog() {
-        if (!SelectDialogUtil.getInstance().isShowing()) {
+//    private void showSelectDialog() {
+//        if (!SelectDialogUtil.getInstance().isShowing()) {
+//
+//            if (sortPopupView != null && sortPopupView.isShowing()) {
+//                sortPopupView.dismiss();
+//            }
+//            if (quyuPopupView != null && quyuPopupView.isShowing()) {
+//                quyuPopupView.dismiss();
+//            }
+//            SelectDialogUtil.getInstance().showDialogWithData(mRequest.areaList);
+//            selectionView.onCsClick();
+//            heardSelectView.onCsUnClick();
+//        }
+//    }
 
+    private void showSelectDialog() {
+        if (selectionDialog == null) {
+            selectionDialog = new SelectionDialog(this.getContext());
+            selectionDialog.setOnSelectListener(new SelectionDialog.OnSelectListener() {
+                @Override
+                public void onSelect(ShopRequset request) {
+
+                    EventBus.getDefault().post(request);
+//                    getSelectDilogData(request);
+//                    selectionView.onCsUnClick();
+//                    heardSelectView.onCsUnClick();
+//                    if (request.rentList != null && request.rentList.size() > 0) {
+//                        mRequest.rentList = request.rentList;
+//                    } else {
+//                        mRequest.rentList = null;
+//                    }
+//                    if (request.transferList != null && request.transferList.size() > 0) {
+//                        mRequest.transferList = request.transferList;
+//                    } else {
+//                        mRequest.transferList = null;
+//                    }
+//                    if (request.areaList != null && request.areaList.size() > 0) {
+//                        mRequest.areaList = request.areaList;
+//                    } else {
+//                        mRequest.areaList = null;
+//                    }
+//                    mRequest.width = request.width;
+//                    if (request.featureTagList != null && request.featureTagList.size() > 0) {
+//                        mRequest.featureTagList = request.featureTagList;
+//                    } else {
+//                        mRequest.featureTagList = null;
+//                    }
+//                    if (request.supportTagList != null && request.supportTagList.size() > 0) {
+//                        mRequest.supportTagList = request.supportTagList;
+//                    } else {
+//                        mRequest.supportTagList = null;
+//                    }
+//
+//                    mRequest.pageNumber = 1;
+//                    mPresenter.getShopList(mRequest);
+                }
+            });
+        }
+
+        if (!selectionDialog.isShowing()) {
             if (sortPopupView != null && sortPopupView.isShowing()) {
                 sortPopupView.dismiss();
             }
             if (quyuPopupView != null && quyuPopupView.isShowing()) {
                 quyuPopupView.dismiss();
             }
-            SelectDialogUtil.getInstance().showDialog();
+            selectionDialog.initAreaData(mRequest.areaList);
+            selectionDialog.initRentData(mRequest.rentList);
+            selectionDialog.initPriceData(mRequest.transferList);
+            selectionDialog.initWidth(mRequest.width);
+            selectionDialog.initFeatureData(mRequest.featureTagList);
+            selectionDialog.initSupportData(mRequest.supportTagList);
+            selectionDialog.show();
             selectionView.onCsClick();
             heardSelectView.onCsUnClick();
         }
@@ -392,6 +459,8 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 
     @Subscribe
     public void getSelectDilogData(ShopRequset request) {
+        XLog.e("getSelectDilogData");
+        mRequest.queryType = 1;
         selectionView.onCsUnClick();
         heardSelectView.onCsUnClick();
         if (request.rentList != null && request.rentList.size() > 0) {
@@ -588,16 +657,56 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 
     @Override
     public void showPersonalInfo(PersonalInfoResponse response) {
-        if ("1".equals(response.getData().getIsNew()) && TextUtils.isEmpty(response.getData().getIndustryName())) {
+        if ("1".equals(response.getData().getIsNew()) && (response.getData() == null || (TextUtils.isEmpty(response.getData().getIndustryName())
+                && TextUtils.isEmpty(response.getData().getIndustryName())
+                && (response.getData().getList() == null || response.getData().getList().size() == 0)
+                && TextUtils.isEmpty(SpUtil.getInstance().getStringData(SharedPrefsUtil.getUserInfo().data.userPhone, null)))
+        )) {
             WelcomeDialog welcomeDialog = new WelcomeDialog(this.getContext());
             welcomeDialog.show();
 
             SpUtil.getInstance().setStringData(SharedPrefsUtil.getUserInfo().data.userPhone, "1");
+        } else if (response.getData() != null && (TextUtils.isEmpty(response.getData().getIndustryName())
+                || !TextUtils.isEmpty(response.getData().getIndustryName())
+                || ((response.getData().getList() == null && response.getData().getList().size() == 0)))) {
+
+            mRequest.districtId = response.getData().getDistrictId() + "";
+            mRequest.districtName = response.getData().getDistrictName();
+            mRequest.blockId = response.getData().getBlockId() + "";
+            mRequest.blockName = response.getData().getBlockName();
+
+            if (!TextUtils.isEmpty(mRequest.blockId)) {
+                selectionView.setQuYuText(mRequest.blockName);
+                heardSelectView.setQuYuText(mRequest.blockName);
+                selectionView.onLocationClick();
+                heardSelectView.onLocationClick();
+            } else if (!TextUtils.isEmpty(mRequest.districtId)) {
+                selectionView.setQuYuText(mRequest.districtName);
+                heardSelectView.setQuYuText(mRequest.districtName);
+                selectionView.onLocationClick();
+                heardSelectView.onLocationClick();
+            }
+            if (response.getData().getList() != null) {
+                List<String> arrayList = null;
+                if (mRequest.areaList != null) {
+                    arrayList = mRequest.areaList;
+                } else {
+                    arrayList = new ArrayList<>();
+                }
+                for (int i = 0; i < response.getData().getList().size(); i++) {
+                    arrayList.add(response.getData().getList().get(i) + "");
+                }
+
+                mRequest.areaList = arrayList;
+            }
+
+
         }
     }
 
     public void onQuyuHandle(ShopRequset requset) {
         if (requset != null) {
+            mRequest.queryType = 1;
             if (!TextUtils.isEmpty(requset.blockId)) {
                 selectionView.setQuYuText(requset.blockName);
                 heardSelectView.setQuYuText(requset.blockName);
@@ -657,5 +766,6 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         }
 
         mPresenter.getShopList(mRequest);
+
     }
 }

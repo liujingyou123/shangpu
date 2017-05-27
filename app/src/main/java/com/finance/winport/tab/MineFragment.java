@@ -275,16 +275,16 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     private boolean isDataOk;
 
     private void retryRelevant() {
-        if (!isMsgOk) {
+        if (!isMsgOk && isLogin()) {
             getUnReadMsg();
         }
         if (!isLunarOk) {
             getLunar();
         }
-        if (!isWinportCountsOk) {
+        if (!isWinportCountsOk && isLogin()) {
             getWinportCounts();
         }
-        if (!isDataOk) {
+        if (!isDataOk && isLogin()) {
             getData();
         }
 
@@ -531,7 +531,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
 
             @Override
             protected String doInBackground(String... params) {
-                return AliOss.getInstance().putObjectFromByteArray(params[0]);
+                return AliOss.getInstance().putObjectFromByteArray(AliOss.DIR_CUSTOMER, params[0]);
             }
 
             @Override
@@ -799,7 +799,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
             }
         } else if (TextUtils.isEmpty(response.getData().getIndustryName())) {
 
-            concern.setText(response.getData().getBlockName() + "-"  + s.toString());
+            concern.setText(response.getData().getBlockName() + "-" + s.toString());
         } else {
             concern.setText(response.getData().getBlockName() + "-" + response.getData().getIndustryName() + "-" + s.toString());
 
