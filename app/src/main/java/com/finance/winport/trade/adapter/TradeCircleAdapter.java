@@ -147,7 +147,7 @@ public class TradeCircleAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
                         NoticeDelDialog dialog = new NoticeDelDialog(mContext);
-                        dialog.setOkClickListener(new NoticeDialog.OnPreClickListner() {
+                        dialog.setOkClickListener(new NoticeDelDialog.OnPreClickListner() {
                             @Override
                             public void onClick() {
                                 mPresenter.deleteTopic(mData.get(index).getTopicId() + "");

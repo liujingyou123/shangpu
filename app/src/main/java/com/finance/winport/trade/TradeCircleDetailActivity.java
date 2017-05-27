@@ -172,7 +172,7 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
                 break;
             case R.id.imv_right:
                 NoticeDelDialog dialog = new NoticeDelDialog(this);
-                dialog.setOkClickListener(new NoticeDialog.OnPreClickListner() {
+                dialog.setOkClickListener(new NoticeDelDialog.OnPreClickListner() {
                     @Override
                     public void onClick() {
                         mPresenter.deleteTopic(topicId);

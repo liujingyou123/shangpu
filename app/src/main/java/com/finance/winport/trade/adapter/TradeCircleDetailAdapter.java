@@ -14,6 +14,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.dialog.NoticeDelDialog;
+import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.image.Batman;
 import com.finance.winport.log.XLog;
 import com.finance.winport.trade.model.CommentResponse;
@@ -156,7 +158,15 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
 
                     @Override
                     public void onClick(View v) {
-                        mPresenter.deleteComment(getItem(index).getId(), topicId);
+                        NoticeDelDialog dialog = new NoticeDelDialog(mContext);
+                        dialog.setMessage("评论删除之后无法恢复");
+                        dialog.setOkClickListener(new NoticeDelDialog.OnPreClickListner() {
+                            @Override
+                            public void onClick() {
+                                mPresenter.deleteComment(getItem(index).getId(), topicId);
+                            }
+                        });
+                        dialog.show();
                     }
                 });
             } else {
