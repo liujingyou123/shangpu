@@ -161,6 +161,7 @@ public class JPushReceiver extends BroadcastReceiver {
                     if (!TextUtils.isEmpty(from)) {
                         intent.putExtra("from", from);
                     }
+                    intent.putExtra("fromType", "receiver");
                     intent.putExtra("topicId", extraReceive.getBizId());
                     EventBus.getDefault().post(new EventBusCommentNum());
                 } else if ("1".equals(extraReceive.getBizType())) { //帖子被删
