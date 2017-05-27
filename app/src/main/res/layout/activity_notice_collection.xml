@@ -34,8 +34,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:choiceMode="singleChoice"
-                android:divider="@null"
+                android:divider="@color/divider_color"
+                android:dividerHeight="@dimen/divider_height"
                 android:fadingEdge="none"
+                android:paddingLeft="15dp"
                 android:scrollbars="none" />
         </com.finance.winport.view.refreshview.PtrClassicFrameLayout>
 

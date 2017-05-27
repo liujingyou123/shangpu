@@ -1,6 +1,5 @@
 package com.finance.winport.mine.adapter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -16,7 +15,6 @@ import com.finance.winport.tab.model.NotifyList;
 import com.finance.winport.trade.TradeCircleDetailActivity;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -43,7 +41,7 @@ public class BusinessNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.B
 
     @Override
     public int getItemViewType(int position) {
-        if (baseData.get(position).businessType == 0) {
+        if (TextUtils.equals(baseData.get(position).bussinessType, "0")) {
             return 0;
         }
         return 1;
@@ -100,9 +98,9 @@ public class BusinessNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.B
             holder.details.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (item.businessType == 1) {//帖子被撤
+                    if (TextUtils.equals(item.bussinessType, "1")) {//帖子被撤
                         showAlert("您的帖子已经被删除，无法查看");
-                    } else {//评论被删
+                    } else if (TextUtils.equals(item.bussinessType, "2")) {//评论被删
                         showAlert("您的评论已经被删除，无法查看");
 //                        context.startActivity(new Intent(context, TradeCircleDetailActivity.class)
 //                                .putExtra("topicId", item.bussinessId + ""));
