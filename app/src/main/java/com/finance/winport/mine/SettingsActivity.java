@@ -18,6 +18,7 @@ import com.finance.winport.base.BaseResponse;
 import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.tab.net.NetworkCallback;
 import com.finance.winport.util.SharedPrefsUtil;
+import com.finance.winport.util.SpUtil;
 import com.tencent.tauth.UiError;
 
 import org.greenrobot.eventbus.EventBus;
@@ -96,6 +97,7 @@ public class SettingsActivity extends BaseActivity {
             @Override
             public void success(BaseResponse response) {
                 loading.dismiss();
+                setLoginOutData();
                 toLogin();
             }
 
@@ -111,5 +113,9 @@ public class SettingsActivity extends BaseActivity {
         SharedPrefsUtil.clearUserInfo();
         EventBus.getDefault().post(new LoginOutEvent());
         finish();
+    }
+
+    private void setLoginOutData() {
+        SpUtil.getInstance().setIntData("commentNum", 0);
     }
 }

@@ -121,8 +121,8 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:hint="--"
                     android:includeFontPadding="false"
+                    android:text="--"
                     android:textColor="#333333"
                     android:textSize="25sp" />
 
@@ -152,8 +152,8 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:hint="--"
                     android:includeFontPadding="false"
+                    android:text="--"
                     android:textColor="#333333"
                     android:textSize="25sp" />
 
@@ -183,8 +183,8 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:hint="--"
                     android:includeFontPadding="false"
+                    android:text="--"
                     android:textColor="#333333"
                     android:textSize="25sp" />
 
@@ -214,8 +214,8 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:hint="--"
                     android:includeFontPadding="false"
+                    android:text="--"
                     android:textColor="#333333"
                     android:textSize="25sp" />
 
@@ -501,7 +501,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="18dp"
-                    android:drawableLeft="@mipmap/personal_icon_luck"
+                    android:drawableLeft="@mipmap/personal_icon_setting"
                     android:drawablePadding="10dp"
                     android:gravity="center"
                     android:text="系统设置"

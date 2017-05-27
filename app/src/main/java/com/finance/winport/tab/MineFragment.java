@@ -50,6 +50,8 @@ import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.trade.MyPostListActivity;
 import com.finance.winport.util.LoadingDialogUtil;
 import com.finance.winport.util.SharedPrefsUtil;
+import com.finance.winport.util.StringUtil;
+import com.finance.winport.util.ToolsUtil;
 import com.finance.winport.view.StopWatchTextView;
 import com.finance.winport.view.picker.Picker;
 import com.finance.winport.view.picker.engine.GlideEngine;
@@ -176,6 +178,12 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
 
     private void init() {
         if (isLogin()) {
+            String number = SharedPrefsUtil.getUserInfo().data.userPhone;
+            if (StringUtil.isCellPhone(number)) {
+                phone.setText(number.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
+            } else {
+                phone.setText("");
+            }
             setHeadImage(SharedPrefsUtil.getUserInfo().data.headPortrait);
             getData();
         } else {
@@ -250,15 +258,36 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-//        if (!hidden) {
-//            asyncRelevant();
-//        }
+        if (!hidden) {
+            retryRelevant();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
         asyncRelevant();
+    }
+
+    private boolean isMsgOk;
+    private boolean isLunarOk;
+    private boolean isWinportCountsOk;
+    private boolean isDataOk;
+
+    private void retryRelevant() {
+        if (!isMsgOk) {
+            getUnReadMsg();
+        }
+        if (!isLunarOk) {
+            getLunar();
+        }
+        if (!isWinportCountsOk) {
+            getWinportCounts();
+        }
+        if (!isDataOk) {
+            getData();
+        }
+
     }
 
     //获取个人中心相关数据
@@ -279,14 +308,16 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
         PersonManager.getInstance().getUnReadMsg(params, new NetworkCallback<UnReadMsg>() {
             @Override
             public void success(UnReadMsg response) {
+                if (getView() == null) return;
                 if (response != null && response.isSuccess()) {
                     ivFocusRight.setActivated(response.data);
+                    isMsgOk = true;
                 }
             }
 
             @Override
             public void failure(Throwable throwable) {
-
+                isMsgOk = false;
             }
         });
     }
@@ -299,12 +330,32 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
             public void success(WinportCounts response) {
                 if (response != null && response.isSuccess()) {
                     setWinportCounts(response);
+                    isWinportCountsOk = true;
                 }
             }
 
             @Override
             public void failure(Throwable throwable) {
+                isWinportCountsOk = false;
+            }
+        });
+    }
 
+    //获取农历
+    private void getLunar() {
+        HashMap<String, Object> params = new HashMap<>();
+        PersonManager.getInstance().getLunar(params, new NetworkCallback<Lunar>() {
+            @Override
+            public void success(Lunar response) {
+                if (response != null && response.isSuccess()) {
+                    setHuangLi(response.data);
+                    isLunarOk = true;
+                }
+            }
+
+            @Override
+            public void failure(Throwable throwable) {
+                isLunarOk = true;
             }
         });
     }
@@ -333,24 +384,6 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
             mineSchedule.setText(sp);
         }
 
-    }
-
-    //获取农历
-    private void getLunar() {
-        HashMap<String, Object> params = new HashMap<>();
-        PersonManager.getInstance().getLunar(params, new NetworkCallback<Lunar>() {
-            @Override
-            public void success(Lunar response) {
-                if (response != null && response.isSuccess()) {
-                    setHuangLi(response.data);
-                }
-            }
-
-            @Override
-            public void failure(Throwable throwable) {
-
-            }
-        });
     }
 
 
@@ -611,7 +644,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
 
     @Override
     public void showPersonalInfo(PersonalInfoResponse response) {
-
+        isDataOk = true;
 
 //        selectList.add(1);
 //        selectList.add(3);

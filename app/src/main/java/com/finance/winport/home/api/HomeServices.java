@@ -1,6 +1,7 @@
 package com.finance.winport.home.api;
 
 import com.finance.winport.base.BaseResponse;
+import com.finance.winport.home.model.AliTokenResponse;
 import com.finance.winport.home.model.BannerResponse;
 import com.finance.winport.home.model.CollectionResponse;
 import com.finance.winport.home.model.MetroResponse;
@@ -13,6 +14,7 @@ import com.finance.winport.home.model.TagResponse;
 
 import java.util.HashMap;
 
+import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -65,4 +67,8 @@ public interface HomeServices {
     //商铺纠错接口
     @POST("customerapp/api/shop/createCorrect/v1.0.0")
     Observable<BaseResponse> createCorrect(@Body HashMap params);
+
+    //获取阿里云TOKEN
+    @POST("customerapp/api/user/aliyun/getTmpAccessInfo/v1.0.0")
+    Call<AliTokenResponse> getAliToken(@Body HashMap params);
 }

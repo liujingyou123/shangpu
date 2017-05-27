@@ -2,7 +2,10 @@ package com.finance.winport.tab.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +44,7 @@ public class PredictionFragment extends BaseFragment {
     TextView confirm;
     String name;
     LoadingDialog loading;
+    private static final int LIMIT = 20;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +63,26 @@ public class PredictionFragment extends BaseFragment {
     private void initView() {
         tvFocusHouse.setText("店名测吉凶");
         loading = new LoadingDialog(context);
+        content.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > LIMIT) {
+                    ToastUtil.show(context, "输入的名称过长");
+                    content.setText(s.subSequence(0, LIMIT));
+                    content.setSelection(content.length());
+                }
+            }
+        });
     }
 
 
