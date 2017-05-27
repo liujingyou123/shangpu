@@ -129,7 +129,7 @@ public class MyNoticeActivity extends BaseActivity {
     @Override
     protected void handleBack() {
         if (TextUtils.equals(getIntent().getStringExtra("from"), "outer")) {
-            startActivity(new Intent(context, MainActivity.class).putExtra("tab", MainActivity.MINE));
+            startActivity(new Intent(context, MainActivity.class).putExtra("tab", MainActivity.HOME));
         } else {
             super.handleBack();
         }

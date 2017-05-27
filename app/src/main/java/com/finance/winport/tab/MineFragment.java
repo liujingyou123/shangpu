@@ -275,16 +275,16 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     private boolean isDataOk;
 
     private void retryRelevant() {
-        if (!isMsgOk) {
+        if (!isMsgOk && isLogin()) {
             getUnReadMsg();
         }
         if (!isLunarOk) {
             getLunar();
         }
-        if (!isWinportCountsOk) {
+        if (!isWinportCountsOk && isLogin()) {
             getWinportCounts();
         }
-        if (!isDataOk) {
+        if (!isDataOk && isLogin()) {
             getData();
         }
 
