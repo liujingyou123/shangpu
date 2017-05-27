@@ -57,6 +57,7 @@ public class ShopsListActivity extends BaseActivity implements IShopListView {
 
     private ShopRequset mRequest = new ShopRequset();
     private ShopListPresenter mPresenter;
+    private int index;
 
 
     @Override
@@ -88,7 +89,7 @@ public class ShopsListActivity extends BaseActivity implements IShopListView {
                     ShopListResponse.DataBean.Shop shop = (ShopListResponse.DataBean.Shop) parent.getItemAtPosition(position);
                     if (shop != null) {
                         Intent intent = new Intent(ShopsListActivity.this, ShopDetailActivity.class);
-                        intent.putExtra("shopId", shop.getId()+"");
+                        intent.putExtra("shopId", shop.getId() + "");
                         startActivity(intent);
                     }
 
@@ -135,7 +136,7 @@ public class ShopsListActivity extends BaseActivity implements IShopListView {
     private void getIntentData() {
         Intent intent = getIntent();
         if (intent != null) {
-            int index = intent.getIntExtra("index", -1);
+            index = intent.getIntExtra("index", -1);
             if (index == 0) {
                 tvFocusHouse.setText("今日新铺");
             } else if (index == 1) {
@@ -282,6 +283,11 @@ public class ShopsListActivity extends BaseActivity implements IShopListView {
             }
             if (quyuPopupView != null && quyuPopupView.isShowing()) {
                 quyuPopupView.dismiss();
+            }
+            if (index == 1) {
+                selectionDialog.setNoPrice();
+            } else if (index == 2) {
+                selectionDialog.setNoArea();
             }
             selectionDialog.show();
             selectView.onCsClick();

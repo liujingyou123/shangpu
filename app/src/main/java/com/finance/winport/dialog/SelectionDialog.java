@@ -17,8 +17,8 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
-import com.baidu.mapapi.map.Text;
 import com.finance.winport.R;
 import com.finance.winport.home.adapter.SelecTagAdapter;
 import com.finance.winport.home.api.HomeServices;
@@ -102,6 +102,14 @@ public class SelectionDialog extends Dialog implements DialogInterface.OnDismiss
     TagCloudLayout tcSupport;
     @BindView(R.id.et_width)
     EditText etWidth;
+    @BindView(R.id.view_line_price)
+    View viewLinePrice;
+    @BindView(R.id.tv_zhuanrang)
+    TextView tvZhuanrang;
+    @BindView(R.id.tv_area)
+    TextView tvArea;
+    @BindView(R.id.view_line_area)
+    View viewLineArea;
     private Context mContext;
     private SelecTagAdapter featureAdapter;
     private SelecTagAdapter supportAdapter;
@@ -379,12 +387,30 @@ public class SelectionDialog extends Dialog implements DialogInterface.OnDismiss
                 if (areaId < 4) {
                     ((CheckBox) llAreaOne.getChildAt(areaId - 1)).setChecked(true);
                 } else if (areaId < 7) {
-                    ((CheckBox) llAreaTwo.getChildAt(areaId - 1)).setChecked(true);
+                    ((CheckBox) llAreaTwo.getChildAt(areaId - 4)).setChecked(true);
                 } else if (areaId == 7) {
                     cbArea6.setChecked(true);
                 }
             }
             requset.areaList = area;
         }
+    }
+
+    /**
+     * 无转让费
+     */
+    public void setNoPrice() {
+        tvZhuanrang.setVisibility(View.GONE);
+        viewLinePrice.setVisibility(View.GONE);
+        llPriceOne.setVisibility(View.GONE);
+        llPriceTwo.setVisibility(View.GONE);
+    }
+
+    public void setNoArea() {
+        tvArea.setVisibility(View.GONE);
+        viewLineArea.setVisibility(View.GONE);
+        llAreaOne.setVisibility(View.GONE);
+        llAreaTwo.setVisibility(View.GONE);
+        cbArea6.setVisibility(View.GONE);
     }
 }
