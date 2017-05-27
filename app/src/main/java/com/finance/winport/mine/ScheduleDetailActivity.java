@@ -56,6 +56,7 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
     private NoticeDialog bNoticeDialog;//确认服务弹框
     private ScheduleDetailPresenter mPresenter;
     private String scheduleId;
+    private String clerkPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +108,7 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
             case R.id.service_phone:
                 if (mNoticeDialog == null) {
                     mNoticeDialog = new NoticeDialog(this);
-                    mNoticeDialog.setMessage("小二电话：130 2324 0800");
+                    mNoticeDialog.setMessage("小二电话："+clerkPhone);
                     mNoticeDialog.setPositiveBtn("拨打");
                 }
                 if (!mNoticeDialog.isShowing()) {
@@ -169,10 +170,17 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
         }
 
         applyTime.setText(response.getData().getApplyTime());
-        address.setText(response.getData().getDistrict());
+        address.setText(response.getData().getAddress());
         phone.setText(response.getData().getContactPhone());
         orderTime.setText(response.getData().getOrderTime());
 
+        clerkPhone = response.getData().getClerkPhone();
+
+        if(TextUtils.isEmpty(response.getData().getClerkPhone())){
+            btnDone.setEnabled(false);
+            servicePhone.setEnabled(false);
+            servicePhone.setTextColor(Color.parseColor("#cccccc"));
+        }
 
     }
 

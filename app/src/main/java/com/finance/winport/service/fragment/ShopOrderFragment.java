@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.finance.winport.MainActivity;
 import com.finance.winport.R;
 import com.finance.winport.account.LoginActivity;
 import com.finance.winport.account.model.UserInfo;
@@ -106,8 +107,11 @@ public class ShopOrderFragment extends BaseFragment implements IFindServiceView 
                 break;
             case R.id.sen_btn:
                 if (isLogin()) {
-                    BaseFragment sendShop = new SendShopOrderFragment();
-                    pushFragment(sendShop);
+//                    BaseFragment sendShop = new SendShopOrderFragment();
+//                    pushFragment(sendShop);
+
+
+                    startActivity(new Intent(context, MainActivity.class).putExtra("tab", MainActivity.HOME));
                 } else {
                     startActivity(new Intent(context, LoginActivity.class));
                 }

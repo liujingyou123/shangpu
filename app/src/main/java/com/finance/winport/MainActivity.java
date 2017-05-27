@@ -2,10 +2,13 @@ package com.finance.winport;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
 import com.finance.winport.base.BaseActivity;
+import com.finance.winport.base.BaseFragment;
 import com.finance.winport.home.event.HomeEvent;
 import com.finance.winport.home.HomeFragment;
 import com.finance.winport.trade.TradeCircleFragment;
@@ -15,6 +18,8 @@ import com.finance.winport.view.BottomTabView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -81,7 +86,7 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
             homeFragment = new HomeFragment();
         }
         tabView.setIndicatorDisplay(0, true);
-        addFragment(homeFragment, true);
+        addHomeFragment(homeFragment, true);
     }
 
     private void handleService(int index) {
@@ -92,7 +97,7 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
         }
 
         tabView.setIndicatorDisplay(1, true);
-        addFragment(serviceFragment, true);
+        addHomeFragment(serviceFragment, true);
     }
 
     private void handleBusiness(int index) {
@@ -102,7 +107,7 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
             tradeCircleFragment = new TradeCircleFragment();
         }
         tabView.setIndicatorDisplay(2, true);
-        addFragment(tradeCircleFragment, false);
+        addHomeFragment(tradeCircleFragment, false);
     }
 
     private void handleMine(int index) {
@@ -112,7 +117,7 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
             mineFragment = new MineFragment();
         }
         tabView.setIndicatorDisplay(3, true);
-        addFragment(mineFragment, true);
+        addHomeFragment(mineFragment, true);
     }
 
     @Override
@@ -126,7 +131,30 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
 
         int tab = intent.getIntExtra("tab", HOME);
         onTabSelected(tab);
-        tabView.setTabDisplay(tab);
+//        tabView.setTabDisplay(tab);
+    }
+
+    protected void addHomeFragment(BaseFragment fragment, boolean addToBackStack) {
+        String tag = fragment.getClass().getName();
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        int count = fm.getBackStackEntryCount();
+        if (fm.findFragmentByTag(tag) == null) {
+            ft.add(R.id.rl_fragment_content, fragment, tag);
+        }
+        ft.show(fragment);
+        List<Fragment> list = fm.getFragments();
+        if (list != null) {
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i) != null && list.get(i) != fragment) {
+                    ft.hide(list.get(i));
+                }
+            }
+        }
+        if (addToBackStack) {
+            ft.addToBackStack(tag);
+        }
+        ft.commit();
     }
 
 }

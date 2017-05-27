@@ -71,7 +71,7 @@ public class ServiceScheduleListAdapter extends BaseAdapter {
 
             holder.type.setText("签约租铺");
         }
-        holder.address.setText(baseData.get(position).getDistrict() + baseData.get(position).getAddress());
+        holder.address.setText(baseData.get(position).getAddress());
         return convertView;
     }
 

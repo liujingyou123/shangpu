@@ -45,12 +45,31 @@ public class ScheduleDetailResponse extends BaseResponse {
         private int status;
         private String contactName;
         private String clerkName;
+        private String clerkPhone;
         private String province;
         private String applyTime;
         private String orderTime;
         private int serviceType;
         private String city;
         private String district;
+
+        public String getClerkPhone() {
+            return clerkPhone;
+        }
+
+        public void setClerkPhone(String clerkPhone) {
+            this.clerkPhone = clerkPhone;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        private String address;
 
         public String getDistrict() {
             return district;
