@@ -5,12 +5,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="#f0f0f0" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
-            android:text="小二重新安排了您预约看铺的日程"
+            tools:text="小二重新安排了您预约看铺的日程"
             android:textColor="#333333"
             android:textSize="15sp" />
 
@@ -36,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
-            android:text="2016/10/31"
+            tools:text="2016/10/31"
             android:textColor="#999999"
             android:textSize="13sp" />
 
@@ -67,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="85dp"
-                android:text="服务类型"
+                tools:text="服务类型"
                 android:textColor="#333333"
                 android:textSize="14sp" />
 
@@ -94,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="85dp"
-                android:text="上海市徐汇区武东路198号"
+                tools:text="上海市徐汇区武东路198号"
                 android:textColor="#333333"
                 android:textSize="14sp" />
 

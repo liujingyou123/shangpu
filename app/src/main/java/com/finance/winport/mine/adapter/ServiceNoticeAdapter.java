@@ -2,6 +2,7 @@ package com.finance.winport.mine.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -152,8 +153,16 @@ public class ServiceNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.Se
         return convertView;
     }
 
-    private String getType(int type) {
-        return type == 0 ? "旺铺寻租" : type == 2 ? "签约租铺" : "预约看铺";
+    private String getType(String type) {
+        String s = "";
+        if (TextUtils.equals(type, "0")) {
+            s = "旺铺寻租";
+        } else if (TextUtils.equals(type, "1")) {
+            s = "签约租铺";
+        } else if (TextUtils.equals(type, "2")) {
+            s = "预约看铺";
+        }
+        return s;
     }
 
     static class ViewHolderDone {
