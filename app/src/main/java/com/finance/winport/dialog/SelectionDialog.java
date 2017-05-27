@@ -182,6 +182,7 @@ public class SelectionDialog extends Dialog implements DialogInterface.OnDismiss
                 } else if ("2".equals(type)) {
                     supportData.addAll(response.getData());
                     supportAdapter = new SelecTagAdapter(mContext, response.getData());
+                    supportAdapter.setSelectList(supportSelect);
                     tcSupport.setAdapter(supportAdapter);
                 }
 
@@ -467,6 +468,10 @@ public class SelectionDialog extends Dialog implements DialogInterface.OnDismiss
     public void initFeatureData(List<String> selectList) {
         if (selectList != null && selectList.size() > 0) {
             featureSelect.addAll(selectList);
+            if (featureAdapter != null) {
+                featureAdapter.setSelectList(featureSelect);
+                featureAdapter.notifyDataSetChanged();
+            }
         }
     }
 
@@ -478,6 +483,11 @@ public class SelectionDialog extends Dialog implements DialogInterface.OnDismiss
     public void initSupportData(List<String> selectList) {
         if (selectList != null && selectList.size() > 0) {
             supportSelect.addAll(selectList);
+            if (supportAdapter != null) {
+                supportAdapter.setSelectList(supportSelect);
+                supportAdapter.notifyDataSetChanged();
+            }
+
         }
     }
 
