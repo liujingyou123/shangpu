@@ -15,8 +15,10 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
+import com.baidu.location.BDLocation;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.dialog.QuyuPopupView;
 import com.finance.winport.dialog.SortPopupView;
 import com.finance.winport.dialog.WelcomeDialog;
@@ -29,6 +31,7 @@ import com.finance.winport.home.presenter.HomePresenter;
 import com.finance.winport.home.view.IHomeView;
 import com.finance.winport.log.XLog;
 import com.finance.winport.map.MapActivity;
+import com.finance.winport.map.MyLocation;
 import com.finance.winport.mine.model.PersonalInfoResponse;
 import com.finance.winport.tab.model.UnReadMsg;
 import com.finance.winport.util.SelectDialogUtil;
@@ -55,7 +58,7 @@ import butterknife.Unbinder;
 /**
  * 首页
  */
-public class HomeFragment extends BaseFragment implements IHomeView {
+public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.XLocationListener {
 
     @BindView(R.id.ls_shops)
     ListView lsShops;
@@ -79,6 +82,7 @@ public class HomeFragment extends BaseFragment implements IHomeView {
     private ShopRequset mRequest = new ShopRequset();
     private HeaderView headerView;
     private SelectView heardSelectView;
+    private LoadingDialog loadingDialog;
 
     @Nullable
     @Override
@@ -104,13 +108,14 @@ public class HomeFragment extends BaseFragment implements IHomeView {
         } else {
             mRequest.queryType = 1;
         }
-        mPresenter.getShopList(mRequest);
         mPresenter.getShopCount();
         mPresenter.getBanner();
         mPresenter.getIsUnReader();
         if (SharedPrefsUtil.getUserInfo() != null && TextUtils.isEmpty(SpUtil.getInstance().getStringData(SharedPrefsUtil.getUserInfo().data.userPhone, null))) {
             mPresenter.getPersonalInfo();
         }
+
+        getCurrentLocation();
     }
 
     @Override
@@ -134,6 +139,17 @@ public class HomeFragment extends BaseFragment implements IHomeView {
         if (SharedPrefsUtil.getUserInfo() != null && TextUtils.isEmpty(SpUtil.getInstance().getStringData(SharedPrefsUtil.getUserInfo().data.userPhone, null))) {
             mPresenter.getPersonalInfo();
         }
+    }
+
+    private void getCurrentLocation() {
+        MyLocation myLocation = new MyLocation(this.getContext());
+        myLocation.start(this);
+
+        if (loadingDialog == null) {
+            loadingDialog = new LoadingDialog(this.getContext());
+            loadingDialog.setTip("定位中...");
+        }
+
     }
 
     private void initListView() {
@@ -628,5 +644,18 @@ public class HomeFragment extends BaseFragment implements IHomeView {
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
+    }
+
+    @Override
+    public void result(boolean result, BDLocation location) {
+        if (loadingDialog != null) {
+            loadingDialog.dismiss();
+        }
+        if (result) {
+            mRequest.latitude = location.getLatitude() + "";
+            mRequest.longitude = location.getLongitude() + "";
+        }
+
+        mPresenter.getShopList(mRequest);
     }
 }

@@ -10,12 +10,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.finance.winport.R;
+import com.finance.winport.home.H5Activity;
 import com.finance.winport.home.model.BannerResponse;
 import com.finance.winport.image.GlideImageLoader;
 import com.finance.winport.mine.MyNoticeActivity;
 import com.finance.winport.view.StopWatchTextView;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +88,15 @@ public class HeaderView extends RelativeLayout {
         headerBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
         headerBanner.setIndicatorGravity(BannerConfig.CENTER);
         headerBanner.setImageLoader(new GlideImageLoader());
+        headerBanner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                Intent bannerDetails = new Intent(mContext, H5Activity.class);
+                bannerDetails.putExtra("type", 4);
+                bannerDetails.putExtra("url", mUrls.get(position).getToUrl());
+                mContext.startActivity(bannerDetails);
+            }
+        });
 
         ArrayList<String> list = new ArrayList<>();
 
