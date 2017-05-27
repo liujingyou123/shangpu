@@ -31,6 +31,7 @@ import com.finance.winport.service.model.FindLoanRequest;
 import com.finance.winport.service.presenter.FindLoanPresenter;
 import com.finance.winport.service.presenter.IFindLoanView;
 import com.finance.winport.tab.net.NetworkCallback;
+import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.StringUtil;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.ToastUtil;
@@ -143,7 +144,7 @@ public class SendFindLoanFragment extends BaseFragment implements IFindLoanView 
         phoneView.setInputType(InputType.TYPE_CLASS_PHONE);
         verifyCodeView.setInputType(InputType.TYPE_CLASS_NUMBER);
         inputLoanMoney.setInputType(InputType.TYPE_CLASS_NUMBER);
-        phoneView.setText("176 0211 3283");
+        phoneView.setText(SharedPrefsUtil.getUserInfo().data.userPhone.substring(0,3)+" "+SharedPrefsUtil.getUserInfo().data.userPhone.substring(3,7)+" "+SharedPrefsUtil.getUserInfo().data.userPhone.substring(7,11));
         initCountDownButton();
 
     }
@@ -362,6 +363,10 @@ public class SendFindLoanFragment extends BaseFragment implements IFindLoanView 
         smsVerifyCode = verifyCodeView.getText().toString().trim();
         if (TextUtils.isEmpty(inputLoanMoney.getText())){
             Toast.makeText(context, "请输入贷款额度", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(Float.parseFloat(inputLoanMoney.getText().toString())>9999){
+            Toast.makeText(context, "最多只能贷款9999万", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (TextUtils.isEmpty(loanTime.getText())){

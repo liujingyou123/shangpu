@@ -424,6 +424,6 @@ public class ScanWinportFragment extends BaseFragment {
 
     @OnClick(R.id.confirm)
     public void onConfirmClicked() {
-        startActivity(new Intent(context, MainActivity.class));
+        startActivity(new Intent(context, MainActivity.class).putExtra("tab", MainActivity.MINE));
     }
 }

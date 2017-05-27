@@ -51,7 +51,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:layout_marginTop="15dp"
-                        android:text="转铺流程"
+                        android:text="预约流程"
                         android:textColor="#333333"
                         android:textSize="15sp" />
 

@@ -39,7 +39,7 @@ public class ServiceScheduleListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public CalendarListResponse.DataBean.DateListBean.ScheduleListBean getItem(int position) {
         return baseData.get(position);
     }
 
@@ -60,7 +60,7 @@ public class ServiceScheduleListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.time.setText(baseData.get(position).getOrderTime());
+        holder.time.setText(baseData.get(position).getOrderTime().substring(11,16));
         if (baseData.get(position).getServiceType() == 0) {
 
             holder.type.setText("旺铺寻租");

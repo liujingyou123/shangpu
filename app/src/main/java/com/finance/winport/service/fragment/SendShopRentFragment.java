@@ -30,13 +30,12 @@ import com.finance.winport.home.model.RegionResponse;
 import com.finance.winport.map.AddrSelectActivity;
 import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.service.SendSuccessActivity;
-import com.finance.winport.service.model.OrderShopRequest;
 import com.finance.winport.service.model.RentShopRequest;
 import com.finance.winport.service.model.SendOrderShopResponse;
 import com.finance.winport.service.presenter.ISendRentView;
-import com.finance.winport.service.presenter.SendOrderPresenter;
 import com.finance.winport.service.presenter.SendRentPresenter;
 import com.finance.winport.tab.net.NetworkCallback;
+import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.StringUtil;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.ToastUtil;
@@ -95,8 +94,6 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
     LinearLayout llImgCode;
     @BindView(R.id.order_time)
     HeaderTextView orderTime;
-    @BindView(R.id.map_address)
-    HeaderTextView mapAddress;
     @BindView(R.id.modify)
     TextView modify;
     @BindView(R.id.ll_phone)
@@ -115,6 +112,12 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
     TextView submit;
     @BindView(R.id.district)
     HeaderTextView district;
+    @BindView(R.id.map_address_txt)
+    HeaderTextView mapAddressTxt;
+    @BindView(R.id.map_address)
+    ImageView mapAddress;
+    @BindView(R.id.ll_map_address)
+    LinearLayout llMapAddress;
     private String userPhone;
     private String messageId;
     private String picVerifyCode;
@@ -153,7 +156,7 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
 //        phoneView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
         phoneView.setInputType(InputType.TYPE_CLASS_PHONE);
         verifyCodeView.setInputType(InputType.TYPE_CLASS_NUMBER);
-        phoneView.setText("176 0211 3283");
+        phoneView.setText(SharedPrefsUtil.getUserInfo().data.userPhone.substring(0, 3) + " " + SharedPrefsUtil.getUserInfo().data.userPhone.substring(3, 7) + " " + SharedPrefsUtil.getUserInfo().data.userPhone.substring(7, 11));
         initCountDownButton();
         getDistrict();
     }
@@ -167,7 +170,7 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
         request.setMessageId(messageId);
         request.setPicVerifyCode(imgCodeTxt.getText().toString().trim());
         request.setPicVerifyId(picVerifyId);
-        request.setShopAddress(mapAddress.getText());
+        request.setShopAddress(mapAddressTxt.getText());
         request.setDistrictName(districtName);
         request.setDistrictId(districtId);
         request.setBlockName(blockName);
@@ -214,7 +217,7 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
                 break;
             case R.id.submit:
 
-                if (checkCommit()){
+                if (checkCommit()) {
 
                     getData();
                 }
@@ -233,7 +236,7 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
         if (data != null && requestCode == AddrSelectActivity.ACTIVITY_REQUEST_CODE_ADDR_SELECT) {
             String addrStr = data.getStringExtra("addr");
             if (!TextUtils.isEmpty(addrStr)) {
-                mapAddress.setText(addrStr);
+                mapAddressTxt.setText(addrStr);
             }
         }
     }
@@ -425,7 +428,7 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
     public void shopSendRentResult(SendOrderShopResponse response) {
 
         Intent intent = new Intent(getActivity(), SendSuccessActivity.class);
-        intent.putExtra("scheduleId",response.getData());
+        intent.putExtra("scheduleId", response.getData());
         startActivity(intent);
     }
 
@@ -451,15 +454,15 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
         userPhone = UnitUtil.trim(phoneView.getText().toString().trim());
         smsVerifyCode = verifyCodeView.getText().toString().trim();
 
-        if (TextUtils.isEmpty(mapAddress.getText())){
+        if (TextUtils.isEmpty(mapAddressTxt.getText())) {
             Toast.makeText(context, "请输入旺铺地址", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (TextUtils.isEmpty(district.getText())){
+        if (TextUtils.isEmpty(district.getText())) {
             Toast.makeText(context, "请输入区域板块", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (TextUtils.isEmpty(nameView.getText())){
+        if (TextUtils.isEmpty(nameView.getText())) {
             Toast.makeText(context, "请输入联系人姓名", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -481,7 +484,7 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
                 return false;
             }
         }
-        if (TextUtils.isEmpty(orderTime.getText())){
+        if (TextUtils.isEmpty(orderTime.getText())) {
             Toast.makeText(context, "请输入约见时间", Toast.LENGTH_SHORT).show();
             return false;
         }

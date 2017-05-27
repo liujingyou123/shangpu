@@ -8,6 +8,11 @@
 
     <include layout="@layout/title_fouce_house" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/divider_color" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -17,10 +22,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#f0f0f0"
+            android:visibility="gone"
             ptr:ptr_duration_to_close_header="2000"
             ptr:ptr_keep_header_when_refresh="true"
             ptr:ptr_pull_to_fresh="false"
-            android:visibility="gone"
             ptr:ptr_ratio_of_header_height_to_refresh="1.2"
             ptr:ptr_resistance="1.7">
 
@@ -33,20 +38,25 @@
                 android:scrollbars="none" />
         </com.finance.winport.view.refreshview.PtrClassicFrameLayout>
 
-        <!--<RelativeLayout-->
-            <!--android:id="@+id/empty"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="#f0f0f0"-->
-            <!--android:visibility="gone">-->
+        <RelativeLayout
+            android:id="@+id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/divider"
+            android:background="@color/white"
+            android:visibility="gone">
 
-            <!--<ImageView-->
-                <!--android:id="@+id/empty_tips"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="120dp"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:scaleType="centerInside" />-->
-        <!--</RelativeLayout>-->
+            <TextView
+                android:id="@+id/empty_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawablePadding="20dp"
+                android:drawableTop="@mipmap/default_notice"
+                android:gravity="center"
+                android:text="还未收到任何通知~。~！"
+                android:textColor="#333333"
+                android:textSize="15sp" />
+        </RelativeLayout>
     </FrameLayout>
 </LinearLayout>

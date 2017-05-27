@@ -1,5 +1,6 @@
 package com.finance.winport.service.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,12 +16,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.account.LoginActivity;
+import com.finance.winport.account.model.UserInfo;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.service.model.FindLoanCountResponse;
 import com.finance.winport.service.model.ShopOrderCountResponse;
 import com.finance.winport.service.model.ShopRentCountResponse;
 import com.finance.winport.service.presenter.IFindServiceView;
 import com.finance.winport.service.presenter.ServicePresenter;
+import com.finance.winport.util.SharedPrefsUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -89,10 +93,20 @@ public class FindLoanFragment extends BaseFragment implements IFindServiceView {
                 handleBack();
                 break;
             case R.id.send_btn:
-                BaseFragment sendLoan = new SendFindLoanFragment();
-                pushFragment(sendLoan);
+
+                if (isLogin()) {
+                    BaseFragment sendLoan = new SendFindLoanFragment();
+                    pushFragment(sendLoan);
+                } else {
+                    startActivity(new Intent(context, LoginActivity.class));
+                }
                 break;
         }
+    }
+
+    private boolean isLogin() {
+        UserInfo info = SharedPrefsUtil.getUserInfo();
+        return info != null;
     }
 
     @Override

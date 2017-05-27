@@ -251,6 +251,7 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
 
         }else{
 
+            district.setText(blockName+"-"+industryName);
             focusContent.setText(blockName + "-" + industryName + "-" + s.toString());
         }
 

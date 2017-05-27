@@ -50,6 +50,8 @@ import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.trade.MyPostListActivity;
 import com.finance.winport.util.LoadingDialogUtil;
 import com.finance.winport.util.SharedPrefsUtil;
+import com.finance.winport.util.StringUtil;
+import com.finance.winport.util.ToolsUtil;
 import com.finance.winport.view.StopWatchTextView;
 import com.finance.winport.view.picker.Picker;
 import com.finance.winport.view.picker.engine.GlideEngine;
@@ -176,6 +178,12 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
 
     private void init() {
         if (isLogin()) {
+            String number = SharedPrefsUtil.getUserInfo().data.userPhone;
+            if (StringUtil.isCellPhone(number)) {
+                phone.setText(number.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
+            } else {
+                phone.setText("");
+            }
             setHeadImage(SharedPrefsUtil.getUserInfo().data.headPortrait);
             getData();
         } else {
@@ -251,7 +259,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            asyncRelevant();
+            retryRelevant();
         }
     }
 
@@ -261,12 +269,34 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
         asyncRelevant();
     }
 
+    private boolean isMsgOk;
+    private boolean isLunarOk;
+    private boolean isWinportCountsOk;
+    private boolean isDataOk;
+
+    private void retryRelevant() {
+        if (!isMsgOk) {
+            getUnReadMsg();
+        }
+        if (!isLunarOk) {
+            getLunar();
+        }
+        if (!isWinportCountsOk) {
+            getWinportCounts();
+        }
+        if (!isDataOk) {
+            getData();
+        }
+
+    }
+
     //获取个人中心相关数据
     private void asyncRelevant() {
         if (isLogin()) {
             getUnReadMsg();
             getWinportCounts();
             getData();
+            modify.setVisibility(View.VISIBLE);
         }
         getLunar();
     }
@@ -278,14 +308,16 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
         PersonManager.getInstance().getUnReadMsg(params, new NetworkCallback<UnReadMsg>() {
             @Override
             public void success(UnReadMsg response) {
+                if (getView() == null) return;
                 if (response != null && response.isSuccess()) {
                     ivFocusRight.setActivated(response.data);
+                    isMsgOk = true;
                 }
             }
 
             @Override
             public void failure(Throwable throwable) {
-
+                isMsgOk = false;
             }
         });
     }
@@ -298,12 +330,32 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
             public void success(WinportCounts response) {
                 if (response != null && response.isSuccess()) {
                     setWinportCounts(response);
+                    isWinportCountsOk = true;
                 }
             }
 
             @Override
             public void failure(Throwable throwable) {
+                isWinportCountsOk = false;
+            }
+        });
+    }
 
+    //获取农历
+    private void getLunar() {
+        HashMap<String, Object> params = new HashMap<>();
+        PersonManager.getInstance().getLunar(params, new NetworkCallback<Lunar>() {
+            @Override
+            public void success(Lunar response) {
+                if (response != null && response.isSuccess()) {
+                    setHuangLi(response.data);
+                    isLunarOk = true;
+                }
+            }
+
+            @Override
+            public void failure(Throwable throwable) {
+                isLunarOk = true;
             }
         });
     }
@@ -332,24 +384,6 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
             mineSchedule.setText(sp);
         }
 
-    }
-
-    //获取农历
-    private void getLunar() {
-        HashMap<String, Object> params = new HashMap<>();
-        PersonManager.getInstance().getLunar(params, new NetworkCallback<Lunar>() {
-            @Override
-            public void success(Lunar response) {
-                if (response != null && response.isSuccess()) {
-                    setHuangLi(response.data);
-                }
-            }
-
-            @Override
-            public void failure(Throwable throwable) {
-
-            }
-        });
     }
 
 
@@ -610,14 +644,14 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
 
     @Override
     public void showPersonalInfo(PersonalInfoResponse response) {
+        isDataOk = true;
 
-
-        selectList.add(1);
-        selectList.add(3);
-        selectList.add(4);
-        selectList.add(5);
-        selectList.add(6);
-//        selectList = response.getData().getList();
+//        selectList.add(1);
+//        selectList.add(3);
+//        selectList.add(4);
+//        selectList.add(5);
+//        selectList.add(6);
+        selectList = (ArrayList<Integer>) response.getData().getList();
         StringBuilder s = new StringBuilder();
         for (int i = 0; i < selectList.size(); i++) {
             if (i == 0) {
@@ -651,25 +685,25 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
                 } else {
                     switch (selectList.get(i)) {
                         case 0:
-                            s.append("20㎡以下" + "\n");
+                            s.append("20㎡以下");
                             break;
                         case 1:
-                            s.append("20-50㎡" + "\n");
+                            s.append("20-50㎡");
                             break;
                         case 2:
-                            s.append("50-100㎡" + "\n");
+                            s.append("50-100㎡");
                             break;
                         case 3:
-                            s.append("100-200㎡" + "\n");
+                            s.append("100-200㎡");
                             break;
                         case 4:
-                            s.append("200-500㎡" + "\n");
+                            s.append("200-500㎡");
                             break;
                         case 5:
-                            s.append("500-1000㎡" + "\n");
+                            s.append("500-1000㎡");
                             break;
                         case 6:
-                            s.append("1000㎡以上" + "\n");
+                            s.append("1000㎡以上");
                             break;
                     }
                 }
@@ -700,25 +734,25 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
             } else if (i == 3) {
                 switch (selectList.get(i)) {
                     case 0:
-                        s.append("-" + "20㎡以下\n");
+                        s.append("-" + "20㎡以下");
                         break;
                     case 1:
-                        s.append("-" + "20-50㎡\n");
+                        s.append("-" + "20-50㎡");
                         break;
                     case 2:
-                        s.append("-" + "50-100㎡\n");
+                        s.append("-" + "50-100㎡");
                         break;
                     case 3:
-                        s.append("-" + "100-200㎡\n");
+                        s.append("-" + "100-200㎡");
                         break;
                     case 4:
-                        s.append("-" + "200-500㎡\n");
+                        s.append("-" + "200-500㎡");
                         break;
                     case 5:
-                        s.append("-" + "500-1000㎡\n");
+                        s.append("-" + "500-1000㎡");
                         break;
                     case 6:
-                        s.append("-" + "1000㎡以上\n");
+                        s.append("-" + "1000㎡以上");
                         break;
                 }
             } else {
@@ -754,6 +788,23 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
         industryId = response.getData().getIndustryId() + "";
         blockId = response.getData().getBlockId() + "";
         districtId = response.getData().getDistrictId() + "";
-        concern.setText(response.getData().getBlockName() + "-" + response.getData().getIndustryName() + "-" + s.toString());
+        if (TextUtils.isEmpty(response.getData().getBlockName())) {
+
+            if (TextUtils.isEmpty(response.getData().getIndustryName())) {
+
+                concern.setText(s.toString());
+            } else {
+
+                concern.setText(response.getData().getIndustryName() + "-" + s.toString());
+            }
+        } else if (TextUtils.isEmpty(response.getData().getIndustryName())) {
+
+            concern.setText(response.getData().getBlockName() + "-"  + s.toString());
+        } else {
+            concern.setText(response.getData().getBlockName() + "-" + response.getData().getIndustryName() + "-" + s.toString());
+
+        }
+
+
     }
 }

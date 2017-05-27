@@ -2,6 +2,8 @@ package com.finance.winport.mine;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -9,6 +11,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.finance.winport.MainActivity;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.dialog.LoadingDialog;
@@ -103,7 +106,7 @@ public class MyNoticeActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
-                finish();
+                handleBack();
                 break;
             case R.id.tv_focus_right:
                 startActivity(new Intent(MyNoticeActivity.this, HistoryScheduleListActivity.class));
@@ -111,6 +114,24 @@ public class MyNoticeActivity extends BaseActivity {
             case R.id.confirm:
                 handleBack();
                 break;
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            handleBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void handleBack() {
+        if (TextUtils.equals(getIntent().getStringExtra("from"), "outer")) {
+            startActivity(new Intent(context, MainActivity.class).putExtra("tab", MainActivity.MINE));
+        } else {
+            super.handleBack();
         }
     }
 

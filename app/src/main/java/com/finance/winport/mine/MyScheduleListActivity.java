@@ -130,6 +130,14 @@ public class MyScheduleListActivity extends BaseActivity implements IScheduleLis
     @Override
     public void showScheduleList(ScheduleListResponse response) {
         refreshView.refreshComplete();
+        if(list.size()==0){
+
+            if(response.getData().getScheduleList()==null||response.getData().getScheduleList().size()==0){
+                empty.setVisibility(View.VISIBLE);
+                refreshView.setVisibility(View.GONE);
+
+            }
+        }
         setAdapter(response);
     }
 

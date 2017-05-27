@@ -101,10 +101,11 @@ public class BusinessNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.B
                 @Override
                 public void onClick(View v) {
                     if (item.businessType == 1) {//帖子被撤
-                        showAlert();
+                        showAlert("您的帖子已经被删除，无法查看");
                     } else {//评论被删
-                        context.startActivity(new Intent(context, TradeCircleDetailActivity.class)
-                                .putExtra("topicId", item.bussinessId + ""));
+                        showAlert("您的评论已经被删除，无法查看");
+//                        context.startActivity(new Intent(context, TradeCircleDetailActivity.class)
+//                                .putExtra("topicId", item.bussinessId + ""));
                     }
                 }
             });
@@ -113,10 +114,11 @@ public class BusinessNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.B
         return convertView;
     }
 
-    private void showAlert() {
+    private void showAlert(String info) {
         NoticeDialog alert = new NoticeDialog(context);
         alert.setOneButton();
-        alert.setMessage("您的帖子已经被删除，无法查看");
+        alert.setMessage(info);
+        alert.show();
     }
 
     static class ViewHolderOff {
