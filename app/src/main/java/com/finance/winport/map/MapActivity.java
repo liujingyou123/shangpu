@@ -625,7 +625,28 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 //        }, 300);
 
 
-        SelectDialogUtil.getInstance().showDialog();
+//        SelectDialogUtil.getInstance().showDialog();
+
+        if (selectionDialog == null) {
+            selectionDialog = new SelectionDialog(this);
+            selectionDialog.setOnSelectListener(new SelectionDialog.OnSelectListener() {
+                @Override
+                public void onSelect(ShopRequset request) {
+
+                    EventBus.getDefault().post(request);
+                }
+            });
+        }
+
+        if (!selectionDialog.isShowing()) {
+            selectionDialog.initAreaData(shopRequset.areaList);
+            selectionDialog.initRentData(shopRequset.rentList);
+            selectionDialog.initPriceData(shopRequset.transferList);
+            selectionDialog.initWidth(shopRequset.width);
+            selectionDialog.initFeatureData(shopRequset.featureTagList);
+            selectionDialog.initSupportData(shopRequset.supportTagList);
+            selectionDialog.show();
+        }
 
 
     }

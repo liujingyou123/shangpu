@@ -109,6 +109,8 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
 
     private int requestCodeCount;//获取验证码次数
     private static final int CODE_LIMIT_COUNT = 3;// 单词获取验证码限制次数
+    private String shopId;
+    private int type;
 
     @Nullable
     @Override
@@ -132,9 +134,14 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
         verifyCodeView.setInputType(InputType.TYPE_CLASS_NUMBER);
         phoneView.setText(SharedPrefsUtil.getUserInfo().data.userPhone.substring(0,3)+" "+SharedPrefsUtil.getUserInfo().data.userPhone.substring(3,7)+" "+SharedPrefsUtil.getUserInfo().data.userPhone.substring(7,11));
         initCountDownButton();
+//        getArguments().getBundle().getString()
+        shopId = getArguments().getString("shopId");
+        type = getArguments().getInt("type",-1);
+
     }
 
     private void getData() {
+
         OrderShopRequest request = new OrderShopRequest();
         request.setContactName(nameView.getText());
         request.setContactMobile(UnitUtil.trim(phoneView.getText().toString().trim()));
@@ -147,7 +154,13 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
         if (mPresenter == null) {
             mPresenter = new SendOrderPresenter(this);
         }
-        mPresenter.getShopOrderResult(request);
+        if(type==1){
+
+            mPresenter.getShopSignResult(request);
+        }else if(type==2){
+
+            mPresenter.getShopOrderResult(request);
+        }
     }
 
     @OnClick({R.id.imv_focus_house_back, R.id.order_time, R.id.modify, R.id.submit})
@@ -195,6 +208,7 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
         Intent intent = new Intent(getActivity(), SendSuccessActivity.class);
         intent.putExtra("scheduleId",response.getData());
         startActivity(intent);
+        getActivity().finish();
     }
 
 //    @OnClick(R.id.imv_focus_house_back)
