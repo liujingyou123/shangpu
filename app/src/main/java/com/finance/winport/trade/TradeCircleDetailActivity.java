@@ -62,6 +62,7 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
     private String topicId;
     private TradeDetailResponse.DataBean mData;
     private int pageNumber = 1;
+    private String from;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,8 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
     private void initData() {
         Intent intent = getIntent();
         if (intent != null) {
-            topicId = getIntent().getStringExtra("topicId");
+            topicId = intent.getStringExtra("topicId");
+            from = intent.getStringExtra("from");
         }
 
         if (mPresenter == null) {
@@ -139,9 +141,11 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
 
-                Intent intent = new Intent(this, MainActivity.class);
-                intent.putExtra("tab", MainActivity.BUSINESS);
-                startActivity(intent);
+                if (!TextUtils.isEmpty(from)) {
+                    Intent intent = new Intent(this, MainActivity.class);
+                    intent.putExtra("tab", MainActivity.BUSINESS);
+                    startActivity(intent);
+                }
                 finish();
                 break;
             case R.id.btn_comment:

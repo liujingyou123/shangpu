@@ -237,6 +237,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
+        <!-- H5-->
+        <activity
+            android:name=".home.H5Activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"

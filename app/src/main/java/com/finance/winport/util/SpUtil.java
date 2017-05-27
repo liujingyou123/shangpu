@@ -14,7 +14,8 @@ public class SpUtil {
     private Context mContext;
     private static SpUtil INSTANCE = new SpUtil();
 
-    private SpUtil() {}
+    private SpUtil() {
+    }
 
     public static SpUtil getInstance() {
         return INSTANCE;
@@ -25,23 +26,37 @@ public class SpUtil {
     }
 
     public void setStringData(String key, String value) {
-        SharedPreferences mySharedPreferences= mContext.getSharedPreferences(mContext.getApplicationContext().getPackageName(), Context.MODE_PRIVATE);
+        SharedPreferences mySharedPreferences = mContext.getSharedPreferences(mContext.getApplicationContext().getPackageName(), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mySharedPreferences.edit();
         editor.putString(key, value);
         editor.commit();
     }
 
+    public void setIntData(String key, int value) {
+        SharedPreferences mySharedPreferences = mContext.getSharedPreferences(mContext.getApplicationContext().getPackageName(), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mySharedPreferences.edit();
+        editor.putInt(key, value);
+        editor.commit();
+    }
+
     public String getStringData(String key, String defalutValue) {
         //在读取SharedPreferences数据前要实例化出一个SharedPreferences对象
-        SharedPreferences sharedPreferences= mContext.getSharedPreferences(mContext.getApplicationContext().getPackageName(), Context.MODE_PRIVATE);
-        String value =sharedPreferences.getString(key, defalutValue);
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(mContext.getApplicationContext().getPackageName(), Context.MODE_PRIVATE);
+        String value = sharedPreferences.getString(key, defalutValue);
+        return value;
+    }
+
+    public int getIntData(String key, int defalutValue) {
+        //在读取SharedPreferences数据前要实例化出一个SharedPreferences对象
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(mContext.getApplicationContext().getPackageName(), Context.MODE_PRIVATE);
+        int value = sharedPreferences.getInt(key, defalutValue);
         return value;
     }
 
     public String getStringDataByJson(String key, String defalutValue, String jsonKey) {
         //在读取SharedPreferences数据前要实例化出一个SharedPreferences对象
-        SharedPreferences sharedPreferences= mContext.getSharedPreferences(mContext.getApplicationContext().getPackageName(), Context.MODE_PRIVATE);
-        String value =sharedPreferences.getString(key, defalutValue);
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(mContext.getApplicationContext().getPackageName(), Context.MODE_PRIVATE);
+        String value = sharedPreferences.getString(key, defalutValue);
         String ret = null;
 
         if (!TextUtils.isEmpty(value) && !value.equals(defalutValue)) {
@@ -56,10 +71,10 @@ public class SpUtil {
         return ret;
     }
 
-    public JSONObject getJSONObject(String key, String defalutValue){
+    public JSONObject getJSONObject(String key, String defalutValue) {
         //在读取SharedPreferences数据前要实例化出一个SharedPreferences对象
-        SharedPreferences sharedPreferences= mContext.getSharedPreferences(mContext.getApplicationContext().getPackageName(), Context.MODE_PRIVATE);
-        String value =sharedPreferences.getString(key, defalutValue);
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(mContext.getApplicationContext().getPackageName(), Context.MODE_PRIVATE);
+        String value = sharedPreferences.getString(key, defalutValue);
         JSONObject ret = null;
         if (!TextUtils.isEmpty(value) && !value.equals(defalutValue)) {
             try {
