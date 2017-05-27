@@ -351,7 +351,7 @@ public class SelectionDialog extends Dialog implements DialogInterface.OnDismiss
         for (int i = 0; i < size; i++) {
             View childView = viewGroup.getChildAt(i);
             if (childView != null && childView instanceof CheckBox) {
-                ((CheckBox)childView).setChecked(false);
+                ((CheckBox) childView).setChecked(false);
             }
         }
     }
@@ -371,4 +371,20 @@ public class SelectionDialog extends Dialog implements DialogInterface.OnDismiss
         void onSelect(ShopRequset request);
     }
 
+
+    public void initAreaData(List<String> mArea) {
+        if (mArea != null && mArea.size() > 0) {
+            for (int i = 0; i < mArea.size(); i++) {
+                int areaId = Integer.parseInt(mArea.get(i));
+                if (areaId < 4) {
+                    ((CheckBox) llAreaOne.getChildAt(areaId - 1)).setChecked(true);
+                } else if (areaId < 7) {
+                    ((CheckBox) llAreaTwo.getChildAt(areaId - 1)).setChecked(true);
+                } else if (areaId == 7) {
+                    cbArea6.setChecked(true);
+                }
+            }
+            requset.areaList = area;
+        }
+    }
 }

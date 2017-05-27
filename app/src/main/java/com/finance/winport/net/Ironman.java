@@ -3,6 +3,10 @@ package com.finance.winport.net;
 
 import android.util.LruCache;
 
+import com.finance.winport.util.FooAnnotationExclusionStrategy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -13,10 +17,11 @@ public class Ironman {
     private LruCache<String, Object> cache;
 
     private Ironman() {
+        Gson gson = new GsonBuilder().setExclusionStrategies(new FooAnnotationExclusionStrategy()).create();
         retrofit = new Retrofit.Builder()
                 .baseUrl(NetUtils.baseUrl())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(NetworkClient.getOkHttpClient())
                 .build();
 

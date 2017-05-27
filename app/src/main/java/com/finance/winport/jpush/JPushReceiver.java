@@ -193,8 +193,8 @@ public class JPushReceiver extends BroadcastReceiver {
 
 
         Notification.Builder myBuilder = new Notification.Builder(context);
-        myBuilder.setContentTitle(bundle.getString(JPushInterface.EXTRA_TITLE) + "")
-                .setContentText(bundle.getString(JPushInterface.EXTRA_MESSAGE) + "")
+        myBuilder.setContentTitle(bundle.getString(JPushInterface.EXTRA_TITLE) + "sss")
+                .setContentText(bundle.getString(JPushInterface.EXTRA_MESSAGE) + "xxxx")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(LargeBitmap)
                 .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)

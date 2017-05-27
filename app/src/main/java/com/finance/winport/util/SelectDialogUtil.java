@@ -8,6 +8,8 @@ import com.finance.winport.home.model.ShopRequset;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.List;
+
 /**
  * Created by liuworkmac on 17/5/23.
  */
@@ -91,6 +93,25 @@ public class SelectDialogUtil {
 //        }
     }
 
+
+    public void showDialogWithData(List<String> mArea) {
+        if (dialog == null) {
+            dialog = new SelectionDialog(mContext);
+            dialog.setOnSelectListener(new SelectionDialog.OnSelectListener() {
+                @Override
+                public void onSelect(ShopRequset request) {
+
+                    EventBus.getDefault().post(request);
+                }
+            });
+
+            dialog.initAreaData(mArea);
+
+        }
+        dialog.show();
+
+    }
+
     public boolean isShowing() {
         boolean ret = false;
         if (dialog != null && dialog.isShowing()) {
@@ -99,4 +120,6 @@ public class SelectDialogUtil {
 
         return ret;
     }
+
+
 }
