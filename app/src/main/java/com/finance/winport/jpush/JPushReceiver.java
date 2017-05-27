@@ -21,6 +21,7 @@ import com.finance.winport.mine.NoticeListActivity;
 import com.finance.winport.mine.ScheduleDetailActivity;
 import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.trade.TradeCircleDetailActivity;
+import com.finance.winport.trade.model.EventBusCommentNum;
 import com.finance.winport.util.SpUtil;
 import com.google.gson.Gson;
 
@@ -160,7 +161,9 @@ public class JPushReceiver extends BroadcastReceiver {
                     if (!TextUtils.isEmpty(from)) {
                         intent.putExtra("from", from);
                     }
+                    intent.putExtra("fromType", "receiver");
                     intent.putExtra("topicId", extraReceive.getBizId());
+                    EventBus.getDefault().post(new EventBusCommentNum());
                 } else if ("1".equals(extraReceive.getBizType())) { //帖子被删
                     intent = new Intent(context, NoticeListActivity.class);
                     if (!TextUtils.isEmpty(from)) {
@@ -193,8 +196,9 @@ public class JPushReceiver extends BroadcastReceiver {
 
 
         Notification.Builder myBuilder = new Notification.Builder(context);
-        myBuilder.setContentTitle(bundle.getString(JPushInterface.EXTRA_TITLE) + "sss")
-                .setContentText(bundle.getString(JPushInterface.EXTRA_MESSAGE) + "xxxx")
+        myBuilder.setContentTitle(bundle.getString(JPushInterface.EXTRA_TITLE) + "")
+                .setContentText(bundle.getString(JPushInterface.EXTRA_MESSAGE) + "")
+                .setTicker(bundle.getString(JPushInterface.EXTRA_MESSAGE))
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(LargeBitmap)
                 .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)
@@ -211,7 +215,7 @@ public class JPushReceiver extends BroadcastReceiver {
         Notification myNotification = myBuilder.build();
         NotificationManager myManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 
-        myManager.notify(1, myNotification);
+        myManager.notify((int) System.currentTimeMillis(), myNotification);
     }
 
     private ExtraReceive processBundleExtra(Bundle bundle) {

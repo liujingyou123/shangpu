@@ -24,6 +24,7 @@ import com.finance.winport.trade.api.TradeService;
 import com.finance.winport.trade.model.PublicTopic;
 import com.finance.winport.util.ToastUtil;
 import com.finance.winport.util.ToolsUtil;
+import com.finance.winport.view.imagepreview.ImagePreviewActivity;
 import com.finance.winport.view.picker.Picker;
 import com.finance.winport.view.picker.engine.GlideEngine;
 import com.finance.winport.view.picker.utils.PicturePickerUtils;
@@ -111,6 +112,13 @@ public class EditNoteActivity extends BaseActivity {
             public void itemClick(int position) {
                 if (mAdapter.isAddType(position)) {
                     selectImage(mAdapter.getLastCount());
+                } else {
+                    ArrayList<String> strings = new ArrayList<String>();
+                    strings.addAll(mAdapter.getListData());
+                    Intent intents = new Intent(context, ImagePreviewActivity.class);
+                    intents.putExtra("pics", strings);
+                    intents.putExtra("index", position);
+                    context.startActivity(intents);
                 }
             }
         });

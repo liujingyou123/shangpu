@@ -28,7 +28,7 @@ public class NoticeDelDialog extends Dialog {
     @BindView(R.id.tv_message2_two)
     TextView tvMessage2Two;
     private Context mContext;
-    private NoticeDialog.OnPreClickListner mOnOkPreClickListner;
+    private OnPreClickListner mOnOkPreClickListner;
 
     public NoticeDelDialog(@NonNull Context context) {
         super(context, R.style.noticeDialog);
@@ -72,7 +72,7 @@ public class NoticeDelDialog extends Dialog {
         tvOk.setText(msg);
     }
 
-    public void setOkClickListener(NoticeDialog.OnPreClickListner onPreClickListner) {
+    public void setOkClickListener(OnPreClickListner onPreClickListner) {
         this.mOnOkPreClickListner = onPreClickListner;
     }
 

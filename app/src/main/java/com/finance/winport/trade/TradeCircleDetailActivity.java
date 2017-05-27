@@ -21,14 +21,18 @@ import com.finance.winport.dialog.NoticeDelDialog;
 import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.trade.adapter.TradeCircleDetailAdapter;
 import com.finance.winport.trade.model.CommentResponse;
+import com.finance.winport.trade.model.EventBusCommentNum;
 import com.finance.winport.trade.model.TradeDetailResponse;
 import com.finance.winport.trade.presenter.TradeCircleDetailPresener;
 import com.finance.winport.trade.view.ITradeDetailView;
 import com.finance.winport.util.SharedPrefsUtil;
+import com.finance.winport.util.SpUtil;
 import com.finance.winport.util.ToastUtil;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
 import com.finance.winport.view.refreshview.XPtrFrameLayout;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -76,14 +80,23 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
     }
 
     private void initData() {
+        String fromType = null;
         Intent intent = getIntent();
         if (intent != null) {
             topicId = intent.getStringExtra("topicId");
             from = intent.getStringExtra("from");
+            fromType = intent.getStringExtra("fromType");
         }
 
         if (mPresenter == null) {
             mPresenter = new TradeCircleDetailPresener(this);
+        }
+
+        if (!TextUtils.isEmpty(fromType)) {
+            int commentNum = SpUtil.getInstance().getIntData("commentNum", 0);
+            --commentNum;
+            SpUtil.getInstance().setIntData("commentNum", commentNum);
+            EventBus.getDefault().post(new EventBusCommentNum());
         }
     }
 
@@ -172,7 +185,7 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
                 break;
             case R.id.imv_right:
                 NoticeDelDialog dialog = new NoticeDelDialog(this);
-                dialog.setOkClickListener(new NoticeDialog.OnPreClickListner() {
+                dialog.setOkClickListener(new NoticeDelDialog.OnPreClickListner() {
                     @Override
                     public void onClick() {
                         mPresenter.deleteTopic(topicId);
