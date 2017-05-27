@@ -109,7 +109,7 @@ public class MyScheduleListActivity extends BaseActivity implements IScheduleLis
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MyScheduleListActivity.this,ScheduleDetailActivity.class);
-                intent.putExtra("scheduleId",list.get(position).getScheduleId());
+                intent.putExtra("scheduleId",list.get(position).getScheduleId()+"");
                 startActivity(intent);
             }
         });

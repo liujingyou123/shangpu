@@ -113,147 +113,67 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
         blockId = getIntent().getStringExtra("blockId");
         list1 = getIntent().getIntegerArrayListExtra("areaList");
         StringBuilder s = new StringBuilder();
+        List<String> content = new ArrayList<>();
+        if(!TextUtils.isEmpty(blockName)){
+
+            content.add(blockName);
+        }
+        if(!TextUtils.isEmpty(industryName)){
+
+            content.add(industryName);
+        }
         if(list1!=null){
 
             for (int i = 0; i < list1.size(); i++) {
-                if (i == 0) {
 
-                    if (list1.size() == 1) {
-
-                        switch (list1.get(i)) {
-                            case 0:
-                                s.append("20㎡以下");
-                                break;
-                            case 1:
-                                s.append("20-50㎡");
-                                break;
-                            case 2:
-                                s.append("50-100㎡");
-                                break;
-                            case 3:
-                                s.append("100-200㎡");
-                                break;
-                            case 4:
-                                s.append("200-500㎡");
-                                break;
-                            case 5:
-                                s.append("500-1000㎡");
-                                break;
-                            case 6:
-                                s.append("1000㎡以上");
-                                break;
-                        }
-
-                    } else {
-                        switch (list1.get(i)) {
-                            case 0:
-                                s.append("20㎡以下" + "\n");
-                                break;
-                            case 1:
-                                s.append("20-50㎡" + "\n");
-                                break;
-                            case 2:
-                                s.append("50-100㎡" + "\n");
-                                break;
-                            case 3:
-                                s.append("100-200㎡" + "\n");
-                                break;
-                            case 4:
-                                s.append("200-500㎡" + "\n");
-                                break;
-                            case 5:
-                                s.append("500-1000㎡" + "\n");
-                                break;
-                            case 6:
-                                s.append("1000㎡以上" + "\n");
-                                break;
-                        }
-                    }
-                } else if (list1.size() < 5) {
-                    switch (list1.get(i)) {
-                        case 0:
-                            s.append("-" + "20㎡以下");
-                            break;
-                        case 1:
-                            s.append("-" + "20-50㎡");
-                            break;
-                        case 2:
-                            s.append("-" + "50-100㎡");
-                            break;
-                        case 3:
-                            s.append("-" + "100-200㎡");
-                            break;
-                        case 4:
-                            s.append("-" + "200-500㎡");
-                            break;
-                        case 5:
-                            s.append("-" + "500-1000㎡");
-                            break;
-                        case 6:
-                            s.append("-" + "1000㎡以上");
-                            break;
-                    }
-                } else if (i == 3) {
-                    switch (list1.get(i)) {
-                        case 0:
-                            s.append("-" + "20㎡以下\n");
-                            break;
-                        case 1:
-                            s.append("-" + "20-50㎡\n");
-                            break;
-                        case 2:
-                            s.append("-" + "50-100㎡\n");
-                            break;
-                        case 3:
-                            s.append("-" + "100-200㎡\n");
-                            break;
-                        case 4:
-                            s.append("-" + "200-500㎡\n");
-                            break;
-                        case 5:
-                            s.append("-" + "500-1000㎡\n");
-                            break;
-                        case 6:
-                            s.append("-" + "1000㎡以上\n");
-                            break;
-                    }
-                } else {
-                    switch (list1.get(i)) {
-                        case 0:
-                            s.append("-" + "20㎡以下");
-                            break;
-                        case 1:
-                            s.append("-" + "20-50㎡");
-                            break;
-                        case 2:
-                            s.append("-" + "50-100㎡");
-                            break;
-                        case 3:
-                            s.append("-" + "100-200㎡");
-                            break;
-                        case 4:
-                            s.append("-" + "200-500㎡");
-                            break;
-                        case 5:
-                            s.append("-" + "500-1000㎡");
-                            break;
-                        case 6:
-                            s.append("-" + "1000㎡以上");
-                            break;
-                    }
+                switch (list1.get(i)) {
+                    case 1:
+                        content.add("20㎡以下");
+                        break;
+                    case 2:
+                        content.add("20-50㎡");
+                        break;
+                    case 3:
+                        content.add("50-100㎡");
+                        break;
+                    case 4:
+                        content.add("100-200㎡");
+                        break;
+                    case 5:
+                        content.add("200-500㎡");
+                        break;
+                    case 6:
+                        content.add("500-1000㎡");
+                        break;
+                    case 7:
+                        content.add("1000㎡以上");
+                        break;
                 }
             }
+
         }
         else {
             list1 = new ArrayList<>();
         }
-        if(TextUtils.isEmpty(blockName)&&TextUtils.isEmpty(industryName)){
 
-        }else{
+        for (int i = 0; i < content.size(); i++) {
+            if(i==0){
 
-            district.setText(blockName+"-"+industryName);
-            focusContent.setText(blockName + "-" + industryName + "-" + s.toString());
+                s.append(content.get(i));
+            }else if(i==2||i==5){
+                s.append("-" + content.get(i)+ "\n");
+            }else {
+                s.append("-" + content.get(i));
+            }
         }
+        if(!TextUtils.isEmpty(blockName)&&!TextUtils.isEmpty(districtName)){
+
+            district.setText(districtName+"-"+blockName);
+        }
+
+
+        focusContent.setText(s.toString());
+
 
 //        focusContent.setText("江湾镇-餐饮类-20~50㎡\n500~1000㎡");
 
@@ -261,7 +181,7 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
         String[] textColor = {"#646464", "#ff7725"};
         String[] bgColor = {"#f0f0f0", "#ffffff"};
         String[] strokeColor = {"#646464", "#ff7725"};
-        for (int i = 0; i < 7; i++) {
+        for (int i = 1; i < 8; i++) {
 
 
             TagItem item = new TagItem();
@@ -270,25 +190,25 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
             item.setStrokeColor(strokeColor);
             item.setTagId(i + "");
             switch (i) {
-                case 0:
+                case 1:
                     item.setTagName("20㎡以下");
                     break;
-                case 1:
+                case 2:
                     item.setTagName("20-50㎡");
                     break;
-                case 2:
+                case 3:
                     item.setTagName("50-100㎡");
                     break;
-                case 3:
+                case 4:
                     item.setTagName("100-200㎡");
                     break;
-                case 4:
+                case 5:
                     item.setTagName("200-500㎡");
                     break;
-                case 5:
+                case 6:
                     item.setTagName("500-1000㎡");
                     break;
-                case 6:
+                case 7:
                     item.setTagName("1000㎡以上");
                     break;
             }

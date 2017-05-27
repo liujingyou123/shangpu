@@ -299,7 +299,7 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         mMapView.onDestroy();
     }
 
-    @OnClick({R.id.btn_locate, R.id.back, R.id.map_filter, R.id.ll_money, R.id.ll_area})
+    @OnClick({R.id.btn_locate, R.id.back, R.id.map_filter, R.id.ll_money, R.id.ll_area, R.id.btn_list})
     public void onViewClicked(View view) {
         switch (view.getId()) {
 
@@ -308,6 +308,9 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
                 myLocation.start(this);
                 break;
             case R.id.back:
+                finish();
+                break;
+            case R.id.btn_list:
                 finish();
                 break;
             case R.id.map_filter:

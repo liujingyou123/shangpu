@@ -75,7 +75,7 @@ public class ServiceNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.Se
             holder.details.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    context.startActivity(new Intent(context, ScheduleDetailActivity.class).putExtra("scheduleId", item.bussinessId));
+                    context.startActivity(new Intent(context, ScheduleDetailActivity.class).putExtra("scheduleId", item.bussinessId + ""));
                 }
             });
         } else if (getItemViewType(position) == 1) {//1-服务撤销
@@ -98,7 +98,7 @@ public class ServiceNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.Se
             holder.details.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    context.startActivity(new Intent(context, ScheduleDetailActivity.class).putExtra("scheduleId", item.bussinessId));
+                    context.startActivity(new Intent(context, ScheduleDetailActivity.class).putExtra("scheduleId", item.bussinessId + ""));
                 }
             });
 
