@@ -12,11 +12,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
-import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
@@ -24,6 +23,13 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.PoiInfo;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.dialog.LoadingDialog;
@@ -36,7 +42,7 @@ import com.finance.winport.map.model.MapShopRequest;
 import com.finance.winport.map.model.MapShopResponse;
 import com.finance.winport.map.presenter.IMapView;
 import com.finance.winport.map.presenter.MapPresenter;
-import com.finance.winport.util.SelectDialogUtil;
+import com.finance.winport.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -79,6 +85,10 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
     LinearLayout llArea;
     @BindView(R.id.select_area)
     LinearLayout selectArea;
+    @BindView(R.id.address)
+    TextView address;
+    @BindView(R.id.btn_list)
+    ImageButton btnList;
 
     private BaiduMap mBaiduMap;
     private MyLocation myLocation;
@@ -92,6 +102,10 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
     private Marker selectMarker;
 
     private ShopRequset shopRequset;
+    // 地理编码
+    GeoCoder mGeoCoder = null;
+
+    private Boolean locationFlag = false;  //首次定位
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +130,8 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         settings.setScrollGesturesEnabled(true);
         settings.setZoomGesturesEnabled(true);
         mBaiduMap.setMaxAndMinZoomLevel(19, 12);
+        // 地理编码
+        mGeoCoder = GeoCoder.newInstance();
 
         mBaiduMap.setOnMapStatusChangeListener(new BaiduMap.OnMapStatusChangeListener() {
             @Override
@@ -132,6 +148,8 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
                 Log.i("jjjjjjjjjjjjjjjjjjk", "" + mapStatus.toString());
 //                mBaiduMap.clear();
 //
+                GeoCodeResult r = new GeoCodeResult();
+                mGeoCoder.reverseGeoCode((new ReverseGeoCodeOption()).location(new LatLng(mapStatus.target.latitude, mapStatus.target.longitude)));
                 if (mapStatus.zoom <= 14) {
                     selectArea.setVisibility(View.GONE);
                     MapAreaRequest request = new MapAreaRequest();
@@ -277,6 +295,26 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 
         loadingDialog.show();
         myLocation.start(this);
+
+
+        mGeoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
+
+            @Override
+            public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
+
+            }
+
+            @Override
+            public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
+                if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+                    // 没有找到检索结果
+//                    Logger.e("没有找到检索结果");
+                } else {
+                    address.setText(result.getAddress());
+
+                }
+            }
+        });
     }
 
 
@@ -362,6 +400,7 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 
         if (result) {
             Log.e("定位", "定位成功！！！");
+            address.setText(location.getAddress().address);
             MapUtil.setMyLocation(mBaiduMap, location);
             selectArea.setVisibility(View.VISIBLE);
 
@@ -413,44 +452,50 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 
         } else {
             Log.e("定位", "定位失败！！！");
-            selectArea.setVisibility(View.GONE);
-            if (mapPresenter == null) {
-                mapPresenter = new MapPresenter(MapActivity.this);
-            }
 
-            MapAreaRequest request = new MapAreaRequest();
-            request.setType("0");
-            if (shopRequset.rentList != null && shopRequset.rentList.size() > 0) {
-                request.setRentList(shopRequset.rentList);
-            } else {
-                request.setRentList(null);
-            }
-            if (shopRequset.transferList != null && shopRequset.transferList.size() > 0) {
-                request.setTransferList(shopRequset.transferList);
-            } else {
-                request.setTransferList(null);
-            }
-            if (shopRequset.areaList != null && shopRequset.areaList.size() > 0) {
-                request.setAreaList(shopRequset.areaList);
-            } else {
-                request.setAreaList(null);
-            }
-            if (shopRequset.featureTagList != null && shopRequset.featureTagList.size() > 0) {
-                request.setFeatureTagList(shopRequset.featureTagList);
-            } else {
-                request.setFeatureTagList(null);
-            }
-            if (shopRequset.supportTagList != null && shopRequset.supportTagList.size() > 0) {
-                request.setSupportTagList(shopRequset.supportTagList);
-            } else {
-                request.setSupportTagList(null);
-            }
-            request.setWidth(shopRequset.width);
+            ToastUtil.show(context,"定位失败");
+
+            if(!locationFlag){
+
+                selectArea.setVisibility(View.GONE);
+                if (mapPresenter == null) {
+                    mapPresenter = new MapPresenter(MapActivity.this);
+                }
+
+                MapAreaRequest request = new MapAreaRequest();
+                request.setType("0");
+                if (shopRequset.rentList != null && shopRequset.rentList.size() > 0) {
+                    request.setRentList(shopRequset.rentList);
+                } else {
+                    request.setRentList(null);
+                }
+                if (shopRequset.transferList != null && shopRequset.transferList.size() > 0) {
+                    request.setTransferList(shopRequset.transferList);
+                } else {
+                    request.setTransferList(null);
+                }
+                if (shopRequset.areaList != null && shopRequset.areaList.size() > 0) {
+                    request.setAreaList(shopRequset.areaList);
+                } else {
+                    request.setAreaList(null);
+                }
+                if (shopRequset.featureTagList != null && shopRequset.featureTagList.size() > 0) {
+                    request.setFeatureTagList(shopRequset.featureTagList);
+                } else {
+                    request.setFeatureTagList(null);
+                }
+                if (shopRequset.supportTagList != null && shopRequset.supportTagList.size() > 0) {
+                    request.setSupportTagList(shopRequset.supportTagList);
+                } else {
+                    request.setSupportTagList(null);
+                }
+                request.setWidth(shopRequset.width);
 //            List<Integer> list = new ArrayList<>();
 //            list.add(4);
 //            list.add(5);
 //            request.setAreaList(list);
-            mapPresenter.getMapArea(request);
+                mapPresenter.getMapArea(request);
+            }
 
         }
 
@@ -661,6 +706,8 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         mBaiduMap.setMapStatus(mMapStatusUpdate);
         mBaiduMap.clear();
 
+        mGeoCoder.reverseGeoCode((new ReverseGeoCodeOption()).location(new LatLng(mMapStatus.target.latitude, mMapStatus.target.longitude)));
+
         data = response.getData();
 
         for (int i = 0; i < response.getData().size(); i++) {
@@ -720,6 +767,7 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
         mBaiduMap.setMapStatus(mMapStatusUpdate);
         mBaiduMap.clear();
+        mGeoCoder.reverseGeoCode((new ReverseGeoCodeOption()).location(new LatLng(mMapStatus.target.latitude, mMapStatus.target.longitude)));
         for (int i = 0; i < response.getData().size(); i++) {
             if (!TextUtils.isEmpty(response.getData().get(i).getName()) && !TextUtils.isEmpty(response.getData().get(i).getLatitude()) && !TextUtils.isEmpty(response.getData().get(i).getLongitude())) {
 //                if(mBaiduMap.getMapStatus().bound.contains(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())))){
@@ -764,7 +812,7 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
     }
 
     @Subscribe
-    public void mainThread(ShopRequset requset){
+    public void mainThread(ShopRequset requset) {
 
         shopRequset = requset;
         if (mBaiduMap.getMapStatus().zoom <= 14) {
