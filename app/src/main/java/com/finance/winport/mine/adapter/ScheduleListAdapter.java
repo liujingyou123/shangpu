@@ -71,7 +71,7 @@ public class ScheduleListAdapter extends BaseAdapter {
 
             holder.type.setText("签约租铺");
         }
-        holder.address.setText(baseData.get(position).getDistrict() + baseData.get(position).getAddress());
+        holder.address.setText(baseData.get(position).getAddress());
         if (baseData.get(position).getStatus() == 2) {
 
             holder.status.setVisibility(View.VISIBLE);
