@@ -391,14 +391,12 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             case R.id.tv_yuyue:
                 if (SharedPrefsUtil.getUserInfo() != null) {
                     Intent orderIntent = new Intent(ShopDetailActivity.this, OrderShopActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("shopId", mShopDetail.getData().getId() + "");
+                    orderIntent.putExtra("shopId", mShopDetail.getData().getId() + "");
                     if (mShopDetail.getData().getIsVisit() != 0) { //已预约  签约租铺
-                        bundle.putInt("type", 1);//签约租铺
+                        orderIntent.putExtra("type", 1);  //签约租铺
                     } else {
-                        bundle.putInt("type", 2);//预约看铺
+                        orderIntent.putExtra("type", 2); //预约看铺
                     }
-                    orderIntent.putExtra("bundle", bundle);
                     startActivity(orderIntent);
                 } else {
                     Intent intent1 = new Intent(this, LoginActivity.class);

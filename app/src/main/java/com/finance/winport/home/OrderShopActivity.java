@@ -17,10 +17,8 @@ public class OrderShopActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ordershop);
-        Bundle bundle = getIntent().getBundleExtra("bundle");
-
         SendShopOrderFragment fragment = new SendShopOrderFragment();
-        fragment.setArguments(bundle);
+        fragment.setArguments(getIntent().getExtras());
         pushFragment(fragment);
 
     }
