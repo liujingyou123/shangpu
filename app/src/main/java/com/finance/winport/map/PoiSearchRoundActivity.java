@@ -1,6 +1,7 @@
 package com.finance.winport.map;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -278,13 +279,14 @@ public class PoiSearchRoundActivity extends BaseActivity implements
         } else {
             mBaiduMap.clear();
             BitmapDescriptor centerBitmap = BitmapDescriptorFactory
-                    .fromResource(R.mipmap.map_icon_location_center);
-            MarkerOptions ooMarker = new MarkerOptions().position(center).icon(centerBitmap);
+                    .fromResource(R.mipmap.map_round_icon);
+            MarkerOptions ooMarker = new MarkerOptions().position(center).icon(centerBitmap).anchor(0.5f,0.5f);
             mBaiduMap.addOverlay(ooMarker);
             View view = LayoutInflater.from(PoiSearchRoundActivity.this).inflate(R.layout.map_item, null);
             TextView tv = (TextView) view.findViewById(R.id.tv_msg);
             tv.setText("测试地址");
-            tv.setBackgroundResource(R.drawable.map_bg_item_shop);
+            tv.setTextColor(Color.parseColor("#666666"));
+            tv.setBackgroundResource(R.drawable.map_bg_round);
             BitmapDescriptor centerBitmap1 = BitmapDescriptorFactory
                     .fromView(view);
             MarkerOptions ooMarker1 = new MarkerOptions().position(center).icon(centerBitmap1).anchor(0.5f,1f);
@@ -426,13 +428,14 @@ public class PoiSearchRoundActivity extends BaseActivity implements
         MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
         mBaiduMap.setMapStatus(mMapStatusUpdate);
         BitmapDescriptor centerBitmap = BitmapDescriptorFactory
-                .fromResource(R.mipmap.map_icon_location_center);
-        MarkerOptions ooMarker = new MarkerOptions().position(center).icon(centerBitmap);
+                .fromResource(R.mipmap.map_round_icon);
+        MarkerOptions ooMarker = new MarkerOptions().position(center).icon(centerBitmap).anchor(0.5f,0.5f);
         mBaiduMap.addOverlay(ooMarker);
         View view = LayoutInflater.from(PoiSearchRoundActivity.this).inflate(R.layout.map_item, null);
         TextView tv = (TextView) view.findViewById(R.id.tv_msg);
         tv.setText("测试地址");
-        tv.setBackgroundResource(R.drawable.map_bg_item_shop);
+        tv.setTextColor(Color.parseColor("#666666"));
+        tv.setBackgroundResource(R.drawable.map_bg_round);
         BitmapDescriptor centerBitmap1 = BitmapDescriptorFactory
                 .fromView(view);
         MarkerOptions ooMarker1 = new MarkerOptions().position(center).icon(centerBitmap1).anchor(0.5f,1f);
