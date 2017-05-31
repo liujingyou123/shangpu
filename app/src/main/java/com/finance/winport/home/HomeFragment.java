@@ -665,6 +665,9 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
     @Override
     public void onError() {
         refreshView.refreshComplete();
+        if (loadingDialog != null) {
+            loadingDialog.dismiss();
+        }
     }
 
     @Override
