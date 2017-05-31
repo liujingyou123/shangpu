@@ -35,7 +35,16 @@ public class LauncherActivity extends BaseActivity {
             public void call(Long aLong) {
                 Intent intent = new Intent(LauncherActivity.this, MainActivity.class);
                 startActivity(intent);
+                LauncherActivity.this.finish();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mSubscription != null && mSubscription.isUnsubscribed()) {
+            mSubscription.unsubscribe();
+        }
+        super.onDestroy();
     }
 }

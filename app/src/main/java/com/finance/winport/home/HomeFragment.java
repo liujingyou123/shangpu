@@ -127,6 +127,12 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
     public void onResume() {
         super.onResume();
         XLog.e("onResume");
+
+        if (mRequest != null && mRequest.isMap) {
+            mRequest.pageNumber = 1;
+            mPresenter.getShopList(mRequest);
+            mRequest.isMap = false;
+        }
     }
 
     @Override
@@ -501,8 +507,12 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
             mRequest.supportTagList = null;
         }
 
-        mRequest.pageNumber = 1;
-        mPresenter.getShopList(mRequest);
+        mRequest.isMap = request.isMap;
+
+        if (!mRequest.isMap) {
+            mRequest.pageNumber = 1;
+            mPresenter.getShopList(mRequest);
+        }
     }
 
     private void showShaiXuandialog(int time) {
