@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -425,16 +428,25 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
     }
 
     @Override
-    public void shopSendRentResult(SendOrderShopResponse response) {
+    public void shopSendRentResult(final SendOrderShopResponse response) {
 
-        handleBack();
         Intent intent = new Intent(getActivity(), SendSuccessActivity.class);
         intent.putExtra("scheduleId", response.getData());
+        intent.putExtra("type",1);
         startActivity(intent);
+        getActivity().finish();
+//        popFragment();
+
 
     }
 
 
+    protected void popFragment() {
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        fm.popBackStackImmediate();
+        ft.commit();
+    }
 //    private void getData() {
 //        OrderShopRequest request = new OrderShopRequest();
 //        request.setContactName(nameView.getText());

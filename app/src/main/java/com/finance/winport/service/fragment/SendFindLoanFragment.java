@@ -230,7 +230,7 @@ public class SendFindLoanFragment extends BaseFragment implements IFindLoanView 
     public void showSendFindLoanResult(BaseResponse response) {
 
         startActivity(new Intent(getActivity(), SendSuccessActivity.class));
-        handleBack();
+        getActivity().finish();
     }
 
 

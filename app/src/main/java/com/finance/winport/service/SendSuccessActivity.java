@@ -39,6 +39,7 @@ public class SendSuccessActivity extends BaseActivity {
     @BindView(R.id.empty)
     RelativeLayout empty;
     private String scheduleId;
+    private int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,7 @@ public class SendSuccessActivity extends BaseActivity {
     private void initView() {
         tvFocusHouse.setText("发布成功");
         scheduleId = getIntent().getStringExtra("scheduleId");
+        type = getIntent().getIntExtra("type", -1);
         if (TextUtils.isEmpty(scheduleId)) {
             btnDone.setText("回到服务");
         }
@@ -61,16 +63,21 @@ public class SendSuccessActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
+                if (type == 1) {
+                    startActivity(new Intent(SendSuccessActivity.this, ShopRentActivity.class));
+                } else if (TextUtils.isEmpty(scheduleId)) {
+                    startActivity(new Intent(SendSuccessActivity.this, FindLoanActivity.class));
+                }
                 finish();
                 break;
             case R.id.btn_done:
-                if(TextUtils.isEmpty(scheduleId)){
-//                    startActivity(new Intent(SendSuccessActivity.this,FindLoanActivity.class));
+                if (TextUtils.isEmpty(scheduleId)) {
+                    startActivity(new Intent(SendSuccessActivity.this, FindLoanActivity.class));
                     finish();
-                }else{
+                } else {
 
-                    Intent intent = new Intent(SendSuccessActivity.this,ScheduleDetailActivity.class);
-                    intent.putExtra("scheduleId",scheduleId);
+                    Intent intent = new Intent(SendSuccessActivity.this, ScheduleDetailActivity.class);
+                    intent.putExtra("scheduleId", scheduleId);
                     startActivity(intent);
                 }
                 break;

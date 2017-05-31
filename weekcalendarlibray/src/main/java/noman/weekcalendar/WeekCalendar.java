@@ -88,8 +88,8 @@ public class WeekCalendar extends LinearLayout {
         Log.e("init","init");
 //        if (attrs != null) {
 //            typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.WeekCalendar);
-            int selectedDateColor = Color.parseColor("#969696");
-            int todayDateColor = Color.parseColor("#fd5e51");
+            int selectedDateColor = Color.parseColor("#ff5851");
+            int todayDateColor = Color.parseColor("#ffa73b");
             int daysTextColor = Color.parseColor("#969696");
             float daysTextSize = dip2px(context,14) ;
             int todayDateTextColor = Color.parseColor("#ffffff");
