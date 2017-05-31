@@ -97,6 +97,8 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
             EventBus.getDefault().register(this);
         }
 
+        XLog.e("onCreateView");
+
         return root;
     }
 
@@ -118,6 +120,12 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         if (SharedPrefsUtil.getUserInfo() != null) {
             mPresenter.getPersonalInfo();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        XLog.e("onResume");
     }
 
     @Override
