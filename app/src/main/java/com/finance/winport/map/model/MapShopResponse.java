@@ -38,27 +38,27 @@ public class MapShopResponse extends BaseResponse {
          * shopStatus : 3
          */
 
-        private int area;
-        private int rent;
+        private float area;
+        private float rent;
         private String name;
         private int shopId;
         private String longitude;
         private String latitude;
         private int shopStatus;
 
-        public int getArea() {
+        public float getArea() {
             return area;
         }
 
-        public void setArea(int area) {
+        public void setArea(float area) {
             this.area = area;
         }
 
-        public int getRent() {
+        public float getRent() {
             return rent;
         }
 
-        public void setRent(int rent) {
+        public void setRent(float rent) {
             this.rent = rent;
         }
 

@@ -132,7 +132,7 @@ public class HistoryScheduleListActivity extends BaseActivity implements ISchedu
 
             }
         }
-        if(list.size()>=response.getData().getTotalCount()){
+        else if(list.size()>=response.getData().getTotalCount()){
             ToastUtil.show(HistoryScheduleListActivity.this,"没有更多了");
         }
         setAdapter(response);

@@ -52,7 +52,7 @@ public class MapShopDetailResponse extends BaseResponse {
          */
 
         private String address;
-        private int area;
+        private float area;
         private int blockId;
         private String blockName;
         private int contactCount;
@@ -63,7 +63,7 @@ public class MapShopDetailResponse extends BaseResponse {
         private int id;
         private int isFace;
         private long modifyTime;
-        private int rent;
+        private float rent;
         private String rentTypeName;
         private int rentWay;
         private int transferFee;
@@ -85,11 +85,11 @@ public class MapShopDetailResponse extends BaseResponse {
             this.address = address;
         }
 
-        public int getArea() {
+        public float getArea() {
             return area;
         }
 
-        public void setArea(int area) {
+        public void setArea(float area) {
             this.area = area;
         }
 
@@ -173,11 +173,11 @@ public class MapShopDetailResponse extends BaseResponse {
             this.modifyTime = modifyTime;
         }
 
-        public int getRent() {
+        public float getRent() {
             return rent;
         }
 
-        public void setRent(int rent) {
+        public void setRent(float rent) {
             this.rent = rent;
         }
 
