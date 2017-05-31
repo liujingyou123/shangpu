@@ -158,6 +158,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         if (loadingDialog == null) {
             loadingDialog = new LoadingDialog(this.getContext());
             loadingDialog.setTip("定位中...");
+            loadingDialog.show();
         }
 
     }
@@ -603,6 +604,9 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 
     @Override
     public void showShopList(ShopListResponse response) {
+        if (loadingDialog != null) {
+            loadingDialog.dismiss();
+        }
         if (response != null) {
             if (refreshView.isRefreshing()) {
                 refreshView.refreshComplete();
@@ -766,7 +770,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
     @Override
     public void result(boolean result, BDLocation location) {
         if (loadingDialog != null) {
-            loadingDialog.dismiss();
+            loadingDialog.setTip("加载中...");
         }
         if (result) {
             mRequest.latitude = location.getLatitude() + "";
