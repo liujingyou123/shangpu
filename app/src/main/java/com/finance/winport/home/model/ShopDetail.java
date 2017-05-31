@@ -121,7 +121,7 @@ public class ShopDetail extends BaseResponse implements Serializable{
         private int transferFee;
         private Object updateTime;
         private double waterRate;
-        private int width;
+        private double width;
         private int visitCount;
         private int contactCount;
         /**
@@ -531,7 +531,7 @@ public class ShopDetail extends BaseResponse implements Serializable{
             this.waterRate = waterRate;
         }
 
-        public int getWidth() {
+        public double getWidth() {
             return width;
         }
 

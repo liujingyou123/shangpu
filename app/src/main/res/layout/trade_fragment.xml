@@ -40,10 +40,10 @@
             apps:bottomLineColor="#00000000"
             apps:bottomLineHeight="0dp"
             apps:dividerMargin="14dp"
-            apps:indicatorColor="#ff7725"
+            apps:indicatorColor="#FFA73B"
             apps:indicatorHeight="2dp"
             apps:tabTitleColor="#666666"
-            apps:tabTitleColorSelect="#ff7725"></com.finance.winport.view.SlidingTabLayout>
+            apps:tabTitleColorSelect="#FFA73B"></com.finance.winport.view.SlidingTabLayout>
 
         <View
             style="@style/view_line"

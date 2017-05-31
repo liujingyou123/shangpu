@@ -977,7 +977,8 @@
                     android:numColumns="4"
                     android:paddingLeft="15dp"
                     android:paddingTop="10dp"
-                    android:verticalSpacing="8dp"></GridView>
+                    android:verticalSpacing="8dp"
+                    android:paddingBottom="10dp"></GridView>
             </LinearLayout>
 
         </LinearLayout>

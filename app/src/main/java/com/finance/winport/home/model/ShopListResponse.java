@@ -295,7 +295,7 @@ public class ShopListResponse extends BaseResponse {
 
         public static class Shop {
             private String address;
-            private int area;
+            private double area;
             private int blockId;
             private String blockName;
             private int contactCount;
@@ -328,11 +328,11 @@ public class ShopListResponse extends BaseResponse {
                 this.address = address;
             }
 
-            public int getArea() {
+            public double getArea() {
                 return area;
             }
 
-            public void setArea(int area) {
+            public void setArea(double area) {
                 this.area = area;
             }
 

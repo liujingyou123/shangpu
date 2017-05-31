@@ -42,6 +42,8 @@ public abstract class NetSubscriber<T> extends Subscriber<T> {
             return;
         }
 
+        XLog.e(e.getMessage());
+
         ToastUtil.show(WinPortApplication.getInstance().getApplicationContext(), e.getMessage());
         
     }

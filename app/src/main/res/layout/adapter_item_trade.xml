@@ -90,8 +90,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:paddingLeft="15dp">
+        android:layout_height="45dp">
 
         <TextView
             android:id="@+id/tv_time"

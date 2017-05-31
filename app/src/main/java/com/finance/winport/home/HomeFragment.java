@@ -108,12 +108,13 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         }
         if (SharedPrefsUtil.getUserInfo() != null) {
             mRequest.queryType = 0;
+            mPresenter.getIsUnReader();
         } else {
             mRequest.queryType = 1;
         }
         mPresenter.getShopCount();
         mPresenter.getBanner();
-        mPresenter.getIsUnReader();
+
 
         getCurrentLocation();
 
@@ -157,7 +158,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 
         if (loadingDialog == null) {
             loadingDialog = new LoadingDialog(this.getContext());
-            loadingDialog.setTip("定位中...");
+            loadingDialog.setTip("加载中...");
             loadingDialog.show();
         }
 
@@ -370,6 +371,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                         public void onDismiss() {
                             if (TextUtils.isEmpty(mRequest.sortType)) {
                                 selectionView.onSortUnClick();
+                                heardSelectView.onSortUnClick();
 
                             }
                         }
@@ -665,6 +667,9 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
     @Override
     public void onError() {
         refreshView.refreshComplete();
+        if (loadingDialog != null) {
+            loadingDialog.dismiss();
+        }
     }
 
     @Override
