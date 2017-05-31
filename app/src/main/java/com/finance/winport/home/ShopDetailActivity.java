@@ -37,6 +37,7 @@ import com.finance.winport.map.PoiSearchRoundActivity;
 import com.finance.winport.permission.PermissionsManager;
 import com.finance.winport.permission.PermissionsResultAction;
 import com.finance.winport.tab.MineFragment;
+import com.finance.winport.util.H5Util;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.ToastUtil;
@@ -50,6 +51,7 @@ import com.finance.winport.view.picker.Picker;
 import com.finance.winport.view.picker.engine.GlideEngine;
 import com.finance.winport.view.tagview.TagCloudLayout;
 import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
@@ -223,7 +225,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         ButterKnife.bind(this);
         initData();
         init();
-        shareInit();
+//        shareInit();
 
     }
 
@@ -367,6 +369,10 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 if (shareDialog == null) {
                     shareDialog = new ShareDialog(this);
                 }
+                shareDialog.setDes("该旺铺的价格" + rentPrice + "，转让费" + zhuanPrice);
+                shareDialog.setTitle(mShopDetail.getData().getAddress());
+                shareDialog.setImage(coverImg);
+                shareDialog.setUrl(H5Util.getIpShopDetail(mShopDetail.getData().getId() + ""));
                 shareDialog.show();
 //                mShareAction.open();
                 break;
@@ -465,44 +471,50 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         }
     }
 
-    private void shareInit() {
-        mShareListener = new CustomShareListener(this);
-        /*增加自定义按钮的分享面板*/
-        mShareAction = new ShareAction(ShopDetailActivity.this).setDisplayList(
-                SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
-                SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE,
-                SHARE_MEDIA.ALIPAY, SHARE_MEDIA.RENREN, SHARE_MEDIA.DOUBAN,
-                SHARE_MEDIA.SMS, SHARE_MEDIA.EMAIL, SHARE_MEDIA.YNOTE,
-                SHARE_MEDIA.EVERNOTE, SHARE_MEDIA.LAIWANG, SHARE_MEDIA.LAIWANG_DYNAMIC,
-                SHARE_MEDIA.LINKEDIN, SHARE_MEDIA.YIXIN, SHARE_MEDIA.YIXIN_CIRCLE,
-                SHARE_MEDIA.TENCENT, SHARE_MEDIA.FACEBOOK, SHARE_MEDIA.TWITTER,
-                SHARE_MEDIA.WHATSAPP, SHARE_MEDIA.GOOGLEPLUS, SHARE_MEDIA.LINE,
-                SHARE_MEDIA.INSTAGRAM, SHARE_MEDIA.KAKAO, SHARE_MEDIA.PINTEREST,
-                SHARE_MEDIA.POCKET, SHARE_MEDIA.TUMBLR, SHARE_MEDIA.FLICKR,
-                SHARE_MEDIA.FOURSQUARE, SHARE_MEDIA.MORE)
-                .addButton("umeng_sharebutton_copy", "umeng_sharebutton_copy", "umeng_socialize_copy", "umeng_socialize_copy")
-                .addButton("umeng_sharebutton_copyurl", "umeng_sharebutton_copyurl", "umeng_socialize_copyurl", "umeng_socialize_copyurl")
-                .setShareboardclickCallback(new ShareBoardlistener() {
-                    @Override
-                    public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
-                        if (snsPlatform.mShowWord.equals("umeng_sharebutton_copy")) {
-                            Toast.makeText(ShopDetailActivity.this, "复制文本按钮", Toast.LENGTH_LONG).show();
-                        } else if (snsPlatform.mShowWord.equals("umeng_sharebutton_copyurl")) {
-                            Toast.makeText(ShopDetailActivity.this, "复制链接按钮", Toast.LENGTH_LONG).show();
-
-                        } else {
-                            UMWeb web = new UMWeb("http://bbs.umeng.com/");
-                            web.setTitle("来自分享面板标题");
-                            web.setDescription("来自分享面板内容");
-                            web.setThumb(new UMImage(ShopDetailActivity.this, R.drawable.ic_camera));
-                            new ShareAction(ShopDetailActivity.this).withMedia(web)
-                                    .setPlatform(share_media)
-                                    .setCallback(mShareListener)
-                                    .share();
-                        }
-                    }
-                });
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
+
+    //    private void shareInit() {
+//        mShareListener = new CustomShareListener(this);
+//        /*增加自定义按钮的分享面板*/
+//        mShareAction = new ShareAction(ShopDetailActivity.this).setDisplayList(
+//                SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
+//                SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE,
+//                SHARE_MEDIA.ALIPAY, SHARE_MEDIA.RENREN, SHARE_MEDIA.DOUBAN,
+//                SHARE_MEDIA.SMS, SHARE_MEDIA.EMAIL, SHARE_MEDIA.YNOTE,
+//                SHARE_MEDIA.EVERNOTE, SHARE_MEDIA.LAIWANG, SHARE_MEDIA.LAIWANG_DYNAMIC,
+//                SHARE_MEDIA.LINKEDIN, SHARE_MEDIA.YIXIN, SHARE_MEDIA.YIXIN_CIRCLE,
+//                SHARE_MEDIA.TENCENT, SHARE_MEDIA.FACEBOOK, SHARE_MEDIA.TWITTER,
+//                SHARE_MEDIA.WHATSAPP, SHARE_MEDIA.GOOGLEPLUS, SHARE_MEDIA.LINE,
+//                SHARE_MEDIA.INSTAGRAM, SHARE_MEDIA.KAKAO, SHARE_MEDIA.PINTEREST,
+//                SHARE_MEDIA.POCKET, SHARE_MEDIA.TUMBLR, SHARE_MEDIA.FLICKR,
+//                SHARE_MEDIA.FOURSQUARE, SHARE_MEDIA.MORE)
+//                .addButton("umeng_sharebutton_copy", "umeng_sharebutton_copy", "umeng_socialize_copy", "umeng_socialize_copy")
+//                .addButton("umeng_sharebutton_copyurl", "umeng_sharebutton_copyurl", "umeng_socialize_copyurl", "umeng_socialize_copyurl")
+//                .setShareboardclickCallback(new ShareBoardlistener() {
+//                    @Override
+//                    public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
+//                        if (snsPlatform.mShowWord.equals("umeng_sharebutton_copy")) {
+//                            Toast.makeText(ShopDetailActivity.this, "复制文本按钮", Toast.LENGTH_LONG).show();
+//                        } else if (snsPlatform.mShowWord.equals("umeng_sharebutton_copyurl")) {
+//                            Toast.makeText(ShopDetailActivity.this, "复制链接按钮", Toast.LENGTH_LONG).show();
+//
+//                        } else {
+//                            UMWeb web = new UMWeb("http://bbs.umeng.com/");
+//                            web.setTitle("来自分享面板标题");
+//                            web.setDescription("来自分享面板内容");
+//                            web.setThumb(new UMImage(ShopDetailActivity.this, R.drawable.ic_camera));
+//                            new ShareAction(ShopDetailActivity.this).withMedia(web)
+//                                    .setPlatform(share_media)
+//                                    .setCallback(mShareListener)
+//                                    .share();
+//                        }
+//                    }
+//                });
+//    }
 
     @Override
     public void collectedShop(CollectionResponse response) {
@@ -535,6 +547,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         if (type == 1) {
             tvPrice.setTag("1");
             String showRent = price + "/月";
+            rentPrice = showRent;
             tvPrice.setText(showRent + "(" + data.getRentWayName() + ")");
             TextViewUtil.setPartialSizeAndColor(tvPrice, 0, showRent.length(), 18, 0, showRent.length(), Color.parseColor("#FF5851"));
         } else {
@@ -553,6 +566,10 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
 
     }
 
+    private String zhuanPrice;
+    private String rentPrice;
+    private String coverImg;
+
     @Override
     public void getShopDetail(ShopDetail shopDetail) {
         mShopDetail = shopDetail;
@@ -569,6 +586,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         }
 
         String zhuan = UnitUtil.limitNum(data.getTransferFee(), 0);
+        zhuanPrice = zhuan;
         tvZhuanprice.setText(zhuan + compactResidue);
         tvArea.setText(UnitUtil.formatMNum(data.getArea()) + "㎡");
         showPrice(1);
@@ -697,6 +715,9 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         if (data.getImageList() != null && data.getImageList().size() > 0) {
             ArrayList<String> list = new ArrayList<>();
             for (int i = 0; i < data.getImageList().size(); i++) {
+                if (data.getImageList().get(i).getIsCover() == 1) {
+                    coverImg = data.getImageList().get(i).getImgUrl();
+                }
                 list.add(data.getImageList().get(i).getImgUrl());
             }
             showBaner(list);

@@ -31,7 +31,7 @@ public class HomePresenter {
     }
 
     public void getShopList(ShopRequset requset) {
-        ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).getShops(requset), new LoadingNetSubscriber<ShopListResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).getShops(requset), new NetSubscriber<ShopListResponse>() {
             @Override
             public void response(ShopListResponse response) {
                 if (mIHomeView != null) {
