@@ -69,6 +69,7 @@ public class PoiSearchRoundActivity extends BaseActivity implements
     private PoiSearch mPoiSearch = null;
     private BaiduMap mBaiduMap = null;
     private List<String> suggest;
+    private String centerAddress;
     /**
      * 搜索关键字输入窗口
      */
@@ -128,7 +129,8 @@ public class PoiSearchRoundActivity extends BaseActivity implements
                 , R.drawable.selector_bottom_tab_shopping, R.drawable
                 .selector_bottom_tab_hotel, R.drawable.selector_bottom_tab_community, R.drawable.selector_bottom_tab_school, R.drawable.selector_bottom_tab_traffic});
         tvFocusHouse.setText("周边配套");
-        tvFocusRight.setText("导航");
+//        tvFocusRight.setText("导航");
+        tvFocusRight.setVisibility(View.GONE);
 
         locationClient = new LocationClient(this);
 //        locationClient.registerLocationListener(myListener);
@@ -198,6 +200,8 @@ public class PoiSearchRoundActivity extends BaseActivity implements
         Intent intent = getIntent();
         if (intent != null) {
             center = new LatLng(intent.getDoubleExtra("lat", 0), intent.getDoubleExtra("lon", 0));
+
+            centerAddress = intent.getStringExtra("address");
         }
     }
 
@@ -284,7 +288,7 @@ public class PoiSearchRoundActivity extends BaseActivity implements
             mBaiduMap.addOverlay(ooMarker);
             View view = LayoutInflater.from(PoiSearchRoundActivity.this).inflate(R.layout.map_item, null);
             TextView tv = (TextView) view.findViewById(R.id.tv_msg);
-            tv.setText("测试地址");
+            tv.setText(centerAddress);
             tv.setTextColor(Color.parseColor("#666666"));
             tv.setBackgroundResource(R.drawable.map_bg_round);
             BitmapDescriptor centerBitmap1 = BitmapDescriptorFactory
@@ -322,8 +326,8 @@ public class PoiSearchRoundActivity extends BaseActivity implements
             Toast.makeText(PoiSearchRoundActivity.this, "抱歉，未找到结果", Toast.LENGTH_SHORT)
                     .show();
         } else {
-            Toast.makeText(PoiSearchRoundActivity.this, result.getName() + ": " + result.getAddress(), Toast.LENGTH_SHORT)
-                    .show();
+//            Toast.makeText(PoiSearchRoundActivity.this, result.getName() + ": " + result.getAddress(), Toast.LENGTH_SHORT)
+//                    .show();
 
 
 //            TextView button = new TextView(PoiSearchRoundActivity.this);
@@ -433,7 +437,7 @@ public class PoiSearchRoundActivity extends BaseActivity implements
         mBaiduMap.addOverlay(ooMarker);
         View view = LayoutInflater.from(PoiSearchRoundActivity.this).inflate(R.layout.map_item, null);
         TextView tv = (TextView) view.findViewById(R.id.tv_msg);
-        tv.setText("测试地址");
+        tv.setText(centerAddress);
         tv.setTextColor(Color.parseColor("#666666"));
         tv.setBackgroundResource(R.drawable.map_bg_round);
         BitmapDescriptor centerBitmap1 = BitmapDescriptorFactory

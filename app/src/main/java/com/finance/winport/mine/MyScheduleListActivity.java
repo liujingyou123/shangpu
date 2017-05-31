@@ -60,9 +60,15 @@ public class MyScheduleListActivity extends BaseActivity implements IScheduleLis
         setContentView(R.layout.activity_schedule_list);
         ButterKnife.bind(this);
         init();
-        getData();
+
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        list.clear();
+        getData();
+    }
 
     private void getData() {
         if (mPresenter == null) {

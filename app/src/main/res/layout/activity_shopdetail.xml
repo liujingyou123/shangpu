@@ -319,7 +319,21 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
-                    android:background="#ff0000" />
+                    android:background="#ff0000"
+                    android:visibility="gone"
+                    />
+
+                <com.baidu.mapapi.map.TextureMapView
+                    android:id="@+id/map_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:layout_gravity="center_horizontal"
+                    android:clickable="false"
+                    android:isScrollContainer="false"
+                    android:overScrollMode="never"
+                    android:background="#ffffff">
+
+                </com.baidu.mapapi.map.TextureMapView>
 
                 <LinearLayout
                     android:layout_width="match_parent"

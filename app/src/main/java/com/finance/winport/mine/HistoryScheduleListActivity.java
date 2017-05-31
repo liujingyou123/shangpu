@@ -56,6 +56,12 @@ public class HistoryScheduleListActivity extends BaseActivity implements ISchedu
         setContentView(R.layout.activity_history_schedule_list);
         ButterKnife.bind(this);
         init();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        list.clear();
         getData();
     }
 

@@ -16,9 +16,20 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.TextureMapView;
+import com.baidu.mapapi.map.UiSettings;
+import com.baidu.mapapi.model.LatLng;
 import com.finance.winport.R;
 import com.finance.winport.account.LoginActivity;
 import com.finance.winport.base.BaseActivity;
@@ -32,11 +43,9 @@ import com.finance.winport.home.model.ShopDetail;
 import com.finance.winport.home.presenter.ShopDetailPresenter;
 import com.finance.winport.home.view.IShopDetailView;
 import com.finance.winport.image.GlideImageLoader;
-import com.finance.winport.log.XLog;
 import com.finance.winport.map.PoiSearchRoundActivity;
 import com.finance.winport.permission.PermissionsManager;
 import com.finance.winport.permission.PermissionsResultAction;
-import com.finance.winport.tab.MineFragment;
 import com.finance.winport.util.H5Util;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.TextViewUtil;
@@ -47,17 +56,11 @@ import com.finance.winport.view.ScrollTabView;
 import com.finance.winport.view.home.NearShop;
 import com.finance.winport.view.home.RateView;
 import com.finance.winport.view.imagepreview.ImagePreviewActivity;
-import com.finance.winport.view.picker.Picker;
-import com.finance.winport.view.picker.engine.GlideEngine;
 import com.finance.winport.view.tagview.TagCloudLayout;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.media.UMWeb;
-import com.umeng.socialize.shareboard.SnsPlatform;
-import com.umeng.socialize.utils.ShareBoardlistener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
@@ -205,6 +208,12 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     View viewSpaceJingyingfeiyong;
     @BindView(R.id.tv_rent_type)
     TextView tvRentType;
+    @BindView(R.id.rl_address)
+    RelativeLayout rlAddress;
+    @BindView(R.id.imv_change)
+    ImageView imvChange;
+    @BindView(R.id.map_view)
+    TextureMapView mapView;
 
     private boolean isTouched = false;
     private ShareDialog shareDialog;
@@ -217,6 +226,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     private ShopDetail mShopDetail;
     private String rent;
     private String rent2;
+    private BaiduMap bMap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -257,6 +267,11 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 return false;
             }
         });
+
+
+
+
+
         svAll.setOnScrollChangedListener(new PositionScrollView.OnScrollChangedListener() {
             @Override
             public void onScrollChanged(int l, int t, int oldl, int oldt) {
@@ -760,7 +775,41 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         } else {
             tvCall.setVisibility(View.VISIBLE);
         }
+
+
+        setMapView();
+
     }
+    private void setMapView(){
+        try {
+
+            bMap = mapView.getMap();
+            bMap.setMyLocationEnabled(true);
+            bMap.setMaxAndMinZoomLevel(18, 13);
+            mapView.showZoomControls(false);
+            UiSettings settings = bMap.getUiSettings();
+            settings.setZoomGesturesEnabled(false);
+            settings.setScrollGesturesEnabled(false);
+            settings.setAllGesturesEnabled(false);
+            settings.setRotateGesturesEnabled(false);
+            settings.setOverlookingGesturesEnabled(false);
+            settings.setCompassEnabled(false);
+            bMap.clear();
+            BitmapDescriptor centerBitmap = BitmapDescriptorFactory
+                    .fromResource(R.mipmap.map_round_icon);
+            MapStatus mMapStatus = new MapStatus.Builder()
+                    .target(new LatLng(Double.parseDouble(mShopDetail.getData().getLatitude()), Double.parseDouble(mShopDetail.getData().getLongitude())))
+                    .zoom(16)
+                    .build();
+            MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+            bMap.setMapStatus(mMapStatusUpdate);
+            MarkerOptions ooMarker = new MarkerOptions().position(new LatLng(Double.parseDouble(mShopDetail.getData().getLatitude()), Double.parseDouble(mShopDetail.getData().getLongitude()))).icon(centerBitmap).anchor(0.5f,0.5f);
+            bMap.addOverlay(ooMarker);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
 
     private static class CustomShareListener implements UMShareListener {
