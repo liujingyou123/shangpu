@@ -244,6 +244,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     }
 
     private void init() {
+        imvBack.setImageResource(R.mipmap.icon_white_back);
         llTop.setAlpha(0);
         svAll.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
         svAll.setFocusable(true);
