@@ -309,7 +309,7 @@
                     android:layout_marginTop="32dp"
                     android:background="@drawable/bg_service_btn"
                     android:gravity="center"
-                    android:text="挑选旺铺"
+                    android:text="去首页挑选旺铺"
                     android:textColor="#ffffff"
                     android:textSize="15sp" />
 
