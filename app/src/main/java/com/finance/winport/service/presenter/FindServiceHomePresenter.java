@@ -1,5 +1,6 @@
 package com.finance.winport.service.presenter;
 
+import com.finance.winport.net.LoadingNetSubscriber;
 import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.service.api.FindServices;
 import com.finance.winport.service.model.CalendarListResponse;
@@ -23,7 +24,7 @@ public class FindServiceHomePresenter {
 
     public void getFindServiceHome() {
 
-        ToolsUtil.subscribe(ToolsUtil.createService(FindServices.class).getFindService(), new NetSubscriber<FindServiceResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(FindServices.class).getFindService(), new LoadingNetSubscriber<FindServiceResponse>() {
             @Override
             public void response(FindServiceResponse response) {
                 if (mServiceView != null) {

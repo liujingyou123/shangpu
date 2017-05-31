@@ -50,26 +50,32 @@ public class SendSuccessActivity extends BaseActivity {
 
     private void initView() {
         tvFocusHouse.setText("发布成功");
-        imvFocusHouseBack.setVisibility(View.GONE);
         scheduleId = getIntent().getStringExtra("scheduleId");
-        if(TextUtils.isEmpty(scheduleId)){
+        if (TextUtils.isEmpty(scheduleId)) {
             btnDone.setText("回到服务");
         }
 
     }
 
+    @OnClick({R.id.imv_focus_house_back, R.id.btn_done})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.imv_focus_house_back:
+                finish();
+                break;
+            case R.id.btn_done:
+                if(TextUtils.isEmpty(scheduleId)){
+//                    startActivity(new Intent(SendSuccessActivity.this,FindLoanActivity.class));
+                    finish();
+                }else{
 
-    @OnClick(R.id.btn_done)
-    public void onViewClicked() {
-
-        if(TextUtils.isEmpty(scheduleId)){
-            startActivity(new Intent(SendSuccessActivity.this,FindLoanActivity.class));
-            finish();
-        }else{
-
-            Intent intent = new Intent(SendSuccessActivity.this,ScheduleDetailActivity.class);
-            intent.putExtra("scheduleId",scheduleId);
-            startActivity(intent);
+                    Intent intent = new Intent(SendSuccessActivity.this,ScheduleDetailActivity.class);
+                    intent.putExtra("scheduleId",scheduleId);
+                    startActivity(intent);
+                }
+                break;
         }
     }
+
+
 }

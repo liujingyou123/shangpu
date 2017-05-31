@@ -49,8 +49,10 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
     private int scrollTime = BannerConfig.DURATION;
     private boolean isAutoPlay = BannerConfig.IS_AUTO_PLAY;
     private boolean isScroll = BannerConfig.IS_SCROLL;
-    private int mIndicatorSelectedResId = R.drawable.gray_radius;
-    private int mIndicatorUnselectedResId = R.drawable.white_radius;
+//    private int mIndicatorSelectedResId = R.drawable.gray_radius;
+    private int mIndicatorSelectedResId = R.mipmap.banner_current;
+//    private int mIndicatorUnselectedResId = R.drawable.white_radius;
+    private int mIndicatorUnselectedResId = R.mipmap.banner_default;
     private int mLayoutResId = R.layout.loop_banner;
     private int titleHeight;
     private int titleBackground;
@@ -129,8 +131,8 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
         mIndicatorWidth = typedArray.getDimensionPixelSize(R.styleable.Banner_indicator_width, indicatorSize);
         mIndicatorHeight = typedArray.getDimensionPixelSize(R.styleable.Banner_indicator_height, indicatorSize);
         mIndicatorMargin = typedArray.getDimensionPixelSize(R.styleable.Banner_indicator_margin, BannerConfig.PADDING_SIZE);
-        mIndicatorSelectedResId = typedArray.getResourceId(R.styleable.Banner_indicator_drawable_selected, R.drawable.gray_radius);
-        mIndicatorUnselectedResId = typedArray.getResourceId(R.styleable.Banner_indicator_drawable_unselected, R.drawable.white_radius);
+//        mIndicatorSelectedResId = typedArray.getResourceId(R.styleable.Banner_indicator_drawable_selected, R.drawable.gray_radius);
+//        mIndicatorUnselectedResId = typedArray.getResourceId(R.styleable.Banner_indicator_drawable_unselected, R.drawable.white_radius);
         scaleType = typedArray.getInt(R.styleable.Banner_image_scale_type, scaleType);
         delayTime = typedArray.getInt(R.styleable.Banner_delay_time, BannerConfig.TIME);
         scrollTime = typedArray.getInt(R.styleable.Banner_scroll_time, BannerConfig.DURATION);
