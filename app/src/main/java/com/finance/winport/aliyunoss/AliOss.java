@@ -75,9 +75,6 @@ public class AliOss {
                     AliTokenResponse response1 = response.body();
                     AliTokenResponse.DataBean dataBean = response1.getData();
                     if (dataBean != null) {
-//                        String time = ToolsUtil.dateToGMTStr(ToolsUtil.stringToDate(dataBean.getExpiration()));
-//                        XLog.e("time = " +time);
-//                        String time = "2017-05-26T17:35:31Z";
                         return new OSSFederationToken(dataBean.getAccessKeyId(), dataBean.getAccessKeySecret(), dataBean.getSecurityToken(), dataBean.getExpiration());
                     }
                 } catch (IOException e) {

@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import com.finance.winport.R;
 import com.finance.winport.home.ShopDetailActivity;
 import com.finance.winport.log.XLog;
+import com.finance.winport.util.ToastUtil;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -77,11 +78,6 @@ public class ShareDialog extends Dialog {
     }
 
     private void showShare(SHARE_MEDIA platform) {
-//        new ShareAction((Activity) mContext).setPlatform(platform)
-//                .withText("hello")
-//                .setCallback(umShareListener)
-//                .share();
-
         UMWeb web = new UMWeb(mUrl);
         web.setTitle(mTitle);
         web.setDescription(mDes);
@@ -100,6 +96,7 @@ public class ShareDialog extends Dialog {
 
     @OnClick({R.id.tv_weixin, R.id.tv_pengyou, R.id.tv_weibo, R.id.tv_qq})
     public void onViewClicked(View view) {
+        ToastUtil.show(mContext, "正在分享...");
         switch (view.getId()) {
             case R.id.tv_weixin:
                 showShare(SHARE_MEDIA.WEIXIN);
@@ -125,6 +122,7 @@ public class ShareDialog extends Dialog {
         @Override
         public void onResult(SHARE_MEDIA share_media) {
             XLog.e("onResult");
+            ToastUtil.show(mContext, "分享成功");
         }
 
         @Override
