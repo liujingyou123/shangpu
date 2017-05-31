@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -84,7 +85,13 @@ public class ShareDialog extends Dialog {
         UMWeb web = new UMWeb(mUrl);
         web.setTitle(mTitle);
         web.setDescription(mDes);
-        web.setThumb(new UMImage(mContext, mImageUrl));
+        UMImage umImage = null;
+        if (!TextUtils.isEmpty(mImageUrl)) {
+            umImage = new UMImage(mContext, mImageUrl);
+        } else {
+            umImage = new UMImage(mContext, R.drawable.default_image_logo);
+        }
+        web.setThumb(umImage);
         new ShareAction((Activity) mContext).withMedia(web)
                 .setPlatform(platform)
                 .setCallback(umShareListener)
