@@ -461,6 +461,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                     Intent intent1 = new Intent(this, PoiSearchRoundActivity.class);
                     intent1.putExtra("lat", Double.parseDouble(mShopDetail.getData().getLatitude()));
                     intent1.putExtra("lon", Double.parseDouble(mShopDetail.getData().getLongitude()));
+                    intent1.putExtra("address", mShopDetail.getData().getAddress());
                     startActivity(intent1);
                 } catch (Exception e) {
                     e.printStackTrace();
