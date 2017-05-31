@@ -49,4 +49,7 @@ public class ShopRequset implements Serializable {
 
     public String latitude;
 
+    @FooAnnotation
+    public boolean isMap;
+
 }
