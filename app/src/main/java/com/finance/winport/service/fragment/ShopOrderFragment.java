@@ -112,6 +112,7 @@ public class ShopOrderFragment extends BaseFragment implements IFindServiceView 
 
 
                     startActivity(new Intent(context, MainActivity.class).putExtra("tab", MainActivity.HOME));
+                    getActivity().finish();
                 } else {
                     startActivity(new Intent(context, LoginActivity.class));
                 }

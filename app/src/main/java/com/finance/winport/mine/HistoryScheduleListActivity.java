@@ -15,6 +15,7 @@ import com.finance.winport.mine.adapter.ScheduleListAdapter;
 import com.finance.winport.mine.model.ScheduleListResponse;
 import com.finance.winport.mine.presenter.IScheduleListView;
 import com.finance.winport.mine.presenter.ScheduleListPresenter;
+import com.finance.winport.util.ToastUtil;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
@@ -86,6 +87,7 @@ public class HistoryScheduleListActivity extends BaseActivity implements ISchedu
 
     private void setAdapter(ScheduleListResponse response) {
         list.addAll(response.getData().getScheduleList());
+
         if (adapter == null) {
             adapter = new ScheduleListAdapter(HistoryScheduleListActivity.this,list);
             mListView.setAdapter(adapter);
@@ -123,6 +125,9 @@ public class HistoryScheduleListActivity extends BaseActivity implements ISchedu
                 refreshView.setVisibility(View.GONE);
 
             }
+        }
+        if(list.size()>=response.getData().getTotalCount()){
+            ToastUtil.show(HistoryScheduleListActivity.this,"没有更多了");
         }
         setAdapter(response);
     }

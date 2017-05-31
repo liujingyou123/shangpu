@@ -145,7 +145,7 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
         OrderShopRequest request = new OrderShopRequest();
         request.setContactName(nameView.getText());
         request.setContactMobile(UnitUtil.trim(phoneView.getText().toString().trim()));
-        request.setShopId("1");
+        request.setShopId(shopId);
         request.setSubscribeTime(orderTime.getText());
         request.setSmsVerifyCode(verifyCodeView.getText());
         request.setMessageId(messageId);

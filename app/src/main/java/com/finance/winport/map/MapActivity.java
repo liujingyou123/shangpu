@@ -752,7 +752,7 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 
         for (int i = 0; i < response.getData().size(); i++) {
             if (!TextUtils.isEmpty(response.getData().get(i).getName()) && !TextUtils.isEmpty(response.getData().get(i).getLatitude()) && !TextUtils.isEmpty(response.getData().get(i).getLongitude()))
-                addRange(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())), response.getData().get(i).getName().toString(), response.getData().get(i).getBizId() + "");
+                addRange(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())), response.getData().get(i).getName().toString()+"\n"+response.getData().get(i).getShopCount()+"间", response.getData().get(i).getBizId() + "");
         }
 
 
@@ -772,7 +772,7 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
             if (!TextUtils.isEmpty(response.getData().get(i).getName()) && !TextUtils.isEmpty(response.getData().get(i).getLatitude()) && !TextUtils.isEmpty(response.getData().get(i).getLongitude())) {
 //                if(mBaiduMap.getMapStatus().bound.contains(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())))){
 
-                addRangePlate(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())), response.getData().get(i).getName().toString(), response.getData().get(i).getBizId() + "");
+                addRangePlate(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())), response.getData().get(i).getName().toString()+"\n"+response.getData().get(i).getShopCount()+"间", response.getData().get(i).getBizId() + "");
 //                }
             }
         }
@@ -786,7 +786,7 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
             if (!TextUtils.isEmpty(response.getData().get(i).getName()) && !TextUtils.isEmpty(response.getData().get(i).getLatitude()) && !TextUtils.isEmpty(response.getData().get(i).getLongitude())) {
 //                if(mBaiduMap.getMapStatus().bound.contains(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())))){
 
-                addRangePlate(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())), response.getData().get(i).getName().toString(), response.getData().get(i).getBizId() + "");
+                addRangePlate(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())), response.getData().get(i).getName().toString()+"\n"+response.getData().get(i).getShopCount()+"间", response.getData().get(i).getBizId() + "");
 //                }
             }
         }
