@@ -186,6 +186,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
             }
             setHeadImage(SharedPrefsUtil.getUserInfo().data.headPortrait);
             getData();
+            concern.setText("去设置关注的旺铺");
         } else {
             phone.setText("未登录");
             concern.setText("点击登录帐号");
@@ -792,16 +793,35 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
 
             if (TextUtils.isEmpty(response.getData().getIndustryName())) {
 
-                concern.setText(s.toString());
+                if (!TextUtils.isEmpty(s.toString())) {
+
+                    concern.setText(s.toString());
+                }
             } else {
 
-                concern.setText(response.getData().getIndustryName() + "-" + s.toString());
+                if (TextUtils.isEmpty(s.toString())) {
+
+                    concern.setText(response.getData().getIndustryName());
+                } else {
+
+                    concern.setText(response.getData().getIndustryName() + "-" + s.toString());
+                }
             }
         } else if (TextUtils.isEmpty(response.getData().getIndustryName())) {
+            if (!TextUtils.isEmpty(s.toString())) {
 
-            concern.setText(response.getData().getBlockName() + "-" + s.toString());
-        } else {
+                concern.setText(response.getData().getBlockName() + "-" + s.toString());
+            } else {
+                concern.setText(response.getData().getBlockName());
+
+            }
+
+
+        } else if (!TextUtils.isEmpty(s.toString())) {
+
             concern.setText(response.getData().getBlockName() + "-" + response.getData().getIndustryName() + "-" + s.toString());
+        } else {
+            concern.setText(response.getData().getBlockName() + "-" + response.getData().getIndustryName());
 
         }
 

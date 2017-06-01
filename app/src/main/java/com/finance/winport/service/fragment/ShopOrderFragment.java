@@ -106,17 +106,9 @@ public class ShopOrderFragment extends BaseFragment implements IFindServiceView 
                 handleBack();
                 break;
             case R.id.sen_btn:
-                if (isLogin()) {
-//                    BaseFragment sendShop = new SendShopOrderFragment();
-//                    pushFragment(sendShop);
 
-
-                    startActivity(new Intent(context, MainActivity.class).putExtra("tab", MainActivity.HOME));
-                    getActivity().finish();
-                } else {
-                    startActivity(new Intent(context, LoginActivity.class));
-                }
-
+                startActivity(new Intent(context, MainActivity.class).putExtra("tab", MainActivity.HOME));
+                getActivity().finish();
                 break;
         }
     }

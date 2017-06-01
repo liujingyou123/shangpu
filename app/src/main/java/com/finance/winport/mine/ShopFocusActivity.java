@@ -247,7 +247,7 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
                     if (item.isSelected()) {
                         tagAdapter.setMultiItemSelect(item, false);
                         selectList.remove(selectList.indexOf(item));
-                        list1.remove(item.getTagId());
+                        list1.remove((Integer) Integer.parseInt(item.getTagId()));
 //                        StringBuilder s = new StringBuilder();
 //                        for (int i = 0; i <selectList.size() ; i++) {
 //                            if(i==0){

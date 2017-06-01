@@ -13,10 +13,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="68dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="#ffffff"
+        android:background="@drawable/bg_press_shop_list"
         android:orientation="vertical">
 
 

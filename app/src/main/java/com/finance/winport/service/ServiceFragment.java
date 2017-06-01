@@ -138,7 +138,7 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
                 public void run() {
                     scroll.fullScroll(ScrollView.FOCUS_UP);
                 }
-            },1000);
+            }, 1000);
 //            init();
 
         }
@@ -178,7 +178,6 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
 
 
     }
-
 
 
     @Override
@@ -236,9 +235,6 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
                 }
             }
         });
-
-
-
 
 
         if (response.getData().getShopObject() == null) {
@@ -372,9 +368,9 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
             } else {
 //                empty.setVisibility(View.GONE);
                 NowDays.SelectDays selectDay = days.new SelectDays();
-                selectDay.year = Integer.parseInt(calendarList.get(i).getDateString().substring(0,4))+"";
-                selectDay.month = Integer.parseInt(calendarList.get(i).getDateString().substring(5,7))+"";
-                selectDay.day = Integer.parseInt(calendarList.get(i).getDateString().substring(8,10))+"";
+                selectDay.year = Integer.parseInt(calendarList.get(i).getDateString().substring(0, 4)) + "";
+                selectDay.month = Integer.parseInt(calendarList.get(i).getDateString().substring(5, 7)) + "";
+                selectDay.day = Integer.parseInt(calendarList.get(i).getDateString().substring(8, 10)) + "";
 
 
                 days.list.add(selectDay);
@@ -390,23 +386,22 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
 //        selectList.clear();
 //        selectList.addAll(list);
 //        if (adapter == null) {
-        adapter = new ServiceScheduleListAdapter(getActivity(), list);
+            adapter = new ServiceScheduleListAdapter(getActivity(), list);
 
-        mListView.setAdapter(adapter);
+            mListView.setAdapter(adapter);
 //        ViewGroup.LayoutParams parm = mListView.getLayoutParams();
 //        parm.height = UnitUtil.dip2px(getActivity(), 75 * list.size());
 
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(),ScheduleDetailActivity.class);
-                intent.putExtra("scheduleId",adapter.getItem(position).getScheduleId());
-                startActivity(intent);
-            }
-        });
+            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent(getActivity(), ScheduleDetailActivity.class);
+                    intent.putExtra("scheduleId", adapter.getItem(position).getScheduleId());
+                    startActivity(intent);
+                }
+            });
 
-//        }
-//        else {
+//        } else {
 //
 //            adapter.notifyDataSetChanged();
 //        }
