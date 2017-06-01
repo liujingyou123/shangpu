@@ -481,27 +481,41 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         selectionView.onCsUnClick();
         heardSelectView.onCsUnClick();
         if (request.rentList != null && request.rentList.size() > 0) {
+            selectionView.onCsClick();
+            heardSelectView.onCsClick();
             mRequest.rentList = request.rentList;
         } else {
             mRequest.rentList = null;
         }
         if (request.transferList != null && request.transferList.size() > 0) {
+            selectionView.onCsClick();
+            heardSelectView.onCsClick();
             mRequest.transferList = request.transferList;
         } else {
             mRequest.transferList = null;
         }
         if (request.areaList != null && request.areaList.size() > 0) {
+            selectionView.onCsClick();
+            heardSelectView.onCsClick();
             mRequest.areaList = request.areaList;
         } else {
             mRequest.areaList = null;
         }
+        if (!TextUtils.isEmpty(request.width)) {
+            selectionView.onCsClick();
+            heardSelectView.onCsClick();
+        }
         mRequest.width = request.width;
         if (request.featureTagList != null && request.featureTagList.size() > 0) {
+            selectionView.onCsClick();
+            heardSelectView.onCsClick();
             mRequest.featureTagList = request.featureTagList;
         } else {
             mRequest.featureTagList = null;
         }
         if (request.supportTagList != null && request.supportTagList.size() > 0) {
+            selectionView.onCsClick();
+            heardSelectView.onCsClick();
             mRequest.supportTagList = request.supportTagList;
         } else {
             mRequest.supportTagList = null;
@@ -746,6 +760,9 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                 }
 
                 mRequest.areaList = arrayList;
+
+                selectionView.onCsClick();
+                heardSelectView.onCsClick();
             }
 
 

@@ -51,6 +51,7 @@ public class WelcomeDialog extends Dialog {
             case R.id.tv_ok:
                 Intent intent = new Intent(mContext, ShopFocusActivity.class);
                 mContext.startActivity(intent);
+                dismiss();
                 break;
         }
     }
