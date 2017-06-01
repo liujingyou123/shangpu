@@ -43,6 +43,7 @@ import com.finance.winport.home.model.ShopDetail;
 import com.finance.winport.home.presenter.ShopDetailPresenter;
 import com.finance.winport.home.view.IShopDetailView;
 import com.finance.winport.image.GlideImageLoader;
+import com.finance.winport.log.XLog;
 import com.finance.winport.map.PoiSearchRoundActivity;
 import com.finance.winport.permission.PermissionsManager;
 import com.finance.winport.permission.PermissionsResultAction;
@@ -322,7 +323,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                     stv.setSelectPosition(5);
                 }
 
-                Log.e("cover is = ", text);
+                XLog.e("cover is = ", text);
 
             }
         });

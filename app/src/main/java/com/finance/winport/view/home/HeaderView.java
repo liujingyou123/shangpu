@@ -10,10 +10,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.finance.winport.R;
+import com.finance.winport.account.LoginActivity;
 import com.finance.winport.home.H5Activity;
+import com.finance.winport.home.MisTakeActivity;
+import com.finance.winport.home.ShopDetailActivity;
 import com.finance.winport.home.model.BannerResponse;
 import com.finance.winport.image.GlideImageLoader;
 import com.finance.winport.mine.MyNoticeActivity;
+import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.view.StopWatchTextView;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -156,7 +160,13 @@ public class HeaderView extends RelativeLayout {
 
     @OnClick(R.id.imv_notice)
     public void onViewClicked() {
-        Intent intent = new Intent(mContext, MyNoticeActivity.class);
-        mContext.startActivity(intent);
+        if (SharedPrefsUtil.getUserInfo() != null) {
+            Intent intent = new Intent(mContext, MyNoticeActivity.class);
+            mContext.startActivity(intent);
+        } else {
+            Intent intent1 = new Intent(mContext, LoginActivity.class);
+            mContext.startActivity(intent1);
+        }
+
     }
 }
