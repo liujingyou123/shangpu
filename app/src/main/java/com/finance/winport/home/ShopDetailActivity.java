@@ -251,7 +251,6 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         }
 
 //        shopId = "4";
-        mPresenter.getShopDetail(shopId);
     }
 
 
@@ -259,6 +258,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     public void onResume() {
         super.onResume();
         mapView.onResume();
+        mPresenter.getShopDetail(shopId);
     }
 
     @Override
