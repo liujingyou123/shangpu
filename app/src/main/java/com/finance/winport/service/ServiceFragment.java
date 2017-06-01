@@ -131,14 +131,14 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
 
             root = inflater.inflate(R.layout.service_fragment, container, false);
             unbinder = ButterKnife.bind(this, root);
-            scroll.fullScroll(ScrollView.FOCUS_UP);
+//            scroll.fullScroll(ScrollView.FOCUS_UP);
 
-//            new Handler().postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    scroll.fullScroll(ScrollView.FOCUS_UP);
-//                }
-//            },1000);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    scroll.fullScroll(ScrollView.FOCUS_UP);
+                }
+            },1000);
 //            init();
 
         }

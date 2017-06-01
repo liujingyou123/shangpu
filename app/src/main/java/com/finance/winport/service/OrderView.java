@@ -69,7 +69,7 @@ public class OrderView extends FrameLayout {
                 animator1.start();
 
             }
-        },700);
+        },300);
     }
 
     public void setView(){
