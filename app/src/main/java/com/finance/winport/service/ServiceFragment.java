@@ -37,6 +37,7 @@ import com.finance.winport.tab.WinportActivity;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.BannerView.Banner;
+import com.finance.winport.view.SpreadListView;
 
 import org.joda.time.DateTime;
 
@@ -66,7 +67,7 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
     Banner banner;
     Unbinder unbinder;
     @BindView(R.id.mListView)
-    ListView mListView;
+    SpreadListView mListView;
     @BindView(R.id.shop_img)
     ImageView shopImg;
     @BindView(R.id.address)
@@ -130,13 +131,14 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
 
             root = inflater.inflate(R.layout.service_fragment, container, false);
             unbinder = ButterKnife.bind(this, root);
+            scroll.fullScroll(ScrollView.FOCUS_UP);
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    scroll.fullScroll(ScrollView.FOCUS_UP);
-                }
-            },1000);
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    scroll.fullScroll(ScrollView.FOCUS_UP);
+//                }
+//            },1000);
 //            init();
 
         }
@@ -391,8 +393,8 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
         adapter = new ServiceScheduleListAdapter(getActivity(), list);
 
         mListView.setAdapter(adapter);
-        ViewGroup.LayoutParams parm = mListView.getLayoutParams();
-        parm.height = UnitUtil.dip2px(getActivity(), 75 * list.size());
+//        ViewGroup.LayoutParams parm = mListView.getLayoutParams();
+//        parm.height = UnitUtil.dip2px(getActivity(), 75 * list.size());
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
