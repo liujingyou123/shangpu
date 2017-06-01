@@ -24,7 +24,6 @@ import com.finance.winport.account.model.ImageVerifyCode;
 import com.finance.winport.account.model.Message;
 import com.finance.winport.account.net.UserManager;
 import com.finance.winport.base.BaseFragment;
-import com.finance.winport.base.BaseResponse;
 import com.finance.winport.service.SendSuccessActivity;
 import com.finance.winport.service.model.OrderShopRequest;
 import com.finance.winport.service.model.SendOrderShopResponse;
@@ -99,6 +98,22 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
     ImageView imgCodeView;
     @BindView(R.id.submit)
     TextView submit;
+    @BindView(R.id.watch)
+    LinearLayout watch;
+    @BindView(R.id.shop_img2)
+    ImageView shopImg2;
+    @BindView(R.id.order_phone)
+    TextView orderPhone;
+    @BindView(R.id.shop_img3)
+    ImageView shopImg3;
+    @BindView(R.id.order_watch)
+    TextView orderWatch;
+    @BindView(R.id.shop_img4)
+    ImageView shopImg4;
+    @BindView(R.id.order_sign)
+    TextView orderSign;
+    @BindView(R.id.sign)
+    LinearLayout sign;
     private SendOrderPresenter mPresenter;
     private String userPhone;
     private String messageId;
@@ -132,11 +147,21 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
 //        phoneView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
         phoneView.setInputType(InputType.TYPE_CLASS_PHONE);
         verifyCodeView.setInputType(InputType.TYPE_CLASS_NUMBER);
-        phoneView.setText(SharedPrefsUtil.getUserInfo().data.userPhone.substring(0,3)+" "+SharedPrefsUtil.getUserInfo().data.userPhone.substring(3,7)+" "+SharedPrefsUtil.getUserInfo().data.userPhone.substring(7,11));
+        phoneView.setText(SharedPrefsUtil.getUserInfo().data.userPhone.substring(0, 3) + " " + SharedPrefsUtil.getUserInfo().data.userPhone.substring(3, 7) + " " + SharedPrefsUtil.getUserInfo().data.userPhone.substring(7, 11));
         initCountDownButton();
 //        getArguments().getBundle().getString()
         shopId = getArguments().getString("shopId");
-        type = getArguments().getInt("type",-1);
+        type = getArguments().getInt("type", -1);
+        if (type == 1) {
+
+            watch.setVisibility(View.VISIBLE);
+            tvFocusHouse.setText("签约租铺");
+
+        } else if (type == 2) {
+
+            sign.setVisibility(View.VISIBLE);
+            tvFocusHouse.setText("预约看铺");
+        }
 
     }
 
@@ -154,10 +179,10 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
         if (mPresenter == null) {
             mPresenter = new SendOrderPresenter(this);
         }
-        if(type==1){
+        if (type == 1) {
 
             mPresenter.getShopSignResult(request);
-        }else if(type==2){
+        } else if (type == 2) {
 
             mPresenter.getShopOrderResult(request);
         }
@@ -194,7 +219,7 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
                 break;
 
             case R.id.submit:
-                if (checkCommit()){
+                if (checkCommit()) {
 
                     getData();
                 }
@@ -206,7 +231,7 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
     public void shopSendOrderResult(SendOrderShopResponse response) {
 
         Intent intent = new Intent(getActivity(), SendSuccessActivity.class);
-        intent.putExtra("scheduleId",response.getData());
+        intent.putExtra("scheduleId", response.getData());
         startActivity(intent);
         getActivity().finish();
     }
@@ -345,7 +370,7 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
         userPhone = UnitUtil.trim(phoneView.getText().toString().trim());
         smsVerifyCode = verifyCodeView.getText().toString().trim();
 
-        if (TextUtils.isEmpty(nameView.getText())){
+        if (TextUtils.isEmpty(nameView.getText())) {
             Toast.makeText(context, "请输入联系人姓名", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -367,7 +392,7 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
                 return false;
             }
         }
-        if (TextUtils.isEmpty(orderTime.getText())){
+        if (TextUtils.isEmpty(orderTime.getText())) {
             Toast.makeText(context, "请输入约见时间", Toast.LENGTH_SHORT).show();
             return false;
         }

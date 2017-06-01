@@ -199,7 +199,7 @@
             <!--android:divider="@null"-->
             <!--android:fadingEdge="none"-->
             <!--android:scrollbarStyle="outsideOverlay" />-->
-            <ListView
+            <com.finance.winport.view.SpreadListView
                 android:id="@+id/mListView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -253,6 +253,27 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         mPresenter.getShopDetail(shopId);
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        mapView.getMap().setMyLocationEnabled(false);
+        super.onDestroy();
+        mapView.onDestroy();
+        mapView = null;
+    }
+
     private void init() {
         imvBack.setImageResource(R.mipmap.icon_white_back);
         llTop.setAlpha(0);

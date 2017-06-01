@@ -1,5 +1,6 @@
 package com.finance.winport.mine;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.finance.winport.mine.presenter.IShopFocusView;
 import com.finance.winport.mine.presenter.ShopFocusPresenter;
 import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.util.ToolsUtil;
+import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.tagview.TagCloudLayout;
 
 import java.util.ArrayList;
@@ -173,6 +175,10 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
 
 
         focusContent.setText(s.toString());
+        if(s.toString().length()>0){
+
+            focusContent.setTextColor(Color.parseColor("#ffa73b"));
+        }
 
 
 //        focusContent.setText("江湾镇-餐饮类-20~50㎡\n500~1000㎡");
