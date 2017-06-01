@@ -879,8 +879,8 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     }
 
     private void showBaner(final ArrayList<String> list) {
-        bannerView.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
-        bannerView.setIndicatorGravity(BannerConfig.CENTER);
+        bannerView.setBannerStyle(BannerConfig.NUM_INDICATOR);
+        bannerView.setIndicatorGravity(BannerConfig.RIGHT);
         bannerView.setImageLoader(new GlideImageLoader());
 
 //        //TODO  测试用
