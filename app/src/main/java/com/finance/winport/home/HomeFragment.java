@@ -630,7 +630,17 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                 refreshView.setMode(PtrFrameLayout.Mode.REFRESH);
             } else {
                 mData.addAll(response.getData().getData());
-                refreshView.setMode(PtrFrameLayout.Mode.BOTH);
+                if (mData.size() < 10) {
+                    refreshView.setMode(PtrFrameLayout.Mode.REFRESH);
+                } else {
+                    refreshView.setMode(PtrFrameLayout.Mode.BOTH);
+                }
+                if (mData.size() < 3) {
+                    mData.add(null);
+                    mData.add(null);
+                    mData.add(null);
+                    mData.add(null);
+                }
             }
             if (adapter != null) {
                 adapter.notifyDataSetChanged();
@@ -697,17 +707,28 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                 || !TextUtils.isEmpty(response.getData().getIndustryName())
                 || ((response.getData().getList() == null && response.getData().getList().size() == 0)))) {
 
-            mRequest.districtId = response.getData().getDistrictId() + "";
-            mRequest.districtName = response.getData().getDistrictName();
-            mRequest.blockId = response.getData().getBlockId() + "";
-            mRequest.blockName = response.getData().getBlockName();
+            if (!TextUtils.isEmpty(response.getData().getDistrictId())) {
+                mRequest.districtId = response.getData().getDistrictId() + "";
+            }
 
-            if (!TextUtils.isEmpty(mRequest.blockId)) {
+            if (!TextUtils.isEmpty(response.getData().getDistrictName())) {
+                mRequest.districtName = response.getData().getDistrictName();
+            }
+
+            if (!TextUtils.isEmpty(response.getData().getBlockId())) {
+                mRequest.blockId = response.getData().getBlockId() + "";
+            }
+
+            if (!TextUtils.isEmpty(response.getData().getBlockName())) {
+                mRequest.blockName = response.getData().getBlockName();
+            }
+
+            if (!TextUtils.isEmpty(mRequest.blockId) && !"null".equals(mRequest.blockId)) {
                 selectionView.setQuYuText(mRequest.blockName);
                 heardSelectView.setQuYuText(mRequest.blockName);
                 selectionView.onLocationClick();
                 heardSelectView.onLocationClick();
-            } else if (!TextUtils.isEmpty(mRequest.districtId)) {
+            } else if (!TextUtils.isEmpty(mRequest.districtId) && !"null".equals(mRequest.districtId)) {
                 selectionView.setQuYuText(mRequest.districtName);
                 heardSelectView.setQuYuText(mRequest.districtName);
                 selectionView.onLocationClick();

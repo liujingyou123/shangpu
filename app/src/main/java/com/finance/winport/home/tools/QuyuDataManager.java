@@ -54,6 +54,10 @@ public class QuyuDataManager {
 
     public List<RegionResponse.Region.Block> getBlocks(RegionResponse.Region region) {
         List<RegionResponse.Region.Block> rets = new ArrayList<>();
+
+        if (region == null) {
+            return rets;
+        }
         RegionResponse.Region.Block block = new RegionResponse.Region.Block();
         block.setBlockName("全部");
         block.setBlockId("-1");

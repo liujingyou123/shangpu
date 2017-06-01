@@ -59,9 +59,15 @@ public class ShopsAdapter extends BaseAdapter {
     public int getItemType(int position) {
         int ret = 0;
         if (mData != null && mData.size() > position) {
-            ShopListResponse.DataBean.Shop shop = mData.get(position);
-            if (shop == null) {
+            if (mData.size() == 1 && mData.get(0) == null) {
                 ret = 1;
+            } else if (mData.size() < 7) {
+                ShopListResponse.DataBean.Shop shop = mData.get(position);
+                if (shop == null) {
+                    ret = 3;
+                } else {
+                    ret = 2;
+                }
             } else {
                 ret = 2;
             }
@@ -86,10 +92,16 @@ public class ShopsAdapter extends BaseAdapter {
             int type = getItemType(i);
             if (type == 1) {
                 viewHolder.rlData.setVisibility(View.GONE);
+                viewHolder.rlTianchong.setVisibility(View.GONE);
                 viewHolder.viewTrans.setVisibility(View.VISIBLE);
+            } else if (type == 3) {
+                viewHolder.rlData.setVisibility(View.GONE);
+                viewHolder.rlTianchong.setVisibility(View.VISIBLE);
+                viewHolder.viewTrans.setVisibility(View.GONE);
             } else {
                 if (ret != null) {
                     viewHolder.rlData.setVisibility(View.VISIBLE);
+                    viewHolder.rlTianchong.setVisibility(View.GONE);
                     viewHolder.viewTrans.setVisibility(View.GONE);
                     viewHolder.tvShopname.setText(ret.getAddress() + ret.getRentTypeName());
                     viewHolder.tvAddress.setText(ret.getDistrictName() + " " + ret.getBlockName());
@@ -150,6 +162,8 @@ public class ShopsAdapter extends BaseAdapter {
         RelativeLayout rlData;
         @BindView(R.id.view_trans)
         View viewTrans;
+        @BindView(R.id.rl_tianchong)
+        RelativeLayout rlTianchong;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
