@@ -116,7 +116,7 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
             @Override
             public void onLoadMoreBegin(PtrFrameLayout frame) {
                 pageNumber++;
-                mPresenter.getComment(topicId, pageNumber + "");
+                mPresenter.getCommentMore(topicId, pageNumber + "");
             }
 
             @Override
@@ -173,9 +173,9 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
 
                 if (SharedPrefsUtil.getUserInfo() != null) {
                     if (tvPraiseNum.isSelected()) {  //取消点赞
-                        mPresenter.zanTopic(topicId);
-                    } else {
                         mPresenter.cancelzanTopic(topicId);
+                    } else {
+                        mPresenter.zanTopic(topicId);
                     }
                 } else {
                     Intent intent1 = new Intent(this, LoginActivity.class);
@@ -218,6 +218,7 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
     @Override
     public void zanTopic(boolean isSuccess, String topId) {
         if (isSuccess) {
+            ToastUtil.show(this, "点赞成功");
             tvPraiseNum.setSelected(true);
             mData.setPraiseNumber(mData.getPraiseNumber() + 1);
             tvPraiseNum.setText(mData.getPraiseNumber() + "");
@@ -227,6 +228,7 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
     @Override
     public void cancelTopic(boolean isSuccess, String topId) {
         if (isSuccess) {
+            ToastUtil.show(this, "已取消点赞");
             tvPraiseNum.setSelected(false);
             mData.setPraiseNumber(mData.getPraiseNumber() - 1);
             tvPraiseNum.setText(mData.getPraiseNumber() + "");
@@ -269,6 +271,12 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
     @Override
     public void showComments(CommentResponse response) {
         adapter.setComments(response.getData().getData());
+        xpfl.refreshComplete();
+    }
 
+    @Override
+    public void showCommentsMore(CommentResponse response) {
+        adapter.setMoreComments(response.getData().getData());
+        xpfl.refreshComplete();
     }
 }

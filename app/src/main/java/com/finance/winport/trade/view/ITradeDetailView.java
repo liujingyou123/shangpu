@@ -21,4 +21,5 @@ public interface ITradeDetailView {
     void deleteComment(boolean isSuccess, String topId, String commentId);
 
     void showComments(CommentResponse response);
+    void showCommentsMore(CommentResponse response);
 }

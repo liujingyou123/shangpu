@@ -182,4 +182,29 @@ public class TradeCircleDetailPresener {
             }
         });
     }
+
+    /**
+     * 获取评论更多
+     *
+     * @param topicId
+     */
+    public void getCommentMore(final String topicId, String pageNumber) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("topicId", topicId);
+        hashMap.put("pageNumber", pageNumber);
+        hashMap.put("pageSize", "10");
+        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).getComments(hashMap), new NetSubscriber<CommentResponse>() {
+            @Override
+            public void response(CommentResponse response) {
+                if (mITradeDetailView != null) {
+                    mITradeDetailView.showCommentsMore(response);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+            }
+        });
+    }
 }

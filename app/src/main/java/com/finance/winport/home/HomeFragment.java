@@ -481,27 +481,41 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         selectionView.onCsUnClick();
         heardSelectView.onCsUnClick();
         if (request.rentList != null && request.rentList.size() > 0) {
+            selectionView.onCsClick();
+            heardSelectView.onCsClick();
             mRequest.rentList = request.rentList;
         } else {
             mRequest.rentList = null;
         }
         if (request.transferList != null && request.transferList.size() > 0) {
+            selectionView.onCsClick();
+            heardSelectView.onCsClick();
             mRequest.transferList = request.transferList;
         } else {
             mRequest.transferList = null;
         }
         if (request.areaList != null && request.areaList.size() > 0) {
+            selectionView.onCsClick();
+            heardSelectView.onCsClick();
             mRequest.areaList = request.areaList;
         } else {
             mRequest.areaList = null;
         }
+        if (!TextUtils.isEmpty(request.width)) {
+            selectionView.onCsClick();
+            heardSelectView.onCsClick();
+        }
         mRequest.width = request.width;
         if (request.featureTagList != null && request.featureTagList.size() > 0) {
+            selectionView.onCsClick();
+            heardSelectView.onCsClick();
             mRequest.featureTagList = request.featureTagList;
         } else {
             mRequest.featureTagList = null;
         }
         if (request.supportTagList != null && request.supportTagList.size() > 0) {
+            selectionView.onCsClick();
+            heardSelectView.onCsClick();
             mRequest.supportTagList = request.supportTagList;
         } else {
             mRequest.supportTagList = null;
@@ -581,6 +595,13 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 
     private void goToListPage(int index) {
         Intent intent = new Intent(this.getContext(), ShopsListActivity.class);
+        if (mRequest != null && mRequest.latitude != null) {
+            intent.putExtra("lat", mRequest.latitude);
+        }
+
+        if (mRequest != null && mRequest.longitude != null) {
+            intent.putExtra("lon", mRequest.longitude);
+        }
         intent.putExtra("index", index);
         startActivity(intent);
     }
@@ -630,7 +651,17 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                 refreshView.setMode(PtrFrameLayout.Mode.REFRESH);
             } else {
                 mData.addAll(response.getData().getData());
-                refreshView.setMode(PtrFrameLayout.Mode.BOTH);
+                if (mData.size() < 10) {
+                    refreshView.setMode(PtrFrameLayout.Mode.REFRESH);
+                } else {
+                    refreshView.setMode(PtrFrameLayout.Mode.BOTH);
+                }
+                if (mData.size() < 3) {
+                    mData.add(null);
+                    mData.add(null);
+                    mData.add(null);
+                    mData.add(null);
+                }
             }
             if (adapter != null) {
                 adapter.notifyDataSetChanged();
@@ -697,17 +728,28 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                 || !TextUtils.isEmpty(response.getData().getIndustryName())
                 || ((response.getData().getList() == null && response.getData().getList().size() == 0)))) {
 
-            mRequest.districtId = response.getData().getDistrictId() + "";
-            mRequest.districtName = response.getData().getDistrictName();
-            mRequest.blockId = response.getData().getBlockId() + "";
-            mRequest.blockName = response.getData().getBlockName();
+            if (!TextUtils.isEmpty(response.getData().getDistrictId())) {
+                mRequest.districtId = response.getData().getDistrictId() + "";
+            }
 
-            if (!TextUtils.isEmpty(mRequest.blockId)) {
+            if (!TextUtils.isEmpty(response.getData().getDistrictName())) {
+                mRequest.districtName = response.getData().getDistrictName();
+            }
+
+            if (!TextUtils.isEmpty(response.getData().getBlockId())) {
+                mRequest.blockId = response.getData().getBlockId() + "";
+            }
+
+            if (!TextUtils.isEmpty(response.getData().getBlockName())) {
+                mRequest.blockName = response.getData().getBlockName();
+            }
+
+            if (!TextUtils.isEmpty(mRequest.blockId) && !"null".equals(mRequest.blockId)) {
                 selectionView.setQuYuText(mRequest.blockName);
                 heardSelectView.setQuYuText(mRequest.blockName);
                 selectionView.onLocationClick();
                 heardSelectView.onLocationClick();
-            } else if (!TextUtils.isEmpty(mRequest.districtId)) {
+            } else if (!TextUtils.isEmpty(mRequest.districtId) && !"null".equals(mRequest.districtId)) {
                 selectionView.setQuYuText(mRequest.districtName);
                 heardSelectView.setQuYuText(mRequest.districtName);
                 selectionView.onLocationClick();
@@ -725,6 +767,9 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                 }
 
                 mRequest.areaList = arrayList;
+
+                selectionView.onCsClick();
+                heardSelectView.onCsClick();
             }
 
 

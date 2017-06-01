@@ -74,7 +74,12 @@ public class TradeCircleFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.my_list:
-                gotoMyPostListActivity();
+                if (SharedPrefsUtil.getUserInfo() != null) {
+                    gotoMyPostListActivity();
+                } else {
+                    Intent intent1 = new Intent(this.getContext(), LoginActivity.class);
+                    startActivity(intent1);
+                }
                 break;
             case R.id.imv_edit_m:
                 if (SharedPrefsUtil.getUserInfo() != null) {

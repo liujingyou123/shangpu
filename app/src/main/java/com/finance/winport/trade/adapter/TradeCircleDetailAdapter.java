@@ -75,6 +75,13 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         notifyDataSetChanged();
     }
 
+    public void setMoreComments(List<CommentResponse.DataBean.Comment> comments) {
+        if (comments != null && comments.size() > 0) {
+            mComments.addAll(comments);
+            notifyDataSetChanged();
+        }
+    }
+
     public List<CommentResponse.DataBean.Comment> getComments() {
         return mComments;
     }

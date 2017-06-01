@@ -8,7 +8,7 @@
         android:id="@+id/rl_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffff"
+        android:background="@drawable/bg_press_shop_list"
         android:paddingLeft="15dp"
         android:paddingTop="15dp">
 
@@ -179,6 +179,11 @@
             android:layout_alignParentBottom="true" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/rl_tianchong"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/bg"></RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/view_trans"
