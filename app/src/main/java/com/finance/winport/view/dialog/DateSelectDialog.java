@@ -109,6 +109,9 @@ public class DateSelectDialog extends BottomSelectDialog implements WheelPicker.
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, year);
         cal.set(Calendar.MONTH, month - 1);//7月
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
         int maxDate = cal.getActualMaximum(Calendar.DATE);
 
         List<String> data_day = new ArrayList<>();

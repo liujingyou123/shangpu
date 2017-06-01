@@ -678,6 +678,7 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
                 @Override
                 public void onSelect(ShopRequset request) {
 
+                    request.isMap = true;
                     EventBus.getDefault().post(request);
                 }
             });

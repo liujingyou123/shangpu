@@ -146,7 +146,7 @@ public class MyScheduleListActivity extends BaseActivity implements IScheduleLis
 
             }
         }
-        if(list.size()>=response.getData().getTotalCount()){
+        else if(list.size()>=response.getData().getTotalCount()){
             ToastUtil.show(MyScheduleListActivity.this,"没有更多了");
         }
         setAdapter(response);
