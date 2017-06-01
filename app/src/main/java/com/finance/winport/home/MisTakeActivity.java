@@ -92,7 +92,7 @@ public class MisTakeActivity extends BaseActivity {
     private String picVerifyCode;
     private String picVerifyId;
 
-    private static final int CODE_LIMIT_COUNT = 1;// 单词获取验证码限制次数
+    private static final int CODE_LIMIT_COUNT = 3;// 单词获取验证码限制次数
     private int requestCodeCount;//获取验证码次数
     private String smsVerifyCode;
 
