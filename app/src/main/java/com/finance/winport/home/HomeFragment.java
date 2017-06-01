@@ -809,9 +809,9 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                 mRequest.districtId = null;
             } else {
                 selectionView.onLocationUnClick();
-                selectionView.setQuYuText("区域");
+                selectionView.setQuYuText("位置");
                 heardSelectView.onLocationUnClick();
-                heardSelectView.setQuYuText("区域");
+                heardSelectView.setQuYuText("位置");
                 mRequest.districtId = null;
                 mRequest.blockId = null;
             }

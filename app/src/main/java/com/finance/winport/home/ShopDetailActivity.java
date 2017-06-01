@@ -594,7 +594,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             BigDecimal bDDay = new BigDecimal(30);
 
             String preRent = bDrent.divide(bDArea, 10, BigDecimal.ROUND_HALF_UP).divide(bDDay, 10, BigDecimal.ROUND_HALF_UP).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
-            String showPre = preRent + "元/㎡/月";
+            String showPre = preRent + "元/㎡/日";
             tvPrice.setText(showPre + "(" + data.getRentWayName() + ")");
             TextViewUtil.setPartialSizeAndColor(tvPrice, 0, showPre.length(), 18, 0, showPre.length(), Color.parseColor("#FF5851"));
 
