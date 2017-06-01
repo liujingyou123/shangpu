@@ -69,7 +69,7 @@ public class SupportTagAdapter extends BaseAdapter {
             int resId = SupportListUtil.getResByName(tag.getName());
             if(resId != -1) {
                 Drawable drawable = mContext.getResources().getDrawable(resId);
-                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//必须设置图片大小，否则不显示
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight()-1);//必须设置图片大小，否则不显示
                 viewHolder.tvSTag.setCompoundDrawables(drawable, null, null, null);
             }
 

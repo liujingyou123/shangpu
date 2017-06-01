@@ -973,12 +973,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:background="#ffffff"
-                    android:minHeight="50dp"
+                    android:minHeight="55dp"
                     android:numColumns="4"
                     android:paddingLeft="15dp"
                     android:paddingTop="10dp"
                     android:verticalSpacing="8dp"
-                    android:paddingBottom="10dp"></GridView>
+                    android:paddingBottom="10dp"
+                    android:listSelector="@drawable/color_rest_unpress"></GridView>
             </LinearLayout>
 
         </LinearLayout>
