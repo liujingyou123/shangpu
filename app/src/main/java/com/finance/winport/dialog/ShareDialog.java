@@ -79,7 +79,7 @@ public class ShareDialog extends Dialog {
 
     private void showShare(SHARE_MEDIA platform) {
         UMWeb web = new UMWeb(mUrl);
-        web.setTitle(mTitle);
+        web.setTitle("老板，这里有一个旺铺招租啦！");
         web.setDescription(mDes);
         UMImage umImage = null;
         if (!TextUtils.isEmpty(mImageUrl)) {
@@ -128,6 +128,7 @@ public class ShareDialog extends Dialog {
         @Override
         public void onError(SHARE_MEDIA share_media, Throwable throwable) {
             XLog.e("onError");
+            ToastUtil.show(mContext, throwable != null ? throwable.getMessage():"分享失败");
         }
 
         @Override

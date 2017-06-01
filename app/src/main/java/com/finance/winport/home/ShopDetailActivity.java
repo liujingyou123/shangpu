@@ -291,9 +291,6 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         });
 
 
-
-
-
         svAll.setOnScrollChangedListener(new PositionScrollView.OnScrollChangedListener() {
             @Override
             public void onScrollChanged(int l, int t, int oldl, int oldt) {
@@ -407,7 +404,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 if (shareDialog == null) {
                     shareDialog = new ShareDialog(this);
                 }
-                shareDialog.setDes("该旺铺的价格" + rentPrice + "，转让费" + zhuanPrice);
+                shareDialog.setDes(mShopDetail.getData().getAddress() + UnitUtil.formatMNum(mShopDetail.getData().getArea()) + "平旺铺急租，租金仅" + rentPrice);
                 shareDialog.setTitle(mShopDetail.getData().getAddress());
                 shareDialog.setImage(coverImg);
                 shareDialog.setUrl(H5Util.getIpShopDetail(mShopDetail.getData().getId() + ""));
@@ -802,7 +799,8 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         setMapView();
 
     }
-    private void setMapView(){
+
+    private void setMapView() {
         try {
 
             bMap = mapView.getMap();
@@ -825,78 +823,10 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                     .build();
             MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
             bMap.setMapStatus(mMapStatusUpdate);
-            MarkerOptions ooMarker = new MarkerOptions().position(new LatLng(Double.parseDouble(mShopDetail.getData().getLatitude()), Double.parseDouble(mShopDetail.getData().getLongitude()))).icon(centerBitmap).anchor(0.5f,0.5f);
+            MarkerOptions ooMarker = new MarkerOptions().position(new LatLng(Double.parseDouble(mShopDetail.getData().getLatitude()), Double.parseDouble(mShopDetail.getData().getLongitude()))).icon(centerBitmap).anchor(0.5f, 0.5f);
             bMap.addOverlay(ooMarker);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-
-
-    private static class CustomShareListener implements UMShareListener {
-
-        private WeakReference<ShopDetailActivity> mActivity;
-
-        private CustomShareListener(ShopDetailActivity activity) {
-            mActivity = new WeakReference(activity);
-        }
-
-        @Override
-        public void onStart(SHARE_MEDIA platform) {
-
-        }
-
-        @Override
-        public void onResult(SHARE_MEDIA platform) {
-
-            if (platform.name().equals("WEIXIN_FAVORITE")) {
-                Toast.makeText(mActivity.get(), platform + " 收藏成功啦", Toast.LENGTH_SHORT).show();
-            } else {
-                if (platform != SHARE_MEDIA.MORE && platform != SHARE_MEDIA.SMS
-                        && platform != SHARE_MEDIA.EMAIL
-                        && platform != SHARE_MEDIA.FLICKR
-                        && platform != SHARE_MEDIA.FOURSQUARE
-                        && platform != SHARE_MEDIA.TUMBLR
-                        && platform != SHARE_MEDIA.POCKET
-                        && platform != SHARE_MEDIA.PINTEREST
-
-                        && platform != SHARE_MEDIA.INSTAGRAM
-                        && platform != SHARE_MEDIA.GOOGLEPLUS
-                        && platform != SHARE_MEDIA.YNOTE
-                        && platform != SHARE_MEDIA.EVERNOTE) {
-                    Toast.makeText(mActivity.get(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        }
-
-        @Override
-        public void onError(SHARE_MEDIA platform, Throwable t) {
-            if (platform != SHARE_MEDIA.MORE && platform != SHARE_MEDIA.SMS
-                    && platform != SHARE_MEDIA.EMAIL
-                    && platform != SHARE_MEDIA.FLICKR
-                    && platform != SHARE_MEDIA.FOURSQUARE
-                    && platform != SHARE_MEDIA.TUMBLR
-                    && platform != SHARE_MEDIA.POCKET
-                    && platform != SHARE_MEDIA.PINTEREST
-
-                    && platform != SHARE_MEDIA.INSTAGRAM
-                    && platform != SHARE_MEDIA.GOOGLEPLUS
-                    && platform != SHARE_MEDIA.YNOTE
-                    && platform != SHARE_MEDIA.EVERNOTE) {
-                Toast.makeText(mActivity.get(), platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
-                if (t != null) {
-                    com.umeng.socialize.utils.Log.d("throw", "throw:" + t.getMessage());
-                }
-            }
-
-        }
-
-        @Override
-        public void onCancel(SHARE_MEDIA platform) {
-
-            Toast.makeText(mActivity.get(), platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
     }
 
