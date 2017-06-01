@@ -95,7 +95,7 @@ public class ShopDetail extends BaseResponse implements Serializable{
         private String districtName;
         private double electricRate;
         private int floor;
-        private int gasRate;
+        private double gasRate;
         private float height;
         private int id;
         private int isCollected;
@@ -299,11 +299,11 @@ public class ShopDetail extends BaseResponse implements Serializable{
             this.floor = floor;
         }
 
-        public int getGasRate() {
+        public double getGasRate() {
             return gasRate;
         }
 
-        public void setGasRate(int gasRate) {
+        public void setGasRate(double gasRate) {
             this.gasRate = gasRate;
         }
 

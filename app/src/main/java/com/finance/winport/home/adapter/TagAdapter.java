@@ -67,11 +67,11 @@ public class TagAdapter extends BaseAdapter {
 
         Tag tag = mData.get(i);
         if (tag != null) {
-            if (!TextUtils.isEmpty(tag.getColor())) {
-                viewHolder.tvTag.setTextColor(Color.parseColor(tag.getColor()));
-                viewHolder.tvTag.setBackgroundDrawable(getDrawable(tag.getColor()));
-
-            }
+//            if (!TextUtils.isEmpty(tag.getColor())) {
+//                viewHolder.tvTag.setTextColor(Color.parseColor(tag.getColor()));
+//                viewHolder.tvTag.setBackgroundDrawable(getDrawable(tag.getColor()));
+//
+//            }
             viewHolder.tvTag.setText(tag.getName());
         }
 
