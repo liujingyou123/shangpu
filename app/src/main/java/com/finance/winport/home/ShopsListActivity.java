@@ -151,6 +151,8 @@ public class ShopsListActivity extends BaseActivity implements IShopListView {
 
             }
             mRequest.shopType = index + "";
+            mRequest.longitude = intent.getStringExtra("lon");
+            mRequest.latitude = intent.getStringExtra("lat");
         }
 
     }

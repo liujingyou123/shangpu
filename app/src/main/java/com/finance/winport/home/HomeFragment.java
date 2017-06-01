@@ -595,6 +595,13 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 
     private void goToListPage(int index) {
         Intent intent = new Intent(this.getContext(), ShopsListActivity.class);
+        if (mRequest != null && mRequest.latitude != null) {
+            intent.putExtra("lat", mRequest.latitude);
+        }
+
+        if (mRequest != null && mRequest.longitude != null) {
+            intent.putExtra("lon", mRequest.longitude);
+        }
         intent.putExtra("index", index);
         startActivity(intent);
     }
