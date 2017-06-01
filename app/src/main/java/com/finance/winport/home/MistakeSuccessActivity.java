@@ -31,11 +31,17 @@ public class MistakeSuccessActivity extends BaseActivity {
         setContentView(R.layout.activity_mistakesuccess);
         ButterKnife.bind(this);
         tvFocusHouse.setText("提交成功");
-        imvFocusHouseBack.setVisibility(View.INVISIBLE);
     }
 
-    @OnClick(R.id.btn_done)
-    public void onViewClicked() {
-        finish();
+    @OnClick({R.id.imv_focus_house_back, R.id.btn_done})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.imv_focus_house_back:
+                finish();
+                break;
+            case R.id.btn_done:
+                finish();
+                break;
+        }
     }
 }
