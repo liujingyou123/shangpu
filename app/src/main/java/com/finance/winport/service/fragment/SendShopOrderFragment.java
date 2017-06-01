@@ -232,6 +232,7 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
 
         Intent intent = new Intent(getActivity(), SendSuccessActivity.class);
         intent.putExtra("scheduleId", response.getData());
+        intent.putExtra("type",2);
         startActivity(intent);
         getActivity().finish();
     }

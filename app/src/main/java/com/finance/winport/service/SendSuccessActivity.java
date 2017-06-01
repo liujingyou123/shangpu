@@ -50,11 +50,17 @@ public class SendSuccessActivity extends BaseActivity {
     }
 
     private void initView() {
-        tvFocusHouse.setText("发布成功");
+
         scheduleId = getIntent().getStringExtra("scheduleId");
         type = getIntent().getIntExtra("type", -1);
         if (TextUtils.isEmpty(scheduleId)) {
             btnDone.setText("回到服务");
+        }
+
+        if(type==2){
+            tvFocusHouse.setText("预约成功");
+        }else {
+            tvFocusHouse.setText("发布成功");
         }
 
     }
