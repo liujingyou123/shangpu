@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
 /**
  * Created by jingyouliu on 16/8/16.
  * 图片加载工具
@@ -173,7 +175,26 @@ public final class Batman {
         mButler.fromNetWithFitCenter(mContext, url, imageView, defaultImage, failedImage, 0, 0);
     }
 
+    /**
+     * 同步获取bitmap
+     *
+     * @param context
+     * @param url
+     * @return
+     */
     public Bitmap getBitMap(Context context, String url) {
         return mButler.getBitMap(context, url);
+    }
+
+    /**
+     * 加载圆角网络图片
+     *
+     * @param url          图片地址URL
+     * @param imageView    显示图片的ImageView
+     * @param defaultImage 默认图片
+     * @param failedImage  失败图片
+     */
+    public void getImageWithCircle(String url, ImageView imageView, int defaultImage, int failedImage) {
+        mButler.fromNetWithTransfromat(mContext, url, imageView, new CropCircleTransformation(mContext), defaultImage, failedImage, 0, 0);
     }
 }

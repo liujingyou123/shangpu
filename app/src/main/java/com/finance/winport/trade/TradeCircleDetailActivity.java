@@ -240,8 +240,11 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
         commentDialog.setContent("");
         commentDialog.dismiss();
         if (isSuccess) {
+            ToastUtil.show(this,"评论成功");
             mPresenter.getComment(topicId, pageNumber + "");
 
+        } else {
+            ToastUtil.show(this,"评论失败，请重试");
         }
     }
 

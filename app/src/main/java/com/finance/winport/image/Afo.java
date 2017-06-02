@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.Transformation;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -41,7 +43,6 @@ public class Afo implements ImageButler {
             }
         }).into(simpleTarget);
     }
-
 
 
     @Override
@@ -90,6 +91,12 @@ public class Afo implements ImageButler {
         return null;
     }
 
+    @Override
+    public void fromNetWithTransfromat(Context context, String url, ImageView imageView, Transformation bitmapTransformation, int defaultImage, int failedImage, int maxWidth, int maxHeight) {
+        goWithBitmapTransform(context, url, imageView, bitmapTransformation, defaultImage, failedImage, maxWidth, maxHeight);
+
+    }
+
 
     private void go(Context context, String fileName, ImageView imageView, int defaultImage, int failedImage, int maxWidth, int maxHeight) {
         if (maxHeight == 0 || maxHeight == 0) {
@@ -105,6 +112,15 @@ public class Afo implements ImageButler {
             Glide.with(imageView.getContext()).load(fileName).fitCenter().placeholder(defaultImage).error(failedImage).into(imageView);
         } else {
             Glide.with(imageView.getContext()).load(fileName).fitCenter().override(maxWidth, maxHeight).placeholder(defaultImage).error(failedImage).into(imageView);
+
+        }
+    }
+
+    private void goWithBitmapTransform(Context context, String fileName, ImageView imageView, Transformation bitmapTransformation, int defaultImage, int failedImage, int maxWidth, int maxHeight) {
+        if (maxHeight == 0 || maxHeight == 0) {
+            Glide.with(imageView.getContext()).load(fileName).bitmapTransform(bitmapTransformation).placeholder(defaultImage).error(failedImage).into(imageView);
+        } else {
+            Glide.with(imageView.getContext()).load(fileName).bitmapTransform(bitmapTransformation).override(maxWidth, maxHeight).placeholder(defaultImage).error(failedImage).into(imageView);
 
         }
     }

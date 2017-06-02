@@ -112,6 +112,7 @@ public class TradeCircleAdapter extends BaseAdapter {
 
             if (trade.getH5obj() != null) {
                 viewHolder.rlHref.setVisibility(View.VISIBLE);
+                viewHolder.imvHref.setBackgroundResource(R.drawable.default_image_logo);
                 Batman.getInstance().fromNet(trade.getH5obj().getUrl(), viewHolder.imvHref);
                 viewHolder.tvHrefTitle.setText(trade.getH5obj().getTitle());
                 viewHolder.tvHrefSub.setText(trade.getH5obj().getContent());
