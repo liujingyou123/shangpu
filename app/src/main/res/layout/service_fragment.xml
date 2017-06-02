@@ -205,6 +205,7 @@
                 android:layout_height="wrap_content"
                 android:divider="@null"
                 android:fadingEdge="none"
+                android:listSelector="@android:color/transparent"
                 android:scrollbars="none" />
             <TextView
                 android:id="@+id/empty"

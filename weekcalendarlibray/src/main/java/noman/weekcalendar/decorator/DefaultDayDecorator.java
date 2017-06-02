@@ -57,6 +57,9 @@ public class DefaultDayDecorator implements DayDecorator {
         // solidCircle.mutate().setAlpha(200);
 //        holoCircle.mutate().setAlpha(128);
 
+        View tag = view.findViewById(R.id.tag);
+//        tag.setBackground(R.drawable.solid_circle_select);
+
 
         if (firstDayOfTheWeek.getMonthOfYear() < dateTime.getMonthOfYear()
                 || firstDayOfTheWeek.getYear() < dateTime.getYear())
@@ -71,8 +74,10 @@ public class DefaultDayDecorator implements DayDecorator {
                 if (!selectedDateTime.toLocalDate().equals(calendarStartDate.toLocalDate()))
                     dayTextView.setBackground(holoCircle);
                 dayTextView.setTextColor(this.todayDateTextColor);
+                tag.setBackgroundResource(R.drawable.solid_circle_select);
             } else {
                 dayTextView.setBackground(null);
+                tag.setBackgroundResource(R.drawable.solid_circle);
             }
         }
 

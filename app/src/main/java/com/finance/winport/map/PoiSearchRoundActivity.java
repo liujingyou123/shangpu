@@ -128,7 +128,7 @@ public class PoiSearchRoundActivity extends BaseActivity implements
         tabView.setTabResIds(new int[]{R.drawable.selector_bottom_tab_food
                 , R.drawable.selector_bottom_tab_shopping, R.drawable
                 .selector_bottom_tab_hotel, R.drawable.selector_bottom_tab_community, R.drawable.selector_bottom_tab_school, R.drawable.selector_bottom_tab_traffic});
-        tvFocusHouse.setText("周边配套");
+        tvFocusHouse.setText("商铺位置");
 //        tvFocusRight.setText("导航");
         tvFocusRight.setVisibility(View.GONE);
 
@@ -334,13 +334,21 @@ public class PoiSearchRoundActivity extends BaseActivity implements
 //            button.setBackgroundResource(R.drawable.map_bg_item_select);
 //            button.setText(result.getAddress()+result.getName());
 
-            View view = LayoutInflater.from(PoiSearchRoundActivity.this).inflate(R.layout.map_item, null);
-            TextView tv = (TextView) view.findViewById(R.id.tv_msg);
-            tv.setText(result.getAddress()+result.getName());
-            tv.setBackgroundResource(R.drawable.map_bg_item_select);
-            InfoWindow mInfiWindow = new InfoWindow(view, result.getLocation(), -50);
+            try{
 
-            mBaiduMap.showInfoWindow(mInfiWindow);
+                View view = LayoutInflater.from(PoiSearchRoundActivity.this).inflate(R.layout.map_item, null);
+                TextView tv = (TextView) view.findViewById(R.id.tv_msg);
+                tv.setText(result.getName());
+                tv.setBackgroundResource(R.drawable.map_bg_item_select);
+                if(view!=null&&result!=null&&result.getLocation()!=null){
+
+                    InfoWindow mInfiWindow = new InfoWindow(view, result.getLocation(), -50);
+                    mBaiduMap.showInfoWindow(mInfiWindow);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
         }
     }
 

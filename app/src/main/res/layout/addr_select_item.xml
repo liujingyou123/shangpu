@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="68dp"
+    android:background="@drawable/bg_press_shop_list"
     android:id="@+id/fl_root"
     >
 

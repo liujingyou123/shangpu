@@ -21,6 +21,7 @@ import com.finance.winport.MainActivity;
 import com.finance.winport.R;
 import com.finance.winport.util.LoadingDialogUtil;
 import com.finance.winport.util.SelectDialogUtil;
+import com.finance.winport.util.StatusBarUtil;
 
 import java.util.List;
 
@@ -57,7 +58,7 @@ public class BaseActivity extends AppCompatActivity{
     }
 
     protected void setStatusBar() {
-//        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary),0);
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary),0);
     }
 
     protected void setStatusBar(int color) {
