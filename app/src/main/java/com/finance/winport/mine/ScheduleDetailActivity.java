@@ -140,7 +140,7 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
     @Override
     public void showScheduleDetail(ScheduleDetailResponse response) {
 
-        name.setText("本次服务由小二 "+response.getData().getClerkName()+" 为您服务");
+
         if(response.getData().getStatus()==0){
 
             status.setText("服务受理中");
@@ -180,6 +180,9 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
             btnDone.setEnabled(false);
             servicePhone.setEnabled(false);
             servicePhone.setTextColor(Color.parseColor("#cccccc"));
+            name.setText("等待小二接受服务");
+        }else {
+            name.setText("本次服务由小二 "+response.getData().getClerkName()+" 为您服务");
         }
 
     }
