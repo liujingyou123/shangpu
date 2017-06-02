@@ -195,7 +195,7 @@ public class ScanWinportAdapter extends PullBaseAdapter<ScanShopList.DataBeanX.D
                 if (count >= 3) break;
                 ScanShopList.DataBeanX.DataBean.FeatureListBean tag = item.featureList.get(i);
                 String name = tag.name;
-                String color = tag.color;
+                String color = "#FFA73B";
                 if (!TextUtils.isEmpty(name)) {
                     TextView tv = createItem(name, color);
                     holder.tag.addView(tv);

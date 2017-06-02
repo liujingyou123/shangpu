@@ -128,6 +128,9 @@ public class PredictionFragment extends BaseFragment {
     private void handleResult(Prediction result) {
         BaseFragment resultFragment = new PredictionResultFragment();
         Bundle args = new Bundle();
+        if (result != null && result.data != null) {
+            result.data.name = name;
+        }
         args.putSerializable("result", result);
         resultFragment.setArguments(args);
         pushFragment(resultFragment);
