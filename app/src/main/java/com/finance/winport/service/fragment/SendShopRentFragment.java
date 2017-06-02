@@ -9,9 +9,11 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +40,7 @@ import com.finance.winport.service.model.SendOrderShopResponse;
 import com.finance.winport.service.presenter.ISendRentView;
 import com.finance.winport.service.presenter.SendRentPresenter;
 import com.finance.winport.tab.net.NetworkCallback;
+import com.finance.winport.util.NoDoubleClickUtils;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.StringUtil;
 import com.finance.winport.util.TextViewUtil;
@@ -156,12 +159,14 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
 
     public void init() {
         phoneView.setFilters(new InputFilter[]{TextViewUtil.phoneFormat()});
+        phoneView.setEditable(false);
 //        phoneView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
         phoneView.setInputType(InputType.TYPE_CLASS_PHONE);
         verifyCodeView.setInputType(InputType.TYPE_CLASS_NUMBER);
         phoneView.setText(SharedPrefsUtil.getUserInfo().data.userPhone.substring(0, 3) + " " + SharedPrefsUtil.getUserInfo().data.userPhone.substring(3, 7) + " " + SharedPrefsUtil.getUserInfo().data.userPhone.substring(7, 11));
         initCountDownButton();
         getDistrict();
+        phoneView.addTextChangedListener(watcher);
     }
 
     private void getData() {
@@ -217,13 +222,18 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
                 animator1.setInterpolator(new LinearInterpolator());
                 animator1.start();
                 modify.setVisibility(View.GONE);
+                phoneView.setEditable(true);
+                phoneView.setText("");
                 break;
             case R.id.submit:
 
-                if (checkCommit()) {
+                if(!NoDoubleClickUtils.isDoubleClick()){
+                    if (checkCommit()) {
 
-                    getData();
+                        getData();
+                    }
                 }
+
                 break;
         }
     }
@@ -244,6 +254,39 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
         }
     }
 
+
+
+    private TextWatcher watcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            if(UnitUtil.trim(phoneView.getText().toString().trim()).equals(SharedPrefsUtil.getUserInfo().data.userPhone)){
+
+                llVerifyCode.setVisibility(View.GONE);
+                llImgCode.setVisibility(View.GONE);
+                codeLine.setVisibility(View.GONE);
+                imgLine.setVisibility(View.GONE);
+                modifyArea.setVisibility(View.GONE);
+                modify.setVisibility(View.VISIBLE);
+                ObjectAnimator animator1 = new ObjectAnimator().ofFloat(modifyArea, "scaleY", 1f, 0f);
+                animator1.setDuration(200);
+                animator1.setInterpolator(new LinearInterpolator());
+                animator1.start();
+                phoneView.setEditable(false);
+            }
+
+        }
+    };
 
     // 倒计时
     private void initCountDownButton() {

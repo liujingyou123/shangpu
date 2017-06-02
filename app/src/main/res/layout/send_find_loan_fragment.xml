@@ -335,7 +335,6 @@
                             app:header_text="联系电话"
                             app:header_text_size="15sp"
                             app:header_width="85dp"
-                            app:text="185 3856 4789"
                             app:text_hint="请输入您的手机号"
                             app:text_hint_color="#969696"
                             app:text_size="15sp" />

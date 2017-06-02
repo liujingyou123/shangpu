@@ -128,20 +128,20 @@ public class ShopMoreActivity extends BaseActivity {
         tvKehu.setLableTwo(data.getContacter());
         tvPhone.setLableTwo(data.getContactTel());
         tvMianji.setLableTwo(UnitUtil.formatMNum(data.getArea()) + "㎡");
-        tvLouceng.setLableTwo(data.getFloor() + "");
-        tvMiankuan.setLableTwo(data.getWidth() + "");
-        tvJinshen.setLableTwo(data.getDepth() + "");
-        tvCenggao.setLableTwo(data.getHeight() + "");
+        tvLouceng.setLableTwo(data.getFloor() + "/" + data.getTotalFloor() + "层");
+        tvMiankuan.setLableTwo(UnitUtil.formatDNum(data.getWidth()) + "m");
+        tvJinshen.setLableTwo(UnitUtil.formatDNum(data.getDepth()) + "m");
+        tvCenggao.setLableTwo(UnitUtil.formatDNum(data.getHeight()) + "m");
 
         if (data.getSupportList() != null && data.getSupportList().size() > 0) {
             SupportTagAdapter supportTagAdapter = new SupportTagAdapter(this, data.getSupportList());
             gvSupportMore.setAdapter(supportTagAdapter);
         }
 
-        tvDianfei.setLableTwo(data.getElectricRate() + "元/度");
-        tvShuifei.setLableTwo(data.getWaterRate() + "元/吨");
-        tvRanqifei.setLableTwo(data.getGasRate() + "元/立方");
-        tvWuyefei.setLableTwo(data.getPropertyRate() + "元/㎡/月");
+        tvDianfei.setLableTwo(UnitUtil.formatDNum(data.getElectricRate()) + "元/度");
+        tvShuifei.setLableTwo(UnitUtil.formatDNum(data.getWaterRate()) + "元/吨");
+        tvRanqifei.setLableTwo(UnitUtil.formatDNum(data.getGasRate()) + "元/立方");
+        tvWuyefei.setLableTwo(UnitUtil.formatDNum(data.getPropertyRate()) + "元/㎡/月");
 
         tvYuezujin.setLableTwo(UnitUtil.limitNum(data.getRent(), 99999) + "/月");
         tvYajin.setLableTwo(UnitUtil.limitNum(data.getDeposit(), 99999));
