@@ -123,6 +123,7 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
     private List<CalendarListResponse.DataBean.DateListBean> calendarList;
     List<CalendarListResponse.DataBean.DateListBean.ScheduleListBean> selectList = new ArrayList<>();
 
+    private Boolean flag = false;
 
     @Nullable
     @Override
@@ -168,14 +169,24 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
 
     private void init() {
 
+//        if (isLogin()) {
+//            if(!flag){
+//
+//                getData();
+//                flag = true;
+//            }
+//        } else {
+//            initNew();
+//            flag = false;
+//        }
+
+
         if (isLogin()) {
+
             getData();
         } else {
             initNew();
         }
-
-//        getData();
-
 
     }
 
@@ -203,7 +214,10 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
         headLine.setVisibility(View.VISIBLE);
         banner.setVisibility(View.GONE);
         banner.stopAutoPlay();
+        cal.removeView(weekCalendar);
+        weekCalendar = null;
         weekCalendar = new WeekCalendar(getContext(), getChildFragmentManager());
+
         LinearLayout.LayoutParams alpTab = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 UnitUtil.dip2px(context, 55));
 
@@ -213,6 +227,7 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String nowDate = sdf.format(d);
 
+        weekCalendar.reset();
         month.setText(nowDate.toString().substring(5, 7) + "月");
 //        banner.setBannerAnimation(ZoomOutSlideTransformer.class);
         weekCalendar.setFm(getChildFragmentManager());

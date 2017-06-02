@@ -29,6 +29,8 @@ import android.widget.Toast;
 
 import com.finance.winport.R;
 import com.finance.winport.account.event.JPushEvent;
+import com.finance.winport.account.event.LoginEvent;
+import com.finance.winport.account.event.LoginOutEvent;
 import com.finance.winport.account.model.ImageVerifyCode;
 import com.finance.winport.account.model.Message;
 import com.finance.winport.account.model.UserInfo;
@@ -53,6 +55,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
+import noman.weekcalendar.eventbus.Event;
 
 
 /**
@@ -300,6 +303,7 @@ public class LoginFragment extends BaseFragment {
                 if (response != null && response.isSuccess()) {
                     response.data.userPhone = userPhone;
                     SharedPrefsUtil.saveUserInfo(response);
+                    EventBus.getDefault().post(new LoginEvent());
                     getActivity().finish();
                     ToastUtil.show(context, "登录成功");
                 } else {

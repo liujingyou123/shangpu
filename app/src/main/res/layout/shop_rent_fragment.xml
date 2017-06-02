@@ -133,7 +133,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="68dp"
                         android:layout_marginTop="5dp"
-                        android:text="填写信息免费发布"
+                        android:text="专人联系线下实堪"
                         android:textColor="#666666"
                         android:textSize="12sp" />
 
@@ -142,7 +142,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="68dp"
                         android:layout_marginTop="5dp"
-                        android:text="填写信息免费发布"
+                        android:text="签署协议安心招租"
                         android:textColor="#666666"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -177,9 +177,9 @@
                             android:id="@+id/boss_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="6800位"
                             android:textColor="#ff5851"
-                            android:textSize="40sp" />
+                            android:textSize="40sp"
+                            tools:text="6800位" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -190,29 +190,43 @@
                             android:textSize="14sp" />
                     </LinearLayout>
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        android:layout_weight="1">
 
                         <TextView
                             android:id="@+id/day_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="30天"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
                             android:textColor="#ff5851"
-                            android:textSize="40sp" />
+                            android:textSize="40sp"
+                            tools:text="30天" />
 
+                        <TextView
+                            android:layout_width="25dp"
+                            android:layout_height="13dp"
+                            android:layout_alignTop="@+id/day_count"
+                            android:text="平均"
+                            android:textSize="10sp"
+                            android:textColor="#ffffff"
+                            android:layout_marginTop="15dp"
+                            android:gravity="center"
+                            android:background="@drawable/bg_average_btn"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="100dp"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
+                            android:layout_below="@+id/day_count"
+                            android:layout_centerHorizontal="true"
                             android:text="旺铺成功转出"
                             android:textColor="#666666"
                             android:textSize="14sp" />
-                    </LinearLayout>
+                    </RelativeLayout>
                 </LinearLayout>
 
                 <TextView

@@ -18,5 +18,6 @@ public class Prediction extends BaseResponse implements Serializable {
         public int guestLuck;//客运
         public int future;//前景
         public String description;//描述
+        public String name;//店名
     }
 }

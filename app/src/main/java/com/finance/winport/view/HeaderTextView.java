@@ -241,6 +241,9 @@ public class HeaderTextView extends RelativeLayout {
 //        initDivider(context);
     }
 
+    public void setEditable(Boolean flag){
+        content.setEnabled(flag);
+    }
     //init divider
     private void initDivider(Context context) {
         divider = new View(context);

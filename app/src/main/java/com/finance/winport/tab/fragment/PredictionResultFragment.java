@@ -68,6 +68,7 @@ public class PredictionResultFragment extends BaseFragment {
 
     private void setResult() {
         if (prediction != null) {
+            title.setText(prediction.data.name);
             wealthStar.setRating(prediction.data.moneyLuck);
             customerStar.setRating(prediction.data.guestLuck);
             prospectStar.setRating(prediction.data.future);
