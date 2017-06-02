@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="15dp"
@@ -13,14 +12,13 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_underline">
 
-        <com.finance.winport.view.roundview.RoundedImageView
+        <ImageView
             android:id="@+id/iv_header_icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginBottom="15dp"
             android:layout_marginTop="15dp"
-            android:src="@mipmap/default_user_small"
-            app:corner_radius="20dp" />
+            android:src="@mipmap/default_user_small" />
 
         <TextView
             android:id="@+id/tv_header_phone"
@@ -114,8 +112,7 @@
                 android:layout_width="80dp"
                 android:layout_height="60dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="7.5dp"
-                android:background="#ffff00" />
+                android:layout_marginLeft="7.5dp" />
 
             <TextView
                 android:id="@+id/tv_href_title"

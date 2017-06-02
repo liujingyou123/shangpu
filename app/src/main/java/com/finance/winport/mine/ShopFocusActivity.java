@@ -21,6 +21,8 @@ import com.finance.winport.mine.model.IndustryListResponse;
 import com.finance.winport.mine.presenter.IShopFocusView;
 import com.finance.winport.mine.presenter.ShopFocusPresenter;
 import com.finance.winport.net.NetSubscriber;
+import com.finance.winport.util.SharedPrefsUtil;
+import com.finance.winport.util.SpUtil;
 import com.finance.winport.util.ToolsUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.tagview.TagCloudLayout;
@@ -408,6 +410,7 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
 
     @Override
     public void commitFocus(BaseResponse response) {
+        SpUtil.getInstance().setStringData(SharedPrefsUtil.getUserInfo().data.userPhone, "1");
         finish();
     }
 

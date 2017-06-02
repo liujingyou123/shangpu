@@ -322,6 +322,8 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                     quyuPopupView.setOnDismissListener(new PopupWindow.OnDismissListener() {
                         @Override
                         public void onDismiss() {
+                            selectionView.onLocationArrowDown();
+                            heardSelectView.onLocationArrowDown();
                             ShopRequset requset = quyuPopupView.getShopRequest();
                             if (requset == null || (TextUtils.isEmpty(requset.districtId) && TextUtils.isEmpty(requset.blockId)
                                     && TextUtils.isEmpty(requset.metroId) && TextUtils.isEmpty(requset.stationId))) {
@@ -340,6 +342,10 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                     quyuPopupView.showAsDropDown(selectionView);
                     selectionView.onLocationClick();
                     heardSelectView.onLocationClick();
+                    selectionView.onLocationArrowUp();
+                    heardSelectView.onLocationArrowUp();
+                } else {
+                    quyuPopupView.dismiss();
                 }
 
             }
@@ -355,6 +361,8 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                     sortPopupView.setOnSortSelectListener(new SortPopupView.OnSortSelectListener() {
                         @Override
                         public void onSortSelect(String sortType, String sortTypeName) {
+                            selectionView.onSortArrowDown();
+                            heardSelectView.onSortArrowDown();
                             if ("0".equals(sortType)) {
                                 mRequest.sortType = null;
 
@@ -375,10 +383,11 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                     sortPopupView.setOnDismissListener(new PopupWindow.OnDismissListener() {
                         @Override
                         public void onDismiss() {
+                            selectionView.onSortArrowDown();
+                            heardSelectView.onSortArrowDown();
                             if (TextUtils.isEmpty(mRequest.sortType)) {
                                 selectionView.onSortUnClick();
                                 heardSelectView.onSortUnClick();
-
                             }
                         }
                     });
@@ -390,6 +399,10 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                     sortPopupView.showAsDropDown(selectionView);
                     selectionView.onSortClick();
                     heardSelectView.onSortClick();
+                    selectionView.onSortArrowUp();
+                    heardSelectView.onSortArrowUp();
+                } else {
+                    sortPopupView.dismiss();
                 }
 
             }
@@ -728,6 +741,8 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                 || !TextUtils.isEmpty(response.getData().getIndustryName())
                 || ((response.getData().getList() == null && response.getData().getList().size() == 0)))) {
 
+            SpUtil.getInstance().setStringData(SharedPrefsUtil.getUserInfo().data.userPhone, "1");
+
             if (!TextUtils.isEmpty(response.getData().getDistrictId())) {
                 mRequest.districtId = response.getData().getDistrictId() + "";
             }
@@ -749,11 +764,15 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                 heardSelectView.setQuYuText(mRequest.blockName);
                 selectionView.onLocationClick();
                 heardSelectView.onLocationClick();
+                selectionView.onLocationArrowDown();
+                heardSelectView.onLocationArrowDown();
             } else if (!TextUtils.isEmpty(mRequest.districtId) && !"null".equals(mRequest.districtId)) {
                 selectionView.setQuYuText(mRequest.districtName);
                 heardSelectView.setQuYuText(mRequest.districtName);
                 selectionView.onLocationClick();
                 heardSelectView.onLocationClick();
+                selectionView.onLocationArrowDown();
+                heardSelectView.onLocationArrowDown();
             }
             if (response.getData().getList() != null) {
                 List<String> arrayList = null;
@@ -778,6 +797,8 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 
     public void onQuyuHandle(ShopRequset requset) {
         if (requset != null) {
+            selectionView.onLocationArrowDown();
+            heardSelectView.onLocationArrowDown();
             mRequest.queryType = 1;
             if (!TextUtils.isEmpty(requset.blockId)) {
                 selectionView.setQuYuText(requset.blockName);
