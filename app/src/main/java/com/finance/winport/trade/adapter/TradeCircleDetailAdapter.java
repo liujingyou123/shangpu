@@ -116,7 +116,7 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
                     str = "";
                 }
                 viewHolder.tvHeaderMsg.setText("关注　" + str);
-                Batman.getInstance().fromNet(mData.getHeadPicture(), viewHolder.ivHeaderIcon);
+                Batman.getInstance().getImageWithCircle(mData.getHeadPicture(), viewHolder.ivHeaderIcon, R.mipmap.default_user_small, R.mipmap.default_user_small);
                 viewHolder.tvHeaderTime.setText(mData.getDateTime());
                 viewHolder.tvTitle.setText(mData.getTitle());
 
@@ -141,6 +141,7 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
                 }
                 if (mData.getH5obj() != null) {
                     viewHolder.rlHref.setVisibility(View.VISIBLE);
+                    viewHolder.imvHref.setImageResource(R.drawable.default_image_logo);
                     Batman.getInstance().fromNet(mData.getH5obj().getUrl(), viewHolder.imvHref);
                     viewHolder.tvHrefTitle.setText(mData.getH5obj().getTitle());
                     viewHolder.tvHrefSub.setText(mData.getH5obj().getContent());
@@ -182,7 +183,7 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
             viewHolder.tvPhone.setText(info.getPhone());
             viewHolder.tvTime.setText(info.getDateTime() + "评论");
             viewHolder.tvComment.setText(info.getContent());
-            Batman.getInstance().fromNet(info.getHeadPicture(), viewHolder.ivIcon);
+            Batman.getInstance().getImageWithCircle(info.getHeadPicture(), viewHolder.ivIcon, R.mipmap.default_user_small, R.mipmap.default_user_small);
 
         }
     }

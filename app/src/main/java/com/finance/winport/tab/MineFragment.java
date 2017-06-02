@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.account.LoginActivity;
+import com.finance.winport.account.event.LoginEvent;
 import com.finance.winport.account.event.LoginOutEvent;
 import com.finance.winport.account.model.UserInfo;
 import com.finance.winport.aliyunoss.AliOss;
@@ -147,6 +148,13 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
 
     @Subscribe
     public void onLoginOutEvent(LoginOutEvent event) {
+        if (event != null) {
+            init();
+        }
+    }
+
+    @Subscribe
+    public void onLoginEvent(LoginEvent event) {
         if (event != null) {
             init();
         }

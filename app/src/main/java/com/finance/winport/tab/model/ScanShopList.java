@@ -65,7 +65,7 @@ public class ScanShopList extends BaseResponse {
             public String coverImg;
             public String address;
             public String rentTypeName;
-            public int area;
+            public float area;
             public int districtId;
             public String districtName;
             public int blockId;

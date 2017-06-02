@@ -2,6 +2,7 @@ package com.finance.winport.view.home;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -78,6 +79,30 @@ public class SelectView extends LinearLayout {
         if ("排序".equals(tvSort.getText().toString())) {
             tvSort.setSelected(false);
         }
+    }
+
+    public void onLocationArrowDown() {
+        Drawable drawable = this.getResources().getDrawable(R.mipmap.screening_icon_arrow);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight()-1);//必须设置图片大小，否则不显示
+        tvLocation.setCompoundDrawables(null, null, drawable, null);
+    }
+
+    public void onLocationArrowUp() {
+        Drawable drawable = this.getResources().getDrawable(R.mipmap.screening_icon_arrow_selected);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight()-1);//必须设置图片大小，否则不显示
+        tvLocation.setCompoundDrawables(null, null, drawable, null);
+    }
+
+    public void onSortArrowDown() {
+        Drawable drawable = this.getResources().getDrawable(R.mipmap.screening_icon_arrow);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight()-1);//必须设置图片大小，否则不显示
+        tvSort.setCompoundDrawables(null, null, drawable, null);
+    }
+
+    public void onSortArrowUp() {
+        Drawable drawable = this.getResources().getDrawable(R.mipmap.screening_icon_arrow_selected);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight()-1);//必须设置图片大小，否则不显示
+        tvSort.setCompoundDrawables(null, null, drawable, null);
     }
 
     public void onSortClick() {

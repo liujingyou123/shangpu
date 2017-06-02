@@ -266,6 +266,8 @@ public class EditNoteActivity extends BaseActivity {
             public void onError(Throwable e) {
                 super.onError(e);
                 btnDone.setEnabled(true);
+                ToastUtil.show(EditNoteActivity.this, "发布失败，请重试");
+
             }
         });
     }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ptr="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <include layout="@layout/title_black_house" />
@@ -45,9 +45,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="40dp"
                         android:gravity="center"
-                        android:text="金铺多"
                         android:textColor="#000000"
-                        android:textSize="30sp" />
+                        android:textSize="25sp"
+                        tools:text="金铺多金铺多金铺多金铺多金铺多金铺多金铺" />
 
                     <View
                         android:layout_width="wrap_content"
@@ -94,11 +94,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/wealth"
+                        android:layout_marginBottom="2dp"
                         android:layout_marginLeft="6dp"
                         android:layout_toRightOf="@+id/wealth"
-                        android:numStars="10"
                         android:isIndicator="true"
-                        android:layout_marginBottom="2dp"
+                        android:numStars="10"
                         tools:rating="6" />
 
                     <TextView
@@ -117,11 +117,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/customer"
+                        android:layout_marginBottom="2dp"
                         android:layout_marginLeft="6dp"
                         android:layout_toRightOf="@+id/customer"
-                        android:numStars="10"
                         android:isIndicator="true"
-                        android:layout_marginBottom="2dp"
+                        android:numStars="10"
                         tools:rating="4" />
 
                     <TextView
@@ -140,11 +140,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/prospect"
+                        android:layout_marginBottom="2dp"
                         android:layout_marginLeft="6dp"
                         android:layout_toRightOf="@+id/prospect"
-                        android:numStars="10"
                         android:isIndicator="true"
-                        android:layout_marginBottom="2dp"
+                        android:numStars="10"
                         tools:rating="3" />
 
                     <TextView
@@ -155,9 +155,9 @@
                         android:layout_marginBottom="40dp"
                         android:layout_marginTop="36dp"
                         android:lineSpacingExtra="8dp"
-                        tools:text="算命，即是指推测人命运休咎之行为，属玄学范畴。研究算命的学术叫易学，也叫命理术数；理论核心是阴阳五行、天干地支及伏羲八卦，理论系统较为复杂深奥。"
                         android:textColor="#999999"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        tools:text="算命，即是指推测人命运休咎之行为，属玄学范畴。研究算命的学术叫易学，也叫命理术数；理论核心是阴阳五行、天干地支及伏羲八卦，理论系统较为复杂深奥。" />
                 </RelativeLayout>
             </ScrollView>
         </FrameLayout>

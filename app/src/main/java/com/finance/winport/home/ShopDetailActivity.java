@@ -786,14 +786,14 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             tvYuyue.setText("签约租铺");
             tvCall.setVisibility(View.GONE);
         } else {
-            tvCall.setVisibility(View.VISIBLE);
+            if (TextUtils.isEmpty(data.getContactTel())) {
+                tvCall.setVisibility(View.GONE);
+            } else {
+                tvCall.setVisibility(View.VISIBLE);
+            }
         }
 
-        if (TextUtils.isEmpty(data.getContactTel())) {
-            tvCall.setVisibility(View.GONE);
-        } else {
-            tvCall.setVisibility(View.VISIBLE);
-        }
+
 
 
         setMapView();
