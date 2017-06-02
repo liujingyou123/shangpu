@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -261,14 +260,14 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
             Batman.getInstance().fromNet(response.getData().getShopObject().getCoverImg(), shopImg);
             id = response.getData().getShopObject().getId() + "";
         }
-        if (response.getData().getLoadDTO() == null) {
+        if (response.getData().getLoadObject() == null) {
 
             loanArea.setVisibility(View.GONE);
         } else {
 
-            time.setText(response.getData().getLoadDTO().getApplyTime());
-            money.setText(response.getData().getLoadDTO().getLoanLimit() + "万元  " + response.getData().getLoadDTO().getLoanMaturity() + "个月");
-            status.setText(response.getData().getLoadDTO().getStatus());
+            time.setText(response.getData().getLoadObject().getApplyTime());
+            money.setText(response.getData().getLoadObject().getLoanLimit() + "万元  " + response.getData().getLoadObject().getLoanMaturity() + "个月");
+            status.setText(response.getData().getLoadObject().getStatus());
         }
 
     }

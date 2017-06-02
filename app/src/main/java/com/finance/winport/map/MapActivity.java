@@ -107,6 +107,9 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 
     private Boolean locationFlag = false;  //首次定位
 
+    private String locLat;
+    private String locLon;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -403,6 +406,8 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
             address.setText(location.getAddress().address);
             MapUtil.setMyLocation(mBaiduMap, location);
             selectArea.setVisibility(View.VISIBLE);
+            locLat = location.getLatitude()+"";
+            locLon = location.getLongitude()+"";
 
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -594,7 +599,7 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 //        });
 //
 //        mBaiduMap.showInfoWindow(mInfiWindow);
-        mapPresenter.getMapShopDetail(marker.getExtraInfo().getString("id"));
+        mapPresenter.getMapShopDetail(marker.getExtraInfo().getString("id"),locLat,locLon);
 
 //        ShopDetailDialog dialog = new ShopDetailDialog(MapActivity.this, msg);
 //        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {

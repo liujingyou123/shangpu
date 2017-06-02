@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.finance.winport.MainActivity;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.mine.ScheduleDetailActivity;
@@ -78,7 +79,8 @@ public class SendSuccessActivity extends BaseActivity {
                 break;
             case R.id.btn_done:
                 if (TextUtils.isEmpty(scheduleId)) {
-                    startActivity(new Intent(SendSuccessActivity.this, FindLoanActivity.class));
+//                    startActivity(new Intent(SendSuccessActivity.this, FindLoanActivity.class));
+                    startActivity(new Intent(context, MainActivity.class).putExtra("tab", MainActivity.SERVICE));
                     finish();
                 } else {
 
