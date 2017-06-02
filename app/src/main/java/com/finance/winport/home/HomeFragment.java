@@ -728,6 +728,8 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                 || !TextUtils.isEmpty(response.getData().getIndustryName())
                 || ((response.getData().getList() == null && response.getData().getList().size() == 0)))) {
 
+            SpUtil.getInstance().setStringData(SharedPrefsUtil.getUserInfo().data.userPhone, "1");
+
             if (!TextUtils.isEmpty(response.getData().getDistrictId())) {
                 mRequest.districtId = response.getData().getDistrictId() + "";
             }
