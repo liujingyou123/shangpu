@@ -8,11 +8,11 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.map.BaiduMap;
@@ -23,7 +23,6 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.geocode.GeoCodeResult;
 import com.baidu.mapapi.search.geocode.GeoCoder;
@@ -43,6 +42,7 @@ import com.finance.winport.map.model.MapShopResponse;
 import com.finance.winport.map.presenter.IMapView;
 import com.finance.winport.map.presenter.MapPresenter;
 import com.finance.winport.util.ToastUtil;
+import com.yayandroid.rotatable.Rotatable;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -89,6 +89,8 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
     TextView address;
     @BindView(R.id.btn_list)
     ImageButton btnList;
+    @BindView(R.id.root)
+    FrameLayout root;
 
     private BaiduMap mBaiduMap;
     private MyLocation myLocation;
@@ -109,12 +111,19 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 
     private String locLat;
     private String locLon;
+    private Handler handler;
+    private final int ANIM_DURATION = 2000;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         ButterKnife.bind(this);
+
+        handler = new Handler();
+//        root.setVisibility(View.VISIBLE);
+//        runAnimationOn(R.id.root,Rotatable.ROTATE_Y,360,200);
         loadingDialog = new LoadingDialog(this);
 
         EventBus.getDefault().register(this);
@@ -123,6 +132,8 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
     }
 
     private void initMap() {
+
+
 
         shopRequset = (ShopRequset) getIntent().getSerializableExtra("shopRequest");
         mMapView.showScaleControl(false);
@@ -340,6 +351,18 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         mMapView.onDestroy();
     }
 
+    private void runAnimationOn(final int resId, final int direction, final int degree, int delay) {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Rotatable rotatable = new Rotatable.Builder(findViewById(resId))
+                        .direction(Rotatable.ROTATE_BOTH)
+                        .build();
+                rotatable.rotate(direction, degree, ANIM_DURATION);
+            }
+        }, delay);
+    }
+
     @OnClick({R.id.btn_locate, R.id.back, R.id.map_filter, R.id.ll_money, R.id.ll_area, R.id.btn_list})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -350,6 +373,7 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
                 break;
             case R.id.back:
                 finish();
+
                 break;
             case R.id.btn_list:
                 finish();
@@ -406,8 +430,8 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
             address.setText(location.getAddress().address);
             MapUtil.setMyLocation(mBaiduMap, location);
             selectArea.setVisibility(View.VISIBLE);
-            locLat = location.getLatitude()+"";
-            locLon = location.getLongitude()+"";
+            locLat = location.getLatitude() + "";
+            locLon = location.getLongitude() + "";
 
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -458,9 +482,9 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         } else {
             Log.e("定位", "定位失败！！！");
 
-            ToastUtil.show(context,"定位失败");
+            ToastUtil.show(context, "定位失败");
 
-            if(!locationFlag){
+            if (!locationFlag) {
 
                 selectArea.setVisibility(View.GONE);
                 if (mapPresenter == null) {
@@ -599,7 +623,7 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 //        });
 //
 //        mBaiduMap.showInfoWindow(mInfiWindow);
-        mapPresenter.getMapShopDetail(marker.getExtraInfo().getString("id"),locLat,locLon);
+        mapPresenter.getMapShopDetail(marker.getExtraInfo().getString("id"), locLat, locLon);
 
 //        ShopDetailDialog dialog = new ShopDetailDialog(MapActivity.this, msg);
 //        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -737,6 +761,9 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         mBaiduMap.clear();
 
         data = response.getData();
+        if (response.getData().size() == 0) {
+            ToastUtil.show(MapActivity.this, "未检索到商铺信息");
+        }
         for (int i = 0; i < response.getData().size(); i++) {
 //            if(mBaiduMap.getMapStatus().bound.contains(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())))){
 
@@ -756,9 +783,12 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 
         mBaiduMap.clear();
 
+        if (response.getData().size() == 0) {
+            ToastUtil.show(MapActivity.this, "未检索到商铺信息");
+        }
         for (int i = 0; i < response.getData().size(); i++) {
             if (!TextUtils.isEmpty(response.getData().get(i).getName()) && !TextUtils.isEmpty(response.getData().get(i).getLatitude()) && !TextUtils.isEmpty(response.getData().get(i).getLongitude()))
-                addRange(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())), response.getData().get(i).getName().toString()+"\n"+response.getData().get(i).getShopCount()+"间", response.getData().get(i).getBizId() + "");
+                addRange(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())), response.getData().get(i).getName().toString() + "\n" + response.getData().get(i).getShopCount() + "间", response.getData().get(i).getBizId() + "");
         }
 
 
@@ -778,7 +808,7 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
             if (!TextUtils.isEmpty(response.getData().get(i).getName()) && !TextUtils.isEmpty(response.getData().get(i).getLatitude()) && !TextUtils.isEmpty(response.getData().get(i).getLongitude())) {
 //                if(mBaiduMap.getMapStatus().bound.contains(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())))){
 
-                addRangePlate(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())), response.getData().get(i).getName().toString()+"\n"+response.getData().get(i).getShopCount()+"间", response.getData().get(i).getBizId() + "");
+                addRangePlate(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())), response.getData().get(i).getName().toString() + "\n" + response.getData().get(i).getShopCount() + "间", response.getData().get(i).getBizId() + "");
 //                }
             }
         }
@@ -792,9 +822,12 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
             if (!TextUtils.isEmpty(response.getData().get(i).getName()) && !TextUtils.isEmpty(response.getData().get(i).getLatitude()) && !TextUtils.isEmpty(response.getData().get(i).getLongitude())) {
 //                if(mBaiduMap.getMapStatus().bound.contains(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())))){
 
-                addRangePlate(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())), response.getData().get(i).getName().toString()+"\n"+response.getData().get(i).getShopCount()+"间", response.getData().get(i).getBizId() + "");
+                addRangePlate(new LatLng(Double.parseDouble(response.getData().get(i).getLatitude().toString()), Double.parseDouble(response.getData().get(i).getLongitude().toString())), response.getData().get(i).getName().toString() + "\n" + response.getData().get(i).getShopCount() + "间", response.getData().get(i).getBizId() + "");
 //                }
             }
+        }
+        if (response.getData().size() == 0) {
+            ToastUtil.show(MapActivity.this, "未检索到商铺信息");
         }
     }
 
