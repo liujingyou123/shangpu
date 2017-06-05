@@ -77,11 +77,18 @@ public class MapPresenter {
     }
 
 
-    public void getMapShopDetail(String id) {
+    public void getMapShopDetail(String id,String latitude,String longitude) {
+
 
 
         HashMap<String,String> map = new HashMap<>();
         map.put("shopId",id);
+        if(!TextUtils.isEmpty(latitude)){
+            map.put("latitude",latitude);
+        }
+        if(!TextUtils.isEmpty(longitude)){
+            map.put("longitude",longitude);
+        }
         ToolsUtil.subscribe(ToolsUtil.createService(MapServices.class).getMapShopDetail(map), new NetSubscriber<MapShopDetailResponse>() {
             @Override
             public void response(MapShopDetailResponse response) {

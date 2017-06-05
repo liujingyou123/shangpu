@@ -12,7 +12,7 @@ public class FindServiceResponse extends BaseResponse {
     /**
      * errMsg : null
      * errCode : 0
-     * data : {"loadDTO":{"smsVerifyCode":null,"messageId":null,"picVerifyCode":null,"picVerifyId":null,"customerId":null,"loanLimit":"200000","loanMaturity":"2","contactName":null,"contactMobile":null,"subscribeTime":null,"status":"已受理","applyTime":"2017-05-12 11:10:52"},"shopObject":{"id":27,"coverImg":"http://test3.jpg","visitCount":null,"address":"武东路2012号"},"isNew":0}
+     * data : {"loadObject":{"smsVerifyCode":null,"messageId":null,"picVerifyCode":null,"picVerifyId":null,"customerId":null,"loanLimit":"200000","loanMaturity":"2","contactName":null,"contactMobile":null,"subscribeTime":null,"status":"已受理","applyTime":"2017-05-12 11:10:52"},"shopObject":{"id":27,"coverImg":"http://test3.jpg","visitCount":null,"address":"武东路2012号"},"isNew":0}
      */
 
     private DataBean data;
@@ -27,21 +27,21 @@ public class FindServiceResponse extends BaseResponse {
 
     public static class DataBean {
         /**
-         * loadDTO : {"smsVerifyCode":null,"messageId":null,"picVerifyCode":null,"picVerifyId":null,"customerId":null,"loanLimit":"200000","loanMaturity":"2","contactName":null,"contactMobile":null,"subscribeTime":null,"status":"已受理","applyTime":"2017-05-12 11:10:52"}
+         * loadObject : {"smsVerifyCode":null,"messageId":null,"picVerifyCode":null,"picVerifyId":null,"customerId":null,"loanLimit":"200000","loanMaturity":"2","contactName":null,"contactMobile":null,"subscribeTime":null,"status":"已受理","applyTime":"2017-05-12 11:10:52"}
          * shopObject : {"id":27,"coverImg":"http://test3.jpg","visitCount":null,"address":"武东路2012号"}
          * isNew : 0
          */
 
-        private LoadDTOBean loadDTO;
+        private LoadDTOBean loadObject;
         private ShopObjectBean shopObject;
         private int isNew;
 
-        public LoadDTOBean getLoadDTO() {
-            return loadDTO;
+        public LoadDTOBean getLoadObject() {
+            return loadObject;
         }
 
-        public void setLoadDTO(LoadDTOBean loadDTO) {
-            this.loadDTO = loadDTO;
+        public void setLoadObject(LoadDTOBean loadObject) {
+            this.loadObject = loadObject;
         }
 
         public ShopObjectBean getShopObject() {

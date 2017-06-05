@@ -137,7 +137,7 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="6dp"
                         android:layout_toRightOf="@+id/shop_img"
-                        android:text="一周内156位老板浏览了此商铺"
+                        android:text="提供合法的商铺租赁合同"
                         android:textColor="#999999"
                         android:textSize="14sp" />
                 </RelativeLayout>
