@@ -470,7 +470,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
                 }
                 Intent appoint = new Intent(context, WinportActivity.class);
                 appoint.putExtra("type", TypeList.APPOINT);
-                appoint.putExtra("title", "我的约看");
+                appoint.putExtra("title", "约看过的旺铺");
                 startActivity(appoint);
                 break;
             case R.id.ll_mine_collection:

@@ -99,6 +99,8 @@ public class MyNoticeActivity extends BaseActivity {
         if (adapter == null) {
             adapter = new NoticeCollectionAdapter(context, list);
             lsCircles.setAdapter(adapter);
+        } else {
+            adapter.update(list);
         }
     }
 

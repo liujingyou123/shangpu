@@ -28,7 +28,7 @@ public class WinportList extends BaseResponse {
             public float area;
             public String scanCount;
             public String visitCount;
-            public String rentTypeName;
+            public String rentTypeName = "";
             public String publishTime;//发布时间
             public String undoTime;//撤下时间
             public int rentStatus;//出租状态 0-待出租 1-出租中 2-已出租  3-已下架（撤下）

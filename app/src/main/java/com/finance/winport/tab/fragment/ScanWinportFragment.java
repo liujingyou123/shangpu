@@ -131,6 +131,7 @@ public class ScanWinportFragment extends BaseFragment {
     private void setTip(String count, String rank) {
         String s1 = count;
         String s2 = rank;
+        if (TextUtils.isEmpty(s1) || TextUtils.isEmpty(s2)) return;
         String s = "";
         switch (type) {
             case SCAN:
@@ -143,7 +144,6 @@ public class ScanWinportFragment extends BaseFragment {
                 s = getString(R.string.list_appoint_tip, s1, s2);
                 break;
         }
-        if (TextUtils.isEmpty(s)) return;
         SpannableString sp = new SpannableString(s);
         sp.setSpan(new ForegroundColorSpan(Color.parseColor("#ff0000")), s.indexOf(s1), s.indexOf(s1) + s1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sp.setSpan(new ForegroundColorSpan(Color.parseColor("#ff0000")), s.indexOf(s2), s.indexOf(s2) + s2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
