@@ -68,6 +68,7 @@ public class MyScheduleListActivity extends BaseActivity implements IScheduleLis
     public void onResume() {
         super.onResume();
         list.clear();
+        pageNum = 1;
         getData();
     }
 

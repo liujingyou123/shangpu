@@ -63,6 +63,7 @@ public class HistoryScheduleListActivity extends BaseActivity implements ISchedu
     public void onResume() {
         super.onResume();
         list.clear();
+        pageNum = 1;
         getData();
     }
 

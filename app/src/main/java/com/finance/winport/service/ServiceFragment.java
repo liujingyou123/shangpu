@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -257,7 +258,12 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
         } else {
 
             address.setText(response.getData().getShopObject().getAddress());
-            visitCount.setText("一周内" + response.getData().getShopObject().getVisitCount() + "位老板浏览了此店铺");
+            if (TextUtils.isEmpty(response.getData().getShopObject().getVisitCount())){
+                visitCount.setText("一周内0位老板浏览了此店铺");
+            }else{
+
+                visitCount.setText("一周内" + response.getData().getShopObject().getVisitCount() + "位老板浏览了此店铺");
+            }
             Batman.getInstance().fromNet(response.getData().getShopObject().getCoverImg(), shopImg);
             id = response.getData().getShopObject().getId() + "";
         }

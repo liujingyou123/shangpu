@@ -66,7 +66,7 @@ public class ScheduleListAdapter extends BaseAdapter {
             holder.type.setText("旺铺寻租");
         } else if (baseData.get(position).getServiceType() == 1) {
 
-            holder.type.setText("带我踩盘");
+            holder.type.setText("预约看铺");
         } else if (baseData.get(position).getServiceType() == 2) {
 
             holder.type.setText("签约租铺");

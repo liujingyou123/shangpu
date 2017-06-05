@@ -332,7 +332,7 @@ public class SendFindLoanFragment extends BaseFragment implements IFindLoanView 
         HashMap<String, Object> params = new HashMap<>();
         params.put("userPhone", userPhone);
         params.put("sendType", 0);//0-短信 1-语音，默认0
-        params.put("useScene", 0);//0-登录 1-贷款申请 2-租铺签约 3-寻租申请 4-带我踩盘 5-商铺纠错 6-预约看铺
+        params.put("useScene", 1);//0-登录 1-贷款申请 2-租铺签约 3-寻租申请 4-带我踩盘 5-商铺纠错 6-预约看铺
         UserManager.getInstance().getVerifyCode(params, new NetworkCallback<Message>() {
             @Override
             public void success(Message response) {
