@@ -8,6 +8,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.umeng.analytics.MobclickAgent;
+
 public class BaseFragment extends Fragment {
     protected Context context;
 
@@ -40,14 +42,14 @@ public class BaseFragment extends Fragment {
     public void onPause() {
         super.onPause();
         hideSoftKeyboard();
-//        MobclickAgent.onPageEnd(getClass().getSimpleName());
+        MobclickAgent.onPageEnd(getClass().getSimpleName());
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-//        MobclickAgent.onPageStart(getClass().getSimpleName());
+        MobclickAgent.onPageStart(getClass().getSimpleName());
     }
 
     protected void hideSoftKeyboard() {

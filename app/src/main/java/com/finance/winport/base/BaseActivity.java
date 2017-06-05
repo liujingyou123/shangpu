@@ -22,6 +22,7 @@ import com.finance.winport.R;
 import com.finance.winport.util.LoadingDialogUtil;
 import com.finance.winport.util.SelectDialogUtil;
 import com.finance.winport.util.StatusBarUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
@@ -88,15 +89,15 @@ public class BaseActivity extends AppCompatActivity{
 
     public void onResume() {
         super.onResume();
-//        MobclickAgent.onPageStart(getClass().getSimpleName());
-//        MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart(getClass().getSimpleName());
+        MobclickAgent.onResume(this);
         LoadingDialogUtil.getInstance().init(this);
     }
 
     public void onPause() {
         super.onPause();
-//        MobclickAgent.onPageEnd(getClass().getSimpleName());
-//        MobclickAgent.onPause(this);
+        MobclickAgent.onPageEnd(getClass().getSimpleName());
+        MobclickAgent.onPause(this);
     }
 
     @Override
