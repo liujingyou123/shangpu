@@ -16,12 +16,14 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.dialog.NoticeDialog;
+import com.finance.winport.home.ShopDetailActivity;
 import com.finance.winport.image.Batman;
 import com.finance.winport.tab.TypeList;
 import com.finance.winport.tab.WinportActivity;
 import com.finance.winport.tab.model.WinportList;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
@@ -79,6 +81,7 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         holder.dropOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(context,"myshop_unpublish");
                 Intent dropOff = new Intent(context, WinportActivity.class);
                 dropOff.putExtra("type", TypeList.OFF_SHELF);
                 dropOff.putExtra("shopId", item.id);
@@ -89,6 +92,7 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         holder.contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(context,"myshop_callwaiter");
                 showContactAlert(item.clerkPhone);
             }
         });
@@ -97,10 +101,20 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         holder.release.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(context,"myshop_callwaiter");
                 showContactAlert(item.clerkPhone);
             }
         });
         //
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MobclickAgent.onEvent(context,"myshop_shop");
+                Intent details = new Intent(context, ShopDetailActivity.class);
+                details.putExtra("shopId", item.id);
+                context.startActivity(details);
+            }
+        });
         return convertView;
     }
 

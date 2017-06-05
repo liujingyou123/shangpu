@@ -31,6 +31,7 @@ import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -222,6 +223,7 @@ public class MineWinportFragment extends BaseFragment {
 
     @OnClick(R.id.confirm)
     public void onConfirmClicked() {
+        MobclickAgent.onEvent(context, "myshop_let");
         pushFragment(new SendShopRentFragment(), false);
     }
 

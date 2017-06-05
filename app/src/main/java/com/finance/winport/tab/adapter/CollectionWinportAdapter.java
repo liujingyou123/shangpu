@@ -34,6 +34,7 @@ import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.util.ToastUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -124,6 +125,7 @@ public class CollectionWinportAdapter extends PullBaseAdapter<CollectionShopList
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                MobclickAgent.onEvent(context,"shopcollect_recollect");
                 showCancelCollectionAlert(item.collectedId + "", position);
                 return true;
             }
@@ -131,6 +133,7 @@ public class CollectionWinportAdapter extends PullBaseAdapter<CollectionShopList
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(context,"shopcollect_shop");
                 Intent details = new Intent(context, ShopDetailActivity.class);
                 details.putExtra("shopId", item.id);
                 context.startActivity(details);

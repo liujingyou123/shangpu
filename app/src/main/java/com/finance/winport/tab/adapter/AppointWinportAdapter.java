@@ -34,6 +34,7 @@ import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.util.ToastUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -123,6 +124,7 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(context,"shoporder_shop");
                 Intent details = new Intent(context, ShopDetailActivity.class);
                 details.putExtra("shopId", item.id);
                 context.startActivity(details);
@@ -131,6 +133,7 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                MobclickAgent.onEvent(context,"shoporder_delete");
                 showDeleteAlert(item.visitId + "", position);
                 return true;
             }
@@ -138,6 +141,7 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
         holder.sign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(context,"shoporder_sign");
                 Intent orderIntent = new Intent(context, OrderShopActivity.class);
                 orderIntent.putExtra("shopId", item.id);
                 orderIntent.putExtra("type", 1);

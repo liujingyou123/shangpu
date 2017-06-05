@@ -33,6 +33,7 @@ import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.util.ToastUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -122,6 +123,7 @@ public class ScanWinportAdapter extends PullBaseAdapter<ScanShopList.DataBeanX.D
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                MobclickAgent.onEvent(context,"shopbrowse_delete");
                 showDeleteScanAlert(item.browseId + "", position);
                 return true;
             }
@@ -129,6 +131,7 @@ public class ScanWinportAdapter extends PullBaseAdapter<ScanShopList.DataBeanX.D
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(context,"shopbrowse_shop");
                 Intent details = new Intent(context, ShopDetailActivity.class);
                 details.putExtra("shopId", item.id);
                 context.startActivity(details);

@@ -15,6 +15,7 @@ import com.finance.winport.trade.TradeCircleFragment;
 import com.finance.winport.tab.MineFragment;
 import com.finance.winport.service.ServiceFragment;
 import com.finance.winport.view.BottomTabView;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -111,6 +112,7 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
     }
 
     private void handleMine(int index) {
+        MobclickAgent.onEvent(context, "my");
         MineFragment mineFragment = (MineFragment) fm
                 .findFragmentByTag(MineFragment.class.getName());
         if (mineFragment == null) {

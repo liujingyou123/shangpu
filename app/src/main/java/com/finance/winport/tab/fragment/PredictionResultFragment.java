@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.tab.model.Prediction;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -84,6 +85,7 @@ public class PredictionResultFragment extends BaseFragment {
 
     @OnClick(R.id.confirm)
     public void onConfirmClicked() {
+        MobclickAgent.onEvent(context,"luckyshopname_test_retest");
         handleBack();
     }
 }
