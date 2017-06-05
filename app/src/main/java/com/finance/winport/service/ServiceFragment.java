@@ -37,6 +37,7 @@ import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.BannerView.Banner;
 import com.finance.winport.view.SpreadListView;
+import com.umeng.analytics.MobclickAgent;
 
 import org.joda.time.DateTime;
 
@@ -302,31 +303,38 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rent:
+                MobclickAgent.onEvent(getActivity(), "service_let");
                 Intent rentIntent = new Intent(getActivity(), ShopRentActivity.class);
                 startActivity(rentIntent);
                 break;
             case R.id.order:
+                MobclickAgent.onEvent(getActivity(), "service_order");
                 Intent orderIntent = new Intent(getActivity(), ShopOrderActivity.class);
                 startActivity(orderIntent);
                 break;
             case R.id.loan:
+                MobclickAgent.onEvent(getActivity(), "service_loan");
                 Intent loanIntent = new Intent(getActivity(), FindLoanActivity.class);
                 startActivity(loanIntent);
                 break;
             case R.id.loan_more:
+                MobclickAgent.onEvent(getActivity(), "service_recentloan_more");
                 Intent intent = new Intent(getActivity(), LoanListActivity.class);
                 startActivity(intent);
                 break;
             case R.id.shop:
+                MobclickAgent.onEvent(getActivity(), "service_recentshop");
                 Intent detailIntent = new Intent(getActivity(), ShopDetailActivity.class);
                 detailIntent.putExtra("shopId", id);
                 startActivity(detailIntent);
                 break;
             case R.id.undo_count:
 //                Intent intent = new Intent(getActivity(), LoanListActivity.class);
+                MobclickAgent.onEvent(getActivity(), "service_moredate");
                 startActivity(new Intent(getActivity(), MyScheduleListActivity.class));
                 break;
             case R.id.shop_more:
+                MobclickAgent.onEvent(getActivity(), "service_recentshop_more");
                 Intent release = new Intent(context, WinportActivity.class);
                 release.putExtra("type", TypeList.RELEASE);
                 release.putExtra("title", "我发布的旺铺");
@@ -409,6 +417,7 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
             mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    MobclickAgent.onEvent(getActivity(), "service_date");
                     Intent intent = new Intent(getActivity(), ScheduleDetailActivity.class);
                     intent.putExtra("scheduleId", adapter.getItem(position).getScheduleId());
                     startActivity(intent);

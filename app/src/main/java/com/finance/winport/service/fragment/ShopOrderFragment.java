@@ -27,6 +27,7 @@ import com.finance.winport.service.presenter.IFindServiceView;
 import com.finance.winport.service.presenter.ServicePresenter;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.UnitUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -107,6 +108,7 @@ public class ShopOrderFragment extends BaseFragment implements IFindServiceView 
                 break;
             case R.id.sen_btn:
 
+                MobclickAgent.onEvent(getActivity(), "service_order_apply");
                 startActivity(new Intent(context, MainActivity.class).putExtra("tab", MainActivity.HOME));
                 getActivity().finish();
                 break;

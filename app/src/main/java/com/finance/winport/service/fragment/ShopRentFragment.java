@@ -26,6 +26,7 @@ import com.finance.winport.service.model.ShopRentCountResponse;
 import com.finance.winport.service.presenter.IFindServiceView;
 import com.finance.winport.service.presenter.ServicePresenter;
 import com.finance.winport.util.SharedPrefsUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -98,7 +99,9 @@ public class ShopRentFragment extends BaseFragment implements IFindServiceView {
                 handleBack();
                 break;
             case R.id.send_btn:
+                MobclickAgent.onEvent(getActivity(), "service_let_apply");
                 if (isLogin()) {
+
                     BaseFragment sendRent = new SendShopRentFragment();
                     pushFragment(sendRent);
                 } else {
