@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import com.finance.winport.MainActivity;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.concurrent.TimeUnit;
 
@@ -25,6 +26,7 @@ public class LauncherActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MobclickAgent.enableEncrypt(true);
         setContentView(R.layout.launcher_activity);
         init();
     }

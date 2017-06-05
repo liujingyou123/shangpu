@@ -40,6 +40,7 @@ import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.tab.net.NetworkCallback;
 import com.finance.winport.util.NetworkUtil;
 import com.finance.winport.util.SharedPrefsUtil;
+import com.finance.winport.util.SpUtil;
 import com.finance.winport.util.StringUtil;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.ToastUtil;
@@ -306,6 +307,7 @@ public class LoginFragment extends BaseFragment {
                     EventBus.getDefault().post(new LoginEvent());
                     getActivity().finish();
                     ToastUtil.show(context, "登录成功");
+                    SpUtil.getInstance().setStringData("login", "1");
                 } else {
                     verifyCodeView.setText("");
                     ToastUtil.show(context, response == null ? "null response" : response.errMsg);

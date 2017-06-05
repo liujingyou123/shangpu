@@ -47,3 +47,7 @@
 -keep class com.alibaba.sdk.android.oss.** { *; }
 -dontwarn okio.**
 -dontwarn org.apache.commons.codec.binary.**
+
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
