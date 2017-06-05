@@ -33,6 +33,11 @@ public class NoticeCollectionAdapter extends BaseAdapter {
         this.list = list;
     }
 
+    public void update(List<NotifyType.DataBean.BaseNoticeDTOListBean> list) {
+        this.list = list;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return list == null ? 0 : list.size();

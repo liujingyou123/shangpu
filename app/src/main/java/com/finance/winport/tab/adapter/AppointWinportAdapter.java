@@ -93,8 +93,10 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
                 }
             }
             setViewAndChildrenEnabled(convertView, false);
+            holder.flMark.setVisibility(View.VISIBLE);
         } else {
             setViewAndChildrenEnabled(convertView, true);
+            holder.flMark.setVisibility(View.GONE);
             SpannableString sr = new SpannableString(sRent + "元");
             sr.setSpan(new ForegroundColorSpan(Color.parseColor("#FF7540"))
                     , 0, sr.length()
@@ -124,7 +126,7 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MobclickAgent.onEvent(context,"shoporder_shop");
+                MobclickAgent.onEvent(context, "shoporder_shop");
                 Intent details = new Intent(context, ShopDetailActivity.class);
                 details.putExtra("shopId", item.id);
                 context.startActivity(details);
@@ -133,7 +135,7 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                MobclickAgent.onEvent(context,"shoporder_delete");
+                MobclickAgent.onEvent(context, "shoporder_delete");
                 showDeleteAlert(item.visitId + "", position);
                 return true;
             }
@@ -141,7 +143,7 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
         holder.sign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MobclickAgent.onEvent(context,"shoporder_sign");
+                MobclickAgent.onEvent(context, "shoporder_sign");
                 Intent orderIntent = new Intent(context, OrderShopActivity.class);
                 orderIntent.putExtra("shopId", item.id);
                 orderIntent.putExtra("type", 1);
@@ -292,6 +294,8 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
         TextView appointTime;
         @BindView(R.id.sign)
         TextView sign;
+        @BindView(R.id.fl_mark)
+        View flMark;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

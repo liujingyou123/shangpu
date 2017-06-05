@@ -93,8 +93,10 @@ public class ScanWinportAdapter extends PullBaseAdapter<ScanShopList.DataBeanX.D
                 }
             }
             setViewAndChildrenEnabled(convertView, false);
+            holder.flMark.setVisibility(View.VISIBLE);
         } else {
             setViewAndChildrenEnabled(convertView, true);
+            holder.flMark.setVisibility(View.GONE);
             SpannableString sr = new SpannableString(sRent + "元");
             sr.setSpan(new ForegroundColorSpan(Color.parseColor("#FF7540"))
                     , 0, sr.length()
@@ -277,6 +279,8 @@ public class ScanWinportAdapter extends PullBaseAdapter<ScanShopList.DataBeanX.D
         View tagDivider;
         @BindView(R.id.tag)
         LinearLayout tag;
+        @BindView(R.id.fl_mark)
+        View flMark;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

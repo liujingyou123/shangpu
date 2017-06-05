@@ -62,7 +62,9 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
             holder.llOnSale.setVisibility(View.GONE);
             holder.release.setEnabled(true);
             holder.release.setVisibility(View.VISIBLE);
+            holder.flMark.setVisibility(View.VISIBLE);
         } else {
+            holder.flMark.setVisibility(View.GONE);
             holder.llOnSale.setVisibility(View.VISIBLE);
             holder.release.setVisibility(View.GONE);
             setViewAndChildrenEnabled(convertView, true);
@@ -81,7 +83,7 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         holder.dropOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MobclickAgent.onEvent(context,"myshop_unpublish");
+                MobclickAgent.onEvent(context, "myshop_unpublish");
                 Intent dropOff = new Intent(context, WinportActivity.class);
                 dropOff.putExtra("type", TypeList.OFF_SHELF);
                 dropOff.putExtra("shopId", item.id);
@@ -92,7 +94,7 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         holder.contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MobclickAgent.onEvent(context,"myshop_callwaiter");
+                MobclickAgent.onEvent(context, "myshop_callwaiter");
                 showContactAlert(item.clerkPhone);
             }
         });
@@ -101,7 +103,7 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         holder.release.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MobclickAgent.onEvent(context,"myshop_callwaiter");
+                MobclickAgent.onEvent(context, "myshop_callwaiter");
                 showContactAlert(item.clerkPhone);
             }
         });
@@ -109,7 +111,7 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MobclickAgent.onEvent(context,"myshop_shop");
+                MobclickAgent.onEvent(context, "myshop_shop");
                 Intent details = new Intent(context, ShopDetailActivity.class);
                 details.putExtra("shopId", item.id);
                 context.startActivity(details);
@@ -151,6 +153,8 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         TextView release;
         @BindView(R.id.ll_onSale)
         View llOnSale;
+        @BindView(R.id.fl_mark)
+        View flMark;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

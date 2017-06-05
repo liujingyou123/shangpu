@@ -17,18 +17,25 @@
             android:layout_height="82dp"
             android:background="@color/bg" />
 
-        <ImageView
-            android:id="@+id/mark"
+        <FrameLayout
+            android:id="@+id/fl_mark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/img"
             android:layout_alignLeft="@+id/img"
             android:layout_alignRight="@+id/img"
             android:layout_alignTop="@+id/img"
-            android:background="@drawable/bg_mark_background"
-            android:scaleType="centerInside"
-            android:src="@drawable/bg_mark_foreground" />
+            android:visibility="gone"
+            android:background="@drawable/bg_mark_background">
 
+            <ImageView
+                android:id="@+id/mark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleType="centerInside"
+                android:src="@mipmap/icon_winport_off" />
+        </FrameLayout>
 
         <TextView
             android:id="@+id/address"
