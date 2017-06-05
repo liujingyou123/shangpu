@@ -50,6 +50,7 @@ import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.CountDownButton;
 import com.finance.winport.view.HeaderTextView;
 import com.finance.winport.view.dialog.DateSelectDialog;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -205,12 +206,14 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
                 dialog.show();
                 break;
             case R.id.map_address:
+                MobclickAgent.onEvent(getActivity(), "service_address");
                 startActivityForResult(new Intent(getActivity(), AddrSelectActivity.class), AddrSelectActivity.ACTIVITY_REQUEST_CODE_ADDR_SELECT);
                 break;
             case R.id.district:
                 showLouCeng();
                 break;
             case R.id.modify:
+                MobclickAgent.onEvent(getActivity(), "service_phonechange");
                 llVerifyCode.setVisibility(View.VISIBLE);
                 llImgCode.setVisibility(View.GONE);
                 codeLine.setVisibility(View.VISIBLE);
@@ -229,6 +232,8 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
 
                 if(!NoDoubleClickUtils.isDoubleClick()){
                     if (checkCommit()) {
+
+                        MobclickAgent.onEvent(getActivity(), "service_let_apply_confirm");
 
                         getData();
                     }

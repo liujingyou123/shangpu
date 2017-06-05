@@ -25,6 +25,7 @@ import com.finance.winport.service.model.ShopRentCountResponse;
 import com.finance.winport.service.presenter.IFindServiceView;
 import com.finance.winport.service.presenter.ServicePresenter;
 import com.finance.winport.util.SharedPrefsUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -94,6 +95,7 @@ public class FindLoanFragment extends BaseFragment implements IFindServiceView {
                 break;
             case R.id.send_btn:
 
+                MobclickAgent.onEvent(getActivity(), "service_loan_apply");
                 if (isLogin()) {
                     BaseFragment sendLoan = new SendFindLoanFragment();
                     pushFragment(sendLoan);

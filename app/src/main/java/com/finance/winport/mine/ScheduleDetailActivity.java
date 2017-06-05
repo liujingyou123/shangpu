@@ -14,6 +14,7 @@ import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.mine.model.ScheduleDetailResponse;
 import com.finance.winport.mine.presenter.IScheduleDetailView;
 import com.finance.winport.mine.presenter.ScheduleDetailPresenter;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -87,6 +88,7 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
                 handleBack();
                 break;
             case R.id.cancel:
+                MobclickAgent.onEvent(ScheduleDetailActivity.this, "date_undo");
                 if (nNoticeDialog == null) {
                     nNoticeDialog = new NoticeDialog(this);
                     nNoticeDialog.setMessage("撤销服务");
@@ -106,6 +108,7 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
                 }
                 break;
             case R.id.service_phone:
+                MobclickAgent.onEvent(ScheduleDetailActivity.this, "date_call");
                 if (mNoticeDialog == null) {
                     mNoticeDialog = new NoticeDialog(this);
                     mNoticeDialog.setMessage("小二电话："+clerkPhone);

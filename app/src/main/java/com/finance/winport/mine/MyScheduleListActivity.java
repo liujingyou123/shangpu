@@ -21,6 +21,7 @@ import com.finance.winport.util.ToastUtil;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,6 +117,8 @@ public class MyScheduleListActivity extends BaseActivity implements IScheduleLis
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                MobclickAgent.onEvent(MyScheduleListActivity.this, "mydate_date");
                 Intent intent = new Intent(MyScheduleListActivity.this,ScheduleDetailActivity.class);
                 intent.putExtra("scheduleId",list.get(position).getScheduleId()+"");
                 startActivity(intent);
@@ -130,6 +133,7 @@ public class MyScheduleListActivity extends BaseActivity implements IScheduleLis
                 finish();
                 break;
             case R.id.tv_focus_right:
+                MobclickAgent.onEvent(MyScheduleListActivity.this, "mydate_history");
                 startActivity(new Intent(MyScheduleListActivity.this,HistoryScheduleListActivity.class));
                 break;
         }

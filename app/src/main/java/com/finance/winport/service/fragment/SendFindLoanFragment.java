@@ -42,6 +42,7 @@ import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.CountDownButton;
 import com.finance.winport.view.HeaderTextView;
 import com.finance.winport.view.dialog.DateSelectDialog;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -178,6 +179,7 @@ public class SendFindLoanFragment extends BaseFragment implements IFindLoanView 
                 handleBack();
                 break;
             case R.id.modify:
+                MobclickAgent.onEvent(getActivity(), "service_phonechange");
                 llVerifyCode.setVisibility(View.VISIBLE);
                 llImgCode.setVisibility(View.GONE);
                 codeLine.setVisibility(View.VISIBLE);
@@ -225,10 +227,12 @@ public class SendFindLoanFragment extends BaseFragment implements IFindLoanView 
                 scrollDialog.show();
                 break;
             case R.id.submit:
+
                 if(!NoDoubleClickUtils.isDoubleClick()){
 
                     if (checkCommit()){
 
+                        MobclickAgent.onEvent(getActivity(), "service_loan_apply_confirm");
                         getData();
                     }
                 }
