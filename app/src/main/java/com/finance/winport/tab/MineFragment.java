@@ -57,6 +57,7 @@ import com.finance.winport.view.StopWatchTextView;
 import com.finance.winport.view.picker.Picker;
 import com.finance.winport.view.picker.engine.GlideEngine;
 import com.finance.winport.view.picker.utils.PicturePickerUtils;
+import com.umeng.analytics.MobclickAgent;
 import com.yalantis.ucrop.UCrop;
 
 import org.greenrobot.eventbus.EventBus;
@@ -400,62 +401,114 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
             , R.id.concern, R.id.shop_img, R.id.ll_mine_winport, R.id.ll_mine_collection
             , R.id.ll_mine_appoint, R.id.ll_mine_scan, R.id.post, R.id.suggest})
     public void onRequiredLoginClicked(View view) {
-        if (!isLogin()) {// not login
-            toLogin();
-            return;
-        }
+//        if (!isLogin()) {// not login
+//            toLogin();
+//            return;
+//        }
         switch (view.getId()) {
             case R.id.tv_focus_right:
+                MobclickAgent.onEvent(context, "message");
+                if (!isLogin()) {// not login
+                    toLogin();
+                    return;
+                }
                 startActivity(new Intent(getActivity(), MyNoticeActivity.class));
                 break;
             case R.id.modify:
+                MobclickAgent.onEvent(context, "my_shopfollow");
+                if (!isLogin()) {// not login
+                    toLogin();
+                    return;
+                }
                 toConcern();
                 break;
             case R.id.schedule_list:
+                MobclickAgent.onEvent(context, "my_date");
+                if (!isLogin()) {// not login
+                    toLogin();
+                    return;
+                }
                 startActivity(new Intent(getActivity(), MyScheduleListActivity.class));
                 break;
-            case R.id.setting:
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-                break;
             case R.id.phone:
+                if (!isLogin()) {// not login
+                    toLogin();
+                    return;
+                }
                 break;
             case R.id.concern:
+                if (!isLogin()) {// not login
+                    toLogin();
+                    return;
+                }
                 toConcern();
                 break;
             case R.id.shop_img:
+                MobclickAgent.onEvent(context, "my_head");
+                if (!isLogin()) {// not login
+                    toLogin();
+                    return;
+                }
                 scanHeadImage();
                 break;
             case R.id.ll_mine_winport:
+                MobclickAgent.onEvent(context, "my_shop");
+                if (!isLogin()) {// not login
+                    toLogin();
+                    return;
+                }
                 Intent release = new Intent(context, WinportActivity.class);
                 release.putExtra("type", TypeList.RELEASE);
                 release.putExtra("title", "我发布的旺铺");
                 startActivity(release);
                 break;
             case R.id.ll_mine_appoint:
+                MobclickAgent.onEvent(context, "my_shoporder");
+                if (!isLogin()) {// not login
+                    toLogin();
+                    return;
+                }
                 Intent appoint = new Intent(context, WinportActivity.class);
                 appoint.putExtra("type", TypeList.APPOINT);
                 appoint.putExtra("title", "我的约看");
                 startActivity(appoint);
                 break;
             case R.id.ll_mine_collection:
+                MobclickAgent.onEvent(context, "my_shopcollect");
+                if (!isLogin()) {// not login
+                    toLogin();
+                    return;
+                }
                 Intent collection = new Intent(context, WinportActivity.class);
                 collection.putExtra("type", TypeList.COLLECTION);
                 collection.putExtra("title", "我的收藏");
                 startActivity(collection);
                 break;
             case R.id.ll_mine_scan:
+                MobclickAgent.onEvent(context, "my_shopbrowse");
+                if (!isLogin()) {// not login
+                    toLogin();
+                    return;
+                }
                 Intent scan = new Intent(context, WinportActivity.class);
                 scan.putExtra("type", TypeList.SCAN);
                 scan.putExtra("title", "最近浏览");
                 startActivity(scan);
                 break;
-            case R.id.fierce_prediction://测吉凶
-                startActivity(new Intent(context, FiercePredictionActivity.class));
-                break;
             case R.id.post:// 我的帖子
+                MobclickAgent.onEvent(context, "my_post");
+                if (!isLogin()) {// not login
+                    toLogin();
+                    return;
+                }
                 startActivity(new Intent(context, MyPostListActivity.class));
                 break;
             case R.id.suggest:
+                MobclickAgent.onEvent(context, "my_suggest");
+                if (!isLogin()) {// not login
+                    toLogin();
+                    return;
+                }
                 startActivity(new Intent(context, SuggestActivity.class));
                 break;
         }
@@ -465,9 +518,11 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     public void onViewClick(View v) {
         switch (v.getId()) {
             case R.id.setting:
+                MobclickAgent.onEvent(context, "my_system");
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
                 break;
             case R.id.fierce_prediction:
+                MobclickAgent.onEvent(context, "my_luckyshopname");
                 startActivity(new Intent(context, FiercePredictionActivity.class));
                 break;
         }

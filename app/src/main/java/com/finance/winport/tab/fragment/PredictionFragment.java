@@ -20,6 +20,7 @@ import com.finance.winport.tab.model.Prediction;
 import com.finance.winport.tab.net.NetworkCallback;
 import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.util.ToastUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
 
@@ -95,6 +96,7 @@ public class PredictionFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.confirm:
+                MobclickAgent.onEvent(context,"luckyshopname_test");
                 name = content.getText().toString().trim();
                 if (TextUtils.isEmpty(name)) {
                     ToastUtil.show(context, "请输入店名");

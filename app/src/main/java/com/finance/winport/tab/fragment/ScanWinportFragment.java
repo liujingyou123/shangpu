@@ -36,6 +36,7 @@ import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -424,6 +425,17 @@ public class ScanWinportFragment extends BaseFragment {
 
     @OnClick(R.id.confirm)
     public void onConfirmClicked() {
+        switch (type) {
+            case APPOINT:
+                MobclickAgent.onEvent(context, "shoporder_shoplist");
+                break;
+            case COLLECTION:
+                MobclickAgent.onEvent(context, "shopcollect_shoplist");
+                break;
+            case SCAN:
+                MobclickAgent.onEvent(context, "shopbrowse_shoplist");
+                break;
+        }
         startActivity(new Intent(context, MainActivity.class).putExtra("tab", MainActivity.HOME));
     }
 }

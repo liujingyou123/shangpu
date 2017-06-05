@@ -29,6 +29,7 @@ import com.finance.winport.home.model.Tag;
 import com.finance.winport.home.model.TagResponse;
 import com.finance.winport.tab.net.NetworkCallback;
 import com.finance.winport.tab.net.PersonManager;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -152,6 +153,7 @@ public class OffShelfFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.confirm:
+                MobclickAgent.onEvent(context,"myshop_unpublish_confirm");
                 offShelfSHop();
                 break;
         }
