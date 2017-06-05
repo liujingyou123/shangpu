@@ -646,6 +646,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         Intent intent = new Intent(getActivity(), MapActivity.class);
         intent.putExtra("shopRequest", mRequest);
         startActivity(intent);
+//        getActivity().overridePendingTransition(R.anim.fade,R.anim.hold);
     }
 
     @Override
