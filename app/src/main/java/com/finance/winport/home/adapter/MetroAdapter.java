@@ -35,6 +35,12 @@ public class MetroAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void justInitData() {
+        if (mData.size() == 0) {
+            mData.addAll(QuyuDataManager.getInstance().getMetros());
+        }
+    }
+
     public void setSelectPostion(int position) {
         this.selectPosition = position;
         notifyDataSetChanged();

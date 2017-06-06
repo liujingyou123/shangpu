@@ -63,8 +63,14 @@ public class LoanListAdapter extends BaseAdapter {
         }
 
         holder.loanMoneyValue.setText(baseData.get(position).getLoanLimit()+"万元");
-        holder.loanDeadlineValue.setText(baseData.get(position).getLoanMaturity()+"个月");
-        holder.status.setText(baseData.get(position).getApplyTime()+" 申请 | "+baseData.get(position).getStatus());
+        holder.loanDeadlineValue.setText(baseData.get(position).getLoanMaturity()+"");
+        if(baseData.get(position).getStatus().equals("0")){
+
+            holder.status.setText(baseData.get(position).getApplyTime()+" 申请 | 待受理");
+        }else if(baseData.get(position).getStatus().equals("1")){
+            holder.status.setText(baseData.get(position).getApplyTime()+" 申请 | 已受理");
+
+        }
 
         return convertView;
 

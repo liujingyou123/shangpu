@@ -29,6 +29,12 @@ public class RegionAdapter extends BaseAdapter {
         this.mContext = mContext;
     }
 
+    public void justInitData() {
+        if (mData.size() == 0) {
+            mData.addAll(QuyuDataManager.getInstance().getRegions());
+        }
+    }
+
     public void initData() {
         mData.addAll(QuyuDataManager.getInstance().getRegions());
         notifyDataSetChanged();
