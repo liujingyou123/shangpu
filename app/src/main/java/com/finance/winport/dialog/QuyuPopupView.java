@@ -232,8 +232,23 @@ public class QuyuPopupView extends AnimPopup {
         super.showAsDropDown(anchor);
 
 //        showInitSelect();
-        getDistrict();
-        getMetros();
+
+        if (QuyuDataManager.getInstance().getRegionsNoAll() == null || QuyuDataManager.getInstance().getRegionsNoAll().size() == 0) {
+            getDistrict();
+        } else {
+            regionAdapter.justInitData();
+        }
+
+        if (QuyuDataManager.getInstance().getMetrosNoAll() == null || QuyuDataManager.getInstance().getRegionsNoAll().size() == 0) {
+            getMetros();
+        } else {
+            metroAdapter.justInitData();
+        }
+
+        if (QuyuDataManager.getInstance().getRegionsNoAll() != null && QuyuDataManager.getInstance().getRegionsNoAll().size() > 0
+                && QuyuDataManager.getInstance().getMetrosNoAll() != null && QuyuDataManager.getInstance().getRegionsNoAll().size() > 0) {
+            showInitSelect();
+        }
     }
 
     private void initWindowAttribute(View anchor) {
@@ -271,44 +286,38 @@ public class QuyuPopupView extends AnimPopup {
 
 
     private void getDistrict() {
-        if (QuyuDataManager.getInstance().getRegionsNoAll() == null || QuyuDataManager.getInstance().getRegionsNoAll().size() == 0) {
-            HashMap<String, String> map = new HashMap<>();
-            map.put("cityId", "310000");
-            ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).getDistrict(map), new NetSubscriber<RegionResponse>() {
-                @Override
-                public void response(RegionResponse response) {
-                    if (response != null && response.getData() != null) {
-                        QuyuDataManager.getInstance().addRegion(response.getData());
-                        regionAdapter.initData();
-
-                        showInitSelect();
-                    }
-
+        HashMap<String, String> map = new HashMap<>();
+        map.put("cityId", "310000");
+        ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).getDistrict(map), new NetSubscriber<RegionResponse>() {
+            @Override
+            public void response(RegionResponse response) {
+                if (response != null && response.getData() != null) {
+                    QuyuDataManager.getInstance().addRegion(response.getData());
+                    regionAdapter.initData();
+                    showInitSelect();
                 }
 
-            });
-        } else {
-            showInitSelect();
-        }
+            }
+
+        });
 
     }
 
     private void getMetros() {
-        if (QuyuDataManager.getInstance().getMetrosNoAll() == null || QuyuDataManager.getInstance().getRegionsNoAll().size() == 0) {
-            HashMap<String, String> map = new HashMap<>();
-            map.put("cityId", "310000");
-            ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).getMetros(map), new NetSubscriber<MetroResponse>() {
-                @Override
-                public void response(MetroResponse response) {
-                    if (response != null && response.getData() != null) {
-                        QuyuDataManager.getInstance().addMetro(response.getData());
-                        metroAdapter.initData();
-                    }
-
+        HashMap<String, String> map = new HashMap<>();
+        map.put("cityId", "310000");
+        ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).getMetros(map), new NetSubscriber<MetroResponse>() {
+            @Override
+            public void response(MetroResponse response) {
+                if (response != null && response.getData() != null) {
+                    QuyuDataManager.getInstance().addMetro(response.getData());
+                    metroAdapter.initData();
                 }
 
-            });
-        }
+            }
+
+        });
+
 
     }
 
