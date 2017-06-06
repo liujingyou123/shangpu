@@ -99,7 +99,7 @@ public class CollectionWinportAdapter extends PullBaseAdapter<CollectionShopList
         } else {
             setViewAndChildrenEnabled(convertView, true);
             holder.flMark.setVisibility(View.GONE);
-            SpannableString sr = new SpannableString(sRent + "元");
+            SpannableString sr = new SpannableString(sRent + "元/月");
             sr.setSpan(new ForegroundColorSpan(Color.parseColor("#FF7540"))
                     , 0, sr.length()
                     , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
