@@ -16,6 +16,7 @@ import com.finance.winport.R;
 import com.finance.winport.home.ShopDetailActivity;
 import com.finance.winport.log.XLog;
 import com.finance.winport.util.ToastUtil;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -99,15 +100,19 @@ public class ShareDialog extends Dialog {
         ToastUtil.show(mContext, "正在分享...");
         switch (view.getId()) {
             case R.id.tv_weixin:
+                MobclickAgent.onEvent(mContext, "shop_share_wechat");
                 showShare(SHARE_MEDIA.WEIXIN);
                 break;
             case R.id.tv_pengyou:
+                MobclickAgent.onEvent(mContext, "shop_share_friendcircle");
                 showShare(SHARE_MEDIA.WEIXIN_CIRCLE);
                 break;
             case R.id.tv_weibo:
+                MobclickAgent.onEvent(mContext, "shop_share_weibo");
                 showShare(SHARE_MEDIA.SINA);
                 break;
             case R.id.tv_qq:
+                MobclickAgent.onEvent(mContext, "shop_share_qq");
                 showShare(SHARE_MEDIA.QQ);
                 break;
         }
@@ -123,12 +128,21 @@ public class ShareDialog extends Dialog {
         public void onResult(SHARE_MEDIA share_media) {
             XLog.e("onResult");
             ToastUtil.show(mContext, "分享成功");
+            if (share_media == SHARE_MEDIA.QQ) {
+                MobclickAgent.onEvent(mContext, "shop_share_qq_success");
+            } else if (share_media == SHARE_MEDIA.WEIXIN) {
+                MobclickAgent.onEvent(mContext, "shop_share_wechat_success");
+            } else if (share_media == SHARE_MEDIA.WEIXIN_CIRCLE) {
+                MobclickAgent.onEvent(mContext, "shop_share_friendcircle");
+            } else if (share_media == SHARE_MEDIA.SINA) {
+                MobclickAgent.onEvent(mContext, "shop_share_weibo_success");
+            }
         }
 
         @Override
         public void onError(SHARE_MEDIA share_media, Throwable throwable) {
             XLog.e("onError");
-            ToastUtil.show(mContext, throwable != null ? throwable.getMessage():"分享失败");
+            ToastUtil.show(mContext, throwable != null ? throwable.getMessage() : "分享失败");
         }
 
         @Override

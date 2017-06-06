@@ -346,7 +346,7 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
         HashMap<String, Object> params = new HashMap<>();
         params.put("userPhone", userPhone);
         params.put("sendType", 0);//0-短信 1-语音，默认0
-        params.put("useScene", 0);//0-登录 1-贷款申请 2-租铺签约 3-寻租申请 4-带我踩盘 5-商铺纠错 6-预约看铺
+        params.put("useScene", 3);//0-登录 1-贷款申请 2-租铺签约 3-寻租申请 4-带我踩盘 5-商铺纠错 6-预约看铺
         UserManager.getInstance().getVerifyCode(params, new NetworkCallback<Message>() {
             @Override
             public void success(Message response) {
@@ -427,20 +427,28 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
                 @Override
                 public void onSelect(String data) {
 
-                    district.setText(data);
-                    districtName = data.split("-")[0];
-                    blockName = data.split("-")[1];
-                    for (int i = 0; i < list.size(); i++) {
-                        if (districtName.equals(regionList.get(i).getRegionName())) {
-                            districtId = regionList.get(i).getRegionId();
+                    try {
+
+                        if(TextUtils.isEmpty(data)){
+                            return;
                         }
-                    }
-                    List<RegionResponse.Region.Block> blockList = new ArrayList<>();
-                    blockList = hashMapBlock.get(districtName);
-                    for (int j = 0; j < blockList.size(); j++) {
-                        if (blockName.equals(blockList.get(j).getBlockName())) {
-                            blockId = blockList.get(j).getBlockId();
+                        district.setText(data);
+                        districtName = data.split("-")[0];
+                        blockName = data.split("-")[1];
+                        for (int i = 0; i < list.size(); i++) {
+                            if (districtName.equals(regionList.get(i).getRegionName())) {
+                                districtId = regionList.get(i).getRegionId();
+                            }
                         }
+                        List<RegionResponse.Region.Block> blockList = new ArrayList<>();
+                        blockList = hashMapBlock.get(districtName);
+                        for (int j = 0; j < blockList.size(); j++) {
+                            if (blockName.equals(blockList.get(j).getBlockName())) {
+                                blockId = blockList.get(j).getBlockId();
+                            }
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
 
 
@@ -458,16 +466,21 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
             @Override
             public void response(RegionResponse response) {
 
-                regionList = response.getData();
-                for (int i = 0; i < response.getData().size(); i++) {
-                    List<String> list1 = new ArrayList<String>();
-                    list.add(response.getData().get(i).getRegionName());
+                try{
 
-                    for (int j = 0; j < response.getData().get(i).getBlockList().size(); j++) {
-                        list1.add(response.getData().get(i).getBlockList().get(j).getBlockName());
+                    regionList = response.getData();
+                    for (int i = 0; i < response.getData().size(); i++) {
+                        List<String> list1 = new ArrayList<String>();
+                        list.add(response.getData().get(i).getRegionName());
+
+                        for (int j = 0; j < response.getData().get(i).getBlockList().size(); j++) {
+                            list1.add(response.getData().get(i).getBlockList().get(j).getBlockName());
+                        }
+                        hashMap.put(response.getData().get(i).getRegionName(), list1);
+                        hashMapBlock.put(response.getData().get(i).getRegionName(), response.getData().get(i).getBlockList());
                     }
-                    hashMap.put(response.getData().get(i).getRegionName(), list1);
-                    hashMapBlock.put(response.getData().get(i).getRegionName(), response.getData().get(i).getBlockList());
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
 
             }

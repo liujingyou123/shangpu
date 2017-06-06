@@ -164,12 +164,15 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
         if(response.getData().getServiceType()==0){
 
             serviceType.setText("旺铺寻租");
+            btnDone.setVisibility(View.GONE);
         }else if(response.getData().getServiceType()==1){
 
-            serviceType.setText("带我踩盘");
+            serviceType.setText("预约看铺");
+            btnDone.setVisibility(View.VISIBLE);
         }else if(response.getData().getServiceType()==2){
 
             serviceType.setText("签约租铺");
+            btnDone.setVisibility(View.VISIBLE);
         }
 
         applyTime.setText(response.getData().getApplyTime());

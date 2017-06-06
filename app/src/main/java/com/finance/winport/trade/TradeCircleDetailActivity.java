@@ -31,6 +31,7 @@ import com.finance.winport.util.ToastUtil;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
 import com.finance.winport.view.refreshview.XPtrFrameLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -144,6 +145,7 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
         commentDialog.setOkDoneListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(context, "post_comment_release");
                 mPresenter.commentTopic(topicId, commentDialog.getContent());
             }
         });
@@ -162,6 +164,7 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
                 finish();
                 break;
             case R.id.btn_comment:
+                MobclickAgent.onEvent(context, "post_comment");
                 if (SharedPrefsUtil.getUserInfo() != null) {
                     commentDialog.show();
                 } else {

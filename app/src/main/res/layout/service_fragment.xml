@@ -22,7 +22,7 @@
             android:background="#ffffff"
             android:gravity="center"
             android:visibility="gone"
-            android:text="服务汇"
+            android:text="找服务"
             android:textColor="#333333"
             android:textSize="18sp" />
         <View

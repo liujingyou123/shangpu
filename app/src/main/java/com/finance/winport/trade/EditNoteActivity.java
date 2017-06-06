@@ -29,6 +29,7 @@ import com.finance.winport.view.picker.Picker;
 import com.finance.winport.view.picker.engine.GlideEngine;
 import com.finance.winport.view.picker.utils.PicturePickerUtils;
 import com.finance.winport.view.tagview.TagCloudLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,6 +141,7 @@ public class EditNoteActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.btn_done:
+                MobclickAgent.onEvent(context, "circle_publish_release");
                 if (checkAndSetData()) {
                     btnDone.setEnabled(false);
                     if (mAdapter.getListData() == null || mAdapter.getListData().size() == 0) {

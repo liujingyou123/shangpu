@@ -155,6 +155,33 @@ public class TradeCirclePresenter {
     }
 
     /**
+     * 我的帖子
+     *
+     * @param pageNumber
+     */
+    public void getMyMoreTopics(int pageNumber) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("pageNumber", pageNumber + "");
+        hashMap.put("pageSize", 10 + "");
+        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).getMyTopics(hashMap), new NetSubscriber<MyTopicResponse>() {
+            @Override
+            public void response(MyTopicResponse response) {
+                if (mIMyTopicListView != null) {
+                    mIMyTopicListView.showMoreTopics(response);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                if (mIMyTopicListView != null) {
+                    mIMyTopicListView.onError();
+                }
+            }
+        });
+    }
+
+    /**
      * 删除帖子
      *
      * @param topicId

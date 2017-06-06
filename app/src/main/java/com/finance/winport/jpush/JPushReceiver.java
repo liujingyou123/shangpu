@@ -24,6 +24,7 @@ import com.finance.winport.trade.TradeCircleDetailActivity;
 import com.finance.winport.trade.model.EventBusCommentNum;
 import com.finance.winport.util.SpUtil;
 import com.google.gson.Gson;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -154,6 +155,7 @@ public class JPushReceiver extends BroadcastReceiver {
         if (extraReceive != null) {
             if ("2".equals(extraReceive.getCatalogType())) { //生意圈
                 if ("0".equals(extraReceive.getBizType())) { //评论
+                    MobclickAgent.onEvent(context, "push_circle_post");
                     int commentNum = SpUtil.getInstance().getIntData("commentNum", 0);
                     ++commentNum;
                     SpUtil.getInstance().setIntData("commentNum", commentNum);
@@ -181,8 +183,10 @@ public class JPushReceiver extends BroadcastReceiver {
                 }
             } else if ("0".equals(extraReceive.getCatalogType())) { //服务
                 if ("3".equals(extraReceive.getBizType())) { //我的日称
+                    MobclickAgent.onEvent(context, "push_service_mydate");
                     intent = new Intent(context, MyScheduleListActivity.class);
                 } else {
+                    MobclickAgent.onEvent(context, "push_service_date");
                     intent = new Intent(context, ScheduleDetailActivity.class);
                     intent.putExtra("scheduleId", extraReceive.getBizId());
                 }

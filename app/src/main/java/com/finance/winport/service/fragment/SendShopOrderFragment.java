@@ -129,6 +129,7 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
     private static final int CODE_LIMIT_COUNT = 3;// 单词获取验证码限制次数
     private String shopId;
     private int type;
+    private int scene;
 
     @Nullable
     @Override
@@ -161,11 +162,13 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
 
             watch.setVisibility(View.VISIBLE);
             tvFocusHouse.setText("签约租铺");
+            scene = 2;
 
         } else if (type == 2) {
 
             sign.setVisibility(View.VISIBLE);
             tvFocusHouse.setText("预约看铺");
+            scene = 4;
         }
 
     }
@@ -338,7 +341,7 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
         HashMap<String, Object> params = new HashMap<>();
         params.put("userPhone", userPhone);
         params.put("sendType", 0);//0-短信 1-语音，默认0
-        params.put("useScene", 0);//0-登录 1-贷款申请 2-租铺签约 3-寻租申请 4-带我踩盘 5-商铺纠错 6-预约看铺
+        params.put("useScene", scene);//0-登录 1-贷款申请 2-租铺签约 3-寻租申请 4-带我踩盘 5-商铺纠错 6-预约看铺
         UserManager.getInstance().getVerifyCode(params, new NetworkCallback<Message>() {
             @Override
             public void success(Message response) {
