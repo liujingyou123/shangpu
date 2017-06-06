@@ -294,19 +294,22 @@ public class QuyuPopupView extends AnimPopup {
     }
 
     private void getMetros() {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("cityId", "310000");
-        ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).getMetros(map), new NetSubscriber<MetroResponse>() {
-            @Override
-            public void response(MetroResponse response) {
-                if (response != null && response.getData() != null) {
-                    QuyuDataManager.getInstance().addMetro(response.getData());
-                    metroAdapter.initData();
+        if (QuyuDataManager.getInstance().getMetrosNoAll() == null || QuyuDataManager.getInstance().getRegionsNoAll().size() == 0) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("cityId", "310000");
+            ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).getMetros(map), new NetSubscriber<MetroResponse>() {
+                @Override
+                public void response(MetroResponse response) {
+                    if (response != null && response.getData() != null) {
+                        QuyuDataManager.getInstance().addMetro(response.getData());
+                        metroAdapter.initData();
+                    }
+
                 }
 
-            }
+            });
+        }
 
-        });
     }
 
     private void showInitSelect() {

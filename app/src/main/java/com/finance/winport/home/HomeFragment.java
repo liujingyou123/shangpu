@@ -134,6 +134,10 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
             mPresenter.getShopList(mRequest);
             mRequest.isMap = false;
         }
+
+        if (SharedPrefsUtil.getUserInfo() != null) {
+            mPresenter.getIsUnReader();
+        }
     }
 
     @Override
@@ -156,6 +160,10 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 
         if (SharedPrefsUtil.getUserInfo() != null && TextUtils.isEmpty(SpUtil.getInstance().getStringData(SharedPrefsUtil.getUserInfo().data.userPhone, null))) {
             mPresenter.getPersonalInfo();
+        }
+
+        if (SharedPrefsUtil.getUserInfo() != null) {
+            mPresenter.getIsUnReader();
         }
     }
 
@@ -644,7 +652,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 
         }
 
-        return super.handleBack();
+        return false;
     }
 
     @Override
@@ -853,6 +861,8 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                 heardSelectView.setQuYuText("位置");
                 mRequest.districtId = null;
                 mRequest.blockId = null;
+                mRequest.metroId = null;
+                mRequest.stationId = null;
             }
 
             mRequest.pageNumber = 1;

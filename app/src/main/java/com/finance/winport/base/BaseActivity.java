@@ -27,12 +27,13 @@ import com.umeng.analytics.MobclickAgent;
 import java.util.List;
 
 
-public class BaseActivity extends AppCompatActivity{
+public class BaseActivity extends AppCompatActivity {
     protected Context context;
     private static final String TAG = "BaseActivity";
     private int stackSize;
     protected ExitController exitCtrl = new ExitController();
     protected static boolean isInBackground = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +60,7 @@ public class BaseActivity extends AppCompatActivity{
     }
 
     protected void setStatusBar() {
-        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary),0);
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary), 0);
     }
 
     protected void setStatusBar(int color) {
@@ -110,9 +111,9 @@ public class BaseActivity extends AppCompatActivity{
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         int count = fm.getBackStackEntryCount();
-        if(count>=1){
+        if (count >= 1) {
 
-            ft.setCustomAnimations(R.anim.activity_open_enter,R.anim.activity_open_exit,R.anim.activity_close_enter,R.anim.activity_close_exit);
+            ft.setCustomAnimations(R.anim.activity_open_enter, R.anim.activity_open_exit, R.anim.activity_close_enter, R.anim.activity_close_exit);
         }
         ft.replace(R.id.rl_fragment_content, fragment, tag);
         ft.addToBackStack(tag);
@@ -124,9 +125,9 @@ public class BaseActivity extends AppCompatActivity{
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         int count = fm.getBackStackEntryCount();
-        if(count>=1){
+        if (count >= 1) {
 
-            ft.setCustomAnimations(R.anim.activity_open_enter,R.anim.activity_open_exit,R.anim.activity_close_enter,R.anim.activity_close_exit);
+            ft.setCustomAnimations(R.anim.activity_open_enter, R.anim.activity_open_exit, R.anim.activity_close_enter, R.anim.activity_close_exit);
         }
 //        ft.setCustomAnimations(R.anim.activity_open_enter,R.anim.activity_open_exit,R.anim.activity_close_enter,R.anim.activity_close_exit);
         ft.replace(R.id.rl_fragment_content, fragment, tag);
@@ -139,9 +140,9 @@ public class BaseActivity extends AppCompatActivity{
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         int count = fm.getBackStackEntryCount();
-        if(count>=1){
+        if (count >= 1) {
 
-            ft.setCustomAnimations(R.anim.activity_open_enter,R.anim.activity_open_exit,R.anim.activity_close_enter,R.anim.activity_close_exit);
+            ft.setCustomAnimations(R.anim.activity_open_enter, R.anim.activity_open_exit, R.anim.activity_close_enter, R.anim.activity_close_exit);
         }
         if (fm.findFragmentByTag(tag) == null) {
             ft.add(R.id.rl_fragment_content, fragment, tag);
@@ -165,7 +166,7 @@ public class BaseActivity extends AppCompatActivity{
         FragmentManager fm = getSupportFragmentManager();
         final int entryCount = fm.getBackStackEntryCount();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.setCustomAnimations(R.anim.activity_open_enter,R.anim.activity_open_exit,R.anim.activity_close_enter,R.anim.activity_close_exit);
+        ft.setCustomAnimations(R.anim.activity_open_enter, R.anim.activity_open_exit, R.anim.activity_close_enter, R.anim.activity_close_exit);
         boolean popSucceed = true;
         if (entryCount <= 1) {
             onFragmentEmpty();
@@ -194,9 +195,12 @@ public class BaseActivity extends AppCompatActivity{
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && this instanceof MainActivity) {
-            if (exitCtrl.requestExit()) {
-                exit();
+            if (!handleBackMain()) {
+                if (exitCtrl.requestExit()) {
+                    exit();
+                }
             }
+
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_BACK) {
             handleBack();
@@ -215,11 +219,33 @@ public class BaseActivity extends AppCompatActivity{
         return super.dispatchKeyEvent(event);
     }
 
+    private boolean handleBackMain() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context
+                    .INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+
+        BaseFragment currentFragment = getCurrentFragment();
+
+        try {
+            if (currentFragment != null) {
+                return currentFragment.handleBack();
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     protected void handleBack() {
         View view = this.getCurrentFocus();
         if (view != null) {
             InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context
-                                                                                                 .INPUT_METHOD_SERVICE);
+                    .INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
 
@@ -278,8 +304,8 @@ public class BaseActivity extends AppCompatActivity{
         getWindow().setSoftInputMode(show ? WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE : WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
-    public void showSoftInput(View view){
-        ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+    public void showSoftInput(View view) {
+        ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
     }
 
 //    LoadingDialog loading;
