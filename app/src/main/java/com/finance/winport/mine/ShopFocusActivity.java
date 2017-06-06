@@ -26,6 +26,7 @@ import com.finance.winport.util.SpUtil;
 import com.finance.winport.util.ToolsUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.tagview.TagCloudLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -317,20 +318,29 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
                 @Override
                 public void onSelect(String data) {
 
-                    district.setText(data);
-                    districtName = data.split("-")[0];
-                    blockName = data.split("-")[1];
-                    for (int i = 0; i <list.size() ; i++) {
-                        if(districtName.equals(regionList.get(i).getRegionName())){
-                            districtId = regionList.get(i).getRegionId();
+
+                    try {
+
+                        if(TextUtils.isEmpty(data)){
+                            return;
                         }
-                    }
-                    List<RegionResponse.Region.Block> blockList = new ArrayList<>();
-                    blockList = hashMapBlock.get(districtName);
-                    for (int j = 0; j <blockList.size() ; j++) {
-                        if(blockName.equals(blockList.get(j).getBlockName())){
-                            blockId = blockList.get(j).getBlockId();
+                        district.setText(data);
+                        districtName = data.split("-")[0];
+                        blockName = data.split("-")[1];
+                        for (int i = 0; i <list.size() ; i++) {
+                            if(districtName.equals(regionList.get(i).getRegionName())){
+                                districtId = regionList.get(i).getRegionId();
+                            }
                         }
+                        List<RegionResponse.Region.Block> blockList = new ArrayList<>();
+                        blockList = hashMapBlock.get(districtName);
+                        for (int j = 0; j <blockList.size() ; j++) {
+                            if(blockName.equals(blockList.get(j).getBlockName())){
+                                blockId = blockList.get(j).getBlockId();
+                            }
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
 
 
@@ -351,6 +361,7 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
                 showLouCeng();
                 break;
             case R.id.commit:
+                MobclickAgent.onEvent(ShopFocusActivity.this, "shopfollow_confirm");
                 commit();
                 break;
         }
@@ -423,16 +434,21 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
             @Override
             public void response(RegionResponse response) {
 
-                regionList = response.getData();
-                for (int i = 0; i < response.getData().size(); i++) {
-                    List<String> list1 = new ArrayList<String>();
-                    list.add(response.getData().get(i).getRegionName());
+                try {
+                    regionList = response.getData();
+                    for (int i = 0; i < response.getData().size(); i++) {
+                        List<String> list1 = new ArrayList<String>();
+                        list.add(response.getData().get(i).getRegionName());
 
-                    for (int j = 0; j < response.getData().get(i).getBlockList().size(); j++) {
-                        list1.add(response.getData().get(i).getBlockList().get(j).getBlockName());
+                        for (int j = 0; j < response.getData().get(i).getBlockList().size(); j++) {
+                            list1.add(response.getData().get(i).getBlockList().get(j).getBlockName());
+                        }
+                        hashMap.put(response.getData().get(i).getRegionName(), list1);
+                        hashMapBlock.put(response.getData().get(i).getRegionName(),response.getData().get(i).getBlockList());
                     }
-                    hashMap.put(response.getData().get(i).getRegionName(), list1);
-                    hashMapBlock.put(response.getData().get(i).getRegionName(),response.getData().get(i).getBlockList());
+
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
 
             }

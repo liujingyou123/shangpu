@@ -273,8 +273,15 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
         } else {
 
             time.setText(response.getData().getLoadObject().getApplyTime());
-            money.setText(response.getData().getLoadObject().getLoanLimit() + "万元  " + response.getData().getLoadObject().getLoanMaturity() + "个月");
+            money.setText(response.getData().getLoadObject().getLoanLimit() + "万元  " + response.getData().getLoadObject().getLoanMaturity() + "");
             status.setText(response.getData().getLoadObject().getStatus());
+            if(response.getData().getLoadObject().getStatus().equals("0")){
+
+                status.setText("待受理");
+            }else if(response.getData().getLoadObject().getStatus().equals("1")){
+                status.setText("已受理");
+
+            }
         }
 
     }

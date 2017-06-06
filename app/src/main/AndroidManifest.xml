@@ -232,6 +232,11 @@
             android:name=".mine.SuggestActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <!-- 关于我们 -->
+        <activity
+            android:name=".mine.AboutActivtiy"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <!-- 发布成功页面 -->
         <activity

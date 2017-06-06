@@ -16,6 +16,7 @@
         android:paddingLeft="15dp">
 
         <LinearLayout
+            android:id="@+id/about"
             android:layout_width="match_parent"
             android:layout_height="46dp"
             android:gravity="center_vertical">
