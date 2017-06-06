@@ -24,6 +24,7 @@ import com.finance.winport.util.ToastUtil;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +87,7 @@ public class MyPostListActivity extends BaseActivity implements IMyTopicListView
             @Override
             public void onLoadMoreBegin(PtrFrameLayout frame) {
                 pageNumber++;
-                mPresenter.getMyTopics(pageNumber);
+                mPresenter.getMyMoreTopics(pageNumber);
             }
 
             @Override
@@ -99,6 +100,7 @@ public class MyPostListActivity extends BaseActivity implements IMyTopicListView
         lsCircles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MobclickAgent.onEvent(context, "mypost_post");
                 MyTopicResponse.DataBean.MyTopic trade = (MyTopicResponse.DataBean.MyTopic) parent.getItemAtPosition(position);
                 if (trade != null) {
                     Intent intent = new Intent(MyPostListActivity.this, TradeCircleDetailActivity.class);

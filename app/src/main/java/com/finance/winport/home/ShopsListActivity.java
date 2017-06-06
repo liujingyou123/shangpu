@@ -25,6 +25,7 @@ import com.finance.winport.view.home.SelectView;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +88,7 @@ public class ShopsListActivity extends BaseActivity implements IShopListView {
             lsShops.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    MobclickAgent.onEvent(context, "shoplist_shop");
                     ShopListResponse.DataBean.Shop shop = (ShopListResponse.DataBean.Shop) parent.getItemAtPosition(position);
                     if (shop != null) {
                         Intent intent = new Intent(ShopsListActivity.this, ShopDetailActivity.class);
@@ -115,6 +117,7 @@ public class ShopsListActivity extends BaseActivity implements IShopListView {
         selectView.setOnLocationClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(context, "shoplist_place");
                 showShowQuYuDialog();
             }
         });
@@ -122,6 +125,7 @@ public class ShopsListActivity extends BaseActivity implements IShopListView {
         selectView.setOnSortClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(context, "shoplist_sort");
                 showPaiXuDailog();
             }
         });
@@ -129,6 +133,7 @@ public class ShopsListActivity extends BaseActivity implements IShopListView {
         selectView.setOnCsClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(context, "shoplist_select");
                 showShaiXuandialog();
             }
         });

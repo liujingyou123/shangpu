@@ -26,6 +26,7 @@ import com.finance.winport.util.ToastUtil;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
 import com.finance.winport.view.refreshview.XPtrFrameLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -117,6 +118,7 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
         lsCircles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MobclickAgent.onEvent(TradeCircleListFragment.this.getContext(), "circle_comment");
                 Trade trade = (Trade) parent.getItemAtPosition(position);
                 if (trade != null) {
                     Intent intent = new Intent(TradeCircleListFragment.this.getContext(), TradeCircleDetailActivity.class);
@@ -249,6 +251,7 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
 
     @OnClick(R.id.tv_comments_num)
     public void onViewClicked() {
+        MobclickAgent.onEvent(this.getContext(), "circle_comment");
         Intent intent = new Intent(this.getContext(), NoticeListActivity.class);
         intent.putExtra("type", 2);
         intent.putExtra("title", "生意圈");

@@ -12,6 +12,7 @@ import android.view.WindowManager;
 
 import com.finance.winport.R;
 import com.finance.winport.mine.ShopFocusActivity;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -46,9 +47,11 @@ public class WelcomeDialog extends Dialog {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_cancel:
+                MobclickAgent.onEvent(mContext, "shoplist_shopfollow_no");
                 dismiss();
                 break;
             case R.id.tv_ok:
+                MobclickAgent.onEvent(mContext, "shoplist_shopfollow_go");
                 Intent intent = new Intent(mContext, ShopFocusActivity.class);
                 mContext.startActivity(intent);
                 dismiss();

@@ -43,6 +43,7 @@ import com.finance.winport.view.home.SelectView;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
 import com.finance.winport.view.refreshview.XPtrFrameLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -177,6 +178,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         headerView.setNewShopsListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(context, "shoplist_new");
                 goToListPage(0);
             }
         });
@@ -184,6 +186,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         headerView.setNoMenoyListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(context, "shoplist_nofee");
                 goToListPage(1);
 
             }
@@ -192,6 +195,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         headerView.setSmallShopListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(context, "shoplist_100m2");
                 goToListPage(2);
 
             }
@@ -200,6 +204,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         headerView.setNearMetroListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(context, "shoplist_aroundtraffic");
                 goToListPage(3);
 
             }
@@ -208,6 +213,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         heardSelectView.setOnLocationClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(context, "shoplist_place");
                 lsShops.smoothScrollToPositionFromTop(1, -1, 300);
                 showShowQuYuDialog(300);
             }
@@ -216,6 +222,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         heardSelectView.setOnSortClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(context, "shoplist_sort");
                 lsShops.smoothScrollToPositionFromTop(1, -1, 300);
                 showPaiXuDailog(300);
             }
@@ -224,6 +231,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         heardSelectView.setOnCsClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(context, "shoplist_select");
                 lsShops.smoothScrollToPositionFromTop(1, -1, 300);
                 showShaiXuandialog(300);
             }
@@ -232,6 +240,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         selectionView.setOnLocationClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(context, "shoplist_place");
                 showShowQuYuDialog(0);
             }
         });
@@ -239,6 +248,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         selectionView.setOnSortClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(context, "shoplist_sort");
                 showPaiXuDailog(0);
             }
         });
@@ -246,6 +256,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         selectionView.setOnCsClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(context, "shoplist_select");
                 showShaiXuandialog(0);
             }
         });
@@ -259,6 +270,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
             lsShops.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    MobclickAgent.onEvent(context, "shoplist_shop");
                     ShopListResponse.DataBean.Shop shop = (ShopListResponse.DataBean.Shop) parent.getItemAtPosition(position);
                     if (shop != null) {
                         Intent intent = new Intent(HomeFragment.this.getContext(), ShopDetailActivity.class);
@@ -643,6 +655,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 
     @OnClick(R.id.map_list)
     public void onViewClicked() {
+        MobclickAgent.onEvent(context, "shoplist_more");
         Intent intent = new Intent(getActivity(), MapActivity.class);
         intent.putExtra("shopRequest", mRequest);
         startActivity(intent);

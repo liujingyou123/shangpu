@@ -19,6 +19,7 @@ import com.finance.winport.image.GlideImageLoader;
 import com.finance.winport.mine.MyNoticeActivity;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.view.StopWatchTextView;
+import com.umeng.analytics.MobclickAgent;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
@@ -95,6 +96,7 @@ public class HeaderView extends RelativeLayout {
         headerBanner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
+                MobclickAgent.onEvent(mContext, "shoplist_banner");
                 Intent bannerDetails = new Intent(mContext, H5Activity.class);
                 bannerDetails.putExtra("type", 4);
                 bannerDetails.putExtra("url", mUrls.get(position).getToUrl());
@@ -160,6 +162,7 @@ public class HeaderView extends RelativeLayout {
 
     @OnClick(R.id.imv_notice)
     public void onViewClicked() {
+        MobclickAgent.onEvent(mContext, "message");
         if (SharedPrefsUtil.getUserInfo() != null) {
             Intent intent = new Intent(mContext, MyNoticeActivity.class);
             mContext.startActivity(intent);
