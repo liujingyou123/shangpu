@@ -23,6 +23,7 @@ import com.finance.winport.trade.model.TradeDetailResponse;
 import com.finance.winport.trade.presenter.TradeCircleDetailPresener;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.imagepreview.ImagePreviewActivity;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -255,6 +256,7 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
 
                 @Override
                 public void onClick(View v) {
+                    MobclickAgent.onEvent(mContext, "post_picture");
                     Intent intents = new Intent(mContext, ImagePreviewActivity.class);
                     intents.putExtra("pics", urls);
                     intents.putExtra("index", index);

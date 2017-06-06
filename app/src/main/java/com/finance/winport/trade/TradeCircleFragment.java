@@ -17,6 +17,7 @@ import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.SlidingTagPagerItem;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.SlidingTabLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -68,12 +69,23 @@ public class TradeCircleFragment extends BaseFragment {
         mTab.add(new TradePageItem("最火", "1"));
         idViewPager.setAdapter(new SlidingTabPagerAdapter(this.getChildFragmentManager(), mTab));
         idTab.setViewPager(idViewPager, UnitUtil.dip2px(this.getContext(), 134));
+        idTab.setOnTabItemClickListener(new SlidingTabLayout.OnTabItemClickListener() {
+            @Override
+            public void clickItem(int position) {
+                if (position == 0) {
+                    MobclickAgent.onEvent(context, "circle_new");
+                } else {
+                    MobclickAgent.onEvent(context, "circle_hot");
+                }
+            }
+        });
     }
 
     @OnClick({R.id.my_list, R.id.imv_edit_m})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.my_list:
+                MobclickAgent.onEvent(context, "circle_mypost");
                 if (SharedPrefsUtil.getUserInfo() != null) {
                     gotoMyPostListActivity();
                 } else {
@@ -82,6 +94,7 @@ public class TradeCircleFragment extends BaseFragment {
                 }
                 break;
             case R.id.imv_edit_m:
+                MobclickAgent.onEvent(context, "circle_publish");
                 if (SharedPrefsUtil.getUserInfo() != null) {
                     Intent intent = new Intent(this.getContext(), EditNoteActivity.class);
                     startActivity(intent);

@@ -37,6 +37,7 @@ import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.CheckGroup;
 import com.finance.winport.view.CountDownButton;
 import com.finance.winport.view.MistakeItem;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -148,13 +149,13 @@ public class MisTakeActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_change:
-
+                MobclickAgent.onEvent(context, "service_phonechange");
                 initCountDownButton();
-
                 llCode.setVisibility(View.VISIBLE);
                 tvChange.setVisibility(View.GONE);
                 break;
             case R.id.btn_done:
+                MobclickAgent.onEvent(context, "shop_report_confirm");
                 if (check()) {
                     done();
                 }

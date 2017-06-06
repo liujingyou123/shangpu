@@ -286,14 +286,15 @@ public class LoginFragment extends BaseFragment {
         userPhone = UnitUtil.trim(phoneView.getText().toString().trim());
         smsVerifyCode = verifyCodeView.getText().toString().trim();
         inviteCode = etInviteCode.getText().toString().trim();
-        picVerifyCode = verifyCodeViewImage.getText().toString().trim();
         HashMap<String, Object> params = new HashMap<>();
         params.put("userPhone", userPhone);
         params.put("smsVerifyCode", smsVerifyCode);
         params.put("messageId", messageId);
         params.put("inviteCode", inviteCode);
-        params.put("picVerifyCode", picVerifyCode);
-        params.put("picVerifyId", picVerifyId);
+        if (requestCodeCount > CODE_LIMIT_COUNT) {
+            params.put("picVerifyCode", verifyCodeViewImage.getText().toString().trim());
+            params.put("picVerifyId", picVerifyId);
+        }
         params.put("deviceId", JPushInterface.getRegistrationID(context.getApplicationContext()));
         params.put("osType", 1);//0-iOS 1-Android
         UserManager.getInstance().login(params, new NetworkCallback<UserInfo>() {
@@ -383,12 +384,12 @@ public class LoginFragment extends BaseFragment {
             return false;
         }
         //校验图片验证码
-        if (imageVerifyCode.getVisibility() == View.VISIBLE) {
-            if (!TextUtils.equals(picVerifyCode, verifyCodeViewImage.getText().toString().trim())) {
-                ToastUtil.show(context, "登录失败请重新登录");
-                return false;
-            }
-        }
+//        if (login && imageVerifyCode.getVisibility() == View.VISIBLE) {
+//            if (!TextUtils.equals(picVerifyCode, verifyCodeViewImage.getText().toString().trim())) {
+//                ToastUtil.show(context, "登录失败请重新登录");
+//                return false;
+//            }
+//        }
 
         return true;
     }

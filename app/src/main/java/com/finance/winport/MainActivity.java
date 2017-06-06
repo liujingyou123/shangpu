@@ -81,6 +81,7 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
     }
 
     private void handleHome(int index) {
+        MobclickAgent.onEvent(context, "shoplist");
         HomeFragment homeFragment = (HomeFragment) fm
                 .findFragmentByTag(HomeFragment.class.getName());
         if (homeFragment == null) {
@@ -102,6 +103,7 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
     }
 
     private void handleBusiness(int index) {
+        MobclickAgent.onEvent(context, "circle");
         TradeCircleFragment tradeCircleFragment = (TradeCircleFragment) fm
                 .findFragmentByTag(TradeCircleFragment.class.getName());
         if (tradeCircleFragment == null) {

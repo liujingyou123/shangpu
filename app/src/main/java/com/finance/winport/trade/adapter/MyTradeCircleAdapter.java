@@ -23,6 +23,7 @@ import com.finance.winport.trade.model.MyTopicResponse;
 import com.finance.winport.trade.model.Trade;
 import com.finance.winport.trade.presenter.TradeCirclePresenter;
 import com.finance.winport.util.UnitUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
@@ -137,6 +138,7 @@ public class MyTradeCircleAdapter extends BaseAdapter {
 
                 @Override
                 public void onClick(View v) {
+                    MobclickAgent.onEvent(mContext, "mypost_delete");
                     NoticeDelDialog dialog = new NoticeDelDialog(mContext);
                     dialog.setOkClickListener(new NoticeDelDialog.OnPreClickListner() {
                         @Override

@@ -58,6 +58,7 @@ import com.finance.winport.view.home.NearShop;
 import com.finance.winport.view.home.RateView;
 import com.finance.winport.view.imagepreview.ImagePreviewActivity;
 import com.finance.winport.view.tagview.TagCloudLayout;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
@@ -396,11 +397,13 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
+                finish();
                 break;
             case R.id.imv_back:
                 finish();
                 break;
             case R.id.tv_share:
+                MobclickAgent.onEvent(context, "shop_share");
                 if (shareDialog == null) {
                     shareDialog = new ShareDialog(this);
                 }
@@ -412,12 +415,14 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
 //                mShareAction.open();
                 break;
             case R.id.tv_shop_more:
+                MobclickAgent.onEvent(context, "shop_more");
                 Intent intent = new Intent(ShopDetailActivity.this, ShopMoreActivity.class);
                 intent.putExtra("shop", mShopDetail);
                 startActivity(intent);
                 break;
 
             case R.id.tv_jiucuo:
+                MobclickAgent.onEvent(context, "shop_report");
                 if (SharedPrefsUtil.getUserInfo() != null) {
                     Intent intentjiucuo = new Intent(ShopDetailActivity.this, MisTakeActivity.class);
                     intentjiucuo.putExtra("shopId", mShopDetail.getData().getId() + "");
@@ -434,8 +439,10 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                     Intent orderIntent = new Intent(ShopDetailActivity.this, OrderShopActivity.class);
                     orderIntent.putExtra("shopId", mShopDetail.getData().getId() + "");
                     if (mShopDetail.getData().getIsVisit() != 0) { //已预约  签约租铺
+                        MobclickAgent.onEvent(context, "shop_sign");
                         orderIntent.putExtra("type", 1);  //签约租铺
                     } else {
+                        MobclickAgent.onEvent(context, "shop_order");
                         orderIntent.putExtra("type", 2); //预约看铺
                     }
                     startActivity(orderIntent);
@@ -446,6 +453,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
 
                 break;
             case R.id.tv_call:
+                MobclickAgent.onEvent(context, "shop_calllandlord");
                 if (SharedPrefsUtil.getUserInfo() != null) {
                     if (mNoticeDialog == null) {
                         mNoticeDialog = new NoticeDialog(this);
@@ -484,6 +492,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 break;
 
             case R.id.imv_change:
+                MobclickAgent.onEvent(context, "shop_priceswich");
                 String type = (String) tvPrice.getTag();
                 if ("1".equals(type)) {
                     showPrice(2);
@@ -794,8 +803,6 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         }
 
 
-
-
         setMapView();
 
     }
@@ -845,6 +852,8 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         bannerView.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
+                MobclickAgent.onEvent(context, "shoplist_place");
+
                 Intent intents = new Intent(context, ImagePreviewActivity.class);
                 intents.putExtra("pics", list);
                 intents.putExtra("index", position);
