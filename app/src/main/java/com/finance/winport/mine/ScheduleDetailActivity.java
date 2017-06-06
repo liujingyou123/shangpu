@@ -1,7 +1,12 @@
 package com.finance.winport.mine;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -75,7 +80,7 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
         if (mPresenter == null) {
             mPresenter = new ScheduleDetailPresenter(this);
         }
-        if(!TextUtils.isEmpty(scheduleId)){
+        if (!TextUtils.isEmpty(scheduleId)) {
 
             mPresenter.getScheduleDetail(scheduleId);
         }
@@ -111,8 +116,25 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
                 MobclickAgent.onEvent(ScheduleDetailActivity.this, "date_call");
                 if (mNoticeDialog == null) {
                     mNoticeDialog = new NoticeDialog(this);
-                    mNoticeDialog.setMessage("小二电话："+clerkPhone);
+                    mNoticeDialog.setMessage("小二电话：" + clerkPhone);
                     mNoticeDialog.setPositiveBtn("拨打");
+                    mNoticeDialog.setOkClickListener(new NoticeDialog.OnPreClickListner() {
+                        @Override
+                        public void onClick() {
+                            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
+                            if (ActivityCompat.checkSelfPermission(ScheduleDetailActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                // TODO: Consider calling
+                                //    ActivityCompat#requestPermissions
+                                // here to request the missing permissions, and then overriding
+                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                //                                          int[] grantResults)
+                                // to handle the case where the user grants the permission. See the documentation
+                                // for ActivityCompat#requestPermissions for more details.
+                                return;
+                            }
+                            startActivity(intent);
+                        }
+                    });
                 }
                 if (!mNoticeDialog.isShowing()) {
                     mNoticeDialog.show();

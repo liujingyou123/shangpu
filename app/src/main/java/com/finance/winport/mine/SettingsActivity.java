@@ -20,6 +20,7 @@ import com.finance.winport.tab.net.NetworkCallback;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.SpUtil;
 import com.tencent.tauth.UiError;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -73,14 +74,19 @@ public class SettingsActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.login_out})
+    @OnClick({R.id.imv_focus_house_back, R.id.login_out, R.id.about})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
                 handleBack();
                 break;
             case R.id.login_out:
+                MobclickAgent.onEvent(SettingsActivity.this, "system_quit");
                 loginOut();
+                break;
+            case R.id.about:
+                MobclickAgent.onEvent(SettingsActivity.this, "system_aboutus");
+                startActivity(new Intent(SettingsActivity.this,AboutActivtiy.class));
                 break;
         }
     }
