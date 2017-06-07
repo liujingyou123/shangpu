@@ -107,7 +107,7 @@ public class ShopsAdapter extends BaseAdapter {
                     viewHolder.tvAddress.setText(ret.getDistrictName() + " " + ret.getBlockName());
                     viewHolder.tvArea.setText(UnitUtil.formatDNum(ret.getArea()) + "㎡");
                     viewHolder.tvAverMoney.setText(ret.getRent() + "元／月");
-                    viewHolder.tvDistance.setText(UnitUtil.mTokm(ret.getDistance()));
+                    viewHolder.tvDistance.setText("距您"+UnitUtil.mTokm(ret.getDistance()));
                     viewHolder.tvChangeMoney.setText("转让费" + UnitUtil.formatNum(ret.getTransferFee()) + "万元");
                     viewHolder.tvUpdateTime.setText(ret.getUpdateTime());
                     viewHolder.tvScanNum.setText(ret.getVisitCount() + "");
