@@ -257,6 +257,7 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
             shopArea.setVisibility(View.GONE);
         } else {
 
+            shopArea.setVisibility(View.VISIBLE);
             address.setText(response.getData().getShopObject().getAddress());
             if (TextUtils.isEmpty(response.getData().getShopObject().getVisitCount())){
                 visitCount.setText("一周内0位老板浏览了此店铺");
@@ -272,6 +273,7 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
             loanArea.setVisibility(View.GONE);
         } else {
 
+            loanArea.setVisibility(View.VISIBLE);
             time.setText(response.getData().getLoadObject().getApplyTime());
             money.setText(response.getData().getLoadObject().getLoanLimit() + "万元  " + response.getData().getLoadObject().getLoanMaturity() + "");
             status.setText(response.getData().getLoadObject().getStatus());

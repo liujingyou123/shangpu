@@ -1,5 +1,6 @@
 package com.finance.winport.mine;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.finance.winport.util.ToastUtil;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
+import com.sina.weibo.sdk.api.share.Base;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;

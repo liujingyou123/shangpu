@@ -126,7 +126,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     Unbinder unbinder;
     private PersonalInfoPresenter mPresenter;
     private ArrayList<Integer> selectList = new ArrayList<>();
-    private String industryName, blockName, districtName, industryId, blockId, districtId;
+    private String industryName, blockName, districtName, industryId, blockId, districtId, cityName;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -578,6 +578,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
         intent.putExtra("industryId", industryId);
         intent.putExtra("districtId", districtId);
         intent.putExtra("blockId", blockId);
+        intent.putExtra("cityName", cityName);
         startActivity(intent);
     }
 
@@ -852,22 +853,69 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
         industryId = response.getData().getIndustryId();
         blockId = response.getData().getBlockId();
         districtId = response.getData().getDistrictId();
+        cityName = response.getData().getCityName();
         if (TextUtils.isEmpty(response.getData().getBlockName())) {
 
-            if (TextUtils.isEmpty(response.getData().getIndustryName())) {
+            if (TextUtils.isEmpty(response.getData().getDistrictName())){
 
-                if (!TextUtils.isEmpty(s.toString())) {
+                if (TextUtils.isEmpty(response.getData().getCityName())){
+                    if (TextUtils.isEmpty(response.getData().getIndustryName())) {
 
-                    concern.setText(s.toString());
+                        if (!TextUtils.isEmpty(s.toString())) {
+
+                            concern.setText(s.toString());
+                        }
+                    } else {
+
+                        if (TextUtils.isEmpty(s.toString())) {
+
+                            concern.setText(response.getData().getIndustryName());
+                        } else {
+
+                            concern.setText(response.getData().getIndustryName() + "-" + s.toString());
+                        }
+                    }
                 }
-            } else {
+                else{
 
-                if (TextUtils.isEmpty(s.toString())) {
+                    if (TextUtils.isEmpty(response.getData().getIndustryName())) {
 
-                    concern.setText(response.getData().getIndustryName());
+                        if (!TextUtils.isEmpty(s.toString())) {
+
+                            concern.setText(response.getData().getCityName() + "-" +s.toString());
+                        }else{
+                            concern.setText(response.getData().getCityName());
+                        }
+                    } else {
+
+                        if (TextUtils.isEmpty(s.toString())) {
+
+                            concern.setText(response.getData().getCityName() + "-" +response.getData().getIndustryName());
+                        } else {
+
+                            concern.setText(response.getData().getCityName() + "-" +response.getData().getIndustryName() + "-" + s.toString());
+                        }
+                    }
+                }
+            }
+            else{
+                if (TextUtils.isEmpty(response.getData().getIndustryName())) {
+
+                    if (!TextUtils.isEmpty(s.toString())) {
+
+                        concern.setText(response.getData().getDistrictName() + "-" +s.toString());
+                    }else{
+                        concern.setText(response.getData().getDistrictName());
+                    }
                 } else {
 
-                    concern.setText(response.getData().getIndustryName() + "-" + s.toString());
+                    if (TextUtils.isEmpty(s.toString())) {
+
+                        concern.setText(response.getData().getDistrictName() + "-" +response.getData().getIndustryName());
+                    } else {
+
+                        concern.setText(response.getData().getDistrictName() + "-" +response.getData().getIndustryName() + "-" + s.toString());
+                    }
                 }
             }
         } else if (TextUtils.isEmpty(response.getData().getIndustryName())) {

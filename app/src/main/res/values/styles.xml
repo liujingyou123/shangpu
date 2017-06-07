@@ -9,6 +9,15 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+    <!--<style name="ActivityAnimation" parent="@android:style/Animation.Activity">-->
+        <!--<item name="android:activityOpenEnterAnimation">@anim/fragment_rotate_enter</item>-->
+        <!--<item name="android:activityOpenExitAnimation">@anim/activity_open_exit</item>-->
+        <!--<item name="android:activityCloseEnterAnimation">@anim/activity_close_enter</item>-->
+        <!--<item name="android:activityCloseExitAnimation">@anim/activity_close_exit</item>-->
+        <!--&lt;!&ndash;<item name="android:fragmentFadeEnterAnimation">@animator/fragment_fade</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="android:fragmentFadeExitAnimation">@animator/fragment_fade</item>&ndash;&gt;-->
+    <!--</style>-->
+
 
     <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowActionBar">false</item>

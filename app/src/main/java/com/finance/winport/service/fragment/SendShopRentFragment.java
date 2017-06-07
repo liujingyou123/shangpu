@@ -350,6 +350,7 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
         UserManager.getInstance().getVerifyCode(params, new NetworkCallback<Message>() {
             @Override
             public void success(Message response) {
+                ToastUtil.show(context, "验证码发送成功");
                 messageId = response.data.messageId;
                 requestCodeCount++;
             }
@@ -357,6 +358,7 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
             @Override
             public void failure(Throwable throwable) {
                 ToastUtil.show(context, throwable.getMessage());
+                countDown.reset();
             }
         });
     }
@@ -364,7 +366,7 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
     // 获取图片验证码
     private void getPicCode() {
         HashMap<String, Object> params = new HashMap<>();
-        params.put("useScene", 0);//0-登录 1-贷款申请 2-租铺签约 3-寻租申请 4-带我踩盘 5-商铺纠错 6-预约看铺
+        params.put("useScene", 3);//0-登录 1-贷款申请 2-租铺签约 3-寻租申请 4-带我踩盘 5-商铺纠错 6-预约看铺
         UserManager.getInstance().getPicCode(params, new NetworkCallback<ImageVerifyCode>() {
             @Override
             public void success(ImageVerifyCode response) {
