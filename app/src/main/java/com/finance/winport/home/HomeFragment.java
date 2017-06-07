@@ -16,6 +16,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
 import com.baidu.location.BDLocation;
+import com.finance.winport.MainActivity;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.dialog.LoadingDialog;
@@ -667,6 +668,9 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         Intent intent = new Intent(getActivity(), MapActivity.class);
         intent.putExtra("shopRequest", mRequest);
         startActivity(intent);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("shopRequest", mRequest);
+//        ((MainActivity)getActivity()).handleMap(bundle);
 //        getActivity().overridePendingTransition(R.anim.card_flip_right_in,R.anim.card_flip_right_out);
     }
 

@@ -45,9 +45,9 @@ public class ShopDetailPresenter {
         });
     }
 
-    public void cancelCollectShop(String collectId) {
+    public void cancelCollectShop(String shopId) {
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("collectedId", collectId);
+        hashMap.put("shopId", shopId);
         ToolsUtil.subscribe(ToolsUtil.createService(PersonService.class).cancelCollection(hashMap), new LoadingNetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
