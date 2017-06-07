@@ -42,6 +42,7 @@
             android:hint="输入手机号码"
             android:inputType="number"
             android:singleLine="true"
+            android:textColor="#333333"
             android:textColorHint="#999999"
             android:textSize="14sp" />
 
@@ -86,6 +87,7 @@
                 android:background="@null"
                 android:hint="输入图片验证码"
                 android:inputType="number"
+                android:textColor="#333333"
                 android:textColorHint="#999999"
                 android:textSize="14sp" />
 
@@ -124,6 +126,7 @@
                 android:hint="输入验证码"
                 android:inputType="number"
                 android:singleLine="true"
+                android:textColor="#333333"
                 android:textColorHint="#999999"
                 android:textSize="14sp" />
 
@@ -158,6 +161,7 @@
             android:hint="邀请码（选填）"
             android:inputType="number"
             android:singleLine="true"
+            android:textColor="#333333"
             android:textColorHint="#999999"
             android:textSize="14sp" />
 
@@ -172,6 +176,7 @@
 
         <Button
             android:id="@+id/login"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_below="@+id/et_invite_code"
@@ -180,7 +185,6 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/selector_button_bg"
             android:text="登录"
-            style="?android:attr/borderlessButtonStyle"
             android:textColor="#ffffff"
             android:textSize="15sp" />
 

@@ -240,6 +240,21 @@ public class LoginFragment extends BaseFragment {
                 }
             }
         });
+        countDown.setOnCountDownListener(new CountDownButton.OnCountDownListener() {
+            @Override
+            public void onFinish() {
+                if (phoneView.length() > 0) {
+                    clear.setVisibility(View.VISIBLE);
+                }
+                phoneView.setEnabled(true);
+            }
+
+            @Override
+            public void onTick(int time) {
+                clear.setVisibility(View.GONE);
+                phoneView.setEnabled(false);
+            }
+        });
     }
 
     private void showPicCode() {
@@ -265,6 +280,8 @@ public class LoginFragment extends BaseFragment {
 
             @Override
             public void failure(Throwable throwable) {
+                if (getView() == null) return;
+                countDown.reset();
                 ToastUtil.show(context, throwable.getMessage());
             }
         });
