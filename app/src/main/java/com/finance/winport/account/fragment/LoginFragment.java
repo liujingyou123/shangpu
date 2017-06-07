@@ -320,9 +320,9 @@ public class LoginFragment extends BaseFragment {
                 if (getView() == null) return;
                 loading.dismiss();
                 verifyCodeView.setText("");
-                if (requestCodeCount >= CODE_LIMIT_COUNT) {
-                    showPicCode();
-                }
+//                if (requestCodeCount >= CODE_LIMIT_COUNT) {
+//                    showPicCode();
+//                }
                 ToastUtil.show(context, throwable.getMessage());
             }
         });

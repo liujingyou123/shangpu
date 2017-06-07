@@ -125,15 +125,15 @@ public class ScanWinportAdapter extends PullBaseAdapter<ScanShopList.DataBeanX.D
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                MobclickAgent.onEvent(context,"shopbrowse_delete");
-                showDeleteScanAlert(item.browseId + "", position);
+                MobclickAgent.onEvent(context, "shopbrowse_delete");
+                showDeleteScanAlert(item.id + "", position);
                 return true;
             }
         });
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MobclickAgent.onEvent(context,"shopbrowse_shop");
+                MobclickAgent.onEvent(context, "shopbrowse_shop");
                 Intent details = new Intent(context, ShopDetailActivity.class);
                 details.putExtra("shopId", item.id);
                 context.startActivity(details);
@@ -154,23 +154,23 @@ public class ScanWinportAdapter extends PullBaseAdapter<ScanShopList.DataBeanX.D
     }
 
 
-    void showDeleteScanAlert(final String browseId, final int position) {
+    void showDeleteScanAlert(final String shopId, final int position) {
         NoticeDialog n = new NoticeDialog(context);
         n.setMessage("删除浏览");
         n.setPositiveBtn("确认");
         n.setOkClickListener(new NoticeDialog.OnPreClickListner() {
             @Override
             public void onClick() {
-                deleteScan(browseId, position);
+                deleteScan(shopId, position);
             }
         });
         n.show();
     }
 
-    private void deleteScan(String browseId, final int position) {
+    private void deleteScan(String shopId, final int position) {
         loading.show();
         HashMap<String, Object> params = new HashMap<>();
-        params.put("browseId", browseId);
+        params.put("shopId", shopId);
         PersonManager.getInstance().deleteScan(params, new NetworkCallback<BaseResponse>() {
             @Override
             public void success(BaseResponse response) {
