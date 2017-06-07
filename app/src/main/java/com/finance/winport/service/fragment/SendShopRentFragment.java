@@ -350,6 +350,7 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
         UserManager.getInstance().getVerifyCode(params, new NetworkCallback<Message>() {
             @Override
             public void success(Message response) {
+                ToastUtil.show(context, "验证码发送成功");
                 messageId = response.data.messageId;
                 requestCodeCount++;
             }
@@ -357,6 +358,7 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
             @Override
             public void failure(Throwable throwable) {
                 ToastUtil.show(context, throwable.getMessage());
+                countDown.reset();
             }
         });
     }
