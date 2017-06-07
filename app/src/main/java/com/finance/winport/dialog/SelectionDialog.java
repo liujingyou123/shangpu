@@ -166,7 +166,7 @@ public class SelectionDialog extends Dialog implements DialogInterface.OnDismiss
     }
 
     /**
-     * @param type 1:特色  2:配套
+     * @param type 1:配套 2:特色
      */
     private void getTagList(final String type) {
         HashMap<String, String> hashMap = new HashMap<>();
@@ -174,12 +174,12 @@ public class SelectionDialog extends Dialog implements DialogInterface.OnDismiss
         ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).getTagList(hashMap), new NetSubscriber<TagResponse>() {
             @Override
             public void response(TagResponse response) {
-                if ("1".equals(type)) {
+                if ("2".equals(type)) {
                     featureData.addAll(response.getData());
                     featureAdapter = new SelecTagAdapter(mContext, response.getData());
                     featureAdapter.setSelectList(featureSelect);
                     tcFeature.setAdapter(featureAdapter);
-                } else if ("2".equals(type)) {
+                } else if ("1".equals(type)) {
                     supportData.addAll(response.getData());
                     supportAdapter = new SelecTagAdapter(mContext, response.getData());
                     supportAdapter.setSelectList(supportSelect);
