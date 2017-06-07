@@ -194,11 +194,11 @@ public class AddrSelectActivity extends Activity implements OnItemClickListener<
     public void result(boolean result, BDLocation location) {
         if (result) {
 //            Logger.e("定位成功！！！");
-            MapUtil.setMyLocation(mBaiduMap, location);
-            if (mInfoList.size() == 0) {
-                // 发起反地理编码检索
-                mGeoCoder.reverseGeoCode((new ReverseGeoCodeOption()).location(new LatLng(location.getLatitude(), location.getLongitude())));
-            }
+            MapUtil.setMyLocation2(mBaiduMap, location);
+//            if (mInfoList.size() == 0) {
+//                // 发起反地理编码检索
+//                mGeoCoder.reverseGeoCode((new ReverseGeoCodeOption()).location(new LatLng(location.getLatitude(), location.getLongitude())));
+//            }
         } else {
 //            Logger.e("定位失败！！！");
         }

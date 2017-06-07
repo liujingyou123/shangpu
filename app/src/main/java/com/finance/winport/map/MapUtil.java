@@ -42,6 +42,32 @@ public class MapUtil {
     public static void setMyLocation(BaiduMap baiduMap, BDLocation location){
         setMyLocation(baiduMap, location, DEFAULT_ZOOM);
     }
+    public static void setMyLocation2(BaiduMap baiduMap, BDLocation location){
+        setMyLocation2(baiduMap, location, DEFAULT_ZOOM);
+    }
+
+    public static void setMyLocation2(BaiduMap baiduMap, BDLocation location, int zoom){
+
+        setAnimateMapZoom(baiduMap, location, zoom);
+
+        // 开启定位图层
+        baiduMap.setMyLocationEnabled(true);
+        // 构造定位数据
+        MyLocationData locData = new MyLocationData.Builder()
+                .accuracy(location.getRadius())
+                .latitude(location.getLatitude())
+                .longitude(location.getLongitude()).build();
+        // 设置定位数据
+        baiduMap.setMyLocationData(locData);
+
+        // 设置定位图层的配置（定位模式，是否允许方向信息，用户自定义定位图标）
+//        BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory.fromResource(R.mipmap.map_icon_location_center);
+//
+//        MyLocationConfiguration config = new MyLocationConfiguration(MyLocationConfiguration.LocationMode.NORMAL, false, mCurrentMarker, Color.parseColor("#1A4287FF"), Color.TRANSPARENT);
+//        baiduMap.setMyLocationConfiguration(config);
+        // 当不需要定位图层时关闭定位图层
+//        baiduMap.setMyLocationEnabled(false);
+    }
 
     public static void setMyLocation(BaiduMap baiduMap, BDLocation location, int zoom){
 
@@ -64,6 +90,19 @@ public class MapUtil {
 //        baiduMap.setMyLocationConfiguration(config);
         // 当不需要定位图层时关闭定位图层
 //        baiduMap.setMyLocationEnabled(false);
+    }
+
+    public static void setAnimateMapZoom(BaiduMap baiduMap, BDLocation location, int zoom){
+        //定义地图状态
+        MapStatus mMapStatus = new MapStatus.Builder()
+                .zoom(zoom)
+                .target(new LatLng(location.getLatitude(),location.getLongitude()))
+                .build();
+
+        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+        //改变地图状态
+        baiduMap.animateMapStatus(mMapStatusUpdate);
     }
 
     public static void setMapZoom(BaiduMap baiduMap, BDLocation location, int zoom){

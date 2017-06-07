@@ -121,7 +121,7 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         setContentView(R.layout.activity_map);
         ButterKnife.bind(this);
 
-        handler = new Handler();
+//        handler = new Handler();
 //        root.setVisibility(View.VISIBLE);
 //        runAnimationOn(R.id.root,Rotatable.ROTATE_Y,360,200);
         loadingDialog = new LoadingDialog(this);
@@ -351,17 +351,17 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         mMapView.onDestroy();
     }
 
-    private void runAnimationOn(final int resId, final int direction, final int degree, int delay) {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Rotatable rotatable = new Rotatable.Builder(findViewById(resId))
-                        .direction(Rotatable.ROTATE_BOTH)
-                        .build();
-                rotatable.rotate(direction, degree, ANIM_DURATION);
-            }
-        }, delay);
-    }
+//    private void runAnimationOn(final int resId, final int direction, final int degree, int delay) {
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Rotatable rotatable = new Rotatable.Builder(findViewById(resId))
+//                        .direction(Rotatable.ROTATE_BOTH)
+//                        .build();
+//                rotatable.rotate(direction, degree, ANIM_DURATION);
+//            }
+//        }, delay);
+//    }
 
     @OnClick({R.id.btn_locate, R.id.back, R.id.map_filter, R.id.ll_money, R.id.ll_area, R.id.btn_list})
     public void onViewClicked(View view) {
