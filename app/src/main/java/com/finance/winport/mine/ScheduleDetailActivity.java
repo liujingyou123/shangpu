@@ -57,6 +57,8 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
     TextView applyTime;
     @BindView(R.id.order_time)
     TextView orderTime;
+    @BindView(R.id.contact_name)
+    TextView contactName;
     private NoticeDialog mNoticeDialog;//拨打电话弹框
     private NoticeDialog nNoticeDialog;//撤销服务弹框
     private NoticeDialog bNoticeDialog;//确认服务弹框
@@ -166,16 +168,16 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
     public void showScheduleDetail(ScheduleDetailResponse response) {
 
 
-        if(response.getData().getStatus()==0){
+        if (response.getData().getStatus() == 0) {
 
             status.setText("服务受理中");
-        }else if(response.getData().getStatus()==1){
+        } else if (response.getData().getStatus() == 1) {
 
             status.setText("已完成");
             cancel.setEnabled(false);
             cancel.setTextColor(Color.parseColor("#cccccc"));
             btnDone.setEnabled(false);
-        }else if(response.getData().getStatus()==2){
+        } else if (response.getData().getStatus() == 2) {
 
             status.setText("已撤销");
             cancel.setEnabled(false);
@@ -183,15 +185,15 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
             btnDone.setEnabled(false);
         }
 
-        if(response.getData().getServiceType()==0){
+        if (response.getData().getServiceType() == 0) {
 
             serviceType.setText("旺铺寻租");
             btnDone.setVisibility(View.GONE);
-        }else if(response.getData().getServiceType()==1){
+        } else if (response.getData().getServiceType() == 1) {
 
             serviceType.setText("预约看铺");
             btnDone.setVisibility(View.VISIBLE);
-        }else if(response.getData().getServiceType()==2){
+        } else if (response.getData().getServiceType() == 2) {
 
             serviceType.setText("签约租铺");
             btnDone.setVisibility(View.VISIBLE);
@@ -201,16 +203,17 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
         address.setText(response.getData().getAddress());
         phone.setText(response.getData().getContactPhone());
         orderTime.setText(response.getData().getOrderTime());
+        contactName.setText(response.getData().getContactName());
 
         clerkPhone = response.getData().getClerkPhone();
 
-        if(TextUtils.isEmpty(response.getData().getClerkPhone())){
+        if (TextUtils.isEmpty(response.getData().getClerkPhone())) {
             btnDone.setEnabled(false);
             servicePhone.setEnabled(false);
             servicePhone.setTextColor(Color.parseColor("#cccccc"));
             name.setText("等待小二接受服务");
-        }else {
-            name.setText("本次服务由小二 "+response.getData().getClerkName()+" 为您服务");
+        } else {
+            name.setText("本次服务由小二 " + response.getData().getClerkName() + " 为您服务");
         }
 
     }

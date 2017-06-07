@@ -136,6 +136,7 @@ public class MyScheduleListActivity extends BaseActivity implements IScheduleLis
             case R.id.tv_focus_right:
                 MobclickAgent.onEvent(MyScheduleListActivity.this, "mydate_history");
                 startActivity(new Intent(MyScheduleListActivity.this,HistoryScheduleListActivity.class));
+//                overridePendingTransition(R.animator.card_flip_right_in,R.animator.card_flip_right_out);
                 break;
         }
     }

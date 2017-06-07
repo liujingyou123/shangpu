@@ -436,10 +436,15 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
 
                 try {
                     regionList = response.getData();
+//                    list.add("全部");
+//                    List<String> addList = new ArrayList<String>();
+//                    addList.add("全部");
+//                    hashMap.put("全部", addList);
                     for (int i = 0; i < response.getData().size(); i++) {
                         List<String> list1 = new ArrayList<String>();
                         list.add(response.getData().get(i).getRegionName());
 
+//                        list1.add("全部");
                         for (int j = 0; j < response.getData().get(i).getBlockList().size(); j++) {
                             list1.add(response.getData().get(i).getBlockList().get(j).getBlockName());
                         }
