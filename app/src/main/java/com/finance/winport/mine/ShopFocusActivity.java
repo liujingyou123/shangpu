@@ -67,7 +67,7 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
     private List<Integer> list1 = new ArrayList<>();
 
     //    private ArrayList<Integer> selectList = new ArrayList<>();
-    private String industryName, blockName,districtName,industryId,districtId,blockId;
+    private String industryName, blockName,districtName,industryId,districtId,blockId,cityName;
     private HashMap<String, List<String>> hashMap = new HashMap<>();
     private HashMap<String, List<RegionResponse.Region.Block>> hashMapBlock = new HashMap<>();
     ScrollSelectDialog scrollDialog;
@@ -116,12 +116,19 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
         industryId = getIntent().getStringExtra("industryId");
         districtId = getIntent().getStringExtra("districtId");
         blockId = getIntent().getStringExtra("blockId");
+        cityName = getIntent().getStringExtra("cityName");
         list1 = getIntent().getIntegerArrayListExtra("areaList");
         StringBuilder s = new StringBuilder();
         List<String> content = new ArrayList<>();
         if(!TextUtils.isEmpty(blockName)){
 
             content.add(blockName);
+        }else if(!TextUtils.isEmpty(districtName)){
+
+            content.add(districtName);
+        }else if(!TextUtils.isEmpty(cityName)){
+
+            content.add(cityName);
         }
         if(!TextUtils.isEmpty(industryName)){
 
@@ -176,6 +183,18 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
             district.setText(districtName+"-"+blockName);
         }
 
+        else if(TextUtils.isEmpty(blockName)){
+            if(TextUtils.isEmpty(districtName)){
+                if(TextUtils.isEmpty(cityName)){
+
+                }
+                else{
+                    district.setText(cityName);
+                }
+            }else{
+                district.setText(districtName+"-全部");
+            }
+        }
 
         focusContent.setText(s.toString());
         if(s.toString().length()>0){
@@ -324,19 +343,40 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
                         if(TextUtils.isEmpty(data)){
                             return;
                         }
-                        district.setText(data);
+
                         districtName = data.split("-")[0];
                         blockName = data.split("-")[1];
-                        for (int i = 0; i <list.size() ; i++) {
-                            if(districtName.equals(regionList.get(i).getRegionName())){
-                                districtId = regionList.get(i).getRegionId();
+                        if(districtName.equals("全部")){
+
+                            district.setText("上海市");
+                            districtName = null;
+                            blockName = null;
+                            districtId = null;
+                            blockId = null;
+                            return;
+
+                        }
+
+                        district.setText(data);
+                        for (int i = 1; i <list.size() ; i++) {
+
+
+                            if(districtName.equals(regionList.get(i-1).getRegionName())){
+                                districtId = regionList.get(i-1).getRegionId();
                             }
+                        }
+
+                        if(blockName.equals("全部")){
+
+                            blockName = null;
+                            blockId = null;
+                            return;
                         }
                         List<RegionResponse.Region.Block> blockList = new ArrayList<>();
                         blockList = hashMapBlock.get(districtName);
-                        for (int j = 0; j <blockList.size() ; j++) {
-                            if(blockName.equals(blockList.get(j).getBlockName())){
-                                blockId = blockList.get(j).getBlockId();
+                        for (int j = 1; j <blockList.size() ; j++) {
+                            if(blockName.equals(blockList.get(j-1).getBlockName())){
+                                blockId = blockList.get(j-1).getBlockId();
                             }
                         }
                     }catch (Exception e){
@@ -436,15 +476,15 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
 
                 try {
                     regionList = response.getData();
-//                    list.add("全部");
-//                    List<String> addList = new ArrayList<String>();
-//                    addList.add("全部");
-//                    hashMap.put("全部", addList);
+                    list.add("全部");
+                    List<String> addList = new ArrayList<String>();
+                    addList.add("全部");
+                    hashMap.put("全部", addList);
                     for (int i = 0; i < response.getData().size(); i++) {
                         List<String> list1 = new ArrayList<String>();
                         list.add(response.getData().get(i).getRegionName());
 
-//                        list1.add("全部");
+                        list1.add("全部");
                         for (int j = 0; j < response.getData().get(i).getBlockList().size(); j++) {
                             list1.add(response.getData().get(i).getBlockList().get(j).getBlockName());
                         }

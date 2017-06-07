@@ -9,16 +9,12 @@ import android.util.Log;
 
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.base.BaseFragment;
-import com.finance.winport.home.event.HomeEvent;
 import com.finance.winport.home.HomeFragment;
 import com.finance.winport.trade.TradeCircleFragment;
 import com.finance.winport.tab.MineFragment;
 import com.finance.winport.service.ServiceFragment;
 import com.finance.winport.view.BottomTabView;
 import com.umeng.analytics.MobclickAgent;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
@@ -124,6 +120,24 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
         addHomeFragment(mineFragment, true);
     }
 
+//    private void handleMap(Bundle bundle) {
+//        MapActivity mapFragment = new MapActivity();
+//        mapFragment.setArguments(bundle);
+//        pushFragment(mapFragment);
+//    }
+//
+//
+//    public void pushFragment(android.app.Fragment fragment) {
+//        android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
+//        ft.setCustomAnimations(
+//                R.animator.fragment_rotate_pop_enter,
+//                R.animator.fragment_rotate_pop_exit,
+//                R.animator.fragment_rotate_enter,
+//                R.animator.fragment_rotate_exit);
+//        ft.replace(R.id.rl_fragment_content, fragment);
+//        ft.addToBackStack(null);
+//        ft.commit();
+//    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
