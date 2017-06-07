@@ -19,6 +19,8 @@ import com.finance.winport.log.XLog;
 import com.finance.winport.mine.MyScheduleListActivity;
 import com.finance.winport.mine.NoticeListActivity;
 import com.finance.winport.mine.ScheduleDetailActivity;
+import com.finance.winport.tab.TypeList;
+import com.finance.winport.tab.WinportActivity;
 import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.trade.TradeCircleDetailActivity;
 import com.finance.winport.trade.model.EventBusCommentNum;
@@ -185,6 +187,9 @@ public class JPushReceiver extends BroadcastReceiver {
                 if ("3".equals(extraReceive.getBizType())) { //我的日称
                     MobclickAgent.onEvent(context, "push_service_mydate");
                     intent = new Intent(context, MyScheduleListActivity.class);
+                } else if ("4".equals(extraReceive.getBizType())) {  //我发布的旺铺列表
+                    MobclickAgent.onEvent(context, "push_service_mydate");
+                    intent = new Intent(context, WinportActivity.class).putExtra("type", TypeList.RELEASE);
                 } else {
                     MobclickAgent.onEvent(context, "push_service_date");
                     intent = new Intent(context, ScheduleDetailActivity.class);
