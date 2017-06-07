@@ -139,8 +139,31 @@ public class MisTakeActivity extends BaseActivity {
         });
 
         etPhone.setText(SharedPrefsUtil.getUserInfo().data.userPhone);
-
+        etPhone.addTextChangedListener(watcher);
     }
+
+    private TextWatcher watcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            if(UnitUtil.trim(etPhone.getText().toString().trim()).equals(SharedPrefsUtil.getUserInfo().data.userPhone)){
+
+                llCode.setVisibility(View.GONE);
+                tvChange.setVisibility(View.VISIBLE);
+            }
+
+        }
+    };
 
     @OnClick({R.id.imv_focus_house_back, R.id.tv_change, R.id.btn_done})
     public void onViewClicked(View view) {
@@ -150,6 +173,7 @@ public class MisTakeActivity extends BaseActivity {
                 break;
             case R.id.tv_change:
                 MobclickAgent.onEvent(context, "service_phonechange");
+                etPhone.setText(null);
                 initCountDownButton();
                 llCode.setVisibility(View.VISIBLE);
                 tvChange.setVisibility(View.GONE);

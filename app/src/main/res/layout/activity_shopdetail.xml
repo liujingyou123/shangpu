@@ -231,7 +231,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_name_price"
                     android:layout_marginTop="10dp"
-                    android:text="----"
+                    android:text=""
                     android:textColor="#FF151515"
                     android:textSize="12sp"/>
 

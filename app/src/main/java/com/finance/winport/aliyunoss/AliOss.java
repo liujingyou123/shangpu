@@ -91,7 +91,6 @@ public class AliOss {
         OSSLog.enableLog();
         oss = new OSSClient(context.getApplicationContext(), endpoint, credentialProvider1, conf);
 
-
     }
 
     // 从本地文件上传，采用阻塞的同步接口
