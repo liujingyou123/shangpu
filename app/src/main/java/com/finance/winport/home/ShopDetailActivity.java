@@ -404,6 +404,9 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 break;
             case R.id.tv_share:
                 MobclickAgent.onEvent(context, "shop_share");
+                if (mShopDetail == null) {
+                    return;
+                }
                 if (shareDialog == null) {
                     shareDialog = new ShareDialog(this);
                 }
@@ -416,12 +419,18 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 break;
             case R.id.tv_shop_more:
                 MobclickAgent.onEvent(context, "shop_more");
+                if (mShopDetail == null) {
+                    return;
+                }
                 Intent intent = new Intent(ShopDetailActivity.this, ShopMoreActivity.class);
                 intent.putExtra("shop", mShopDetail);
                 startActivity(intent);
                 break;
 
             case R.id.tv_jiucuo:
+                if (mShopDetail == null) {
+                    return;
+                }
                 MobclickAgent.onEvent(context, "shop_report");
                 if (SharedPrefsUtil.getUserInfo() != null) {
                     Intent intentjiucuo = new Intent(ShopDetailActivity.this, MisTakeActivity.class);
@@ -435,6 +444,9 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 break;
 
             case R.id.tv_yuyue:
+                if (mShopDetail == null) {
+                    return;
+                }
                 if (SharedPrefsUtil.getUserInfo() != null) {
                     Intent orderIntent = new Intent(ShopDetailActivity.this, OrderShopActivity.class);
                     orderIntent.putExtra("shopId", mShopDetail.getData().getId() + "");
@@ -454,6 +466,9 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 break;
             case R.id.tv_call:
                 MobclickAgent.onEvent(context, "shop_calllandlord");
+                if (mShopDetail == null) {
+                    return;
+                }
                 if (SharedPrefsUtil.getUserInfo() != null) {
                     if (mNoticeDialog == null) {
                         mNoticeDialog = new NoticeDialog(this);
@@ -478,6 +493,9 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
 
                 break;
             case R.id.tv_collection:
+                if (mShopDetail == null) {
+                    return;
+                }
                 if (SharedPrefsUtil.getUserInfo() != null) {
                     if (tvCollection.isSelected()) {
                         mPresenter.cancelCollectShop(mShopDetail.getData().getId() + "");
@@ -501,6 +519,9 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 }
                 break;
             case R.id.ll_near:
+                if (mShopDetail == null) {
+                    return;
+                }
                 try {
                     Intent intent1 = new Intent(this, PoiSearchRoundActivity.class);
                     intent1.putExtra("lat", Double.parseDouble(mShopDetail.getData().getLatitude()));
@@ -602,10 +623,10 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             BigDecimal bDArea = new BigDecimal(data.getArea());
             BigDecimal bDDay = new BigDecimal(30);
 
-            String preRent = bDrent.divide(bDArea, 10, BigDecimal.ROUND_HALF_UP).divide(bDDay, 10, BigDecimal.ROUND_HALF_UP).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
+            String preRent = bDrent.divide(bDArea, 10, BigDecimal.ROUND_HALF_UP).divide(bDDay, 10, BigDecimal.ROUND_HALF_UP).setScale(1, BigDecimal.ROUND_HALF_UP).toString();
             String showPre = preRent + "元/㎡/日";
             tvPrice.setText(showPre + "(" + data.getRentWayName() + ")");
-            TextViewUtil.setPartialSizeAndColor(tvPrice, 0, showPre.length(), 18, 0, showPre.length(), Color.parseColor("#FF5851"));
+            TextViewUtil.setPartialSizeAndColor(tvPrice, 0, showPre.length(), 16, 0, showPre.length(), Color.parseColor("#FF5851"));
 
         }
 
