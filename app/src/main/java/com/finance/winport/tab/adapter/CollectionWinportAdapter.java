@@ -99,7 +99,7 @@ public class CollectionWinportAdapter extends PullBaseAdapter<CollectionShopList
         } else {
             setViewAndChildrenEnabled(convertView, true);
             holder.flMark.setVisibility(View.GONE);
-            SpannableString sr = new SpannableString(sRent + "元");
+            SpannableString sr = new SpannableString(sRent + "元/月");
             sr.setSpan(new ForegroundColorSpan(Color.parseColor("#FF7540"))
                     , 0, sr.length()
                     , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -127,15 +127,15 @@ public class CollectionWinportAdapter extends PullBaseAdapter<CollectionShopList
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                MobclickAgent.onEvent(context,"shopcollect_recollect");
-                showCancelCollectionAlert(item.collectedId + "", position);
+                MobclickAgent.onEvent(context, "shopcollect_recollect");
+                showCancelCollectionAlert(item.id + "", position);
                 return true;
             }
         });
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MobclickAgent.onEvent(context,"shopcollect_shop");
+                MobclickAgent.onEvent(context, "shopcollect_shop");
                 Intent details = new Intent(context, ShopDetailActivity.class);
                 details.putExtra("shopId", item.id);
                 context.startActivity(details);
@@ -206,23 +206,23 @@ public class CollectionWinportAdapter extends PullBaseAdapter<CollectionShopList
     }
 
 
-    void showCancelCollectionAlert(final String collectedId, final int position) {
+    void showCancelCollectionAlert(final String shopId, final int position) {
         NoticeDialog n = new NoticeDialog(context);
         n.setMessage("取消收藏");
         n.setPositiveBtn("确认");
         n.setOkClickListener(new NoticeDialog.OnPreClickListner() {
             @Override
             public void onClick() {
-                cancelCollection(collectedId, position);
+                cancelCollection(shopId, position);
             }
         });
         n.show();
     }
 
-    private void cancelCollection(String collectedId, final int position) {
+    private void cancelCollection(String shopId, final int position) {
         loading.show();
         HashMap<String, Object> params = new HashMap<>();
-        params.put("collectedId", collectedId);
+        params.put("shopId", shopId);
         PersonManager.getInstance().cancelCollection(params, new NetworkCallback<BaseResponse>() {
             @Override
             public void success(BaseResponse response) {
