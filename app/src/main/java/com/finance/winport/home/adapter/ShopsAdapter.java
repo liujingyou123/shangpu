@@ -4,6 +4,7 @@ package com.finance.winport.home.adapter;
  */
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.image.Batman;
+import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.tagview.TagCloudLayout;
 
@@ -106,9 +108,20 @@ public class ShopsAdapter extends BaseAdapter {
                     viewHolder.tvShopname.setText(ret.getAddress() + ret.getRentTypeName());
                     viewHolder.tvAddress.setText(ret.getDistrictName() + " " + ret.getBlockName());
                     viewHolder.tvArea.setText(UnitUtil.formatDNum(ret.getArea()) + "㎡");
-                    viewHolder.tvAverMoney.setText(ret.getRent() + "元／月");
-                    viewHolder.tvDistance.setText("距您"+UnitUtil.mTokm(ret.getDistance()));
-                    viewHolder.tvChangeMoney.setText("转让费" + UnitUtil.formatNum(ret.getTransferFee()) + "万元");
+                    viewHolder.tvAverMoney.setText(ret.getRent() + "元/月");
+                    viewHolder.tvDistance.setText("距您" + UnitUtil.mTokm(ret.getDistance()));
+                    viewHolder.tvChangeMoney.setTextColor(Color.parseColor("#999999"));
+                    if (ret.getIsFace() == 1) {
+                        viewHolder.tvChangeMoney.setText("转让费面议");
+                    } else {
+                        if (ret.getTransferFee() == 0) {
+                            viewHolder.tvChangeMoney.setText("无转让费");
+                        } else {
+                            String strT = UnitUtil.formatNum(ret.getTransferFee());
+                            viewHolder.tvChangeMoney.setText("转让费" + strT + "万元");
+                            TextViewUtil.setPartialColor(viewHolder.tvChangeMoney, 3, 3 + strT.length(), Color.parseColor("#FF7540"));
+                        }
+                    }
                     viewHolder.tvUpdateTime.setText(ret.getUpdateTime());
                     viewHolder.tvScanNum.setText(ret.getVisitCount() + "");
                     viewHolder.tvContactNum.setText(ret.getContactCount() + "");

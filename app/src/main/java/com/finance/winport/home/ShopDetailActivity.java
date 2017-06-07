@@ -611,7 +611,6 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
 
     }
 
-    private String zhuanPrice;
     private String rentPrice;
     private String coverImg;
 
@@ -630,12 +629,18 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             compactResidue = "(带租约)";
         }
 
-        String zhuan = UnitUtil.limitNum(data.getTransferFee(), 0);
-        zhuanPrice = zhuan;
-        tvZhuanprice.setText(zhuan + compactResidue);
+        if (data.getIsFace() == 1) {
+            tvZhuanprice.setText("面议");
+            TextViewUtil.setPartialSizeAndColor(tvZhuanprice, 0, 2, 18, 0, 2, Color.parseColor("#FF5851"));
+
+        } else {
+            String zhuan = UnitUtil.limitNum(data.getTransferFee(), 0);
+            tvZhuanprice.setText(zhuan + compactResidue);
+            TextViewUtil.setPartialSizeAndColor(tvZhuanprice, 0, zhuan.length(), 18, 0, zhuan.length(), Color.parseColor("#FF5851"));
+        }
+
         tvArea.setText(UnitUtil.formatMNum(data.getArea()) + "㎡");
         showPrice(1);
-        TextViewUtil.setPartialSizeAndColor(tvZhuanprice, 0, zhuan.length(), 18, 0, zhuan.length(), Color.parseColor("#FF5851"));
 
         if (data.getNearInfoList() != null && data.getNearInfoList().size() > 0) {
             viewSpaceLinpu.setVisibility(View.VISIBLE);
