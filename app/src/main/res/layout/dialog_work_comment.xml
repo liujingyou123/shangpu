@@ -48,5 +48,6 @@
         android:paddingLeft="5dp"
         android:gravity="top"
         android:background="@drawable/bg_comment_input"
-        android:textColor="#333333"/>
+        android:textColor="#333333"
+        android:maxLength="150"/>
 </LinearLayout>

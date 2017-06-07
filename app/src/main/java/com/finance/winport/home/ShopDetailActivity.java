@@ -438,7 +438,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 if (SharedPrefsUtil.getUserInfo() != null) {
                     Intent orderIntent = new Intent(ShopDetailActivity.this, OrderShopActivity.class);
                     orderIntent.putExtra("shopId", mShopDetail.getData().getId() + "");
-                    if (mShopDetail.getData().getIsVisit() != 0) { //已预约  签约租铺
+                    if (mShopDetail.getData().getIsVisit()) { //已预约  签约租铺
                         MobclickAgent.onEvent(context, "shop_sign");
                         orderIntent.putExtra("type", 1);  //签约租铺
                     } else {
@@ -480,7 +480,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             case R.id.tv_collection:
                 if (SharedPrefsUtil.getUserInfo() != null) {
                     if (tvCollection.isSelected()) {
-                        mPresenter.cancelCollectShop(mShopDetail.getData().getIsCollected() + "");
+                        mPresenter.cancelCollectShop(mShopDetail.getData().getId() + "");
                     } else {
                         mPresenter.collectShop(shopId);
                     }
@@ -564,7 +564,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     @Override
     public void collectedShop(CollectionResponse response) {
         if (response != null && response.isSuccess()) {
-            mShopDetail.getData().setIsCollected(response.getData());
+            mShopDetail.getData().setIsCollected(true);
             ToastUtil.show(this, "收藏成功");
             tvCollection.setSelected(true);
             tvCollection.setText("已收藏");
@@ -611,7 +611,6 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
 
     }
 
-    private String zhuanPrice;
     private String rentPrice;
     private String coverImg;
 
@@ -630,12 +629,18 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             compactResidue = "(带租约)";
         }
 
-        String zhuan = UnitUtil.limitNum(data.getTransferFee(), 0);
-        zhuanPrice = zhuan;
-        tvZhuanprice.setText(zhuan + compactResidue);
+        if (data.getIsFace() == 1) {
+            tvZhuanprice.setText("面议");
+            TextViewUtil.setPartialSizeAndColor(tvZhuanprice, 0, 2, 18, 0, 2, Color.parseColor("#FF5851"));
+
+        } else {
+            String zhuan = UnitUtil.limitNum(data.getTransferFee(), 0);
+            tvZhuanprice.setText(zhuan + compactResidue);
+            TextViewUtil.setPartialSizeAndColor(tvZhuanprice, 0, zhuan.length(), 18, 0, zhuan.length(), Color.parseColor("#FF5851"));
+        }
+
         tvArea.setText(UnitUtil.formatMNum(data.getArea()) + "㎡");
         showPrice(1);
-        TextViewUtil.setPartialSizeAndColor(tvZhuanprice, 0, zhuan.length(), 18, 0, zhuan.length(), Color.parseColor("#FF5851"));
 
         if (data.getNearInfoList() != null && data.getNearInfoList().size() > 0) {
             viewSpaceLinpu.setVisibility(View.VISIBLE);
@@ -783,7 +788,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             tag.setAdapter(new TagAdapter(this, data.getFeatureList()));
         }
 
-        if (data.getIsCollected() != 0) { //未收藏
+        if (data.getIsCollected()) {
             tvCollection.setSelected(true);
             tvCollection.setText("已收藏");
         } else {
@@ -791,7 +796,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             tvCollection.setText("收藏");
         }
 
-        if (data.getIsVisit() != 0) { //已预约
+        if (data.getIsVisit()) { //已预约
             tvYuyue.setText("签约租铺");
             tvCall.setVisibility(View.GONE);
         } else {

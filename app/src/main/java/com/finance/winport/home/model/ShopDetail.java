@@ -98,11 +98,11 @@ public class ShopDetail extends BaseResponse implements Serializable{
         private double gasRate;
         private float height;
         private int id;
-        private int isCollected;
+        private boolean isCollected;
         private int isDelete;
         private int isFace;
         private int isShow;
-        private int isVisit;
+        private boolean isVisit;
         private String issueShopTime;
         private String latitude;
         private String longitude;
@@ -323,11 +323,11 @@ public class ShopDetail extends BaseResponse implements Serializable{
             this.id = id;
         }
 
-        public int getIsCollected() {
+        public boolean getIsCollected() {
             return isCollected;
         }
 
-        public void setIsCollected(int isCollected) {
+        public void setIsCollected(boolean isCollected) {
             this.isCollected = isCollected;
         }
 
@@ -355,11 +355,11 @@ public class ShopDetail extends BaseResponse implements Serializable{
             this.isShow = isShow;
         }
 
-        public int getIsVisit() {
+        public boolean getIsVisit() {
             return isVisit;
         }
 
-        public void setIsVisit(int isVisit) {
+        public void setIsVisit(boolean isVisit) {
             this.isVisit = isVisit;
         }
 
