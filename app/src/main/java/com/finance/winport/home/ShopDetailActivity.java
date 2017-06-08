@@ -717,6 +717,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             viewSpaceJingyingfeiyong.setVisibility(View.VISIBLE);
             llJingyingfeiyongone.setVisibility(View.GONE);
             llJingyingfeiyongtwo.setVisibility(View.VISIBLE);
+            llJingyingfeiyongtwo.removeAllViews();
 
             if (data.getElectricRate() != 0) {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -776,10 +777,13 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             }
         }
 
-
         if (data.getSupportList() != null && data.getSupportList().size() > 0) {
+            llPeitao.setVisibility(View.VISIBLE);
             SupportTagAdapter supportTagAdapter = new SupportTagAdapter(this, data.getSupportList());
             gvSupport.setAdapter(supportTagAdapter);
+        } else {
+            llPeitao.setVisibility(View.GONE);
+            stv.setPeitaoGone();
         }
 
 
@@ -801,6 +805,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         } else {
             viewSpaceJingyingfanwei.setVisibility(View.GONE);
             llJingyingfanwei.setVisibility(View.GONE);
+            stv.setJingYingFanWeiGone();
         }
 
         tvFocusHouse.setText(data.getAddress());
