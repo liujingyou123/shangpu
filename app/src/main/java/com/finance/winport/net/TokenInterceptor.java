@@ -23,12 +23,16 @@ public class TokenInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         String tokenKey = getTokenKey();
         Request newRequest = chain.request();
+        Request.Builder newBuilder = newRequest.newBuilder();
         if (!TextUtils.isEmpty(tokenKey)) {
-            newRequest = newRequest.newBuilder()
-                    .addHeader("X-token", tokenKey).build();
+            newBuilder.addHeader("X-token", tokenKey);
+//            newRequest = newRequest.newBuilder()
+//                    .addHeader("X-token", tokenKey).build();
         }
 
-        newRequest = newRequest.newBuilder().addHeader("Content-Type", "application/json").build();
+        newBuilder.addHeader("Content-Type", "application/json");
+//        newRequest = newRequest.newBuilder().addHeader("Content-Type", "application/json").build();
+        newRequest = newBuilder.build();
         MediaType mediaType = newRequest.body().contentType();
         try {
             if (null != mediaType) {
