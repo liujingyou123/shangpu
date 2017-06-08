@@ -76,7 +76,8 @@
                     android:hint="请输入其他信息"
                     android:paddingTop="2dp"
                     android:textColor="#FF999999"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:maxLength="200"/>
 
                 <TextView
                     android:id="@+id/tv_num"

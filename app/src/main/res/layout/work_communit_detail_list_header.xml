@@ -27,7 +27,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="15dp"
             android:layout_toRightOf="@id/iv_header_icon"
-            android:text="130****2346"
+            android:text=""
             android:textColor="#FF333333"
             android:textSize="14sp" />
 
@@ -39,7 +39,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="7.5dp"
             android:layout_toRightOf="@id/iv_header_icon"
-            android:text="关注   江湾镇-餐饮类的金铺"
+            android:text=""
             android:textColor="#FF999999"
             android:textSize="13sp" />
 
@@ -80,7 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:gravity="center_vertical"
-                android:text="魔都最火的10间商铺"
+                android:text=""
                 android:textColor="#FF333333"
                 android:textSize="15sp" />
         </LinearLayout>
@@ -95,9 +95,7 @@
             android:layout_marginBottom="10dp"
             android:ellipsize="end"
             android:lineSpacingExtra="5dp"
-            android:maxHeight="90dp"
-            android:maxLines="4"
-            android:text="金铺多成立于2017年4月，是金铺多集团旗下的国内首家专业商业地产网站，专注于商业地产信息服务。金铺和专注于买房信息服务的安居客以及专注于租房信息服务的好租组成了金铺多集团专业找房网站集群。"
+            android:text=""
             android:textColor="#FF666666"
             android:textSize="14sp" />
 
@@ -121,7 +119,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="18dp"
                 android:layout_toRightOf="@id/imv_href"
-                android:text="万安路104号"
+                android:text=""
                 android:textColor="#FF333333"
                 android:textSize="14sp" />
 
@@ -132,7 +130,7 @@
                 android:layout_alignLeft="@id/tv_href_title"
                 android:layout_below="@id/tv_href_title"
                 android:layout_marginTop="8dp"
-                android:text="一周内890位老板浏览了此商铺"
+                android:text=""
                 android:textColor="#FF999999"
                 android:textSize="12sp" />
         </RelativeLayout>

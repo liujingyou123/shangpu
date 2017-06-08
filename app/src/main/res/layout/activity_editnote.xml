@@ -42,7 +42,7 @@
                 <!-- 其他 -->
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"
+                    android:layout_height="wrap_content"
                     android:background="#ffffff"
                     android:orientation="vertical"
                     android:paddingTop="15dp">
@@ -50,19 +50,20 @@
                     <EditText
                         android:id="@+id/et_else"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="160dp"
                         android:background="#00000000"
                         android:gravity="left|top"
                         android:hint="请输入帖子内容"
                         android:textColor="#333333"
                         android:textColorHint="#999999"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:maxLength="200"/>
 
                     <TextView
                         android:id="@+id/tv_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
+                        android:layout_below="@id/et_else"
                         android:layout_alignParentRight="true"
                         android:layout_marginBottom="15dp"
                         android:layout_marginRight="15dp"
