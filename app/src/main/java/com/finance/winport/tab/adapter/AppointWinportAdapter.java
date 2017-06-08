@@ -116,7 +116,7 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
                 }
             }
         }
-        holder.distance.setText("距您" + UnitUtil.mTokm(item.distance + ""));
+        holder.distance.setText("距您" + item.distance + "km");
         holder.updateTime.setText(item.updateTime + "更新");
         holder.appointTime.setText(item.applyTime + "约看");
         holder.scan.setText(item.visitCount + "");
