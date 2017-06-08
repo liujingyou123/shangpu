@@ -349,6 +349,7 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
         super.onDestroy();
         myLocation.stop();
         mMapView.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
 //    private void runAnimationOn(final int resId, final int direction, final int degree, int delay) {

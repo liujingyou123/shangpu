@@ -159,7 +159,13 @@ public class AddrSelectActivity extends Activity implements OnItemClickListener<
 
         myLocation = new MyLocation(this);
 
-        myLocation.start(this);
+
+        mBaiduMap.setOnMapLoadedCallback(new BaiduMap.OnMapLoadedCallback() {
+            @Override
+            public void onMapLoaded() {
+                myLocation.start(AddrSelectActivity.this);
+            }
+        });
     }
 
     @Override
