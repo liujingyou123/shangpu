@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.finance.winport.MainActivity;
 import com.finance.winport.R;
+import com.finance.winport.home.HomeFragment;
 import com.finance.winport.util.LoadingDialogUtil;
 import com.finance.winport.util.SelectDialogUtil;
 import com.finance.winport.util.StatusBarUtil;
@@ -195,7 +196,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && this instanceof MainActivity) {
-            if (!handleBackMain()) {
+            if (!handlHomeBack()) {
                 if (exitCtrl.requestExit()) {
                     exit();
                 }
@@ -219,7 +220,7 @@ public class BaseActivity extends AppCompatActivity {
         return super.dispatchKeyEvent(event);
     }
 
-    private boolean handleBackMain() {
+    private boolean handlHomeBack() {
         View view = this.getCurrentFocus();
         if (view != null) {
             InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context
@@ -229,15 +230,18 @@ public class BaseActivity extends AppCompatActivity {
 
         BaseFragment currentFragment = getCurrentFragment();
 
-        try {
-            if (currentFragment != null) {
-                return currentFragment.handleBack();
-            } else {
-                return false;
+        if (currentFragment instanceof HomeFragment) {
+            try {
+                if (currentFragment != null) {
+                    return currentFragment.handleBack();
+                } else {
+                    return false;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+
         return false;
     }
 
