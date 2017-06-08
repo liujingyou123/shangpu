@@ -117,7 +117,7 @@ public class ScanWinportAdapter extends PullBaseAdapter<ScanShopList.DataBeanX.D
             }
 
         }
-        holder.distance.setText("距您" + UnitUtil.mTokm(item.distance + ""));
+        holder.distance.setText("距您" + item.distance + "km");
         holder.scan.setText(item.visitCount + "");
         holder.call.setText(item.contactCount + "");
         Batman.getInstance().fromNet(item.coverImg, holder.img);
