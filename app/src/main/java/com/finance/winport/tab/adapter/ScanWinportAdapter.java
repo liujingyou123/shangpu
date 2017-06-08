@@ -199,6 +199,7 @@ public class ScanWinportAdapter extends PullBaseAdapter<ScanShopList.DataBeanX.D
             for (int i = 0; i < item.featureList.size(); i++) {
                 if (count >= 3) break;
                 ScanShopList.DataBeanX.DataBean.FeatureListBean tag = item.featureList.get(i);
+                if (tag == null) continue;
                 String name = tag.name;
                 String color = "#FFA73B";
                 if (!TextUtils.isEmpty(name)) {
