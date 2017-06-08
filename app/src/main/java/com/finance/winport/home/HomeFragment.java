@@ -39,6 +39,7 @@ import com.finance.winport.tab.model.UnReadMsg;
 import com.finance.winport.util.SelectDialogUtil;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.SpUtil;
+import com.finance.winport.util.ToastUtil;
 import com.finance.winport.view.home.HeaderView;
 import com.finance.winport.view.home.SelectView;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
@@ -684,6 +685,10 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
             loadingDialog.dismiss();
         }
         if (response != null) {
+
+            if (response.getData() != null && response.getData().getTotalSize() > 0) {
+                ToastUtil.show(this.getContext(), "共找到"+response.getData().getTotalSize()+"间旺铺");
+            }
             if (refreshView.isRefreshing()) {
                 refreshView.refreshComplete();
             }
