@@ -123,5 +123,6 @@ public class SettingsActivity extends BaseActivity {
 
     private void setLoginOutData() {
         SpUtil.getInstance().setIntData("commentNum", 0);
+        SpUtil.getInstance().setStringData(SharedPrefsUtil.getUserInfo().data.userPhone, null);
     }
 }

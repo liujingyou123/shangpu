@@ -154,10 +154,6 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
         verifyCodeView.setInputType(InputType.TYPE_CLASS_NUMBER);
         phoneView.addTextChangedListener(watcher);
         phoneView.setText(SharedPrefsUtil.getUserInfo().data.userPhone.substring(0, 3) + " " + SharedPrefsUtil.getUserInfo().data.userPhone.substring(3, 7) + " " + SharedPrefsUtil.getUserInfo().data.userPhone.substring(7, 11));
-        initCountDownButton();
-//        getArguments().getBundle().getString()
-        shopId = getArguments().getString("shopId");
-        type = getArguments().getInt("type", -1);
         if (type == 1) {
 
             watch.setVisibility(View.VISIBLE);
@@ -170,6 +166,11 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
             tvFocusHouse.setText("预约看铺");
             scene = 4;
         }
+        initCountDownButton();
+//        getArguments().getBundle().getString()
+        shopId = getArguments().getString("shopId");
+        type = getArguments().getInt("type", -1);
+
 
     }
 
@@ -345,6 +346,7 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
         UserManager.getInstance().getVerifyCode(params, new NetworkCallback<Message>() {
             @Override
             public void success(Message response) {
+                ToastUtil.show(context, "验证码发送成功");
                 messageId = response.data.messageId;
                 requestCodeCount++;
             }
@@ -352,6 +354,7 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
             @Override
             public void failure(Throwable throwable) {
                 ToastUtil.show(context, throwable.getMessage());
+                countDown.reset();
             }
         });
     }
@@ -359,7 +362,7 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
     // 获取图片验证码
     private void getPicCode() {
         HashMap<String, Object> params = new HashMap<>();
-        params.put("useScene", 0);//0-登录 1-贷款申请 2-租铺签约 3-寻租申请 4-带我踩盘 5-商铺纠错 6-预约看铺
+        params.put("useScene", scene);//0-登录 1-贷款申请 2-租铺签约 3-寻租申请 4-带我踩盘 5-商铺纠错 6-预约看铺
         UserManager.getInstance().getPicCode(params, new NetworkCallback<ImageVerifyCode>() {
             @Override
             public void success(ImageVerifyCode response) {

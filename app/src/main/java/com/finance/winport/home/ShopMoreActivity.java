@@ -16,7 +16,6 @@ import com.finance.winport.home.model.ShopDetail;
 import com.finance.winport.log.XLog;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.home.ItemView;
-import com.finance.winport.view.home.NearShop;
 import com.finance.winport.view.home.NearShopView;
 
 import java.util.Collections;
@@ -79,6 +78,8 @@ public class ShopMoreActivity extends BaseActivity {
     GridView gvSupportMore;
     @BindView(R.id.ll_linpuxinxi)
     LinearLayout llLinpuxinxi;
+    @BindView(R.id.tv_peittao_notice)
+    TextView tvPeittaoNotice;
     private ShopDetail mShopDetail;
 
     @Override
@@ -134,8 +135,13 @@ public class ShopMoreActivity extends BaseActivity {
         tvCenggao.setLableTwo(UnitUtil.formatDNum(data.getHeight()) + "m");
 
         if (data.getSupportList() != null && data.getSupportList().size() > 0) {
+            tvPeittaoNotice.setVisibility(View.VISIBLE);
+            gvSupportMore.setVisibility(View.VISIBLE);
             SupportTagAdapter supportTagAdapter = new SupportTagAdapter(this, data.getSupportList());
             gvSupportMore.setAdapter(supportTagAdapter);
+        } else {
+            tvPeittaoNotice.setVisibility(View.GONE);
+            gvSupportMore.setVisibility(View.GONE);
         }
 
         tvDianfei.setLableTwo(UnitUtil.formatDNum(data.getElectricRate()) + "元/度");

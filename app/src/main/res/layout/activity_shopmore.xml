@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 apps:LabelOne="经营状况："
-                apps:LabelTwo="正在经营"></com.finance.winport.view.home.ItemView>
+                apps:LabelTwo="-"></com.finance.winport.view.home.ItemView>
 
             <View
                 style="@style/view_line"
@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 apps:LabelOne="店铺名称："
-                apps:LabelTwo="芭比馒头"></com.finance.winport.view.home.ItemView>
+                apps:LabelTwo="-"></com.finance.winport.view.home.ItemView>
 
             <View
                 style="@style/view_line"
@@ -54,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 apps:LabelOne="特　　色："
-                apps:LabelTwo="正在经营"></com.finance.winport.view.home.ItemView>
+                apps:LabelTwo="-"></com.finance.winport.view.home.ItemView>
 
             <View
                 style="@style/view_line"
@@ -65,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 apps:LabelOne="经营业态："
-                apps:LabelTwo="正在经营"></com.finance.winport.view.home.ItemView>
+                apps:LabelTwo="-"></com.finance.winport.view.home.ItemView>
 
 
             <TextView
@@ -82,7 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 apps:LabelOne="联系人："
-                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+                apps:LabelTwo="-"></com.finance.winport.view.home.ItemView>
 
             <View
                 style="@style/view_line"
@@ -93,7 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 apps:LabelOne="联系电话："
-                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+                apps:LabelTwo="-"></com.finance.winport.view.home.ItemView>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -109,7 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 apps:LabelOne="建筑面积："
-                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+                apps:LabelTwo="-"></com.finance.winport.view.home.ItemView>
 
             <View
                 style="@style/view_line"
@@ -122,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 apps:LabelOne="使用面积："
-                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+                apps:LabelTwo="-"></com.finance.winport.view.home.ItemView>
 
             <View
                 style="@style/view_line"
@@ -133,7 +133,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 apps:LabelOne="楼　　层："
-                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+                apps:LabelTwo="-"></com.finance.winport.view.home.ItemView>
 
             <View
                 style="@style/view_line"
@@ -144,7 +144,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 apps:LabelOne="面　　宽："
-                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+                apps:LabelTwo="-"></com.finance.winport.view.home.ItemView>
 
             <View
                 style="@style/view_line"
@@ -155,7 +155,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 apps:LabelOne="进　　深："
-                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+                apps:LabelTwo="-"></com.finance.winport.view.home.ItemView>
 
             <View
                 style="@style/view_line"
@@ -166,9 +166,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 apps:LabelOne="层　　高："
-                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+                apps:LabelTwo="-"></com.finance.winport.view.home.ItemView>
 
             <TextView
+                android:id="@+id/tv_peittao_notice"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:gravity="center"
@@ -204,7 +205,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 apps:LabelOne="电　　费："
-                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+                apps:LabelTwo="－－"></com.finance.winport.view.home.ItemView>
 
             <View
                 style="@style/view_line"
@@ -215,7 +216,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 apps:LabelOne="水　　费："
-                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+                apps:LabelTwo="－－"></com.finance.winport.view.home.ItemView>
 
             <View
                 style="@style/view_line"
@@ -226,7 +227,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 apps:LabelOne="燃气费："
-                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+                apps:LabelTwo="－－"></com.finance.winport.view.home.ItemView>
 
             <View
                 style="@style/view_line"
@@ -237,7 +238,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 apps:LabelOne="物业费："
-                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+                apps:LabelTwo="－－"></com.finance.winport.view.home.ItemView>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -253,7 +254,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 apps:LabelOne="月租金："
-                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+                apps:LabelTwo="－－"></com.finance.winport.view.home.ItemView>
 
             <View
                 style="@style/view_line"
@@ -264,7 +265,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 apps:LabelOne="押　金："
-                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+                apps:LabelTwo="－－"></com.finance.winport.view.home.ItemView>
 
             <View
                 style="@style/view_line"
@@ -275,7 +276,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 apps:LabelOne="转让费："
-                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+                apps:LabelTwo="－－"></com.finance.winport.view.home.ItemView>
 
             <View
                 style="@style/view_line"
@@ -286,13 +287,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 apps:LabelOne="剩余合同："
-                apps:LabelTwo="刘新"></com.finance.winport.view.home.ItemView>
+                apps:LabelTwo="－－"></com.finance.winport.view.home.ItemView>
 
             <LinearLayout
                 android:id="@+id/ll_linpuxinxi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"

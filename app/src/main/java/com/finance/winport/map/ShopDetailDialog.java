@@ -67,7 +67,7 @@ public class ShopDetailDialog extends BottomDialog {
         tvAddress.setText(ret.getDistrictName() + " " + ret.getBlockName());
         tvArea.setText(ret.getArea() + "㎡");
         tvAverMoney.setText(ret.getRent() + "元／月");
-        tvDistance.setText(UnitUtil.mTokm(ret.getDistance()));
+        tvDistance.setText("距您"+UnitUtil.mTokm(ret.getDistance()));
         tvChangeMoney.setText("转让费" + UnitUtil.formatNum(ret.getTransferFee()) + "万元");
         tvUpdateTime.setText(ret.getUpdateTime());
         tvScanNum.setText(ret.getVisitCount() + "");
