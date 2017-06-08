@@ -699,7 +699,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                 } else {
                     refreshView.setMode(PtrFrameLayout.Mode.BOTH);
                 }
-                if (mData.size() < 3) {
+                if (mData.size() < 4) {
                     mData.add(null);
                     mData.add(null);
                     mData.add(null);

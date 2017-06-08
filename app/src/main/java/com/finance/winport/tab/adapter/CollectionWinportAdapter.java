@@ -151,6 +151,7 @@ public class CollectionWinportAdapter extends PullBaseAdapter<CollectionShopList
             for (int i = 0; i < item.featureList.size(); i++) {
                 if (count >= 3) break;
                 CollectionShopList.DataBeanX.DataBean.FeatureListBean tag = item.featureList.get(i);
+                if (tag == null) continue;
                 String name = tag.name;
                 String color = "#FFA73B";
                 if (!TextUtils.isEmpty(name)) {

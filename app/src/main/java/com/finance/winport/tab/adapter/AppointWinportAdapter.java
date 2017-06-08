@@ -172,6 +172,7 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
             for (int i = 0; i < item.featureList.size(); i++) {
                 if (count >= 3) break;
                 AppointShopList.DataBeanX.DataBean.FeatureListBean tag = item.featureList.get(i);
+                if (tag == null) continue;
                 String name = tag.name;
                 String color = "#FFA73B";
                 if (!TextUtils.isEmpty(name)) {

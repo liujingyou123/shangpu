@@ -467,10 +467,16 @@ public class SelectionDialog extends Dialog implements DialogInterface.OnDismiss
      */
     public void initFeatureData(List<String> selectList) {
         if (selectList != null && selectList.size() > 0) {
+            featureSelect.clear();
             featureSelect.addAll(selectList);
             if (featureAdapter != null) {
+                featureAdapter = null;
+                featureAdapter = new SelecTagAdapter(mContext, featureData);
                 featureAdapter.setSelectList(featureSelect);
-                featureAdapter.notifyDataSetChanged();
+                tcFeature.setAdapter(featureAdapter);
+//
+//                featureAdapter.setSelectList(featureSelect);
+//                featureAdapter.notifyDataSetInvalidated();
             }
         }
     }
@@ -482,10 +488,16 @@ public class SelectionDialog extends Dialog implements DialogInterface.OnDismiss
      */
     public void initSupportData(List<String> selectList) {
         if (selectList != null && selectList.size() > 0) {
+            supportSelect.clear();
             supportSelect.addAll(selectList);
             if (supportAdapter != null) {
+                supportAdapter = null;
+                supportAdapter = new SelecTagAdapter(mContext, supportData);
                 supportAdapter.setSelectList(supportSelect);
-                supportAdapter.notifyDataSetChanged();
+                tcSupport.setAdapter(supportAdapter);
+//
+//                supportAdapter.setSelectList(supportSelect);
+//                supportAdapter.notifyDataSetInvalidated();
             }
 
         }
