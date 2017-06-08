@@ -154,6 +154,8 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
         verifyCodeView.setInputType(InputType.TYPE_CLASS_NUMBER);
         phoneView.addTextChangedListener(watcher);
         phoneView.setText(SharedPrefsUtil.getUserInfo().data.userPhone.substring(0, 3) + " " + SharedPrefsUtil.getUserInfo().data.userPhone.substring(3, 7) + " " + SharedPrefsUtil.getUserInfo().data.userPhone.substring(7, 11));
+        shopId = getArguments().getString("shopId");
+        type = getArguments().getInt("type", -1);
         if (type == 1) {
 
             watch.setVisibility(View.VISIBLE);
@@ -168,8 +170,7 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
         }
         initCountDownButton();
 //        getArguments().getBundle().getString()
-        shopId = getArguments().getString("shopId");
-        type = getArguments().getInt("type", -1);
+
 
 
     }

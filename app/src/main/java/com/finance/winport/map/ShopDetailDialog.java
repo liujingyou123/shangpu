@@ -1,6 +1,7 @@
 package com.finance.winport.map;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,6 +10,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.home.HomeFragment;
+import com.finance.winport.home.ShopDetailActivity;
 import com.finance.winport.home.adapter.TagAdapter;
 import com.finance.winport.image.Batman;
 import com.finance.winport.map.model.MapShopDetailResponse;
@@ -57,7 +60,7 @@ public class ShopDetailDialog extends BottomDialog {
     @BindView(R.id.rl_data)
     RelativeLayout rlData;
 
-    public ShopDetailDialog(@NonNull Context context, MapShopDetailResponse.DataBean ret) {
+    public ShopDetailDialog(@NonNull final Context context, final MapShopDetailResponse.DataBean ret) {
         super(context);
         setContentView(R.layout.shop_list_item);
         ButterKnife.bind(this);
@@ -81,6 +84,15 @@ public class ShopDetailDialog extends BottomDialog {
         } else {
             llTag.setVisibility(View.GONE);
         }
+
+        rlData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ShopDetailActivity.class);
+                intent.putExtra("shopId", ret.getId() + "");
+                context.startActivity(intent);
+            }
+        });
 
     }
 }

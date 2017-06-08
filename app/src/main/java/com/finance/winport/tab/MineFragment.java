@@ -863,16 +863,16 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
 
                         if (!TextUtils.isEmpty(s.toString())) {
 
-                            concern.setText(s.toString());
+                            concern.setText("关注 " + s.toString());
                         }
                     } else {
 
                         if (TextUtils.isEmpty(s.toString())) {
 
-                            concern.setText(response.getData().getIndustryName());
+                            concern.setText("关注 " + response.getData().getIndustryName());
                         } else {
 
-                            concern.setText(response.getData().getIndustryName() + "-" + s.toString());
+                            concern.setText("关注 " + response.getData().getIndustryName() + "-" + s.toString());
                         }
                     }
                 }
@@ -882,18 +882,18 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
 
                         if (!TextUtils.isEmpty(s.toString())) {
 
-                            concern.setText(response.getData().getCityName() + "-" +s.toString());
+                            concern.setText("关注 " + response.getData().getCityName() + "-" +s.toString());
                         }else{
-                            concern.setText(response.getData().getCityName());
+                            concern.setText("关注 " + response.getData().getCityName());
                         }
                     } else {
 
                         if (TextUtils.isEmpty(s.toString())) {
 
-                            concern.setText(response.getData().getCityName() + "-" +response.getData().getIndustryName());
+                            concern.setText("关注 " + response.getData().getCityName() + "-" +response.getData().getIndustryName());
                         } else {
 
-                            concern.setText(response.getData().getCityName() + "-" +response.getData().getIndustryName() + "-" + s.toString());
+                            concern.setText("关注 " + response.getData().getCityName() + "-" +response.getData().getIndustryName() + "-" + s.toString());
                         }
                     }
                 }
@@ -903,36 +903,36 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
 
                     if (!TextUtils.isEmpty(s.toString())) {
 
-                        concern.setText(response.getData().getDistrictName() + "-" +s.toString());
+                        concern.setText("关注 " + response.getData().getDistrictName() + "-" +s.toString());
                     }else{
-                        concern.setText(response.getData().getDistrictName());
+                        concern.setText("关注 " + response.getData().getDistrictName());
                     }
                 } else {
 
                     if (TextUtils.isEmpty(s.toString())) {
 
-                        concern.setText(response.getData().getDistrictName() + "-" +response.getData().getIndustryName());
+                        concern.setText("关注 " + response.getData().getDistrictName() + "-" +response.getData().getIndustryName());
                     } else {
 
-                        concern.setText(response.getData().getDistrictName() + "-" +response.getData().getIndustryName() + "-" + s.toString());
+                        concern.setText("关注 " + response.getData().getDistrictName() + "-" +response.getData().getIndustryName() + "-" + s.toString());
                     }
                 }
             }
         } else if (TextUtils.isEmpty(response.getData().getIndustryName())) {
             if (!TextUtils.isEmpty(s.toString())) {
 
-                concern.setText(response.getData().getBlockName() + "-" + s.toString());
+                concern.setText("关注 " + response.getData().getBlockName() + "-" + s.toString());
             } else {
-                concern.setText(response.getData().getBlockName());
+                concern.setText("关注 " + response.getData().getBlockName());
 
             }
 
 
         } else if (!TextUtils.isEmpty(s.toString())) {
 
-            concern.setText(response.getData().getBlockName() + "-" + response.getData().getIndustryName() + "-" + s.toString());
+            concern.setText("关注 " + response.getData().getBlockName() + "-" + response.getData().getIndustryName() + "-" + s.toString());
         } else {
-            concern.setText(response.getData().getBlockName() + "-" + response.getData().getIndustryName());
+            concern.setText("关注 " + response.getData().getBlockName() + "-" + response.getData().getIndustryName());
 
         }
 
