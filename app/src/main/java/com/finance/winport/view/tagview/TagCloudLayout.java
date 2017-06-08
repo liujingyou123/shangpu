@@ -147,6 +147,10 @@ public class TagCloudLayout extends ViewGroup {
         }
     }
 
+    public void reDraw() {
+        this.drawLayout();
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int wantHeight = 0;

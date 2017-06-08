@@ -63,7 +63,7 @@ public class ShopsAdapter extends BaseAdapter {
         if (mData != null && mData.size() > position) {
             if (mData.size() == 1 && mData.get(0) == null) {
                 ret = 1;
-            } else if (mData.size() < 7) {
+            } else if (mData.size() < 8) {
                 ShopListResponse.DataBean.Shop shop = mData.get(position);
                 if (shop == null) {
                     ret = 3;
