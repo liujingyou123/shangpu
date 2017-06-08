@@ -2,6 +2,7 @@ package com.finance.winport.view.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,10 +98,13 @@ public class HeaderView extends RelativeLayout {
             @Override
             public void OnBannerClick(int position) {
                 MobclickAgent.onEvent(mContext, "shoplist_banner");
-                Intent bannerDetails = new Intent(mContext, H5Activity.class);
-                bannerDetails.putExtra("type", 4);
-                bannerDetails.putExtra("url", mUrls.get(position).getToUrl());
-                mContext.startActivity(bannerDetails);
+                if (!TextUtils.isEmpty(mUrls.get(position).getToUrl()) && !"null".equals(mUrls.get(position).getToUrl())) {
+                    Intent bannerDetails = new Intent(mContext, H5Activity.class);
+                    bannerDetails.putExtra("type", 4);
+                    bannerDetails.putExtra("url", mUrls.get(position).getToUrl());
+                    mContext.startActivity(bannerDetails);
+                }
+
             }
         });
 

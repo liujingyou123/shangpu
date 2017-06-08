@@ -28,8 +28,9 @@ public class H5Activity extends BaseActivity {
     @BindView(R.id.tv_close)
     TextView tvClose;
 
-    private int type; // 0:用户协议  1:限购查询 2:关于我们 3:协议样本 4: 广告
+    private int type; // 0:用户协议  1:限购查询 2:关于我们 3:协议样本 4: 广告 5:生意圈
     private String url; //广告
+    private String title;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,11 +46,12 @@ public class H5Activity extends BaseActivity {
         if (intent != null) {
             type = intent.getIntExtra("type", 0);
             url = intent.getStringExtra("url");
+            title = intent.getStringExtra("title");
         }
     }
 
     private void initView() {
-        tvFocusHouse.setText("");
+        tvFocusHouse.setText(title);
         tvClose.setVisibility(View.GONE);
         String address = url;
         WebSettings settings = web.getSettings();

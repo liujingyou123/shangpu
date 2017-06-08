@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.dialog.NoticeDelDialog;
 import com.finance.winport.dialog.NoticeDialog;
+import com.finance.winport.home.H5Activity;
 import com.finance.winport.image.Batman;
 import com.finance.winport.log.XLog;
 import com.finance.winport.trade.model.CommentResponse;
@@ -142,6 +143,16 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
                 }
                 if (mData.getH5obj() != null) {
                     viewHolder.rlHref.setVisibility(View.VISIBLE);
+                    viewHolder.rlHref.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent bannerDetails = new Intent(mContext, H5Activity.class);
+                            bannerDetails.putExtra("type", 5);
+                            bannerDetails.putExtra("url", mData.getH5obj().getUrl());
+                            bannerDetails.putExtra("title", mData.getH5obj().getTitle());
+                            mContext.startActivity(bannerDetails);
+                        }
+                    });
                     viewHolder.imvHref.setBackgroundResource(R.drawable.default_image_logo);
                     Batman.getInstance().fromNet(mData.getH5obj().getUrl(), viewHolder.imvHref);
                     viewHolder.tvHrefTitle.setText(mData.getH5obj().getTitle());
