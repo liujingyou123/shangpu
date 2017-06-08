@@ -317,7 +317,6 @@ public class SelectionDialog extends Dialog implements DialogInterface.OnDismiss
                 setResetData();
                 break;
             case R.id.btn_done:
-                setRequestData();
                 dismiss();
                 break;
         }
@@ -385,6 +384,7 @@ public class SelectionDialog extends Dialog implements DialogInterface.OnDismiss
 
     @Override
     public void onDismiss(DialogInterface dialog) {
+        setRequestData();
         if (mOnSelectListener != null) {
             mOnSelectListener.onSelect(requset);
         }

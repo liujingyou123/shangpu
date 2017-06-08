@@ -199,9 +199,16 @@ public class ShopsListActivity extends BaseActivity implements IShopListView {
             quyuPopupView.setOnDismissListener(new PopupWindow.OnDismissListener() {
                 @Override
                 public void onDismiss() {
-//                    selectView.onLocationUnClick();
+                    selectView.onLocationArrowDown();
+                    ShopRequset requset = quyuPopupView.getShopRequest();
+                    if (requset == null || (TextUtils.isEmpty(requset.districtId) && TextUtils.isEmpty(requset.blockId)
+                            && TextUtils.isEmpty(requset.metroId) && TextUtils.isEmpty(requset.stationId))) {
+                        selectView.onLocationUnClick();
+                    }
                 }
             });
+
+
         }
         if (!quyuPopupView.isShowing()) {
             if (sortPopupView != null && sortPopupView.isShowing()) {
@@ -209,6 +216,9 @@ public class ShopsListActivity extends BaseActivity implements IShopListView {
             }
             quyuPopupView.showAsDropDown(selectView);
             selectView.onLocationClick();
+            selectView.onLocationArrowUp();
+        } else {
+            quyuPopupView.dismiss();
         }
     }
 
@@ -218,6 +228,7 @@ public class ShopsListActivity extends BaseActivity implements IShopListView {
             sortPopupView.setOnSortSelectListener(new SortPopupView.OnSortSelectListener() {
                 @Override
                 public void onSortSelect(String sortType, String sortTypeName) {
+                    selectView.onSortArrowDown();
                     if ("0".equals(sortType)) {
                         mRequest.sortType = null;
                         selectView.setSortText("排序");
@@ -233,7 +244,10 @@ public class ShopsListActivity extends BaseActivity implements IShopListView {
             sortPopupView.setOnDismissListener(new PopupWindow.OnDismissListener() {
                 @Override
                 public void onDismiss() {
-//                            selectionView.onSortUnClick();
+                    selectView.onSortArrowDown();
+                    if (TextUtils.isEmpty(mRequest.sortType)) {
+                        selectView.onSortUnClick();
+                    }
                 }
             });
         }
@@ -243,6 +257,7 @@ public class ShopsListActivity extends BaseActivity implements IShopListView {
             }
             sortPopupView.showAsDropDown(selectView);
             selectView.onSortClick();
+            selectView.onSortArrowUp();
         }
     }
 
@@ -254,27 +269,32 @@ public class ShopsListActivity extends BaseActivity implements IShopListView {
                 public void onSelect(ShopRequset request) {
                     selectView.onCsUnClick();
                     if (request.rentList != null && request.rentList.size() > 0) {
+                        selectView.onCsClick();
                         mRequest.rentList = request.rentList;
                     } else {
                         mRequest.rentList = null;
                     }
                     if (request.transferList != null && request.transferList.size() > 0) {
+                        selectView.onCsClick();
                         mRequest.transferList = request.transferList;
                     } else {
                         mRequest.transferList = null;
                     }
                     if (request.areaList != null && request.areaList.size() > 0) {
+                        selectView.onCsClick();
                         mRequest.areaList = request.areaList;
                     } else {
                         mRequest.areaList = null;
                     }
                     mRequest.width = request.width;
                     if (request.featureTagList != null && request.featureTagList.size() > 0) {
+                        selectView.onCsClick();
                         mRequest.featureTagList = request.featureTagList;
                     } else {
                         mRequest.featureTagList = null;
                     }
                     if (request.supportTagList != null && request.supportTagList.size() > 0) {
+                        selectView.onCsClick();
                         mRequest.supportTagList = request.supportTagList;
                     } else {
                         mRequest.supportTagList = null;
@@ -304,6 +324,7 @@ public class ShopsListActivity extends BaseActivity implements IShopListView {
 
     public void onQuyuHandle(ShopRequset requset) {
         if (requset != null) {
+            selectView.onLocationArrowDown();
             if (!TextUtils.isEmpty(requset.blockId)) {
                 selectView.setQuYuText(requset.blockName);
                 mRequest.blockId = requset.blockId;
@@ -330,9 +351,11 @@ public class ShopsListActivity extends BaseActivity implements IShopListView {
                 mRequest.districtId = null;
             } else {
                 selectView.onLocationUnClick();
-                selectView.setQuYuText("区域");
+                selectView.setQuYuText("位置");
                 mRequest.districtId = null;
                 mRequest.blockId = null;
+                mRequest.metroId = null;
+                mRequest.stationId = null;
             }
 
             mRequest.pageNumber = 1;
