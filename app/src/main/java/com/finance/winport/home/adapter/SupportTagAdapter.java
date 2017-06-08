@@ -65,11 +65,14 @@ public class SupportTagAdapter extends BaseAdapter {
 
         Tag tag = mData.get(i);
         if (tag != null) {
+            if ("三相电380V".equals(tag.getName())) {
+                tag.setName("三相电");
+            }
             viewHolder.tvSTag.setText(tag.getName());
             int resId = SupportListUtil.getResByName(tag.getName());
-            if(resId != -1) {
+            if (resId != -1) {
                 Drawable drawable = mContext.getResources().getDrawable(resId);
-                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight()-1);//必须设置图片大小，否则不显示
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight() - 1);//必须设置图片大小，否则不显示
                 viewHolder.tvSTag.setCompoundDrawables(drawable, null, null, null);
             }
 

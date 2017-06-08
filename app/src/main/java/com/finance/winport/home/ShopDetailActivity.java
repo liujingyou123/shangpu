@@ -195,7 +195,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     @BindView(R.id.tv_wuye)
     TextView tvWuye;
     @BindView(R.id.gv_support)
-    GridView gvSupport;
+    TagCloudLayout gvSupport;
     @BindView(R.id.tg_view)
     TagCloudLayout tgView;
     @BindView(R.id.view_space_jingyingfanwei)

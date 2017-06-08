@@ -4,9 +4,9 @@
     android:layout_height="match_parent">
     <TextView
         android:id="@+id/tv_s_tag"
-        android:layout_width="wrap_content"
+        android:layout_width="83dp"
         android:layout_height="wrap_content"
         android:textColor="#FF333333"
         android:textSize="12sp"
-        android:drawablePadding="8.5dp"/>
+        android:drawablePadding="8.5dp" />
 </LinearLayout>
