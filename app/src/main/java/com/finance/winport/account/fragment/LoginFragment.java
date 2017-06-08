@@ -1,6 +1,7 @@
 package com.finance.winport.account.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -37,7 +38,9 @@ import com.finance.winport.account.model.UserInfo;
 import com.finance.winport.account.net.UserManager;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.dialog.LoadingDialog;
+import com.finance.winport.home.H5Activity;
 import com.finance.winport.tab.net.NetworkCallback;
+import com.finance.winport.util.H5Util;
 import com.finance.winport.util.NetworkUtil;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.SpUtil;
@@ -457,6 +460,9 @@ public class LoginFragment extends BaseFragment {
 
     @OnClick(R.id.contact_tip)
     public void onContractClicked() {
-        pushFragment(new UserContractFragment());
+        startActivity(new Intent(context, H5Activity.class)
+                .putExtra("type", 0)
+                .putExtra("url", H5Util.getIpAgreementDetail())
+                .putExtra("title", "用户协议"));
     }
 }
