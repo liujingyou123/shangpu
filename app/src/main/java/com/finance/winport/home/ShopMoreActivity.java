@@ -80,6 +80,10 @@ public class ShopMoreActivity extends BaseActivity {
     LinearLayout llLinpuxinxi;
     @BindView(R.id.tv_peittao_notice)
     TextView tvPeittaoNotice;
+    @BindView(R.id.tv_yingyunfeiyong)
+    TextView tvYingyufeiyong;
+    @BindView(R.id.ll_yingyunfeiyong)
+    LinearLayout llYingYunFeiyong;
     private ShopDetail mShopDetail;
 
     @Override
@@ -143,11 +147,17 @@ public class ShopMoreActivity extends BaseActivity {
             tvPeittaoNotice.setVisibility(View.GONE);
             gvSupportMore.setVisibility(View.GONE);
         }
-
-        tvDianfei.setLableTwo(UnitUtil.formatDNum(data.getElectricRate()) + "元/度");
-        tvShuifei.setLableTwo(UnitUtil.formatDNum(data.getWaterRate()) + "元/吨");
-        tvRanqifei.setLableTwo(UnitUtil.formatDNum(data.getGasRate()) + "元/立方");
-        tvWuyefei.setLableTwo(UnitUtil.formatDNum(data.getPropertyRate()) + "元/㎡/月");
+        if (data.getElectricRate() == 0 && data.getWaterRate() == 0 && data.getGasRate() == 0 && data.getPropertyRate() == 0) {
+            tvYingyufeiyong.setVisibility(View.GONE);
+            llYingYunFeiyong.setVisibility(View.GONE);
+        } else {
+            tvYingyufeiyong.setVisibility(View.VISIBLE);
+            llYingYunFeiyong.setVisibility(View.VISIBLE);
+            tvDianfei.setLableTwo(UnitUtil.formatDNum(data.getElectricRate()) + "元/度");
+            tvShuifei.setLableTwo(UnitUtil.formatDNum(data.getWaterRate()) + "元/吨");
+            tvRanqifei.setLableTwo(UnitUtil.formatDNum(data.getGasRate()) + "元/立方");
+            tvWuyefei.setLableTwo(UnitUtil.formatDNum(data.getPropertyRate()) + "元/㎡/月");
+        }
 
         tvYuezujin.setLableTwo(UnitUtil.limitNum(data.getRent(), 99999) + "/月");
         tvYajin.setLableTwo(UnitUtil.limitNum(data.getDeposit(), 99999));

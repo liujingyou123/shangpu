@@ -182,16 +182,16 @@
                 android:id="@+id/gv_support_more"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:background="#ffffff"
                 android:minHeight="50dp"
                 android:numColumns="4"
+                android:paddingBottom="10dp"
                 android:paddingLeft="15dp"
                 android:paddingTop="10dp"
-                android:verticalSpacing="8dp"
-                android:paddingBottom="10dp"></GridView>
+                android:verticalSpacing="8dp"></GridView>
 
             <TextView
+                android:id="@+id/tv_yingyunfeiyong"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:gravity="center"
@@ -200,45 +200,53 @@
                 android:textColor="#999999"
                 android:textSize="12sp" />
 
-            <com.finance.winport.view.home.ItemView
-                android:id="@+id/tv_dianfei"
+            <LinearLayout
+                android:id="@+id/ll_yingyunfeiyong"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                apps:LabelOne="电　　费："
-                apps:LabelTwo="－－"></com.finance.winport.view.home.ItemView>
+                android:orientation="vertical">
 
-            <View
-                style="@style/view_line"
-                android:layout_marginLeft="15dp" />
+                <com.finance.winport.view.home.ItemView
+                    android:id="@+id/tv_dianfei"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    apps:LabelOne="电　　费："
+                    apps:LabelTwo="－－"></com.finance.winport.view.home.ItemView>
 
-            <com.finance.winport.view.home.ItemView
-                android:id="@+id/tv_shuifei"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                apps:LabelOne="水　　费："
-                apps:LabelTwo="－－"></com.finance.winport.view.home.ItemView>
+                <View
+                    style="@style/view_line"
+                    android:layout_marginLeft="15dp" />
 
-            <View
-                style="@style/view_line"
-                android:layout_marginLeft="15dp" />
+                <com.finance.winport.view.home.ItemView
+                    android:id="@+id/tv_shuifei"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    apps:LabelOne="水　　费："
+                    apps:LabelTwo="－－"></com.finance.winport.view.home.ItemView>
 
-            <com.finance.winport.view.home.ItemView
-                android:id="@+id/tv_ranqifei"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                apps:LabelOne="燃气费："
-                apps:LabelTwo="－－"></com.finance.winport.view.home.ItemView>
+                <View
+                    style="@style/view_line"
+                    android:layout_marginLeft="15dp" />
 
-            <View
-                style="@style/view_line"
-                android:layout_marginLeft="15dp" />
+                <com.finance.winport.view.home.ItemView
+                    android:id="@+id/tv_ranqifei"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    apps:LabelOne="燃气费："
+                    apps:LabelTwo="－－"></com.finance.winport.view.home.ItemView>
 
-            <com.finance.winport.view.home.ItemView
-                android:id="@+id/tv_wuyefei"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                apps:LabelOne="物业费："
-                apps:LabelTwo="－－"></com.finance.winport.view.home.ItemView>
+                <View
+                    style="@style/view_line"
+                    android:layout_marginLeft="15dp" />
+
+                <com.finance.winport.view.home.ItemView
+                    android:id="@+id/tv_wuyefei"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    apps:LabelOne="物业费："
+                    apps:LabelTwo="－－"></com.finance.winport.view.home.ItemView>
+            </LinearLayout>
+
 
             <TextView
                 android:layout_width="wrap_content"

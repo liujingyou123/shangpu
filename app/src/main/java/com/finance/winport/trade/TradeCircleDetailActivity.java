@@ -243,11 +243,12 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
         commentDialog.setContent("");
         commentDialog.dismiss();
         if (isSuccess) {
-            ToastUtil.show(this,"评论成功");
+            ToastUtil.show(this, "评论成功");
+            pageNumber = 1;
             mPresenter.getComment(topicId, pageNumber + "");
 
         } else {
-            ToastUtil.show(this,"评论失败，请重试");
+            ToastUtil.show(this, "评论失败，请重试");
         }
     }
 
@@ -278,11 +279,22 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
     public void showComments(CommentResponse response) {
         adapter.setComments(response.getData().getData());
         xpfl.refreshComplete();
+        if (response.getData().getData().size() < 10) {
+            xpfl.setMode(PtrFrameLayout.Mode.REFRESH);
+        } else {
+            xpfl.setMode(PtrFrameLayout.Mode.BOTH);
+        }
     }
 
     @Override
     public void showCommentsMore(CommentResponse response) {
         adapter.setMoreComments(response.getData().getData());
         xpfl.refreshComplete();
+
+        if (response.getData().getData().size() < 10) {
+            xpfl.setMode(PtrFrameLayout.Mode.REFRESH);
+        } else {
+            xpfl.setMode(PtrFrameLayout.Mode.BOTH);
+        }
     }
 }

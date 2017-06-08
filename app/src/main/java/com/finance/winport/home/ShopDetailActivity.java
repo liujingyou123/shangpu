@@ -640,7 +640,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         mShopDetail = shopDetail;
         ShopDetail.DataBean data = shopDetail.getData();
         tvName.setText("由 小二 " + data.getClerkName() + " 于" + data.getIssueShopTime() + " 实勘核实");
-        tvShopAddress.setText(" 　 " + data.getDistrictName()+data.getBlockName()+data.getAddress());
+        tvShopAddress.setText(" 　 " + data.getDistrictName() + data.getBlockName() + data.getAddress());
         tvScan.setText(data.getVisitCount() + "浏览");
         tvLianxi.setText(data.getContactCount() + "联系");
 
@@ -703,10 +703,10 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             llJingyingfeiyongone.setVisibility(View.VISIBLE);
             llJingyingfeiyongtwo.setVisibility(View.GONE);
 
-            tvDianfei.setText(data.getElectricRate() + "");
-            tvShuifei.setText(data.getWaterRate() + "");
-            tvRanqi.setText(data.getGasRate() + "");
-            tvWuye.setText(data.getPropertyRate() + "");
+            tvDianfei.setText(UnitUtil.formatDNum(data.getElectricRate()));
+            tvShuifei.setText(UnitUtil.formatDNum(data.getWaterRate()));
+            tvRanqi.setText(UnitUtil.formatDNum(data.getGasRate()));
+            tvWuye.setText(UnitUtil.formatDNum(data.getPropertyRate()));
 
 
         } else if (data.getElectricRate() == 0 && data.getWaterRate() == 0 && data.getGasRate() == 0 && data.getPropertyRate() == 0) {
@@ -723,7 +723,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
                 lp.weight = 1;
                 RateView rv = new RateView(this);
-                rv.setNum(data.getElectricRate() + "");
+                rv.setNum(UnitUtil.formatDNum(data.getElectricRate()));
                 rv.setNotice("电费(元/度)");
                 llJingyingfeiyongtwo.addView(rv, lp);
             }
@@ -732,7 +732,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
                 lp.weight = 1;
                 RateView rv = new RateView(this);
-                rv.setNum(data.getWaterRate() + "");
+                rv.setNum(UnitUtil.formatDNum(data.getWaterRate()));
                 rv.setNotice("水费(元/吨)");
                 if (llJingyingfeiyongtwo.getChildCount() > 0) {
                     View view = new View(this);
@@ -748,7 +748,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
                 lp.weight = 1;
                 RateView rv = new RateView(this);
-                rv.setNum(data.getGasRate() + "");
+                rv.setNum(UnitUtil.formatDNum(data.getGasRate()));
                 rv.setNotice("燃气费(元/㎡)");
                 if (llJingyingfeiyongtwo.getChildCount() > 0) {
                     View view = new View(this);
@@ -764,7 +764,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
                 lp.weight = 1;
                 RateView rv = new RateView(this);
-                rv.setNum(data.getPropertyRate() + "");
+                rv.setNum(UnitUtil.formatDNum(data.getPropertyRate()));
                 rv.setNotice("物业费(元/㎡/月)");
                 if (llJingyingfeiyongtwo.getChildCount() > 0) {
                     View view = new View(this);
