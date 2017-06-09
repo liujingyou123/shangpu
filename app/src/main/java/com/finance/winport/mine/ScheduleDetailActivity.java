@@ -202,7 +202,10 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
         applyTime.setText(response.getData().getApplyTime());
         address.setText(response.getData().getAddress());
         phone.setText(response.getData().getContactPhone());
-        orderTime.setText(response.getData().getOrderTime());
+        if(!TextUtils.isEmpty(response.getData().getOrderTime())){
+
+            orderTime.setText(response.getData().getOrderTime().substring(0,response.getData().getOrderTime().length()-3));
+        }
         contactName.setText(response.getData().getContactName());
 
         clerkPhone = response.getData().getClerkPhone();
@@ -233,5 +236,11 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
             mPresenter = new ScheduleDetailPresenter(this);
         }
         mPresenter.getScheduleDetail(scheduleId);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.clear();
     }
 }

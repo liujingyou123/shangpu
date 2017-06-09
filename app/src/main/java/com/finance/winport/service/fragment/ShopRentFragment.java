@@ -90,6 +90,7 @@ public class ShopRentFragment extends BaseFragment implements IFindServiceView {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        mPresenter.clear();
     }
 
     @OnClick({R.id.imv_focus_house_back, R.id.send_btn})

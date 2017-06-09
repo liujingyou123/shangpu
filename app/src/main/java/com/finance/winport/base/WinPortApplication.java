@@ -9,6 +9,7 @@ import com.finance.winport.BuildConfig;
 import com.finance.winport.aliyunoss.AliOss;
 import com.baidu.mapapi.SDKInitializer;
 import com.finance.winport.image.Batman;
+import com.finance.winport.log.XLog;
 import com.finance.winport.net.NetworkClient;
 import com.finance.winport.util.SelectDialogUtil;
 import com.finance.winport.util.SharedPrefsUtil;
@@ -16,7 +17,11 @@ import com.finance.winport.util.SpUtil;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 /**
  * Created by liuworkmac on 17/5/2.
@@ -36,7 +41,10 @@ public class WinPortApplication extends Application {
         SharedPrefsUtil.initSharedPrefers(this);
         UMShareAPI.get(this);
         JPushInterface.setDebugMode(BuildConfig.DEBUG);    // 设置开启日志,发布时请关闭日志
+        Set<String> tags = new HashSet<>();
+        tags.add("customer");
         JPushInterface.init(this); // 初始化 JPush
+        JPushInterface.setTags(this,tags, tagAliasCallback);
         SpUtil.getInstance().init(this);
         SelectDialogUtil.getInstance().init(this);
 
@@ -53,6 +61,13 @@ public class WinPortApplication extends Application {
         super.attachBaseContext(base);
         MultiDex.install(this);
     }
+
+    TagAliasCallback tagAliasCallback = new TagAliasCallback() {
+        @Override
+        public void gotResult(int i, String s, Set<String> set) {
+            XLog.e("JPush i = "+i);
+        }
+    };
 
     public static WinPortApplication getInstance() {
         return businessApplication;

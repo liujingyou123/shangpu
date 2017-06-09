@@ -91,6 +91,12 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
         mPresenter.getIndustryList();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.clear();
+    }
+
     private void commit(){
         CommitFocusRequest request = new CommitFocusRequest();
         request.setList(list1);

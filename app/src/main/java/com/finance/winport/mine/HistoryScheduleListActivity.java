@@ -75,6 +75,12 @@ public class HistoryScheduleListActivity extends BaseActivity implements ISchedu
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.clear();
+    }
+
     public void init(){
         tvFocusHouse.setText("历史日程");
         refreshView.setMode(PtrFrameLayout.Mode.LOAD_MORE);

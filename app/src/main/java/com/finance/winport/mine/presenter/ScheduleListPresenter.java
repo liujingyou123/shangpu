@@ -36,4 +36,8 @@ public class ScheduleListPresenter {
 
     }
 
+    public void clear(){
+        mServiceView = null;
+    }
+
 }

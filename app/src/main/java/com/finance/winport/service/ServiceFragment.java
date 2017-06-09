@@ -300,6 +300,7 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        mPresenter.clear();
     }
 
     @Override
@@ -311,6 +312,7 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
     @Override
     public void onStop() {
         super.onStop();
+
 //        banner.stopAutoPlay();
     }
 

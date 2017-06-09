@@ -35,6 +35,10 @@ public class FindServiceHomePresenter {
 
     }
 
+    public void clear(){
+        mServiceView = null;
+    }
+
     public void getCalendarHome() {
 
         HashMap<String,String> map = new HashMap<>();

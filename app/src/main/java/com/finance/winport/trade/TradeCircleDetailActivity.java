@@ -18,7 +18,6 @@ import com.finance.winport.account.LoginActivity;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.dialog.CommentDialog;
 import com.finance.winport.dialog.NoticeDelDialog;
-import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.trade.adapter.TradeCircleDetailAdapter;
 import com.finance.winport.trade.model.CommentResponse;
 import com.finance.winport.trade.model.EventBusCommentNum;
@@ -53,6 +52,8 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
     TextView tvCommentNum;
     @BindView(R.id.ll_bottom)
     LinearLayout llBottom;
+    @BindView(R.id.ll_empty)
+    LinearLayout llEmpty;
 
     CommentDialog commentDialog;
     TradeCircleDetailAdapter adapter;
@@ -201,6 +202,9 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
 
     @Override
     public void showTradeDetail(TradeDetailResponse response) {
+        llBottom.setVisibility(View.VISIBLE);
+        xpfl.setVisibility(View.VISIBLE);
+        llEmpty.setVisibility(View.GONE);
         this.mData = response.getData();
         if (response.getData().getLikeStatus() == 0) {
             tvPraiseNum.setSelected(false);
@@ -296,6 +300,17 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
         } else {
             xpfl.setMode(PtrFrameLayout.Mode.BOTH);
         }
+    }
+
+    @Override
+    public void showError(TradeDetailResponse response) {
+        if (response != null && !response.isSuccess() && "20006".equals(response.getErrCode())) {
+            llBottom.setVisibility(View.GONE);
+            xpfl.setVisibility(View.GONE);
+            llEmpty.setVisibility(View.VISIBLE);
+            imvRight.setVisibility(View.GONE);
+        }
+
     }
 
     @Override

@@ -60,4 +60,8 @@ public class ServicePresenter {
         });
 
     }
+
+    public void clear(){
+        mServiceView = null;
+    }
 }
