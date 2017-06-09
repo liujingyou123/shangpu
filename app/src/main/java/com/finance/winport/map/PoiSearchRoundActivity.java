@@ -214,6 +214,7 @@ public class PoiSearchRoundActivity extends BaseActivity implements
     @Override
     public void onResume() {
         super.onResume();
+        mapView.onResume();
         showNearbyArea(center, radius);
         new Handler(Looper.myLooper()).postDelayed(new Runnable() {
             @Override
@@ -222,7 +223,7 @@ public class PoiSearchRoundActivity extends BaseActivity implements
             }
         }, 1000);
 
-        mapView.onResume();
+
 
     }
 
@@ -499,13 +500,19 @@ public class PoiSearchRoundActivity extends BaseActivity implements
 //                .fromResource(R.mipmap.map_icon_hotel_selected);
 //        MarkerOptions ooMarker2 = new MarkerOptions().position(mBaiduMap.getMapStatus().bound.southwest).icon(centerBitmap2);
 //        mBaiduMap.addOverlay(ooMarker2);
-        searchType = 2;
-        Log.i("kkkkkkkkkkkkk southwest", mBaiduMap.getMapStatus().bound.southwest.toString());
-        Log.i("kkkkkkkkkkkkk southwest", mBaiduMap.getMapStatus().bound.northeast.toString());
-        PoiNearbySearchOption nearbySearchOption = new PoiNearbySearchOption().keyword(keyword).sortType(PoiSortType.distance_from_near_to_far).location(center)
-                .radius(radius).pageNum(1).pageCapacity(50);
-        PoiBoundSearchOption poiBoundSearchOption = new PoiBoundSearchOption().keyword(keyword).bound(mBaiduMap.getMapStatus().bound);
-        mPoiSearch.searchInBound(poiBoundSearchOption);
+//        Log.i("kkkkkkkkkkkkk southwest", mBaiduMap.getMapStatus().bound.southwest.toString());
+//        Log.i("kkkkkkkkkkkkk southwest", mBaiduMap.getMapStatus().bound.northeast.toString());
+        try{
+
+            searchType = 2;
+            PoiNearbySearchOption nearbySearchOption = new PoiNearbySearchOption().keyword(keyword).sortType(PoiSortType.distance_from_near_to_far).location(center)
+                    .radius(radius).pageNum(1).pageCapacity(50);
+            PoiBoundSearchOption poiBoundSearchOption = new PoiBoundSearchOption().keyword(keyword).bound(mBaiduMap.getMapStatus().bound);
+            mPoiSearch.searchInBound(poiBoundSearchOption);
+        }catch (Exception e){
+
+            e.printStackTrace();
+        }
 //        mPoiSearch.searchNearby(nearbySearchOption);
     }
 
