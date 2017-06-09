@@ -31,6 +31,11 @@ public class TradeCirclePresenter {
         this.mIMyTopicListView = mIMyTopicListView;
     }
 
+    public void clearData() {
+        mITradeCircleView = null;
+        mIMyTopicListView = null;
+    }
+
     public void getTradeCircles(String type, int pageNumber) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("type", type);

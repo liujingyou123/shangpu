@@ -119,7 +119,7 @@ public class CollectionWinportAdapter extends PullBaseAdapter<CollectionShopList
             }
 
         }
-        holder.distance.setText("距您" + item.distance + "km");
+        holder.distance.setText("距您" + (item.distance <= 0.0f ? "0" : item.distance) + "km");
         holder.scan.setText(item.visitCount + "");
         holder.call.setText(item.contactCount + "");
         Batman.getInstance().fromNet(item.coverImg, holder.img);

@@ -297,4 +297,13 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
             xpfl.setMode(PtrFrameLayout.Mode.BOTH);
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        if (mPresenter != null) {
+            mPresenter.clearData();
+        }
+        super.onDestroy();
+
+    }
 }

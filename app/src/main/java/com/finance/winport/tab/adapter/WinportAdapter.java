@@ -52,12 +52,12 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         }
         final WinportList.DataBeanX.DataBean item = baseData.get(position);
         holder.address.setText(item.address + item.rentTypeName);
-        holder.scanCount.setText(item.scanCount + "人/次浏览");
+        holder.scanCount.setText("周浏览"+item.scanCount + "人/次");
         holder.area.setText(UnitUtil.formatArea(item.area) + "㎡");
         holder.releaseTime.setText(item.publishTime);
         //rentStatus 出租状态 0-待出租 1-出租中 2-已出租  3-已下架（撤下）
         if (item.rentStatus == 3) {
-            holder.historyCount.setText("历史带看申请" + item.visitCount + "组");
+            holder.historyCount.setText("历史看铺申请" + item.visitCount + "组");
             setViewAndChildrenEnabled(convertView, false);
             holder.llOnSale.setVisibility(View.GONE);
             holder.release.setEnabled(true);
@@ -68,7 +68,7 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
             holder.llOnSale.setVisibility(View.VISIBLE);
             holder.release.setVisibility(View.GONE);
             setViewAndChildrenEnabled(convertView, true);
-            String vcs = "历史带看申请" + item.visitCount + "组";
+            String vcs = "历史看铺申请" + item.visitCount + "组";
             SpannableString sp = new SpannableString(vcs);
             sp.setSpan(new ForegroundColorSpan(Color.parseColor("#333333"))
                     , vcs.indexOf(item.visitCount)
