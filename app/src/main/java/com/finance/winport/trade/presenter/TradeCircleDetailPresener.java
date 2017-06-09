@@ -22,6 +22,10 @@ public class TradeCircleDetailPresener {
         this.mITradeDetailView = mITradeDetailView;
     }
 
+    public void clearData() {
+        mITradeDetailView = null;
+    }
+
     public void getTradeCircleDetail(String topicId) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("topicId", topicId);

@@ -244,9 +244,12 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         unbinder.unbind();
+        if (mPresenter != null) {
+            mPresenter.clearData();
+        }
         EventBus.getDefault().unregister(this);
+        super.onDestroyView();
     }
 
     @OnClick(R.id.tv_comments_num)
