@@ -243,6 +243,9 @@ public class SendFindLoanFragment extends BaseFragment implements IFindLoanView 
     @Override
     public void showSendFindLoanResult(BaseResponse response) {
 
+        if(getView()==null){
+            return;
+        }
         startActivity(new Intent(getActivity(), SendSuccessActivity.class));
         getActivity().finish();
     }

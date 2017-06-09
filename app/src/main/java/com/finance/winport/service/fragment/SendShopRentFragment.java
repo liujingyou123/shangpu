@@ -493,6 +493,9 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
     @Override
     public void shopSendRentResult(final SendOrderShopResponse response) {
 
+        if(getView()==null){
+            return;
+        }
         Intent intent = new Intent(getActivity(), SendSuccessActivity.class);
         intent.putExtra("scheduleId", response.getData());
         intent.putExtra("type",1);

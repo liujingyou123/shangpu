@@ -164,4 +164,11 @@ public class MyScheduleListActivity extends BaseActivity implements IScheduleLis
 //    public void onViewClicked() {
 //        finish();
 //    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.clear();
+    }
 }
