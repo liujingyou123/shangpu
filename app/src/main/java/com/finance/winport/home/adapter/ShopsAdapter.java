@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.image.Batman;
+import com.finance.winport.log.XLog;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.tagview.TagCloudLayout;
@@ -29,11 +30,18 @@ import butterknife.ButterKnife;
 public class ShopsAdapter extends BaseAdapter {
     private Context mContext;
     private List<ShopListResponse.DataBean.Shop> mData;
+//    private int viewHeight;
 
     public ShopsAdapter(Context mContext, List<ShopListResponse.DataBean.Shop> mData) {
         this.mContext = mContext;
         this.mData = mData;
     }
+
+//    @Override
+//    public void notifyDataSetChanged() {
+//        viewHeight = 0;
+//        super.notifyDataSetChanged();
+//    }
 
     @Override
     public int getCount() {
@@ -137,7 +145,12 @@ public class ShopsAdapter extends BaseAdapter {
                         viewHolder.llTag.setVisibility(View.GONE);
                     }
                 }
+
+//                viewHeight += viewHolder.rlData.getMeasuredHeight();
+//                XLog.e("viewHeight = " +viewHeight);
             }
+
+
 
         }
 

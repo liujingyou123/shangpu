@@ -87,12 +87,14 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
     private HeaderView headerView;
     private SelectView heardSelectView;
     private LoadingDialog loadingDialog;
+    private boolean isFirstLoad;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.home_fragment, container, false);
         unbinder = ButterKnife.bind(this, root);
+        isFirstLoad = true;
         initListView();
         getData();
 
@@ -677,7 +679,6 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 
     @Override
     public void showShopList(ShopListResponse response) {
-
         if (SharedPrefsUtil.getUserInfo() != null) {
             SpUtil.getInstance().setStringData("login", "0");
         }
@@ -687,7 +688,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         if (response != null) {
 
             if (response.getData() != null && response.getData().getTotalSize() > 0) {
-                ToastUtil.show(this.getContext(), "共找到"+response.getData().getTotalSize()+"间旺铺");
+                ToastUtil.show(this.getContext(), "共找到" + response.getData().getTotalSize() + "间旺铺");
             }
             mData.clear();
 
@@ -715,9 +716,12 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
             if (refreshView.isRefreshing()) {
                 refreshView.refreshComplete();
             } else {
-//                lsShops.smoothScrollToPositionFromTop(1, -1, 300);
-
+                if (!isFirstLoad) {
+                    lsShops.smoothScrollToPositionFromTop(1, -1, 300);
+                }
             }
+
+            isFirstLoad = false;
 
         }
     }

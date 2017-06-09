@@ -18,7 +18,6 @@ import com.finance.winport.account.LoginActivity;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.dialog.CommentDialog;
 import com.finance.winport.dialog.NoticeDelDialog;
-import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.trade.adapter.TradeCircleDetailAdapter;
 import com.finance.winport.trade.model.CommentResponse;
 import com.finance.winport.trade.model.EventBusCommentNum;
