@@ -277,6 +277,9 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
     @Override
     public void shopSendOrderResult(SendOrderShopResponse response) {
 
+        if(getView()==null){
+            return;
+        }
         Intent intent = new Intent(getActivity(), SendSuccessActivity.class);
         intent.putExtra("scheduleId", response.getData());
         intent.putExtra("type",2);

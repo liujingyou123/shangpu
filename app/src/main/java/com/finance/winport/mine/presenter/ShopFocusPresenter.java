@@ -48,4 +48,8 @@ public class ShopFocusPresenter {
 
     }
 
+    public void clear(){
+        mServiceView = null;
+    }
+
 }

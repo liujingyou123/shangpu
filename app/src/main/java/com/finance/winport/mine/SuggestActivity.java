@@ -115,6 +115,9 @@ public class SuggestActivity extends BaseActivity {
         ToolsUtil.subscribe(ToolsUtil.createService(MineServices.class).commitFeedBack(params), new NetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
+                if(isFinishing()){
+                    return;
+                }
                 Toast.makeText(SuggestActivity.this,"发送成功",Toast.LENGTH_SHORT).show();
                 finish();
             }

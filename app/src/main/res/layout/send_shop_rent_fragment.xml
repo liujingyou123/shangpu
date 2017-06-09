@@ -141,7 +141,7 @@
                             android:layout_marginLeft="15dp"
                             android:layout_marginTop="6dp"
                             android:layout_toRightOf="@+id/shop_img"
-                            android:text="小二将致电您确认贷款需求"
+                            android:text="小二将致电您确认招租需求"
                             android:textColor="#999999"
                             android:textSize="14sp" />
                     </RelativeLayout>
