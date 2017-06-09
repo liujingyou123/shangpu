@@ -265,8 +265,12 @@ public class SlidingTabLayout extends LinearLayout {
             TextView textView = createDefaultTabView(getContext(),adapter.getCount(), size);
             textView.setOnClickListener(tabOnClickListener);
             textView.setText(mItemName.getTabName(i));
+            if (i ==0 ) {
+                textView.setTextColor(mTabSelectColor);
+            }
             addView(textView);
         }
+
     }
 
     /**
@@ -356,14 +360,14 @@ public class SlidingTabLayout extends LinearLayout {
     private void viewPagerChange(int position, float positionOffset) {
         mSelectedPosition = position;
         mSelectionOffset = positionOffset;
-        for (int i=0;i<getChildCount();i++){
-            if(i==position){
-                ((TextView)getChildAt(i)).setTextColor(mTabSelectColor);
-            }
-            else{
-                ((TextView)getChildAt(i)).setTextColor(mTabNonSelectColor);
-            }
-        }
+//        for (int i=0;i<getChildCount();i++){
+//            if(i==position){
+//                ((TextView)getChildAt(i)).setTextColor(mTabSelectColor);
+//            }
+//            else{
+//                ((TextView)getChildAt(i)).setTextColor(mTabNonSelectColor);
+//            }
+//        }
 
 
         invalidate();
@@ -392,6 +396,15 @@ public class SlidingTabLayout extends LinearLayout {
 
             if (mListener != null) {
                 mListener.onPageSelected(position);
+            }
+
+            for (int i=0;i<getChildCount();i++){
+                if(i==position){
+                    ((TextView)getChildAt(i)).setTextColor(mTabSelectColor);
+                }
+                else{
+                    ((TextView)getChildAt(i)).setTextColor(mTabNonSelectColor);
+                }
             }
         }
 

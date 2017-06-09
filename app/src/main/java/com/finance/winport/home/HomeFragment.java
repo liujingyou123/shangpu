@@ -689,9 +689,6 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
             if (response.getData() != null && response.getData().getTotalSize() > 0) {
                 ToastUtil.show(this.getContext(), "共找到"+response.getData().getTotalSize()+"间旺铺");
             }
-            if (refreshView.isRefreshing()) {
-                refreshView.refreshComplete();
-            }
             mData.clear();
 
             if (response.getData().getData() == null || response.getData().getData().size() == 0) {
@@ -715,7 +712,13 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                 adapter.notifyDataSetChanged();
             }
 
-            lsShops.smoothScrollToPositionFromTop(1, -1, 300);
+            if (refreshView.isRefreshing()) {
+                refreshView.refreshComplete();
+            } else {
+                lsShops.smoothScrollToPositionFromTop(1, -1, 300);
+
+            }
+
         }
     }
 

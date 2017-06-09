@@ -79,6 +79,7 @@ public class TradeCircleFragment extends BaseFragment {
                 }
             }
         });
+        idViewPager.setCurrentItem(0);
     }
 
     @OnClick({R.id.my_list, R.id.imv_edit_m})
