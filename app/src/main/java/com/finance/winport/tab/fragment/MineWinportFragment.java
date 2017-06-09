@@ -158,6 +158,7 @@ public class MineWinportFragment extends BaseFragment {
         PersonManager.getInstance().queryScanCount(new HashMap<String, Object>(), new NetworkCallback<ScanCount>() {
             @Override
             public void success(ScanCount response) {
+                if (getView() == null) return;
                 if (response != null && response.isSuccess()) {
                     setTip(response.data.weekCount, response.data.rate);
                 }

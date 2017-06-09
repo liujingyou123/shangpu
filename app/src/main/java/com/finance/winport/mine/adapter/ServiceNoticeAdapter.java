@@ -67,7 +67,7 @@ public class ServiceNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.Se
             final NotifyList.DataBean.ServiceNoticeBean item = baseData.get(position);
             holder.title.setText(item.digest);
             holder.time.setText(item.notifyTime);
-            //0：旺铺寻租1：签约租铺2：预约看铺
+            //0-预约看铺 1-旺铺寻租 2-签约租铺
             holder.serviceType.setText(getType(item.serviceType));
             holder.address.setText(item.shopAddress);
             holder.oldSchedule.setText(item.oldSchedule);
@@ -91,7 +91,7 @@ public class ServiceNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.Se
             final NotifyList.DataBean.ServiceNoticeBean item = baseData.get(position);
             holder.title.setText(item.digest);
             holder.time.setText(item.notifyTime);
-            //0：旺铺寻租1：签约租铺2：预约看铺
+            //0-预约看铺 1-旺铺寻租 2-签约租铺
             holder.serviceType.setText(getType(item.serviceType));
             holder.address.setText(item.shopAddress);
             holder.schedule.setText(item.currentSchedule);
@@ -115,7 +115,7 @@ public class ServiceNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.Se
             final NotifyList.DataBean.ServiceNoticeBean item = baseData.get(position);
             holder.title.setText(item.digest);
             holder.time.setText(item.notifyTime);
-            //0：旺铺寻租1：签约租铺2：预约看铺
+            //0-预约看铺 1-旺铺寻租 2-签约租铺
             holder.serviceType.setText(getType(item.serviceType));
             holder.address.setText(item.shopAddress);
             holder.details.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +137,7 @@ public class ServiceNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.Se
             final NotifyList.DataBean.ServiceNoticeBean item = baseData.get(position);
             holder.title.setText(item.digest);
             holder.time.setText(item.notifyTime);
-            //0：旺铺寻租1：签约租铺2：预约看铺
+            //0-预约看铺 1-旺铺寻租 2-签约租铺
             holder.serviceType.setText(getType(item.serviceType));
             holder.address.setText(item.shopAddress);
             holder.schedule.setText(item.currentSchedule);
@@ -156,11 +156,11 @@ public class ServiceNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.Se
     private String getType(String type) {
         String s = "";
         if (TextUtils.equals(type, "0")) {
-            s = "旺铺寻租";
-        } else if (TextUtils.equals(type, "1")) {
-            s = "签约租铺";
-        } else if (TextUtils.equals(type, "2")) {
             s = "预约看铺";
+        } else if (TextUtils.equals(type, "1")) {
+            s = "旺铺寻租";
+        } else if (TextUtils.equals(type, "2")) {
+            s = "签约租铺";
         }
         return s;
     }

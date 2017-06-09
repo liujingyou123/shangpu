@@ -22,4 +22,6 @@ public interface ITradeDetailView {
 
     void showComments(CommentResponse response);
     void showCommentsMore(CommentResponse response);
+
+    void showError(TradeDetailResponse response);
 }

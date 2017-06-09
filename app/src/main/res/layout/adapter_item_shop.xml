@@ -182,13 +182,13 @@
     <RelativeLayout
         android:id="@+id/rl_tianchong"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="110dp"
         android:background="@color/bg"></RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/view_trans"
         android:layout_width="match_parent"
-        android:layout_height="700dp"
+        android:layout_height="wrap_content"
         android:background="#ffffff">
         <TextView
             android:layout_width="match_parent"

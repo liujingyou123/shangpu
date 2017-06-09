@@ -5,9 +5,11 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.finance.winport.log.XLog;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
@@ -53,6 +55,38 @@ public class UnitUtil {
      */
     public static int getScreenHeightPixels(Context context) {
         return context.getResources().getDisplayMetrics().heightPixels;
+    }
+
+    public static int getStatusBarHeight(Context context) {
+        Class<?> c = null;
+
+        Object obj = null;
+
+        Field field = null;
+
+        int x = 0, sbar = 0;
+
+        try {
+
+            c = Class.forName("com.android.internal.R$dimen");
+
+            obj = c.newInstance();
+
+            field = c.getField("status_bar_height");
+
+            x = Integer.parseInt(field.get(obj).toString());
+
+            sbar = context.getResources().getDimensionPixelSize(x);
+
+        } catch (Exception e1) {
+
+            e1.printStackTrace();
+
+        }
+
+        XLog.e("unitUtil = "+sbar);
+
+        return sbar;
     }
 
     /**

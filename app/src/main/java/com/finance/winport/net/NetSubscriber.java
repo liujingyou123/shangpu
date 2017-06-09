@@ -61,6 +61,7 @@ public abstract class NetSubscriber<T> extends Subscriber<T> {
                 errorMsg = "success is false";
             }
             onError(new Throwable(errorMsg));
+            error(response);
             XLog.e(errorMsg);
             return;
         }
@@ -68,6 +69,7 @@ public abstract class NetSubscriber<T> extends Subscriber<T> {
         response(response);
     }
 
+    public void error(T response) {}
     public abstract void response(T response);
 
     /**
