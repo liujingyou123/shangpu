@@ -714,6 +714,8 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
             if (adapter != null) {
                 adapter.notifyDataSetChanged();
             }
+
+            lsShops.smoothScrollToPositionFromTop(1, -1, 300);
         }
     }
 

@@ -176,6 +176,21 @@ public class UnitUtil {
 
     }
 
+    public static String formatSNum(String num) {
+        String ret = null;
+        if (TextUtils.isEmpty(num)) {
+            return ret;
+        }
+        try {
+            double d = Double.parseDouble(num);
+            ret = formatDNum(d);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ret;
+    }
+
     public static String formatArea(float in) {
         String number = null;
         int inInt = (int) in;
