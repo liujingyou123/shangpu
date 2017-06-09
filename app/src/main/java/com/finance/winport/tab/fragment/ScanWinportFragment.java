@@ -196,6 +196,7 @@ public class ScanWinportFragment extends BaseFragment {
         PersonManager.getInstance().getAppointRanking(new HashMap<String, Object>(), new NetworkCallback<AppointRanking>() {
             @Override
             public void success(AppointRanking response) {
+                if (getView() == null) return;
                 setTip(response.data.total, response.data.rate);
             }
 
@@ -211,6 +212,7 @@ public class ScanWinportFragment extends BaseFragment {
         PersonManager.getInstance().queryBrowserCount(new HashMap<String, Object>(), new NetworkCallback<AppointRanking>() {
             @Override
             public void success(AppointRanking response) {
+                if (getView() == null) return;
                 setTip(response.data.total, response.data.rate);
             }
 
@@ -226,6 +228,7 @@ public class ScanWinportFragment extends BaseFragment {
         PersonManager.getInstance().queryCollectionCount(new HashMap<String, Object>(), new NetworkCallback<AppointRanking>() {
             @Override
             public void success(AppointRanking response) {
+                if (getView() == null) return;
                 setTip(response.data.total, response.data.rate);
             }
 
