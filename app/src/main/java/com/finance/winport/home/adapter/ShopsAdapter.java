@@ -95,6 +95,8 @@ public class ShopsAdapter extends BaseAdapter {
             if (type == 1) {
                 viewHolder.rlData.setVisibility(View.GONE);
                 viewHolder.rlTianchong.setVisibility(View.GONE);
+                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, UnitUtil.getScreenHeightPixels(mContext)-UnitUtil.getStatusBarHeight(mContext)-UnitUtil.dip2px(mContext, 89));
+                viewHolder.viewTrans.setLayoutParams(lp);
                 viewHolder.viewTrans.setVisibility(View.VISIBLE);
             } else if (type == 3) {
                 viewHolder.rlData.setVisibility(View.GONE);
