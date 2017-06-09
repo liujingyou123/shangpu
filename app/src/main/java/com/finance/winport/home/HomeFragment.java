@@ -715,7 +715,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
             if (refreshView.isRefreshing()) {
                 refreshView.refreshComplete();
             } else {
-                lsShops.smoothScrollToPositionFromTop(1, -1, 300);
+//                lsShops.smoothScrollToPositionFromTop(1, -1, 300);
 
             }
 

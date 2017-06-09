@@ -37,6 +37,12 @@ public class TradeCircleDetailPresener {
                 }
             }
 
+            @Override
+            public void error(TradeDetailResponse response) {
+                if (mITradeDetailView != null) {
+                    mITradeDetailView.showError(response);
+                }
+            }
         });
     }
 

@@ -109,4 +109,27 @@
             android:layout_height="match_parent" />
     </com.finance.winport.view.refreshview.XPtrFrameLayout>
 
+    <LinearLayout android:id="@+id/ll_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_below="@id/view_title"
+        android:visibility="gone">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerInside"
+            android:src="@mipmap/business_post_del"
+            android:layout_marginTop="100dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="帖子已经被删除了"
+            android:textColor="#FF333333"
+            android:textSize="15sp" />
+
+    </LinearLayout>
 </RelativeLayout>
