@@ -94,12 +94,12 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
             mPresenter = new TradeCircleDetailPresener(this);
         }
 
-        if (!TextUtils.isEmpty(fromType)) {
-            int commentNum = SpUtil.getInstance().getIntData("commentNum", 0);
-            --commentNum;
-            SpUtil.getInstance().setIntData("commentNum", commentNum);
-            EventBus.getDefault().post(new EventBusCommentNum());
-        }
+//        if (!TextUtils.isEmpty(fromType)) {
+//            int commentNum = SpUtil.getInstance().getIntData("commentNum", 0);
+//            --commentNum;
+//            SpUtil.getInstance().setIntData("commentNum", commentNum);
+//            EventBus.getDefault().post(new EventBusCommentNum());
+//        }
     }
 
     private void getData() {

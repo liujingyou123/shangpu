@@ -1,6 +1,7 @@
 package com.finance.winport.trade.api;
 
 import com.finance.winport.base.BaseResponse;
+import com.finance.winport.trade.model.CommentNumResponse;
 import com.finance.winport.trade.model.CommentResponse;
 import com.finance.winport.trade.model.MyTopicResponse;
 import com.finance.winport.trade.model.PublicTopic;
@@ -57,4 +58,8 @@ public interface TradeService {
     //评论列表
     @POST("customerapp/api/topic/topicCommentList/v1.0.0")
     Observable<CommentResponse> getComments(@Body HashMap params);
+
+    //帖子评论人数
+    @POST("customerapp/api/notice/selectBusNoticeCount/v1.0.0")
+    Observable<CommentNumResponse> getCommentsNum();
 }

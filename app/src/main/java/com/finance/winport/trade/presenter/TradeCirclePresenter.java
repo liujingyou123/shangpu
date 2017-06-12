@@ -3,6 +3,7 @@ package com.finance.winport.trade.presenter;
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.trade.api.TradeService;
+import com.finance.winport.trade.model.CommentNumResponse;
 import com.finance.winport.trade.model.MyTopicResponse;
 import com.finance.winport.trade.model.TradeCircleResponse;
 import com.finance.winport.trade.view.IMyTopicListView;
@@ -207,6 +208,20 @@ public class TradeCirclePresenter {
                 super.onError(e);
                 if (mITradeCircleView != null) {
                     mITradeCircleView.deleteTopic(false, topicId);
+                }
+            }
+        });
+    }
+
+    /**
+     * 获取评论人数
+     */
+    public void getCommentsNum() {
+        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).getCommentsNum(), new NetSubscriber<CommentNumResponse>() {
+            @Override
+            public void response(CommentNumResponse response) {
+                if (mITradeCircleView != null) {
+                    mITradeCircleView.showCommentsNum(response);
                 }
             }
         });

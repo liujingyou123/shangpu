@@ -14,6 +14,7 @@ import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.trade.adapter.MyTradeCircleAdapter;
 import com.finance.winport.trade.adapter.TradeCircleAdapter;
+import com.finance.winport.trade.model.CommentNumResponse;
 import com.finance.winport.trade.model.MyTopicResponse;
 import com.finance.winport.trade.model.Trade;
 import com.finance.winport.trade.model.TradeCircleResponse;
@@ -189,6 +190,11 @@ public class MyPostListActivity extends BaseActivity implements IMyTopicListView
                 refreshView.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    @Override
+    public void showCommentsNum(CommentNumResponse response) {
+
     }
 
     @Override
