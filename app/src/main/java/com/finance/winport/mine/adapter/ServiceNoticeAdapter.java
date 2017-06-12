@@ -96,6 +96,7 @@ public class ServiceNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.Se
             holder.address.setText(item.shopAddress);
             holder.schedule.setText(item.currentSchedule);
             holder.reason.setText(item.reason);
+            holder.contact.setText(context.getString(R.string.service_contact, item.serviceName, item.serviceTel));
             holder.details.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
