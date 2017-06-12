@@ -1,5 +1,6 @@
 package com.finance.winport.trade.view;
 
+import com.finance.winport.trade.model.CommentNumResponse;
 import com.finance.winport.trade.model.TradeCircleResponse;
 
 /**
@@ -16,6 +17,8 @@ public interface ITradeCircleView {
     void cancelTopic(boolean isSuccess, int position, String topId);
 
     void deleteTopic(boolean isSuccess, String topId);
+
+    void showCommentsNum(CommentNumResponse response);
 
     void onError();
 }

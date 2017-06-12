@@ -158,9 +158,6 @@ public class JPushReceiver extends BroadcastReceiver {
             if ("2".equals(extraReceive.getCatalogType())) { //生意圈
                 if ("0".equals(extraReceive.getBizType())) { //评论
                     MobclickAgent.onEvent(context, "push_circle_post");
-                    int commentNum = SpUtil.getInstance().getIntData("commentNum", 0);
-                    ++commentNum;
-                    SpUtil.getInstance().setIntData("commentNum", commentNum);
                     intent = new Intent(context, TradeCircleDetailActivity.class);
                     if (!TextUtils.isEmpty(from)) {
                         intent.putExtra("from", from);

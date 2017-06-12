@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import com.finance.winport.R;
 import com.finance.winport.account.LoginActivity;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.log.XLog;
+import com.finance.winport.trade.model.EventBusCommentNum;
 import com.finance.winport.trade.model.EventBustTag;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.SlidingTagPagerItem;
@@ -19,6 +21,7 @@ import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.SlidingTabLayout;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
@@ -56,6 +59,14 @@ public class TradeCircleFragment extends BaseFragment {
         return root;
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        XLog.e("tradeCircleFragment hidden = " + hidden);
+        if (!hidden) {
+            EventBus.getDefault().post(new EventBusCommentNum());
+        }
+    }
 
     @Override
     public void onDestroyView() {

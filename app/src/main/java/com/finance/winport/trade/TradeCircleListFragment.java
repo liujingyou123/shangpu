@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.mine.NoticeListActivity;
 import com.finance.winport.trade.adapter.TradeCircleAdapter;
+import com.finance.winport.trade.model.CommentNumResponse;
 import com.finance.winport.trade.model.EventBusCommentNum;
 import com.finance.winport.trade.model.EventBustTag;
 import com.finance.winport.trade.model.Trade;
@@ -84,6 +85,7 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
             @Override
             public void run() {
                 mPresenter.getTradeCircles(type, pageNumber);
+                mPresenter.getCommentsNum();
             }
         }, 100);
     }
@@ -127,22 +129,6 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
                 }
             }
         });
-        commentNum();
-    }
-
-    @Subscribe
-    public void getCommentNum(EventBusCommentNum num) {
-        commentNum();
-    }
-
-    private void commentNum() {
-        int commentNum = SpUtil.getInstance().getIntData("commentNum", 0);
-        if (commentNum != 0) {
-            tvCommentsNum.setVisibility(View.VISIBLE);
-            tvCommentsNum.setText("老板，有" + commentNum + "位客官评论了您的帖子");
-        } else {
-            tvCommentsNum.setVisibility(View.GONE);
-        }
     }
 
     @Override
@@ -238,6 +224,29 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
     }
 
     @Override
+    public void showCommentsNum(CommentNumResponse response) {
+        if (response != null && response.getData() > 0) {
+            tvCommentsNum.setVisibility(View.VISIBLE);
+            tvCommentsNum.setText("老板，有" + response.getData() + "位客官评论了您的帖子");
+        } else {
+            tvCommentsNum.setVisibility(View.GONE);
+        }
+    }
+
+    @Subscribe
+    public void getCommentNum(EventBusCommentNum num) {
+        if (mPresenter != null) {
+            mPresenter.getCommentsNum();
+        }
+//        commentNum();
+    }
+
+//    private void commentNum() {
+//        int commentNum = SpUtil.getInstance().getIntData("commentNum", 0);
+//
+//    }
+
+    @Override
     public void onError() {
         refreshView.refreshComplete();
     }
@@ -259,9 +268,9 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
         intent.putExtra("type", 2);
         intent.putExtra("title", "生意圈");
         startActivity(intent);
-        SpUtil.getInstance().setIntData("commentNum", 0);
+//        SpUtil.getInstance().setIntData("commentNum", 0);
         tvCommentsNum.setVisibility(View.GONE);
-        EventBus.getDefault().post(new EventBusCommentNum());
+//        EventBus.getDefault().post(new EventBusCommentNum());
 
     }
 }
