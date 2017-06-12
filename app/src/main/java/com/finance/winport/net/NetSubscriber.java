@@ -3,13 +3,14 @@ package com.finance.winport.net;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.finance.winport.account.event.TokenTimeOutEvent;
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.base.WinPortApplication;
 import com.finance.winport.log.XLog;
-import com.finance.winport.util.LoadingDialogUtil;
-import com.finance.winport.util.TextViewUtil;
+import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.ToastUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,7 +47,12 @@ public abstract class NetSubscriber<T> extends Subscriber<T> {
         XLog.e(e.getMessage());
 
         ToastUtil.show(WinPortApplication.getInstance().getApplicationContext(), e.getMessage());
-        
+
+    }
+
+    private void tokenTimeOutToLogin() {
+        SharedPrefsUtil.clearUserInfo();
+        EventBus.getDefault().post(new TokenTimeOutEvent());
     }
 
     @Override
@@ -60,6 +66,9 @@ public abstract class NetSubscriber<T> extends Subscriber<T> {
             if (TextUtils.isEmpty(errorMsg)) {
                 errorMsg = "success is false";
             }
+            if (TextUtils.equals(((BaseResponse) response).errCode, "999")) {
+                tokenTimeOutToLogin();
+            }
             onError(new Throwable(errorMsg));
             error(response);
             XLog.e(errorMsg);
@@ -69,7 +78,9 @@ public abstract class NetSubscriber<T> extends Subscriber<T> {
         response(response);
     }
 
-    public void error(T response) {}
+    public void error(T response) {
+    }
+
     public abstract void response(T response);
 
     /**

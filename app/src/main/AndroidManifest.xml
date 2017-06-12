@@ -80,6 +80,7 @@
         <!-- login -->
         <activity
             android:name=".account.LoginActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
