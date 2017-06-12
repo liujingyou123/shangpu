@@ -3,6 +3,8 @@ package com.finance.winport.dialog;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -18,10 +20,18 @@ import com.finance.winport.log.XLog;
 import com.finance.winport.util.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.ShareContent;
+import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.controller.SocialRouter;
+import com.umeng.socialize.handler.SinaSsoHandler;
+import com.umeng.socialize.handler.UMSSOHandler;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
+
+import java.lang.reflect.Field;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -89,10 +99,47 @@ public class ShareDialog extends Dialog {
             umImage = new UMImage(mContext, R.drawable.default_image_logo);
         }
         web.setThumb(umImage);
-        new ShareAction((Activity) mContext).withMedia(web)
-                .setPlatform(platform)
-                .setCallback(umShareListener)
-                .share();
+//        new ShareAction((Activity) mContext).withMedia(web)
+//                .setPlatform(platform)
+//                .setCallback(umShareListener)
+//                .share();
+
+        try {
+            UMShareAPI umShareAPI = UMShareAPI.get(getContext());
+            Field socialRouterField = umShareAPI.getClass().getDeclaredField("router");
+            socialRouterField.setAccessible(true);
+            Object socialRouterObj = socialRouterField.get(umShareAPI);
+
+            Field platformHandlersHandlerField = SocialRouter.class.getDeclaredField("platformHandlers");
+            platformHandlersHandlerField.setAccessible(true);
+            Object platformHandlersHandlerObj = platformHandlersHandlerField.get(socialRouterObj);
+            Map<SHARE_MEDIA, UMSSOHandler> platformHandlers = (Map<SHARE_MEDIA, UMSSOHandler>) platformHandlersHandlerObj;
+            platformHandlers.put(SHARE_MEDIA.SINA, new SinaSsoHandler() {
+                @Override
+                public boolean share(ShareContent content, UMShareListener listener) {
+                    try {
+                        return super.share(content, listener);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                ToastUtil.show(mContext, "分享失败");
+                            }
+                        });
+                        return false;
+                    }
+                }
+            });
+
+            new ShareAction((Activity) mContext).withMedia(web)
+                    .setPlatform(platform)
+                    .setCallback(umShareListener)
+                    .share();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @OnClick({R.id.tv_weixin, R.id.tv_pengyou, R.id.tv_weibo, R.id.tv_qq})
