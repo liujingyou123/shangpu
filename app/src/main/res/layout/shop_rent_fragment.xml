@@ -208,11 +208,11 @@
                         <TextView
                             android:layout_width="25dp"
                             android:layout_height="13dp"
-                            android:layout_alignTop="@+id/day_count"
                             android:text="平均"
                             android:textSize="10sp"
                             android:textColor="#ffffff"
-                            android:layout_marginTop="15dp"
+                            android:layout_alignBottom="@+id/day_count"
+                            android:layout_marginBottom="25dp"
                             android:gravity="center"
                             android:background="@drawable/bg_average_btn"
                             android:layout_alignParentLeft="true"
