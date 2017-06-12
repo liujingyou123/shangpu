@@ -20,6 +20,7 @@ import com.finance.winport.R;
 import com.finance.winport.account.LoginActivity;
 import com.finance.winport.dialog.NoticeDelDialog;
 import com.finance.winport.dialog.NoticeDialog;
+import com.finance.winport.home.H5Activity;
 import com.finance.winport.image.Batman;
 import com.finance.winport.trade.model.Trade;
 import com.finance.winport.trade.presenter.TradeCirclePresenter;
@@ -77,7 +78,7 @@ public class TradeCircleAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        Trade trade = mData.get(i);
+        final Trade trade = mData.get(i);
         if (trade != null) {
             viewHolder.tvTitle.setText(trade.getTitle());
             viewHolder.tvTime.setText(trade.getDateTime());
@@ -112,6 +113,16 @@ public class TradeCircleAdapter extends BaseAdapter {
 
             if (trade.getH5obj() != null) {
                 viewHolder.rlHref.setVisibility(View.VISIBLE);
+                viewHolder.rlHref.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent bannerDetails = new Intent(mContext, H5Activity.class);
+                        bannerDetails.putExtra("type", 5);
+                        bannerDetails.putExtra("url", trade.getH5obj().getUrl());
+                        bannerDetails.putExtra("title", trade.getH5obj().getTitle());
+                        mContext.startActivity(bannerDetails);
+                    }
+                });
                 viewHolder.imvHref.setBackgroundResource(R.drawable.default_image_logo);
                 Batman.getInstance().fromNet(trade.getH5obj().getUrl(), viewHolder.imvHref);
                 viewHolder.tvHrefTitle.setText(trade.getH5obj().getTitle());
