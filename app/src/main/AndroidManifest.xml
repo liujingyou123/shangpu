@@ -51,7 +51,8 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="Tu57z00QbjtRPrxrYbj2qH4wXOF3yYiq" />
+            android:value="i8EQa91eGeanVGsANl7KFknd5SPa1NqU" />
+            <!--Tu57z00QbjtRPrxrYbj2qH4wXOF3yYiq-->
 
         <!-- JPush Required  . Enable it you can get statistics data with channel -->
         <meta-data
