@@ -114,6 +114,8 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
     private Handler handler;
     private final int ANIM_DURATION = 2000;
 
+    private Boolean showFlag = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +134,6 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
     }
 
     private void initMap() {
-
 
 
         shopRequset = (ShopRequset) getIntent().getSerializableExtra("shopRequest");
@@ -607,6 +608,9 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
     }
 
     private void showShopDetail(final Marker marker, final int type) {
+        if (showFlag) {
+            return;
+        }
         final String msg = marker.getExtraInfo().getString("msg", "default");
 
         System.out.println("marker click  type : " + type + "  msg : " + msg);
@@ -624,7 +628,9 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
 //        });
 //
 //        mBaiduMap.showInfoWindow(mInfiWindow);
+
         mapPresenter.getMapShopDetail(marker.getExtraInfo().getString("id"), locLat, locLon);
+        showFlag = true;
 
 //        ShopDetailDialog dialog = new ShopDetailDialog(MapActivity.this, msg);
 //        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -844,11 +850,18 @@ public class MapActivity extends BaseActivity implements MyLocation.XLocationLis
             @Override
             public void onDismiss(DialogInterface dialog) {
                 MapUtil.changeMarker(selectMarker, getItemView(type, msg));
+                showFlag = false;
             }
         });
         dialog.show();
 
         MapUtil.changeMarker(selectMarker, getItemView(TYPE_ITEM_SELECTED, msg));
+    }
+
+    @Override
+    public void showMapShopDetailError() {
+        showFlag = false;
+        ToastUtil.show(MapActivity.this, "未获取到商铺详情信息");
     }
 
     @Subscribe

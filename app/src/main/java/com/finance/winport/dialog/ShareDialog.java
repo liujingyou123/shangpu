@@ -99,10 +99,6 @@ public class ShareDialog extends Dialog {
             umImage = new UMImage(mContext, R.drawable.default_image_logo);
         }
         web.setThumb(umImage);
-//        new ShareAction((Activity) mContext).withMedia(web)
-//                .setPlatform(platform)
-//                .setCallback(umShareListener)
-//                .share();
 
         try {
             UMShareAPI umShareAPI = UMShareAPI.get(getContext());
@@ -121,7 +117,6 @@ public class ShareDialog extends Dialog {
                         return super.share(content, listener);
                     } catch (Exception e) {
                         e.printStackTrace();
-
                         new Handler(Looper.getMainLooper()).post(new Runnable() {
                             @Override
                             public void run() {

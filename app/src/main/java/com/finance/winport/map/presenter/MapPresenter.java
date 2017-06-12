@@ -98,6 +98,12 @@ public class MapPresenter {
                         mServiceView.showMapShopDetail(response);
                 }
             }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                mServiceView.showMapShopDetailError();
+            }
         });
 
     }

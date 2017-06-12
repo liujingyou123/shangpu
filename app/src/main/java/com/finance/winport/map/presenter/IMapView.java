@@ -17,5 +17,6 @@ public interface IMapView {
     void showMapPlate(MapAreaResponse response);
     void showRemoveMapPlate(MapAreaResponse response);
     void showMapShopDetail(MapShopDetailResponse response);
+    void showMapShopDetailError();
 
 }
