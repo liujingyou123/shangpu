@@ -2,6 +2,7 @@ package com.finance.winport.trade.presenter;
 
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.net.NetSubscriber;
+import com.finance.winport.net.NoneNetSubscriber;
 import com.finance.winport.trade.api.TradeService;
 import com.finance.winport.trade.model.CommentNumResponse;
 import com.finance.winport.trade.model.MyTopicResponse;
@@ -217,7 +218,7 @@ public class TradeCirclePresenter {
      * 获取评论人数
      */
     public void getCommentsNum() {
-        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).getCommentsNum(), new NetSubscriber<CommentNumResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).getCommentsNum(), new NoneNetSubscriber<CommentNumResponse>() {
             @Override
             public void response(CommentNumResponse response) {
                 if (mITradeCircleView != null) {
