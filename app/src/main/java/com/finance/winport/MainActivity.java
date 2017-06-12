@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
+import com.finance.winport.account.LoginActivity;
+import com.finance.winport.account.event.TokenTimeOutEvent;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.home.HomeFragment;
@@ -16,11 +18,15 @@ import com.finance.winport.service.ServiceFragment;
 import com.finance.winport.view.BottomTabView;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.jpush.android.api.JPushInterface;
+import noman.weekcalendar.eventbus.Event;
 
 
 public class MainActivity extends BaseActivity implements BottomTabView.OnTabSelectedListener {
@@ -38,7 +44,8 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        Log.d("main", "deviceId-->" + JPushInterface.getRegistrationID(context.getApplicationContext()));
+        EventBus.getDefault().register(this);
+//        Log.d("main", "deviceId-->" + JPushInterface.getRegistrationID(context.getApplicationContext()));
         fm = getSupportFragmentManager();
         tabView.setOnTabSelectedListener(this);
         tabView.setTabResIds(new int[]{R.drawable.selector_bottom_tab_home
@@ -120,7 +127,7 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
         addHomeFragment(mineFragment, true);
     }
 
-//    private void handleMap(Bundle bundle) {
+    //    private void handleMap(Bundle bundle) {
 //        MapActivity mapFragment = new MapActivity();
 //        mapFragment.setArguments(bundle);
 //        pushFragment(mapFragment);
@@ -141,6 +148,14 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onTokenTimeOutEvent(TokenTimeOutEvent event) {
+        if (event != null) {
+            startActivity(new Intent(context, LoginActivity.class));
+        }
     }
 
     @Override

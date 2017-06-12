@@ -88,10 +88,11 @@ public class BusinessNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.B
             holder.title.setText(item.digest);
             holder.time.setText(item.notifyTime);
             holder.post.setText(item.postName);
+            holder.contact.setText(context.getString(R.string.business_contact));
             if (TextUtils.isEmpty(item.contentOrReason)) {
-                holder.reason.setVisibility(View.GONE);
+                holder.RlReason.setVisibility(View.GONE);
             } else {
-                holder.reason.setVisibility(View.VISIBLE);
+                holder.RlReason.setVisibility(View.VISIBLE);
                 holder.reason.setText(item.contentOrReason);
             }
             holder.doTime.setText(item.commentOrOprationTime);
@@ -134,6 +135,8 @@ public class BusinessNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.B
         TextView contact;
         @BindView(R.id.details)
         RelativeLayout details;
+        @BindView(R.id.rl_reason)
+        RelativeLayout RlReason;
 
         ViewHolderOff(View view) {
             ButterKnife.bind(this, view);
