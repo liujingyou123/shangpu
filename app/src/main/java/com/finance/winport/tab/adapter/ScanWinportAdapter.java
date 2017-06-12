@@ -83,7 +83,7 @@ public class ScanWinportAdapter extends PullBaseAdapter<ScanShopList.DataBeanX.D
         boolean hasFee = item.transferFee > 0;
         if (item.rentStatus == 3) {//rentStatus 出租状态 0-待出租 1-出租中 2-已出租  3-已下架（撤下）
             holder.price.setText(sRent + "元/月");
-            if (item.isFace == 0) {// 面议
+            if (item.isFace == 1) {// 面议
                 holder.fee.setText("面议");
             } else {
                 if (hasFee) {
@@ -102,7 +102,7 @@ public class ScanWinportAdapter extends PullBaseAdapter<ScanShopList.DataBeanX.D
                     , 0, sr.length()
                     , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             holder.price.setText(sr);
-            if (item.isFace == 0) {// 面议
+            if (item.isFace == 1) {// 面议
                 holder.fee.setText("面议");
             } else {
                 if (hasFee) {
