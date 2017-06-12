@@ -331,8 +331,14 @@ public class SelectionDialog extends Dialog implements DialogInterface.OnDismiss
             requset.width = etWidth.getText().toString();
         }
 
-        requset.featureTagList = featureAdapter.getSelectList();
-        requset.supportTagList = supportAdapter.getSelectList();
+        if (featureAdapter != null) {
+            requset.featureTagList = featureAdapter.getSelectList();
+        }
+
+        if (supportAdapter != null) {
+            requset.supportTagList = supportAdapter.getSelectList();
+        }
+
     }
 
     private void setResetData() {
