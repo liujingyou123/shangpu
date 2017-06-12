@@ -161,7 +161,11 @@ public class ShopMoreActivity extends BaseActivity {
 
         tvYuezujin.setLableTwo(UnitUtil.limitNum(data.getRent(), 99999) + "/月");
         tvYajin.setLableTwo(UnitUtil.limitNum(data.getDeposit(), 99999));
-        tvZhuanrangfei.setLableTwo(UnitUtil.limitNum(data.getTransferFee(), 0));
+        if (data.getIsFace() == 1) {
+            tvZhuanrangfei.setLableTwo("面议");
+        } else {
+            tvZhuanrangfei.setLableTwo(UnitUtil.limitNum(data.getTransferFee(), 0));
+        }
         tvShengyuhetong.setLableTwo(data.getCompactResidue() + "个月");
 
         if (data.getNearInfoList() != null && data.getNearInfoList().size() > 0) {
