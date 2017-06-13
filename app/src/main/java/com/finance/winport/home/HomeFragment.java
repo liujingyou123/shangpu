@@ -818,7 +818,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                 selectionView.onLocationArrowDown();
                 heardSelectView.onLocationArrowDown();
             }
-            if (response.getData().getList() != null) {
+            if (response.getData().getList() != null && response.getData().getList().size() > 0) {
                 List<String> arrayList = null;
                 if (mRequest.areaList != null) {
                     arrayList = mRequest.areaList;
