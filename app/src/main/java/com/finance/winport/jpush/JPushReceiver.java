@@ -14,6 +14,7 @@ import android.util.Log;
 
 import com.finance.winport.R;
 import com.finance.winport.account.event.JPushEvent;
+import com.finance.winport.account.model.UserInfo;
 import com.finance.winport.base.WinPortApplication;
 import com.finance.winport.log.XLog;
 import com.finance.winport.mine.MyScheduleListActivity;
@@ -24,6 +25,7 @@ import com.finance.winport.tab.WinportActivity;
 import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.trade.TradeCircleDetailActivity;
 import com.finance.winport.trade.model.EventBusCommentNum;
+import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.SpUtil;
 import com.google.gson.Gson;
 import com.umeng.analytics.MobclickAgent;
@@ -135,12 +137,19 @@ public class JPushReceiver extends BroadcastReceiver {
 
     //更新registrationId
     private void updateRegistrationId(String registrationId) {
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("deviceId", registrationId);
-        PersonManager.getInstance().updateRegistrationId(params, null);
+        if(isLogin()){
+
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("deviceId", registrationId);
+            PersonManager.getInstance().updateRegistrationId(params, null);
+        }
     }
 
 
+    private boolean isLogin() {
+        UserInfo info = SharedPrefsUtil.getUserInfo();
+        return info != null;
+    }
     /**
      * 显示通知
      *
