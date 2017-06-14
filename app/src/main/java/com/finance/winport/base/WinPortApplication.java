@@ -35,6 +35,7 @@ public class WinPortApplication extends Application {
         super.onCreate();
         businessApplication = this;
         NetworkClient.init(this);
+        NetworkClient.initHttpsClient(this);
         Batman.getInstance().init(this);
         AliOss.getInstance().init(this);
         SDKInitializer.initialize(this);

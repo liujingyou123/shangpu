@@ -3,6 +3,7 @@ package com.finance.winport.net;
 
 import android.util.LruCache;
 
+import com.finance.winport.BuildConfig;
 import com.finance.winport.util.FooAnnotationExclusionStrategy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -22,7 +23,7 @@ public class Ironman {
                 .baseUrl(NetUtils.baseUrl())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(NetworkClient.getOkHttpClient())
+                .client(BuildConfig.isPro ? NetworkClient.getOkHttpClients() : NetworkClient.getOkHttpClient())
                 .build();
 
         cache = new LruCache<String, Object>(Integer.MAX_VALUE);
