@@ -680,7 +680,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     private void startCrop(Uri sourceUri, Uri destinationUri) {
         UCrop uCrop = UCrop.of(sourceUri, destinationUri);
         if (type == REQUEST_CODE_HEAD) {
-            uCrop.withAspectRatio(4, 3);
+            uCrop.withAspectRatio(1, 1);
         } else {
             uCrop.withAspectRatio(16, 9);
         }
