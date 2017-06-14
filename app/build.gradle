@@ -55,7 +55,7 @@ android {
 
         pre {
             buildConfigField("String", "BASEURL", '"http://customerapp.pre02.shfc999.com/"')
-            buildConfigField("String", "WEBURL", '"http://wph5.tst.shfc999.com/"')
+            buildConfigField("String", "WEBURL", '"http://wph5.pre02.shfc999.com/"')
         }
 
         rel {
