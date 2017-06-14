@@ -303,6 +303,11 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
+                if (SharedPrefsUtil.getUserInfo() != null ) {
+                    mRequest.queryType = 0;
+                } else  {
+                    mRequest.queryType = 1;
+                }
                 mRequest.pageNumber = 1;
                 mPresenter.getShopList(mRequest);
             }

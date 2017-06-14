@@ -168,7 +168,7 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
     public void showScheduleDetail(ScheduleDetailResponse response) {
 
 
-        if (response.getData().getStatus() == 0) {
+        if (response.getData().getStatus() == 0 || response.getData().getStatus() == 3) {
 
             status.setText("服务受理中");
         } else if (response.getData().getStatus() == 1) {

@@ -863,16 +863,16 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
 
                         if (!TextUtils.isEmpty(s.toString())) {
 
-                            concern.setText("关注 " + s.toString() + "的旺铺");
+                            concern.setText("关注 " + s.toString() + " 的旺铺");
                         }
                     } else {
 
                         if (TextUtils.isEmpty(s.toString())) {
 
-                            concern.setText("关注 " + response.getData().getIndustryName() + "的旺铺");
+                            concern.setText("关注 " + response.getData().getIndustryName() + " 的旺铺");
                         } else {
 
-                            concern.setText("关注 " + response.getData().getIndustryName() + "-" + s.toString() + "的旺铺");
+                            concern.setText("关注 " + response.getData().getIndustryName() + "-" + s.toString() + " 的旺铺");
                         }
                     }
                 }
@@ -882,18 +882,18 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
 
                         if (!TextUtils.isEmpty(s.toString())) {
 
-                            concern.setText("关注 " + response.getData().getCityName() + "-" +s.toString() + "的旺铺");
+                            concern.setText("关注 " + response.getData().getCityName() + "-" +s.toString() + " 的旺铺");
                         }else{
-                            concern.setText("关注 " + response.getData().getCityName() + "的旺铺");
+                            concern.setText("关注 " + response.getData().getCityName() + " 的旺铺");
                         }
                     } else {
 
                         if (TextUtils.isEmpty(s.toString())) {
 
-                            concern.setText("关注 " + response.getData().getCityName() + "-" +response.getData().getIndustryName() + "的旺铺");
+                            concern.setText("关注 " + response.getData().getCityName() + "-" +response.getData().getIndustryName() + " 的旺铺");
                         } else {
 
-                            concern.setText("关注 " + response.getData().getCityName() + "-" +response.getData().getIndustryName() + "-" + s.toString() + "的旺铺");
+                            concern.setText("关注 " + response.getData().getCityName() + "-" +response.getData().getIndustryName() + "-" + s.toString() + " 的旺铺");
                         }
                     }
                 }
@@ -903,36 +903,36 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
 
                     if (!TextUtils.isEmpty(s.toString())) {
 
-                        concern.setText("关注 " + response.getData().getDistrictName() + "-" +s.toString() + "的旺铺");
+                        concern.setText("关注 " + response.getData().getDistrictName() + "-" +s.toString() + " 的旺铺");
                     }else{
-                        concern.setText("关注 " + response.getData().getDistrictName() + "的旺铺");
+                        concern.setText("关注 " + response.getData().getDistrictName() + " 的旺铺");
                     }
                 } else {
 
                     if (TextUtils.isEmpty(s.toString())) {
 
-                        concern.setText("关注 " + response.getData().getDistrictName() + "-" +response.getData().getIndustryName() + "的旺铺");
+                        concern.setText("关注 " + response.getData().getDistrictName() + "-" +response.getData().getIndustryName() + " 的旺铺");
                     } else {
 
-                        concern.setText("关注 " + response.getData().getDistrictName() + "-" +response.getData().getIndustryName() + "-" + s.toString() + "的旺铺");
+                        concern.setText("关注 " + response.getData().getDistrictName() + "-" +response.getData().getIndustryName() + "-" + s.toString() + " 的旺铺");
                     }
                 }
             }
         } else if (TextUtils.isEmpty(response.getData().getIndustryName())) {
             if (!TextUtils.isEmpty(s.toString())) {
 
-                concern.setText("关注 " + response.getData().getBlockName() + "-" + s.toString() + "的旺铺");
+                concern.setText("关注 " + response.getData().getBlockName() + "-" + s.toString() + " 的旺铺");
             } else {
-                concern.setText("关注 " + response.getData().getBlockName() + "的旺铺");
+                concern.setText("关注 " + response.getData().getBlockName() + " 的旺铺");
 
             }
 
 
         } else if (!TextUtils.isEmpty(s.toString())) {
 
-            concern.setText("关注 " + response.getData().getBlockName() + "-" + response.getData().getIndustryName() + "-" + s.toString() + "的旺铺");
+            concern.setText("关注 " + response.getData().getBlockName() + "-" + response.getData().getIndustryName() + "-" + s.toString() + " 的旺铺");
         } else {
-            concern.setText("关注 " + response.getData().getBlockName() + "-" + response.getData().getIndustryName() + "的旺铺");
+            concern.setText("关注 " + response.getData().getBlockName() + "-" + response.getData().getIndustryName() + " 的旺铺");
 
         }
 

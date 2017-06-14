@@ -3,6 +3,7 @@ package com.finance.winport.map;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -70,7 +71,13 @@ public class ShopDetailDialog extends BottomDialog {
         tvAddress.setText(ret.getDistrictName() + " " + ret.getBlockName());
         tvArea.setText(ret.getArea() + "㎡");
         tvAverMoney.setText(ret.getRent() + "元／月");
-        tvDistance.setText("距您"+UnitUtil.mTokm(ret.getDistance()));
+        if(TextUtils.isEmpty(ret.getDistance())){
+            tvDistance.setText("");
+        }else{
+
+//            tvDistance.setText("距您" + UnitUtil.formatSNum(ret.getDistance())+"km");
+            tvDistance.setText("距您"+UnitUtil.mTokm(ret.getDistance()));
+        }
         tvChangeMoney.setText("转让费" + UnitUtil.formatNum(ret.getTransferFee()) + "万元");
         tvUpdateTime.setText(ret.getUpdateTime());
         tvScanNum.setText(ret.getVisitCount() + "");

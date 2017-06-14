@@ -84,6 +84,10 @@ public class ShopMoreActivity extends BaseActivity {
     TextView tvYingyufeiyong;
     @BindView(R.id.ll_yingyunfeiyong)
     LinearLayout llYingYunFeiyong;
+    @BindView(R.id.customer_info)
+    TextView customerInfo;
+    @BindView(R.id.line)
+    View line;
     private ShopDetail mShopDetail;
 
     @Override
@@ -130,6 +134,17 @@ public class ShopMoreActivity extends BaseActivity {
             tvJingyingyetai.setLableTwo(sb.toString().substring(0, sb.length() - 1));
         }
 
+        if (0 == data.getIsShow()) {
+            tvKehu.setVisibility(View.GONE);
+            tvPhone.setVisibility(View.GONE);
+            customerInfo.setVisibility(View.GONE);
+            line.setVisibility(View.GONE);
+        } else {
+            tvKehu.setVisibility(View.VISIBLE);
+            tvPhone.setVisibility(View.VISIBLE);
+            customerInfo.setVisibility(View.VISIBLE);
+            line.setVisibility(View.VISIBLE);
+        }
         tvKehu.setLableTwo(data.getContacter());
         tvPhone.setLableTwo(data.getContactTel());
         tvMianji.setLableTwo(UnitUtil.formatMNum(data.getArea()) + "㎡");
