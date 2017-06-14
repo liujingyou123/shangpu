@@ -211,7 +211,7 @@ public class JPushReceiver extends BroadcastReceiver {
 
 
         Notification.Builder myBuilder = new Notification.Builder(context);
-        myBuilder.setContentTitle(bundle.getString(JPushInterface.EXTRA_TITLE) + "")
+        myBuilder.setContentTitle("旺铺")
                 .setContentText(bundle.getString(JPushInterface.EXTRA_MESSAGE) + "")
                 .setTicker(bundle.getString(JPushInterface.EXTRA_MESSAGE))
                 .setSmallIcon(R.mipmap.ic_launcher)
