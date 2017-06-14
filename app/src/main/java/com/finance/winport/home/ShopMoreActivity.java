@@ -14,6 +14,7 @@ import com.finance.winport.base.BaseActivity;
 import com.finance.winport.home.adapter.SupportTagAdapter;
 import com.finance.winport.home.model.ShopDetail;
 import com.finance.winport.log.XLog;
+import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.home.ItemView;
 import com.finance.winport.view.home.NearShopView;
@@ -147,11 +148,31 @@ public class ShopMoreActivity extends BaseActivity {
         }
         tvKehu.setLableTwo(data.getContacter());
         tvPhone.setLableTwo(data.getContactTel());
-        tvMianji.setLableTwo(UnitUtil.formatMNum(data.getArea()) + "㎡");
+        if (!TextViewUtil.isEmpty(data.getArea())) {
+            tvMianji.setLableTwo(UnitUtil.formatSNum(data.getArea()) + "㎡");
+        } else {
+            tvMianji.setLableTwo("--");
+        }
+
         tvLouceng.setLableTwo(data.getFloor() + "/" + data.getTotalFloor() + "层");
-        tvMiankuan.setLableTwo(UnitUtil.formatDNum(data.getWidth()) + "m");
-        tvJinshen.setLableTwo(UnitUtil.formatDNum(data.getDepth()) + "m");
-        tvCenggao.setLableTwo(UnitUtil.formatDNum(data.getHeight()) + "m");
+
+        if (!TextViewUtil.isEmpty(data.getWidth())) {
+            tvMiankuan.setLableTwo(UnitUtil.formatSNum(data.getWidth()) + "m");
+        } else {
+            tvMiankuan.setLableTwo("--");
+        }
+
+        if (!TextViewUtil.isEmpty(data.getDepth())) {
+            tvJinshen.setLableTwo(UnitUtil.formatSNum(data.getDepth()) + "m");
+        } else {
+            tvJinshen.setLableTwo("--");
+        }
+
+        if (!TextViewUtil.isEmpty(data.getHeight())) {
+            tvCenggao.setLableTwo(UnitUtil.formatSNum(data.getHeight()) + "m");
+        } else {
+            tvCenggao.setLableTwo("--");
+        }
 
         if (data.getSupportList() != null && data.getSupportList().size() > 0) {
             tvPeittaoNotice.setVisibility(View.VISIBLE);
@@ -162,24 +183,56 @@ public class ShopMoreActivity extends BaseActivity {
             tvPeittaoNotice.setVisibility(View.GONE);
             gvSupportMore.setVisibility(View.GONE);
         }
-        if (data.getElectricRate() == 0 && data.getWaterRate() == 0 && data.getGasRate() == 0 && data.getPropertyRate() == 0) {
+        if (TextViewUtil.isEmpty(data.getElectricRate()) &&  TextViewUtil.isEmpty(data.getWaterRate()) && TextViewUtil.isEmpty(data.getGasRate()) && TextViewUtil.isEmpty(data.getPropertyRate())) {
             tvYingyufeiyong.setVisibility(View.GONE);
             llYingYunFeiyong.setVisibility(View.GONE);
         } else {
             tvYingyufeiyong.setVisibility(View.VISIBLE);
             llYingYunFeiyong.setVisibility(View.VISIBLE);
-            tvDianfei.setLableTwo(UnitUtil.formatDNum(data.getElectricRate()) + "元/度");
-            tvShuifei.setLableTwo(UnitUtil.formatDNum(data.getWaterRate()) + "元/吨");
-            tvRanqifei.setLableTwo(UnitUtil.formatDNum(data.getGasRate()) + "元/立方");
-            tvWuyefei.setLableTwo(UnitUtil.formatDNum(data.getPropertyRate()) + "元/㎡/月");
+            if (!TextViewUtil.isEmpty(data.getElectricRate())) {
+                tvDianfei.setLableTwo(UnitUtil.formatSNum(data.getElectricRate()) + "元/度");
+            } else {
+                tvDianfei.setLableTwo("--");
+            }
+
+            if (!TextViewUtil.isEmpty(data.getWaterRate())) {
+                tvShuifei.setLableTwo(UnitUtil.formatSNum(data.getWaterRate()) + "元/吨");
+            } else {
+                tvShuifei.setLableTwo("--");
+            }
+
+            if (!TextViewUtil.isEmpty(data.getGasRate())) {
+                tvRanqifei.setLableTwo(UnitUtil.formatSNum(data.getGasRate()) + "元/立方");
+            } else {
+                tvRanqifei.setLableTwo("--");
+            }
+
+            if (!TextViewUtil.isEmpty(data.getPropertyRate())) {
+                tvWuyefei.setLableTwo(UnitUtil.formatSNum(data.getPropertyRate()) + "元/㎡/月");
+            } else {
+                tvWuyefei.setLableTwo("--");
+            }
         }
 
-        tvYuezujin.setLableTwo(UnitUtil.limitNum(data.getRent(), 99999) + "/月");
-        tvYajin.setLableTwo(UnitUtil.limitNum(data.getDeposit(), 99999));
+        if (!TextViewUtil.isEmpty(data.getRent())) {
+            tvYuezujin.setLableTwo(UnitUtil.limitSNum(data.getRent(), 99999) + "/月");
+        } else {
+            tvYuezujin.setLableTwo("--");
+        }
+
+        if (!TextViewUtil.isEmpty(data.getDeposit())) {
+            tvYajin.setLableTwo(UnitUtil.limitSNum(data.getDeposit(), 99999));
+        } else {
+            tvYajin.setLableTwo("--");
+        }
         if (data.getIsFace() == 1) {
             tvZhuanrangfei.setLableTwo("面议");
         } else {
-            tvZhuanrangfei.setLableTwo(UnitUtil.limitNum(data.getTransferFee(), 0));
+            if (!TextViewUtil.isEmpty(data.getTransferFee())) {
+                tvZhuanrangfei.setLableTwo(UnitUtil.limitSNum(data.getTransferFee(), 0));
+            } else {
+                tvZhuanrangfei.setLableTwo("--");
+            }
         }
         tvShengyuhetong.setLableTwo(data.getCompactResidue() + "个月");
 

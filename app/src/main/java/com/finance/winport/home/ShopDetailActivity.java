@@ -51,6 +51,7 @@ import com.finance.winport.util.H5Util;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.ToastUtil;
+import com.finance.winport.util.ToolsUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.PositionScrollView;
 import com.finance.winport.view.ScrollTabView;
@@ -410,7 +411,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 if (shareDialog == null) {
                     shareDialog = new ShareDialog(this);
                 }
-                shareDialog.setDes(mShopDetail.getData().getAddress() + UnitUtil.formatMNum(mShopDetail.getData().getArea()) + "平旺铺急租，租金仅" + rentPrice);
+                shareDialog.setDes(mShopDetail.getData().getAddress() + UnitUtil.formatSNum(mShopDetail.getData().getArea()) + "平旺铺急租，租金仅" + rentPrice);
                 shareDialog.setTitle(mShopDetail.getData().getAddress());
                 shareDialog.setImage(coverImg);
                 shareDialog.setUrl(H5Util.getIpShopDetail(mShopDetail.getData().getId() + ""));
@@ -609,7 +610,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
 
     private void showPrice(int type) {
         ShopDetail.DataBean data = mShopDetail.getData();
-        String price = UnitUtil.limitNum(data.getRent(), 99999);
+        String price = UnitUtil.limitSNum(data.getRent(), 99999);
         if (type == 1) {
             tvPrice.setTag("1");
             String showRent = price + "/月";
@@ -618,7 +619,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             TextViewUtil.setPartialSizeAndColor(tvPrice, 0, showRent.length(), 18, 0, showRent.length(), Color.parseColor("#FF5851"));
         } else {
             tvPrice.setTag("2");
-            int rent = data.getRent();
+            String rent = data.getRent();
             BigDecimal bDrent = new BigDecimal(rent);
             BigDecimal bDArea = new BigDecimal(data.getArea());
             BigDecimal bDDay = new BigDecimal(30);
@@ -651,16 +652,16 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         }
 
         if (data.getIsFace() == 1) {
-            tvZhuanprice.setText("面议"+compactResidue);
+            tvZhuanprice.setText("面议" + compactResidue);
             TextViewUtil.setPartialSizeAndColor(tvZhuanprice, 0, 2, 18, 0, 2, Color.parseColor("#FF5851"));
 
         } else {
-            String zhuan = UnitUtil.limitNum(data.getTransferFee(), 0);
+            String zhuan = UnitUtil.limitSNum(data.getTransferFee(), 0);
             tvZhuanprice.setText(zhuan + compactResidue);
             TextViewUtil.setPartialSizeAndColor(tvZhuanprice, 0, zhuan.length(), 18, 0, zhuan.length(), Color.parseColor("#FF5851"));
         }
 
-        tvArea.setText(UnitUtil.formatMNum(data.getArea()) + "㎡");
+        tvArea.setText(UnitUtil.formatSNum(data.getArea()) + "㎡");
         showPrice(1);
 
         if (data.getNearInfoList() != null && data.getNearInfoList().size() > 0) {
@@ -694,22 +695,22 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             stv.setLinpuGone();
         }
 
-        tvCenggao.setText((data.getHeight() == 0 ? "--" : data.getHeight() + "m"));
-        tvMiankuan.setText((data.getWidth() == 0 ? "--" : data.getWidth() + "m"));
-        tvJinshen.setText((data.getDepth() == 0 ? "--" : data.getDepth() + "m"));
+        tvCenggao.setText((TextViewUtil.isEmpty(data.getHeight()) ? "--" : UnitUtil.formatSNum(data.getHeight())+ "m"));
+        tvMiankuan.setText((TextViewUtil.isEmpty(data.getWidth()) ? "--" : UnitUtil.formatSNum(data.getWidth()) + "m"));
+        tvJinshen.setText((TextViewUtil.isEmpty(data.getDepth()) ? "--" : UnitUtil.formatSNum(data.getDepth()) + "m"));
 
-        if (data.getElectricRate() != 0 && data.getWaterRate() != 0 && data.getGasRate() != 0 && data.getPropertyRate() != 0) {
+        if (!TextViewUtil.isEmpty(data.getElectricRate()) && !TextViewUtil.isEmpty(data.getWaterRate()) && !TextViewUtil.isEmpty(data.getGasRate()) && !TextViewUtil.isEmpty(data.getPropertyRate())) {
             viewSpaceJingyingfeiyong.setVisibility(View.VISIBLE);
             llJingyingfeiyongone.setVisibility(View.VISIBLE);
             llJingyingfeiyongtwo.setVisibility(View.GONE);
 
-            tvDianfei.setText(UnitUtil.formatDNum(data.getElectricRate()));
-            tvShuifei.setText(UnitUtil.formatDNum(data.getWaterRate()));
-            tvRanqi.setText(UnitUtil.formatDNum(data.getGasRate()));
-            tvWuye.setText(UnitUtil.formatDNum(data.getPropertyRate()));
+            tvDianfei.setText(UnitUtil.formatSNum(data.getElectricRate()));
+            tvShuifei.setText(UnitUtil.formatSNum(data.getWaterRate()));
+            tvRanqi.setText(UnitUtil.formatSNum(data.getGasRate()));
+            tvWuye.setText(UnitUtil.formatSNum(data.getPropertyRate()));
 
 
-        } else if (data.getElectricRate() == 0 && data.getWaterRate() == 0 && data.getGasRate() == 0 && data.getPropertyRate() == 0) {
+        } else if (TextViewUtil.isEmpty(data.getElectricRate()) && TextViewUtil.isEmpty(data.getWaterRate()) && TextViewUtil.isEmpty(data.getGasRate()) && TextViewUtil.isEmpty(data.getPropertyRate())) {
             viewSpaceJingyingfeiyong.setVisibility(View.GONE);
             llJingyingfeiyong.setVisibility(View.GONE);
             stv.setYingYuFeiyongGone();
@@ -719,20 +720,20 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             llJingyingfeiyongtwo.setVisibility(View.VISIBLE);
             llJingyingfeiyongtwo.removeAllViews();
 
-            if (data.getElectricRate() != 0) {
+            if (!TextViewUtil.isEmpty(data.getElectricRate())) {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
                 lp.weight = 1;
                 RateView rv = new RateView(this);
-                rv.setNum(UnitUtil.formatDNum(data.getElectricRate()));
+                rv.setNum(UnitUtil.formatSNum(data.getElectricRate()));
                 rv.setNotice("电费(元/度)");
                 llJingyingfeiyongtwo.addView(rv, lp);
             }
 
-            if (data.getWaterRate() != 0) {
+            if (!TextViewUtil.isEmpty(data.getWaterRate())) {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
                 lp.weight = 1;
                 RateView rv = new RateView(this);
-                rv.setNum(UnitUtil.formatDNum(data.getWaterRate()));
+                rv.setNum(UnitUtil.formatSNum(data.getWaterRate()));
                 rv.setNotice("水费(元/吨)");
                 if (llJingyingfeiyongtwo.getChildCount() > 0) {
                     View view = new View(this);
@@ -744,11 +745,11 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 llJingyingfeiyongtwo.addView(rv, lp);
             }
 
-            if (data.getGasRate() != 0) {
+            if (!TextViewUtil.isEmpty(data.getGasRate())) {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
                 lp.weight = 1;
                 RateView rv = new RateView(this);
-                rv.setNum(UnitUtil.formatDNum(data.getGasRate()));
+                rv.setNum(UnitUtil.formatSNum(data.getGasRate()));
                 rv.setNotice("燃气费(元/㎡)");
                 if (llJingyingfeiyongtwo.getChildCount() > 0) {
                     View view = new View(this);
@@ -760,11 +761,11 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 llJingyingfeiyongtwo.addView(rv, lp);
             }
 
-            if (data.getPropertyRate() != 0) {
+            if (!TextViewUtil.isEmpty(data.getPropertyRate())) {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
                 lp.weight = 1;
                 RateView rv = new RateView(this);
-                rv.setNum(UnitUtil.formatDNum(data.getPropertyRate()));
+                rv.setNum(UnitUtil.formatSNum(data.getPropertyRate()));
                 rv.setNotice("物业费(元/㎡/月)");
                 if (llJingyingfeiyongtwo.getChildCount() > 0) {
                     View view = new View(this);

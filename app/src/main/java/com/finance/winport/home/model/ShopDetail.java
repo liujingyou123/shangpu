@@ -79,7 +79,7 @@ public class ShopDetail extends BaseResponse implements Serializable{
 
     public static class DataBean implements Serializable{
         private String address;
-        private float area;
+        private String area;
         private int blockId;
         private String blockName;
         private int clerkId;
@@ -88,15 +88,15 @@ public class ShopDetail extends BaseResponse implements Serializable{
         private String contactTel;
         private String contacter;
         private Object coverImg;
-        private int deposit;
-        private float depth;
+        private String deposit;
+        private String depth;
         private Object distance;
         private int districtId;
         private String districtName;
-        private double electricRate;
+        private String electricRate;
         private int floor;
-        private double gasRate;
-        private float height;
+        private String gasRate;
+        private String height;
         private int id;
         private boolean isCollected;
         private int isDelete;
@@ -110,18 +110,18 @@ public class ShopDetail extends BaseResponse implements Serializable{
         private String name;
         private int operateStatus;
         private int parentId;
-        private double propertyRate;
-        private int rent;
+        private String propertyRate;
+        private String rent;
         private int rentStatus;
         private String rentTypeName;
         private int rentWay;
         private Object shopCode;
         private String shopName;
-        private int totalFloor;
-        private int transferFee;
+        private String totalFloor;
+        private String transferFee;
         private Object updateTime;
-        private double waterRate;
-        private double width;
+        private String waterRate;
+        private String width;
         private int visitCount;
         private int contactCount;
         /**
@@ -171,11 +171,11 @@ public class ShopDetail extends BaseResponse implements Serializable{
             this.address = address;
         }
 
-        public float getArea() {
+        public String getArea() {
             return area;
         }
 
-        public void setArea(float area) {
+        public void setArea(String area) {
             this.area = area;
         }
 
@@ -243,19 +243,19 @@ public class ShopDetail extends BaseResponse implements Serializable{
             this.coverImg = coverImg;
         }
 
-        public int getDeposit() {
+        public String getDeposit() {
             return deposit;
         }
 
-        public void setDeposit(int deposit) {
+        public void setDeposit(String deposit) {
             this.deposit = deposit;
         }
 
-        public float getDepth() {
+        public String getDepth() {
             return depth;
         }
 
-        public void setDepth(float depth) {
+        public void setDepth(String depth) {
             this.depth = depth;
         }
 
@@ -283,11 +283,11 @@ public class ShopDetail extends BaseResponse implements Serializable{
             this.districtName = districtName;
         }
 
-        public double getElectricRate() {
+        public String getElectricRate() {
             return electricRate;
         }
 
-        public void setElectricRate(double electricRate) {
+        public void setElectricRate(String electricRate) {
             this.electricRate = electricRate;
         }
 
@@ -299,19 +299,19 @@ public class ShopDetail extends BaseResponse implements Serializable{
             this.floor = floor;
         }
 
-        public double getGasRate() {
+        public String getGasRate() {
             return gasRate;
         }
 
-        public void setGasRate(double gasRate) {
+        public void setGasRate(String gasRate) {
             this.gasRate = gasRate;
         }
 
-        public float getHeight() {
+        public String getHeight() {
             return height;
         }
 
-        public void setHeight(float height) {
+        public void setHeight(String height) {
             this.height = height;
         }
 
@@ -429,19 +429,19 @@ public class ShopDetail extends BaseResponse implements Serializable{
             this.parentId = parentId;
         }
 
-        public double getPropertyRate() {
+        public String getPropertyRate() {
             return propertyRate;
         }
 
-        public void setPropertyRate(double propertyRate) {
+        public void setPropertyRate(String propertyRate) {
             this.propertyRate = propertyRate;
         }
 
-        public int getRent() {
+        public String getRent() {
             return rent;
         }
 
-        public void setRent(int rent) {
+        public void setRent(String rent) {
             this.rent = rent;
         }
 
@@ -499,19 +499,19 @@ public class ShopDetail extends BaseResponse implements Serializable{
             this.shopName = shopName;
         }
 
-        public int getTotalFloor() {
+        public String getTotalFloor() {
             return totalFloor;
         }
 
-        public void setTotalFloor(int totalFloor) {
+        public void setTotalFloor(String totalFloor) {
             this.totalFloor = totalFloor;
         }
 
-        public int getTransferFee() {
+        public String getTransferFee() {
             return transferFee;
         }
 
-        public void setTransferFee(int transferFee) {
+        public void setTransferFee(String transferFee) {
             this.transferFee = transferFee;
         }
 
@@ -523,19 +523,19 @@ public class ShopDetail extends BaseResponse implements Serializable{
             this.updateTime = updateTime;
         }
 
-        public double getWaterRate() {
+        public String getWaterRate() {
             return waterRate;
         }
 
-        public void setWaterRate(double waterRate) {
+        public void setWaterRate(String waterRate) {
             this.waterRate = waterRate;
         }
 
-        public double getWidth() {
+        public String getWidth() {
             return width;
         }
 
-        public void setWidth(int width) {
+        public void setWidth(String width) {
             this.width = width;
         }
 

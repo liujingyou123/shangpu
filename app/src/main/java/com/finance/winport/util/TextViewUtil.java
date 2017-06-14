@@ -5,6 +5,7 @@ import android.text.InputFilter;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
@@ -256,5 +257,9 @@ public class TextViewUtil {
             return false;
         }
         return true;
+    }
+
+    public static boolean isEmpty(String str) {
+        return TextUtils.isEmpty(str) || "null".equals(str);
     }
 }

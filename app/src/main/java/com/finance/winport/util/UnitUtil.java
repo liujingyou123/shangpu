@@ -84,7 +84,7 @@ public class UnitUtil {
 
         }
 
-        XLog.e("unitUtil = "+sbar);
+        XLog.e("unitUtil = " + sbar);
 
         return sbar;
     }
@@ -125,35 +125,54 @@ public class UnitUtil {
     }
 
 
-
     public static String limitNum(double num, double limit) {
         String ret;
         if (num > limit) {
-            ret = formatNum(num)+"万";
+            ret = formatNum(num) + "万";
         } else {
-            ret = formatDNum(num)+"元";
+            ret = formatDNum(num) + "元";
         }
+        return ret;
+    }
+
+    public static String limitSNum(String numStr, double limit) {
+        if (TextViewUtil.isEmpty(numStr)) {
+            return null;
+        }
+        String ret =null;
+        try {
+            double num = Double.parseDouble(numStr);
+            if (num > limit) {
+                ret = formatNum(num) + "万";
+            } else {
+                ret = formatDNum(num) + "元";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return ret;
     }
 
     /**
      * 数字格式化（千） eg.   1234 = 1.23   1200 = 1.2
+     *
      * @param num
      * @return
      */
     public static String limitKNum(double num) {
         String ret;
-        int qian = (int) (num/1000);
-        int bai = (int) (num%1000)/100;
-        int shi = (int)(num%100)/10;
+        int qian = (int) (num / 1000);
+        int bai = (int) (num % 1000) / 100;
+        int shi = (int) (num % 100) / 10;
 
         if (shi != 0) {
-            ret = qian+"."+bai+""+shi;
+            ret = qian + "." + bai + "" + shi;
         } else {
-            if (bai!=0) {
-                ret = qian+"."+bai+"";
+            if (bai != 0) {
+                ret = qian + "." + bai + "";
             } else {
-                ret = qian+"";
+                ret = qian + "";
             }
         }
 
@@ -162,22 +181,23 @@ public class UnitUtil {
 
     /**
      * 数字格式化（万） eg.   12345 = 1.23   12000 = 1.2
+     *
      * @param num
      * @return
      */
     public static String formatNum(double num) {
         String ret;
-        int wang = (int) (num/10000);
-        int qian = (int) (num%10000) / 1000;
-        int bai = (int) (num%100)/10;
+        int wang = (int) (num / 10000);
+        int qian = (int) (num % 10000) / 1000;
+        int bai = (int) (num % 100) / 10;
 
         if (bai != 0) {
-            ret = wang+"."+qian+""+bai;
+            ret = wang + "." + qian + "" + bai;
         } else {
-            if (qian!=0) {
-                ret = wang+"."+qian+"";
+            if (qian != 0) {
+                ret = wang + "." + qian + "";
             } else {
-                ret = wang+"";
+                ret = wang + "";
             }
         }
 
@@ -186,6 +206,7 @@ public class UnitUtil {
 
     /**
      * 处理小数点  1.0 ——> 1   1.10 ——> 1.1
+     *
      * @param num
      * @return
      */
@@ -199,6 +220,7 @@ public class UnitUtil {
 
     /**
      * 处理小数点  1.0 ——> 1   1.10 ——> 1.1
+     *
      * @param num
      * @return
      */
@@ -218,7 +240,7 @@ public class UnitUtil {
         try {
             double d = Double.parseDouble(num);
             ret = formatDNum(d);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
