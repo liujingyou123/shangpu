@@ -245,11 +245,14 @@ public class EditNoteActivity extends BaseActivity {
         }
 
         mPublicTopic.title = etTitle.getText().toString();
-        if (etElse.getText() == null || TextUtils.isEmpty(etElse.getText().toString())) {
+        if ((etElse.getText() == null || TextUtils.isEmpty(etElse.getText().toString())) && (mAdapter.getListData() == null || mAdapter.getListData().size() == 0)) {
             ToastUtil.show(this, "请输入帖子内容");
             return false;
         }
-        mPublicTopic.content = etElse.getText().toString();
+
+        if (etElse.getText() != null && !TextUtils.isEmpty(etElse.getText().toString())) {
+            mPublicTopic.content = etElse.getText().toString();
+        }
         return true;
     }
 
