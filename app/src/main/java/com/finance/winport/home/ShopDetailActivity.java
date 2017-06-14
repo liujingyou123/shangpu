@@ -651,7 +651,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         }
 
         if (data.getIsFace() == 1) {
-            tvZhuanprice.setText("面议");
+            tvZhuanprice.setText("面议"+compactResidue);
             TextViewUtil.setPartialSizeAndColor(tvZhuanprice, 0, 2, 18, 0, 2, Color.parseColor("#FF5851"));
 
         } else {
