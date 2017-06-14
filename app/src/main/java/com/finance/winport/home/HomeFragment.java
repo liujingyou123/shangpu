@@ -310,6 +310,9 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                 }
                 mRequest.pageNumber = 1;
                 mPresenter.getShopList(mRequest);
+
+                mPresenter.getShopCount();
+                mPresenter.getBanner();
             }
         });
 
