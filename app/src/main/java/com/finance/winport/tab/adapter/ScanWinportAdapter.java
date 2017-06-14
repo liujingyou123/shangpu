@@ -77,7 +77,12 @@ public class ScanWinportAdapter extends PullBaseAdapter<ScanShopList.DataBeanX.D
         holder.address.setText(item.address + item.rentTypeName);
         holder.district.setText(item.districtName + " " + item.blockName);
         holder.area.setText(UnitUtil.formatArea(item.area) + "㎡");
-        holder.releaseTime.setText(item.updateTime + "更新");
+        if (!TextUtils.isEmpty(item.updateTime)) {
+            holder.releaseTime.setText(item.updateTime + "更新");
+            holder.releaseTime.setVisibility(View.VISIBLE);
+        } else {
+            holder.releaseTime.setVisibility(View.INVISIBLE);
+        }
         String sRent = Math.round(item.rent) + "";
         String sFee = Math.round(item.transferFee / 10000) + "";
         boolean hasFee = item.transferFee > 0;
