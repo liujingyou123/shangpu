@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import com.baidu.location.BDLocation;
 import com.finance.winport.MainActivity;
 import com.finance.winport.R;
+import com.finance.winport.account.event.TokenTimeOutEvent;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.dialog.QuyuPopupView;
@@ -142,6 +143,11 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         if (SharedPrefsUtil.getUserInfo() != null) {
             mPresenter.getIsUnReader();
         }
+    }
+
+    @Subscribe
+    public void onLoginTimeOut(TokenTimeOutEvent param) {
+        mRequest.queryType = 1;
     }
 
     @Override
@@ -303,11 +309,11 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                if (SharedPrefsUtil.getUserInfo() != null ) {
-                    mRequest.queryType = 0;
-                } else  {
-                    mRequest.queryType = 1;
-                }
+//                if (SharedPrefsUtil.getUserInfo() != null ) {
+////                    mRequest.queryType = 0;
+//                } else  {
+//                    mRequest.queryType = 1;
+//                }
                 mRequest.pageNumber = 1;
                 mPresenter.getShopList(mRequest);
 
