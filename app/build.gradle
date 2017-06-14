@@ -46,21 +46,25 @@ android {
         dev {
             buildConfigField("String", "BASEURL", '"http://192.168.100.76:8080/"')
             buildConfigField("String", "WEBURL", '"http://wph5.tst.shfc999.com/"')
+            buildConfigField("boolean", "isPro", "false")
         }
 
         tst {
             buildConfigField("String", "BASEURL", '"http://192.168.100.78:8080/"')
             buildConfigField("String", "WEBURL", '"http://wph5.tst.shfc999.com/"')
+            buildConfigField("boolean", "isPro", "false")
         }
 
         pre {
             buildConfigField("String", "BASEURL", '"http://customerapp.pre02.shfc999.com/"')
             buildConfigField("String", "WEBURL", '"http://wph5.pre02.shfc999.com/"')
+            buildConfigField("boolean", "isPro", "false")
         }
 
         pro {
             buildConfigField("String", "BASEURL", '"https://customer.wangpu888.com/"')
             buildConfigField("String", "WEBURL", '"https://wph5.wangpu888.com/"')
+            buildConfigField("boolean", "isPro", "true")
         }
     }
 
