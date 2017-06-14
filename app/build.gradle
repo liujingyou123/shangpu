@@ -58,9 +58,9 @@ android {
             buildConfigField("String", "WEBURL", '"http://wph5.pre02.shfc999.com/"')
         }
 
-        rel {
-            buildConfigField("String", "BASEURL", '"http://192.168.100.79:8080/"')
-            buildConfigField("String", "WEBURL", '"http://wph5.tst.shfc999.com/"')
+        pro {
+            buildConfigField("String", "BASEURL", '"https://customer.wangpu888.com/"')
+            buildConfigField("String", "WEBURL", '"https://wph5.wangpu888.com/"')
         }
     }
 
