@@ -163,7 +163,7 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
                         }
                     });
                     viewHolder.imvHref.setBackgroundResource(R.drawable.default_image_logo);
-                    Batman.getInstance().fromNet(mData.getH5obj().getUrl(), viewHolder.imvHref);
+                    Batman.getInstance().fromNet(mData.getH5obj().getImageUrl(), viewHolder.imvHref);
                     viewHolder.tvHrefTitle.setText(mData.getH5obj().getTitle());
                     viewHolder.tvHrefSub.setText(mData.getH5obj().getContent());
 
