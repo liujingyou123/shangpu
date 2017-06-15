@@ -31,6 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import noman.weekcalendar.eventbus.Event;
 
 /**
  * 生意圈
@@ -54,6 +55,10 @@ public class TradeCircleFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.trade_fragment, container, false);
         unbinder = ButterKnife.bind(this, root);
+
+        if(!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         initView();
 
         return root;
@@ -131,5 +136,14 @@ public class TradeCircleFragment extends BaseFragment {
     private void gotoMyPostListActivity() {
         Intent intent = new Intent(this.getContext(), MyPostListActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
     }
 }
