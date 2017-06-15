@@ -160,13 +160,16 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
     }
 
     private void changeTab() {
+        XLog.e(" mRequest.queryType = " + mRequest.queryType);
         if (SharedPrefsUtil.getUserInfo() != null && mRequest.queryType == 1 && "1".equals(SpUtil.getInstance().getStringData("login", "0"))) {
-            mRequest.queryType = 0;
-            mPresenter.getShopList(mRequest);
+//            mRequest.queryType = 0;
+//            mPresenter.getShopList(mRequest);
         } else if (SharedPrefsUtil.getUserInfo() == null && mRequest.queryType == 0) {
             mRequest.queryType = 1;
             mPresenter.getShopList(mRequest);
         }
+
+        XLog.e(" mRequest.queryType2 = " + mRequest.queryType);
 
         if (SharedPrefsUtil.getUserInfo() != null && TextUtils.isEmpty(SpUtil.getInstance().getStringData(SharedPrefsUtil.getUserInfo().data.userPhone, null))) {
             mPresenter.getPersonalInfo();
@@ -314,6 +317,8 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 //                } else  {
 //                    mRequest.queryType = 1;
 //                }
+                XLog.e(" mRequest.queryType3 = " + mRequest.queryType);
+
                 mRequest.pageNumber = 1;
                 mPresenter.getShopList(mRequest);
 
