@@ -467,6 +467,12 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
         @Override
         public void run() {
             if (count > 1 && isAutoPlay) {
+                if(currentItem == 0){
+                    currentItem = 4;
+                    viewPager.setCurrentItem(currentItem);
+                    handler.postDelayed(task, delayTime);
+                    return;
+                }
                 currentItem = currentItem % (count + 1) + 1;
 //                Log.i(tag, "curr:" + currentItem + " count:" + count);
                 if (currentItem == 1) {
@@ -476,7 +482,7 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
 
                 else if (currentItem == 4) {
                     viewPager.setCurrentItem(currentItem);
-                    handler.postDelayed(task, 2000);
+                    handler.postDelayed(task, 4000);
                 }
 //                else if (currentItem == 0) {
 ////                    viewPager.setCurrentItem(currentItem);
@@ -500,6 +506,12 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
                 startAutoPlay();
             } else if (action == MotionEvent.ACTION_DOWN) {
                 stopAutoPlay();
+            }
+
+            if(action == MotionEvent.ACTION_MOVE){
+                if(currentItem == 1){
+
+                }
             }
         }
         return super.dispatchTouchEvent(ev);
@@ -631,8 +643,8 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
 //        }
         if(oldPosition==1&&position==0){
 //            currentItem =3;
-            if(viewList.get(viewPager.getCurrentItem()) instanceof FindMoneyView)
-                ((FindMoneyView)viewList.get(viewPager.getCurrentItem())).start1();
+//            if(viewList.get(viewPager.getCurrentItem()) instanceof FindMoneyView)
+//                ((FindMoneyView)viewList.get(viewPager.getCurrentItem())).start1();
         }
 
         if(position != 2){
@@ -729,6 +741,7 @@ public class Banner extends FrameLayout implements OnPageChangeListener {
 
             if (position == 3 && oldPosition == 3) {
 
+                ((FindMoneyView)viewList.get(viewPager.getCurrentItem())).start();
 
             }
             else if(viewList.get(viewPager.getCurrentItem()) instanceof RentView)

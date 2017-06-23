@@ -97,8 +97,9 @@ public class NetworkClient {
                     .cache(cache)
                     .addInterceptor(interceptor)
                     .addInterceptor(new TokenInterceptor())
-                    .connectTimeout(30, TimeUnit.SECONDS)
-                    .readTimeout(30, TimeUnit.SECONDS)
+                    .connectTimeout(10, TimeUnit.SECONDS)
+                    .readTimeout(10, TimeUnit.SECONDS)
+                    .writeTimeout(10, TimeUnit.SECONDS)
                     .retryOnConnectionFailure(true)
                     .build();
         } catch (IOException e) {

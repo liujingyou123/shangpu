@@ -65,7 +65,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void setStatusBar(int color) {
-//        StatusBarUtil.setColor(this, color, 0);
+        StatusBarUtil.setColor(this, color, 0);
     }
 
     public class ExitController {

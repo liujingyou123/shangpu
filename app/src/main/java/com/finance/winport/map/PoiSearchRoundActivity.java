@@ -119,7 +119,7 @@ public class PoiSearchRoundActivity extends BaseActivity implements
         getBundle();
         mBaiduMap = mapView.getMap();
         mBaiduMap.setMyLocationEnabled(true);
-        mBaiduMap.setMaxAndMinZoomLevel(21, 18);
+        mBaiduMap.setMaxAndMinZoomLevel(21, 17);
         mapView.showZoomControls(true);
         // 初始化搜索模块，注册搜索事件监听
         mPoiSearch = PoiSearch.newInstance();
@@ -436,7 +436,7 @@ public class PoiSearchRoundActivity extends BaseActivity implements
     public void showNearbyArea(LatLng center, int radius) {
         MapStatus mMapStatus = new MapStatus.Builder()
                 .target(center)
-                .zoom(18)
+                .zoom(17)
                 .build();
         MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
         mBaiduMap.setMapStatus(mMapStatusUpdate);
