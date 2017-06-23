@@ -3,10 +3,13 @@ package com.finance.winport.launcher;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.finance.winport.MainActivity;
 import com.finance.winport.R;
+import com.finance.winport.account.AdActivity;
 import com.finance.winport.base.BaseActivity;
+import com.finance.winport.util.SpUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.concurrent.TimeUnit;
@@ -32,14 +35,23 @@ public class LauncherActivity extends BaseActivity {
     }
 
     private void init() {
-        mSubscription = Observable.timer(1, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Long>() {
-            @Override
-            public void call(Long aLong) {
-                Intent intent = new Intent(LauncherActivity.this, MainActivity.class);
-                startActivity(intent);
-                LauncherActivity.this.finish();
-            }
-        });
+
+
+        String interTimes = SpUtil.getInstance().getStringData("interTimes", null);
+        if (TextUtils.isEmpty(interTimes)) {
+            Intent login = new Intent(context, AdActivity.class);
+            startActivity(login);
+            LauncherActivity.this.finish();
+        } else {
+            mSubscription = Observable.timer(1, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Long>() {
+                @Override
+                public void call(Long aLong) {
+                    Intent intent = new Intent(LauncherActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    LauncherActivity.this.finish();
+                }
+            });
+        }
     }
 
     @Override

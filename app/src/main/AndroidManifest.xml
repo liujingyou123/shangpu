@@ -85,6 +85,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <!-- 引导页 -->
+        <activity
+            android:name=".account.AdActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <!-- 图片预览 -->
         <activity
             android:name=".view.imagepreview.ImagePreviewActivity"
