@@ -52,7 +52,7 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="i8EQa91eGeanVGsANl7KFknd5SPa1NqU" />
-            <!--Tu57z00QbjtRPrxrYbj2qH4wXOF3yYiq-->
+        <!--Tu57z00QbjtRPrxrYbj2qH4wXOF3yYiq-->
 
         <!-- JPush Required  . Enable it you can get statistics data with channel -->
         <meta-data
@@ -83,7 +83,7 @@
             android:name=".account.LoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/LoginActivityTheme" />
 
         <!-- 引导页 -->
         <activity
@@ -271,7 +271,8 @@
 
         <activity
             android:name=".tab.FiercePredictionActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <meta-data
             android:name="UMENG_APPKEY"

@@ -11,8 +11,11 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.tab.event.PredictionEvent;
 import com.finance.winport.tab.model.Prediction;
 import com.umeng.analytics.MobclickAgent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -87,5 +90,6 @@ public class PredictionResultFragment extends BaseFragment {
     public void onConfirmClicked() {
         MobclickAgent.onEvent(context,"luckyshopname_test_retest");
         handleBack();
+        EventBus.getDefault().post(new PredictionEvent());
     }
 }
