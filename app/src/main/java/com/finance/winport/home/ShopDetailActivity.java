@@ -8,17 +8,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
@@ -51,7 +47,6 @@ import com.finance.winport.util.H5Util;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.ToastUtil;
-import com.finance.winport.util.ToolsUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.PositionScrollView;
 import com.finance.winport.view.ScrollTabView;
@@ -63,12 +58,10 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
-import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
 
-import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
@@ -217,6 +210,8 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     ImageView imvChange;
     @BindView(R.id.map_view)
     TextureMapView mapView;
+    @BindView(R.id.rl_down)
+    RelativeLayout rlDown;
 
     private boolean isTouched = false;
     private ShareDialog shareDialog;
@@ -394,13 +389,12 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         }
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.imv_back, R.id.tv_share, R.id.tv_shop_more, R.id.tv_jiucuo, R.id.tv_yuyue, R.id.tv_call, R.id.tv_collection, R.id.imv_change, R.id.ll_near})
+    @OnClick({R.id.imv_focus_house_back, R.id.imv_back, R.id.tv_share, R.id.tv_shop_more, R.id.tv_jiucuo, R.id.tv_yuyue, R.id.tv_call, R.id.tv_collection, R.id.imv_change, R.id.ll_near, R.id.tv_goback})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
-                finish();
-                break;
             case R.id.imv_back:
+            case R.id.tv_goback:
                 finish();
                 break;
             case R.id.tv_share:
@@ -638,6 +632,14 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
 
     @Override
     public void getShopDetail(ShopDetail shopDetail) {
+        if (shopDetail == null || shopDetail.getData() == null) {
+            shopHasDown();
+            return;
+        }
+        if (shopDetail != null && shopDetail.getData().getRentStatus() == 3) {
+            shopHasDown();
+            return;
+        }
         mShopDetail = shopDetail;
         ShopDetail.DataBean data = shopDetail.getData();
         tvName.setText("由 小二 " + data.getClerkName() + " 于" + data.getIssueShopTime() + " 实勘核实");
@@ -695,7 +697,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             stv.setLinpuGone();
         }
 
-        tvCenggao.setText((TextViewUtil.isEmpty(data.getHeight()) ? "--" : UnitUtil.formatSNum(data.getHeight())+ "m"));
+        tvCenggao.setText((TextViewUtil.isEmpty(data.getHeight()) ? "--" : UnitUtil.formatSNum(data.getHeight()) + "m"));
         tvMiankuan.setText((TextViewUtil.isEmpty(data.getWidth()) ? "--" : UnitUtil.formatSNum(data.getWidth()) + "m"));
         tvJinshen.setText((TextViewUtil.isEmpty(data.getDepth()) ? "--" : UnitUtil.formatSNum(data.getDepth()) + "m"));
 
@@ -921,6 +923,19 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
 
 
                 });
+
+    }
+
+    private void shopHasDown() {
+        seletView.setVisibility(View.GONE);
+        rlDown.setVisibility(View.VISIBLE);
+        svAll.setVisibility(View.GONE);
+
+        imvBack.setImageResource(R.mipmap.icon_back);
+
+        tvFocusHouse.setText("该旺铺已下架");
+//        tvFocusHouse.setTextColor(Color.parseColor("#333333"));
+        llTop.setAlpha(1);
 
     }
 

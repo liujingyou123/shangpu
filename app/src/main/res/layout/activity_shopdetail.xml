@@ -101,12 +101,12 @@
                 android:id="@+id/img_banner"
                 android:layout_width="match_parent"
                 android:layout_height="202dp"
+                android:background="@drawable/default_image_logo"
                 app:indicator_drawable_selected="@drawable/dot_banner_select"
                 app:indicator_drawable_unselected="@drawable/dot_banner_unselect"
                 app:indicator_height="6dp"
                 app:indicator_margin="5dp"
-                app:indicator_width="6dp"
-                android:background="@drawable/default_image_logo"></com.youth.banner.Banner>
+                app:indicator_width="6dp"></com.youth.banner.Banner>
 
 
             <TextView
@@ -135,17 +135,19 @@
                     android:id="@+id/rl_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <TextView
                         android:id="@+id/tv_rent_type"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:text="房东直发"
-                        android:textColor="#FF8C9AC9"
-                        android:textSize="10sp"
                         android:background="@drawable/bg_type"
                         android:gravity="center"
+                        android:includeFontPadding="false"
                         android:lineSpacingExtra="0dp"
-                        android:includeFontPadding="false"/>
+                        android:text="房东直发"
+                        android:textColor="#FF8C9AC9"
+                        android:textSize="10sp" />
+
                     <TextView
                         android:id="@+id/tv_shop_address"
                         android:layout_width="match_parent"
@@ -233,7 +235,7 @@
                     android:layout_marginTop="10dp"
                     android:text=""
                     android:textColor="#FF151515"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp" />
 
                 <View
                     android:id="@+id/view_line_one"
@@ -320,18 +322,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
                     android:background="#ff0000"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
 
                 <com.baidu.mapapi.map.TextureMapView
                     android:id="@+id/map_view"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
                     android:layout_gravity="center_horizontal"
+                    android:background="#ffffff"
                     android:clickable="false"
                     android:isScrollContainer="false"
-                    android:overScrollMode="never"
-                    android:background="#ffffff">
+                    android:overScrollMode="never">
 
                 </com.baidu.mapapi.map.TextureMapView>
 
@@ -357,8 +358,7 @@
                             android:layout_height="wrap_content"
                             android:text="240"
                             android:textColor="#333333"
-                            android:textSize="15sp"
-                            />
+                            android:textSize="15sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -382,7 +382,7 @@
                             android:text="240"
                             android:textColor="#333333"
                             android:textSize="15sp"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -406,7 +406,7 @@
                             android:text="240"
                             android:textColor="#333333"
                             android:textSize="15sp"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -430,7 +430,7 @@
                             android:text="240"
                             android:textColor="#333333"
                             android:textSize="15sp"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -454,7 +454,7 @@
                             android:text="240"
                             android:textColor="#333333"
                             android:textSize="15sp"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -478,7 +478,7 @@
                             android:text="240"
                             android:textColor="#333333"
                             android:textSize="15sp"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -858,9 +858,9 @@
                     android:id="@+id/ll_jingyingfeiyongtwo"
                     android:layout_width="match_parent"
                     android:layout_height="77dp"
-                    android:orientation="horizontal"
+                    android:background="#ffffff"
                     android:gravity="center_vertical"
-                    android:background="#ffffff">
+                    android:orientation="horizontal">
 
                     <!--<LinearLayout-->
                     <!--android:layout_width="0dp"-->
@@ -972,24 +972,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ffffff"
-                    app:lineSpacing="12dp"
+                    android:paddingBottom="10dp"
                     android:paddingLeft="15dp"
                     android:paddingTop="10dp"
-                    android:paddingBottom="10dp"/>
+                    app:lineSpacing="12dp" />
 
                 <!--<GridView-->
-                    <!--android:id="@+id/gv_support"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginBottom="10dp"-->
-                    <!--android:background="#ffffff"-->
-                    <!--android:minHeight="55dp"-->
-                    <!--android:numColumns="4"-->
-                    <!--android:paddingLeft="15dp"-->
-                    <!--android:paddingTop="10dp"-->
-                    <!--android:verticalSpacing="8dp"-->
-                    <!--android:paddingBottom="10dp"-->
-                    <!--android:listSelector="@drawable/color_rest_unpress"></GridView>-->
+                <!--android:id="@+id/gv_support"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="10dp"-->
+                <!--android:background="#ffffff"-->
+                <!--android:minHeight="55dp"-->
+                <!--android:numColumns="4"-->
+                <!--android:paddingLeft="15dp"-->
+                <!--android:paddingTop="10dp"-->
+                <!--android:verticalSpacing="8dp"-->
+                <!--android:paddingBottom="10dp"-->
+                <!--android:listSelector="@drawable/color_rest_unpress"></GridView>-->
             </LinearLayout>
 
         </LinearLayout>
@@ -1050,5 +1050,32 @@
         android:paddingRight="15dp"
         android:scaleType="centerInside"
         android:src="@mipmap/icon_back" />
+
+
+    <RelativeLayout
+        android:id="@+id/rl_down"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ll_top"
+        android:background="#ffffff"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
+            android:drawableTop="@mipmap/state_shelves"
+            android:text="老板，再找找其他铺子吧"
+            android:textColor="#FF333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_goback"
+            style="@style/btn_done"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="65dp"
+            android:text="返回上一页" />
+    </RelativeLayout>
 
 </RelativeLayout>
