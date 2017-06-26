@@ -39,6 +39,7 @@ import com.finance.winport.account.net.UserManager;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.home.H5Activity;
+import com.finance.winport.home.model.EventLoginSuccess;
 import com.finance.winport.tab.net.NetworkCallback;
 import com.finance.winport.util.H5Util;
 import com.finance.winport.util.NetworkUtil;
@@ -323,6 +324,9 @@ public class LoginFragment extends BaseFragment {
                 if (getView() == null) return;
                 loading.dismiss();
                 if (response != null && response.isSuccess()) {
+                    EventLoginSuccess eventLoginSuccess = new EventLoginSuccess();
+                    eventLoginSuccess.isLoginIn = true;
+                    EventBus.getDefault().post(eventLoginSuccess);
                     response.data.userPhone = userPhone;
                     SharedPrefsUtil.saveUserInfo(response);
                     EventBus.getDefault().post(new LoginEvent());
