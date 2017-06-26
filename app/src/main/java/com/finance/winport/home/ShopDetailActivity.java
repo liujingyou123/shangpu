@@ -217,6 +217,8 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     TextureMapView mapView;
     @BindView(R.id.rl_down)
     RelativeLayout rlDown;
+    @BindView(R.id.tv_louceng)
+    TextView tvLouCeng;
 
     private boolean isTouched = false;
     private ShareDialog shareDialog;
@@ -706,6 +708,18 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         tvMiankuan.setText((TextViewUtil.isEmpty(data.getWidth()) ? "--" : UnitUtil.formatSNum(data.getWidth()) + "m"));
         tvJinshen.setText((TextViewUtil.isEmpty(data.getDepth()) ? "--" : UnitUtil.formatSNum(data.getDepth()) + "m"));
 
+        String[] strs = UnitUtil.stringToArray(data.getFloor());
+        if (strs != null && strs.length > 0) {
+            if (strs.length == 1) {
+                tvLouCeng.setText(UnitUtil.formatSNum(strs[0]) + "层");
+            } else {
+                tvLouCeng.setText(UnitUtil.formatSNum(strs[0]) + "~" + UnitUtil.formatSNum(strs[strs.length - 1]) + "层");
+            }
+        } else {
+            tvLouCeng.setText("--");
+        }
+
+
         List<Map<String, String>> yingyufeiyong = new ArrayList<>();
 
         if (!TextUtils.isEmpty(data.getDeposit()) && !"null".equals(data.getDeposit())) {
@@ -912,85 +926,6 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             }
         }
 
-
-//        if (!TextViewUtil.isEmpty(data.getElectricRate()) && !TextViewUtil.isEmpty(data.getWaterRate()) && !TextViewUtil.isEmpty(data.getGasRate()) && !TextViewUtil.isEmpty(data.getPropertyRate())) {
-//            viewSpaceJingyingfeiyong.setVisibility(View.VISIBLE);
-//            llJingyingfeiyongone.setVisibility(View.VISIBLE);
-//            llJingyingfeiyongtwo.setVisibility(View.GONE);
-//
-//            tvDianfei.setText(UnitUtil.formatSNum(data.getElectricRate()));
-//            tvShuifei.setText(UnitUtil.formatSNum(data.getWaterRate()));
-//            tvRanqi.setText(UnitUtil.formatSNum(data.getGasRate()));
-//            tvWuye.setText(UnitUtil.formatSNum(data.getPropertyRate()));
-//
-//
-//        } else if (TextViewUtil.isEmpty(data.getElectricRate()) && TextViewUtil.isEmpty(data.getWaterRate()) && TextViewUtil.isEmpty(data.getGasRate()) && TextViewUtil.isEmpty(data.getPropertyRate())) {
-//            viewSpaceJingyingfeiyong.setVisibility(View.GONE);
-//            llJingyingfeiyong.setVisibility(View.GONE);
-//            stv.setYingYuFeiyongGone();
-//        } else {
-//            viewSpaceJingyingfeiyong.setVisibility(View.VISIBLE);
-//            llJingyingfeiyongone.setVisibility(View.GONE);
-//            llJingyingfeiyongtwo.setVisibility(View.VISIBLE);
-//            llJingyingfeiyongtwo.removeAllViews();
-//
-//            if (!TextViewUtil.isEmpty(data.getElectricRate())) {
-//                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
-//                lp.weight = 1;
-//                RateView rv = new RateView(this);
-//                rv.setNum(UnitUtil.formatSNum(data.getElectricRate()));
-//                rv.setNotice("电费(元/度)");
-//                llJingyingfeiyongtwo.addView(rv, lp);
-//            }
-//
-//            if (!TextViewUtil.isEmpty(data.getWaterRate())) {
-//                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
-//                lp.weight = 1;
-//                RateView rv = new RateView(this);
-//                rv.setNum(UnitUtil.formatSNum(data.getWaterRate()));
-//                rv.setNotice("水费(元/吨)");
-//                if (llJingyingfeiyongtwo.getChildCount() > 0) {
-//                    View view = new View(this);
-//                    LinearLayout.LayoutParams lpspace = new LinearLayout.LayoutParams(1, LinearLayout.LayoutParams.MATCH_PARENT);
-//                    lpspace.setMargins(0, 30, 0, 30);
-//                    view.setBackgroundResource(R.color.color_line);
-//                    llJingyingfeiyongtwo.addView(view, lpspace);
-//                }
-//                llJingyingfeiyongtwo.addView(rv, lp);
-//            }
-//
-//            if (!TextViewUtil.isEmpty(data.getGasRate())) {
-//                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
-//                lp.weight = 1;
-//                RateView rv = new RateView(this);
-//                rv.setNum(UnitUtil.formatSNum(data.getGasRate()));
-//                rv.setNotice("燃气费(元/㎡)");
-//                if (llJingyingfeiyongtwo.getChildCount() > 0) {
-//                    View view = new View(this);
-//                    LinearLayout.LayoutParams lpspace = new LinearLayout.LayoutParams(1, LinearLayout.LayoutParams.MATCH_PARENT);
-//                    lpspace.setMargins(0, 30, 0, 30);
-//                    view.setBackgroundResource(R.color.color_line);
-//                    llJingyingfeiyongtwo.addView(view, lpspace);
-//                }
-//                llJingyingfeiyongtwo.addView(rv, lp);
-//            }
-//
-//            if (!TextViewUtil.isEmpty(data.getPropertyRate())) {
-//                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
-//                lp.weight = 1;
-//                RateView rv = new RateView(this);
-//                rv.setNum(UnitUtil.formatSNum(data.getPropertyRate()));
-//                rv.setNotice("物业费(元/㎡/月)");
-//                if (llJingyingfeiyongtwo.getChildCount() > 0) {
-//                    View view = new View(this);
-//                    LinearLayout.LayoutParams lpspace = new LinearLayout.LayoutParams(1, LinearLayout.LayoutParams.MATCH_PARENT);
-//                    lpspace.setMargins(0, 30, 0, 30);
-//                    view.setBackgroundResource(R.color.color_line);
-//                    llJingyingfeiyongtwo.addView(view, lpspace);
-//                }
-//                llJingyingfeiyongtwo.addView(rv, lp);
-//            }
-//        }
 
         if (data.getSupportList() != null && data.getSupportList().size() > 0) {
             llPeitao.setVisibility(View.VISIBLE);
