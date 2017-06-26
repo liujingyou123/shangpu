@@ -206,6 +206,20 @@ public class UnitUtil {
     }
 
     /**
+     * 数字格式化（万） eg.   12345 = 1.23   12000 = 1.2
+     * @param num
+     * @return
+     */
+    public static String formatStrToWan(String num) {
+        String ret = null;
+        if (!TextUtils.isEmpty(num) && !"null".equals(num)) {
+            double numd = Double.parseDouble(num);
+            ret = formatDNum(numd/10000);
+        }
+        return ret;
+    }
+
+    /**
      * 处理小数点  1.0 ——> 1   1.10 ——> 1.1
      *
      * @param num
