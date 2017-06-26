@@ -374,7 +374,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
 
     private void updateView(float scrollY) {
 
-        int top = llNear.getTop();
+        int top = tvName.getTop();
 
         int titleView = UnitUtil.dip2px(context, 97);
 
