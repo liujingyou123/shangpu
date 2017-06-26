@@ -656,7 +656,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
 
         tvRentType.setText(data.getRentTypeName());
         String compactResidue = "";
-        if (data.getCompactResidue() == 0) {
+        if (data.getCompactResidue() == 2) {
             compactResidue = "(带租约)";
         }
 

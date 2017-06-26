@@ -245,7 +245,14 @@ public class ShopMoreActivity extends BaseActivity {
                 tvZhuanrangfei.setLableTwo("--");
             }
         }
-        tvShengyuhetong.setLableTwo(data.getCompactResidue() + "个月");
+
+        if (0 == data.getCompactResidue()) {
+            tvShengyuhetong.setLableTwo("无租赁合同");
+        } else if (1 == data.getCompactResidue()) {
+            tvShengyuhetong.setLableTwo("原租赁合同已到期");
+        } else if (2 == data.getCompactResidue()) {
+            tvShengyuhetong.setLableTwo("原租赁合同未到期");
+        }
 
         if (data.getNearInfoList() != null && data.getNearInfoList().size() > 0) {
             llLinpuxinxi.setVisibility(View.VISIBLE);
