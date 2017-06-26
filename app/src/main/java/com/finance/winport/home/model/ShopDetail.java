@@ -11,7 +11,7 @@ import java.util.List;
  * Created by liuworkmac on 17/5/17.
  */
 
-public class ShopDetail extends BaseResponse implements Serializable{
+public class ShopDetail extends BaseResponse implements Serializable {
 
 
     /**
@@ -77,7 +77,7 @@ public class ShopDetail extends BaseResponse implements Serializable{
     }
 
 
-    public static class DataBean implements Serializable{
+    public static class DataBean implements Serializable {
         private String address;
         private String area;
         private int blockId;
@@ -94,7 +94,7 @@ public class ShopDetail extends BaseResponse implements Serializable{
         private int districtId;
         private String districtName;
         private String electricRate;
-        private int floor;
+        private String floor;
         private String gasRate;
         private String height;
         private int id;
@@ -291,11 +291,11 @@ public class ShopDetail extends BaseResponse implements Serializable{
             this.electricRate = electricRate;
         }
 
-        public int getFloor() {
+        public String getFloor() {
             return floor;
         }
 
-        public void setFloor(int floor) {
+        public void setFloor(String floor) {
             this.floor = floor;
         }
 
@@ -411,7 +411,7 @@ public class ShopDetail extends BaseResponse implements Serializable{
             String ret = null;
             if (operateStatus == 0) {
                 ret = "正在经营";
-            } else if (operateStatus ==1) {
+            } else if (operateStatus == 1) {
                 ret = "停业";
             }
             return ret;
@@ -459,6 +459,8 @@ public class ShopDetail extends BaseResponse implements Serializable{
                 ret = "半年付";
             } else if (rentWay == 3) {
                 ret = "年付";
+            } else if (rentWay == 4) {
+                ret = "两月付";
             }
             return ret;
         }
@@ -595,7 +597,7 @@ public class ShopDetail extends BaseResponse implements Serializable{
             this.supportList = supportList;
         }
 
-        public static class ImageListBean implements Serializable{
+        public static class ImageListBean implements Serializable {
             private int imgIndex;
             private String imgUrl;
             private int isCover;
@@ -625,7 +627,7 @@ public class ShopDetail extends BaseResponse implements Serializable{
             }
         }
 
-        public static class NearInfoListBean implements Comparable, Serializable{
+        public static class NearInfoListBean implements Comparable, Serializable {
             private int industryId;
             private String industryName;
             private String name;

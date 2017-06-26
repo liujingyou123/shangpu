@@ -649,7 +649,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
 
         tvRentType.setText(data.getRentTypeName());
         String compactResidue = "";
-        if (data.getCompactResidue() > 0) {
+        if (data.getCompactResidue() == 0) {
             compactResidue = "(带租约)";
         }
 
@@ -782,7 +782,8 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
 
         if (data.getSupportList() != null && data.getSupportList().size() > 0) {
             llPeitao.setVisibility(View.VISIBLE);
-            SupportTagAdapter supportTagAdapter = new SupportTagAdapter(this, data.getSupportList());
+            SupportTagAdapter supportTagAdapter = new SupportTagAdapter(this);
+            supportTagAdapter.setSelectData(data.getSupportList());
             gvSupport.setAdapter(supportTagAdapter);
         } else {
             llPeitao.setVisibility(View.GONE);
