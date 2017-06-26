@@ -649,7 +649,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         }
         mShopDetail = shopDetail;
         ShopDetail.DataBean data = shopDetail.getData();
-        tvName.setText("由 小二 " + data.getClerkName() + " 于" + data.getIssueShopTime() + " 实勘核实");
+        tvName.setText("由 小二 " + data.getClerkName() + " 于" + data.getIssueShopTime() + " 核实发布");
         tvShopAddress.setText(" 　 " + data.getDistrictName() + data.getBlockName() + data.getAddress());
         tvScan.setText(data.getVisitCount() + "浏览");
         tvLianxi.setText(data.getContactCount() + "联系");
