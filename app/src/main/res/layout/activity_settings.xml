@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg"
@@ -50,6 +51,36 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="清除缓存"
+                android:textColor="#333333"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/clearCache"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawablePadding="5dp"
+                android:drawableRight="@mipmap/arrow"
+                android:gravity="center_vertical"
+                android:paddingLeft="30dp"
+                android:paddingRight="15dp"
+                tools:text="280kb" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#e5e5e5" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="版本更新"
                 android:textColor="#333333"
                 android:textSize="14sp" />
@@ -67,6 +98,7 @@
 
     <Button
         android:id="@+id/login_out"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginBottom="14dp"
@@ -75,7 +107,6 @@
         android:layout_marginTop="30dp"
         android:background="@drawable/bg_exit_btn"
         android:text="退出账号"
-        style="?android:attr/borderlessButtonStyle"
         android:textColor="#ffffff"
         android:textSize="15dp"
         android:visibility="gone" />

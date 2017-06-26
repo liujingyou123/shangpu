@@ -16,17 +16,22 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.dialog.LoadingDialog;
+import com.finance.winport.tab.event.PredictionEvent;
 import com.finance.winport.tab.model.Prediction;
 import com.finance.winport.tab.net.NetworkCallback;
 import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.util.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import noman.weekcalendar.eventbus.Event;
 
 /**
  * Created by xzw on 2017/5/12.
@@ -50,6 +55,20 @@ public class PredictionFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void predicateNext(PredictionEvent event) {
+        if (event != null) {
+            content.setText("");
+        }
     }
 
     @Nullable
@@ -96,7 +115,7 @@ public class PredictionFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.confirm:
-                MobclickAgent.onEvent(context,"luckyshopname_test");
+                MobclickAgent.onEvent(context, "luckyshopname_test");
                 name = content.getText().toString().trim();
                 if (TextUtils.isEmpty(name)) {
                     ToastUtil.show(context, "请输入店名");
