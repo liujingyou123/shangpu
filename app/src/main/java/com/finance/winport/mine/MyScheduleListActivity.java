@@ -82,7 +82,7 @@ public class MyScheduleListActivity extends BaseActivity implements IScheduleLis
     }
 
     public void init(){
-        tvFocusHouse.setText("我的日程");
+        tvFocusHouse.setText("我未来的日程");
         tvFocusRight.setText("历史");
         refreshView.setMode(PtrFrameLayout.Mode.LOAD_MORE);
         refreshView.setPtrHandler(new PtrDefaultHandler2() {

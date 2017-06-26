@@ -1,6 +1,7 @@
 package com.finance.winport.service.presenter;
 
 import com.finance.winport.base.BaseResponse;
+import com.finance.winport.net.LoadingNetSubscriber;
 import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.service.api.FindServices;
 import com.finance.winport.service.model.LoanListResponse;
@@ -26,7 +27,7 @@ public class SendOrderPresenter {
 
     public void getShopOrderResult(OrderShopRequest request) {
 
-        ToolsUtil.subscribe(ToolsUtil.createService(FindServices.class).sendOrderShop(request), new NetSubscriber<SendOrderShopResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(FindServices.class).sendOrderShop(request), new LoadingNetSubscriber<SendOrderShopResponse>() {
             @Override
             public void response(SendOrderShopResponse response) {
                 if (mServiceView != null) {
@@ -44,7 +45,7 @@ public class SendOrderPresenter {
 
     public void getShopSignResult(OrderShopRequest request) {
 
-        ToolsUtil.subscribe(ToolsUtil.createService(FindServices.class).sendSignShop(request), new NetSubscriber<SendOrderShopResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(FindServices.class).sendSignShop(request), new LoadingNetSubscriber<SendOrderShopResponse>() {
             @Override
             public void response(SendOrderShopResponse response) {
                 if (mServiceView != null) {

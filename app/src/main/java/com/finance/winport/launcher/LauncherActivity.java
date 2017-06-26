@@ -37,21 +37,36 @@ public class LauncherActivity extends BaseActivity {
     private void init() {
 
 
-        String interTimes = SpUtil.getInstance().getStringData("interTimes", null);
-        if (TextUtils.isEmpty(interTimes)) {
-            Intent login = new Intent(context, AdActivity.class);
-            startActivity(login);
-            LauncherActivity.this.finish();
-        } else {
-            mSubscription = Observable.timer(1, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Long>() {
-                @Override
-                public void call(Long aLong) {
+        mSubscription = Observable.timer(1, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Long>() {
+            @Override
+            public void call(Long aLong) {
+                String interTimes = SpUtil.getInstance().getStringData("interTimes", null);
+                if (TextUtils.isEmpty(interTimes)) {
+                    Intent login = new Intent(context, AdActivity.class);
+                    startActivity(login);
+                    LauncherActivity.this.finish();
+                } else {
                     Intent intent = new Intent(LauncherActivity.this, MainActivity.class);
                     startActivity(intent);
                     LauncherActivity.this.finish();
                 }
-            });
-        }
+            }
+        });
+//        String interTimes = SpUtil.getInstance().getStringData("interTimes", null);
+//        if (TextUtils.isEmpty(interTimes)) {
+//            Intent login = new Intent(context, AdActivity.class);
+//            startActivity(login);
+//            LauncherActivity.this.finish();
+//        } else {
+//            mSubscription = Observable.timer(1, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Long>() {
+//                @Override
+//                public void call(Long aLong) {
+//                    Intent intent = new Intent(LauncherActivity.this, MainActivity.class);
+//                    startActivity(intent);
+//                    LauncherActivity.this.finish();
+//                }
+//            });
+//        }
     }
 
     @Override
