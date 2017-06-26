@@ -81,9 +81,9 @@
             android:layout_toLeftOf="@id/tv_area"
             android:layout_toRightOf="@id/rl_cover"
             android:includeFontPadding="false"
-            android:text="徐虹北路2300号转租"
+            android:text=""
             android:textColor="#333333"
-            android:textSize="14sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_aver_money"
