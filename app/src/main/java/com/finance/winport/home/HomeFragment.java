@@ -27,6 +27,7 @@ import com.finance.winport.dialog.SortPopupView;
 import com.finance.winport.dialog.WelcomeDialog;
 import com.finance.winport.home.adapter.ShopsAdapter;
 import com.finance.winport.home.model.BannerResponse;
+import com.finance.winport.home.model.EventLoginSuccess;
 import com.finance.winport.home.model.ShopCount;
 import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.home.model.ShopRequset;
@@ -90,6 +91,9 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
     private LoadingDialog loadingDialog;
     private boolean isFirstLoad;
 
+    private boolean isTimeOut = false;
+    private boolean isLoginIn = false;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -134,20 +138,32 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         super.onResume();
         XLog.e("onResume");
 
+        if (SharedPrefsUtil.getUserInfo() != null) {
+            mPresenter.getIsUnReader();
+        }
+
         if (mRequest != null && mRequest.isMap) {
             mRequest.pageNumber = 1;
             mPresenter.getShopList(mRequest);
             mRequest.isMap = false;
         }
 
-        if (SharedPrefsUtil.getUserInfo() != null) {
-            mPresenter.getIsUnReader();
+        if (!this.isHidden()) {
+            getChangeTabData();
         }
     }
 
     @Subscribe
     public void onLoginTimeOut(TokenTimeOutEvent param) {
-        mRequest.queryType = 1;
+        isTimeOut = true;
+//        mRequest.queryType = 1;
+    }
+
+    @Subscribe
+    public void onLoginIn(EventLoginSuccess param) {
+        if (param.isLoginIn) {
+            isLoginIn = true;
+        }
     }
 
     @Override
@@ -159,25 +175,54 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         }
     }
 
+    private void getChangeTabData() {
+        if (isLoginIn) {
+            isLoginIn = false;
+
+            if (SharedPrefsUtil.getUserInfo() != null && TextUtils.isEmpty(SpUtil.getInstance().getStringData(SharedPrefsUtil.getUserInfo().data.userPhone, null))) {
+                mPresenter.getPersonalInfo();
+            }
+
+            if (SharedPrefsUtil.getUserInfo() != null) {
+                mPresenter.getIsUnReader();
+            }
+
+            if (SharedPrefsUtil.getUserInfo() == null && mRequest.queryType == 0) {
+                mRequest.queryType = 1;
+                mPresenter.getShopList(mRequest);
+            }
+
+        } else if (isTimeOut) {
+            isTimeOut = false;
+            if (SharedPrefsUtil.getUserInfo() == null && mRequest.queryType == 0) {
+                mRequest.queryType = 1;
+                mPresenter.getShopList(mRequest);
+            }
+
+        }
+    }
+
     private void changeTab() {
-        XLog.e(" mRequest.queryType = " + mRequest.queryType);
-        if (SharedPrefsUtil.getUserInfo() != null && mRequest.queryType == 1 && "1".equals(SpUtil.getInstance().getStringData("login", "0"))) {
-//            mRequest.queryType = 0;
+
+        getChangeTabData();
+//        XLog.e(" mRequest.queryType = " + mRequest.queryType);
+//        if (SharedPrefsUtil.getUserInfo() != null && mRequest.queryType == 1 && "1".equals(SpUtil.getInstance().getStringData("login", "0"))) {
+////            mRequest.queryType = 0;
+////            mPresenter.getShopList(mRequest);
+//        } else if (SharedPrefsUtil.getUserInfo() == null && mRequest.queryType == 0) {
+//            mRequest.queryType = 1;
 //            mPresenter.getShopList(mRequest);
-        } else if (SharedPrefsUtil.getUserInfo() == null && mRequest.queryType == 0) {
-            mRequest.queryType = 1;
-            mPresenter.getShopList(mRequest);
-        }
-
-        XLog.e(" mRequest.queryType2 = " + mRequest.queryType);
-
-        if (SharedPrefsUtil.getUserInfo() != null && TextUtils.isEmpty(SpUtil.getInstance().getStringData(SharedPrefsUtil.getUserInfo().data.userPhone, null))) {
-            mPresenter.getPersonalInfo();
-        }
-
-        if (SharedPrefsUtil.getUserInfo() != null) {
-            mPresenter.getIsUnReader();
-        }
+//        }
+//
+//        XLog.e(" mRequest.queryType2 = " + mRequest.queryType);
+//
+//        if (SharedPrefsUtil.getUserInfo() != null && TextUtils.isEmpty(SpUtil.getInstance().getStringData(SharedPrefsUtil.getUserInfo().data.userPhone, null))) {
+//            mPresenter.getPersonalInfo();
+//        }
+//
+//        if (SharedPrefsUtil.getUserInfo() != null) {
+//            mPresenter.getIsUnReader();
+//        }
     }
 
     private void getCurrentLocation() {

@@ -17,9 +17,10 @@ import com.finance.winport.base.BaseActivity;
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.tab.net.NetworkCallback;
+import com.finance.winport.util.CleanMessageUtil;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.SpUtil;
-import com.tencent.tauth.UiError;
+import com.finance.winport.util.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,6 +50,8 @@ public class SettingsActivity extends BaseActivity {
     @BindView(R.id.debug)
     Button debug;
     LoadingDialog loading;
+    @BindView(R.id.clearCache)
+    TextView clearCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,7 @@ public class SettingsActivity extends BaseActivity {
     public void init() {
         loading = new LoadingDialog(context);
         tvFocusHouse.setText("系统设置");
+        clearCache.setText(CleanMessageUtil.getTotalCacheSize(context));
         if (SharedPrefsUtil.getUserInfo() != null) {
             loginOut.setVisibility(View.VISIBLE);
         } else {
@@ -86,7 +90,7 @@ public class SettingsActivity extends BaseActivity {
                 break;
             case R.id.about:
                 MobclickAgent.onEvent(SettingsActivity.this, "system_aboutus");
-                startActivity(new Intent(SettingsActivity.this,AboutActivtiy.class));
+                startActivity(new Intent(SettingsActivity.this, AboutActivtiy.class));
                 break;
         }
     }
@@ -124,5 +128,12 @@ public class SettingsActivity extends BaseActivity {
     private void setLoginOutData() {
         SpUtil.getInstance().setIntData("commentNum", 0);
         SpUtil.getInstance().setStringData(SharedPrefsUtil.getUserInfo().data.userPhone, null);
+    }
+
+    @OnClick(R.id.clearCache)
+    public void onViewClicked() {
+        CleanMessageUtil.clearAllCache(context);
+        ToastUtil.show(context, "清除缓存成功");
+        clearCache.setText(CleanMessageUtil.getTotalCacheSize(context));
     }
 }

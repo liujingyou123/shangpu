@@ -10,12 +10,12 @@
         <item name="windowNoTitle">true</item>
     </style>
     <!--<style name="ActivityAnimation" parent="@android:style/Animation.Activity">-->
-        <!--<item name="android:activityOpenEnterAnimation">@anim/fragment_rotate_enter</item>-->
-        <!--<item name="android:activityOpenExitAnimation">@anim/activity_open_exit</item>-->
-        <!--<item name="android:activityCloseEnterAnimation">@anim/activity_close_enter</item>-->
-        <!--<item name="android:activityCloseExitAnimation">@anim/activity_close_exit</item>-->
-        <!--&lt;!&ndash;<item name="android:fragmentFadeEnterAnimation">@animator/fragment_fade</item>&ndash;&gt;-->
-        <!--&lt;!&ndash;<item name="android:fragmentFadeExitAnimation">@animator/fragment_fade</item>&ndash;&gt;-->
+    <!--<item name="android:activityOpenEnterAnimation">@anim/fragment_rotate_enter</item>-->
+    <!--<item name="android:activityOpenExitAnimation">@anim/activity_open_exit</item>-->
+    <!--<item name="android:activityCloseEnterAnimation">@anim/activity_close_enter</item>-->
+    <!--<item name="android:activityCloseExitAnimation">@anim/activity_close_exit</item>-->
+    <!--&lt;!&ndash;<item name="android:fragmentFadeEnterAnimation">@animator/fragment_fade</item>&ndash;&gt;-->
+    <!--&lt;!&ndash;<item name="android:fragmentFadeExitAnimation">@animator/fragment_fade</item>&ndash;&gt;-->
     <!--</style>-->
 
 
@@ -100,5 +100,16 @@
         <item name="android:minHeight">14dp</item>
         <item name="android:maxHeight">14dp</item>
         <item name="android:gravity">center</item>
+    </style>
+
+    <style name="LoginActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/open_enter_bottom_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/open_exit_normal</item>
+    </style>
+
+    <style name="LoginActivityTheme" parent="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@style/LoginActivityAnimation</item>
     </style>
 </resources>

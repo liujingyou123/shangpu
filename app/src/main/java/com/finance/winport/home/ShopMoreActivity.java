@@ -89,6 +89,8 @@ public class ShopMoreActivity extends BaseActivity {
     TextView customerInfo;
     @BindView(R.id.line)
     View line;
+    @BindView(R.id.tv_zonglouceng)
+    ItemView tvZongLouCeng;
     private ShopDetail mShopDetail;
 
     @Override
@@ -154,7 +156,15 @@ public class ShopMoreActivity extends BaseActivity {
             tvMianji.setLableTwo("--");
         }
 
-        tvLouceng.setLableTwo(data.getFloor() + "/" + data.getTotalFloor() + "层");
+        tvZongLouCeng.setLableTwo(UnitUtil.formatSNum(data.getTotalFloor()) + "层");
+        String[] strs = UnitUtil.stringToArray(data.getFloor());
+        if (strs != null && strs.length > 0) {
+            if (strs.length == 1) {
+                tvLouceng.setLableTwo(UnitUtil.formatSNum(strs[0]) + "层");
+            } else {
+                tvLouceng.setLableTwo(UnitUtil.formatSNum(strs[0]) + "~" + UnitUtil.formatSNum(strs[strs.length - 1]) + "层");
+            }
+        }
 
         if (!TextViewUtil.isEmpty(data.getWidth())) {
             tvMiankuan.setLableTwo(UnitUtil.formatSNum(data.getWidth()) + "m");
@@ -177,13 +187,14 @@ public class ShopMoreActivity extends BaseActivity {
         if (data.getSupportList() != null && data.getSupportList().size() > 0) {
             tvPeittaoNotice.setVisibility(View.VISIBLE);
             gvSupportMore.setVisibility(View.VISIBLE);
-            SupportTagAdapter supportTagAdapter = new SupportTagAdapter(this, data.getSupportList());
+            SupportTagAdapter supportTagAdapter = new SupportTagAdapter(this);
+            supportTagAdapter.setSelectData(data.getSupportList());
             gvSupportMore.setAdapter(supportTagAdapter);
         } else {
             tvPeittaoNotice.setVisibility(View.GONE);
             gvSupportMore.setVisibility(View.GONE);
         }
-        if (TextViewUtil.isEmpty(data.getElectricRate()) &&  TextViewUtil.isEmpty(data.getWaterRate()) && TextViewUtil.isEmpty(data.getGasRate()) && TextViewUtil.isEmpty(data.getPropertyRate())) {
+        if (TextViewUtil.isEmpty(data.getElectricRate()) && TextViewUtil.isEmpty(data.getWaterRate()) && TextViewUtil.isEmpty(data.getGasRate()) && TextViewUtil.isEmpty(data.getPropertyRate())) {
             tvYingyufeiyong.setVisibility(View.GONE);
             llYingYunFeiyong.setVisibility(View.GONE);
         } else {
@@ -234,7 +245,14 @@ public class ShopMoreActivity extends BaseActivity {
                 tvZhuanrangfei.setLableTwo("--");
             }
         }
-        tvShengyuhetong.setLableTwo(data.getCompactResidue() + "个月");
+
+        if (0 == data.getCompactResidue()) {
+            tvShengyuhetong.setLableTwo("无租赁合同");
+        } else if (1 == data.getCompactResidue()) {
+            tvShengyuhetong.setLableTwo("原租赁合同已到期");
+        } else if (2 == data.getCompactResidue()) {
+            tvShengyuhetong.setLableTwo("原租赁合同未到期");
+        }
 
         if (data.getNearInfoList() != null && data.getNearInfoList().size() > 0) {
             llLinpuxinxi.setVisibility(View.VISIBLE);

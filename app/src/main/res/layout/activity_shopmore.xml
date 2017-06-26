@@ -131,6 +131,17 @@
                 android:layout_marginLeft="15dp" />
 
             <com.finance.winport.view.home.ItemView
+                android:id="@+id/tv_zonglouceng"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                apps:LabelOne="总楼层："
+                apps:LabelTwo="-"></com.finance.winport.view.home.ItemView>
+
+            <View
+                style="@style/view_line"
+                android:layout_marginLeft="15dp" />
+
+            <com.finance.winport.view.home.ItemView
                 android:id="@+id/tv_louceng"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -183,7 +194,7 @@
             <GridView
                 android:id="@+id/gv_support_more"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="90dp"
                 android:background="#ffffff"
                 android:minHeight="50dp"
                 android:numColumns="4"

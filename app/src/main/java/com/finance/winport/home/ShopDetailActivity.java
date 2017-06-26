@@ -9,16 +9,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
@@ -51,7 +49,6 @@ import com.finance.winport.util.H5Util;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.ToastUtil;
-import com.finance.winport.util.ToolsUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.PositionScrollView;
 import com.finance.winport.view.ScrollTabView;
@@ -63,14 +60,15 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
-import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
 
-import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -187,14 +185,14 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     TextView tvMiankuan;
     @BindView(R.id.tv_jinshen)
     TextView tvJinshen;
-    @BindView(R.id.tv_dianfei)
-    TextView tvDianfei;
-    @BindView(R.id.tv_shuifei)
-    TextView tvShuifei;
-    @BindView(R.id.tv_ranqi)
-    TextView tvRanqi;
-    @BindView(R.id.tv_wuye)
-    TextView tvWuye;
+    //    @BindView(R.id.tv_dianfei)
+//    TextView tvDianfei;
+//    @BindView(R.id.tv_shuifei)
+//    TextView tvShuifei;
+//    @BindView(R.id.tv_ranqi)
+//    TextView tvRanqi;
+//    @BindView(R.id.tv_wuye)
+//    TextView tvWuye;
     @BindView(R.id.gv_support)
     TagCloudLayout gvSupport;
     @BindView(R.id.tg_view)
@@ -205,8 +203,8 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     LinearLayout llJingyingfanwei;
     @BindView(R.id.ll_jingyingfeiyongone)
     LinearLayout llJingyingfeiyongone;
-    @BindView(R.id.ll_jingyingfeiyongtwo)
-    LinearLayout llJingyingfeiyongtwo;
+    //    @BindView(R.id.ll_jingyingfeiyongtwo)
+//    LinearLayout llJingyingfeiyongtwo;
     @BindView(R.id.view_space_jingyingfeiyong)
     View viewSpaceJingyingfeiyong;
     @BindView(R.id.tv_rent_type)
@@ -217,6 +215,10 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     ImageView imvChange;
     @BindView(R.id.map_view)
     TextureMapView mapView;
+    @BindView(R.id.rl_down)
+    RelativeLayout rlDown;
+    @BindView(R.id.tv_louceng)
+    TextView tvLouCeng;
 
     private boolean isTouched = false;
     private ShareDialog shareDialog;
@@ -372,7 +374,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
 
     private void updateView(float scrollY) {
 
-        int top = llNear.getTop();
+        int top = tvName.getTop();
 
         int titleView = UnitUtil.dip2px(context, 97);
 
@@ -394,13 +396,12 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         }
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.imv_back, R.id.tv_share, R.id.tv_shop_more, R.id.tv_jiucuo, R.id.tv_yuyue, R.id.tv_call, R.id.tv_collection, R.id.imv_change, R.id.ll_near})
+    @OnClick({R.id.imv_focus_house_back, R.id.imv_back, R.id.tv_share, R.id.tv_shop_more, R.id.tv_jiucuo, R.id.tv_yuyue, R.id.tv_call, R.id.tv_collection, R.id.imv_change, R.id.ll_near, R.id.tv_goback})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
-                finish();
-                break;
             case R.id.imv_back:
+            case R.id.tv_goback:
                 finish();
                 break;
             case R.id.tv_share:
@@ -638,16 +639,24 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
 
     @Override
     public void getShopDetail(ShopDetail shopDetail) {
+        if (shopDetail == null || shopDetail.getData() == null) {
+            shopHasDown();
+            return;
+        }
+        if (shopDetail != null && shopDetail.getData().getRentStatus() == 3) {
+            shopHasDown();
+            return;
+        }
         mShopDetail = shopDetail;
         ShopDetail.DataBean data = shopDetail.getData();
-        tvName.setText("由 小二 " + data.getClerkName() + " 于" + data.getIssueShopTime() + " 实勘核实");
+        tvName.setText("由 小二 " + data.getClerkName() + " 于" + data.getIssueShopTime() + " 核实发布");
         tvShopAddress.setText(" 　 " + data.getDistrictName() + data.getBlockName() + data.getAddress());
         tvScan.setText(data.getVisitCount() + "浏览");
         tvLianxi.setText(data.getContactCount() + "联系");
 
         tvRentType.setText(data.getRentTypeName());
         String compactResidue = "";
-        if (data.getCompactResidue() > 0) {
+        if (data.getCompactResidue() == 2) {
             compactResidue = "(带租约)";
         }
 
@@ -695,92 +704,233 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             stv.setLinpuGone();
         }
 
-        tvCenggao.setText((TextViewUtil.isEmpty(data.getHeight()) ? "--" : UnitUtil.formatSNum(data.getHeight())+ "m"));
+        tvCenggao.setText((TextViewUtil.isEmpty(data.getHeight()) ? "--" : UnitUtil.formatSNum(data.getHeight()) + "m"));
         tvMiankuan.setText((TextViewUtil.isEmpty(data.getWidth()) ? "--" : UnitUtil.formatSNum(data.getWidth()) + "m"));
         tvJinshen.setText((TextViewUtil.isEmpty(data.getDepth()) ? "--" : UnitUtil.formatSNum(data.getDepth()) + "m"));
 
-        if (!TextViewUtil.isEmpty(data.getElectricRate()) && !TextViewUtil.isEmpty(data.getWaterRate()) && !TextViewUtil.isEmpty(data.getGasRate()) && !TextViewUtil.isEmpty(data.getPropertyRate())) {
-            viewSpaceJingyingfeiyong.setVisibility(View.VISIBLE);
-            llJingyingfeiyongone.setVisibility(View.VISIBLE);
-            llJingyingfeiyongtwo.setVisibility(View.GONE);
+        String[] strs = UnitUtil.stringToArray(data.getFloor());
+        if (strs != null && strs.length > 0) {
+            if (strs.length == 1) {
+                tvLouCeng.setText(UnitUtil.formatSNum(strs[0]) + "层");
+            } else {
+                tvLouCeng.setText(UnitUtil.formatSNum(strs[0]) + "~" + UnitUtil.formatSNum(strs[strs.length - 1]) + "层");
+            }
+        } else {
+            tvLouCeng.setText("--");
+        }
 
-            tvDianfei.setText(UnitUtil.formatSNum(data.getElectricRate()));
-            tvShuifei.setText(UnitUtil.formatSNum(data.getWaterRate()));
-            tvRanqi.setText(UnitUtil.formatSNum(data.getGasRate()));
-            tvWuye.setText(UnitUtil.formatSNum(data.getPropertyRate()));
 
+        List<Map<String, String>> yingyufeiyong = new ArrayList<>();
 
-        } else if (TextViewUtil.isEmpty(data.getElectricRate()) && TextViewUtil.isEmpty(data.getWaterRate()) && TextViewUtil.isEmpty(data.getGasRate()) && TextViewUtil.isEmpty(data.getPropertyRate())) {
+        if (!TextUtils.isEmpty(data.getDeposit()) && !"null".equals(data.getDeposit())) {
+            Map<String, String> map = new HashMap<>();
+            map.put("value", UnitUtil.formatStrToWan(data.getDeposit()));
+            map.put("name", "押金(万元)");
+            yingyufeiyong.add(map);
+        }
+
+        if (!TextUtils.isEmpty(data.getElectricRate()) && !"null".equals(data.getElectricRate())) {
+            Map<String, String> map = new HashMap<>();
+            map.put("value", data.getElectricRate());
+            map.put("name", "电费(元/度)");
+            yingyufeiyong.add(map);
+        }
+
+        if (!TextUtils.isEmpty(data.getWaterRate()) && !"null".equals(data.getWaterRate())) {
+            Map<String, String> map = new HashMap<>();
+            map.put("value", data.getWaterRate());
+            map.put("name", "水费(元/吨)");
+            yingyufeiyong.add(map);
+        }
+
+        if (!TextUtils.isEmpty(data.getGasRate()) && !"null".equals(data.getGasRate())) {
+            Map<String, String> map = new HashMap<>();
+            map.put("value", data.getGasRate());
+            map.put("name", "燃气费(元/㎡)");
+            yingyufeiyong.add(map);
+        }
+
+        if (!TextUtils.isEmpty(data.getPropertyRate()) && !"null".equals(data.getPropertyRate())) {
+            Map<String, String> map = new HashMap<>();
+            map.put("value", data.getPropertyRate());
+            map.put("name", "物业费(元/㎡/月)");
+            yingyufeiyong.add(map);
+        }
+
+        if (yingyufeiyong.size() == 0) {
             viewSpaceJingyingfeiyong.setVisibility(View.GONE);
             llJingyingfeiyong.setVisibility(View.GONE);
             stv.setYingYuFeiyongGone();
         } else {
             viewSpaceJingyingfeiyong.setVisibility(View.VISIBLE);
-            llJingyingfeiyongone.setVisibility(View.GONE);
-            llJingyingfeiyongtwo.setVisibility(View.VISIBLE);
-            llJingyingfeiyongtwo.removeAllViews();
+            llJingyingfeiyongone.setVisibility(View.VISIBLE);
+            llJingyingfeiyongone.removeAllViews();
 
-            if (!TextViewUtil.isEmpty(data.getElectricRate())) {
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
-                lp.weight = 1;
-                RateView rv = new RateView(this);
-                rv.setNum(UnitUtil.formatSNum(data.getElectricRate()));
-                rv.setNotice("电费(元/度)");
-                llJingyingfeiyongtwo.addView(rv, lp);
-            }
+            if (yingyufeiyong.size() < 4) {
+                LinearLayout linearLayoutOne = new LinearLayout(this);
+                linearLayoutOne.setBackgroundColor(Color.parseColor("#ffffff"));
+                linearLayoutOne.setGravity(Gravity.CENTER_VERTICAL);
+                linearLayoutOne.setOrientation(LinearLayout.HORIZONTAL);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(this, 77));
 
-            if (!TextViewUtil.isEmpty(data.getWaterRate())) {
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
-                lp.weight = 1;
-                RateView rv = new RateView(this);
-                rv.setNum(UnitUtil.formatSNum(data.getWaterRate()));
-                rv.setNotice("水费(元/吨)");
-                if (llJingyingfeiyongtwo.getChildCount() > 0) {
-                    View view = new View(this);
-                    LinearLayout.LayoutParams lpspace = new LinearLayout.LayoutParams(1, LinearLayout.LayoutParams.MATCH_PARENT);
-                    lpspace.setMargins(0, 30, 0, 30);
-                    view.setBackgroundResource(R.color.color_line);
-                    llJingyingfeiyongtwo.addView(view, lpspace);
+
+                for (int i = 0; i < yingyufeiyong.size(); i++) {
+                    Map<String, String> map = yingyufeiyong.get(i);
+
+                    LinearLayout.LayoutParams lpChild = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    lpChild.weight = 1;
+                    RateView rv = new RateView(this);
+                    rv.setNum(UnitUtil.formatSNum(map.get("value")));
+                    rv.setNotice(map.get("name"));
+                    if (linearLayoutOne.getChildCount() > 0) {
+                        View view = new View(this);
+                        LinearLayout.LayoutParams lpspace = new LinearLayout.LayoutParams(1, LinearLayout.LayoutParams.MATCH_PARENT);
+                        lpspace.setMargins(0, 30, 0, 30);
+                        view.setBackgroundResource(R.color.color_line);
+                        linearLayoutOne.addView(view, lpspace);
+                    }
+                    linearLayoutOne.addView(rv, lpChild);
                 }
-                llJingyingfeiyongtwo.addView(rv, lp);
-            }
 
-            if (!TextViewUtil.isEmpty(data.getGasRate())) {
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
-                lp.weight = 1;
-                RateView rv = new RateView(this);
-                rv.setNum(UnitUtil.formatSNum(data.getGasRate()));
-                rv.setNotice("燃气费(元/㎡)");
-                if (llJingyingfeiyongtwo.getChildCount() > 0) {
-                    View view = new View(this);
-                    LinearLayout.LayoutParams lpspace = new LinearLayout.LayoutParams(1, LinearLayout.LayoutParams.MATCH_PARENT);
-                    lpspace.setMargins(0, 30, 0, 30);
-                    view.setBackgroundResource(R.color.color_line);
-                    llJingyingfeiyongtwo.addView(view, lpspace);
-                }
-                llJingyingfeiyongtwo.addView(rv, lp);
-            }
 
-            if (!TextViewUtil.isEmpty(data.getPropertyRate())) {
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
-                lp.weight = 1;
-                RateView rv = new RateView(this);
-                rv.setNum(UnitUtil.formatSNum(data.getPropertyRate()));
-                rv.setNotice("物业费(元/㎡/月)");
-                if (llJingyingfeiyongtwo.getChildCount() > 0) {
-                    View view = new View(this);
-                    LinearLayout.LayoutParams lpspace = new LinearLayout.LayoutParams(1, LinearLayout.LayoutParams.MATCH_PARENT);
-                    lpspace.setMargins(0, 30, 0, 30);
-                    view.setBackgroundResource(R.color.color_line);
-                    llJingyingfeiyongtwo.addView(view, lpspace);
+                llJingyingfeiyongone.addView(linearLayoutOne, lp);
+            } else if (yingyufeiyong.size() == 4) {
+                LinearLayout linearLayoutOne = new LinearLayout(this);
+                linearLayoutOne.setBackgroundColor(Color.parseColor("#ffffff"));
+                linearLayoutOne.setGravity(Gravity.CENTER_VERTICAL);
+                linearLayoutOne.setOrientation(LinearLayout.HORIZONTAL);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(this, 77));
+
+
+                for (int i = 0; i < 2; i++) {
+                    Map<String, String> map = yingyufeiyong.get(i);
+
+                    LinearLayout.LayoutParams lpChild = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    lpChild.weight = 1;
+                    RateView rv = new RateView(this);
+                    rv.setNum(UnitUtil.formatSNum(map.get("value")));
+                    rv.setNotice(map.get("name"));
+                    if (linearLayoutOne.getChildCount() > 0) {
+                        View view = new View(this);
+                        LinearLayout.LayoutParams lpspace = new LinearLayout.LayoutParams(1, LinearLayout.LayoutParams.MATCH_PARENT);
+                        lpspace.setMargins(0, 30, 0, 0);
+                        view.setBackgroundResource(R.color.color_line);
+                        linearLayoutOne.addView(view, lpspace);
+                    }
+                    linearLayoutOne.addView(rv, lpChild);
                 }
-                llJingyingfeiyongtwo.addView(rv, lp);
+
+
+                llJingyingfeiyongone.addView(linearLayoutOne, lp);
+
+                View view = new View(this);
+                LinearLayout.LayoutParams lpspace = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1);
+                lpspace.setMargins(30, 0, 30, 0);
+                view.setBackgroundResource(R.color.color_line);
+                llJingyingfeiyongone.addView(view, lpspace);
+
+
+                LinearLayout linearLayoutTwo = new LinearLayout(this);
+                linearLayoutTwo.setBackgroundColor(Color.parseColor("#ffffff"));
+                linearLayoutTwo.setGravity(Gravity.CENTER_VERTICAL);
+                linearLayoutTwo.setOrientation(LinearLayout.HORIZONTAL);
+                LinearLayout.LayoutParams lpTwo = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(this, 77));
+
+                for (int i = 2; i < 4; i++) {
+                    Map<String, String> map = yingyufeiyong.get(i);
+
+                    LinearLayout.LayoutParams lpChild = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    lpChild.weight = 1;
+                    RateView rv = new RateView(this);
+                    rv.setNum(UnitUtil.formatSNum(map.get("value")));
+                    rv.setNotice(map.get("name"));
+                    if (linearLayoutTwo.getChildCount() > 0) {
+                        View viewtwo = new View(this);
+                        LinearLayout.LayoutParams lpspacetwo = new LinearLayout.LayoutParams(1, LinearLayout.LayoutParams.MATCH_PARENT);
+                        lpspacetwo.setMargins(0, 0, 0, 30);
+                        viewtwo.setBackgroundResource(R.color.color_line);
+                        linearLayoutTwo.addView(viewtwo, lpspacetwo);
+                    }
+                    linearLayoutTwo.addView(rv, lpChild);
+                }
+
+
+                llJingyingfeiyongone.addView(linearLayoutTwo, lpTwo);
+            } else if (yingyufeiyong.size() == 5) {
+                Map<String, String> mapEmpty = new HashMap<>();
+                mapEmpty.put("value", "");
+                mapEmpty.put("name", "");
+                yingyufeiyong.add(mapEmpty);
+
+                LinearLayout linearLayoutOne = new LinearLayout(this);
+                linearLayoutOne.setBackgroundColor(Color.parseColor("#ffffff"));
+                linearLayoutOne.setGravity(Gravity.CENTER_VERTICAL);
+                linearLayoutOne.setOrientation(LinearLayout.HORIZONTAL);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(this, 77));
+
+
+                for (int i = 0; i < 3; i++) {
+                    Map<String, String> map = yingyufeiyong.get(i);
+
+                    LinearLayout.LayoutParams lpChild = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    lpChild.weight = 1;
+                    RateView rv = new RateView(this);
+                    rv.setNum(UnitUtil.formatSNum(map.get("value")));
+                    rv.setNotice(map.get("name"));
+                    if (linearLayoutOne.getChildCount() > 0) {
+                        View view = new View(this);
+                        LinearLayout.LayoutParams lpspace = new LinearLayout.LayoutParams(1, LinearLayout.LayoutParams.MATCH_PARENT);
+                        lpspace.setMargins(0, 30, 0, 0);
+                        view.setBackgroundResource(R.color.color_line);
+                        linearLayoutOne.addView(view, lpspace);
+                    }
+                    linearLayoutOne.addView(rv, lpChild);
+                }
+
+
+                llJingyingfeiyongone.addView(linearLayoutOne, lp);
+
+                View view = new View(this);
+                LinearLayout.LayoutParams lpspace = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1);
+                lpspace.setMargins(30, 0, 30, 0);
+                view.setBackgroundResource(R.color.color_line);
+                llJingyingfeiyongone.addView(view, lpspace);
+
+
+                LinearLayout linearLayoutTwo = new LinearLayout(this);
+                linearLayoutTwo.setBackgroundColor(Color.parseColor("#ffffff"));
+                linearLayoutTwo.setGravity(Gravity.CENTER_VERTICAL);
+                linearLayoutTwo.setOrientation(LinearLayout.HORIZONTAL);
+                LinearLayout.LayoutParams lpTwo = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(this, 77));
+
+                for (int i = 3; i < 6; i++) {
+                    Map<String, String> map = yingyufeiyong.get(i);
+
+                    LinearLayout.LayoutParams lpChild = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    lpChild.weight = 1;
+                    RateView rv = new RateView(this);
+                    rv.setNum(UnitUtil.formatSNum(map.get("value")));
+                    rv.setNotice(map.get("name"));
+                    if (linearLayoutTwo.getChildCount() > 0) {
+                        View viewtwo = new View(this);
+                        LinearLayout.LayoutParams lpspacetwo = new LinearLayout.LayoutParams(1, LinearLayout.LayoutParams.MATCH_PARENT);
+                        lpspacetwo.setMargins(0, 0, 0, 30);
+                        viewtwo.setBackgroundResource(R.color.color_line);
+                        linearLayoutTwo.addView(viewtwo, lpspacetwo);
+                    }
+                    linearLayoutTwo.addView(rv, lpChild);
+                }
+
+
+                llJingyingfeiyongone.addView(linearLayoutTwo, lpTwo);
             }
         }
 
+
         if (data.getSupportList() != null && data.getSupportList().size() > 0) {
             llPeitao.setVisibility(View.VISIBLE);
-            SupportTagAdapter supportTagAdapter = new SupportTagAdapter(this, data.getSupportList());
+            SupportTagAdapter supportTagAdapter = new SupportTagAdapter(this);
+            supportTagAdapter.setSelectData(data.getSupportList());
             gvSupport.setAdapter(supportTagAdapter);
         } else {
             llPeitao.setVisibility(View.GONE);
@@ -921,6 +1071,19 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
 
 
                 });
+
+    }
+
+    private void shopHasDown() {
+        seletView.setVisibility(View.GONE);
+        rlDown.setVisibility(View.VISIBLE);
+        svAll.setVisibility(View.GONE);
+
+        imvBack.setImageResource(R.mipmap.icon_back);
+
+        tvFocusHouse.setText("该旺铺已下架");
+//        tvFocusHouse.setTextColor(Color.parseColor("#333333"));
+        llTop.setAlpha(1);
 
     }
 

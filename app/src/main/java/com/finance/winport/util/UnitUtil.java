@@ -12,6 +12,7 @@ import com.google.gson.GsonBuilder;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 
 
 public class UnitUtil {
@@ -139,7 +140,7 @@ public class UnitUtil {
         if (TextViewUtil.isEmpty(numStr)) {
             return null;
         }
-        String ret =null;
+        String ret = null;
         try {
             double num = Double.parseDouble(numStr);
             if (num > limit) {
@@ -201,6 +202,20 @@ public class UnitUtil {
             }
         }
 
+        return ret;
+    }
+
+    /**
+     * 数字格式化（万） eg.   12345 = 1.23   12000 = 1.2
+     * @param num
+     * @return
+     */
+    public static String formatStrToWan(String num) {
+        String ret = null;
+        if (!TextUtils.isEmpty(num) && !"null".equals(num)) {
+            double numd = Double.parseDouble(num);
+            ret = formatDNum(numd/10000);
+        }
         return ret;
     }
 
@@ -340,6 +355,20 @@ public class UnitUtil {
             e.printStackTrace();
         }
 
+        return ret;
+    }
+
+    /**
+     * 分割排序
+     * @param str 4、-3、-2、-1、1、2、3、4、5、6
+     * @return
+     */
+    public static String[] stringToArray(String str) {
+        String[] ret = null;
+        if (!TextUtils.isEmpty(str)) {
+            ret = str.split(",");
+            Arrays.sort(ret);
+        }
         return ret;
     }
 }
