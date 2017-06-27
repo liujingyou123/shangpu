@@ -83,7 +83,8 @@
             android:includeFontPadding="false"
             android:text=""
             android:textColor="#333333"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/tv_aver_money"
