@@ -1,6 +1,7 @@
 package com.finance.winport.service.presenter;
 
 import com.finance.winport.base.BaseResponse;
+import com.finance.winport.net.LoadingNetSubscriber;
 import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.service.api.FindServices;
 import com.finance.winport.service.model.FindLoanRequest;
@@ -22,7 +23,7 @@ public class FindLoanPresenter {
 
     public void getFindLoanResult(FindLoanRequest request) {
 
-        ToolsUtil.subscribe(ToolsUtil.createService(FindServices.class).sendFindLoan(request), new NetSubscriber<BaseResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(FindServices.class).sendFindLoan(request), new LoadingNetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
                 if (mServiceView != null) {

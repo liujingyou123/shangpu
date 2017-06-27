@@ -6,7 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.finance.winport.R;
 import com.finance.winport.account.adapter.LaunchPageAdapter;
@@ -25,6 +26,8 @@ import butterknife.ButterKnife;
 public class AdActivity extends AppCompatActivity {
     @BindView(R.id.view_pager)
     ViewPager viewPager;
+    @BindView(R.id.llPoint)
+    LinearLayout llPoint;
     private LaunchPageAdapter adapter;
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
 
@@ -35,16 +38,17 @@ public class AdActivity extends AppCompatActivity {
         setStatusBar();
         ButterKnife.bind(this);
         InitViewPager();
+        addPoint();
     }
 
     protected void setStatusBar() {
-        StatusBarUtil.setColor(this, Color.parseColor("#ffffff"),0);
+        StatusBarUtil.setColor(this, Color.parseColor("#ffffff"), 0);
     }
 
     /*
-	 * 初始化ViewPager
+     * 初始化ViewPager
 	 */
-    public void InitViewPager(){
+    public void InitViewPager() {
         if (fragmentList == null) {
             fragmentList = new ArrayList<Fragment>();
         }
@@ -62,6 +66,22 @@ public class AdActivity extends AppCompatActivity {
         //给ViewPager设置适配器
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(0);//设置当前显示标签页为第一页
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                monitorPoint(position);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
@@ -71,6 +91,46 @@ public class AdActivity extends AppCompatActivity {
             adapter = null;
         }
         super.onDestroy();
+
+    }
+
+    /**
+     * 添加小圆点
+     */
+    private void addPoint() {
+        // 1.根据图片多少，添加多少小圆点
+        for (int i = 0; i < 3; i++) {
+            LinearLayout.LayoutParams pointParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            if (i < 1) {
+                pointParams.setMargins(0, 0, 0, 0);
+            } else {
+                pointParams.setMargins(10, 0, 0, 0);
+            }
+            ImageView iv = new ImageView(this);
+            iv.setLayoutParams(pointParams);
+            iv.setBackgroundResource(R.mipmap.banner_default);
+            llPoint.addView(iv);
+        }
+        llPoint.getChildAt(0).setBackgroundResource(R.mipmap.banner_current);
+
+    }
+
+    /**
+     * 判断小圆点
+     *
+     * @param position
+     */
+    private void monitorPoint(int position) {
+        for (int i = 0; i < 3; i++) {
+            if (i == position) {
+                llPoint.getChildAt(position).setBackgroundResource(
+                        R.mipmap.banner_current);
+            } else {
+                llPoint.getChildAt(i).setBackgroundResource(
+                        R.mipmap.banner_default);
+            }
+        }
 
     }
 }

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,12 +74,11 @@ public class AdFragment extends Fragment {
 
 
     private void gotoActivity() {
-//        startActivity(new Intent(context, ImproveInfoActivity.class));
 
-            startActivity(new Intent(AdFragment.this.getActivity(), MainActivity.class));
+        startActivity(new Intent(AdFragment.this.getActivity(), MainActivity.class));
         AdFragment.this.getActivity().finish();
 
-        SpUtil.getInstance().setStringData("interTimes","1");
+        SpUtil.getInstance().setStringData("interTimes", "1");
     }
 
     @Override
