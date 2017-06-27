@@ -9,11 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.mine.ShopFocusActivity;
-import com.umeng.analytics.MobclickAgent;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -22,7 +24,18 @@ import butterknife.OnClick;
  */
 
 public class UpdateTipDialog extends Dialog {
+    @BindView(R.id.imv_title)
+    ImageView imvTitle;
+    @BindView(R.id.title)
+    TextView title;
+    @BindView(R.id.desc)
+    TextView desc;
+    @BindView(R.id.tv_ok)
+    TextView tvOk;
+    @BindView(R.id.close)
+    ImageView close;
     private Context mContext;
+    private OnPreClickListner mOnOkPreClickListner;
 
     public UpdateTipDialog(@NonNull Context context) {
         super(context, R.style.noticeDialog);
@@ -34,7 +47,7 @@ public class UpdateTipDialog extends Dialog {
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_update_tip, null);
         setContentView(view);
         ButterKnife.bind(this, view);
-        setCanceledOnTouchOutside(true);
+        setCanceledOnTouchOutside(false);
 
         Window window = getWindow();
         WindowManager.LayoutParams lp = window.getAttributes();
@@ -43,14 +56,42 @@ public class UpdateTipDialog extends Dialog {
         window.setAttributes(lp);
     }
 
-    @OnClick({ R.id.tv_ok})
+    @OnClick({R.id.tv_ok,R.id.close})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_ok:
-                Intent intent = new Intent(mContext, ShopFocusActivity.class);
-                mContext.startActivity(intent);
+                if (mOnOkPreClickListner != null) {
+                    mOnOkPreClickListner.onClick();
+                }
+                dismiss();
+                break;
+            case R.id.close:
                 dismiss();
                 break;
         }
+    }
+
+    public void setMessage(String msg) {
+        desc.setText(msg);
+    }
+
+    public void setTitle(String msg) {
+        title.setText(msg);
+    }
+
+    public void setClose(Boolean flag) {
+        if(flag){
+            close.setVisibility(View.VISIBLE);
+        }
+        else{
+            close.setVisibility(View.GONE);
+        }
+    }
+
+    public void setOkClickListener(OnPreClickListner onPreClickListner) {
+        this.mOnOkPreClickListner = onPreClickListner;
+    }
+    public interface OnPreClickListner {
+        void onClick();
     }
 }

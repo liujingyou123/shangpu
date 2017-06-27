@@ -63,14 +63,27 @@
             tools:text="0/200字" />
     </RelativeLayout>
 
-    <Button
+    <!--<Button-->
+        <!--android:id="@+id/submit"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="45dp"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:layout_marginTop="30dp"-->
+        <!--android:background="@drawable/selector_button_bg"-->
+        <!--android:gravity="center"-->
+        <!--android:text="提交意见"-->
+        <!--android:textColor="#ffffff"-->
+        <!--android:textSize="15sp" />-->
+
+    <TextView
         android:id="@+id/submit"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="30dp"
-        android:background="@drawable/selector_button_bg"
+        android:background="@drawable/bg_done"
         android:gravity="center"
         android:text="提交意见"
         android:textColor="#ffffff"

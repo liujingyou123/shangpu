@@ -1,6 +1,7 @@
 package com.finance.winport.tab.net;
 
 import com.finance.winport.base.BaseResponse;
+import com.finance.winport.home.model.CheckVersionResponse;
 import com.finance.winport.tab.model.AppointRanking;
 import com.finance.winport.tab.model.AppointShopList;
 import com.finance.winport.tab.model.CollectionShopList;
@@ -108,5 +109,9 @@ public interface PersonService {
     // 更新 registrationId
     @POST("customerapp/api/user/verify/updateDeviceId/v1.0.0")
     Observable<BaseResponse> updateRegistrationId(@Body HashMap<String, Object> params);
+
+    // 版本更新
+    @POST("customerapp/api/user/app/checkUpdate/v1.0.0")
+    Observable<CheckVersionResponse> checkVersion(@Body HashMap<String, Object> params);
 
 }

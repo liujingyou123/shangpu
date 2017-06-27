@@ -3,6 +3,7 @@ package com.finance.winport.home.presenter;
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.home.api.HomeServices;
 import com.finance.winport.home.model.BannerResponse;
+import com.finance.winport.home.model.CheckVersionResponse;
 import com.finance.winport.home.model.RegionResponse;
 import com.finance.winport.home.model.ShopCount;
 import com.finance.winport.home.model.ShopListResponse;
@@ -123,6 +124,22 @@ public class HomePresenter {
             public void response(PersonalInfoResponse response) {
                 if (mIHomeView != null) {
                     mIHomeView.showPersonalInfo(response);
+                }
+            }
+        });
+
+    }
+
+    public void checkVersion(String version) {
+
+        HashMap<String ,Object> hashMap = new HashMap<>();
+        hashMap.put("osType","0");
+        hashMap.put("version",version);
+        ToolsUtil.subscribe(ToolsUtil.createService(PersonService.class).checkVersion(hashMap), new NetSubscriber<CheckVersionResponse>() {
+            @Override
+            public void response(CheckVersionResponse response) {
+                if (mIHomeView != null) {
+                    mIHomeView.checkVersion(response);
                 }
             }
         });
