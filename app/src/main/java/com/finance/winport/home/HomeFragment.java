@@ -927,7 +927,9 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         Constant.SERVICE_PHONE = response.getData().getServicePhone();
         if(response.getData().isNeedUpdate()){
 
-//            if(response.getData().getUpdateLevel()!=0){
+            Constant.NEEd_UPDATE = true;
+            Constant.DOWNLOAD_URL = response.getData().getDownloadUrl();
+            if(response.getData().getUpdateLevel()!=0){
 
                 updateTipDialog = new UpdateTipDialog(this.getContext());
                 updateTipDialog.setMessage(Html.fromHtml(response.getData().getDesc()).toString());
@@ -957,7 +959,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                 }
             });
                 updateTipDialog.show();
-//            }
+            }
         }
     }
 
