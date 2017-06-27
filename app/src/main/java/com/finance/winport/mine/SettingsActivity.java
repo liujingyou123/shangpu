@@ -16,6 +16,7 @@ import com.finance.winport.account.net.UserManager;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.dialog.LoadingDialog;
+import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.tab.net.NetworkCallback;
 import com.finance.winport.util.CleanMessageUtil;
 import com.finance.winport.util.SharedPrefsUtil;
@@ -132,8 +133,22 @@ public class SettingsActivity extends BaseActivity {
 
     @OnClick(R.id.clearCache)
     public void onViewClicked() {
-        CleanMessageUtil.clearAllCache(context);
-        ToastUtil.show(context, "清除缓存成功");
-        clearCache.setText(CleanMessageUtil.getTotalCacheSize(context));
+        showDeleteAlert();
+    }
+
+    void showDeleteAlert() {
+        NoticeDialog n = new NoticeDialog(context);
+        n.setTitle("清除缓存");
+        n.setMessage("确认删除所有缓存？");
+        n.setPositiveBtn("确认");
+        n.setOkClickListener(new NoticeDialog.OnPreClickListner() {
+            @Override
+            public void onClick() {
+                CleanMessageUtil.clearAllCache(context);
+                ToastUtil.show(context, "清除完成");
+                clearCache.setText(CleanMessageUtil.getTotalCacheSize(context));
+            }
+        });
+        n.show();
     }
 }
