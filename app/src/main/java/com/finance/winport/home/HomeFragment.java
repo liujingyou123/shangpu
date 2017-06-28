@@ -1,10 +1,15 @@
 package com.finance.winport.home;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.text.Html;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +25,16 @@ import com.finance.winport.MainActivity;
 import com.finance.winport.R;
 import com.finance.winport.account.event.TokenTimeOutEvent;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.base.BaseResponse;
 import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.dialog.QuyuPopupView;
 import com.finance.winport.dialog.SelectionDialog;
 import com.finance.winport.dialog.SortPopupView;
+import com.finance.winport.dialog.UpdateTipDialog;
 import com.finance.winport.dialog.WelcomeDialog;
 import com.finance.winport.home.adapter.ShopsAdapter;
 import com.finance.winport.home.model.BannerResponse;
+import com.finance.winport.home.model.CheckVersionResponse;
 import com.finance.winport.home.model.EventLoginSuccess;
 import com.finance.winport.home.model.ShopCount;
 import com.finance.winport.home.model.ShopListResponse;
@@ -38,6 +46,7 @@ import com.finance.winport.map.MapActivity;
 import com.finance.winport.map.MyLocation;
 import com.finance.winport.mine.model.PersonalInfoResponse;
 import com.finance.winport.tab.model.UnReadMsg;
+import com.finance.winport.util.Constant;
 import com.finance.winport.util.SelectDialogUtil;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.SpUtil;
@@ -93,6 +102,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 
     private boolean isTimeOut = false;
     private boolean isLoginIn = false;
+    private UpdateTipDialog updateTipDialog;
 
     @Nullable
     @Override
@@ -124,6 +134,14 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         }
         mPresenter.getShopCount();
         mPresenter.getBanner();
+
+        try {
+            String versionName = getActivity().getPackageManager().getPackageInfo(
+                    getActivity().getPackageName(), 0).versionName;
+            mPresenter.checkVersion(versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
 
         getCurrentLocation();
@@ -903,6 +921,48 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         }
     }
 
+    @Override
+    public void checkVersion(CheckVersionResponse response) {
+
+        Constant.SERVICE_PHONE = response.getData().getServicePhone();
+        if(response.getData().isNeedUpdate()){
+
+            Constant.NEEd_UPDATE = true;
+            Constant.DOWNLOAD_URL = response.getData().getDownloadUrl();
+            if(response.getData().getUpdateLevel()!=0){
+
+                updateTipDialog = new UpdateTipDialog(this.getContext());
+                updateTipDialog.setMessage(Html.fromHtml(response.getData().getDesc()).toString());
+                updateTipDialog.setTitle(response.getData().getTitle());
+                if(response.getData().getUpdateLevel()==1){
+                    updateTipDialog.setClose(true);
+                }else if(response.getData().getUpdateLevel()==2){
+                    updateTipDialog.setClose(false);
+                }
+                updateTipDialog.setOkClickListener(new UpdateTipDialog.OnPreClickListner() {
+                    @Override
+                    public void onClick() {
+                        Intent intent = new Intent();
+                        intent.setAction("android.intent.action.VIEW");
+                        Uri content_url = Uri.parse("https://www.pgyer.com/hJtO");
+                        intent.setData(content_url);
+                        startActivity(intent);
+                    }
+                });
+            updateTipDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                @Override
+                public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                    if(keyCode==KeyEvent.KEYCODE_BACK){
+                        return true;
+                    }
+                    return false;
+                }
+            });
+                updateTipDialog.show();
+            }
+        }
+    }
+
     public void onQuyuHandle(ShopRequset requset) {
         if (requset != null) {
             selectionView.onLocationArrowDown();
@@ -971,4 +1031,16 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         mPresenter.getShopList(mRequest);
 
     }
+
+//    @Override
+//    public boolean handleDispatchKeyEvent(KeyEvent event) {
+//        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+//
+//            if(updateTipDialog.isShowing()){
+//
+//                return true;
+//            }
+//        }
+//        return super.handleDispatchKeyEvent(event);
+//    }
 }

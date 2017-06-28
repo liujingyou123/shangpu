@@ -14,10 +14,9 @@ public class CleanMessageUtil {
     /**
      * @param context
      * @return
-     * @throws Exception
-     *             获取当前缓存
+     * @throws Exception 获取当前缓存
      */
-    public static String getTotalCacheSize(Context context){
+    public static String getTotalCacheSize(Context context) {
         long cacheSize = 0;
         try {
             cacheSize = getFolderSize(context.getCacheDir());
@@ -33,8 +32,7 @@ public class CleanMessageUtil {
     }
 
     /**
-     * @param context
-     *            删除缓存
+     * @param context 删除缓存
      */
     public static void clearAllCache(Context context) {
         deleteDir(context.getCacheDir());
@@ -98,6 +96,7 @@ public class CleanMessageUtil {
     /**
      * 格式化单位
      * 计算缓存的大小
+     *
      * @param size
      * @return
      */
@@ -105,7 +104,7 @@ public class CleanMessageUtil {
         double kiloByte = size / 1024;
         if (kiloByte < 1) {
             // return size + "Byte";
-            return "0K";
+            return "0KB";
         }
 
         double megaByte = kiloByte / 1024;

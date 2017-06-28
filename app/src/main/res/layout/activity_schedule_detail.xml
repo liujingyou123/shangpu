@@ -78,7 +78,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="15dp"
                     android:scaleType="fitXY"
-                    android:src="@mipmap/send_order_icon1" />
+                    android:src="@mipmap/icon_default_head" />
 
                 <TextView
                     android:id="@+id/status"

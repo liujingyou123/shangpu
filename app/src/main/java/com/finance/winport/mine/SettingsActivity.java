@@ -1,6 +1,10 @@
 package com.finance.winport.mine;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,8 +20,10 @@ import com.finance.winport.account.net.UserManager;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.dialog.LoadingDialog;
+import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.tab.net.NetworkCallback;
 import com.finance.winport.util.CleanMessageUtil;
+import com.finance.winport.util.Constant;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.SpUtil;
 import com.finance.winport.util.ToastUtil;
@@ -65,6 +71,7 @@ public class SettingsActivity extends BaseActivity {
     public void init() {
         loading = new LoadingDialog(context);
         tvFocusHouse.setText("系统设置");
+        version.setText(Constant.NEEd_UPDATE ? "有新版本，点击更新" : "当前已是最新版 V" + getAppVersion(context));
         clearCache.setText(CleanMessageUtil.getTotalCacheSize(context));
         if (SharedPrefsUtil.getUserInfo() != null) {
             loginOut.setVisibility(View.VISIBLE);
@@ -75,6 +82,24 @@ public class SettingsActivity extends BaseActivity {
             debug.setVisibility(View.VISIBLE);
         } else {
             debug.setVisibility(View.GONE);
+        }
+    }
+
+    @OnClick(R.id.version)
+    public void onVersionClick() {
+        if (Constant.NEEd_UPDATE) {
+            startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(Constant.DOWNLOAD_URL)));
+        }
+    }
+
+    public static String getAppVersion(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            PackageInfo packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+            return packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -132,8 +157,22 @@ public class SettingsActivity extends BaseActivity {
 
     @OnClick(R.id.clearCache)
     public void onViewClicked() {
-        CleanMessageUtil.clearAllCache(context);
-        ToastUtil.show(context, "清除缓存成功");
-        clearCache.setText(CleanMessageUtil.getTotalCacheSize(context));
+        showDeleteAlert();
+    }
+
+    void showDeleteAlert() {
+        NoticeDialog n = new NoticeDialog(context);
+        n.setTitle("清除缓存");
+        n.setMessage("确认删除所有缓存？");
+        n.setPositiveBtn("确认");
+        n.setOkClickListener(new NoticeDialog.OnPreClickListner() {
+            @Override
+            public void onClick() {
+                CleanMessageUtil.clearAllCache(context);
+                ToastUtil.show(context, "清除完成");
+                clearCache.setText(CleanMessageUtil.getTotalCacheSize(context));
+            }
+        });
+        n.show();
     }
 }

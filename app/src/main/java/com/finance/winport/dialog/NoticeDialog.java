@@ -28,6 +28,8 @@ public class NoticeDialog extends Dialog {
     TextView tvOk;
     @BindView(R.id.tv_cancel)
     TextView tvCancel;
+    @BindView(R.id.title)
+    TextView title;
     private Context mContext;
     private OnPreClickListner mOnOkPreClickListner;
 
@@ -63,6 +65,10 @@ public class NoticeDialog extends Dialog {
                 dismiss();
                 break;
         }
+    }
+
+    public void setTitle(CharSequence title) {
+        this.title.setText(title);
     }
 
     public void setMessage(String msg) {

@@ -47,7 +47,7 @@ public class SuggestActivity extends BaseActivity {
     @BindView(R.id.remain)
     TextView remain;
     @BindView(R.id.submit)
-    Button submit;
+    TextView submit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
