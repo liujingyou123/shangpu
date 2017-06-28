@@ -16,6 +16,7 @@ import com.finance.winport.tab.TypeList;
 import com.finance.winport.tab.WinportActivity;
 import com.finance.winport.tab.adapter.PullBaseAdapter;
 import com.finance.winport.tab.model.NotifyList;
+import com.finance.winport.util.Constant;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 
 import java.util.List;
@@ -72,7 +73,7 @@ public class ServiceNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.Se
             holder.address.setText(item.shopAddress);
             holder.oldSchedule.setText(item.oldSchedule);
             holder.newSchedule.setText(item.currentSchedule);
-            holder.contact.setText(context.getString(R.string.service_contact, item.serviceName, item.serviceTel));
+            holder.contact.setText(context.getString(R.string.service_contact, item.serviceName, item.serviceTel, Constant.SERVICE_PHONE));
             holder.details.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -96,7 +97,7 @@ public class ServiceNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.Se
             holder.address.setText(item.shopAddress);
             holder.schedule.setText(item.currentSchedule);
             holder.reason.setText(item.reason);
-            holder.contact.setText(context.getString(R.string.service_contact, item.serviceName, item.serviceTel));
+            holder.contact.setText(context.getString(R.string.service_contact, item.serviceName, item.serviceTel, Constant.SERVICE_PHONE));
             holder.details.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -13,6 +13,7 @@ import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.tab.adapter.PullBaseAdapter;
 import com.finance.winport.tab.model.NotifyList;
 import com.finance.winport.trade.TradeCircleDetailActivity;
+import com.finance.winport.util.Constant;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 
 import java.util.List;
@@ -88,7 +89,7 @@ public class BusinessNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.B
             holder.title.setText(item.digest);
             holder.time.setText(item.notifyTime);
             holder.post.setText(item.postName);
-            holder.contact.setText(context.getString(R.string.business_contact));
+            holder.contact.setText(context.getString(R.string.business_contact, Constant.SERVICE_PHONE));
             if (TextUtils.isEmpty(item.contentOrReason)) {
                 holder.RlReason.setVisibility(View.GONE);
             } else {

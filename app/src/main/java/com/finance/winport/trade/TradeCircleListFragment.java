@@ -13,9 +13,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.log.XLog;
 import com.finance.winport.mine.NoticeListActivity;
 import com.finance.winport.trade.adapter.TradeCircleAdapter;
 import com.finance.winport.trade.model.CommentNumResponse;
+import com.finance.winport.trade.model.EventBusCircleData;
 import com.finance.winport.trade.model.EventBusCommentNum;
 import com.finance.winport.trade.model.EventBustTag;
 import com.finance.winport.trade.model.Trade;
@@ -60,6 +62,7 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
     private TradeCirclePresenter mPresenter;
     private String type;
     private int pageNumber = 1;
+    private boolean isCanGetData = true;
 
 
     @Nullable
@@ -71,19 +74,25 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
         }
         unbinder = ButterKnife.bind(this, view);
         init();
+
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getData();
+        XLog.e("TradeCircleList onResume");
+        if (isCanGetData) {
+            getData();
+        }
     }
 
     private void getData() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                isCanGetData = false;
+                pageNumber = 1;
                 mPresenter.getTradeCircles(type, pageNumber);
                 mPresenter.getCommentsNum();
             }
@@ -138,7 +147,7 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
             mData.addAll(response.getData().getPage().getData());
             mAdapter.notifyDataSetChanged();
             refreshView.refreshComplete();
-
+//            response.getData().setCreateTopicOpen("0");
             if ("1".equals(response.getData().getCreateTopicOpen())) {
                 EventBustTag eventBustTag = new EventBustTag();
                 eventBustTag.isOpenCreateTopic = false;
@@ -146,6 +155,10 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
             } else {
                 EventBustTag eventBustTag = new EventBustTag();
                 EventBus.getDefault().post(eventBustTag);
+            }
+
+            if (pageNumber == 1) {
+                lsCircles.smoothScrollToPosition(0);
             }
         }
 
@@ -230,6 +243,14 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
             tvCommentsNum.setText("老板，有" + response.getData() + "位客官评论了您的帖子");
         } else {
             tvCommentsNum.setVisibility(View.GONE);
+        }
+    }
+
+    @Subscribe
+    public void getListData(EventBusCircleData param) {
+        XLog.e("param = " + param.canGetData);
+        if (param != null && param.canGetData) {
+            isCanGetData = true;
         }
     }
 

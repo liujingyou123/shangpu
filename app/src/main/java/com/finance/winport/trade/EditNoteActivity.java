@@ -21,6 +21,7 @@ import com.finance.winport.permission.PermissionsManager;
 import com.finance.winport.permission.PermissionsResultAction;
 import com.finance.winport.trade.adapter.ChoicePhotoAdapter;
 import com.finance.winport.trade.api.TradeService;
+import com.finance.winport.trade.model.EventBusCircleData;
 import com.finance.winport.trade.model.PublicTopic;
 import com.finance.winport.util.ToastUtil;
 import com.finance.winport.util.ToolsUtil;
@@ -31,12 +32,15 @@ import com.finance.winport.view.picker.utils.PicturePickerUtils;
 import com.finance.winport.view.tagview.TagCloudLayout;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import noman.weekcalendar.eventbus.Event;
 import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action2;
@@ -220,6 +224,9 @@ public class EditNoteActivity extends BaseActivity {
                 public void response(BaseResponse response) {
                     btnDone.setEnabled(true);
                     if (response.isSuccess()) {
+                        EventBusCircleData param = new EventBusCircleData();
+                        param.canGetData = true;
+                        EventBus.getDefault().post(param);
                         ToastUtil.show(EditNoteActivity.this, "发布成功");
                         EditNoteActivity.this.finish();
                     }
@@ -262,6 +269,10 @@ public class EditNoteActivity extends BaseActivity {
             public void response(BaseResponse response) {
                 btnDone.setEnabled(true);
                 if (response.isSuccess()) {
+                    EventBusCircleData param = new EventBusCircleData();
+                    param.canGetData = true;
+                    EventBus.getDefault().post(param);
+
                     ToastUtil.show(EditNoteActivity.this, "发布成功");
                     EditNoteActivity.this.finish();
                 }

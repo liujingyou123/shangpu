@@ -89,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
-                android:text="当前已是最新版本"
+                android:text="当前已是最新版"
                 android:textColor="#999999"
                 android:textSize="13sp" />
         </LinearLayout>

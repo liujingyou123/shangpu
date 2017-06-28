@@ -49,10 +49,9 @@ import com.finance.winport.tab.model.WinportCounts;
 import com.finance.winport.tab.net.NetworkCallback;
 import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.trade.MyPostListActivity;
-import com.finance.winport.util.LoadingDialogUtil;
+import com.finance.winport.util.Constant;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.StringUtil;
-import com.finance.winport.util.ToolsUtil;
 import com.finance.winport.view.StopWatchTextView;
 import com.finance.winport.view.picker.Picker;
 import com.finance.winport.view.picker.engine.GlideEngine;
@@ -105,6 +104,8 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     TextView ji;
     @BindView(R.id.mine_schedule)
     TextView mineSchedule;
+    @BindView(R.id.hot_line)
+    TextView hotLine;
     private int type;//image type
     private List<String> mSelected;
     @BindView(R.id.tv_focus_right)
@@ -175,6 +176,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     private void initView() {
         yi.setVisibility(View.GONE);
         ji.setVisibility(View.GONE);
+        hotLine.setText(Constant.SERVICE_PHONE);
     }
 
     private void getData() {
@@ -270,6 +272,9 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
         super.onHiddenChanged(hidden);
         if (!hidden) {
             retryRelevant();
+            if (hotLine.getText().toString().trim().length() <= 0) {
+                hotLine.setText(Constant.SERVICE_PHONE);
+            }
         }
     }
 
