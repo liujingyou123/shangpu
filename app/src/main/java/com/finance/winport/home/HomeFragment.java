@@ -103,6 +103,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
     private boolean isTimeOut = false;
     private boolean isLoginIn = false;
     private UpdateTipDialog updateTipDialog;
+    private WelcomeDialog welcomeDialog;
 
     @Nullable
     @Override
@@ -859,10 +860,17 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                 && (response.getData().getList() == null || response.getData().getList().size() == 0)
                 && TextUtils.isEmpty(SpUtil.getInstance().getStringData(SharedPrefsUtil.getUserInfo().data.userPhone, null)))
         )) {
-            WelcomeDialog welcomeDialog = new WelcomeDialog(this.getContext());
-            welcomeDialog.show();
 
-            SpUtil.getInstance().setStringData(SharedPrefsUtil.getUserInfo().data.userPhone, "1");
+
+            welcomeDialog = new WelcomeDialog(this.getContext());
+            if (updateTipDialog.isShowing()) {
+
+            } else {
+
+                welcomeDialog.show();
+
+                SpUtil.getInstance().setStringData(SharedPrefsUtil.getUserInfo().data.userPhone, "1");
+            }
         } else if (response.getData() != null && (TextUtils.isEmpty(response.getData().getIndustryName())
                 || !TextUtils.isEmpty(response.getData().getIndustryName())
                 || ((response.getData().getList() == null && response.getData().getList().size() == 0)))) {
@@ -925,18 +933,21 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
     public void checkVersion(CheckVersionResponse response) {
 
         Constant.SERVICE_PHONE = response.getData().getServicePhone();
-        if(response.getData().isNeedUpdate()){
+        if (response.getData().isNeedUpdate()) {
 
             Constant.NEEd_UPDATE = true;
             Constant.DOWNLOAD_URL = response.getData().getDownloadUrl();
-            if(response.getData().getUpdateLevel()!=0){
+            if (response.getData().getUpdateLevel() != 0) {
 
+                String html = "<html><head><title>TextView使用HTML</title></head><body>"
+                        + "<p><a href=\"http://www.dreamdu.com/xhtml/\">超链接HTML入门</a>学习HTML!</p><p><font color=\"#00bbaa\">下面是网络图片"
+                        + "</p></body></html>";
                 updateTipDialog = new UpdateTipDialog(this.getContext());
-                updateTipDialog.setMessage(Html.fromHtml(response.getData().getDesc()).toString());
+                updateTipDialog.setMessage(response.getData().getDesc());
                 updateTipDialog.setTitle(response.getData().getTitle());
-                if(response.getData().getUpdateLevel()==1){
+                if (response.getData().getUpdateLevel() == 1) {
                     updateTipDialog.setClose(true);
-                }else if(response.getData().getUpdateLevel()==2){
+                } else if (response.getData().getUpdateLevel() == 2) {
                     updateTipDialog.setClose(false);
                 }
                 updateTipDialog.setOkClickListener(new UpdateTipDialog.OnPreClickListner() {
@@ -947,17 +958,30 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                         Uri content_url = Uri.parse("https://www.pgyer.com/hJtO");
                         intent.setData(content_url);
                         startActivity(intent);
+
+                    }
+
+                    @Override
+                    public void onClose() {
+                        if (welcomeDialog != null) {
+
+                            if (!welcomeDialog.isShowing()) {
+                                welcomeDialog.show();
+
+                                SpUtil.getInstance().setStringData(SharedPrefsUtil.getUserInfo().data.userPhone, "1");
+                            }
+                        }
                     }
                 });
-            updateTipDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-                @Override
-                public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                    if(keyCode==KeyEvent.KEYCODE_BACK){
-                        return true;
+                updateTipDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                    @Override
+                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                        if (keyCode == KeyEvent.KEYCODE_BACK) {
+                            return true;
+                        }
+                        return false;
                     }
-                    return false;
-                }
-            });
+                });
                 updateTipDialog.show();
             }
         }
