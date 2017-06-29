@@ -23,6 +23,9 @@
             android:layout_marginTop="7dp"
             android:gravity="center_horizontal"
             android:text="发现新版本（v1.2.9）"
+            android:singleLine="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:textColor="#FF333333"
             android:textSize="15sp" />
 

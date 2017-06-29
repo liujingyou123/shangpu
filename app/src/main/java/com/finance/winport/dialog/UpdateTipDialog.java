@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.text.Html;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,13 +67,16 @@ public class UpdateTipDialog extends Dialog {
                 dismiss();
                 break;
             case R.id.close:
+                if (mOnOkPreClickListner != null) {
+                    mOnOkPreClickListner.onClose();
+                }
                 dismiss();
                 break;
         }
     }
 
     public void setMessage(String msg) {
-        desc.setText(msg);
+        desc.setText(Html.fromHtml(msg));
     }
 
     public void setTitle(String msg) {
@@ -93,5 +97,6 @@ public class UpdateTipDialog extends Dialog {
     }
     public interface OnPreClickListner {
         void onClick();
+        void onClose();
     }
 }

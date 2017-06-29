@@ -105,10 +105,11 @@ public class AdActivity extends AppCompatActivity {
             if (i < 1) {
                 pointParams.setMargins(0, 0, 0, 0);
             } else {
-                pointParams.setMargins(10, 0, 0, 0);
+                pointParams.setMargins(20, 0, 0, 0);
             }
             ImageView iv = new ImageView(this);
             iv.setLayoutParams(pointParams);
+            iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
             iv.setBackgroundResource(R.mipmap.banner_default);
             llPoint.addView(iv);
         }

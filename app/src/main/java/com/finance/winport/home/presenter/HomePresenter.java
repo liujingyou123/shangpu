@@ -133,7 +133,7 @@ public class HomePresenter {
     public void checkVersion(String version) {
 
         HashMap<String ,Object> hashMap = new HashMap<>();
-        hashMap.put("osType","0");
+        hashMap.put("osType","1");
         hashMap.put("version",version);
         ToolsUtil.subscribe(ToolsUtil.createService(PersonService.class).checkVersion(hashMap), new NetSubscriber<CheckVersionResponse>() {
             @Override
