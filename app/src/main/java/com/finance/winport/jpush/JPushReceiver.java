@@ -214,7 +214,7 @@ public class JPushReceiver extends BroadcastReceiver {
         myBuilder.setContentTitle("旺铺")
                 .setContentText(bundle.getString(JPushInterface.EXTRA_MESSAGE) + "")
                 .setTicker(bundle.getString(JPushInterface.EXTRA_MESSAGE))
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP ? R.mipmap.ic_launcher_aphla : R.mipmap.ic_launcher)
                 .setLargeIcon(LargeBitmap)
                 .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)
                 .setAutoCancel(true)//点击后取消
