@@ -492,7 +492,7 @@
             android:id="@+id/submit"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="#ffa73b"
+            android:background="@drawable/bg_service_send"
             android:gravity="center"
             android:text="发布信息，帮我找贷款"
             android:textColor="#ffffff"
