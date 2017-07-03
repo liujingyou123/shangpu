@@ -219,6 +219,10 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     RelativeLayout rlDown;
     @BindView(R.id.tv_louceng)
     TextView tvLouCeng;
+    @BindView(R.id.tv_price_type)
+    TextView tvPriceType;
+    @BindView(R.id.tv_zhuanprice_type)
+    TextView tvZhuanPriceType;
 
     private boolean isTouched = false;
     private ShareDialog shareDialog;
@@ -616,7 +620,8 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             tvPrice.setTag("1");
             String showRent = price + "/月";
             rentPrice = showRent;
-            tvPrice.setText(showRent + "(" + data.getRentWayName() + ")");
+            tvPrice.setText(showRent);
+            tvPriceType.setText("(" + data.getRentWayName() + ")");
             TextViewUtil.setPartialSizeAndColor(tvPrice, 0, showRent.length(), 18, 0, showRent.length(), Color.parseColor("#FF5851"));
         } else {
             tvPrice.setTag("2");
@@ -627,7 +632,8 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
 
             String preRent = bDrent.divide(bDArea, 10, BigDecimal.ROUND_HALF_UP).divide(bDDay, 10, BigDecimal.ROUND_HALF_UP).setScale(1, BigDecimal.ROUND_HALF_UP).toString();
             String showPre = preRent + "元/㎡/日";
-            tvPrice.setText(showPre + "(" + data.getRentWayName() + ")");
+            tvPrice.setText(showPre);
+            tvPriceType.setText("(" + data.getRentWayName() + ")");
             TextViewUtil.setPartialSizeAndColor(tvPrice, 0, showPre.length(), 16, 0, showPre.length(), Color.parseColor("#FF5851"));
 
         }
@@ -660,13 +666,15 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             compactResidue = "(带租约)";
         }
 
+        tvZhuanPriceType.setText(compactResidue);
+
         if (data.getIsFace() == 1) {
-            tvZhuanprice.setText("面议" + compactResidue);
+            tvZhuanprice.setText("面议");
             TextViewUtil.setPartialSizeAndColor(tvZhuanprice, 0, 2, 18, 0, 2, Color.parseColor("#FF5851"));
 
         } else {
             String zhuan = UnitUtil.limitSNum(data.getTransferFee(), 0);
-            tvZhuanprice.setText(zhuan + compactResidue);
+            tvZhuanprice.setText(zhuan);
             TextViewUtil.setPartialSizeAndColor(tvZhuanprice, 0, zhuan.length(), 18, 0, zhuan.length(), Color.parseColor("#FF5851"));
         }
 
