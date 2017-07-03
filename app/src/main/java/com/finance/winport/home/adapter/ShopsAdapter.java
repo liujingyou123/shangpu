@@ -119,7 +119,7 @@ public class ShopsAdapter extends BaseAdapter {
                     viewHolder.tvShopname.setText(ret.getAddress() + ret.getRentTypeName());
                     viewHolder.tvAddress.setText(ret.getDistrictName() + " " + ret.getBlockName());
                     viewHolder.tvArea.setText(UnitUtil.formatDNum(ret.getArea()) + "㎡");
-                    viewHolder.tvAverMoney.setText(ret.getRent() + "元/月");
+                    viewHolder.tvAverMoney.setText(UnitUtil.limitNum(ret.getRent(), 99999) + "/月");
                     if(TextUtils.isEmpty(ret.getDistance()) || "null".equals(ret.getDistance())){
                         viewHolder.tvDistance.setText("");
                     }else{
