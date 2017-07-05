@@ -190,7 +190,7 @@ public class UnitUtil {
         String ret;
         int wang = (int) (num / 10000);
         int qian = (int) (num % 10000) / 1000;
-        int bai = (int) (num % 100) / 10;
+        int bai = (int) (num / 100) % 10;
 
         if (bai != 0) {
             ret = wang + "." + qian + "" + bai;
@@ -363,12 +363,19 @@ public class UnitUtil {
      * @param str 4、-3、-2、-1、1、2、3、4、5、6
      * @return
      */
-    public static String[] stringToArray(String str) {
-        String[] ret = null;
+    public static int[] stringToArray(String str) {
+        String[] tmp = null;
         if (!TextUtils.isEmpty(str)) {
-            ret = str.split(",");
-            Arrays.sort(ret);
+            tmp = str.split(",");
+
         }
+        int[] ret = new int[tmp.length];
+
+        for(int i=0; i<tmp.length;i++) {
+            ret[i]= Integer.valueOf(tmp[i]);
+        }
+        Arrays.sort(ret);
+
         return ret;
     }
 }

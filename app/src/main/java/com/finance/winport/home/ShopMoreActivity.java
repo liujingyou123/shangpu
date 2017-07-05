@@ -157,12 +157,12 @@ public class ShopMoreActivity extends BaseActivity {
         }
 
         tvZongLouCeng.setLableTwo(UnitUtil.formatSNum(data.getTotalFloor()) + "层");
-        String[] strs = UnitUtil.stringToArray(data.getFloor());
+        int[] strs = UnitUtil.stringToArray(data.getFloor());
         if (strs != null && strs.length > 0) {
             if (strs.length == 1) {
-                tvLouceng.setLableTwo(UnitUtil.formatSNum(strs[0]) + "层");
+                tvLouceng.setLableTwo(strs[0] + "层");
             } else {
-                tvLouceng.setLableTwo(UnitUtil.formatSNum(strs[0]) + "~" + UnitUtil.formatSNum(strs[strs.length - 1]) + "层");
+                tvLouceng.setLableTwo(strs[0] + "~" + strs[strs.length - 1] + "层");
             }
         }
 
