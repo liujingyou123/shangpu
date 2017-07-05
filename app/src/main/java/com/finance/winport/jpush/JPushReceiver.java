@@ -137,7 +137,7 @@ public class JPushReceiver extends BroadcastReceiver {
 
     //更新registrationId
     private void updateRegistrationId(String registrationId) {
-        if(isLogin()){
+        if (isLogin()) {
 
             HashMap<String, Object> params = new HashMap<>();
             params.put("deviceId", registrationId);
@@ -150,6 +150,7 @@ public class JPushReceiver extends BroadcastReceiver {
         UserInfo info = SharedPrefsUtil.getUserInfo();
         return info != null;
     }
+
     /**
      * 显示通知
      *
@@ -205,32 +206,39 @@ public class JPushReceiver extends BroadcastReceiver {
             }
         }
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 100, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        Bitmap LargeBitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
-
-
-        Notification.Builder myBuilder = new Notification.Builder(context);
-        myBuilder.setContentTitle("旺铺")
-                .setContentText(bundle.getString(JPushInterface.EXTRA_MESSAGE) + "")
-                .setTicker(bundle.getString(JPushInterface.EXTRA_MESSAGE))
-                .setSmallIcon(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP ? R.mipmap.ic_launcher_aphla : R.mipmap.ic_launcher)
-                .setLargeIcon(LargeBitmap)
-                .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)
-                .setAutoCancel(true)//点击后取消
-                .setWhen(System.currentTimeMillis())//设置通知时间
-                .setPriority(Notification.PRIORITY_HIGH)//高优先级
+        try {
+            if (intent != null) {
+                PendingIntent pendingIntent = PendingIntent.getActivity(context, 100, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                Bitmap LargeBitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
+                Notification.Builder myBuilder = new Notification.Builder(context);
+                myBuilder.setContentTitle("旺铺")
+                        .setContentText(bundle.getString(JPushInterface.EXTRA_MESSAGE) + "")
+                        .setTicker(bundle.getString(JPushInterface.EXTRA_MESSAGE))
+                        .setSmallIcon(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP ? R.mipmap.ic_launcher_aphla : R.mipmap.ic_launcher)
+                        .setLargeIcon(LargeBitmap)
+                        .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)
+                        .setAutoCancel(true)//点击后取消
+                        .setWhen(System.currentTimeMillis())//设置通知时间
+                        .setPriority(Notification.PRIORITY_HIGH)//高优先级
 //                .setVisibility(Notification.VISIBILITY_PUBLIC)
-                //android5.0加入了一种新的模式Notification的显示等级，共有三种：
-                //VISIBILITY_PUBLIC  只有在没有锁屏时会显示通知
-                //VISIBILITY_PRIVATE 任何情况都会显示通知
-                //VISIBILITY_SECRET  在安全锁和没有锁屏的情况下显示通知
-                .setContentIntent(pendingIntent);  //3.关联PendingInte
+                        //android5.0加入了一种新的模式Notification的显示等级，共有三种：
+                        //VISIBILITY_PUBLIC  只有在没有锁屏时会显示通知
+                        //VISIBILITY_PRIVATE 任何情况都会显示通知
+                        //VISIBILITY_SECRET  在安全锁和没有锁屏的情况下显示通知
+                        .setContentIntent(pendingIntent);  //3.关联PendingInte
 
-        Notification myNotification = myBuilder.build();
-        NotificationManager myManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+                Notification myNotification = myBuilder.build();
+                NotificationManager myManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 
-        myManager.notify((int) System.currentTimeMillis(), myNotification);
+                myManager.notify((int) System.currentTimeMillis(), myNotification);
+            } else {
+                Log.d(TAG, "[JPushReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private ExtraReceive processBundleExtra(Bundle bundle) {
