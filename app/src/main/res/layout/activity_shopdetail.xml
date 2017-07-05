@@ -543,15 +543,14 @@
                     android:orientation="horizontal"
                     android:paddingBottom="15dp"
                     android:paddingTop="15dp">
-
                     <com.finance.winport.view.home.NearShop
-                        android:id="@+id/view_shop_one"
+                        android:id="@+id/view_shop_two"
                         android:layout_width="72dp"
                         android:layout_height="wrap_content"
                         android:visibility="gone"></com.finance.winport.view.home.NearShop>
 
                     <com.finance.winport.view.home.NearShop
-                        android:id="@+id/view_shop_two"
+                        android:id="@+id/view_shop_one"
                         android:layout_width="72dp"
                         android:layout_height="wrap_content"
                         android:visibility="gone"></com.finance.winport.view.home.NearShop>
