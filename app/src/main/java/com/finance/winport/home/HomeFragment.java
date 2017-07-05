@@ -777,13 +777,19 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 
             if (response.getData().getData() == null || response.getData().getData().size() == 0) {
                 mData.add(null);
-                refreshView.setMode(PtrFrameLayout.Mode.REFRESH);
+                if (refreshView != null) {
+                    refreshView.setMode(PtrFrameLayout.Mode.REFRESH);
+                }
             } else {
                 mData.addAll(response.getData().getData());
                 if (mData.size() < 10) {
-                    refreshView.setMode(PtrFrameLayout.Mode.REFRESH);
+                    if (refreshView != null) {
+                        refreshView.setMode(PtrFrameLayout.Mode.REFRESH);
+                    }
                 } else {
-                    refreshView.setMode(PtrFrameLayout.Mode.BOTH);
+                    if (refreshView != null) {
+                        refreshView.setMode(PtrFrameLayout.Mode.BOTH);
+                    }
                 }
                 if (mData.size() < 4) {
                     mData.add(null);
@@ -812,7 +818,9 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
     @Override
     public void showMoreList(ShopListResponse response) {
         if (response != null) {
-            refreshView.refreshComplete();
+            if (refreshView != null) {
+                refreshView.refreshComplete();
+            }
             mData.addAll(response.getData().getData());
             if (adapter != null) {
                 adapter.notifyDataSetChanged();
@@ -847,7 +855,9 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 
     @Override
     public void onError() {
-        refreshView.refreshComplete();
+        if (refreshView != null) {
+            refreshView.refreshComplete();
+        }
         if (loadingDialog != null) {
             loadingDialog.dismiss();
         }
@@ -1039,6 +1049,10 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
+        if (mPresenter != null) {
+            mPresenter.clear();
+        }
+        mPresenter = null;
         super.onDestroy();
     }
 
