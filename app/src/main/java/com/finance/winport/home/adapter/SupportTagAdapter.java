@@ -73,15 +73,22 @@ public class SupportTagAdapter extends BaseAdapter {
 
         String tag = SupportListUtil.names[i];
         if (tag != null) {
-            if ("三相电380V".equals(tag)) {
-                tag = "三相电";
+            if ("三相电".equals(tag)) {
+                tag = "三相电380V";
             }
-            viewHolder.tvSTag.setText(tag);
             int resId = 0;
             if (mDataSelect != null && selectNames.contains(tag)) {
+                if ("三相电380V".equals(tag)) {
+                    tag = "三相电";
+                }
+                viewHolder.tvSTag.setText(tag);
                 resId = SupportListUtil.getResSelctByName(tag);
                 viewHolder.tvSTag.setTextColor(Color.parseColor("#333333"));
             } else {
+                if ("三相电380V".equals(tag)) {
+                    tag = "三相电";
+                }
+                viewHolder.tvSTag.setText(tag);
                 resId = SupportListUtil.getResNormalByName(tag);
                 viewHolder.tvSTag.setTextColor(Color.parseColor("#cccccc"));
             }
