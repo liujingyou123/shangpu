@@ -300,7 +300,10 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-        mPresenter.clear();
+        if(mPresenter!=null){
+
+            mPresenter.clear();
+        }
     }
 
     @Override

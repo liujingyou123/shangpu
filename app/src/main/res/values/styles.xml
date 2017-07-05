@@ -23,6 +23,9 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+    <style name="AppTheme.Launch" parent="AppTheme.NoActionBar">
+        <item name="android:windowBackground">@drawable/bg_mine_write</item>
+    </style>
 
     <style name="customDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
