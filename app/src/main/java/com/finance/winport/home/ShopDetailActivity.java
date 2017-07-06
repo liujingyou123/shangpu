@@ -754,7 +754,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         if (!TextUtils.isEmpty(data.getGasRate()) && !"null".equals(data.getGasRate())) {
             Map<String, String> map = new HashMap<>();
             map.put("value", data.getGasRate());
-            map.put("name", "燃气费(元/㎡)");
+            map.put("name", "燃气费(元/m³)");
             yingyufeiyong.add(map);
         }
 
