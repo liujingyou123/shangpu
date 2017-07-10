@@ -312,6 +312,8 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
             getWinportCounts();
             getData();
             modify.setVisibility(View.VISIBLE);
+        } else {
+            init();
         }
         getLunar();
     }
