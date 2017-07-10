@@ -416,7 +416,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 if (shareDialog == null) {
                     shareDialog = new ShareDialog(this);
                 }
-                shareDialog.setDes(mShopDetail.getData().getAddress() + UnitUtil.formatSNum(mShopDetail.getData().getArea()) + "平旺铺急租，租金仅" + rentPrice);
+                shareDialog.setDes(mShopDetail.getData().getAddress() + "(" + UnitUtil.formatSNum(mShopDetail.getData().getArea()) + "㎡)旺铺急租，租金仅" + rentPrice);
                 shareDialog.setTitle(mShopDetail.getData().getAddress());
                 shareDialog.setImage(coverImg);
                 shareDialog.setUrl(H5Util.getIpShopDetail(mShopDetail.getData().getId() + ""));
@@ -655,7 +655,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         }
         mShopDetail = shopDetail;
         ShopDetail.DataBean data = shopDetail.getData();
-        tvName.setText("由 小二 " + data.getClerkName() + " 于" + data.getIssueShopTime() + " 核实发布");
+        tvName.setText("由 小二 " + data.getClerkName() + " 于" + data.getIssueShopTime() + "核实发布");
         tvShopAddress.setText(" 　 " + data.getDistrictName() + data.getBlockName() + data.getAddress());
         tvScan.setText(data.getVisitCount() + "浏览");
         tvLianxi.setText(data.getContactCount() + "联系");
