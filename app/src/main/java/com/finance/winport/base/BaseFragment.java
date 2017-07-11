@@ -8,6 +8,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.finance.winport.R;
+import com.finance.winport.account.LoginActivity;
 import com.umeng.analytics.MobclickAgent;
 
 public class BaseFragment extends Fragment {
@@ -102,6 +104,9 @@ public class BaseFragment extends Fragment {
     public void startActivity(Intent intent) {
         if (getActivity() == null) return;
         super.startActivity(intent);
+        if (intent.getComponent().getClassName().equals(LoginActivity.class.getName())) {
+            getActivity().overridePendingTransition(R.anim.open_enter_bottom_in, R.anim.open_exit_normal);
+        }
     }
 
 

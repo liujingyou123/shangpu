@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.finance.winport.MainActivity;
 import com.finance.winport.R;
+import com.finance.winport.account.LoginActivity;
 import com.finance.winport.home.HomeFragment;
 import com.finance.winport.util.LoadingDialogUtil;
 import com.finance.winport.util.SelectDialogUtil;
@@ -105,6 +106,9 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public void startActivity(Intent intent) {
         super.startActivity(intent);
+        if (intent.getComponent().getClassName().equals(LoginActivity.class.getName())) {
+            overridePendingTransition(R.anim.open_enter_bottom_in, R.anim.open_exit_normal);
+        }
     }
 
     public void pushFragment(BaseFragment fragment) {

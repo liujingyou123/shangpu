@@ -85,6 +85,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/LoginActivityTheme" />
 
+        <!-- off_line -->
+        <activity
+            android:name=".account.OffLineActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/OffLineActivityTheme" />
+
         <!-- 引导页 -->
         <activity
             android:name=".account.AdActivity"
