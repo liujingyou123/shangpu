@@ -1,6 +1,7 @@
 package com.finance.winport.home;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -58,7 +59,11 @@ public class H5Activity extends BaseActivity {
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setDatabaseEnabled(true);
+        settings.setBlockNetworkImage(false);
         settings.setDomStorageEnabled(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
         web.setWebViewClient(new WebViewClient());
         web.loadUrl(address);
     }
