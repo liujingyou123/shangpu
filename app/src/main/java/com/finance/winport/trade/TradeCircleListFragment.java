@@ -240,7 +240,7 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
     public void showCommentsNum(CommentNumResponse response) {
         if (response != null && response.getData() > 0) {
             tvCommentsNum.setVisibility(View.VISIBLE);
-            tvCommentsNum.setText("老板，您有" + response.getData() + "个新的评论");
+            tvCommentsNum.setText("老板，您有" + response.getData() + "条新的评论");
         } else {
             tvCommentsNum.setVisibility(View.GONE);
         }
