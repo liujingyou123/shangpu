@@ -23,6 +23,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="AppTheme.Launch" parent="AppTheme.NoActionBar">
         <item name="android:windowBackground">@drawable/bg_mine_write</item>
     </style>
@@ -108,6 +109,8 @@
     <style name="LoginActivityAnimation" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/open_enter_bottom_in</item>
         <item name="android:activityOpenExitAnimation">@anim/open_exit_normal</item>
+        <item name="android:activityCloseEnterAnimation">@anim/close_enter_normal</item>
+        <item name="android:activityCloseExitAnimation">@anim/close_exit_bottom_out</item>
     </style>
 
     <style name="LoginActivityTheme" parent="AppTheme.NoActionBar">
