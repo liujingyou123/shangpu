@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,7 +77,10 @@ public class UpdateTipDialog extends Dialog {
     }
 
     public void setMessage(String msg) {
-        desc.setText(Html.fromHtml(msg));
+        if(!TextUtils.isEmpty(msg)){
+
+            desc.setText(Html.fromHtml(msg));
+        }
     }
 
     public void setTitle(String msg) {

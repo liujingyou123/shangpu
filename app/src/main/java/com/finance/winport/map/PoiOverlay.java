@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class PoiOverlay extends OverlayManager {
 
-    private static final int MAX_POI_SIZE = 10;
+    private static final int MAX_POI_SIZE = 50;
 
     private PoiResult mPoiResult = null;
     private int type ;
