@@ -89,6 +89,8 @@ public class PoiSearchRoundActivity extends BaseActivity implements
     private Boolean isFirseLoc = true;//是否首次定位
     private LatLng ll;
     private int type;
+    PoiBoundSearchOption poiBoundSearchOption;
+    PoiOverlay overlay;
     public BDLocationListener myListener = new BDLocationListener() {
         @Override
         public void onReceiveLocation(BDLocation bdLocation) {
@@ -179,6 +181,7 @@ public class PoiSearchRoundActivity extends BaseActivity implements
                 }
             }
         });
+        overlay = new MyPoiOverlay(mBaiduMap);
 
     }
 
@@ -283,6 +286,7 @@ public class PoiSearchRoundActivity extends BaseActivity implements
                     .show();
         } else {
             mBaiduMap.clear();
+            overlay.removeFromMap();
             BitmapDescriptor centerBitmap = BitmapDescriptorFactory
                     .fromResource(R.mipmap.map_round_icon);
             MarkerOptions ooMarker = new MarkerOptions().position(center).icon(centerBitmap).anchor(0.5f,0.5f);
@@ -296,7 +300,7 @@ public class PoiSearchRoundActivity extends BaseActivity implements
                     .fromView(view);
             MarkerOptions ooMarker1 = new MarkerOptions().position(center).icon(centerBitmap1).anchor(0.5f,1f);
             mBaiduMap.addOverlay(ooMarker1);
-            PoiOverlay overlay = new MyPoiOverlay(mBaiduMap);
+
             mBaiduMap.setOnMarkerClickListener(overlay);
             overlay.setData(result, type);
             overlay.addToMap();
@@ -507,7 +511,13 @@ public class PoiSearchRoundActivity extends BaseActivity implements
             searchType = 2;
             PoiNearbySearchOption nearbySearchOption = new PoiNearbySearchOption().keyword(keyword).sortType(PoiSortType.distance_from_near_to_far).location(center)
                     .radius(radius).pageNum(1).pageCapacity(50);
-            PoiBoundSearchOption poiBoundSearchOption = new PoiBoundSearchOption().keyword(keyword).bound(mBaiduMap.getMapStatus().bound);
+            if(poiBoundSearchOption ==null){
+
+                poiBoundSearchOption = new PoiBoundSearchOption().keyword(keyword).bound(mBaiduMap.getMapStatus().bound).pageCapacity(50);
+            }
+            else{
+                poiBoundSearchOption.keyword(keyword).bound(mBaiduMap.getMapStatus().bound);
+            }
             mPoiSearch.searchInBound(poiBoundSearchOption);
         }catch (Exception e){
 

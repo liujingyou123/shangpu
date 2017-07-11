@@ -940,7 +940,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
     }
 
     @Override
-    public void checkVersion(CheckVersionResponse response) {
+    public void checkVersion(final CheckVersionResponse response) {
 
         Constant.SERVICE_PHONE = response.getData().getServicePhone();
         if (response.getData().isNeedUpdate()) {
@@ -965,7 +965,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                     public void onClick() {
                         Intent intent = new Intent();
                         intent.setAction("android.intent.action.VIEW");
-                        Uri content_url = Uri.parse("https://www.pgyer.com/hJtO");
+                        Uri content_url = Uri.parse(response.getData().getDownloadUrl());
                         intent.setData(content_url);
                         startActivity(intent);
 

@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.account.LoginActivity;
+import com.finance.winport.account.OffLineActivity;
 import com.finance.winport.account.event.LoginEvent;
 import com.finance.winport.account.event.LoginOutEvent;
 import com.finance.winport.account.model.UserInfo;

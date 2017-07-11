@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
 import com.finance.winport.account.LoginActivity;
+import com.finance.winport.account.OffLineActivity;
 import com.finance.winport.account.event.TokenTimeOutEvent;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.base.BaseFragment;
@@ -154,7 +155,7 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
     @Subscribe
     public void onTokenTimeOutEvent(TokenTimeOutEvent event) {
         if (event != null) {
-            startActivity(new Intent(context, LoginActivity.class));
+            startActivity(new Intent(context, OffLineActivity.class));
         }
     }
 
