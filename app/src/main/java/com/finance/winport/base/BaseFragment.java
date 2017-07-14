@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -104,7 +105,7 @@ public class BaseFragment extends Fragment {
     public void startActivity(Intent intent) {
         if (getActivity() == null) return;
         super.startActivity(intent);
-        if (intent.getComponent().getClassName().equals(LoginActivity.class.getName())) {
+        if (TextUtils.equals(intent.getComponent().getClassName(), LoginActivity.class.getName())) {
             getActivity().overridePendingTransition(R.anim.open_enter_bottom_in, R.anim.open_exit_normal);
         }
     }
