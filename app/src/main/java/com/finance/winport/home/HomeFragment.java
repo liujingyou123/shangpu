@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -128,7 +130,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
             mPresenter = new HomePresenter(this);
         }
         if (SharedPrefsUtil.getUserInfo() != null) {
-            mRequest.queryType = 0;
+            mRequest.queryType = 1;
             mPresenter.getIsUnReader();
         } else {
             mRequest.queryType = 1;
@@ -358,9 +360,14 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                     MobclickAgent.onEvent(context, "shoplist_shop");
                     ShopListResponse.DataBean.Shop shop = (ShopListResponse.DataBean.Shop) parent.getItemAtPosition(position);
                     if (shop != null) {
+//                        Intent intent = new Intent(HomeFragment.this.getContext(), ShopDetailActivity.class);
+//                        intent.putExtra("shopId", shop.getId() + "");
+//                        startActivity(intent);
+
+                        ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view, 0, 0, view.getWidth(), view.getHeight());
                         Intent intent = new Intent(HomeFragment.this.getContext(), ShopDetailActivity.class);
                         intent.putExtra("shopId", shop.getId() + "");
-                        startActivity(intent);
+                        ActivityCompat.startActivity(HomeFragment.this.getContext(), intent, compat.toBundle());
                     }
                 }
             });
@@ -773,7 +780,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
             if (response.getData() != null && response.getData().getTotalSize() > 0) {
                 ToastUtil.show(this.getContext(), "共找到" + response.getData().getTotalSize() + "间旺铺");
             }
-            mData.clear();
+
 
             if (response.getData().getData() == null || response.getData().getData().size() == 0) {
                 mData.add(null);
@@ -781,6 +788,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                     refreshView.setMode(PtrFrameLayout.Mode.REFRESH);
                 }
             } else {
+                mData.clear();
                 mData.addAll(response.getData().getData());
                 if (mData.size() < 10) {
                     if (refreshView != null) {
@@ -873,7 +881,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 
 
             welcomeDialog = new WelcomeDialog(this.getContext());
-            if (updateTipDialog.isShowing()) {
+            if (updateTipDialog!=null&&updateTipDialog.isShowing()) {
 
             } else {
 
@@ -887,53 +895,53 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 
             SpUtil.getInstance().setStringData(SharedPrefsUtil.getUserInfo().data.userPhone, "1");
 
-            if (!TextUtils.isEmpty(response.getData().getDistrictId())) {
-                mRequest.districtId = response.getData().getDistrictId() + "";
-            }
-
-            if (!TextUtils.isEmpty(response.getData().getDistrictName())) {
-                mRequest.districtName = response.getData().getDistrictName();
-            }
-
-            if (!TextUtils.isEmpty(response.getData().getBlockId())) {
-                mRequest.blockId = response.getData().getBlockId() + "";
-            }
-
-            if (!TextUtils.isEmpty(response.getData().getBlockName())) {
-                mRequest.blockName = response.getData().getBlockName();
-            }
-
-            if (!TextUtils.isEmpty(mRequest.blockId) && !"null".equals(mRequest.blockId)) {
-                selectionView.setQuYuText(mRequest.blockName);
-                heardSelectView.setQuYuText(mRequest.blockName);
-                selectionView.onLocationClick();
-                heardSelectView.onLocationClick();
-                selectionView.onLocationArrowDown();
-                heardSelectView.onLocationArrowDown();
-            } else if (!TextUtils.isEmpty(mRequest.districtId) && !"null".equals(mRequest.districtId)) {
-                selectionView.setQuYuText(mRequest.districtName);
-                heardSelectView.setQuYuText(mRequest.districtName);
-                selectionView.onLocationClick();
-                heardSelectView.onLocationClick();
-                selectionView.onLocationArrowDown();
-                heardSelectView.onLocationArrowDown();
-            }
-            if (response.getData().getList() != null && response.getData().getList().size() > 0) {
-                List<String> arrayList = null;
-                if (mRequest.areaList != null) {
-                    arrayList = mRequest.areaList;
-                } else {
-                    arrayList = new ArrayList<>();
-                }
-                for (int i = 0; i < response.getData().getList().size(); i++) {
-                    arrayList.add(response.getData().getList().get(i) + "");
-                }
-
-                mRequest.areaList = arrayList;
-
-                selectionView.onCsClick();
-                heardSelectView.onCsClick();
-            }
+//            if (!TextUtils.isEmpty(response.getData().getDistrictId())) {
+//                mRequest.districtId = response.getData().getDistrictId() + "";
+//            }
+//
+//            if (!TextUtils.isEmpty(response.getData().getDistrictName())) {
+//                mRequest.districtName = response.getData().getDistrictName();
+//            }
+//
+//            if (!TextUtils.isEmpty(response.getData().getBlockId())) {
+//                mRequest.blockId = response.getData().getBlockId() + "";
+//            }
+//
+//            if (!TextUtils.isEmpty(response.getData().getBlockName())) {
+//                mRequest.blockName = response.getData().getBlockName();
+//            }
+//
+//            if (!TextUtils.isEmpty(mRequest.blockId) && !"null".equals(mRequest.blockId)) {
+//                selectionView.setQuYuText(mRequest.blockName);
+//                heardSelectView.setQuYuText(mRequest.blockName);
+//                selectionView.onLocationClick();
+//                heardSelectView.onLocationClick();
+//                selectionView.onLocationArrowDown();
+//                heardSelectView.onLocationArrowDown();
+//            } else if (!TextUtils.isEmpty(mRequest.districtId) && !"null".equals(mRequest.districtId)) {
+//                selectionView.setQuYuText(mRequest.districtName);
+//                heardSelectView.setQuYuText(mRequest.districtName);
+//                selectionView.onLocationClick();
+//                heardSelectView.onLocationClick();
+//                selectionView.onLocationArrowDown();
+//                heardSelectView.onLocationArrowDown();
+//            }
+//            if (response.getData().getList() != null && response.getData().getList().size() > 0) {
+//                List<String> arrayList = null;
+//                if (mRequest.areaList != null) {
+//                    arrayList = mRequest.areaList;
+//                } else {
+//                    arrayList = new ArrayList<>();
+//                }
+//                for (int i = 0; i < response.getData().getList().size(); i++) {
+//                    arrayList.add(response.getData().getList().get(i) + "");
+//                }
+//
+//                mRequest.areaList = arrayList;
+//
+//                selectionView.onCsClick();
+//                heardSelectView.onCsClick();
+//            }
 
 
         }
@@ -1053,11 +1061,15 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
             mPresenter.clear();
         }
         mPresenter = null;
+
         super.onDestroy();
     }
 
     @Override
     public void result(boolean result, BDLocation location) {
+        if(getView()==null){
+            return;
+        }
         if (loadingDialog != null) {
             loadingDialog.setTip("加载中...");
         }

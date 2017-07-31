@@ -212,7 +212,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/view_line"
                     android:layout_marginTop="15dp"
-                    android:text="价格"
+                    android:text="租金"
                     android:textColor="#999999"
                     android:textSize="14sp" />
 
