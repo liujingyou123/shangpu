@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class OffLineActivity extends FragmentActivity {
+public class OffLineActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
