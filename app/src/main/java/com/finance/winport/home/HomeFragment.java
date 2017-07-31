@@ -873,7 +873,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 
 
             welcomeDialog = new WelcomeDialog(this.getContext());
-            if (updateTipDialog.isShowing()) {
+            if (updateTipDialog!=null&&updateTipDialog.isShowing()) {
 
             } else {
 
@@ -1058,6 +1058,9 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 
     @Override
     public void result(boolean result, BDLocation location) {
+        if (getView()==null){
+            return;
+        }
         if (loadingDialog != null) {
             loadingDialog.setTip("加载中...");
         }
