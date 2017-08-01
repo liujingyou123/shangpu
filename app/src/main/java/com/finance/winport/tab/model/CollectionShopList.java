@@ -63,6 +63,8 @@ public class CollectionShopList extends BaseResponse {
              */
 
             public String id;
+            public String title;
+            public String industryName;
             public String coverImg;
             public String address;
             public String rentTypeName;
