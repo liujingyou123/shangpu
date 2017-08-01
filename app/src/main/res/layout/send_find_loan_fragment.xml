@@ -352,6 +352,7 @@
 
                     <View
 
+                        android:id="@+id/img_line"
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_marginLeft="100dp"
@@ -445,7 +446,6 @@
 
                         <View
                             android:visibility="gone"
-                            android:id="@+id/img_line"
                             android:layout_width="match_parent"
                             android:layout_height="0.5dp"
                             android:layout_marginLeft="100dp"
@@ -458,6 +458,7 @@
                         android:layout_height="44dp"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"
+                        android:visibility="gone"
                         app:content_background="#00000000"
                         app:content_height="match_parent"
                         app:content_padding_right="15dp"

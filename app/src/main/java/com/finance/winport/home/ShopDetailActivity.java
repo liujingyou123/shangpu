@@ -935,15 +935,15 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         }
 
 
-        if (data.getSupportList() != null && data.getSupportList().size() > 0) {
+//        if (data.getSupportList() != null && data.getSupportList().size() > 0) {
             llPeitao.setVisibility(View.VISIBLE);
             SupportTagAdapter supportTagAdapter = new SupportTagAdapter(this);
             supportTagAdapter.setSelectData(data.getSupportList());
             gvSupport.setAdapter(supportTagAdapter);
-        } else {
-            llPeitao.setVisibility(View.GONE);
-            stv.setPeitaoGone();
-        }
+//        } else {
+//            llPeitao.setVisibility(View.GONE);
+//            stv.setPeitaoGone();
+//        }
 
 
         if (data.getImageList() != null && data.getImageList().size() > 0) {
