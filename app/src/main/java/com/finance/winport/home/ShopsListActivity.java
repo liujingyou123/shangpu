@@ -144,7 +144,7 @@ public class ShopsListActivity extends BaseActivity implements IShopListView {
         if (intent != null) {
             index = intent.getIntExtra("index", -1);
             if (index == 0) {
-                tvFocusHouse.setText("今日新铺");
+                tvFocusHouse.setText("一周新铺");
             } else if (index == 1) {
                 tvFocusHouse.setText("无转让费");
 

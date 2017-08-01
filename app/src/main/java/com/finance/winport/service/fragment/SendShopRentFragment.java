@@ -216,7 +216,7 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
                 MobclickAgent.onEvent(getActivity(), "service_phonechange");
                 llVerifyCode.setVisibility(View.VISIBLE);
                 llImgCode.setVisibility(View.GONE);
-                codeLine.setVisibility(View.VISIBLE);
+                codeLine.setVisibility(View.GONE);
                 imgLine.setVisibility(View.GONE);
                 modifyArea.setVisibility(View.VISIBLE);
 
@@ -333,7 +333,8 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
             getPicCode();
         }
         llImgCode.setVisibility(View.VISIBLE);
-        imgLine.setVisibility(View.VISIBLE);
+        imgLine.setVisibility(View.GONE);
+        codeLine.setVisibility(View.VISIBLE);
         ObjectAnimator animator1 = new ObjectAnimator().ofFloat(llImgCode, "scaleY", 0f, 1f);
         animator1.setDuration(200);
         animator1.setInterpolator(new LinearInterpolator());
@@ -564,10 +565,10 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
                 return false;
             }
         }
-        if (TextUtils.isEmpty(orderTime.getText())) {
-            Toast.makeText(context, "请输入约见时间", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+//        if (TextUtils.isEmpty(orderTime.getText())) {
+//            Toast.makeText(context, "请输入约见时间", Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
         return true;
     }
 

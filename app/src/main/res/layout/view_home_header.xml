@@ -54,7 +54,7 @@
                 android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:includeFontPadding="false"
-                android:text="今日新铺"
+                android:text="一周新铺"
                 android:textColor="#999999"
                 android:textSize="12sp" />
         </LinearLayout>

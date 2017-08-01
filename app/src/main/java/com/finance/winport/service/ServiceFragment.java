@@ -1,10 +1,13 @@
 package com.finance.winport.service;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -23,6 +26,7 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.account.model.UserInfo;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.home.HomeFragment;
 import com.finance.winport.home.ShopDetailActivity;
 import com.finance.winport.image.Batman;
 import com.finance.winport.mine.MyScheduleListActivity;
@@ -324,8 +328,11 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
         switch (view.getId()) {
             case R.id.rent:
                 MobclickAgent.onEvent(getActivity(), "service_let");
-                Intent rentIntent = new Intent(getActivity(), ShopRentActivity.class);
-                startActivity(rentIntent);
+                ActivityOptions compat = ActivityOptions.makeScaleUpAnimation(view, view.getWidth()/2, view.getHeight()/2, view.getWidth(), view.getHeight());
+                Intent rentIntent = new Intent(getContext(), ShopRentActivity.class);
+                startActivity(rentIntent, compat.toBundle());
+//                Intent rentIntent = new Intent(getActivity(), ShopRentActivity.class);
+//                startActivity(rentIntent);
                 break;
             case R.id.order:
                 MobclickAgent.onEvent(getActivity(), "service_order");
