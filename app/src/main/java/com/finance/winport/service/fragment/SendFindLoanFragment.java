@@ -182,9 +182,8 @@ public class SendFindLoanFragment extends BaseFragment implements IFindLoanView 
                 MobclickAgent.onEvent(getActivity(), "service_phonechange");
                 llVerifyCode.setVisibility(View.VISIBLE);
                 llImgCode.setVisibility(View.GONE);
-                codeLine.setVisibility(View.VISIBLE);
-                imgLine.setVisibility(View.GONE);
-                modifyArea.setVisibility(View.VISIBLE);
+                codeLine.setVisibility(View.GONE);
+                imgLine.setVisibility(View.VISIBLE);
                 modifyArea.setVisibility(View.VISIBLE);
 
                 ObjectAnimator animator1 = new ObjectAnimator().ofFloat(modifyArea, "scaleY", 0f, 1f);
@@ -323,6 +322,7 @@ public class SendFindLoanFragment extends BaseFragment implements IFindLoanView 
         }
         llImgCode.setVisibility(View.VISIBLE);
         imgLine.setVisibility(View.VISIBLE);
+        codeLine.setVisibility(View.VISIBLE);
         ObjectAnimator animator1 = new ObjectAnimator().ofFloat(llImgCode, "scaleY", 0f, 1f);
         animator1.setDuration(200);
         animator1.setInterpolator(new LinearInterpolator());
