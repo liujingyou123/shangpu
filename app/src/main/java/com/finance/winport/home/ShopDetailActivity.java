@@ -532,7 +532,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                     Intent intent1 = new Intent(this, PoiSearchRoundActivity.class);
                     intent1.putExtra("lat", Double.parseDouble(mShopDetail.getData().getLatitude()));
                     intent1.putExtra("lon", Double.parseDouble(mShopDetail.getData().getLongitude()));
-                    intent1.putExtra("address", mShopDetail.getData().getTitle().substring(0,mShopDetail.getData().getTitle().length()-2));
+                    intent1.putExtra("address", mShopDetail.getData().getTitle());
                     startActivity(intent1);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -656,7 +656,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         mShopDetail = shopDetail;
         ShopDetail.DataBean data = shopDetail.getData();
         tvName.setText("由 小二 " + data.getClerkName() + " 于" + data.getIssueShopTime() + " 核实发布");
-        tvShopAddress.setText(" 　 " + data.getDistrictName() + data.getBlockName() + data.getTitle().substring(0,data.getTitle().length()-2));
+        tvShopAddress.setText(" 　 " + data.getDistrictName() + data.getBlockName() + data.getTitle());
         tvScan.setText(data.getVisitCount() + "浏览");
         tvLianxi.setText(data.getContactCount() + "联系");
 
@@ -967,7 +967,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             stv.setJingYingFanWeiGone();
         }
 
-        tvFocusHouse.setText(data.getTitle().substring(0,data.getTitle().length()-2));
+        tvFocusHouse.setText(data.getTitle());
 
         if (data.getFeatureList() != null && data.getFeatureList().size() > 0) {
             tag.setAdapter(new TagAdapter(this, data.getFeatureList()));
