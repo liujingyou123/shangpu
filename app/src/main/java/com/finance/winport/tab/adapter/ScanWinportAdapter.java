@@ -76,7 +76,8 @@ public class ScanWinportAdapter extends PullBaseAdapter<ScanShopList.DataBeanX.D
         final ScanShopList.DataBeanX.DataBean item = baseData.get(position);
         holder.address.setText(item.title);
         holder.district.setText(item.districtName + " " + item.blockName);
-        holder.area.setText(UnitUtil.formatArea(item.area) + "㎡");
+//        holder.area.setText(UnitUtil.formatArea(item.area) + "㎡");
+        holder.area.setVisibility(View.GONE);
         if (!TextUtils.isEmpty(item.updateTime)) {
             holder.releaseTime.setText(item.updateTime + "更新");
             holder.releaseTime.setVisibility(View.VISIBLE);
