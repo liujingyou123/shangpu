@@ -26,8 +26,8 @@
             android:layout_alignLeft="@+id/img"
             android:layout_alignRight="@+id/img"
             android:layout_alignTop="@+id/img"
-            android:visibility="gone"
-            android:background="@drawable/bg_mark_background">
+            android:background="@drawable/bg_mark_background"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/mark"
@@ -37,6 +37,7 @@
                 android:scaleType="centerInside"
                 android:src="@mipmap/icon_winport_off" />
         </FrameLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="20dp"
@@ -44,6 +45,7 @@
             android:layout_alignLeft="@+id/img"
             android:layout_alignRight="@+id/img"
             android:background="#99000000"
+            android:visibility="gone"
             android:gravity="left|center_vertical">
 
             <TextView
@@ -142,7 +144,7 @@
             android:layout_alignLeft="@+id/address"
             android:textColor="@color/color_list_text_tiny_light_selector"
             android:textSize="11sp"
-            tools:text="2小时前发布" />
+            tools:text="@string/list_appoint_tip_1" />
 
         <TextView
             android:id="@+id/area"
@@ -171,7 +173,7 @@
             android:layout_below="@+id/tag_divider"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="visible">
 
         </LinearLayout>
     </RelativeLayout>
@@ -182,17 +184,19 @@
         android:gravity="center"
         android:orientation="vertical"
         android:paddingLeft="15dp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/divider_height"
+            android:visibility="gone"
             android:background="@color/divider_color" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <TextView

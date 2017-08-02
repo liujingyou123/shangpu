@@ -1,7 +1,5 @@
 package com.finance.winport.tab.adapter;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -15,16 +13,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.base.BaseResponse;
+import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.dialog.NoticeDialog;
+import com.finance.winport.dialog.OffShelfDialog;
 import com.finance.winport.home.ShopDetailActivity;
 import com.finance.winport.image.Batman;
 import com.finance.winport.tab.TypeList;
 import com.finance.winport.tab.WinportActivity;
+import com.finance.winport.tab.model.NameValue;
 import com.finance.winport.tab.model.WinportList;
+import com.finance.winport.tab.net.NetworkCallback;
+import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
+import com.finance.winport.view.roundview.RoundedImageView;
 import com.umeng.analytics.MobclickAgent;
 
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -52,7 +58,7 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         }
         final WinportList.DataBeanX.DataBean item = baseData.get(position);
         holder.address.setText(item.address + item.rentTypeName);
-        holder.scanCount.setText("周浏览"+item.scanCount + "人/次");
+        holder.scanCount.setText("周浏览" + item.scanCount + "人/次");
         holder.area.setText(UnitUtil.formatArea(item.area) + "㎡");
         holder.releaseTime.setText(item.publishTime);
         //rentStatus 出租状态 0-待出租 1-出租中 2-已出租  3-已下架（撤下）
@@ -84,10 +90,12 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
             @Override
             public void onClick(View v) {
                 MobclickAgent.onEvent(context, "myshop_unpublish");
-                Intent dropOff = new Intent(context, WinportActivity.class);
-                dropOff.putExtra("type", TypeList.OFF_SHELF);
-                dropOff.putExtra("shopId", item.id);
-                context.startActivity(dropOff);
+//                Intent dropOff = new Intent(context, WinportActivity.class);
+//                dropOff.putExtra("type", TypeList.OFF_SHELF_SUCCESS);
+//                dropOff.putExtra("shopId", item.id);
+//                context.startActivity(dropOff);
+                showOffShelfAlert(item.id);
+
             }
         });
         //联系小二
@@ -120,6 +128,48 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         return convertView;
     }
 
+    String id = "";
+
+    private void showOffShelfAlert(final String shopId) {
+        OffShelfDialog off = new OffShelfDialog(context);
+        off.setOnItemClickListener(new OffShelfDialog.OnItemClickListener() {
+            @Override
+            public void onItemClick(NameValue item, int position) {
+                id = item.value;
+            }
+        }).setOnOkClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                offShelfSHop(shopId, id);
+            }
+        }).show();
+    }
+
+    LoadingDialog loading = new LoadingDialog(context);
+
+    //下架商铺
+    private void offShelfSHop(String shopId, String id) {
+        loading.show();
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("shopId", shopId);
+        params.put("tagId", id);
+        PersonManager.getInstance().offShelfSHop(params, new NetworkCallback<BaseResponse>() {
+            @Override
+            public void success(BaseResponse response) {
+                loading.dismiss();
+                Intent dropOff = new Intent(context, WinportActivity.class);
+                dropOff.putExtra("type", TypeList.OFF_SHELF_SUCCESS);
+                context.startActivity(dropOff);
+//                pushFragment(new OffShelfResultFragment());
+            }
+
+            @Override
+            public void failure(Throwable throwable) {
+                loading.dismiss();
+            }
+        });
+    }
+
     private static void setViewAndChildrenEnabled(View view, boolean enabled) {
         view.setEnabled(enabled);
         if (view instanceof ViewGroup) {
@@ -133,6 +183,12 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
 
 
     static class ViewHolder {
+        @BindView(R.id.headImg)
+        RoundedImageView headImg;
+        @BindView(R.id.name)
+        TextView name;
+        @BindView(R.id.work_type)
+        TextView workType;
         @BindView(R.id.img)
         ImageView img;
         @BindView(R.id.address)

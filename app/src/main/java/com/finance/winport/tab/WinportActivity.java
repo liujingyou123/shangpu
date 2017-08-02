@@ -8,7 +8,7 @@ import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.tab.fragment.MineWinportFragment;
-import com.finance.winport.tab.fragment.OffShelfFragment;
+import com.finance.winport.tab.fragment.OffShelfResultFragment;
 import com.finance.winport.tab.fragment.ScanHeadImageFragment;
 import com.finance.winport.tab.fragment.ScanWinportFragment;
 
@@ -36,8 +36,8 @@ public class WinportActivity extends BaseActivity {
                 scanf.setArguments(getIntent().getExtras());
                 pushFragment(scanf);
                 break;
-            case OFF_SHELF://下架
-                BaseFragment dropOff = new OffShelfFragment();
+            case OFF_SHELF_SUCCESS://下架成功
+                BaseFragment dropOff = new OffShelfResultFragment();
                 dropOff.setArguments(getIntent().getExtras());
                 pushFragment(dropOff, false);
                 break;
