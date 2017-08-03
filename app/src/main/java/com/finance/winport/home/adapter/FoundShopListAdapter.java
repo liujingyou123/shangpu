@@ -1,4 +1,4 @@
-package com.finance.winport.service.adapter;
+package com.finance.winport.home.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -18,19 +18,19 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by jge on 17/5/5.
+ * Created by jge on 17/8/3.
  */
-public class LoanListAdapter extends BaseAdapter {
+public class FoundShopListAdapter extends BaseAdapter {
     protected Context context;
 
     private List<LoanListResponse.DataBeanX.DataBean> baseData;
 
-    public LoanListAdapter(Context context, List<LoanListResponse.DataBeanX.DataBean> baseData) {
+    public FoundShopListAdapter(Context context, List<LoanListResponse.DataBeanX.DataBean> baseData) {
         this.baseData = baseData;
         this.context = context;
     }
 
-    public LoanListAdapter(Context context) {
+    public FoundShopListAdapter(Context context) {
         this.context = context;
     }
 

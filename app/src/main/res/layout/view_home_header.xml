@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    
+
     <com.youth.banner.Banner
         android:id="@+id/header_banner"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        app:indicator_height="6dp"
-        app:indicator_width="6dp"
-        app:indicator_margin="5dp"
+        android:background="@drawable/default_image_logo"
         app:indicator_drawable_selected="@drawable/dot_banner_select"
         app:indicator_drawable_unselected="@drawable/dot_banner_unselect"
-        android:background="@drawable/default_image_logo"></com.youth.banner.Banner>
+        app:indicator_height="6dp"
+        app:indicator_margin="5dp"
+        app:indicator_width="6dp"></com.youth.banner.Banner>
 
     <LinearLayout
+        android:id="@+id/shop_area"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_below="@id/header_banner"
@@ -152,6 +154,164 @@
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/find_shop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/shop_area"
+        android:background="#ffffff"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/schedule_list"
+            android:layout_width="match_parent"
+            android:layout_height="54dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="18dp"
+                android:drawableLeft="@mipmap/personal_icon_scedular"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:text="发现旺铺"
+                android:textColor="#333333"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/mine_schedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:drawablePadding="10dp"
+                android:drawableRight="@mipmap/arrow"
+                android:gravity="center"
+                android:textColor="#ffa73b"
+                android:textSize="13sp"
+                tools:text="更多" />
+
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#e5e5e5" />
+
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="200dp"
+                    android:layout_height="110dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp">
+
+                    <ImageView
+                        android:layout_width="200dp"
+                        android:layout_height="110dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/default_image_logo"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="63dp"
+                        android:textColor="#ffffff"
+                        android:text="全上海最好的铺子都在这里" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="200dp"
+                    android:layout_height="110dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp">
+
+                    <ImageView
+                        android:layout_width="200dp"
+                        android:layout_height="110dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/default_image_logo"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="63dp"
+                        android:textColor="#ffffff"
+                        android:text="全上海最好的铺子都在这里" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="200dp"
+                    android:layout_height="110dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp">
+
+                    <ImageView
+                        android:layout_width="200dp"
+                        android:layout_height="110dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/default_image_logo"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="63dp"
+                        android:textColor="#ffffff"
+                        android:text="全上海最好的铺子都在这里" />
+                </RelativeLayout>
+            </LinearLayout>
+        </HorizontalScrollView>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/commend"
+        android:background="#ffffff"
+        android:layout_below="@+id/find_shop"
+        android:layout_width="match_parent"
+        android:layout_height="54dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="18dp"
+            android:drawableLeft="@mipmap/personal_icon_scedular"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:text="为你推荐"
+            android:textColor="#333333"
+            android:textSize="14sp" />
+
+
+    </RelativeLayout>
+    <View
+        android:layout_below="@+id/commend"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#e5e5e5" />
+
 
     <TextView
         android:id="@+id/tv_location"

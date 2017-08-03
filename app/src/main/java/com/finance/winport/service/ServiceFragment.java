@@ -285,7 +285,7 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
 
                 status.setText("待受理");
             }else if(response.getData().getLoadObject().getStatus().equals("1")){
-                status.setText("已受理");
+                status.setText("已申请");
 
             }
         }

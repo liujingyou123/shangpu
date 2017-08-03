@@ -153,8 +153,6 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     TextView tvNameZhuanprice;
     @BindView(R.id.tv_zhuanprice)
     TextView tvZhuanprice;
-    @BindView(R.id.view_line_two)
-    View viewLineTwo;
     @BindView(R.id.tv_name_area)
     TextView tvNameArea;
     @BindView(R.id.tv_area)
@@ -670,12 +668,12 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
 
         if (data.getIsFace() == 1) {
             tvZhuanprice.setText("面议");
-            TextViewUtil.setPartialSizeAndColor(tvZhuanprice, 0, 2, 18, 0, 2, Color.parseColor("#FF5851"));
+//            TextViewUtil.setPartialSizeAndColor(tvZhuanprice, 0, 2, 18, 0, 2, Color.parseColor("#FF5851"));
 
         } else {
             String zhuan = UnitUtil.limitSNum(data.getTransferFee(), 0);
             tvZhuanprice.setText(zhuan);
-            TextViewUtil.setPartialSizeAndColor(tvZhuanprice, 0, zhuan.length(), 18, 0, zhuan.length(), Color.parseColor("#FF5851"));
+//            TextViewUtil.setPartialSizeAndColor(tvZhuanprice, 0, zhuan.length(), 18, 0, zhuan.length(), Color.parseColor("#FF5851"));
         }
 
         tvArea.setText(UnitUtil.formatSNum(data.getArea()) + "㎡");

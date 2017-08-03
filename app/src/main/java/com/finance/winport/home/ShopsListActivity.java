@@ -369,11 +369,17 @@ public class ShopsListActivity extends BaseActivity implements IShopListView {
             if (refreshView.isRefreshing()) {
                 refreshView.refreshComplete();
             }
-            mData.clear();
+
             if (response.getData().getData() == null || response.getData().getData().size() == 0) {
-                mData.add(null);
+                if(mData.get(0)==null){
+
+                }
+                else{
+                    mData.add(0,null);
+                }
                 refreshView.setMode(PtrFrameLayout.Mode.REFRESH);
             } else {
+                mData.clear();
                 mData.addAll(response.getData().getData());
                 refreshView.setMode(PtrFrameLayout.Mode.BOTH);
             }
