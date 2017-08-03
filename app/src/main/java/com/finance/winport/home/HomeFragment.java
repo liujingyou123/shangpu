@@ -783,7 +783,12 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 
 
             if (response.getData().getData() == null || response.getData().getData().size() == 0) {
-                mData.add(null);
+                if(mData.get(0)==null){
+
+                }
+                else{
+                    mData.add(0,null);
+                }
                 if (refreshView != null) {
                     refreshView.setMode(PtrFrameLayout.Mode.REFRESH);
                 }

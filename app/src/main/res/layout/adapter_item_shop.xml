@@ -194,11 +194,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
+            android:layout_marginLeft="32dp"
             android:text="对不起，没有找到您想要的店铺！"
-            android:drawableTop="@mipmap/state_screening"
+            android:drawableLeft="@mipmap/bg_screening"
+            android:gravity="center"
             android:drawablePadding="15dp"
-            android:layout_marginTop="55dp"/>
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"/>
     </RelativeLayout>
 
 </RelativeLayout>

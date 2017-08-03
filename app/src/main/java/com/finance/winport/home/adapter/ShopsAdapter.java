@@ -70,7 +70,7 @@ public class ShopsAdapter extends BaseAdapter {
     public int getItemType(int position) {
         int ret = 0;
         if (mData != null && mData.size() > position) {
-            if (mData.size() == 1 && mData.get(0) == null) {
+            if (mData.get(position) == null&&position==0) {
                 ret = 1;
             } else if (mData.size() < 8) {
                 ShopListResponse.DataBean.Shop shop = mData.get(position);
@@ -104,8 +104,8 @@ public class ShopsAdapter extends BaseAdapter {
             if (type == 1) {
                 viewHolder.rlData.setVisibility(View.GONE);
                 viewHolder.rlTianchong.setVisibility(View.GONE);
-                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, UnitUtil.getScreenHeightPixels(mContext)-UnitUtil.getStatusBarHeight(mContext)-UnitUtil.dip2px(mContext, 89));
-                viewHolder.viewTrans.setLayoutParams(lp);
+//                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, UnitUtil.getScreenHeightPixels(mContext)-UnitUtil.getStatusBarHeight(mContext)-UnitUtil.dip2px(mContext, 89));
+//                viewHolder.viewTrans.setLayoutParams(lp);
                 viewHolder.viewTrans.setVisibility(View.VISIBLE);
             } else if (type == 3) {
                 viewHolder.rlData.setVisibility(View.GONE);
