@@ -49,8 +49,9 @@ public class OffShelfDialog extends Dialog implements View.OnClickListener {
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_off_shelf, null);
         setContentView(view);
         ButterKnife.bind(this, view);
-        setCanceledOnTouchOutside(true);
-
+        setCanceledOnTouchOutside(false);
+        tvOk.setOnClickListener(this);
+        tvCancel.setOnClickListener(this);
         Window window = getWindow();
         WindowManager.LayoutParams lp = window.getAttributes();
         lp.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 280, context.getResources().getDisplayMetrics());
@@ -61,6 +62,7 @@ public class OffShelfDialog extends Dialog implements View.OnClickListener {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ((OffShelfAdapter) mListView.getAdapter()).setSelection(position);
                 if (onItemClickListener != null) {
                     onItemClickListener.onItemClick((NameValue) mListView.getAdapter().getItem(position), position);
                 }

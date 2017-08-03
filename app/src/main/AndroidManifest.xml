@@ -52,7 +52,8 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="i8EQa91eGeanVGsANl7KFknd5SPa1NqU" />
-        <!--Tu57z00QbjtRPrxrYbj2qH4wXOF3yYiq-->
+        <!-- Tu57z00QbjtRPrxrYbj2qH4wXOF3yYiq -->
+
 
         <!-- JPush Required  . Enable it you can get statistics data with channel -->
         <meta-data
@@ -72,12 +73,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <!-- login -->
         <activity
             android:name=".account.LoginActivity"
@@ -204,7 +204,7 @@
         <activity
             android:name=".mine.ScheduleDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <!-- 系统设置 -->
         <activity
             android:name=".mine.SettingsActivity"
@@ -225,51 +225,52 @@
         <activity
             android:name=".map.AddrSelectActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <!-- 地图页面 -->
         <activity
             android:name=".map.MapActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- 通知页面 -->
         <activity
             android:name=".mine.MyNoticeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <!-- 通知列表页面 -->
         <activity
             android:name=".mine.NoticeListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <!-- 反馈页面 -->
         <activity
             android:name=".mine.SuggestActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <!-- 关于我们 -->
         <activity
             android:name=".mine.AboutActivtiy"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- 发布成功页面 -->
         <activity
             android:name=".service.SendSuccessActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- 地图周边页面 -->
         <activity
             android:name=".map.PoiSearchRoundActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
-        <!-- H5-->
+        <!-- H5 -->
         <activity
             android:name=".home.H5Activity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
@@ -283,7 +284,7 @@
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="591a706082b63576ec0007c4"></meta-data>
+            android:value="591a706082b63576ec0007c4" />
 
         <activity
             android:name=".wxapi.WXEntryActivity"
@@ -295,7 +296,6 @@
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
             android:noHistory="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -304,9 +304,7 @@
 
                 <data android:scheme="tencent1106108474" />
             </intent-filter>
-
         </activity>
-
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -318,6 +316,7 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -325,20 +324,20 @@
             android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
 
         <service
             android:name="com.sina.weibo.sdk.net.DownloadService"
-            android:exported="false"></service>
+            android:exported="false" />
 
         <!-- JPush start -->
-        <!-- Rich push 核心功能 since 2.0.6-->
+        <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
             android:exported="false"
-            android:theme="@style/JPushDialogStyle"></activity>
+            android:theme="@style/JPushDialogStyle" />
 
-        <!-- Required SDK核心功能-->
+        <!-- Required SDK核心功能 -->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -352,7 +351,7 @@
             </intent-filter>
         </activity>
 
-        <!-- Required SDK 核心功能-->
+        <!-- Required SDK 核心功能 -->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
         <service
             android:name="cn.jpush.android.service.PushService"
@@ -374,18 +373,18 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.DaemonService" />
+
                 <category android:name="com.finance.winport" />
             </intent-filter>
-
         </service>
 
-        <!-- Required SDK核心功能-->
+        <!-- Required SDK核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter android:priority="1000">
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />   <!--Required  显示通知栏 -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" /> <!-- Required  显示通知栏 -->
                 <category android:name="com.finance.winport" />
             </intent-filter>
             <intent-filter>
@@ -401,7 +400,7 @@
             </intent-filter>
         </receiver>
 
-        <!-- Required SDK核心功能-->
+        <!-- Required SDK核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.AlarmReceiver"
             android:exported="false" />
@@ -423,6 +422,8 @@
         </receiver>
 
         <!-- JPush end -->
+        <activity android:name=".mine.PersonalInfoActivity" />
+        <activity android:name=".mine.InfoModifyActivity"></activity>
     </application>
 
 </manifest>

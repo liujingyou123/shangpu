@@ -74,9 +74,9 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
             holder = (ViewHolder) convertView.getTag();
         }
         final AppointShopList.DataBeanX.DataBean item = baseData.get(position);
-        holder.address.setText(item.address + item.rentTypeName);
+        holder.address.setText(item.title);
         holder.district.setText(item.districtName + " " + item.blockName);
-        holder.area.setText(UnitUtil.formatArea(item.area) + "㎡");
+//        holder.area.setText(UnitUtil.formatArea(item.area) + "㎡");
         String sRent = Math.round(item.rent) + "";
         String sFee = Math.round(item.transferFee / 10000) + "";
         boolean hasFee = item.transferFee > 0;
@@ -124,8 +124,8 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
             holder.updateTime.setVisibility(View.INVISIBLE);
         }
         holder.appointTime.setText(item.applyTime + "约看");
-        holder.scan.setText(item.visitCount + "");
-        holder.call.setText(item.contactCount + "");
+//        holder.scan.setText(item.visitCount + "");
+//        holder.call.setText(item.contactCount + "");
         Batman.getInstance().fromNet(item.coverImg, holder.img);
         setTag(holder, item);
         convertView.setOnClickListener(new View.OnClickListener() {

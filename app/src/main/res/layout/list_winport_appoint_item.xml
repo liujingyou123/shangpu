@@ -45,8 +45,8 @@
             android:layout_alignLeft="@+id/img"
             android:layout_alignRight="@+id/img"
             android:background="#99000000"
-            android:visibility="gone"
-            android:gravity="left|center_vertical">
+            android:gravity="left|center_vertical"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/scan"
@@ -79,10 +79,10 @@
             android:layout_marginRight="20dp"
             android:layout_toLeftOf="@+id/area"
             android:layout_toRightOf="@+id/img"
-            android:singleLine="true"
+            android:maxLines="2"
             android:textColor="@color/color_list_text_dark_selector"
             android:textSize="15sp"
-            tools:text="徐虹北路230号转租徐虹北路230号转租" />
+            tools:text="徐虹北路230号转租徐虹北路" />
 
         <TextView
             android:id="@+id/district"
@@ -140,8 +140,9 @@
             android:id="@+id/update_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/img"
             android:layout_alignLeft="@+id/address"
+            android:layout_below="@+id/distance"
+            android:layout_marginTop="10dp"
             android:textColor="@color/color_list_text_tiny_light_selector"
             android:textSize="11sp"
             tools:text="@string/list_appoint_tip_1" />
@@ -152,6 +153,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="15dp"
+            android:visibility="gone"
             android:textColor="@color/color_list_text_dark_selector"
             tools:text="100㎡" />
 
@@ -160,7 +162,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/divider_height"
             android:layout_alignLeft="@+id/tag"
-            android:layout_below="@+id/img"
+            android:layout_below="@+id/update_time"
             android:layout_marginTop="15dp"
             android:background="@color/divider_color"
             android:visibility="invisible" />
@@ -173,7 +175,7 @@
             android:layout_below="@+id/tag_divider"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:visibility="visible">
+            android:visibility="gone">
 
         </LinearLayout>
     </RelativeLayout>
@@ -189,14 +191,13 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/divider_height"
-            android:visibility="gone"
-            android:background="@color/divider_color" />
+            android:background="@color/divider_color"
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:visibility="gone"
             android:orientation="horizontal">
 
             <TextView

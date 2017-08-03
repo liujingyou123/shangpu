@@ -27,8 +27,8 @@
             android:layout_alignLeft="@+id/img"
             android:layout_alignRight="@+id/img"
             android:layout_alignTop="@+id/img"
-            android:visibility="gone"
-            android:background="@drawable/bg_mark_background">
+            android:background="@drawable/bg_mark_background"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/mark"
@@ -46,14 +46,15 @@
             android:layout_alignLeft="@+id/img"
             android:layout_alignRight="@+id/img"
             android:background="#99000000"
-            android:gravity="left|center_vertical">
+            android:gravity="left|center_vertical"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/scan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
                 android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
                 android:drawableLeft="@mipmap/icon_scan"
                 android:drawablePadding="3dp"
                 android:textColor="#ffffff"
@@ -79,10 +80,10 @@
             android:layout_marginRight="20dp"
             android:layout_toLeftOf="@+id/area"
             android:layout_toRightOf="@+id/img"
-            android:singleLine="true"
+            android:maxLines="2"
             android:textColor="@color/color_list_text_dark_selector"
             android:textSize="15sp"
-            tools:text="徐虹北路230号转租徐虹北路230号转租" />
+            tools:text="徐虹北路230号转租徐虹北路230号转230号转" />
 
         <TextView
             android:id="@+id/district"
@@ -140,8 +141,9 @@
             android:id="@+id/release_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/img"
             android:layout_alignLeft="@+id/address"
+            android:layout_below="@+id/distance"
+            android:layout_marginTop="10dp"
             android:textColor="@color/color_list_text_tiny_light_selector"
             android:textSize="11sp"
             tools:text="2小时前发布" />
@@ -153,6 +155,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="15dp"
             android:textColor="@color/color_list_text_dark_selector"
+            android:visibility="gone"
             tools:text="100㎡" />
 
         <View
@@ -160,7 +163,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/divider_height"
             android:layout_alignLeft="@+id/tag"
-            android:layout_below="@+id/img"
+            android:layout_below="@+id/release_time"
             android:layout_marginTop="15dp"
             android:background="@color/divider_color"
             android:visibility="invisible" />
@@ -168,7 +171,7 @@
         <LinearLayout
             android:id="@+id/tag"
             android:layout_width="match_parent"
-            android:layout_height="34dp"
+            android:layout_height="34.5dp"
             android:layout_alignLeft="@+id/address"
             android:layout_below="@+id/tag_divider"
             android:gravity="center_vertical"

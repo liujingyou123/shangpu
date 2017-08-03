@@ -4,12 +4,15 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_dialog"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:paddingLeft="24dp"
+    android:paddingRight="24dp"
+    android:paddingTop="24dp">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
         android:text="请选择撤下旺铺原因："
         android:textColor="#333333"
         android:textSize="20sp" />
@@ -17,7 +20,8 @@
     <ListView
         android:id="@+id/mListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="@color/white"
         android:divider="@null"
         android:scrollbars="none" />
@@ -31,6 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:paddingBottom="24dp"
             android:text="确认"
             android:textColor="#FFFFA73B"
             android:textSize="14sp" />
@@ -41,6 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="56dp"
             android:layout_toLeftOf="@id/tv_ok"
+            android:paddingBottom="24dp"
             android:text="取消"
             android:textColor="#FFFFA73B"
             android:textSize="14sp" />
