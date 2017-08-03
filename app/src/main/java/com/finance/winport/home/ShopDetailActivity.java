@@ -416,7 +416,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 if (shareDialog == null) {
                     shareDialog = new ShareDialog(this);
                 }
-                shareDialog.setDes(mShopDetail.getData().getAddress() + "(" + UnitUtil.formatSNum(mShopDetail.getData().getArea()) + "㎡)旺铺急租，租金仅" + rentPrice);
+                shareDialog.setDes("上海市"+mShopDetail.getData().getDistrictName()+mShopDetail.getData().getTitle() + "，租金仅" + rentPrice);
                 shareDialog.setTitle(mShopDetail.getData().getAddress());
                 shareDialog.setImage(coverImg);
                 shareDialog.setUrl(H5Util.getIpShopDetail(mShopDetail.getData().getId() + ""));
