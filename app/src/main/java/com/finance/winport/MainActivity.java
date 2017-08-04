@@ -13,6 +13,7 @@ import com.finance.winport.account.event.TokenTimeOutEvent;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.home.HomeFragment;
+import com.finance.winport.trade.HomeTradeCircleFragment;
 import com.finance.winport.trade.TradeCircleFragment;
 import com.finance.winport.tab.MineFragment;
 import com.finance.winport.service.ServiceFragment;
@@ -108,10 +109,10 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
 
     private void handleBusiness(int index) {
         MobclickAgent.onEvent(context, "circle");
-        TradeCircleFragment tradeCircleFragment = (TradeCircleFragment) fm
-                .findFragmentByTag(TradeCircleFragment.class.getName());
+        HomeTradeCircleFragment tradeCircleFragment = (HomeTradeCircleFragment) fm
+                .findFragmentByTag(HomeTradeCircleFragment.class.getName());
         if (tradeCircleFragment == null) {
-            tradeCircleFragment = new TradeCircleFragment();
+            tradeCircleFragment = new HomeTradeCircleFragment();
         }
         tabView.setIndicatorDisplay(2, true);
         addHomeFragment(tradeCircleFragment, false);

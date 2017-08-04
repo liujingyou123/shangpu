@@ -26,7 +26,6 @@ import com.finance.winport.image.BatmanCallBack;
 import com.finance.winport.mine.event.ModifyEvent;
 import com.finance.winport.permission.PermissionsManager;
 import com.finance.winport.permission.PermissionsResultAction;
-import com.finance.winport.tab.MineFragment;
 import com.finance.winport.tab.TypeList;
 import com.finance.winport.tab.WinportActivity;
 import com.finance.winport.tab.event.SelectImageEvent;
@@ -41,7 +40,6 @@ import com.yalantis.ucrop.UCrop;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.w3c.dom.TypeInfo;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -338,5 +336,10 @@ public class PersonalInfoActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @OnClick(R.id.imv_focus_house_back)
+    public void onViewClicked() {
+        handleBack();
     }
 }

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:padding="15dp">
+
+    <RelativeLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp">
+
+        <com.finance.winport.view.roundview.RoundedImageView
+            android:id="@+id/headImg"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@color/bg"
+            app:oval="true" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/headImg"
+            android:textColor="#333333"
+            android:textSize="15sp"
+            tools:text="黄老板" />
+
+        <TextView
+            android:id="@+id/work_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/headImg"
+            android:layout_alignLeft="@+id/name"
+            android:textColor="#999999"
+            android:textSize="12sp"
+            tools:text="为您代理此铺的租赁业务" />
+
+        <ImageView
+            android:id="@+id/more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/bg_more" />
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top"
+        android:layout_marginTop="5dp"
+        android:singleLine="true"
+        android:textColor="#333333"
+        android:textSize="16sp"
+        tools:text="魔都最火的10间商铺" />
+
+    <TextView
+        android:id="@+id/desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_marginBottom="15dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="#666666"
+        android:textSize="16sp"
+        tools:text="金铺多成立于2017年4月，是金铺多集团旗下的国内首家专业商业地产网站，专注于商业地产信息服是金铺多集团旗下的国内首家专业商业地产网站，专注于商业地产信息服" />
+
+    <LinearLayout
+        android:id="@+id/gridImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/desc"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/release_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gridImage"
+        android:singleLine="true"
+        android:textColor="#333333"
+        android:textSize="16sp"
+        tools:text="6分钟前发布" />
+
+    <TextView
+        android:id="@+id/praise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/release_time"
+        android:layout_toLeftOf="@+id/divider"
+        android:drawableLeft="@mipmap/business_icon_praise"
+        android:drawablePadding="10dp"
+        android:singleLine="true"
+        android:textColor="#999999"
+        android:textSize="13sp"
+        tools:text="2300" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="@dimen/divider_height"
+        android:layout_height="12dp"
+        android:layout_alignBottom="@+id/comment_count"
+        android:layout_marginBottom="1dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_toLeftOf="@+id/comment_count"
+        android:background="@color/divider_color" />
+
+    <TextView
+        android:id="@+id/comment_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/release_time"
+        android:layout_alignParentRight="true"
+        android:drawableLeft="@mipmap/business_icon_comments"
+        android:drawablePadding="10dp"
+        android:singleLine="true"
+        android:textColor="#999999"
+        android:textSize="13sp"
+        tools:text="8888" />
+
+
+</RelativeLayout>
