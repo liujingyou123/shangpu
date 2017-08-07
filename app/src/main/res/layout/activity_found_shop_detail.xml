@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:orientation="vertical">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.finance.winport.view.refreshview.PtrClassicFrameLayout xmlns:ptr="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/refresh_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            ptr:ptr_duration_to_close_header="2000"
+            ptr:ptr_keep_header_when_refresh="true"
+            ptr:ptr_pull_to_fresh="false"
+            ptr:ptr_ratio_of_header_height_to_refresh="1.2"
+            ptr:ptr_resistance="1.7">
+
+            <ListView
+                android:id="@+id/mListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@null"
+                android:fadingEdge="none"
+                android:scrollbars="none" />
+        </com.finance.winport.view.refreshview.PtrClassicFrameLayout>
+
+        <RelativeLayout
+            android:id="@+id/top"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="#ffffff">
+
+            <!--<ImageView-->
+                <!--android:id="@+id/back"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_marginLeft="17dp"-->
+                <!--android:scaleType="centerInside"-->
+                <!--android:src="@mipmap/icon_white_back"/>-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/share"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_marginRight="15dp"-->
+                <!--android:scaleType="centerInside"-->
+                <!--android:src="@mipmap/icon_share_white"/>-->
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp">
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="17dp"
+                android:scaleType="centerInside"
+                android:src="@mipmap/icon_white_back"/>
+
+            <ImageView
+                android:id="@+id/share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:scaleType="centerInside"
+                android:src="@mipmap/icon_share_white"/>
+        </RelativeLayout>
+    </FrameLayout>
+</LinearLayout>

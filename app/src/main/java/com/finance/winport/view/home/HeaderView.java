@@ -9,12 +9,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.account.LoginActivity;
+import com.finance.winport.home.FoundShopListActivity;
 import com.finance.winport.home.H5Activity;
-import com.finance.winport.home.MisTakeActivity;
-import com.finance.winport.home.ShopDetailActivity;
 import com.finance.winport.home.model.BannerResponse;
 import com.finance.winport.image.GlideImageLoader;
 import com.finance.winport.mine.MyNoticeActivity;
@@ -58,6 +58,18 @@ public class HeaderView extends RelativeLayout {
     StopWatchTextView tvNearStation;
     @BindView(R.id.imv_notice)
     ImageView imvNotice;
+    @BindView(R.id.shop_area)
+    LinearLayout shopArea;
+    @BindView(R.id.mine_schedule)
+    TextView mineSchedule;
+    @BindView(R.id.found_more)
+    RelativeLayout foundMore;
+    @BindView(R.id.find_shop)
+    LinearLayout findShop;
+    @BindView(R.id.commend)
+    RelativeLayout commend;
+    @BindView(R.id.tv_location)
+    TextView tvLocation;
 
     private List<BannerResponse.DataBean> mUrls = new ArrayList<>();
     private Context mContext;
@@ -164,16 +176,24 @@ public class HeaderView extends RelativeLayout {
         }
     }
 
-    @OnClick(R.id.imv_notice)
-    public void onViewClicked() {
-        MobclickAgent.onEvent(mContext, "message");
-        if (SharedPrefsUtil.getUserInfo() != null) {
-            Intent intent = new Intent(mContext, MyNoticeActivity.class);
-            mContext.startActivity(intent);
-        } else {
-            Intent intent1 = new Intent(mContext, LoginActivity.class);
-            mContext.startActivity(intent1);
-        }
 
+    @OnClick({R.id.imv_notice, R.id.found_more})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.imv_notice:
+                MobclickAgent.onEvent(mContext, "message");
+                if (SharedPrefsUtil.getUserInfo() != null) {
+                    Intent intent = new Intent(mContext, MyNoticeActivity.class);
+                    mContext.startActivity(intent);
+                } else {
+                    Intent intent1 = new Intent(mContext, LoginActivity.class);
+                    mContext.startActivity(intent1);
+                }
+                break;
+            case R.id.found_more:
+                Intent intent1 = new Intent(mContext, FoundShopListActivity.class);
+                mContext.startActivity(intent1);
+                break;
+        }
     }
 }
