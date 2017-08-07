@@ -74,9 +74,10 @@ public class ScanWinportAdapter extends PullBaseAdapter<ScanShopList.DataBeanX.D
         }
         //
         final ScanShopList.DataBeanX.DataBean item = baseData.get(position);
-        holder.address.setText(item.address + item.rentTypeName);
+        holder.address.setText(item.title);
         holder.district.setText(item.districtName + " " + item.blockName);
-        holder.area.setText(UnitUtil.formatArea(item.area) + "㎡");
+//        holder.area.setText(UnitUtil.formatArea(item.area) + "㎡");
+        holder.area.setVisibility(View.GONE);
         if (!TextUtils.isEmpty(item.updateTime)) {
             holder.releaseTime.setText(item.updateTime + "更新");
             holder.releaseTime.setVisibility(View.VISIBLE);
@@ -123,8 +124,8 @@ public class ScanWinportAdapter extends PullBaseAdapter<ScanShopList.DataBeanX.D
 
         }
         holder.distance.setText("距您" + (item.distance <= 0.0f ? "0" : item.distance) + "km");
-        holder.scan.setText(item.visitCount + "");
-        holder.call.setText(item.contactCount + "");
+//        holder.scan.setText(item.visitCount + "");
+//        holder.call.setText(item.contactCount + "");
         Batman.getInstance().fromNet(item.coverImg, holder.img);
         setTag(holder, item);
         convertView.setOnLongClickListener(new View.OnLongClickListener() {

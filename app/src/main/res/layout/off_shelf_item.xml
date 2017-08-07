@@ -7,7 +7,7 @@
     <TextView
         android:id="@+id/reason"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="36dp"
         android:drawableRight="@drawable/selector_off_shelf"
         android:gravity="center_vertical"
         android:text="旺铺已出租"

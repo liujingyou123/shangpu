@@ -23,7 +23,6 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.account.LoginActivity;
-import com.finance.winport.account.OffLineActivity;
 import com.finance.winport.account.event.LoginEvent;
 import com.finance.winport.account.event.LoginOutEvent;
 import com.finance.winport.account.model.UserInfo;
@@ -31,10 +30,12 @@ import com.finance.winport.aliyunoss.AliOss;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.dialog.LoadingDialog;
+import com.finance.winport.dialog.OffShelfDialog;
 import com.finance.winport.image.Batman;
 import com.finance.winport.image.BatmanCallBack;
 import com.finance.winport.mine.MyNoticeActivity;
 import com.finance.winport.mine.MyScheduleListActivity;
+import com.finance.winport.mine.PersonalInfoActivity;
 import com.finance.winport.mine.SettingsActivity;
 import com.finance.winport.mine.ShopFocusActivity;
 import com.finance.winport.mine.SuggestActivity;
@@ -45,6 +46,7 @@ import com.finance.winport.permission.PermissionsManager;
 import com.finance.winport.permission.PermissionsResultAction;
 import com.finance.winport.tab.event.SelectImageEvent;
 import com.finance.winport.tab.model.Lunar;
+import com.finance.winport.tab.model.NameValue;
 import com.finance.winport.tab.model.UnReadMsg;
 import com.finance.winport.tab.model.WinportCounts;
 import com.finance.winport.tab.net.NetworkCallback;
@@ -84,7 +86,6 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class MineFragment extends BaseFragment implements IPersonalInfoView {
-    private static final int REQUEST_CODE_HEAD = 10;
     @BindView(R.id.mine_winport)
     StopWatchTextView mineWinport;
     @BindView(R.id.mine_appoint)
@@ -107,8 +108,6 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     TextView mineSchedule;
     @BindView(R.id.hot_line)
     TextView hotLine;
-    private int type;//image type
-    private List<String> mSelected;
     @BindView(R.id.tv_focus_right)
     ImageView ivFocusRight;
     @BindView(R.id.tv_focus_house)
@@ -123,12 +122,11 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     RelativeLayout setting;
     @BindView(R.id.phone)
     TextView phone;
-    @BindView(R.id.concern)
-    TextView concern;
+    @BindView(R.id.personal_sign)
+    TextView personalSign;
     Unbinder unbinder;
     private PersonalInfoPresenter mPresenter;
     private ArrayList<Integer> selectList = new ArrayList<>();
-    private String industryName, blockName, districtName, industryId, blockId, districtId, cityName;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -140,13 +138,6 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-    }
-
-    @Subscribe
-    public void onSelectEvent(SelectImageEvent event) {
-        if (event != null) {
-            selectImage(REQUEST_CODE_HEAD);
-        }
     }
 
     @Subscribe
@@ -197,11 +188,12 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
                 phone.setText("");
             }
             setHeadImage(SharedPrefsUtil.getUserInfo().data.headPortrait);
+            modify.setVisibility(View.VISIBLE);
+            personalSign.setText("老板很懒，暂未设置签名");
             getData();
-            concern.setText("去设置关注的旺铺");
         } else {
             phone.setText("未登录");
-            concern.setText("点击登录帐号");
+            personalSign.setText("点击登录帐号");
             modify.setVisibility(View.GONE);
             shopImg.setImageResource(R.mipmap.icon_default_head);
             mineWinport.setText("--");
@@ -405,9 +397,9 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     }
 
 
-    @OnClick({R.id.tv_focus_right, R.id.modify, R.id.schedule_list, R.id.phone
-            , R.id.concern, R.id.shop_img, R.id.ll_mine_winport, R.id.ll_mine_collection
-            , R.id.ll_mine_appoint, R.id.ll_mine_scan, R.id.post, R.id.suggest})
+    @OnClick({R.id.tv_focus_right, R.id.schedule_list, R.id.info_layout
+            , R.id.ll_mine_winport, R.id.ll_mine_collection, R.id.ll_mine_appoint
+            , R.id.ll_mine_scan, R.id.post, R.id.suggest})
     public void onRequiredLoginClicked(View view) {
 //        if (!isLogin()) {// not login
 //            toLogin();
@@ -422,14 +414,6 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
                 }
                 startActivity(new Intent(getActivity(), MyNoticeActivity.class));
                 break;
-            case R.id.modify:
-                MobclickAgent.onEvent(context, "my_shopfollow");
-                if (!isLogin()) {// not login
-                    toLogin();
-                    return;
-                }
-                toConcern();
-                break;
             case R.id.schedule_list:
                 MobclickAgent.onEvent(context, "my_date");
                 if (!isLogin()) {// not login
@@ -438,26 +422,12 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
                 }
                 startActivity(new Intent(getActivity(), MyScheduleListActivity.class));
                 break;
-            case R.id.phone:
+            case R.id.info_layout:
                 if (!isLogin()) {// not login
                     toLogin();
                     return;
                 }
-                break;
-            case R.id.concern:
-                if (!isLogin()) {// not login
-                    toLogin();
-                    return;
-                }
-                toConcern();
-                break;
-            case R.id.shop_img:
-                MobclickAgent.onEvent(context, "my_head");
-                if (!isLogin()) {// not login
-                    toLogin();
-                    return;
-                }
-                scanHeadImage();
+                toPersonalInfo();
                 break;
             case R.id.ll_mine_winport:
                 MobclickAgent.onEvent(context, "my_shop");
@@ -536,102 +506,14 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
         }
     }
 
-    private void scanHeadImage() {
-        UserInfo info = SharedPrefsUtil.getUserInfo();
-        if (info != null && !TextUtils.isEmpty(info.data.headPortrait)) {
-            startActivity(new Intent(context, WinportActivity.class).putExtra("type", TypeList.SCAN_HEAD));
-        } else {
-            selectImage(REQUEST_CODE_HEAD);
-        }
-    }
-
-    String headImage = "headImg.jpg";
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //选择或拍照
-        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_HEAD) {
-            mSelected = PicturePickerUtils.obtainResult(getActivity().getContentResolver(), data);
-            if (mSelected != null && mSelected.size() > 0) {
-                if (requestCode == REQUEST_CODE_HEAD) {
-                    type = requestCode;
-                    Uri destinationUri = Uri.fromFile(new File(context.getCacheDir(), System.currentTimeMillis() + "_" + headImage));
-                    startCrop(PicturePickerUtils.obtainResult(data).get(0), destinationUri);
-                }
-            }
-
-        } else if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {//照片裁剪
-            final Uri resultUri = UCrop.getOutput(data);
-            if (resultUri == null) return;
-            final String path = resultUri.getPath();
-            if (TextUtils.isEmpty(path)) return;
-            upLoadImage(path);
-        } else if (resultCode == UCrop.RESULT_ERROR) {
-            final Throwable cropError = UCrop.getError(data);
-        }
-    }
-
     // 登录
     private void toLogin() {
         startActivity(new Intent(context, LoginActivity.class));
     }
 
-    // 关注的旺铺页面
-    private void toConcern() {
-        Intent intent = new Intent(getActivity(), ShopFocusActivity.class);
-        intent.putIntegerArrayListExtra("areaList", selectList);
-        intent.putExtra("industryName", industryName);
-        intent.putExtra("blockName", blockName);
-        intent.putExtra("districtName", districtName);
-        intent.putExtra("industryId", industryId);
-        intent.putExtra("districtId", districtId);
-        intent.putExtra("blockId", blockId);
-        intent.putExtra("cityName", cityName);
-        startActivity(intent);
-    }
-
-    LoadingDialog loading;
-
-    private void upLoadImage(final String path) {
-        if (loading == null) {
-            loading = new LoadingDialog(context);
-        }
-        new AsyncTask<String, Integer, String>() {
-            @Override
-            protected void onPreExecute() {
-                loading.show();
-            }
-
-            @Override
-            protected String doInBackground(String... params) {
-                return AliOss.getInstance().putObjectFromByteArray(AliOss.DIR_CUSTOMER, params[0]);
-            }
-
-            @Override
-            protected void onPostExecute(final String s) {
-                updateHeadInfo(path, s);
-            }
-        }.execute(path);
-    }
-
-    private void updateHeadInfo(final String path, final String headUrl) {
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("headPortrait", headUrl);
-        PersonManager.getInstance().updateHeadInfo(params, new NetworkCallback<BaseResponse>() {
-            @Override
-            public void success(BaseResponse response) {
-                if (getView() == null) return;
-                loading.dismiss();
-                saveHeadInfo(headUrl);
-                setHeadImage(path);
-            }
-
-            @Override
-            public void failure(Throwable throwable) {
-                if (getView() == null) return;
-                loading.dismiss();
-            }
-        });
+    // 个人信息
+    private void toPersonalInfo() {
+        startActivity(new Intent(context, PersonalInfoActivity.class));
     }
 
     private void saveHeadInfo(String headUrl) {
@@ -655,75 +537,9 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
         });
     }
 
-    private void selectImage(final int requestCode) {
-        String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission
-                .WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
-        PermissionsManager.getInstance().requestPermissionsIfNecessaryForResult(this, permissions,
-                new PermissionsResultAction() {
-                    @Override
-                    public void onGranted() {
-                        Picker.from(MineFragment.this)
-                                .count(1)
-                                .enableCamera(true)
-                                .setEngine(new GlideEngine())
-                                .forResult(requestCode);
-                    }
-
-                    @Override
-                    public void onDenied(String permission) {
-                    }
-
-
-                });
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        PermissionsManager.getInstance().notifyPermissionsChange(permissions,
-                grantResults);
-    }
-
-    //开启裁剪
-    private void startCrop(Uri sourceUri, Uri destinationUri) {
-        UCrop uCrop = UCrop.of(sourceUri, destinationUri);
-        if (type == REQUEST_CODE_HEAD) {
-            uCrop.withAspectRatio(1, 1);
-        } else {
-            uCrop.withAspectRatio(16, 9);
-        }
-        uCrop = advancedConfig(uCrop);
-        uCrop.start(context, this);
-    }
-
-    private UCrop advancedConfig(@NonNull UCrop uCrop) {
-        UCrop.Options options = new UCrop.Options();
-        options.setCompressionQuality(60);
-        options.setMaxScaleMultiplier(5);
-        options.setImageToCropBoundsAnimDuration(666);
-        options.setShowCropFrame(true);
-        options.setCropGridStrokeWidth(2);
-        options.setCropGridColumnCount(2);
-        options.setCropGridRowCount(1);
-        options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
-        // Color palette
-        options.setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary));
-        options.setStatusBarColor(ContextCompat.getColor(context, R.color.colorPrimary));
-        options.setActiveWidgetColor(ContextCompat.getColor(context, R.color.colorPrimary));
-        options.setToolbarWidgetColor(ContextCompat.getColor(context, R.color.white));
-        return uCrop.withOptions(options);
-    }
-
-
     @Override
     public void showPersonalInfo(PersonalInfoResponse response) {
         isDataOk = true;
-
-//        selectList.add(1);
-//        selectList.add(3);
-//        selectList.add(4);
-//        selectList.add(5);
-//        selectList.add(6);
         selectList = (ArrayList<Integer>) response.getData().getList();
         StringBuilder s = new StringBuilder();
         for (int i = 0; i < selectList.size(); i++) {
@@ -855,95 +671,95 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
             }
         }
         phone.setText(response.getData().getPhone());
-        industryName = response.getData().getIndustryName();
-        blockName = response.getData().getBlockName();
-        districtName = response.getData().getDistrictName();
-        industryId = response.getData().getIndustryId();
-        blockId = response.getData().getBlockId();
-        districtId = response.getData().getDistrictId();
-        cityName = response.getData().getCityName();
+//        industryName = response.getData().getIndustryName();
+//        blockName = response.getData().getBlockName();
+//        districtName = response.getData().getDistrictName();
+//        industryId = response.getData().getIndustryId();
+//        blockId = response.getData().getBlockId();
+//        districtId = response.getData().getDistrictId();
+//        cityName = response.getData().getCityName();
         String headPortrait = response.getData().getHeadPortrait();
         saveHeadInfo(headPortrait);
         setHeadImage(headPortrait);
-        if (TextUtils.isEmpty(response.getData().getBlockName())) {
-
-            if (TextUtils.isEmpty(response.getData().getDistrictName())) {
-
-                if (TextUtils.isEmpty(response.getData().getCityName())) {
-                    if (TextUtils.isEmpty(response.getData().getIndustryName())) {
-
-                        if (!TextUtils.isEmpty(s.toString())) {
-
-                            concern.setText("关注 " + s.toString() + " 的旺铺");
-                        }
-                    } else {
-
-                        if (TextUtils.isEmpty(s.toString())) {
-
-                            concern.setText("关注 " + response.getData().getIndustryName() + " 的旺铺");
-                        } else {
-
-                            concern.setText("关注 " + response.getData().getIndustryName() + "-" + s.toString() + " 的旺铺");
-                        }
-                    }
-                } else {
-
-                    if (TextUtils.isEmpty(response.getData().getIndustryName())) {
-
-                        if (!TextUtils.isEmpty(s.toString())) {
-
-                            concern.setText("关注 " + response.getData().getCityName() + "-" + s.toString() + " 的旺铺");
-                        } else {
-                            concern.setText("关注 " + response.getData().getCityName() + " 的旺铺");
-                        }
-                    } else {
-
-                        if (TextUtils.isEmpty(s.toString())) {
-
-                            concern.setText("关注 " + response.getData().getCityName() + "-" + response.getData().getIndustryName() + " 的旺铺");
-                        } else {
-
-                            concern.setText("关注 " + response.getData().getCityName() + "-" + response.getData().getIndustryName() + "-" + s.toString() + " 的旺铺");
-                        }
-                    }
-                }
-            } else {
-                if (TextUtils.isEmpty(response.getData().getIndustryName())) {
-
-                    if (!TextUtils.isEmpty(s.toString())) {
-
-                        concern.setText("关注 " + response.getData().getDistrictName() + "-" + s.toString() + " 的旺铺");
-                    } else {
-                        concern.setText("关注 " + response.getData().getDistrictName() + " 的旺铺");
-                    }
-                } else {
-
-                    if (TextUtils.isEmpty(s.toString())) {
-
-                        concern.setText("关注 " + response.getData().getDistrictName() + "-" + response.getData().getIndustryName() + " 的旺铺");
-                    } else {
-
-                        concern.setText("关注 " + response.getData().getDistrictName() + "-" + response.getData().getIndustryName() + "-" + s.toString() + " 的旺铺");
-                    }
-                }
-            }
-        } else if (TextUtils.isEmpty(response.getData().getIndustryName())) {
-            if (!TextUtils.isEmpty(s.toString())) {
-
-                concern.setText("关注 " + response.getData().getBlockName() + "-" + s.toString() + " 的旺铺");
-            } else {
-                concern.setText("关注 " + response.getData().getBlockName() + " 的旺铺");
-
-            }
-
-
-        } else if (!TextUtils.isEmpty(s.toString())) {
-
-            concern.setText("关注 " + response.getData().getBlockName() + "-" + response.getData().getIndustryName() + "-" + s.toString() + " 的旺铺");
-        } else {
-            concern.setText("关注 " + response.getData().getBlockName() + "-" + response.getData().getIndustryName() + " 的旺铺");
-
-        }
+//        if (TextUtils.isEmpty(response.getData().getBlockName())) {
+//
+//            if (TextUtils.isEmpty(response.getData().getDistrictName())) {
+//
+//                if (TextUtils.isEmpty(response.getData().getCityName())) {
+//                    if (TextUtils.isEmpty(response.getData().getIndustryName())) {
+//
+//                        if (!TextUtils.isEmpty(s.toString())) {
+//
+//                            personalSign.setText("关注 " + s.toString() + " 的旺铺");
+//                        }
+//                    } else {
+//
+//                        if (TextUtils.isEmpty(s.toString())) {
+//
+//                            personalSign.setText("关注 " + response.getData().getIndustryName() + " 的旺铺");
+//                        } else {
+//
+//                            personalSign.setText("关注 " + response.getData().getIndustryName() + "-" + s.toString() + " 的旺铺");
+//                        }
+//                    }
+//                } else {
+//
+//                    if (TextUtils.isEmpty(response.getData().getIndustryName())) {
+//
+//                        if (!TextUtils.isEmpty(s.toString())) {
+//
+//                            personalSign.setText("关注 " + response.getData().getCityName() + "-" + s.toString() + " 的旺铺");
+//                        } else {
+//                            personalSign.setText("关注 " + response.getData().getCityName() + " 的旺铺");
+//                        }
+//                    } else {
+//
+//                        if (TextUtils.isEmpty(s.toString())) {
+//
+//                            personalSign.setText("关注 " + response.getData().getCityName() + "-" + response.getData().getIndustryName() + " 的旺铺");
+//                        } else {
+//
+//                            personalSign.setText("关注 " + response.getData().getCityName() + "-" + response.getData().getIndustryName() + "-" + s.toString() + " 的旺铺");
+//                        }
+//                    }
+//                }
+//            } else {
+//                if (TextUtils.isEmpty(response.getData().getIndustryName())) {
+//
+//                    if (!TextUtils.isEmpty(s.toString())) {
+//
+//                        personalSign.setText("关注 " + response.getData().getDistrictName() + "-" + s.toString() + " 的旺铺");
+//                    } else {
+//                        personalSign.setText("关注 " + response.getData().getDistrictName() + " 的旺铺");
+//                    }
+//                } else {
+//
+//                    if (TextUtils.isEmpty(s.toString())) {
+//
+//                        personalSign.setText("关注 " + response.getData().getDistrictName() + "-" + response.getData().getIndustryName() + " 的旺铺");
+//                    } else {
+//
+//                        personalSign.setText("关注 " + response.getData().getDistrictName() + "-" + response.getData().getIndustryName() + "-" + s.toString() + " 的旺铺");
+//                    }
+//                }
+//            }
+//        } else if (TextUtils.isEmpty(response.getData().getIndustryName())) {
+//            if (!TextUtils.isEmpty(s.toString())) {
+//
+//                personalSign.setText("关注 " + response.getData().getBlockName() + "-" + s.toString() + " 的旺铺");
+//            } else {
+//                personalSign.setText("关注 " + response.getData().getBlockName() + " 的旺铺");
+//
+//            }
+//
+//
+//        } else if (!TextUtils.isEmpty(s.toString())) {
+//
+//            personalSign.setText("关注 " + response.getData().getBlockName() + "-" + response.getData().getIndustryName() + "-" + s.toString() + " 的旺铺");
+//        } else {
+//            personalSign.setText("关注 " + response.getData().getBlockName() + "-" + response.getData().getIndustryName() + " 的旺铺");
+//
+//        }
 
 
     }

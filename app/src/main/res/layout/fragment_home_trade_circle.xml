@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@drawable/bg_bottom_divider"
+        android:gravity="center"
+        android:text="生意圈"
+        android:textColor="#333333"
+        android:textSize="18sp" />
+
+    <com.finance.winport.view.refreshview.PtrFrameLayout
+        android:id="@+id/refresh_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title">
+
+        <ExpandableListView
+            android:id="@+id/mListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="@dimen/divider_height"
+            android:headerDividersEnabled="true"
+            android:groupIndicator="@null"
+            android:scrollbars="none" />
+    </com.finance.winport.view.refreshview.PtrFrameLayout>
+</RelativeLayout>

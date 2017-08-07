@@ -9,6 +9,6 @@ public enum TypeList {
     , COLLECTION // 收藏
     , SCAN // 最近浏览
     , RELEASE //我发布的
-    , OFF_SHELF // 下架
+    , OFF_SHELF_SUCCESS // 下架成功
     , SCAN_HEAD // 浏览头像
 }

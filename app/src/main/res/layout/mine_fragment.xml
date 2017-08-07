@@ -44,6 +44,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/info_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp">
@@ -71,7 +72,7 @@
                     android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/concern"
+                    android:id="@+id/personal_sign"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/shop_img"
@@ -79,7 +80,7 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginRight="30dp"
                     android:layout_toLeftOf="@+id/modify"
-                    android:hint="去设置关注的旺铺"
+                    android:hint="点击登录帐号"
                     android:singleLine="true"
                     android:textColor="#999999"
                     android:textColorHint="#999999"
@@ -90,152 +91,20 @@
                     android:layout_width="45dp"
                     android:layout_height="24dp"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
-                    android:layout_marginTop="30dp"
-                    android:background="@drawable/bg_mine_write"
+                    android:drawableRight="@mipmap/arrow"
                     android:gravity="center"
-                    android:text="更改"
+                    android:text=""
                     android:textColor="#ffffff"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    android:visibility="gone" />
             </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:background="#ffffff"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:id="@+id/ll_mine_winport"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <com.finance.winport.view.StopWatchTextView
-                    android:id="@+id/mine_winport"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center"
-                    android:includeFontPadding="false"
-                    android:text="--"
-                    android:textColor="#333333"
-                    android:textSize="25sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:includeFontPadding="false"
-                    android:text="我的旺铺"
-                    android:textColor="#999999"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_mine_appoint"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <com.finance.winport.view.StopWatchTextView
-                    android:id="@+id/mine_appoint"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center"
-                    android:includeFontPadding="false"
-                    android:text="--"
-                    android:textColor="#333333"
-                    android:textSize="25sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:includeFontPadding="false"
-                    android:text="我约看的"
-                    android:textColor="#999999"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_mine_collection"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <com.finance.winport.view.StopWatchTextView
-                    android:id="@+id/mine_collection"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center"
-                    android:includeFontPadding="false"
-                    android:text="--"
-                    android:textColor="#333333"
-                    android:textSize="25sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:includeFontPadding="false"
-                    android:text="我的收藏"
-                    android:textColor="#999999"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_mine_scan"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <com.finance.winport.view.StopWatchTextView
-                    android:id="@+id/mine_scan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center"
-                    android:includeFontPadding="false"
-                    android:text="--"
-                    android:textColor="#333333"
-                    android:textSize="25sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:includeFontPadding="false"
-                    android:text="最近浏览"
-                    android:textColor="#999999"
-                    android:textSize="12sp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
             android:layout_height="156dp"
-            android:layout_marginTop="10dp"
             android:background="#ffffff"
             android:orientation="vertical">
 
@@ -367,6 +236,139 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginTop="10dp"
+            android:background="#ffffff"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ll_mine_winport"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.finance.winport.view.StopWatchTextView
+                    android:id="@+id/mine_winport"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="--"
+                    android:textColor="#333333"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="我的旺铺"
+                    android:textColor="#999999"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_mine_appoint"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.finance.winport.view.StopWatchTextView
+                    android:id="@+id/mine_appoint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="--"
+                    android:textColor="#333333"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="我约看的"
+                    android:textColor="#999999"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_mine_collection"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.finance.winport.view.StopWatchTextView
+                    android:id="@+id/mine_collection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="--"
+                    android:textColor="#333333"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="我的收藏"
+                    android:textColor="#999999"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_mine_scan"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.finance.winport.view.StopWatchTextView
+                    android:id="@+id/mine_scan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="--"
+                    android:textColor="#333333"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="最近浏览"
+                    android:textColor="#999999"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="108dp"
             android:layout_marginTop="10dp"
             android:background="#ffffff"
@@ -386,7 +388,7 @@
                     android:drawableLeft="@mipmap/personal_icon_scedular"
                     android:drawablePadding="10dp"
                     android:gravity="center"
-                    android:text="我的日程"
+                    android:text="我的服务订单"
                     android:textColor="#333333"
                     android:textSize="14sp" />
 
@@ -402,7 +404,7 @@
                     android:gravity="center"
                     android:textColor="#999999"
                     android:textSize="13sp"
-                    tools:text="老板，未来您有5个安排" />
+                    tools:text="您有5个未完成的服务" />
 
             </RelativeLayout>
 
@@ -526,6 +528,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="54dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:background="#ffffff">
 
