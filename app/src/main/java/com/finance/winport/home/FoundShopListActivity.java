@@ -1,6 +1,9 @@
 package com.finance.winport.home;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -8,6 +11,7 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
+import com.finance.winport.home.adapter.FoundShopListAdapter;
 import com.finance.winport.service.adapter.LoanListAdapter;
 import com.finance.winport.service.model.LoanListResponse;
 import com.finance.winport.service.presenter.ILoanListView;
@@ -27,7 +31,7 @@ import butterknife.OnClick;
  * gejin
  */
 
-public class FoundShopListActivity extends BaseActivity implements ILoanListView{
+public class FoundShopListActivity extends BaseActivity{
 
     @BindView(R.id.imv_focus_house_back)
     ImageView imvFocusHouseBack;
@@ -43,9 +47,8 @@ public class FoundShopListActivity extends BaseActivity implements ILoanListView
     ImageView emptyTips;
     @BindView(R.id.empty)
     RelativeLayout empty;
-    private LoanListAdapter adapter;
+    private FoundShopListAdapter adapter;
 
-    private LoanListPresenter mPresenter;
 
     private int pageNum = 1;
 
@@ -62,20 +65,17 @@ public class FoundShopListActivity extends BaseActivity implements ILoanListView
     }
 
     private void getData() {
-        if (mPresenter == null) {
-            mPresenter = new LoanListPresenter(this);
-        }
-        mPresenter.getLoanList(pageNum);
+        setAdapter(null);
     }
 
 
     public void init(){
         tvFocusHouse.setText("发现旺铺");
-        refreshView.setMode(PtrFrameLayout.Mode.LOAD_MORE);
+        refreshView.setMode(PtrFrameLayout.Mode.BOTH);
         refreshView.setPtrHandler(new PtrDefaultHandler2() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-//                pageNumber = 1;
+                pageNum = 1;
 //                asyncData();
             }
 
@@ -85,12 +85,20 @@ public class FoundShopListActivity extends BaseActivity implements ILoanListView
                 getData();
             }
         });
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(FoundShopListActivity.this,FoundShopDetailActivity.class);
+                startActivity(intent);
+
+            }
+        });
     }
 
     private void setAdapter(LoanListResponse response) {
-        list.addAll(response.getData().getData());
+//        list.addAll(response.getData().getData());
         if (adapter == null) {
-            adapter = new LoanListAdapter(FoundShopListActivity.this,list);
+            adapter = new FoundShopListAdapter(FoundShopListActivity.this,list);
             mListView.setAdapter(adapter);
 //            totalPage = (int) Math.ceil(adapter.getTotalCount() / (float) LIMIT);
         } else {
@@ -108,10 +116,4 @@ public class FoundShopListActivity extends BaseActivity implements ILoanListView
         finish();
     }
 
-    @Override
-    public void shopLoanList(LoanListResponse response) {
-
-        refreshView.refreshComplete();
-        setAdapter(response);
-    }
 }

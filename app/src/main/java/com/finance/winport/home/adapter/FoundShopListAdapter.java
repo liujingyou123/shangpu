@@ -5,13 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.service.model.LoanListResponse;
 
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,12 +36,12 @@ public class FoundShopListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return baseData.size();
+        return 10;
     }
 
     @Override
     public Object getItem(int position) {
-        return baseData.get(position);
+        return null;
     }
 
     @Override
@@ -55,62 +54,27 @@ public class FoundShopListAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup viewGroup) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.loan_list_item, viewGroup, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.found_shop_list_item, viewGroup, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.loanMoneyValue.setText(baseData.get(position).getLoanLimit()+"万元");
-        holder.loanDeadlineValue.setText(baseData.get(position).getLoanMaturity()+"");
-        if(baseData.get(position).getStatus().equals("0")){
-
-            holder.status.setText(baseData.get(position).getApplyTime()+" | 待受理");
-        }else if(baseData.get(position).getStatus().equals("1")){
-            holder.status.setText(baseData.get(position).getApplyTime()+" | 已申请");
-
-        }
 
         return convertView;
 
 
     }
 
-    private void readMessage(int messageId, final int position) {
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("messId", messageId);
-//        ServiceExecutor.readMessage(params, new ResultCallBack<Response>() {
-//            @Override
-//            public void onSuccess(Response response) {
-////                setCheckPosition(position);
-//                EventBusManager.post(new NoticeRefreshEvent(true));
-//            }
-//
-//            @Override
-//            public void onFailure(String errorMsg) {
-//            }
-//        });
-    }
-
 
     static class ViewHolder {
-
-
-        @BindView(R.id.loan_money)
-        TextView loanMoney;
-        @BindView(R.id.loan_money_value)
-        TextView loanMoneyValue;
-        @BindView(R.id.loan_deadline)
-        TextView loanDeadline;
-        @BindView(R.id.loan_deadline_value)
-        TextView loanDeadlineValue;
-        @BindView(R.id.center)
-        RelativeLayout center;
-        @BindView(R.id.bottom_divider)
-        View bottomDivider;
-        @BindView(R.id.status)
-        TextView status;
+        @BindView(R.id.img_shop)
+        ImageView imgShop;
+        @BindView(R.id.time)
+        TextView time;
+        @BindView(R.id.title)
+        TextView title;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

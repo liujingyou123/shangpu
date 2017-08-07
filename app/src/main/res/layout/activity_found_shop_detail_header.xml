@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="165dp">
+
+        <ImageView
+            android:id="@+id/img_shop"
+            android:layout_width="match_parent"
+            android:layout_height="165dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/default_image_logo"/>
+
+        <!--<ImageView-->
+            <!--android:id="@+id/back"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_marginLeft="17dp"-->
+            <!--android:scaleType="centerInside"-->
+            <!--android:src="@mipmap/icon_white_back"/>-->
+
+        <!--<ImageView-->
+            <!--android:id="@+id/share"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="18dp"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_marginRight="15dp"-->
+            <!--android:scaleType="centerInside"-->
+            <!--android:src="@mipmap/icon_share_white"/>-->
+    </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="手把手教你如何选择开店地址"
+        android:textColor="#333333"
+        android:textSize="20sp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2小时前"
+        android:textColor="#3f3f3f"
+        android:textSize="12sp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="15dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="18dp"
+        android:background="#e5e5e5"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"/>
+
+    <RelativeLayout
+        android:id="@+id/commend"
+        android:layout_below="@+id/find_shop"
+        android:layout_width="match_parent"
+        android:layout_height="54dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="18dp"
+            android:drawableLeft="@mipmap/personal_icon_scedular"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:text="为你推荐"
+            android:textColor="#333333"
+            android:textSize="14sp" />
+
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#e5e5e5"/>
+
+</LinearLayout>
