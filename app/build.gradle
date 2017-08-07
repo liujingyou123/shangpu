@@ -134,7 +134,7 @@ dependencies {
     compile 'com.yalantis:ucrop:2.2.0'
     compile 'cn.aigestudio.wheelpicker:WheelPicker:1.1.2'
     compile 'com.hwangjr.rxbus:rxbus:1.0.5'
-    compile 'com.android.support:multidex:+'
+    compile 'com.android.support:multidex:1.0.1'
     compile 'jp.wasabeef:glide-transformations:2.0.2'
     compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
     compile 'com.yayandroid:Rotatable:1.1.1'
