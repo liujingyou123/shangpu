@@ -1,6 +1,7 @@
 package com.finance.winport.trade.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.image.Batman;
+import com.finance.winport.trade.TradeHeadActivity;
 import com.finance.winport.trade.model.TradeCanon;
 import com.finance.winport.trade.model.TradeCommunity;
 import com.finance.winport.trade.model.TradeHead;
@@ -114,7 +116,7 @@ public class HomeTradeCircleAdapter extends BaseExpandableListAdapter {
             public void onClick(View v) {
                 switch (groupPosition) {
                     case 0://行业头条
-
+                        context.startActivity(new Intent(context, TradeHeadActivity.class));
                         break;
                     case 1://生意宝典
 

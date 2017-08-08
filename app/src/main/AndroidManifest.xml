@@ -439,7 +439,9 @@
 
         <!-- JPush end -->
         <activity android:name=".mine.PersonalInfoActivity" />
-        <activity android:name=".mine.InfoModifyActivity"></activity>
+        <activity android:name=".mine.InfoModifyActivity" />
+        <activity android:name=".trade.TradeHeadActivity" />
+        <activity android:name=".trade.InformationActivity"></activity>
     </application>
 
 </manifest>
