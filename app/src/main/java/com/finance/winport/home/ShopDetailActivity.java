@@ -46,6 +46,7 @@ import com.finance.winport.map.PoiSearchRoundActivity;
 import com.finance.winport.permission.PermissionsManager;
 import com.finance.winport.permission.PermissionsResultAction;
 import com.finance.winport.util.H5Util;
+import com.finance.winport.util.LoadingDialogUtil;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.ToastUtil;
@@ -406,6 +407,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             case R.id.imv_focus_house_back:
             case R.id.imv_back:
             case R.id.tv_goback:
+                LoadingDialogUtil.getInstance().hideLoading();
                 finish();
                 break;
             case R.id.tv_share:
