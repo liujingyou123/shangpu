@@ -14,6 +14,7 @@ import com.finance.winport.base.BaseResponse;
 import com.finance.winport.dialog.ScrollSelectDialog;
 import com.finance.winport.home.api.HomeServices;
 import com.finance.winport.home.model.RegionResponse;
+import com.finance.winport.mine.adapter.AreaTagAdapter;
 import com.finance.winport.mine.adapter.TagAdapter;
 import com.finance.winport.mine.adapter.TagItem;
 import com.finance.winport.mine.model.CommitFocusRequest;
@@ -24,7 +25,6 @@ import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.SpUtil;
 import com.finance.winport.util.ToolsUtil;
-import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.tagview.TagCloudLayout;
 import com.umeng.analytics.MobclickAgent;
 
@@ -55,8 +55,11 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
     RelativeLayout selectArea;
     @BindView(R.id.district)
     TextView district;
+    @BindView(R.id.block_tag)
+    TagCloudLayout blockTag;
 
     private TagAdapter tagAdapter;
+    private AreaTagAdapter blockTagAdapter;
     private TagAdapter industryTagAdapter;//经营业态
 
     private ShopFocusPresenter mPresenter;
@@ -67,7 +70,7 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
     private List<Integer> list1 = new ArrayList<>();
 
     //    private ArrayList<Integer> selectList = new ArrayList<>();
-    private String industryName, blockName,districtName,industryId,districtId,blockId,cityName;
+    private String industryName, blockName, districtName, industryId, districtId, blockId, cityName;
     private HashMap<String, List<String>> hashMap = new HashMap<>();
     private HashMap<String, List<RegionResponse.Region.Block>> hashMapBlock = new HashMap<>();
     ScrollSelectDialog scrollDialog;
@@ -97,7 +100,7 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
         mPresenter.clear();
     }
 
-    private void commit(){
+    private void commit() {
         CommitFocusRequest request = new CommitFocusRequest();
         request.setList(list1);
         request.setBlockId(blockId);
@@ -116,6 +119,7 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
 
     private void setTagList() {
 
+        tvFocusHouse.setText("旺铺关注设置");
         industryName = getIntent().getStringExtra("industryName");
         blockName = getIntent().getStringExtra("blockName");
         districtName = getIntent().getStringExtra("districtName");
@@ -126,21 +130,21 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
         list1 = getIntent().getIntegerArrayListExtra("areaList");
         StringBuilder s = new StringBuilder();
         List<String> content = new ArrayList<>();
-        if(!TextUtils.isEmpty(blockName)){
+        if (!TextUtils.isEmpty(blockName)) {
 
             content.add(blockName);
-        }else if(!TextUtils.isEmpty(districtName)){
+        } else if (!TextUtils.isEmpty(districtName)) {
 
             content.add(districtName);
-        }else if(!TextUtils.isEmpty(cityName)){
+        } else if (!TextUtils.isEmpty(cityName)) {
 
             content.add(cityName);
         }
-        if(!TextUtils.isEmpty(industryName)){
+        if (!TextUtils.isEmpty(industryName)) {
 
             content.add(industryName);
         }
-        if(list1!=null){
+        if (list1 != null) {
 
             for (int i = 0; i < list1.size(); i++) {
 
@@ -169,47 +173,56 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
                 }
             }
 
-        }
-        else {
+        } else {
             list1 = new ArrayList<>();
         }
 
         for (int i = 0; i < content.size(); i++) {
-            if(i==0){
+            if (i == 0) {
 
                 s.append(content.get(i));
-            }else if(i==2||i==5){
-                s.append("-" + content.get(i)+ "\n");
-            }else {
+            } else if (i == 2 || i == 5) {
+                s.append("-" + content.get(i) + "\n");
+            } else {
                 s.append("-" + content.get(i));
             }
         }
-        if(!TextUtils.isEmpty(blockName)&&!TextUtils.isEmpty(districtName)){
+        if (!TextUtils.isEmpty(blockName) && !TextUtils.isEmpty(districtName)) {
 
-            district.setText(districtName+"-"+blockName);
-        }
+            district.setText(districtName + "-" + blockName);
+        } else if (TextUtils.isEmpty(blockName)) {
+            if (TextUtils.isEmpty(districtName)) {
+                if (TextUtils.isEmpty(cityName)) {
 
-        else if(TextUtils.isEmpty(blockName)){
-            if(TextUtils.isEmpty(districtName)){
-                if(TextUtils.isEmpty(cityName)){
-
-                }
-                else{
+                } else {
                     district.setText(cityName);
                 }
-            }else{
-                district.setText(districtName+"-全部");
+            } else {
+                district.setText(districtName + "-全部");
             }
         }
 
         focusContent.setText(s.toString());
-        if(s.toString().length()>0){
+        if (s.toString().length() > 0) {
 
             focusContent.setTextColor(Color.parseColor("#ffa73b"));
         }
 
 
 //        focusContent.setText("江湾镇-餐饮类-20~50㎡\n500~1000㎡");
+
+        List<String> blockTagList = new ArrayList<>();
+        blockTagList.add("五角场");
+        blockTagList.add("五角场");
+        blockTagList.add("");
+
+        if (blockTagAdapter == null) {
+            blockTagAdapter = new AreaTagAdapter(context, blockTagList);
+            blockTag.setAdapter(blockTagAdapter);
+        } else {
+            blockTagAdapter.update(blockTagList);
+        }
+
 
         List<TagItem> arealist = new ArrayList<>();
         String[] textColor = {"#646464", "#ff7725"};
@@ -346,13 +359,13 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
 
                     try {
 
-                        if(TextUtils.isEmpty(data)){
+                        if (TextUtils.isEmpty(data)) {
                             return;
                         }
 
                         districtName = data.split("-")[0];
                         blockName = data.split("-")[1];
-                        if(districtName.equals("全部")){
+                        if (districtName.equals("全部")) {
 
                             district.setText("上海市");
                             districtName = null;
@@ -364,15 +377,15 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
                         }
 
                         district.setText(data);
-                        for (int i = 1; i <list.size() ; i++) {
+                        for (int i = 1; i < list.size(); i++) {
 
 
-                            if(districtName.equals(regionList.get(i-1).getRegionName())){
-                                districtId = regionList.get(i-1).getRegionId();
+                            if (districtName.equals(regionList.get(i - 1).getRegionName())) {
+                                districtId = regionList.get(i - 1).getRegionId();
                             }
                         }
 
-                        if(blockName.equals("全部")){
+                        if (blockName.equals("全部")) {
 
                             blockName = null;
                             blockId = null;
@@ -380,15 +393,14 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
                         }
                         List<RegionResponse.Region.Block> blockList = new ArrayList<>();
                         blockList = hashMapBlock.get(districtName);
-                        for (int j = 1; j <blockList.size() ; j++) {
-                            if(blockName.equals(blockList.get(j-1).getBlockName())){
-                                blockId = blockList.get(j-1).getBlockId();
+                        for (int j = 1; j < blockList.size(); j++) {
+                            if (blockName.equals(blockList.get(j - 1).getBlockName())) {
+                                blockId = blockList.get(j - 1).getBlockId();
                             }
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
-
 
 
                 }
@@ -437,7 +449,7 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
 
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getTagId().equals(industryId)) {
-                industryTagAdapter.setSingleItemSelect(i);
+                industryTagAdapter.setMultiItemSelect(list.get(i), true);
             }
         }
 
@@ -449,12 +461,12 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
                                          if (item != null) {
                                              if (!item.isSelected()) {// 未选择状态
 
-                                                 industryTagAdapter.setSingleItemSelect(position);
+                                                 industryTagAdapter.setMultiItemSelect(item, true);
                                                  industryName = item.getTagName();
                                                  industryId = item.getTagId();
 
                                              } else {//已选择状态
-                                                 industryTagAdapter.setSingleItemUnSelect(position);
+                                                 industryTagAdapter.setMultiItemSelect(item, false);
                                                  industryId = "";
                                                  industryName = "";
                                              }
@@ -495,10 +507,10 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
                             list1.add(response.getData().get(i).getBlockList().get(j).getBlockName());
                         }
                         hashMap.put(response.getData().get(i).getRegionName(), list1);
-                        hashMapBlock.put(response.getData().get(i).getRegionName(),response.getData().get(i).getBlockList());
+                        hashMapBlock.put(response.getData().get(i).getRegionName(), response.getData().get(i).getBlockList());
                     }
 
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 

@@ -274,6 +274,12 @@
             android:name=".home.FoundShopDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <!-- 发现旺铺详情 -->
+        <activity
+            android:name=".mine.MyServiceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
 
         <!-- H5 -->
         <activity
