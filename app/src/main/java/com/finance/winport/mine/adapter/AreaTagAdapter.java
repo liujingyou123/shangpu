@@ -65,7 +65,7 @@ public class AreaTagAdapter extends BaseAdapter {
 
 
     @Override
-    public View getView(int position, View convertView, ViewGroup viewGroup) {
+    public View getView(final int position, View convertView, ViewGroup viewGroup) {
         ViewHolder holder;
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.area_tag_item, viewGroup, false);
@@ -86,6 +86,14 @@ public class AreaTagAdapter extends BaseAdapter {
 
                 holder.tag.setText(list.get(position));
             }
+
+            holder.imvDel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    list.remove(position);
+                    update(list);
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }

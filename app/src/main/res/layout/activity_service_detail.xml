@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/bg">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/send_bg" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imv_focus_house_back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:scaleType="centerInside"
+                android:src="@mipmap/icon_white_back" />
+
+
+            <TextView
+                android:id="@+id/tv_focus_right"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:gravity="center_vertical"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_focus_house"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:singleLine="true"
+                android:textColor="#ffffff"
+                android:text="日程详情"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="134dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="40dp"
+            android:background="#ffffff"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/shop_img"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/icon_default_head" />
+
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="26dp"
+                    android:layout_toRightOf="@+id/shop_img"
+                    android:text="服务受理中"
+                    android:textColor="#5e5ce5"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/status"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="11dp"
+                    android:layout_toRightOf="@+id/shop_img"
+                    android:text="本次服务由小二 赵清清 为您服务"
+                    android:textColor="#999999"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="15dp"
+                android:background="#e5e5e5" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+
+
+
+                <TextView
+                    android:id="@+id/cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="撤销服务"
+                    android:textColor="#333333"
+                    android:textSize="15sp" />
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="14dp"
+                    android:layout_gravity="center"
+                    android:background="#e5e5e5" />
+
+                <TextView
+                    android:id="@+id/service_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawableLeft="@mipmap/phone_schedule"
+                    android:drawablePadding="11dp"
+                    android:text="联系小二"
+                    android:gravity="center_vertical"
+                    android:textColor="#333333"
+                    android:paddingLeft="47dp"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:background="#ffffff">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_centerVertical="true"
+                    android:text="服务类别"
+                    android:textSize="14sp"
+                    android:textColor="#333333"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/service_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_centerVertical="true"
+                    tools:text="旺铺寻租"
+                    android:textSize="14sp"
+                    android:textColor="#999999"
+                    android:gravity="center" />
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#e5e5e5"
+                android:layout_marginLeft="15dp"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_centerVertical="true"
+                    android:text="申请时间"
+                    android:textSize="14sp"
+                    android:textColor="#333333"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/apply_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_centerVertical="true"
+                    tools:text="2017/02/03   13:30:56"
+                    android:textSize="14sp"
+                    android:textColor="#999999"
+                    android:gravity="center" />
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#e5e5e5"
+                android:layout_marginLeft="15dp"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_centerVertical="true"
+                    android:text="旺铺地址"
+                    android:textSize="14sp"
+                    android:textColor="#333333"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_centerVertical="true"
+                    tools:text="徐汇区徐虹北路11号1-1室"
+                    android:textSize="14sp"
+                    android:textColor="#999999"
+                    android:gravity="center" />
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#e5e5e5"
+                android:layout_marginLeft="15dp"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_centerVertical="true"
+                    android:text="联系人"
+                    android:textSize="14sp"
+                    android:textColor="#333333"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/contact_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_centerVertical="true"
+                    tools:text="130 2324 0800"
+                    android:textSize="14sp"
+                    android:textColor="#999999"
+                    android:gravity="center" />
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#e5e5e5"
+                android:layout_marginLeft="15dp"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_centerVertical="true"
+                    android:text="联系电话"
+                    android:textSize="14sp"
+                    android:textColor="#333333"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_centerVertical="true"
+                    tools:text="130 2324 0800"
+                    android:textSize="14sp"
+                    android:textColor="#999999"
+                    android:gravity="center" />
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#e5e5e5"
+                android:layout_marginLeft="15dp"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_centerVertical="true"
+                    android:text="约见时间"
+                    android:textSize="14sp"
+                    android:textColor="#333333"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/order_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_centerVertical="true"
+                    tools:text="2017/02/02   14:00"
+                    android:textSize="14sp"
+                    android:textColor="#999999"
+                    android:gravity="center" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+
+
+        <TextView
+            android:id="@+id/btn_done"
+            style="@style/btn_done"
+            android:visibility="gone"
+            android:layout_marginTop="30dp"
+            android:text="确认小二已完成服务" />
+    </LinearLayout>
+</FrameLayout>

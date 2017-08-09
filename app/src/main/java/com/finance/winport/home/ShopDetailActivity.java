@@ -60,6 +60,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.utils.Log;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
@@ -654,7 +655,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         mShopDetail = shopDetail;
         ShopDetail.DataBean data = shopDetail.getData();
         tvName.setText("由 小二 " + data.getClerkName() + " 于" + data.getIssueShopTime() + " 核实发布");
-        tvShopAddress.setText(" 　 " + data.getDistrictName() + data.getBlockName() + data.getAddress());
+        tvShopAddress.setText(" 　   " + data.getDistrictName() + data.getBlockName() + data.getAddress());
         tvScan.setText(data.getVisitCount() + "浏览");
         tvLianxi.setText(data.getContactCount() + "联系");
 
@@ -950,7 +951,9 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 if (data.getImageList().get(i).getIsCover() == 1) {
                     coverImg = data.getImageList().get(i).getImgUrl();
                 }
-                list.add(data.getImageList().get(i).getImgUrl());
+//                list.add(data.getImageList().get(i).getImgUrl());
+                Log.i("aliyun图片路径",data.getImageList().get(i).getImgUrl());
+                list.add(data.getImageList().get(i).getImgUrl()+"?x-oss-process=image/resize,m_lfit,w_300,limit_0/auto-orient,0/quality,q_100/watermark,image_bGFiZWwvV2VjaGF0SU1HMzMucG5nP3gtb3NzLXByb2Nlc3M9aW1hZ2UvcmVzaXplLHBfNzAvYnJpZ2h0LDAvY29udHJhc3QsMA,t_100,g_se,y_30,x_30");
             }
             showBaner(list);
         }

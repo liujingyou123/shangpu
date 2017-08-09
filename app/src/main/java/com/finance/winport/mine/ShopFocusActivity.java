@@ -76,6 +76,7 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
     ScrollSelectDialog scrollDialog;
     List<String> list = new ArrayList<String>();
     List<RegionResponse.Region> regionList = new ArrayList<>();
+    List<String> blockTagList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,9 +212,7 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
 
 //        focusContent.setText("江湾镇-餐饮类-20~50㎡\n500~1000㎡");
 
-        List<String> blockTagList = new ArrayList<>();
-        blockTagList.add("五角场");
-        blockTagList.add("五角场");
+
         blockTagList.add("");
 
         if (blockTagAdapter == null) {
@@ -223,6 +222,14 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
             blockTagAdapter.update(blockTagList);
         }
 
+        blockTag.setItemClickListener(new TagCloudLayout.TagItemClickListener() {
+            @Override
+            public void itemClick(int position) {
+                if(position == blockTagList.size()-1){
+                    showLouCeng();
+                }
+            }
+        });
 
         List<TagItem> arealist = new ArrayList<>();
         String[] textColor = {"#646464", "#ff7725"};
@@ -365,6 +372,8 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
 
                         districtName = data.split("-")[0];
                         blockName = data.split("-")[1];
+                        blockTagList.add(0,blockName);
+                        blockTagAdapter.update(blockTagList);
                         if (districtName.equals("全部")) {
 
                             district.setText("上海市");
@@ -494,15 +503,15 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
 
                 try {
                     regionList = response.getData();
-                    list.add("全部");
-                    List<String> addList = new ArrayList<String>();
-                    addList.add("全部");
-                    hashMap.put("全部", addList);
+//                    list.add("全部");
+//                    List<String> addList = new ArrayList<String>();
+//                    addList.add("全部");
+//                    hashMap.put("全部", addList);
                     for (int i = 0; i < response.getData().size(); i++) {
                         List<String> list1 = new ArrayList<String>();
                         list.add(response.getData().get(i).getRegionName());
 
-                        list1.add("全部");
+//                        list1.add("全部");
                         for (int j = 0; j < response.getData().get(i).getBlockList().size(); j++) {
                             list1.add(response.getData().get(i).getBlockList().get(j).getBlockName());
                         }

@@ -172,9 +172,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="9dp"
                     android:background="#ffffff"
-                    android:padding="15dp"
+                    android:paddingTop="8dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:paddingBottom="15dp"
                     app:lineSpacing="10dp"
-                    app:tagSpacing="10dp" />
+                    app:tagSpacing="3dp" />
 
                 <TextView
                     android:layout_width="match_parent"
