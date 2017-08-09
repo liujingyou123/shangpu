@@ -100,6 +100,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public void onPause() {
         super.onPause();
+        LoadingDialogUtil.getInstance().hideLoading();
         MobclickAgent.onPageEnd(getClass().getSimpleName());
         MobclickAgent.onPause(this);
     }
