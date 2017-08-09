@@ -17,10 +17,8 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.dialog.NoticeDelDialog;
-import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.image.Batman;
 import com.finance.winport.trade.model.MyTopicResponse;
-import com.finance.winport.trade.model.Trade;
 import com.finance.winport.trade.presenter.TradeCirclePresenter;
 import com.finance.winport.util.UnitUtil;
 import com.umeng.analytics.MobclickAgent;

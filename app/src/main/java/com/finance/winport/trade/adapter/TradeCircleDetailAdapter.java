@@ -15,14 +15,13 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.dialog.NoticeDelDialog;
-import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.home.H5Activity;
 import com.finance.winport.image.Batman;
-import com.finance.winport.log.XLog;
 import com.finance.winport.trade.model.CommentResponse;
 import com.finance.winport.trade.model.TradeDetailResponse;
 import com.finance.winport.trade.presenter.TradeCircleDetailPresener;
 import com.finance.winport.util.UnitUtil;
+import com.finance.winport.view.HtmlTextView;
 import com.finance.winport.view.imagepreview.ImagePreviewActivity;
 import com.umeng.analytics.MobclickAgent;
 
@@ -55,7 +54,8 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
     public void setTraddeDetail(TradeDetailResponse.DataBean data) {
         if (data != null) {
             mData.setPraiseNumber(data.getPraiseNumber());
-            mData.setAttentionContent(data.getAttentionContent());
+            mData.setSignature(TextUtils.isEmpty(data.getSignature()) ? "老板很懒，暂未设置签名" : data.getSignature());
+            mData.setNickName(/*data.getNickName()*/"稻草人Kevin");
             mData.setCanBeDelete(data.getCanBeDelete());
             mData.setCommentNumber(data.getCommentNumber());
             mData.setContent(data.getContent());
@@ -64,7 +64,6 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
             mData.setHeadPicture(data.getHeadPicture());
             mData.setImgList(data.getImgList());
             mData.setLikeStatus(data.getLikeStatus());
-            mData.setPhone(data.getPhone());
             mData.setPublishType(data.getPublishType());
             mData.setTitle(data.getTitle());
         }
@@ -74,7 +73,7 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
 
     public void setComments(List<CommentResponse.DataBean.Comment> comments) {
         mComments.clear();
-        if (comments == null || comments.size() ==0) {
+        if (comments == null || comments.size() == 0) {
             mComments.add(null);
         } else {
             mComments.addAll(comments);
@@ -108,7 +107,8 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_HEADER) {
             return new HeaderViewHolder(layoutInflater.inflate(R.layout.work_communit_detail_list_header, parent, false));
-        } if (viewType == TYPE_EMPTY) {
+        }
+        if (viewType == TYPE_EMPTY) {
             return new EmptyViewHolder(layoutInflater.inflate(R.layout.work_communit_detail_list_item_empty, parent, false));
         } else {
             return new ItemViewHolder(layoutInflater.inflate(R.layout.work_communit_detail_list_item, parent, false));
@@ -121,20 +121,20 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         if (holder instanceof HeaderViewHolder) {
             HeaderViewHolder viewHolder = (HeaderViewHolder) holder;
             if (mData != null) {
-                viewHolder.tvHeaderPhone.setText(mData.getPhone());
-                String str = mData.getAttentionContent();
+                viewHolder.tvHeaderPhone.setText(mData.getNickName());
+                String str = mData.getSignature();
                 if (TextUtils.isEmpty(str)) {
                     str = "";
                 }
                 viewHolder.tvHeaderMsg.setText(str);
                 Batman.getInstance().getImageWithCircle(mData.getHeadPicture(), viewHolder.ivHeaderIcon, R.mipmap.default_user_small, R.mipmap.default_user_small);
                 viewHolder.tvHeaderTime.setText(mData.getDateTime());
-                viewHolder.tvTitle.setText(mData.getTitle());
+                viewHolder.title.setText(mData.getTitle());
 
                 if ("1".equals(mData.getKind())) {
-                    viewHolder.imvFire.setVisibility(View.VISIBLE);
+//                    viewHolder.imvFire.setVisibility(View.VISIBLE);
                 } else {
-                    viewHolder.imvFire.setVisibility(View.GONE);
+//                    viewHolder.imvFire.setVisibility(View.GONE);
                 }
 
                 if (mData != null && mData.getImgList() != null && mData.getImgList().size() > 0) {
@@ -145,10 +145,10 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
                 }
 
                 if (!TextUtils.isEmpty(mData.getContent())) {
-                    viewHolder.tvSub.setVisibility(View.VISIBLE);
-                    viewHolder.tvSub.setText(mData.getContent());
+                    viewHolder.content.setVisibility(View.VISIBLE);
+                    viewHolder.content.setHtml(mData.getContent());
                 } else {
-                    viewHolder.tvSub.setVisibility(View.GONE);
+                    viewHolder.content.setVisibility(View.GONE);
                 }
                 if (mData.getH5obj() != null) {
                     viewHolder.rlHref.setVisibility(View.VISIBLE);
@@ -203,11 +203,17 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
             } else {
                 viewHolder.imvDel.setVisibility(View.GONE);
             }
-            viewHolder.tvPhone.setText(info.getPhone());
+            viewHolder.tvPhone.setText(info.getSignature());
             viewHolder.tvTime.setText(info.getDateTime() + "评论");
             viewHolder.tvComment.setText(info.getContent());
             Batman.getInstance().getImageWithCircle(info.getHeadPicture(), viewHolder.ivIcon, R.mipmap.default_user_small, R.mipmap.default_user_small);
 
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPresenter.showCommentDialog(getItem(position).getCommentatorId() + "", getItem(position).getNickName());
+                }
+            });
         }
     }
 
@@ -271,7 +277,7 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         for (int j = 0; j < imageSize; j++) {
             String url = imageUrls.get(j).getImgUrl();
             urls.add(url);
-            ImageView imageView = getView(url);
+            ImageView imageView = getView(url, j);
             final int finalJ = j;
             imageView.setOnClickListener(new View.OnClickListener() {
                 int index = finalJ;
@@ -289,7 +295,7 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         }
     }
 
-    private ImageView getView(String url) {
+    private ImageView getView(String url, int position) {
 
         ImageView imageView = new ImageView(mContext);
 
@@ -298,7 +304,11 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         GridLayout.Spec columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1.0f);
 
         GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams(rowSpec, columnSpec);
-        layoutParams.setMargins(6, 6, 6, 6);
+        layoutParams.width = 0;
+        int m = UnitUtil.dip2px(mContext, 7.5f);
+        int left = position % 3 == 0 ? 0 : m;
+        int top = position / 3 == 0 ? 0 : m;
+        layoutParams.setMargins(left, top, 0, 0);
         imageView.setLayoutParams(layoutParams);
         imageView.setBackgroundResource(R.drawable.default_image_logo);
         return imageView;
@@ -342,10 +352,8 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         TextView tvHeaderMsg;
         @BindView(R.id.tv_header_time)
         TextView tvHeaderTime;
-        @BindView(R.id.tv_title)
-        TextView tvTitle;
-        @BindView(R.id.tv_sub)
-        TextView tvSub;
+        @BindView(R.id.title)
+        TextView title;
         @BindView(R.id.imv_href)
         ImageView imvHref;
         @BindView(R.id.tv_href_title)
@@ -358,8 +366,10 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         GridLayout glImages;
         @BindView(R.id.imv_del)
         ImageView imvDel;
-        @BindView(R.id.imv_fire)
-        ImageView imvFire;
+        @BindView(R.id.content)
+        HtmlTextView content;
+        @BindView(R.id.img_layout)
+        LinearLayout imgLayout;
 
         public HeaderViewHolder(View itemView) {
             super(itemView);

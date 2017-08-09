@@ -90,6 +90,10 @@ public class CommentDialog extends BottomDialog {
         et.setText("");
     }
 
+    public void setHint(String hint) {
+        et.setHint(hint);
+    }
+
     public String getContent() {
         return et.getText().toString();
     }

@@ -10,22 +10,22 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#66000000"
-        android:visibility="gone">
+        android:gravity="center"
+        android:visibility="invisible">
 
         <TextView
             android:id="@+id/count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:drawableLeft="@mipmap/icon_image"
             android:drawablePadding="6dp"
             android:textColor="#ffffff"
             android:textSize="13sp"
             tools:text="15" />
-    </FrameLayout>
+    </LinearLayout>
 </FrameLayout>

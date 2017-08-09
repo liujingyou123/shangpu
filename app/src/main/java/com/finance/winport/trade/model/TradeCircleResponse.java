@@ -80,7 +80,7 @@ public class TradeCircleResponse extends BaseResponse{
              * url : www.baidu.com
              */
 
-            private List<Trade> data;
+            private List<TradeTopic> data;
 
             public int getPageNumber() {
                 return pageNumber;
@@ -130,11 +130,11 @@ public class TradeCircleResponse extends BaseResponse{
                 this.totalSize = totalSize;
             }
 
-            public List<Trade> getData() {
+            public List<TradeTopic> getData() {
                 return data;
             }
 
-            public void setData(List<Trade> data) {
+            public void setData(List<TradeTopic> data) {
                 this.data = data;
             }
 

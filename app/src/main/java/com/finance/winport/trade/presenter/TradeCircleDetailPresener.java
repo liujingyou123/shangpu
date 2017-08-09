@@ -1,5 +1,7 @@
 package com.finance.winport.trade.presenter;
 
+import android.text.TextUtils;
+
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.net.LoadingNetSubscriber;
 import com.finance.winport.net.NetSubscriber;
@@ -92,11 +94,17 @@ public class TradeCircleDetailPresener {
      * 评论
      *
      * @param topicId
+     * @param commentId
      * @param content
      */
-    public void commentTopic(String topicId, String content) {
+    public void commentTopic(String topicId, String commentId, String content) {
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("topicId", topicId);
+        if (!TextUtils.isEmpty(topicId)) {
+            hashMap.put("topicId", topicId);
+        }
+        if (!TextUtils.isEmpty(commentId)) {
+            hashMap.put("commentId", commentId);
+        }
         hashMap.put("content", content);
         ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).commentTopic(hashMap), new LoadingNetSubscriber<BaseResponse>() {
             @Override
@@ -216,5 +224,11 @@ public class TradeCircleDetailPresener {
                 super.onError(e);
             }
         });
+    }
+
+    public void showCommentDialog(String commentId, String commentator) {
+        if (mITradeDetailView != null) {
+            mITradeDetailView.showCommentDialog(commentId, commentator);
+        }
     }
 }

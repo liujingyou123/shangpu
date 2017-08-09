@@ -1,26 +1,32 @@
 package com.finance.winport.trade.model;
 
+import com.finance.winport.base.BaseResponse;
+
 import java.util.List;
 
 /**
  * Created by liuworkmac on 17/5/10.
  */
 
-public class Trade {
+public class TradeTopic extends BaseResponse {
 
-    private int commentNumber;
-    private String content;
-    private String dateTime;
-    private String likeStatus;
-    private int praiseNumber;
-    private String title;
-    private int topicId;
-    private String publishType;
-    private String url;
-    private List<imgBean> imgList;
-    private Href h5obj;
-    private String kind;
-    private String canBeDelete;
+    public String publisherId;
+    public String nickName;
+    public String signature;
+    public String headPicture;
+    public int commentNumber;
+    public String content;
+    public String dateTime;
+    public String likeStatus;
+    public int praiseNumber;
+    public String title;
+    public int topicId;
+    public String publishType;
+    public String url;
+    public List<imgBean> imgList;
+    public Href h5obj;
+    public String kind;
+    public String canBeDelete;
 
     public String getPublishType() {
         return publishType;
@@ -126,10 +132,42 @@ public class Trade {
         this.h5obj = h5obj;
     }
 
+    public String getPublisherId() {
+        return publisherId;
+    }
+
+    public void setPublisherId(String publisherId) {
+        this.publisherId = publisherId;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
+    public String getHeadPicture() {
+        return headPicture;
+    }
+
+    public void setHeadPicture(String headPicture) {
+        this.headPicture = headPicture;
+    }
+
     public static class imgBean {
-        private String topicId;
-        private String imgUrl;
-        private String imgIndex;
+        public String topicId;
+        public String imgUrl;
+        public String imgIndex;
 
         public String getTopicId() {
             return topicId;
@@ -157,10 +195,10 @@ public class Trade {
     }
 
     public static class Href {
-        private String title;
-        private String imageUrl;
-        private String content;
-        private String url;
+        public String title;
+        public String imageUrl;
+        public String content;
+        public String url;
 
         public String getTitle() {
             return title;
@@ -200,7 +238,7 @@ public class Trade {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Trade trade = (Trade) o;
+        TradeTopic trade = (TradeTopic) o;
 
         return topicId == trade.topicId;
 

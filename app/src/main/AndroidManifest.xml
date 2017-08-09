@@ -263,17 +263,17 @@
         <activity
             android:name=".map.PoiSearchRoundActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <!-- 发现旺铺列表 -->
         <activity
             android:name=".home.FoundShopListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <!-- 发现旺铺详情 -->
         <activity
             android:name=".home.FoundShopDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- H5 -->
         <activity
@@ -435,7 +435,9 @@
         <activity android:name=".mine.PersonalInfoActivity" />
         <activity android:name=".mine.InfoModifyActivity" />
         <activity android:name=".trade.TradeHeadActivity" />
-        <activity android:name=".trade.InformationActivity"></activity>
+        <activity android:name=".trade.InfoListActivity" />
+        <activity android:name=".trade.InfoDetailsActivity" />
+        <activity android:name=".trade.PostInfoActivity"></activity>
     </application>
 
 </manifest>

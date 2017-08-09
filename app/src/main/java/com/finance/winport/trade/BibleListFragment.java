@@ -11,9 +11,8 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
-import com.finance.winport.trade.adapter.NewsListAdapter;
-import com.finance.winport.trade.model.TradeHead;
-import com.finance.winport.trade.model.TradeTag;
+import com.finance.winport.trade.adapter.BibleListAdapter;
+import com.finance.winport.trade.model.TradeBible;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
@@ -27,9 +26,9 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
- * 资讯列表...
+ * 宝典列表...
  */
-public class NewsListFragment extends BaseFragment {
+public class BibleListFragment extends BaseFragment {
 
 
     @BindView(R.id.mListView)
@@ -85,33 +84,22 @@ public class NewsListFragment extends BaseFragment {
             }
         });
         mListView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        NewsListAdapter adapter = new NewsListAdapter(refreshView, getHeadData(), 0);
+        BibleListAdapter adapter = new BibleListAdapter(refreshView, getData(), 0);
         mListView.setAdapter(adapter);
-    }
-
-    private List<TradeTag.Tag> getHeadInfo() {
-        List<TradeTag.Tag> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            TradeTag.Tag tag = new TradeTag.Tag();
-            tag.tagName = title;
-            list.add(tag);
-        }
-        return list;
     }
 
     String img = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1501843518220&di=0306ae6f9c5434136495d0c45e016b2a&imgtype=0&src=http%3A%2F%2Fpic23.photophoto.cn%2F20120530%2F0020033092420808_b.jpg";
 
-    private List<TradeHead> getHeadData() {
-        List<TradeHead> list = new ArrayList<>();
+    private List<TradeBible> getData() {
+        List<TradeBible> list = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
-            TradeHead item = new TradeHead();
+            TradeBible item = new TradeBible();
             item.title = i == 0 ? "上海喜茶又搞事情，因黄牛得罪外卖小哥外卖小哥" : "这家店火得一发不可收拾";
-            item.kind = /*i == 0 ? true :*/ false;
             item.image = img;
             item.content = title;
+            item.source = "新浪网";
             item.dateTime = "2017-07-17";
             item.viewCount = "10000";
-            item.source = "今日头条";
             list.add(item);
         }
         return list;

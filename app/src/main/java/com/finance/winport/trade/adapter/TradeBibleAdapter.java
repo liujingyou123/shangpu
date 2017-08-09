@@ -15,10 +15,9 @@ import com.finance.winport.R;
 import com.finance.winport.image.Batman;
 import com.finance.winport.trade.InfoListActivity;
 import com.finance.winport.trade.TradeType;
-import com.finance.winport.trade.model.TradeHead;
+import com.finance.winport.trade.model.TradeBible;
 import com.finance.winport.trade.model.TradeTag;
 import com.finance.winport.util.UnitUtil;
-import com.finance.winport.view.DrawableTopLeftTextView;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 
 import java.util.List;
@@ -30,11 +29,11 @@ import butterknife.ButterKnife;
  * Created by xzw on 2017/8/7.
  */
 
-public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeHead> {
+public class TradeBibleAdapter extends PullRecyclerBaseAdapter<TradeBible> {
     LayoutInflater inflater;
     List<TradeTag.Tag> headerInfo;
 
-    public TradeHeadAdapter(PtrClassicFrameLayout baseView, List<TradeHead> baseData, int maxTotal) {
+    public TradeBibleAdapter(PtrClassicFrameLayout baseView, List<TradeBible> baseData, int maxTotal) {
         super(baseView, baseData, maxTotal);
         inflater = LayoutInflater.from(context);
     }
@@ -63,7 +62,7 @@ public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeHead> {
             holder = new HeaderViewHolder(v);
             ((HeaderViewHolder) holder).header.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         } else {
-            View v = inflater.inflate(R.layout.trade_item_child_head, parent, false);
+            View v = inflater.inflate(R.layout.trade_item_child_bible, parent, false);
             holder = new ViewHolder(v);
         }
         return holder;
@@ -77,18 +76,12 @@ public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeHead> {
             }
         } else {
             if (baseData == null) return;
-            TradeHead item = (TradeHead) getItem(position);
+            TradeBible item = (TradeBible) getItem(position);
             ViewHolder holder = (ViewHolder) viewHolder;
-            holder.title.setText(item.title);
-            holder.type.setText(item.content);
-            holder.from.setText(item.source);
+            holder.desc.setText(item.title);
+            holder.tip.setText(item.content);
             holder.date.setText(item.dateTime);
             holder.scanCount.setText(item.viewCount + "浏览");
-            if (item.kind) {
-                holder.title.setDrawable(R.mipmap.label_top);
-            } else {
-                holder.title.setDrawable(0);
-            }
             Batman.getInstance().fromNet(item.image, holder.img);
             if (position > 1) {
                 holder.itemView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_top_divider_inset_left));
@@ -126,12 +119,10 @@ public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeHead> {
     static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.img)
         ImageView img;
-        @BindView(R.id.title)
-        DrawableTopLeftTextView title;
-        @BindView(R.id.type)
-        TextView type;
-        @BindView(R.id.from)
-        TextView from;
+        @BindView(R.id.content)
+        TextView desc;
+        @BindView(R.id.tip)
+        TextView tip;
         @BindView(R.id.date)
         TextView date;
         @BindView(R.id.scan_count)
@@ -155,7 +146,7 @@ public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeHead> {
         }
 
         @Override
-        public HeaderAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = inflater.inflate(R.layout.head_header_item_layout, parent, false);
             return new ViewHolder(v);
         }
@@ -178,7 +169,7 @@ public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeHead> {
                 public void onClick(View v) {
                     context.startActivity(new Intent(context, InfoListActivity.class)
                             .putExtra("id", item.tagId).putExtra("title", item.tagName)
-                            .putExtra("type", TradeType.HEAD_LIST));
+                            .putExtra("type", TradeType.BIBLE_LIST));
                 }
             });
         }

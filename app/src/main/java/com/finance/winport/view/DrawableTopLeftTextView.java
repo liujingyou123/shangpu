@@ -31,6 +31,25 @@ public class DrawableTopLeftTextView extends android.support.v7.widget.AppCompat
         super(context, attrs, defStyleAttr);
     }
 
+    @Override
+    protected void onDraw(Canvas canvas) {
+        Drawable[] drawables = getCompoundDrawables();
+        if (drawables != null) {
+            Drawable drawableLeft = drawables[0];
+            if (drawableLeft != null) {
+                Paint.FontMetricsInt fontMetricsInt = getPaint().getFontMetricsInt();
+                Rect bounds = new Rect();
+                getPaint().getTextBounds((String) getText(), 0, length(), bounds);
+//                int textVerticalSpace = (getHeight() - (fontMetricsInt.descent - fontMetricsInt.ascent)) / 2;
+                int textVerticalSpace = Math.round(bounds.top - fontMetricsInt.top);
+                int offset = (getHeight() - drawableLeft.getIntrinsicHeight()) / 2 - textVerticalSpace - getPaddingTop() / 2;
+                Rect drawableBounds = drawableLeft.getBounds();
+                drawableLeft.setBounds(0, -offset, drawableLeft.getIntrinsicWidth(), drawableLeft.getIntrinsicHeight() - offset);
+            }
+        }
+        super.onDraw(canvas);
+    }
+
     public void setDrawable(int id) {
         Drawable d = null;
         try {
@@ -39,7 +58,7 @@ public class DrawableTopLeftTextView extends android.support.v7.widget.AppCompat
             e.printStackTrace();
         }
         if (d != null) {
-            final SpannableString ss = new SpannableString("img" + getText().toString());
+            final SpannableString ss = new SpannableString("img  " + getText().toString());
             d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
             ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_BASELINE);
             ss.setSpan(span, 0, "img".length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
