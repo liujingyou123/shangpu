@@ -174,12 +174,13 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="18dp"
-                android:drawableLeft="@mipmap/personal_icon_scedular"
+                android:drawableLeft="@drawable/vertical_line"
                 android:drawablePadding="10dp"
                 android:gravity="center"
                 android:text="发现旺铺"
+                android:textStyle="bold"
                 android:textColor="#333333"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/mine_schedule"
@@ -192,8 +193,8 @@
                 android:drawableRight="@mipmap/arrow"
                 android:gravity="center"
                 android:textColor="#ffa73b"
-                android:textSize="13sp"
-                tools:text="更多" />
+                android:textSize="14sp"
+                android:text="更多" />
 
         </RelativeLayout>
         <View
@@ -210,7 +211,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="130dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingRight="15dp">
 
                 <RelativeLayout
                     android:layout_width="200dp"
@@ -297,12 +299,13 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="18dp"
-            android:drawableLeft="@mipmap/personal_icon_scedular"
+            android:drawableLeft="@drawable/vertical_line"
             android:drawablePadding="10dp"
             android:gravity="center"
             android:text="为你推荐"
             android:textColor="#333333"
-            android:textSize="14sp" />
+            android:textSize="16sp"
+            android:textStyle="bold"/>
 
 
     </RelativeLayout>

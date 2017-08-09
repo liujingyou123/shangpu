@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
+import com.finance.winport.trade.SlidingTabPagerAdapter;
+import com.finance.winport.util.SlidingTagPagerItem;
 import com.finance.winport.view.SlidingTabLayout;
 
 import java.util.ArrayList;
@@ -30,7 +32,7 @@ public class MyServiceActivity extends BaseActivity {
     @BindView(R.id.id_view_pager)
     ViewPager idViewPager;
     /*每个 tab 的 item*/
-    private List<MyServicePageItem> mTab = new ArrayList<>();
+    private List<SlidingTagPagerItem> mTab = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,11 +49,11 @@ public class MyServiceActivity extends BaseActivity {
 
     private void initView() {
         String housePrice = getIntent().getStringExtra("housePrice");
-        tvFocusHouse.setText("房贷计算器");
-        mTab.add(new MyServicePageItem("公积金贷款", "1"));
-        mTab.add(new MyServicePageItem("商业贷款", "2"));
-        mTab.add(new MyServicePageItem("组合贷款", "3"));
-//        idViewPager.setAdapter(new SlidingTabPagerAdapter(getSupportFragmentManager(), mTab));
+        tvFocusHouse.setText("我的服务订单");
+        mTab.add(new MyServicePageItem("受理中", "1"));
+        mTab.add(new MyServicePageItem("已完成", "2"));
+        mTab.add(new MyServicePageItem("已失效", "3"));
+        idViewPager.setAdapter(new SlidingTabPagerAdapter(getSupportFragmentManager(), mTab));
         idTab.setViewPager(idViewPager);
         if (!TextUtils.isEmpty(housePrice)) {
             idViewPager.setCurrentItem(1);

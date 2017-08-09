@@ -5,7 +5,12 @@ package com.finance.winport.home.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +23,6 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.image.Batman;
-import com.finance.winport.log.XLog;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.tagview.TagCloudLayout;
@@ -70,7 +74,7 @@ public class ShopsAdapter extends BaseAdapter {
     public int getItemType(int position) {
         int ret = 0;
         if (mData != null && mData.size() > position) {
-            if (mData.get(position) == null&&position==0) {
+            if (mData.get(position) == null && position == 0) {
                 ret = 1;
             } else if (mData.size() < 8) {
                 ShopListResponse.DataBean.Shop shop = mData.get(position);
@@ -98,6 +102,14 @@ public class ShopsAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
+
+
+        SpannableString builder = new SpannableString("找不到符合当前筛选条件的旺铺\n更改“位置”或“筛选”条件试试");
+        ForegroundColorSpan redSpan = new ForegroundColorSpan(Color.parseColor("#999999"));
+        builder.setSpan(redSpan, builder.length() - 15, builder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        builder.setSpan(new AbsoluteSizeSpan((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, mContext.getResources().getDisplayMetrics())), builder.length() - 15, builder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        viewHolder.tip.setText(builder);
         if (mData != null && i < mData.size()) {
             ShopListResponse.DataBean.Shop ret = mData.get(i);
             int type = getItemType(i);
@@ -120,11 +132,11 @@ public class ShopsAdapter extends BaseAdapter {
                     viewHolder.tvAddress.setText(ret.getDistrictName() + " " + ret.getBlockName());
                     viewHolder.tvArea.setText(UnitUtil.formatDNum(ret.getArea()) + "㎡");
                     viewHolder.tvAverMoney.setText(UnitUtil.limitNum(ret.getRent(), 99999) + "/月");
-                    if(TextUtils.isEmpty(ret.getDistance()) || "null".equals(ret.getDistance())){
+                    if (TextUtils.isEmpty(ret.getDistance()) || "null".equals(ret.getDistance())) {
                         viewHolder.tvDistance.setText("");
-                    }else{
+                    } else {
 
-                        viewHolder.tvDistance.setText("距您" + UnitUtil.formatSNum(ret.getDistance())+"km");
+                        viewHolder.tvDistance.setText("距您" + UnitUtil.formatSNum(ret.getDistance()) + "km");
                     }
                     viewHolder.tvChangeMoney.setTextColor(Color.parseColor("#999999"));
                     if (ret.getIsFace() == 1) {
@@ -157,12 +169,12 @@ public class ShopsAdapter extends BaseAdapter {
             }
 
 
-
         }
 
 
         return view;
     }
+
 
 
     static class ViewHolder {
@@ -198,9 +210,12 @@ public class ShopsAdapter extends BaseAdapter {
         View viewTrans;
         @BindView(R.id.rl_tianchong)
         RelativeLayout rlTianchong;
+        @BindView(R.id.tip)
+        TextView tip;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
     }
+
 }

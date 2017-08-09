@@ -140,5 +140,5 @@
         android:layout_gravity="right|bottom"
         android:layout_marginBottom="105dp"
         android:layout_marginRight="3dp"
-        android:background="@mipmap/map_btn_list" />
+        android:background="@drawable/src_map_list" />
 </FrameLayout>

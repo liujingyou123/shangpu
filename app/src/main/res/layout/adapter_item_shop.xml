@@ -40,6 +40,7 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="5dp"
                     android:text="0"
+                    android:visibility="gone"
                     android:textColor="#FFFFFFFF"
                     android:textSize="11sp" />
 
@@ -53,6 +54,7 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="5dp"
                     android:text="0"
+                    android:visibility="gone"
                     android:textColor="#FFFFFFFF"
                     android:textSize="11sp" />
             </LinearLayout>
@@ -192,15 +194,40 @@
         android:layout_height="wrap_content"
         android:background="#ffffff">
         <TextView
+            android:id="@+id/tip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="32dp"
-            android:text="对不起，没有找到您想要的店铺！"
+            android:text="找不到符合当前筛选条件的旺铺\n更改“位置”或“筛选”条件试试"
             android:drawableLeft="@mipmap/bg_screening"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:drawablePadding="15dp"
+            android:layout_marginTop="32dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_below="@+id/tip"
             android:layout_marginTop="32dp"
-            android:layout_marginBottom="32dp"/>
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="145dp"
+                android:layout_height="0.5dp"
+                android:background="#e5e5e5"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="更多旺铺"
+                android:textColor="#FF999999"
+                android:textSize="12sp"/>
+            <View
+                android:layout_width="145dp"
+                android:layout_height="0.5dp"
+                android:background="#e5e5e5"/>
+        </LinearLayout>
     </RelativeLayout>
 
 </RelativeLayout>

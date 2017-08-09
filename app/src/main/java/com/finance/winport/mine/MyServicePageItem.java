@@ -17,13 +17,9 @@ public class MyServicePageItem extends SlidingTagPagerItem {
     }
     @Override
     public Fragment createFragment() {
-        TradeCircleListFragment fragment = null;
-        if ("0".equals(getMsg())) {
-            fragment = new TradeCircleListFragment();
-        } else if ("1".equals(getMsg())) {
-            fragment = new TradeCircleListFragment();
-        }
+        MyServiceListFragment fragment = null;
 
+        fragment = new MyServiceListFragment();
         Bundle bundle = new Bundle();
         bundle.putString("type", getMsg());
         fragment.setArguments(bundle);
