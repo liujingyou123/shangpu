@@ -197,39 +197,12 @@ public class TradeCircleAdapter extends BaseAdapter {
 
     private void startScaleAnim(View target) {
         AnimatorSet animatorSet = new AnimatorSet();//组合动画
-        final AnimatorSet animatorSet1 = new AnimatorSet();//组合动画
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(target, "scaleX", 1.0f, 1.5f);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(target, "scaleY", 1.0f, 1.5f);
-        ObjectAnimator scaleX1 = ObjectAnimator.ofFloat(target, "scaleX", 1.5f, 1.0f);
-        ObjectAnimator scaleY1 = ObjectAnimator.ofFloat(target, "scaleY", 1.5f, 1.0f);
-        animatorSet.setDuration(400);
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(target, "scaleX", 1.0f, 1.5f, 1.0f);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(target, "scaleY", 1.0f, 1.5f, 1.0f);
+        animatorSet.setDuration(600);
         animatorSet.setInterpolator(new DecelerateInterpolator());
         animatorSet.play(scaleX).with(scaleY);//两个动画同时开始
         animatorSet.start();
-        animatorSet1.setDuration(400);
-        animatorSet1.setInterpolator(new DecelerateInterpolator());
-        animatorSet1.play(scaleX1).with(scaleY1);//两个动画同时开始
-        animatorSet.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                animatorSet1.start();
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
     }
 
     private void setGridLayout(ViewHolder viewHolder, List<TradeTopic.imgBean> imageUrls) {

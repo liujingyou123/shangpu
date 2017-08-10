@@ -209,7 +209,7 @@
                     android:layout_below="@+id/grid_bottom"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="78dp"
-                    android:src="@mipmap/btn_colse" />
+                    android:src="@drawable/btn_close" />
             </RelativeLayout>
         </LinearLayout>
     </FrameLayout>
