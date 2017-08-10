@@ -10,6 +10,8 @@ import com.finance.winport.trade.model.TradeDetailResponse;
 public interface ITradeDetailView {
     void showTradeDetail(TradeDetailResponse response);
 
+    void showCommentDialog(String commentId, String commentator);
+
     void zanTopic(boolean isSuccess, String topId);
 
     void cancelTopic(boolean isSuccess, String topId);
@@ -21,6 +23,7 @@ public interface ITradeDetailView {
     void deleteComment(boolean isSuccess, String topId, String commentId);
 
     void showComments(CommentResponse response);
+
     void showCommentsMore(CommentResponse response);
 
     void showError(TradeDetailResponse response);

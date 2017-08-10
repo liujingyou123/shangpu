@@ -17,6 +17,7 @@
             android:id="@+id/headImg"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:scaleType="centerCrop"
             android:src="@color/bg"
             app:oval="true" />
 
@@ -49,19 +50,21 @@
     </RelativeLayout>
 
 
-    <TextView
+    <com.finance.winport.view.DrawableTopLeftTextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/top"
+        android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
-        android:singleLine="true"
+        android:drawablePadding="10dp"
+        android:singleLine="false"
         android:textColor="#333333"
         android:textSize="16sp"
         tools:text="魔都最火的10间商铺" />
 
-    <TextView
-        android:id="@+id/desc"
+    <com.finance.winport.view.HtmlTextView
+        android:id="@+id/content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
@@ -73,19 +76,64 @@
         tools:text="金铺多成立于2017年4月，是金铺多集团旗下的国内首家专业商业地产网站，专注于商业地产信息服是金铺多集团旗下的国内首家专业商业地产网站，专注于商业地产信息服" />
 
     <LinearLayout
-        android:id="@+id/gridImage"
+        android:id="@+id/img_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/desc"
+        android:layout_below="@+id/content"
         android:layout_marginBottom="15dp"
-        android:orientation="horizontal"
-        android:visibility="gone" />
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_href"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:background="#FFF2F2F2"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/imv_href"
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="7.5dp" />
+
+            <TextView
+                android:id="@+id/tv_href_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="18dp"
+                android:layout_toRightOf="@id/imv_href"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="#FF333333"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_href_sub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/tv_href_title"
+                android:layout_below="@id/tv_href_title"
+                android:layout_marginTop="8dp"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="#FF999999"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.GridLayout
+            android:id="@+id/glImages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"></android.support.v7.widget.GridLayout>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/release_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/gridImage"
+        android:layout_below="@+id/img_layout"
         android:singleLine="true"
         android:textColor="#333333"
         android:textSize="16sp"
@@ -97,7 +145,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/release_time"
         android:layout_toLeftOf="@+id/divider"
-        android:drawableLeft="@mipmap/business_icon_praise"
+        android:drawableLeft="@drawable/selector_list_praise"
         android:drawablePadding="10dp"
         android:singleLine="true"
         android:textColor="#999999"

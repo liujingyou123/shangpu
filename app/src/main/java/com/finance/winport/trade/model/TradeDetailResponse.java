@@ -36,7 +36,7 @@ public class TradeDetailResponse extends BaseResponse {
     }
 
     public static class DataBean {
-        private String attentionContent;
+//        private String attentionContent;
         private int commentNumber;
         private String content;
         private String dateTime;
@@ -45,7 +45,8 @@ public class TradeDetailResponse extends BaseResponse {
         private int publishType;
         private String title;
         private H5Object h5obj;
-        private String phone;
+        private String nickName;
+        private String signature;
         private String headPicture;
         private String canBeDelete;
         private String kind;
@@ -68,13 +69,13 @@ public class TradeDetailResponse extends BaseResponse {
 
         private ArrayList<Img> imgList;
 
-        public String getAttentionContent() {
-            return attentionContent;
-        }
-
-        public void setAttentionContent(String attentionContent) {
-            this.attentionContent = attentionContent;
-        }
+//        public String getAttentionContent() {
+//            return attentionContent;
+//        }
+//
+//        public void setAttentionContent(String attentionContent) {
+//            this.attentionContent = attentionContent;
+//        }
 
         public int getCommentNumber() {
             return commentNumber;
@@ -140,14 +141,6 @@ public class TradeDetailResponse extends BaseResponse {
             this.headPicture = headPicture;
         }
 
-//        public List<Comment> getCommentList() {
-//            return commentList;
-//        }
-//
-//        public void setCommentList(List<Comment> commentList) {
-//            this.commentList = commentList;
-//        }
-
         public ArrayList<Img> getImgList() {
             return imgList;
         }
@@ -164,12 +157,20 @@ public class TradeDetailResponse extends BaseResponse {
             this.h5obj = h5obj;
         }
 
-        public String getPhone() {
-            return phone;
+        public String getNickName() {
+            return nickName;
         }
 
-        public void setPhone(String phone) {
-            this.phone = phone;
+        public void setNickName(String nickName) {
+            this.nickName = nickName;
+        }
+
+        public String getSignature() {
+            return signature;
+        }
+
+        public void setSignature(String signature) {
+            this.signature = signature;
         }
 
         public String getCanBeDelete() {

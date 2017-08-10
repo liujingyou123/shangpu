@@ -3,13 +3,18 @@ package com.finance.winport.trade.adapter;
  * Created by liuworkmac on 17/5/10.
  */
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.widget.GridLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,13 +24,14 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.account.LoginActivity;
 import com.finance.winport.dialog.NoticeDelDialog;
-import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.home.H5Activity;
 import com.finance.winport.image.Batman;
-import com.finance.winport.trade.model.Trade;
+import com.finance.winport.image.BatmanCallBack;
+import com.finance.winport.trade.model.TradeTopic;
 import com.finance.winport.trade.presenter.TradeCirclePresenter;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.UnitUtil;
+import com.finance.winport.view.roundview.RoundedImageView;
 
 import java.util.List;
 
@@ -35,10 +41,10 @@ import butterknife.ButterKnife;
 
 public class TradeCircleAdapter extends BaseAdapter {
     private Context mContext;
-    private List<Trade> mData;
+    private List<TradeTopic> mData;
     private TradeCirclePresenter mPresenter;
 
-    public TradeCircleAdapter(Context mContext, List<Trade> mData, TradeCirclePresenter presenter) {
+    public TradeCircleAdapter(Context mContext, List<TradeTopic> mData, TradeCirclePresenter presenter) {
         this.mContext = mContext;
         this.mData = mData;
         this.mPresenter = presenter;
@@ -54,8 +60,8 @@ public class TradeCircleAdapter extends BaseAdapter {
     }
 
     @Override
-    public Trade getItem(int i) {
-        Trade ret = null;
+    public TradeTopic getItem(int i) {
+        TradeTopic ret = null;
         if (mData != null) {
             ret = mData.get(i);
         }
@@ -69,42 +75,53 @@ public class TradeCircleAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
-        ViewHolder viewHolder;
+        final ViewHolder viewHolder;
         if (view == null) {
-            view = LayoutInflater.from(mContext).inflate(R.layout.adapter_item_trade, null);
+            view = LayoutInflater.from(mContext).inflate(R.layout.trade_item_child_community, null);
             viewHolder = new ViewHolder(view);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        final Trade trade = mData.get(i);
+        final TradeTopic trade = mData.get(i);
         if (trade != null) {
-            viewHolder.tvTitle.setText(trade.getTitle());
-            viewHolder.tvTime.setText(trade.getDateTime());
-            viewHolder.tvZan.setText(trade.getPraiseNumber() + "");
+            viewHolder.name.setText(trade.nickName);
+            viewHolder.workType.setText(trade.signature);
+            Batman.getInstance().fromNet(trade.headPicture, new BatmanCallBack() {
+                @Override
+                public void onSuccess(Bitmap bitmap) {
+                    viewHolder.headImg.setImageBitmap(bitmap);
+                }
 
-            if ("1".equals(trade.getKind())) {
-                viewHolder.imvFire.setVisibility(View.VISIBLE);
+                @Override
+                public void onFailure(Exception error) {
+                }
+            });
+            viewHolder.title.setText(trade.getTitle());
+            viewHolder.releaseTime.setText(trade.getDateTime());
+            viewHolder.praise.setText(trade.getPraiseNumber() + "");
+
+            if (TextUtils.equals(trade.kind, "1")) {
+                viewHolder.title.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.label_top, 0, 0, 0);
             } else {
-                viewHolder.imvFire.setVisibility(View.GONE);
+                viewHolder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             }
 
             if (!TextUtils.isEmpty(trade.getLikeStatus()) && "1".equals(trade.getLikeStatus())) {
-                viewHolder.tvZan.setSelected(true);
+                viewHolder.praise.setSelected(true);
             } else {
-                viewHolder.tvZan.setSelected(false);
+                viewHolder.praise.setSelected(false);
             }
-            viewHolder.tvComments.setText(trade.getCommentNumber() + "");
-            if (!TextUtils.isEmpty(trade.getContent())) {
-                viewHolder.tvSub.setVisibility(View.VISIBLE);
-                viewHolder.tvSub.setText(trade.getContent());
-            } else {
-                viewHolder.tvSub.setVisibility(View.GONE);
-            }
+            viewHolder.commentCount.setText(trade.getCommentNumber() + "");
+//            if (!TextUtils.isEmpty(trade.getContent())) {
+//                viewHolder.tvSub.setVisibility(View.VISIBLE);
+//                viewHolder.tvSub.setText(trade.getContent());
+//            } else {
+//                viewHolder.tvSub.setVisibility(View.GONE);
+//            }
             if (trade != null && trade.getImgList().size() > 0) {
                 viewHolder.glImages.setVisibility(View.VISIBLE);
-                viewHolder.tvSub.setVisibility(View.GONE);
                 setGridLayout(viewHolder, trade.getImgList());
             } else {
                 viewHolder.glImages.setVisibility(View.GONE);
@@ -132,12 +149,13 @@ public class TradeCircleAdapter extends BaseAdapter {
                 viewHolder.rlHref.setVisibility(View.GONE);
             }
 
-            viewHolder.tvZan.setOnClickListener(new View.OnClickListener() {
+            viewHolder.praise.setOnClickListener(new View.OnClickListener() {
                 int index = i;
 
                 @Override
                 public void onClick(View v) {
                     if (SharedPrefsUtil.getUserInfo() != null) {
+                        startScaleAnim(v);
                         if (v.isSelected()) {  //取消点赞
                             mPresenter.cancelzanTopic(mData.get(index).getTopicId() + "", index);
                         } else { //点在
@@ -152,8 +170,8 @@ public class TradeCircleAdapter extends BaseAdapter {
             });
 
             if ("1".equals(trade.getCanBeDelete())) {
-                viewHolder.imvDel.setVisibility(View.VISIBLE);
-                viewHolder.imvDel.setOnClickListener(new View.OnClickListener() {
+                viewHolder.more.setVisibility(View.VISIBLE);
+                viewHolder.more.setOnClickListener(new View.OnClickListener() {
                     int index = i;
 
                     @Override
@@ -169,7 +187,7 @@ public class TradeCircleAdapter extends BaseAdapter {
                     }
                 });
             } else {
-                viewHolder.imvDel.setVisibility(View.GONE);
+                viewHolder.more.setVisibility(View.GONE);
             }
 
         }
@@ -177,7 +195,17 @@ public class TradeCircleAdapter extends BaseAdapter {
         return view;
     }
 
-    private void setGridLayout(ViewHolder viewHolder, List<Trade.imgBean> imageUrls) {
+    private void startScaleAnim(View target) {
+        AnimatorSet animatorSet = new AnimatorSet();//组合动画
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(target, "scaleX", 1.0f, 1.5f, 1.0f);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(target, "scaleY", 1.0f, 1.5f, 1.0f);
+        animatorSet.setDuration(600);
+        animatorSet.setInterpolator(new DecelerateInterpolator());
+        animatorSet.play(scaleX).with(scaleY);//两个动画同时开始
+        animatorSet.start();
+    }
+
+    private void setGridLayout(ViewHolder viewHolder, List<TradeTopic.imgBean> imageUrls) {
         int imageSize = imageUrls.size();
         viewHolder.glImages.removeAllViews();
         if (imageSize == 1) {
@@ -217,19 +245,14 @@ public class TradeCircleAdapter extends BaseAdapter {
             viewHolder.glImages.setColumnCount(3);
             viewHolder.glImages.setRowCount(3);
         }
-//        else {
-//            viewHolder.glImages.setVisibility(View.GONE);
-//            viewHolder.tvSub.setVisibility(View.VISIBLE);
-//            viewHolder.rlHref.setVisibility(View.VISIBLE);
-//        }
 
         imageSize = (imageSize > 9 ? 9 : imageSize);
         for (int j = 0; j < imageSize; j++) {
-            viewHolder.glImages.addView(getView(imageUrls.get(j).getImgUrl()));
+            viewHolder.glImages.addView(getView(imageUrls.get(j).getImgUrl(), j));
         }
     }
 
-    private ImageView getView(String url) {
+    private ImageView getView(String url, int position) {
 
         ImageView imageView = new ImageView(mContext);
 
@@ -238,7 +261,11 @@ public class TradeCircleAdapter extends BaseAdapter {
         GridLayout.Spec columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1.0f);
 
         GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams(rowSpec, columnSpec);
-        layoutParams.setMargins(6, 6, 6, 6);
+        layoutParams.width = 0;
+        int m = UnitUtil.dip2px(mContext, 7.5f);
+        int left = position % 3 == 0 ? 0 : m;
+        int top = position / 3 == 0 ? 0 : m;
+        layoutParams.setMargins(left, top, 0, 0);
         imageView.setLayoutParams(layoutParams);
 
         imageView.setBackgroundResource(R.drawable.default_image_logo);
@@ -246,10 +273,20 @@ public class TradeCircleAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        @BindView(R.id.tv_title)
-        TextView tvTitle;
-        @BindView(R.id.tv_sub)
-        TextView tvSub;
+        @BindView(R.id.headImg)
+        RoundedImageView headImg;
+        @BindView(R.id.name)
+        TextView name;
+        @BindView(R.id.work_type)
+        TextView workType;
+        @BindView(R.id.more)
+        ImageView more;
+        @BindView(R.id.top)
+        RelativeLayout top;
+        @BindView(R.id.title)
+        TextView title;
+        @BindView(R.id.content)
+        TextView desc;
         @BindView(R.id.imv_href)
         ImageView imvHref;
         @BindView(R.id.tv_href_title)
@@ -258,18 +295,16 @@ public class TradeCircleAdapter extends BaseAdapter {
         TextView tvHrefSub;
         @BindView(R.id.rl_href)
         RelativeLayout rlHref;
-        @BindView(R.id.gl_images)
+        @BindView(R.id.glImages)
         GridLayout glImages;
-        @BindView(R.id.tv_time)
-        TextView tvTime;
-        @BindView(R.id.tv_zan)
-        TextView tvZan;
-        @BindView(R.id.tv_comments)
-        TextView tvComments;
-        @BindView(R.id.imv_del)
-        ImageView imvDel;
-        @BindView(R.id.imv_fire)
-        ImageView imvFire;
+        @BindView(R.id.img_layout)
+        LinearLayout imgLayout;
+        @BindView(R.id.release_time)
+        TextView releaseTime;
+        @BindView(R.id.praise)
+        TextView praise;
+        @BindView(R.id.comment_count)
+        TextView commentCount;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

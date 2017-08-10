@@ -2,7 +2,6 @@ package com.finance.winport.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.text.Html;
 import android.text.TextUtils;
@@ -15,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.finance.winport.R;
-import com.finance.winport.mine.ShopFocusActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +28,7 @@ public class UpdateTipDialog extends Dialog {
     ImageView imvTitle;
     @BindView(R.id.title)
     TextView title;
-    @BindView(R.id.desc)
+    @BindView(R.id.content)
     TextView desc;
     @BindView(R.id.tv_ok)
     TextView tvOk;

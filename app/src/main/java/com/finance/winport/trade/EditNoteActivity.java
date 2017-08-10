@@ -40,7 +40,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import noman.weekcalendar.eventbus.Event;
 import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action2;
@@ -67,6 +66,8 @@ public class EditNoteActivity extends BaseActivity {
     EditText etTitle;
     @BindView(R.id.btn_done)
     TextView btnDone;
+    @BindView(R.id.tv_focus_right)
+    TextView tvFocusRight;
 
     private int textSize;
     private ChoicePhotoAdapter mAdapter;
@@ -86,6 +87,7 @@ public class EditNoteActivity extends BaseActivity {
 
     private void init() {
         tvFocusHouse.setText("发布帖子");
+        tvFocusRight.setText("发帖秘籍");
         etElse.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -138,11 +140,14 @@ public class EditNoteActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.imv_focus_house_back, R.id.btn_done})
+    @OnClick({R.id.imv_focus_house_back, R.id.btn_done, R.id.tv_focus_right})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
                 finish();
+                break;
+            case R.id.tv_focus_right:
+                showPostInfo();
                 break;
             case R.id.btn_done:
                 MobclickAgent.onEvent(context, "circle_publish_release");
@@ -156,6 +161,10 @@ public class EditNoteActivity extends BaseActivity {
                 }
                 break;
         }
+    }
+
+    private void showPostInfo() {
+
     }
 
     @Override

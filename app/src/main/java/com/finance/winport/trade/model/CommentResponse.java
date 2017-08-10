@@ -100,7 +100,8 @@ public class CommentResponse extends BaseResponse{
         public static class Comment {
             private String id;
             private String headPicture;
-            private String phone;
+            private String nickName;
+            private String signature;
             private String dateTime;
             private String content;
             private int isOwn;
@@ -122,12 +123,20 @@ public class CommentResponse extends BaseResponse{
                 this.headPicture = headPicture;
             }
 
-            public String getPhone() {
-                return phone;
+            public String getNickName() {
+                return nickName;
             }
 
-            public void setPhone(String phone) {
-                this.phone = phone;
+            public void setNickName(String nickName) {
+                this.nickName = nickName;
+            }
+
+            public String getSignature() {
+                return signature;
+            }
+
+            public void setSignature(String signature) {
+                this.signature = signature;
             }
 
             public String getDateTime() {

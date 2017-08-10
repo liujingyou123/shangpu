@@ -2,7 +2,6 @@ package com.finance.winport.trade;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,10 +12,8 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.trade.adapter.MyTradeCircleAdapter;
-import com.finance.winport.trade.adapter.TradeCircleAdapter;
 import com.finance.winport.trade.model.CommentNumResponse;
 import com.finance.winport.trade.model.MyTopicResponse;
-import com.finance.winport.trade.model.Trade;
 import com.finance.winport.trade.model.TradeCircleResponse;
 import com.finance.winport.trade.presenter.TradeCirclePresenter;
 import com.finance.winport.trade.view.IMyTopicListView;

@@ -66,6 +66,7 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
 
     private TradeCircleDetailPresener mPresenter;
     private String topicId;
+    private String commentId;
     private TradeDetailResponse.DataBean mData;
     private int pageNumber = 1;
     private String from;
@@ -147,7 +148,7 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
             @Override
             public void onClick(View v) {
                 MobclickAgent.onEvent(context, "post_comment_release");
-                mPresenter.commentTopic(topicId, commentDialog.getContent());
+                mPresenter.commentTopic(topicId, "", commentDialog.getContent());
             }
         });
     }
@@ -166,12 +167,7 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
                 break;
             case R.id.btn_comment:
                 MobclickAgent.onEvent(context, "post_comment");
-                if (SharedPrefsUtil.getUserInfo() != null) {
-                    commentDialog.show();
-                } else {
-                    Intent intent1 = new Intent(this, LoginActivity.class);
-                    startActivity(intent1);
-                }
+                toComment("");
                 break;
             case R.id.tv_praise_num:
 
@@ -197,6 +193,24 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
                 });
                 dialog.show();
                 break;
+        }
+    }
+
+    @Override
+    public void showCommentDialog(String commentId, String commentator) {
+        this.commentId = commentId;
+        toComment("回复" + commentator);
+    }
+
+    private void toComment(String hint) {
+        if (SharedPrefsUtil.getUserInfo() != null) {
+            if (!TextUtils.isEmpty(hint)) {
+                commentDialog.setHint(hint);
+            }
+            commentDialog.show();
+        } else {
+            Intent intent1 = new Intent(this, LoginActivity.class);
+            startActivity(intent1);
         }
     }
 

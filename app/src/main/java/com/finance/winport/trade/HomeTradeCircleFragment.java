@@ -11,9 +11,11 @@ import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.trade.adapter.HomeTradeCircleAdapter;
-import com.finance.winport.trade.model.TradeCanon;
+import com.finance.winport.trade.model.TradeBible;
 import com.finance.winport.trade.model.TradeCommunity;
 import com.finance.winport.trade.model.TradeHead;
+import com.finance.winport.trade.model.TradeTopic;
+import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
 
 import java.util.ArrayList;
@@ -49,7 +51,7 @@ public class HomeTradeCircleFragment extends BaseFragment {
     }
 
     private void initView() {
-        refreshView.setMode(PtrFrameLayout.Mode.REFRESH);
+        initRefreshView();
         mListView.addFooterView(LayoutInflater.from(context).inflate(R.layout.trade_list_footer, null));
         data = new LinkedHashMap<>();
         titles = new String[]{"行业头条", "生意宝典", "生意社区"};
@@ -67,6 +69,25 @@ public class HomeTradeCircleFragment extends BaseFragment {
         for (int i = 0; i < adapter.getGroupCount(); i++) {
             mListView.expandGroup(i);
         }
+    }
+
+    private void initRefreshView() {
+        refreshView.setMode(PtrFrameLayout.Mode.REFRESH);
+        refreshView.setPtrHandler(new PtrDefaultHandler2() {
+            @Override
+            public void onLoadMoreBegin(PtrFrameLayout frame) {
+
+            }
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                refreshView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshView.refreshComplete();
+                    }
+                },500);
+            }
+        });
     }
 
     String img = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1501843518220&di=0306ae6f9c5434136495d0c45e016b2a&imgtype=0&src=http%3A%2F%2Fpic23.photophoto.cn%2F20120530%2F0020033092420808_b.jpg";
@@ -90,7 +111,7 @@ public class HomeTradeCircleFragment extends BaseFragment {
     private List<BaseResponse> getCanonData() {
         List<BaseResponse> list = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            TradeCanon item = new TradeCanon();
+            TradeBible item = new TradeBible();
             item.title = "全上海最好的铺子都在这里";
             item.image = img;
             item.content = "生意测评";
@@ -104,18 +125,28 @@ public class HomeTradeCircleFragment extends BaseFragment {
     private List<BaseResponse> getCommunityData() {
         List<BaseResponse> list = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            TradeCommunity item = new TradeCommunity();
+            TradeTopic item = new TradeTopic();
             item.title = "行业头条";
             item.imgList = new ArrayList<>();
-            for (int j = 0; j <= i; j++) {
-                TradeCommunity.ImageList imageItem = new TradeCommunity.ImageList();
-                imageItem.imgUrl = img;
-                item.imgList.add(imageItem);
+            if (i % 2 != 0) {
+                for (int j = 0; j <= i; j++) {
+                    TradeTopic.imgBean imageItem = new TradeTopic.imgBean();
+                    imageItem.imgUrl = img;
+                    item.imgList.add(imageItem);
+                }
+            } else {
+                item.h5obj = new TradeTopic.Href();
+                item.h5obj.title = "万安路104号";
+                item.h5obj.content = "一周内890位老板浏览了此商铺";
+                item.h5obj.imageUrl = img;
             }
-            item.commentNumber = "5000";
+            item.nickName = "稻草人Kevin";
+            item.headPicture = img;
+            item.signature = "我是一个低调的老板";
+            item.commentNumber = 5000;
             item.content = "金铺多成立于2017年4月，是金铺多集团旗下的国内首家专业商业地产网站，专注于商业地产信息服务专注于商业地产信息服务";
             item.dateTime = "6分钟前发布";
-            item.praiseNumber = "10000";
+            item.praiseNumber = 10000;
             list.add(item);
         }
         return list;

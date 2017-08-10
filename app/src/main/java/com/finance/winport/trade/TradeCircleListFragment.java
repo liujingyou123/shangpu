@@ -20,11 +20,10 @@ import com.finance.winport.trade.model.CommentNumResponse;
 import com.finance.winport.trade.model.EventBusCircleData;
 import com.finance.winport.trade.model.EventBusCommentNum;
 import com.finance.winport.trade.model.EventBustTag;
-import com.finance.winport.trade.model.Trade;
+import com.finance.winport.trade.model.TradeTopic;
 import com.finance.winport.trade.model.TradeCircleResponse;
 import com.finance.winport.trade.presenter.TradeCirclePresenter;
 import com.finance.winport.trade.view.ITradeCircleView;
-import com.finance.winport.util.SpUtil;
 import com.finance.winport.util.ToastUtil;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
@@ -58,7 +57,7 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
     XPtrFrameLayout refreshView;
 
     private TradeCircleAdapter mAdapter;
-    private List<Trade> mData = new ArrayList<>();
+    private List<TradeTopic> mData = new ArrayList<>();
     private TradeCirclePresenter mPresenter;
     private String type;
     private int pageNumber = 1;
@@ -130,7 +129,7 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MobclickAgent.onEvent(TradeCircleListFragment.this.getContext(), "circle_comment");
-                Trade trade = (Trade) parent.getItemAtPosition(position);
+                TradeTopic trade = (TradeTopic) parent.getItemAtPosition(position);
                 if (trade != null) {
                     Intent intent = new Intent(TradeCircleListFragment.this.getContext(), TradeCircleDetailActivity.class);
                     intent.putExtra("topicId", trade.getTopicId() + "");
@@ -183,7 +182,7 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
 //            mPresenter.getTradeCircles(type, pageNumber);
 
             for (int i = 0; i < mData.size(); i++) {
-                Trade trade = mData.get(i);
+                TradeTopic trade = mData.get(i);
                 if (topId.equals(trade.getTopicId() + "")) {
                     trade.setLikeStatus("1");
                     trade.setPraiseNumber(trade.getPraiseNumber() + 1);
@@ -203,7 +202,7 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
         if (isSuccess) {
 //            mPresenter.getTradeCircles(type, pageNumber);
             for (int i = 0; i < mData.size(); i++) {
-                Trade trade = mData.get(i);
+                TradeTopic trade = mData.get(i);
                 if (topId.equals(trade.getTopicId() + "")) {
                     trade.setLikeStatus("0");
                     trade.setPraiseNumber(trade.getPraiseNumber() - 1);
@@ -225,7 +224,7 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
         if (isSuccess) {
 
             for (int i = 0; i < mData.size(); i++) {
-                Trade trade = mData.get(i);
+                TradeTopic trade = mData.get(i);
                 if (topId.equals(trade.getTopicId() + "")) {
                     mData.remove(trade);
                     mAdapter.notifyDataSetChanged();

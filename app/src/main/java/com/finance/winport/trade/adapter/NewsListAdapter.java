@@ -1,5 +1,7 @@
 package com.finance.winport.trade.adapter;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,8 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.image.Batman;
+import com.finance.winport.trade.InfoDetailsActivity;
+import com.finance.winport.trade.TradeType;
 import com.finance.winport.trade.model.TradeHead;
 import com.finance.winport.view.DrawableTopLeftTextView;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
@@ -22,10 +26,10 @@ import butterknife.ButterKnife;
  * Created by xzw on 2017/8/7.
  */
 
-public class TradeNewsAdapter extends PullRecyclerBaseAdapter<TradeHead> {
+public class NewsListAdapter extends PullRecyclerBaseAdapter<TradeHead> {
     LayoutInflater inflater;
 
-    public TradeNewsAdapter(PtrClassicFrameLayout baseView, List<TradeHead> baseData, int maxTotal) {
+    public NewsListAdapter(PtrClassicFrameLayout baseView, List<TradeHead> baseData, int maxTotal) {
         super(baseView, baseData, maxTotal);
         inflater = LayoutInflater.from(context);
     }
@@ -52,6 +56,18 @@ public class TradeNewsAdapter extends PullRecyclerBaseAdapter<TradeHead> {
             holder.title.setDrawable(0);
         }
         Batman.getInstance().fromNet(item.image, holder.img);
+        if (position > 0) {
+            holder.itemView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_top_divider_inset_left));
+        } else {
+            holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
+        }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, InfoDetailsActivity.class)
+                        .putExtra("type", TradeType.HEAD_DETAILS));
+            }
+        });
     }
 
     @Override

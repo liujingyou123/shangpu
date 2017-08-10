@@ -1,29 +1,38 @@
 package com.finance.winport.trade.adapter;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.support.v7.widget.GridLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.account.LoginActivity;
 import com.finance.winport.base.BaseResponse;
+import com.finance.winport.home.H5Activity;
 import com.finance.winport.image.Batman;
+import com.finance.winport.image.BatmanCallBack;
 import com.finance.winport.trade.TradeHeadActivity;
-import com.finance.winport.trade.model.TradeCanon;
-import com.finance.winport.trade.model.TradeCommunity;
+import com.finance.winport.trade.TradeType;
+import com.finance.winport.trade.model.TradeBible;
 import com.finance.winport.trade.model.TradeHead;
+import com.finance.winport.trade.model.TradeTopic;
+import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.DrawableTopLeftTextView;
-import com.finance.winport.view.NestGridView;
+import com.finance.winport.view.HtmlTextView;
 import com.finance.winport.view.dialog.TradeMorePopup;
 import com.finance.winport.view.roundview.RoundedImageView;
 
@@ -116,13 +125,13 @@ public class HomeTradeCircleAdapter extends BaseExpandableListAdapter {
             public void onClick(View v) {
                 switch (groupPosition) {
                     case 0://行业头条
-                        context.startActivity(new Intent(context, TradeHeadActivity.class));
+                        context.startActivity(new Intent(context, TradeHeadActivity.class).putExtra("type", TradeType.HEAD));
                         break;
                     case 1://生意宝典
-
+                        context.startActivity(new Intent(context, TradeHeadActivity.class).putExtra("type", TradeType.BIBLE));
                         break;
                     case 2://生意社区
-
+                        context.startActivity(new Intent(context, TradeHeadActivity.class).putExtra("type", TradeType.CIRCLE));
                         break;
 
                 }
@@ -149,15 +158,15 @@ public class HomeTradeCircleAdapter extends BaseExpandableListAdapter {
             }
             handleHeadItem(groupPosition, childPosition, holder, convertView);
         } else if (getChildType(groupPosition, childPosition) == 1) {
-            TradeCanonViewHolder holder;
+            TradeBibleViewHolder holder;
             if (convertView == null) {
-                convertView = LayoutInflater.from(context).inflate(R.layout.trade_item_child_canon, parent, false);
-                holder = new TradeCanonViewHolder(convertView);
+                convertView = LayoutInflater.from(context).inflate(R.layout.trade_item_child_bible, parent, false);
+                holder = new TradeBibleViewHolder(convertView);
                 convertView.setTag(holder);
             } else {
-                holder = (TradeCanonViewHolder) convertView.getTag();
+                holder = (TradeBibleViewHolder) convertView.getTag();
             }
-            handleCanonItem(groupPosition, childPosition, holder, convertView);
+            handleBibleItem(groupPosition, childPosition, holder, convertView);
         } else if (getChildType(groupPosition, childPosition) == 2) {
             TradeCommunityViewHolder holder;
             if (convertView == null) {
@@ -196,10 +205,10 @@ public class HomeTradeCircleAdapter extends BaseExpandableListAdapter {
         }
     }
 
-    private void handleCanonItem(int groupPosition, int childPosition, TradeCanonViewHolder holder, View convertView) {
+    private void handleBibleItem(int groupPosition, int childPosition, TradeBibleViewHolder holder, View convertView) {
         Object child = getChild(groupPosition, childPosition);
-        if (child instanceof TradeCanon) {
-            TradeCanon item = (TradeCanon) child;
+        if (child instanceof TradeBible) {
+            TradeBible item = (TradeBible) child;
             holder.desc.setText(item.title);
             holder.tip.setText(item.content);
             holder.date.setText(item.dateTime);
@@ -216,54 +225,112 @@ public class HomeTradeCircleAdapter extends BaseExpandableListAdapter {
 
     private void handleCommunityItem(int groupPosition, int childPosition, final TradeCommunityViewHolder holder, View convertView) {
         Object child = getChild(groupPosition, childPosition);
-        if (child instanceof TradeCommunity) {
-            TradeCommunity item = (TradeCommunity) child;
-            if (!TextUtils.isEmpty(item.title)) {
-                holder.title.setText(item.title);
-                holder.title.setVisibility(View.VISIBLE);
+        if (child instanceof TradeTopic) {
+            final TradeTopic item = (TradeTopic) child;
+            holder.name.setText(item.nickName);
+            holder.workType.setText(item.signature);
+            Batman.getInstance().fromNet(item.headPicture, new BatmanCallBack() {
+                @Override
+                public void onSuccess(Bitmap bitmap) {
+                    holder.headImg.setImageBitmap(bitmap);
+                }
+
+                @Override
+                public void onFailure(Exception error) {
+                }
+            });
+            holder.title.setText(item.title);
+            holder.title.setVisibility(View.VISIBLE);
+            if (TextUtils.equals(item.kind, "1")) {
+                holder.title.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.label_top, 0, 0, 0);
             } else {
-                holder.title.setVisibility(View.GONE);
+                holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             }
             if (!TextUtils.isEmpty(item.content)) {
-                holder.desc.setText(item.content);
-                holder.desc.setVisibility(View.VISIBLE);
+                holder.content.setHtml(item.content);
+                holder.content.setVisibility(View.VISIBLE);
             } else {
-                holder.desc.setVisibility(View.GONE);
+                holder.content.setVisibility(View.GONE);
             }
             if (item.imgList != null && item.imgList.size() > 0) {
-                holder.gridImage.setVisibility(View.VISIBLE);
-                int count = item.imgList.size();
-                ViewGroup.LayoutParams lp = holder.gridImage.getLayoutParams();
-                if (count == 1) {
-                    lp.height = UnitUtil.dip2px(context, 248);
-                } else if (count == 2) {
-                    lp.height = UnitUtil.dip2px(context, 126);
-                } else {
-                    lp.height = UnitUtil.dip2px(context, 78);
-                }
-                holder.gridImage.requestLayout();
-                setItem(holder.gridImage, item.imgList);
+                holder.glImages.setVisibility(View.VISIBLE);
+                setGridLayout(holder, item.imgList);
             } else {
-                holder.gridImage.setVisibility(View.GONE);
+                holder.glImages.setVisibility(View.GONE);
+            }
+
+            if (!TextUtils.isEmpty(item.getLikeStatus()) && "1".equals(item.getLikeStatus())) {
+                holder.more.setSelected(true);
+            } else {
+                holder.more.setSelected(false);
+            }
+
+            if (item.getH5obj() != null) {
+                holder.rlHref.setVisibility(View.VISIBLE);
+                holder.rlHref.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent bannerDetails = new Intent(context, H5Activity.class);
+                        bannerDetails.putExtra("type", 5);
+                        bannerDetails.putExtra("url", item.getH5obj().getUrl());
+                        bannerDetails.putExtra("title", item.getH5obj().getTitle());
+                        context.startActivity(bannerDetails);
+                    }
+                });
+                holder.imvHref.setBackgroundResource(R.drawable.default_image_logo);
+                Batman.getInstance().fromNet(item.getH5obj().getImageUrl(), holder.imvHref);
+                holder.tvHrefTitle.setText(item.getH5obj().getTitle());
+                holder.tvHrefSub.setText(item.getH5obj().getContent());
+
+            } else {
+                holder.rlHref.setVisibility(View.GONE);
             }
 
             holder.releaseTime.setText(item.dateTime);
-            holder.praise.setText(item.praiseNumber);
-            holder.commentCount.setText(item.commentNumber);
-            //delete
-            holder.more.setOnClickListener(new View.OnClickListener() {
+            holder.praise.setText(item.praiseNumber + "");
+            holder.praise.setSelected(TextUtils.equals(item.likeStatus, "1") ? true : false);
+            holder.commentCount.setText(item.commentNumber + "");
+            holder.praise.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    TradeMorePopup deletePopup = new TradeMorePopup(context);
-                    deletePopup.setOnDeleteListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //
+                    if (SharedPrefsUtil.getUserInfo() != null) {
+                        startScaleAnim(v);
+                        if (v.isSelected()) {  //取消点赞
+                            item.likeStatus = "0";
+                            item.praiseNumber -= 1;
+                        } else { //点赞
+                            item.likeStatus = "1";
+                            item.praiseNumber += 1;
                         }
-                    });
-                    deletePopup.showAsDropDown(holder.more, UnitUtil.dip2px(context, -40), UnitUtil.dip2px(context, -10));
+                        notifyDataSetChanged();
+                    } else {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        context.startActivity(intent);
+                    }
+
                 }
             });
+
+            //delete
+            if ("1".equals(item.getCanBeDelete())) {
+                holder.more.setVisibility(View.VISIBLE);
+                holder.more.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TradeMorePopup deletePopup = new TradeMorePopup(context);
+                        deletePopup.setOnDeleteListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //
+                            }
+                        });
+                        deletePopup.showAsDropDown(holder.more, UnitUtil.dip2px(context, -40), UnitUtil.dip2px(context, -10));
+                    }
+                });
+            } else {
+                holder.more.setVisibility(View.GONE);
+            }
+
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -273,28 +340,63 @@ public class HomeTradeCircleAdapter extends BaseExpandableListAdapter {
         }
     }
 
-    private void setItem(LinearLayout gridImage, List<TradeCommunity.ImageList> imageLists) {
-        gridImage.removeAllViews();
-        int size = imageLists.size();
-        for (int i = 0; i < size; i++) {
-            if (i >= 3) break;
-            View imageLayout = LayoutInflater.from(context).inflate(R.layout.image_layout, null);
-            ImageViewHolder holder = new ImageViewHolder(imageLayout);
-            Batman.getInstance().fromNet(imageLists.get(i).imgUrl, holder.img);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
-            lp.weight = 1;
-            if (i > 0) {
-                lp.leftMargin = UnitUtil.dip2px(context, 7.5f);
-            }
-            imageLayout.setLayoutParams(lp);
-            gridImage.addView(imageLayout);
-            if (size > 3 && i == 2) {
-                holder.overlay.setVisibility(View.VISIBLE);
-                holder.count.setText(size + "");
-            } else {
-                holder.overlay.setVisibility(View.GONE);
-            }
+    private void startScaleAnim(View target) {
+        AnimatorSet animatorSet = new AnimatorSet();//组合动画
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(target, "scaleX", 1.0f, 1.5f, 1.0f);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(target, "scaleY", 1.0f, 1.5f, 1.0f);
+        animatorSet.setDuration(600);
+        animatorSet.setInterpolator(new DecelerateInterpolator());
+        animatorSet.play(scaleX).with(scaleY);//两个动画同时开始
+        animatorSet.start();
+    }
+
+    private void setGridLayout(TradeCommunityViewHolder holder, List<TradeTopic.imgBean> imageUrls) {
+        int imageSize = imageUrls.size();
+        holder.glImages.removeAllViews();
+        if (imageSize == 1) {
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(context, 247.5f));
+
+            holder.glImages.setLayoutParams(lp);
+            holder.glImages.setColumnCount(1);
+            holder.glImages.setRowCount(1);
+        } else if (imageSize == 2) {
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(context, 126f));
+
+            holder.glImages.setLayoutParams(lp);
+            holder.glImages.setColumnCount(2);
+            holder.glImages.setRowCount(1);
+        } else {
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UnitUtil.dip2px(context, 78f));
+
+            holder.glImages.setLayoutParams(lp);
+            holder.glImages.setColumnCount(3);
+            holder.glImages.setRowCount(1);
         }
+        imageSize = (imageSize > 3 ? 3 : imageSize);
+        for (int j = 0; j < imageSize; j++) {
+            holder.glImages.addView(getView(imageUrls.get(j).getImgUrl(), j, imageUrls.size()));
+        }
+    }
+
+    private View getView(String url, int position, int imageSize) {
+        View imageLayout = LayoutInflater.from(context).inflate(R.layout.image_layout, null);
+        ImageViewHolder holder = new ImageViewHolder(imageLayout);
+        Batman.getInstance().fromNet(url, holder.img);
+        GridLayout.Spec rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1.0f);
+        GridLayout.Spec columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1.0f);
+        GridLayout.LayoutParams lp = new GridLayout.LayoutParams(rowSpec, columnSpec);
+        lp.width = 0;
+        if (position > 0) {
+            lp.leftMargin = UnitUtil.dip2px(context, 7.5f);
+        }
+        imageLayout.setLayoutParams(lp);
+        if (imageSize > 3 && position == 2) {
+            holder.overlay.setVisibility(View.VISIBLE);
+            holder.count.setText(imageSize + "");
+        } else {
+            holder.overlay.setVisibility(View.GONE);
+        }
+        return imageLayout;
     }
 
     @Override
@@ -330,10 +432,10 @@ public class HomeTradeCircleAdapter extends BaseExpandableListAdapter {
         }
     }
 
-    static class TradeCanonViewHolder {
+    static class TradeBibleViewHolder {
         @BindView(R.id.img)
         ImageView img;
-        @BindView(R.id.desc)
+        @BindView(R.id.content)
         TextView desc;
         @BindView(R.id.tip)
         TextView tip;
@@ -342,7 +444,7 @@ public class HomeTradeCircleAdapter extends BaseExpandableListAdapter {
         @BindView(R.id.scan_count)
         TextView scanCount;
 
-        TradeCanonViewHolder(View view) {
+        TradeBibleViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
     }
@@ -360,10 +462,10 @@ public class HomeTradeCircleAdapter extends BaseExpandableListAdapter {
         RelativeLayout top;
         @BindView(R.id.title)
         TextView title;
-        @BindView(R.id.desc)
-        TextView desc;
-        @BindView(R.id.gridImage)
-        LinearLayout gridImage;
+        @BindView(R.id.content)
+        HtmlTextView content;
+        @BindView(R.id.glImages)
+        GridLayout glImages;
         @BindView(R.id.release_time)
         TextView releaseTime;
         @BindView(R.id.praise)
@@ -372,6 +474,15 @@ public class HomeTradeCircleAdapter extends BaseExpandableListAdapter {
         View divider;
         @BindView(R.id.comment_count)
         TextView commentCount;
+
+        @BindView(R.id.imv_href)
+        ImageView imvHref;
+        @BindView(R.id.tv_href_title)
+        TextView tvHrefTitle;
+        @BindView(R.id.tv_href_sub)
+        TextView tvHrefSub;
+        @BindView(R.id.rl_href)
+        RelativeLayout rlHref;
 
         TradeCommunityViewHolder(View view) {
             ButterKnife.bind(this, view);
@@ -384,7 +495,7 @@ public class HomeTradeCircleAdapter extends BaseExpandableListAdapter {
         @BindView(R.id.count)
         TextView count;
         @BindView(R.id.overlay)
-        FrameLayout overlay;
+        View overlay;
 
         ImageViewHolder(View view) {
             ButterKnife.bind(this, view);
