@@ -100,7 +100,7 @@
             <com.youth.banner.Banner
                 android:id="@+id/img_banner"
                 android:layout_width="match_parent"
-                android:layout_height="202dp"
+                android:layout_height="275dp"
                 android:background="@drawable/default_image_logo"
                 app:indicator_drawable_selected="@drawable/dot_banner_select"
                 app:indicator_drawable_unselected="@drawable/dot_banner_unselect"
@@ -161,11 +161,22 @@
 
 
                 <TextView
+                    android:id="@+id/block"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rl_address"
+                    android:layout_marginTop="10dp"
+                    android:text=""
+                    android:textColor="#999999"
+                    android:textSize="12sp" />
+                <TextView
                     android:id="@+id/tv_scan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/rl_address"
                     android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/block"
                     android:text=""
                     android:textColor="#999999"
                     android:textSize="12sp" />
@@ -230,6 +241,7 @@
                         android:layout_marginTop="15dp"
                         android:text=""
                         android:textColor="#FF151515"
+                        android:textStyle="bold"
                         android:textSize="12sp" />
 
                     <TextView
@@ -242,6 +254,7 @@
                         android:textSize="18sp"
                         android:layout_alignTop="@id/tv_price"
                         android:layout_marginLeft="3dp"
+                        android:textStyle="bold"
                         android:gravity="center_vertical"/>
 
                     <ImageView

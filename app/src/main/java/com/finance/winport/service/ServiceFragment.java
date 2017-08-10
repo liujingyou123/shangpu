@@ -6,8 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -26,10 +24,8 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.account.model.UserInfo;
 import com.finance.winport.base.BaseFragment;
-import com.finance.winport.home.HomeFragment;
 import com.finance.winport.home.ShopDetailActivity;
 import com.finance.winport.image.Batman;
-import com.finance.winport.mine.MyScheduleListActivity;
 import com.finance.winport.mine.MyServiceActivity;
 import com.finance.winport.mine.ScheduleDetailActivity;
 import com.finance.winport.mine.adapter.ServiceScheduleListAdapter;
@@ -78,10 +74,6 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
     ImageView shopImg;
     @BindView(R.id.address)
     TextView address;
-    @BindView(R.id.time)
-    TextView time;
-    @BindView(R.id.loan_more)
-    TextView loanMore;
     @BindView(R.id.rent)
     TextView rent;
     @BindView(R.id.order)
@@ -102,8 +94,6 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
     View headLine;
     @BindView(R.id.visit_count)
     TextView visitCount;
-    @BindView(R.id.money)
-    TextView money;
     @BindView(R.id.status)
     TextView status;
     @BindView(R.id.shop_area)
@@ -116,12 +106,20 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
     TextView empty;
     @BindView(R.id.shop)
     RelativeLayout shop;
-    @BindView(R.id.shop_more)
-    TextView shopMore;
     @BindView(R.id.month)
     TextView month;
     @BindView(R.id.scroll)
     ScrollView scroll;
+    @BindView(R.id.loan_money_value)
+    TextView loanMoneyValue;
+    @BindView(R.id.loan_deadline_value)
+    TextView loanDeadlineValue;
+    @BindView(R.id.visit_shop_img)
+    ImageView visitShopImg;
+    @BindView(R.id.visit_address)
+    TextView visitAddress;
+    @BindView(R.id.count)
+    TextView count;
     private ServiceScheduleListAdapter adapter;
 
     private FindServiceHomePresenter mPresenter;
@@ -264,9 +262,9 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
 
             shopArea.setVisibility(View.VISIBLE);
             address.setText(response.getData().getShopObject().getAddress());
-            if (TextUtils.isEmpty(response.getData().getShopObject().getVisitCount())){
+            if (TextUtils.isEmpty(response.getData().getShopObject().getVisitCount())) {
                 visitCount.setText("一周内0位老板浏览了此店铺");
-            }else{
+            } else {
 
                 visitCount.setText("一周内" + response.getData().getShopObject().getVisitCount() + "位老板浏览了此店铺");
             }
@@ -279,14 +277,14 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
         } else {
 
             loanArea.setVisibility(View.VISIBLE);
-            time.setText(response.getData().getLoadObject().getApplyTime());
-            money.setText(response.getData().getLoadObject().getLoanLimit() + "万元  " + response.getData().getLoadObject().getLoanMaturity() + "");
-            status.setText(response.getData().getLoadObject().getStatus());
-            if(response.getData().getLoadObject().getStatus().equals("0")){
+            loanMoneyValue.setText(response.getData().getLoadObject().getLoanLimit() + "万元");
+            loanDeadlineValue.setText(response.getData().getLoadObject().getLoanMaturity() + "");
+//            status.setText(response.getData().getLoadObject().getStatus());
+            if (response.getData().getLoadObject().getStatus().equals("0")) {
 
-                status.setText("待受理");
-            }else if(response.getData().getLoadObject().getStatus().equals("1")){
-                status.setText("已申请");
+                status.setText(response.getData().getLoadObject().getApplyTime()+" | 待受理");
+            } else if (response.getData().getLoadObject().getStatus().equals("1")) {
+                status.setText(response.getData().getLoadObject().getApplyTime()+" | 已申请");
 
             }
         }
@@ -305,7 +303,7 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-        if(mPresenter!=null){
+        if (mPresenter != null) {
 
             mPresenter.clear();
         }
@@ -329,7 +327,7 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
         switch (view.getId()) {
             case R.id.rent:
                 MobclickAgent.onEvent(getActivity(), "service_let");
-                ActivityOptions compat = ActivityOptions.makeScaleUpAnimation(view, view.getWidth()/2, view.getHeight()/2, view.getWidth(), view.getHeight());
+                ActivityOptions compat = ActivityOptions.makeScaleUpAnimation(view, view.getWidth() / 2, view.getHeight() / 2, view.getWidth(), view.getHeight());
                 Intent rentIntent = new Intent(getContext(), ShopRentActivity.class);
                 startActivity(rentIntent, compat.toBundle());
 //                Intent rentIntent = new Intent(getActivity(), ShopRentActivity.class);
@@ -436,21 +434,21 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
 //        selectList.clear();
 //        selectList.addAll(list);
 //        if (adapter == null) {
-            adapter = new ServiceScheduleListAdapter(getActivity(), list);
+        adapter = new ServiceScheduleListAdapter(getActivity(), list);
 
-            mListView.setAdapter(adapter);
+        mListView.setAdapter(adapter);
 //        ViewGroup.LayoutParams parm = mListView.getLayoutParams();
 //        parm.height = UnitUtil.dip2px(getActivity(), 75 * list.size());
 
-            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    MobclickAgent.onEvent(getActivity(), "service_date");
-                    Intent intent = new Intent(getActivity(), ScheduleDetailActivity.class);
-                    intent.putExtra("scheduleId", adapter.getItem(position).getScheduleId());
-                    startActivity(intent);
-                }
-            });
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MobclickAgent.onEvent(getActivity(), "service_date");
+                Intent intent = new Intent(getActivity(), ScheduleDetailActivity.class);
+                intent.putExtra("scheduleId", adapter.getItem(position).getScheduleId());
+                startActivity(intent);
+            }
+        });
 
 //        } else {
 //
