@@ -279,6 +279,12 @@
             android:name=".mine.MyServiceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <!-- 开屏广告 -->
+        <activity
+            android:name=".launcher.AdvertActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
 
         <!-- H5 -->
         <activity

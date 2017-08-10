@@ -222,6 +222,8 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     TextView tvPriceType;
     @BindView(R.id.tv_zhuanprice_type)
     TextView tvZhuanPriceType;
+    @BindView(R.id.block)
+    TextView block;
 
     private boolean isTouched = false;
     private ShareDialog shareDialog;
@@ -656,10 +658,15 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         ShopDetail.DataBean data = shopDetail.getData();
         tvName.setText("由 小二 " + data.getClerkName() + " 于" + data.getIssueShopTime() + " 核实发布");
         tvShopAddress.setText(" 　   " + data.getDistrictName() + data.getBlockName() + data.getAddress());
+        block.setText(data.getDistrictName() +" "+ data.getBlockName());
         tvScan.setText(data.getVisitCount() + "浏览");
         tvLianxi.setText(data.getContactCount() + "联系");
 
         tvRentType.setText(data.getRentTypeName());
+        if (!TextUtils.isEmpty(data.getRentTypeName()) && data.getRentTypeName().equals("转租")) {
+
+            tvRentType.setBackgroundResource(R.drawable.bg_type_indirect);
+        }
         String compactResidue = "";
         if (data.getCompactResidue() == 2) {
             compactResidue = "(带租约)";
@@ -935,10 +942,10 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
 
 
 //        if (data.getSupportList() != null && data.getSupportList().size() > 0) {
-            llPeitao.setVisibility(View.VISIBLE);
-            SupportTagAdapter supportTagAdapter = new SupportTagAdapter(this);
-            supportTagAdapter.setSelectData(data.getSupportList());
-            gvSupport.setAdapter(supportTagAdapter);
+        llPeitao.setVisibility(View.VISIBLE);
+        SupportTagAdapter supportTagAdapter = new SupportTagAdapter(this);
+        supportTagAdapter.setSelectData(data.getSupportList());
+        gvSupport.setAdapter(supportTagAdapter);
 //        } else {
 //            llPeitao.setVisibility(View.GONE);
 //            stv.setPeitaoGone();
@@ -952,8 +959,9 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                     coverImg = data.getImageList().get(i).getImgUrl();
                 }
 //                list.add(data.getImageList().get(i).getImgUrl());
-                Log.i("aliyun图片路径",data.getImageList().get(i).getImgUrl());
-                list.add(data.getImageList().get(i).getImgUrl()+"?x-oss-process=image/resize,m_lfit,w_300,limit_0/auto-orient,0/quality,q_100/watermark,image_bGFiZWwvV2VjaGF0SU1HMzMucG5nP3gtb3NzLXByb2Nlc3M9aW1hZ2UvcmVzaXplLHBfNzAvYnJpZ2h0LDAvY29udHJhc3QsMA,t_100,g_se,y_30,x_30");
+                Log.i("aliyun图片路径", data.getImageList().get(i).getImgUrl());
+//                x-oss-process=image/resize,m_fill,h_550,w_720/watermark,image_bGFiZWwvV2VjaGF0SU1HMzMucG5nP3gtb3NzLXByb2Nlc3M9aW1hZ2UvcmVzaXplLHBfNzAvYnJpZ2h0LDAvY29udHJhc3QsMA,t_100,g_se,y_40,x_30
+                list.add(data.getImageList().get(i).getImgUrl() + "?x-oss-process=image/resize,m_fill,h_550,w_720,limit_0/watermark,image_bGFiZWwvV2VjaGF0SU1HMzMucG5nP3gtb3NzLXByb2Nlc3M9aW1hZ2UvcmVzaXplLHBfMTAwL2JyaWdodCwwL2NvbnRyYXN0LDA,t_100,g_se,y_15,x_30");
             }
             showBaner(list);
         }

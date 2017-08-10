@@ -46,9 +46,14 @@ public class LauncherActivity extends BaseActivity {
                     startActivity(login);
                     LauncherActivity.this.finish();
                 } else {
-                    Intent intent = new Intent(LauncherActivity.this, MainActivity.class);
+
+                    Intent intent = new Intent(LauncherActivity.this, AdvertActivity.class);
                     startActivity(intent);
                     LauncherActivity.this.finish();
+
+//                    Intent intent = new Intent(LauncherActivity.this, MainActivity.class);
+//                    startActivity(intent);
+//                    LauncherActivity.this.finish();
                 }
             }
         });
