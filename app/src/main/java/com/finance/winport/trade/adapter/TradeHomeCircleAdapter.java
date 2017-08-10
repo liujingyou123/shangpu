@@ -1,6 +1,5 @@
 package com.finance.winport.trade.adapter;
 
-import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -24,11 +23,14 @@ import com.finance.winport.base.BaseResponse;
 import com.finance.winport.home.H5Activity;
 import com.finance.winport.image.Batman;
 import com.finance.winport.image.BatmanCallBack;
+import com.finance.winport.trade.InfoDetailsActivity;
+import com.finance.winport.trade.TradeCircleDetailActivity;
 import com.finance.winport.trade.TradeHeadActivity;
 import com.finance.winport.trade.TradeType;
 import com.finance.winport.trade.model.TradeBible;
 import com.finance.winport.trade.model.TradeHead;
 import com.finance.winport.trade.model.TradeTopic;
+import com.finance.winport.trade.presenter.TradeHomePresenter;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.DrawableTopLeftTextView;
@@ -47,14 +49,16 @@ import butterknife.ButterKnife;
  * Created by xzw on 2017/8/4.
  */
 
-public class HomeTradeCircleAdapter extends BaseExpandableListAdapter {
+public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
     private Context context;
+    private TradeHomePresenter presenter;
     private Map<String, List<BaseResponse>> data;
     private List<String> group = new ArrayList<>();
 
-    public HomeTradeCircleAdapter(Context context, Map<String, List<BaseResponse>> data) {
+    public TradeHomeCircleAdapter(Context context, TradeHomePresenter presenter, Map<String, List<BaseResponse>> data) {
         this.context = context;
         this.data = data;
+        this.presenter = presenter;
         if (data != null) {
             group.addAll(data.keySet());
         }
@@ -199,7 +203,8 @@ public class HomeTradeCircleAdapter extends BaseExpandableListAdapter {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    context.startActivity(new Intent(context, InfoDetailsActivity.class)
+                            .putExtra("type", TradeType.HEAD_DETAILS));
                 }
             });
         }
@@ -217,13 +222,14 @@ public class HomeTradeCircleAdapter extends BaseExpandableListAdapter {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    context.startActivity(new Intent(context, InfoDetailsActivity.class)
+                            .putExtra("type", TradeType.HEAD_DETAILS));
                 }
             });
         }
     }
 
-    private void handleCommunityItem(int groupPosition, int childPosition, final TradeCommunityViewHolder holder, View convertView) {
+    private void handleCommunityItem(final int groupPosition, final int childPosition, final TradeCommunityViewHolder holder, View convertView) {
         Object child = getChild(groupPosition, childPosition);
         if (child instanceof TradeTopic) {
             final TradeTopic item = (TradeTopic) child;
@@ -259,12 +265,6 @@ public class HomeTradeCircleAdapter extends BaseExpandableListAdapter {
                 holder.glImages.setVisibility(View.GONE);
             }
 
-            if (!TextUtils.isEmpty(item.getLikeStatus()) && "1".equals(item.getLikeStatus())) {
-                holder.more.setSelected(true);
-            } else {
-                holder.more.setSelected(false);
-            }
-
             if (item.getH5obj() != null) {
                 holder.rlHref.setVisibility(View.VISIBLE);
                 holder.rlHref.setOnClickListener(new View.OnClickListener() {
@@ -296,11 +296,9 @@ public class HomeTradeCircleAdapter extends BaseExpandableListAdapter {
                     if (SharedPrefsUtil.getUserInfo() != null) {
                         startScaleAnim(v);
                         if (v.isSelected()) {  //取消点赞
-                            item.likeStatus = "0";
-                            item.praiseNumber -= 1;
+                            presenter.cancelZanTopic(item.topicId + "", groupPosition, childPosition);
                         } else { //点赞
-                            item.likeStatus = "1";
-                            item.praiseNumber += 1;
+                            presenter.zanTopic(item.topicId + "", groupPosition, childPosition);
                         }
                         notifyDataSetChanged();
                     } else {
@@ -312,7 +310,7 @@ public class HomeTradeCircleAdapter extends BaseExpandableListAdapter {
             });
 
             //delete
-            if ("1".equals(item.getCanBeDelete())) {
+            if (TextUtils.equals(item.getCanBeDelete(), "1")) {
                 holder.more.setVisibility(View.VISIBLE);
                 holder.more.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -321,7 +319,7 @@ public class HomeTradeCircleAdapter extends BaseExpandableListAdapter {
                         deletePopup.setOnDeleteListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                //
+                                presenter.deleteTopic(item.topicId + "", groupPosition, childPosition);
                             }
                         });
                         deletePopup.showAsDropDown(holder.more, UnitUtil.dip2px(context, -40), UnitUtil.dip2px(context, -10));
@@ -334,7 +332,11 @@ public class HomeTradeCircleAdapter extends BaseExpandableListAdapter {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    if (item != null) {
+                        Intent intent = new Intent(context, TradeCircleDetailActivity.class);
+                        intent.putExtra("topicId", item.getTopicId() + "");
+                        context.startActivity(intent);
+                    }
                 }
             });
         }

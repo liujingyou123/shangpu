@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.image.Batman;
+import com.finance.winport.trade.InfoDetailsActivity;
 import com.finance.winport.trade.InfoListActivity;
 import com.finance.winport.trade.TradeType;
 import com.finance.winport.trade.model.TradeHead;
@@ -28,6 +29,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by xzw on 2017/8/7.
+ * 行业头条
  */
 
 public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeHead> {
@@ -40,8 +42,10 @@ public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeHead> {
     }
 
     public void updateHeader(List<TradeTag.Tag> headerInfo) {
-        this.headerInfo = headerInfo;
-        notifyItemChanged(0);
+        if (headerInfo != null && headerInfo.size() > 0) {
+            this.headerInfo = headerInfo;
+            notifyItemChanged(0);
+        }
     }
 
     private void setHeaderInfo(HeaderViewHolder holder, List<TradeTag.Tag> headerInfo) {
@@ -71,10 +75,9 @@ public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeHead> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        if (position == 0) {
-            if (viewHolder instanceof HeaderViewHolder) {
-                setHeaderInfo((HeaderViewHolder) viewHolder, headerInfo);
-            }
+
+        if (viewHolder instanceof HeaderViewHolder) {
+            setHeaderInfo((HeaderViewHolder) viewHolder, headerInfo);
         } else {
             if (baseData == null) return;
             TradeHead item = (TradeHead) getItem(position);
@@ -95,22 +98,39 @@ public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeHead> {
             } else {
                 holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
             }
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.startActivity(new Intent(context, InfoDetailsActivity.class)
+                            .putExtra("type", TradeType.HEAD_DETAILS));
+                }
+            });
         }
     }
 
     @Override
     public int getItemCount() {
+//        if (headerInfo == null || headerInfo.size() == 0) {
         return baseData == null ? 1 : baseData.size() + 1;
+//        }
+//        return baseData == null ? 0 : baseData.size();
     }
 
     @Override
     public Object getItem(int position) {
+//        if (headerInfo == null || headerInfo.size() == 0) {
+//            return super.getItem(position);
+//        }
         return super.getItem(position - 1);
     }
 
     @Override
     public int getItemViewType(int position) {
+//        if (headerInfo == null || headerInfo.size() == 0) {
+//            return 1;
+//        } else {
         return position == 0 ? 0 : 1;
+//        }
     }
 
     static class HeaderViewHolder extends RecyclerView.ViewHolder {

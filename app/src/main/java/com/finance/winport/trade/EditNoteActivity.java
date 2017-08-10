@@ -1,20 +1,39 @@
 package com.finance.winport.trade;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.ArgbEvaluator;
+import android.animation.LayoutTransition;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.transition.Transition;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LayoutAnimationController;
+import android.view.animation.LinearInterpolator;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.aliyunoss.AliOss;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.base.BaseResponse;
+import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.net.LoadingNetSubscriber;
 import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.permission.PermissionsManager;
@@ -68,6 +87,12 @@ public class EditNoteActivity extends BaseActivity {
     TextView btnDone;
     @BindView(R.id.tv_focus_right)
     TextView tvFocusRight;
+    @BindView(R.id.post_bottom)
+    RelativeLayout postBottom;
+    @BindView(R.id.post_info)
+    LinearLayout postInfo;
+    @BindView(R.id.container)
+    FrameLayout container;
 
     private int textSize;
     private ChoicePhotoAdapter mAdapter;
@@ -88,6 +113,7 @@ public class EditNoteActivity extends BaseActivity {
     private void init() {
         tvFocusHouse.setText("发布帖子");
         tvFocusRight.setText("发帖秘籍");
+        initLayoutAnimation();
         etElse.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -140,11 +166,24 @@ public class EditNoteActivity extends BaseActivity {
 
     }
 
+    private void initLayoutAnimation() {
+        layoutIn = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_in);
+        layoutOut = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_out);
+        animatorIn = ObjectAnimator.ofInt(postInfo, "backgroundColor", START, END).setDuration(250);
+        animatorOut = ObjectAnimator.ofInt(postInfo, "backgroundColor", END, START).setDuration(250);
+        animatorIn.setEvaluator(new ArgbEvaluator());
+        animatorOut.setEvaluator(new ArgbEvaluator());
+    }
+
     @OnClick({R.id.imv_focus_house_back, R.id.btn_done, R.id.tv_focus_right})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_focus_house_back:
-                finish();
+                if (checkWithData()) {
+                    showAlert();
+                } else {
+                    finish();
+                }
                 break;
             case R.id.tv_focus_right:
                 showPostInfo();
@@ -163,9 +202,6 @@ public class EditNoteActivity extends BaseActivity {
         }
     }
 
-    private void showPostInfo() {
-
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -272,6 +308,18 @@ public class EditNoteActivity extends BaseActivity {
         return true;
     }
 
+    private boolean checkWithData() {
+        if (!TextUtils.isEmpty(etTitle.getText().toString())) {
+            return true;
+        }
+        if (!TextUtils.isEmpty(etElse.getText().toString()) || (mAdapter.getListData() != null && mAdapter.getListData().size() > 0)) {
+            return true;
+        }
+
+        return false;
+    }
+
+
     private void publishTopic() {
         ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).publishTopic(mPublicTopic), new NetSubscriber<BaseResponse>() {
             @Override
@@ -304,5 +352,85 @@ public class EditNoteActivity extends BaseActivity {
         if (mSubscription != null && !mSubscription.isUnsubscribed()) {
             mSubscription.unsubscribe();
         }
+    }
+
+    private static final int START = 0x00000000;
+    private static final int END = 0xe6000000;
+    LayoutAnimationController layoutIn;
+    LayoutAnimationController layoutOut;
+    ObjectAnimator animatorIn;
+    ObjectAnimator animatorOut;
+
+    private void showPostInfo() {
+        hideSoftKeyboard();
+        postInfo.setLayoutAnimation(layoutIn);
+        postInfo.setVisibility(View.VISIBLE);
+        animatorIn.start();
+        postInfo.startLayoutAnimation();
+    }
+
+    private void hideInfo() {
+        postInfo.setLayoutAnimation(layoutOut);
+        postInfo.startLayoutAnimation();
+        animatorOut.start();
+        animatorOut.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                postInfo.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+    }
+
+    @OnClick(R.id.close)
+    public void onViewClicked() {
+        hideInfo();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && postInfo.getVisibility() == View.VISIBLE) {
+            hideInfo();
+            return true;
+        } else {
+            if (checkWithData()) {
+                showAlert();
+                return true;
+            } else {
+                return super.onKeyDown(keyCode, event);
+            }
+        }
+    }
+
+    private void showAlert() {
+        final NoticeDialog alert = new NoticeDialog(context);
+        alert.setMessage("是否退出本次编辑");
+        alert.setOkClickListener(new NoticeDialog.OnPreClickListner() {
+            @Override
+            public void onClick() {
+                finish();
+            }
+        });
+        alert.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                alert.dismiss();
+            }
+        });
+        alert.show();
     }
 }
