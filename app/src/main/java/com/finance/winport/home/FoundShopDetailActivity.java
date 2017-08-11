@@ -1,9 +1,6 @@
 package com.finance.winport.home;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,14 +11,17 @@ import android.widget.RelativeLayout;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
+import com.finance.winport.dialog.ShareDialog;
 import com.finance.winport.home.adapter.FoundShopsCommendAdapter;
 import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.service.model.LoanListResponse;
+import com.finance.winport.util.H5Util;
 import com.finance.winport.util.ListViewUtils;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +47,8 @@ public class FoundShopDetailActivity extends BaseActivity {
     @BindView(R.id.top)
     RelativeLayout lltop;
     private FoundShopsCommendAdapter adapter;
+
+    private ShareDialog shareDialog;
 
 
     private int pageNum = 1;
@@ -89,6 +91,7 @@ public class FoundShopDetailActivity extends BaseActivity {
 
         mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             private SparseArray<ListViewUtils.ItemRecord> recordSp = new SparseArray(0);
+
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
 
@@ -168,9 +171,27 @@ public class FoundShopDetailActivity extends BaseActivity {
         }
     }
 
-    @OnClick(R.id.back)
-    public void onViewClicked() {
-        finish();
-    }
 
+    @OnClick({R.id.back, R.id.share})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.back:
+                finish();
+                break;
+            case R.id.share:
+//                MobclickAgent.onEvent(context, "shop_share");
+//                if (mShopDetail == null) {
+//                    return;
+//                }
+//                if (shareDialog == null) {
+//                    shareDialog = new ShareDialog(this);
+//                }
+//                shareDialog.setDes(mShopDetail.getData().getAddress() + "(" + UnitUtil.formatSNum(mShopDetail.getData().getArea()) + "㎡)旺铺急租，租金仅" + rentPrice);
+//                shareDialog.setTitle(mShopDetail.getData().getAddress());
+//                shareDialog.setImage(coverImg);
+//                shareDialog.setUrl(H5Util.getIpShopDetail(mShopDetail.getData().getId() + ""));
+//                shareDialog.show();
+                break;
+        }
+    }
 }
