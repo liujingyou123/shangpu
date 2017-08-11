@@ -1,5 +1,7 @@
 package com.finance.winport.util;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.graphics.Paint;
 import android.text.InputFilter;
 import android.text.Spannable;
@@ -9,6 +11,8 @@ import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
+import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
 import java.util.List;
@@ -161,6 +165,7 @@ public class TextViewUtil {
 
     /**
      * 限制EditText输入长度
+     *
      * @param limtSize
      * @return
      */
@@ -187,10 +192,11 @@ public class TextViewUtil {
 
     /**
      * 身份证号输入验证(及格式化)
+     *
      * @return
      */
     public static InputFilter idCardInput() {
-        return  new InputFilter() {
+        return new InputFilter() {
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
                 // 删除等特殊字符，直接返回
                 if ("".equals(source.toString())) {
@@ -206,7 +212,7 @@ public class TextViewUtil {
                     }
                 }
                 if (dValue.length() == 6 || dValue.length() == 11 || dValue.length() == 16) {
-                    return " "+source;
+                    return " " + source;
                 }
 
                 if (dValue.length() != 20 && !isNumeric(source.toString())) {
@@ -219,10 +225,11 @@ public class TextViewUtil {
 
     /**
      * 手机号码输入格式化及验证(EditText InputType必须为phone)
+     *
      * @return
      */
     public static InputFilter phoneFormat() {
-        return  new InputFilter() {
+        return new InputFilter() {
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
                 // 删除等特殊字符，直接返回
                 if ("".equals(source.toString())) {
@@ -232,12 +239,12 @@ public class TextViewUtil {
 
                 String dValue = dest.toString();
 
-                if (dValue.length() == 13 || !(isNumeric(source.toString().replaceAll(" ","")))) {
+                if (dValue.length() == 13 || !(isNumeric(source.toString().replaceAll(" ", "")))) {
                     return "";
                 }
 
                 if (dValue.length() == 3 || dValue.length() == 8) {
-                    return " "+source;
+                    return " " + source;
                 }
 
                 return null;
@@ -247,13 +254,14 @@ public class TextViewUtil {
 
     /**
      * 是不是数组
+     *
      * @param str
      * @return
      */
-    public static boolean isNumeric(String str){
+    public static boolean isNumeric(String str) {
         Pattern pattern = Pattern.compile("[0-9]*");
         Matcher isNum = pattern.matcher(str);
-        if( !isNum.matches() ){
+        if (!isNum.matches()) {
             return false;
         }
         return true;
@@ -261,5 +269,15 @@ public class TextViewUtil {
 
     public static boolean isEmpty(String str) {
         return TextUtils.isEmpty(str) || "null".equals(str);
+    }
+
+    public static void startScaleAnim(View target) {
+        AnimatorSet animatorSet = new AnimatorSet();//组合动画
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(target, "scaleX", 1.0f, 1.5f, 1.0f);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(target, "scaleY", 1.0f, 1.5f, 1.0f);
+        animatorSet.setDuration(600);
+        animatorSet.setInterpolator(new DecelerateInterpolator());
+        animatorSet.play(scaleX).with(scaleY);//两个动画同时开始
+        animatorSet.start();
     }
 }

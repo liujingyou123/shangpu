@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
+import com.finance.winport.base.BaseFragment;
 
 public class InfoDetailsActivity extends BaseActivity {
 
@@ -12,6 +13,8 @@ public class InfoDetailsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_details);
-        pushFragment(new NewsDetailsFragment());
+        BaseFragment fragment = new NewsDetailsFragment();
+        fragment.setArguments(getIntent().getExtras());
+        pushFragment(fragment);
     }
 }

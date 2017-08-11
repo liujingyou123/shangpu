@@ -147,7 +147,7 @@ public class MyPostListActivity extends BaseActivity implements IMyTopicListView
     @Override
     public void cancelTopic(boolean isSuccess, int position, String topId) {
         if (isSuccess) {
-//            mPresenter.getTradeCircles(type, pageNumber);
+//            mPresenter.getTradeCircles(tvType, pageNumber);
             for (int i = 0; i < mData.size(); i++) {
                 MyTopicResponse.DataBean.MyTopic trade = mData.get(i);
                 if (topId.equals(trade.getTopicId() + "")) {

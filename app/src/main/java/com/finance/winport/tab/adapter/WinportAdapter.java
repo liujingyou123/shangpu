@@ -1,6 +1,7 @@
 package com.finance.winport.tab.adapter;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.text.SpannableString;
@@ -19,6 +20,7 @@ import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.dialog.OffShelfDialog;
 import com.finance.winport.home.ShopDetailActivity;
 import com.finance.winport.image.Batman;
+import com.finance.winport.image.BatmanCallBack;
 import com.finance.winport.tab.TypeList;
 import com.finance.winport.tab.WinportActivity;
 import com.finance.winport.tab.model.NameValue;
@@ -57,6 +59,9 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
             holder = (ViewHolder) convertView.getTag();
         }
         final WinportList.DataBeanX.DataBean item = baseData.get(position);
+        holder.name.setText(item.clerkName);
+        holder.sign.setText(item.signature);
+        setHeadImage(item.headPortrait, holder.img);
         holder.address.setText(item.address + item.rentTypeName);
         holder.scanCount.setText("周浏览" + item.scanCount + "人/次");
         holder.area.setText(UnitUtil.formatArea(item.area) + "㎡");
@@ -128,6 +133,20 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         return convertView;
     }
 
+    private void setHeadImage(String headPortrait, final ImageView img) {
+        Batman.getInstance().fromNet(headPortrait, new BatmanCallBack() {
+            @Override
+            public void onSuccess(Bitmap bitmap) {
+                img.setImageBitmap(bitmap);
+            }
+
+            @Override
+            public void onFailure(Exception error) {
+
+            }
+        });
+    }
+
     String id = "";
 
     private void showOffShelfAlert(final String shopId) {
@@ -148,11 +167,11 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
     LoadingDialog loading = new LoadingDialog(context);
 
     //下架商铺
-    private void offShelfSHop(String shopId, String id) {
+    private void offShelfSHop(String shopId, String type) {
         loading.show();
         HashMap<String, Object> params = new HashMap<>();
         params.put("shopId", shopId);
-        params.put("tagId", id);
+        params.put("type", type);
         PersonManager.getInstance().offShelfSHop(params, new NetworkCallback<BaseResponse>() {
             @Override
             public void success(BaseResponse response) {
@@ -187,8 +206,8 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         RoundedImageView headImg;
         @BindView(R.id.name)
         TextView name;
-        @BindView(R.id.work_type)
-        TextView workType;
+        @BindView(R.id.sign)
+        TextView sign;
         @BindView(R.id.img)
         ImageView img;
         @BindView(R.id.address)

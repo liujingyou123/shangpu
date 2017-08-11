@@ -84,6 +84,7 @@ public class CollectionShopList extends BaseResponse {
             public int contactCount;
             public int collectedId;
             public int rentStatus;
+            public int shelfStatus;//0 已上架、1 已下架
             public List<FeatureListBean> featureList;
 
             public static class FeatureListBean {

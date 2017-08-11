@@ -126,7 +126,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     TextView personalSign;
     Unbinder unbinder;
     private PersonalInfoPresenter mPresenter;
-    private ArrayList<Integer> selectList = new ArrayList<>();
+    private PersonalInfoResponse info;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -513,7 +513,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
 
     // 个人信息
     private void toPersonalInfo() {
-        startActivity(new Intent(context, PersonalInfoActivity.class));
+        startActivity(new Intent(context, PersonalInfoActivity.class).putExtra("info", info));
     }
 
     private void saveHeadInfo(String headUrl) {
@@ -540,227 +540,13 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     @Override
     public void showPersonalInfo(PersonalInfoResponse response) {
         isDataOk = true;
-        selectList = (ArrayList<Integer>) response.getData().getList();
-        StringBuilder s = new StringBuilder();
-        for (int i = 0; i < selectList.size(); i++) {
-            if (i == 0) {
-
-                if (selectList.size() == 1) {
-
-                    switch (selectList.get(i)) {
-                        case 1:
-                            s.append("20㎡以下");
-                            break;
-                        case 2:
-                            s.append("20-50㎡");
-                            break;
-                        case 3:
-                            s.append("50-100㎡");
-                            break;
-                        case 4:
-                            s.append("100-200㎡");
-                            break;
-                        case 5:
-                            s.append("200-500㎡");
-                            break;
-                        case 6:
-                            s.append("500-1000㎡");
-                            break;
-                        case 7:
-                            s.append("1000㎡以上");
-                            break;
-                    }
-
-                } else {
-                    switch (selectList.get(i)) {
-                        case 1:
-                            s.append("20㎡以下");
-                            break;
-                        case 2:
-                            s.append("20-50㎡");
-                            break;
-                        case 3:
-                            s.append("50-100㎡");
-                            break;
-                        case 4:
-                            s.append("100-200㎡");
-                            break;
-                        case 5:
-                            s.append("200-500㎡");
-                            break;
-                        case 6:
-                            s.append("500-1000㎡");
-                            break;
-                        case 7:
-                            s.append("1000㎡以上");
-                            break;
-                    }
-                }
-            } else if (selectList.size() < 5) {
-                switch (selectList.get(i)) {
-                    case 1:
-                        s.append("-" + "20㎡以下");
-                        break;
-                    case 2:
-                        s.append("-" + "20-50㎡");
-                        break;
-                    case 3:
-                        s.append("-" + "50-100㎡");
-                        break;
-                    case 4:
-                        s.append("-" + "100-200㎡");
-                        break;
-                    case 5:
-                        s.append("-" + "200-500㎡");
-                        break;
-                    case 6:
-                        s.append("-" + "500-1000㎡");
-                        break;
-                    case 7:
-                        s.append("-" + "1000㎡以上");
-                        break;
-                }
-            } else if (i == 3) {
-                switch (selectList.get(i)) {
-                    case 1:
-                        s.append("-" + "20㎡以下");
-                        break;
-                    case 2:
-                        s.append("-" + "20-50㎡");
-                        break;
-                    case 3:
-                        s.append("-" + "50-100㎡");
-                        break;
-                    case 4:
-                        s.append("-" + "100-200㎡");
-                        break;
-                    case 5:
-                        s.append("-" + "200-500㎡");
-                        break;
-                    case 6:
-                        s.append("-" + "500-1000㎡");
-                        break;
-                    case 7:
-                        s.append("-" + "1000㎡以上");
-                        break;
-                }
-            } else {
-                switch (selectList.get(i)) {
-                    case 1:
-                        s.append("-" + "20㎡以下");
-                        break;
-                    case 2:
-                        s.append("-" + "20-50㎡");
-                        break;
-                    case 3:
-                        s.append("-" + "50-100㎡");
-                        break;
-                    case 4:
-                        s.append("-" + "100-200㎡");
-                        break;
-                    case 5:
-                        s.append("-" + "200-500㎡");
-                        break;
-                    case 6:
-                        s.append("-" + "500-1000㎡");
-                        break;
-                    case 7:
-                        s.append("-" + "1000㎡以上");
-                        break;
-                }
-            }
-        }
-        phone.setText(response.getData().getPhone());
-//        industryName = response.getData().getIndustryName();
-//        blockName = response.getData().getBlockName();
-//        districtName = response.getData().getDistrictName();
-//        industryId = response.getData().getIndustryId();
-//        blockId = response.getData().getBlockId();
-//        districtId = response.getData().getDistrictId();
-//        cityName = response.getData().getCityName();
-        String headPortrait = response.getData().getHeadPortrait();
+        this.info = response;
+        phone.setText(response.data.phone);
+        personalSign.setText(response.data.signature);
+        mineSchedule.setText(response.data.myService);
+        String headPortrait = response.data.headPortrait;
         saveHeadInfo(headPortrait);
         setHeadImage(headPortrait);
-//        if (TextUtils.isEmpty(response.getData().getBlockName())) {
-//
-//            if (TextUtils.isEmpty(response.getData().getDistrictName())) {
-//
-//                if (TextUtils.isEmpty(response.getData().getCityName())) {
-//                    if (TextUtils.isEmpty(response.getData().getIndustryName())) {
-//
-//                        if (!TextUtils.isEmpty(s.toString())) {
-//
-//                            personalSign.setText("关注 " + s.toString() + " 的旺铺");
-//                        }
-//                    } else {
-//
-//                        if (TextUtils.isEmpty(s.toString())) {
-//
-//                            personalSign.setText("关注 " + response.getData().getIndustryName() + " 的旺铺");
-//                        } else {
-//
-//                            personalSign.setText("关注 " + response.getData().getIndustryName() + "-" + s.toString() + " 的旺铺");
-//                        }
-//                    }
-//                } else {
-//
-//                    if (TextUtils.isEmpty(response.getData().getIndustryName())) {
-//
-//                        if (!TextUtils.isEmpty(s.toString())) {
-//
-//                            personalSign.setText("关注 " + response.getData().getCityName() + "-" + s.toString() + " 的旺铺");
-//                        } else {
-//                            personalSign.setText("关注 " + response.getData().getCityName() + " 的旺铺");
-//                        }
-//                    } else {
-//
-//                        if (TextUtils.isEmpty(s.toString())) {
-//
-//                            personalSign.setText("关注 " + response.getData().getCityName() + "-" + response.getData().getIndustryName() + " 的旺铺");
-//                        } else {
-//
-//                            personalSign.setText("关注 " + response.getData().getCityName() + "-" + response.getData().getIndustryName() + "-" + s.toString() + " 的旺铺");
-//                        }
-//                    }
-//                }
-//            } else {
-//                if (TextUtils.isEmpty(response.getData().getIndustryName())) {
-//
-//                    if (!TextUtils.isEmpty(s.toString())) {
-//
-//                        personalSign.setText("关注 " + response.getData().getDistrictName() + "-" + s.toString() + " 的旺铺");
-//                    } else {
-//                        personalSign.setText("关注 " + response.getData().getDistrictName() + " 的旺铺");
-//                    }
-//                } else {
-//
-//                    if (TextUtils.isEmpty(s.toString())) {
-//
-//                        personalSign.setText("关注 " + response.getData().getDistrictName() + "-" + response.getData().getIndustryName() + " 的旺铺");
-//                    } else {
-//
-//                        personalSign.setText("关注 " + response.getData().getDistrictName() + "-" + response.getData().getIndustryName() + "-" + s.toString() + " 的旺铺");
-//                    }
-//                }
-//            }
-//        } else if (TextUtils.isEmpty(response.getData().getIndustryName())) {
-//            if (!TextUtils.isEmpty(s.toString())) {
-//
-//                personalSign.setText("关注 " + response.getData().getBlockName() + "-" + s.toString() + " 的旺铺");
-//            } else {
-//                personalSign.setText("关注 " + response.getData().getBlockName() + " 的旺铺");
-//
-//            }
-//
-//
-//        } else if (!TextUtils.isEmpty(s.toString())) {
-//
-//            personalSign.setText("关注 " + response.getData().getBlockName() + "-" + response.getData().getIndustryName() + "-" + s.toString() + " 的旺铺");
-//        } else {
-//            personalSign.setText("关注 " + response.getData().getBlockName() + "-" + response.getData().getIndustryName() + " 的旺铺");
-//
-//        }
-
 
     }
 }

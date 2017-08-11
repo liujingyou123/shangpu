@@ -27,11 +27,12 @@ import com.finance.winport.trade.InfoDetailsActivity;
 import com.finance.winport.trade.TradeCircleDetailActivity;
 import com.finance.winport.trade.TradeHeadActivity;
 import com.finance.winport.trade.TradeType;
-import com.finance.winport.trade.model.TradeBible;
-import com.finance.winport.trade.model.TradeHead;
+import com.finance.winport.trade.model.TradeSub;
+import com.finance.winport.trade.model.TradeSub;
 import com.finance.winport.trade.model.TradeTopic;
 import com.finance.winport.trade.presenter.TradeHomePresenter;
 import com.finance.winport.util.SharedPrefsUtil;
+import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.DrawableTopLeftTextView;
 import com.finance.winport.view.HtmlTextView;
@@ -187,8 +188,8 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
 
     private void handleHeadItem(int groupPosition, int childPosition, TradeHeadViewHolder holder, View convertView) {
         Object child = getChild(groupPosition, childPosition);
-        if (child instanceof TradeHead) {
-            TradeHead item = (TradeHead) child;
+        if (child instanceof TradeSub) {
+            TradeSub item = (TradeSub) child;
             holder.title.setText(item.title);
             holder.type.setText(item.content);
             holder.from.setText(item.source);
@@ -212,8 +213,8 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
 
     private void handleBibleItem(int groupPosition, int childPosition, TradeBibleViewHolder holder, View convertView) {
         Object child = getChild(groupPosition, childPosition);
-        if (child instanceof TradeBible) {
-            TradeBible item = (TradeBible) child;
+        if (child instanceof TradeSub) {
+            TradeSub item = (TradeSub) child;
             holder.desc.setText(item.title);
             holder.tip.setText(item.content);
             holder.date.setText(item.dateTime);
@@ -223,7 +224,7 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
                 @Override
                 public void onClick(View v) {
                     context.startActivity(new Intent(context, InfoDetailsActivity.class)
-                            .putExtra("type", TradeType.HEAD_DETAILS));
+                            .putExtra("type", TradeType.BIBLE_DETAILS));
                 }
             });
         }
@@ -294,7 +295,7 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
                 @Override
                 public void onClick(View v) {
                     if (SharedPrefsUtil.getUserInfo() != null) {
-                        startScaleAnim(v);
+                        TextViewUtil.startScaleAnim(v);
                         if (v.isSelected()) {  //取消点赞
                             presenter.cancelZanTopic(item.topicId + "", groupPosition, childPosition);
                         } else { //点赞
@@ -342,15 +343,6 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
         }
     }
 
-    private void startScaleAnim(View target) {
-        AnimatorSet animatorSet = new AnimatorSet();//组合动画
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(target, "scaleX", 1.0f, 1.5f, 1.0f);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(target, "scaleY", 1.0f, 1.5f, 1.0f);
-        animatorSet.setDuration(600);
-        animatorSet.setInterpolator(new DecelerateInterpolator());
-        animatorSet.play(scaleX).with(scaleY);//两个动画同时开始
-        animatorSet.start();
-    }
 
     private void setGridLayout(TradeCommunityViewHolder holder, List<TradeTopic.imgBean> imageUrls) {
         int imageSize = imageUrls.size();

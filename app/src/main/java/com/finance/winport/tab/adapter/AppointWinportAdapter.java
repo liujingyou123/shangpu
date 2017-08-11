@@ -118,14 +118,12 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
         }
         holder.distance.setText("距您" + (item.distance <= 0.0f ? "0" : item.distance) + "km");
         if (!TextUtils.isEmpty(item.updateTime)) {
-            holder.updateTime.setText(item.updateTime + "更新");
+            holder.updateTime.setText(context.getString(R.string.list_appoint_tip_1,item.rowNo));
             holder.updateTime.setVisibility(View.VISIBLE);
         } else {
             holder.updateTime.setVisibility(View.INVISIBLE);
         }
         holder.appointTime.setText(item.applyTime + "约看");
-//        holder.scan.setText(item.visitCount + "");
-//        holder.call.setText(item.contactCount + "");
         Batman.getInstance().fromNet(item.coverImg, holder.img);
         setTag(holder, item);
         convertView.setOnClickListener(new View.OnClickListener() {
@@ -141,7 +139,7 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
             @Override
             public boolean onLongClick(View v) {
                 MobclickAgent.onEvent(context, "shoporder_delete");
-                showDeleteAlert(item.visitId + "", position);
+                showDeleteAlert(item.id + "", position);
                 return true;
             }
         });
@@ -231,23 +229,23 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
         return gradientDrawable;
     }
 
-    void showDeleteAlert(final String visitId, final int position) {
+    void showDeleteAlert(final String shopId, final int position) {
         NoticeDialog n = new NoticeDialog(context);
         n.setMessage("删除约看");
         n.setPositiveBtn("确认");
         n.setOkClickListener(new NoticeDialog.OnPreClickListner() {
             @Override
             public void onClick() {
-                deleteAppoint(visitId, position);
+                deleteAppoint(shopId, position);
             }
         });
         n.show();
     }
 
-    private void deleteAppoint(String visitId, final int position) {
+    private void deleteAppoint(String shopId, final int position) {
         loading.show();
         HashMap<String, Object> params = new HashMap<>();
-        params.put("visitId", visitId);
+        params.put("shopId", shopId);
         PersonManager.getInstance().deleteAppoint(params, new NetworkCallback<BaseResponse>() {
             @Override
             public void success(BaseResponse response) {

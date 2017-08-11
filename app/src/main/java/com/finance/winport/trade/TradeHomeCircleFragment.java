@@ -12,8 +12,8 @@ import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.trade.adapter.TradeHomeCircleAdapter;
-import com.finance.winport.trade.model.TradeBible;
-import com.finance.winport.trade.model.TradeHead;
+import com.finance.winport.trade.model.TradeSub;
+import com.finance.winport.trade.model.TradeSub;
 import com.finance.winport.trade.model.TradeHome;
 import com.finance.winport.trade.model.TradeTopic;
 import com.finance.winport.trade.presenter.TradeHomePresenter;
@@ -87,7 +87,7 @@ public class TradeHomeCircleFragment extends BaseFragment implements ITradeHomeV
 
     private void initData() {
         mData.put(titles[0], getHeadData());
-        mData.put(titles[1], getCanonData());
+        mData.put(titles[1], getBibleData());
         mData.put(titles[2], getCommunityData());
     }
 
@@ -101,7 +101,7 @@ public class TradeHomeCircleFragment extends BaseFragment implements ITradeHomeV
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                presenter.getTradeHome(false);
+//                presenter.getTradeHome(false);
                 refreshView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -117,7 +117,7 @@ public class TradeHomeCircleFragment extends BaseFragment implements ITradeHomeV
     private List<BaseResponse> getHeadData() {
         List<BaseResponse> list = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            TradeHead item = new TradeHead();
+            TradeSub item = new TradeSub();
             item.title = i == 0 ? "上海喜茶又搞事情，因黄牛得罪外卖小哥外卖小哥" : "这家店火得一发不可收拾";
             item.kind = i == 0 ? true : false;
             item.image = img;
@@ -130,10 +130,10 @@ public class TradeHomeCircleFragment extends BaseFragment implements ITradeHomeV
         return list;
     }
 
-    private List<BaseResponse> getCanonData() {
+    private List<BaseResponse> getBibleData() {
         List<BaseResponse> list = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            TradeBible item = new TradeBible();
+            TradeSub item = new TradeSub();
             item.title = "全上海最好的铺子都在这里";
             item.image = img;
             item.content = "生意测评";
@@ -180,7 +180,7 @@ public class TradeHomeCircleFragment extends BaseFragment implements ITradeHomeV
         unbinder.unbind();
     }
 
-    int groupPosition, childPosition;
+//    int groupPosition, childPosition;
 
     @Override
     public void setAdapter(TradeHome data) {
@@ -222,8 +222,8 @@ public class TradeHomeCircleFragment extends BaseFragment implements ITradeHomeV
             } else {
                 adapter.notifyDataSetChanged();
             }
-            mListView.setSelectedChild(groupPosition, childPosition, true);
-            groupPosition = childPosition = 0;
+//            mListView.setSelectedChild(groupPosition, childPosition, true);
+//            groupPosition = childPosition = 0;
         }
     }
 
@@ -233,14 +233,14 @@ public class TradeHomeCircleFragment extends BaseFragment implements ITradeHomeV
     }
 
     @Override
-    public void zanTopic(boolean success, String topicId, int groupPosition, int position) {
+    public void zanTopic(boolean success, String topicId, int groupPosition, int childPosition) {
         if (success) {
             if (mData != null) {
                 List<BaseResponse> list = mData.get(titles[groupPosition]);
                 BaseResponse find = null;
                 if (list != null) {
-                    if (list.size() > position) {
-                        TradeTopic item = (TradeTopic) list.get(position);
+                    if (list.size() > childPosition) {
+                        TradeTopic item = (TradeTopic) list.get(childPosition);
                         if (item != null && TextUtils.equals(item.topicId + "", topicId)) {
                             item.praiseNumber += 1;
                             item.likeStatus = "1";
@@ -267,14 +267,14 @@ public class TradeHomeCircleFragment extends BaseFragment implements ITradeHomeV
     }
 
     @Override
-    public void cancelZanTopic(boolean success, String topicId, int groupPosition, int position) {
+    public void cancelZanTopic(boolean success, String topicId, int groupPosition, int childPosition) {
         if (success) {
             if (mData != null) {
                 List<BaseResponse> list = mData.get(titles[groupPosition]);
                 BaseResponse find = null;
                 if (list != null) {
-                    if (list.size() > position) {
-                        TradeTopic item = (TradeTopic) list.get(position);
+                    if (list.size() > childPosition) {
+                        TradeTopic item = (TradeTopic) list.get(childPosition);
                         if (item != null && TextUtils.equals(item.topicId + "", topicId)) {
                             item.praiseNumber -= 1;
                             item.likeStatus = "0";

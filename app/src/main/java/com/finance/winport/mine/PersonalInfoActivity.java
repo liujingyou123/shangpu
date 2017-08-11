@@ -24,6 +24,9 @@ import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.image.Batman;
 import com.finance.winport.image.BatmanCallBack;
 import com.finance.winport.mine.event.ModifyEvent;
+import com.finance.winport.mine.model.PersonalInfoResponse;
+import com.finance.winport.mine.presenter.IPersonalInfoView;
+import com.finance.winport.mine.presenter.PersonalInfoPresenter;
 import com.finance.winport.permission.PermissionsManager;
 import com.finance.winport.permission.PermissionsResultAction;
 import com.finance.winport.tab.TypeList;
@@ -80,6 +83,7 @@ public class PersonalInfoActivity extends BaseActivity {
     LinearLayout concernLayout;
     private String industryName, blockName, districtName, industryId, blockId, districtId, cityName;
     private ArrayList<Integer> selectList = new ArrayList<>();
+    PersonalInfoResponse info;
 
     @Subscribe
     public void onSelectEvent(SelectImageEvent event) {
@@ -92,10 +96,23 @@ public class PersonalInfoActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+        info = (PersonalInfoResponse) getIntent().getSerializableExtra("info");
         setContentView(R.layout.activity_personal_info);
         ButterKnife.bind(this);
         initView();
+        initInfo();
     }
+
+    private void initInfo() {
+        if (info != null) {
+            setHeadImage(info.data.headPortrait);
+            nikeName.setText(info.data.nickName);
+            sign.setText(info.data.signature);
+            phone.setText(info.data.phone);
+//            concern.setText();
+        }
+    }
+
 
     @Subscribe
     public void onModifyEvent(ModifyEvent event) {
@@ -342,4 +359,5 @@ public class PersonalInfoActivity extends BaseActivity {
     public void onViewClicked() {
         handleBack();
     }
+
 }

@@ -6,6 +6,7 @@ import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.trade.api.TradeService;
 import com.finance.winport.trade.model.TradeHome;
 import com.finance.winport.trade.model.TradeSub;
+import com.finance.winport.trade.model.TradeSubList;
 import com.finance.winport.trade.model.TradeTag;
 import com.finance.winport.trade.view.ITradeHomeView;
 import com.finance.winport.trade.view.ITradeSubView;
@@ -31,11 +32,14 @@ public class TradeSubPresenter {
         this.iView = iView;
     }
 
-    public void getSubList(final boolean withLoading) {
+    public void getSubList(int pageNumber, int pageSize, String type, final boolean withLoading) {
         HashMap<String, String> hashMap = new HashMap<>();
-        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).getSubList(hashMap), new LoadingNetSubscriber<TradeSub>() {
+        hashMap.put("pageNumber", pageNumber + "");
+        hashMap.put("pageSize", pageSize + "");
+        hashMap.put("type", type);
+        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).getSubList(hashMap), new LoadingNetSubscriber<TradeSubList>() {
             @Override
-            public void response(TradeSub response) {
+            public void response(TradeSubList response) {
                 if (iView != null) {
                     iView.setAdapter(response);
                 }
@@ -58,8 +62,9 @@ public class TradeSubPresenter {
         });
     }
 
-    public void getTagList(final boolean withLoading) {
+    public void getTagList(String type, final boolean withLoading) {
         HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("type", type);
         ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).getTagList(hashMap), new LoadingNetSubscriber<TradeTag>() {
             @Override
             public void response(TradeTag response) {

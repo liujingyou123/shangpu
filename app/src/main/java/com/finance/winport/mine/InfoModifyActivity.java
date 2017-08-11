@@ -33,10 +33,6 @@ public class InfoModifyActivity extends BaseActivity {
             case PHONE:
                 fragment = new ModifyPhoneFragment();
                 break;
-//            case CONCERN_TYPE:
-//                fragment = new ModifyNickNameFragment();
-//                break;
-
         }
         if (fragment != null) {
             fragment.setArguments(getIntent().getExtras());

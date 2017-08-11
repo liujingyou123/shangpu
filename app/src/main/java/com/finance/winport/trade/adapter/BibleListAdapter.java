@@ -13,7 +13,7 @@ import com.finance.winport.R;
 import com.finance.winport.image.Batman;
 import com.finance.winport.trade.InfoDetailsActivity;
 import com.finance.winport.trade.TradeType;
-import com.finance.winport.trade.model.TradeBible;
+import com.finance.winport.trade.model.TradeSub;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 
 import java.util.List;
@@ -25,10 +25,10 @@ import butterknife.ButterKnife;
  * Created by xzw on 2017/8/7.
  */
 
-public class BibleListAdapter extends PullRecyclerBaseAdapter<TradeBible> {
+public class BibleListAdapter extends PullRecyclerBaseAdapter<TradeSub> {
     LayoutInflater inflater;
 
-    public BibleListAdapter(PtrClassicFrameLayout baseView, List<TradeBible> baseData, int maxTotal) {
+    public BibleListAdapter(PtrClassicFrameLayout baseView, List<TradeSub> baseData, int maxTotal) {
         super(baseView, baseData, maxTotal);
         inflater = LayoutInflater.from(context);
     }
@@ -42,7 +42,7 @@ public class BibleListAdapter extends PullRecyclerBaseAdapter<TradeBible> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         ViewHolder holder = (ViewHolder) viewHolder;
-        TradeBible item = baseData.get(position);
+        TradeSub item = baseData.get(position);
         if (item == null) return;
         holder.desc.setText(item.title);
         holder.tip.setText(item.content);
@@ -58,7 +58,7 @@ public class BibleListAdapter extends PullRecyclerBaseAdapter<TradeBible> {
             @Override
             public void onClick(View v) {
                 context.startActivity(new Intent(context, InfoDetailsActivity.class)
-                        .putExtra("type", TradeType.BIBLE_LIST));
+                        .putExtra("type", TradeType.BIBLE_DETAILS));
             }
         });
     }

@@ -114,4 +114,16 @@ public interface PersonService {
     @POST("customerapp/api/user/app/checkUpdate/v1.0.0")
     Observable<CheckVersionResponse> checkVersion(@Body HashMap<String, Object> params);
 
+    //修改手机号
+    @POST("")
+    Observable<com.finance.winport.base.BaseResponse> modifyUserPhone(@Body HashMap map);
+
+    //修改昵称
+    @POST("")
+    Observable<com.finance.winport.base.BaseResponse> modifyNickName(@Body HashMap map);
+
+    //修改签名
+    @POST("")
+    Observable<com.finance.winport.base.BaseResponse> modifySign(@Body HashMap map);
+
 }

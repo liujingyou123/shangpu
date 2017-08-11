@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.trade.adapter.NewsListAdapter;
-import com.finance.winport.trade.model.TradeHead;
+import com.finance.winport.trade.model.TradeSub;
 import com.finance.winport.trade.model.TradeTag;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
@@ -101,10 +101,10 @@ public class NewsListFragment extends BaseFragment {
 
     String img = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1501843518220&di=0306ae6f9c5434136495d0c45e016b2a&imgtype=0&src=http%3A%2F%2Fpic23.photophoto.cn%2F20120530%2F0020033092420808_b.jpg";
 
-    private List<TradeHead> getHeadData() {
-        List<TradeHead> list = new ArrayList<>();
+    private List<TradeSub> getHeadData() {
+        List<TradeSub> list = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
-            TradeHead item = new TradeHead();
+            TradeSub item = new TradeSub();
             item.title = i == 0 ? "上海喜茶又搞事情，因黄牛得罪外卖小哥外卖小哥" : "这家店火得一发不可收拾";
             item.kind = /*i == 0 ? true :*/ false;
             item.image = img;

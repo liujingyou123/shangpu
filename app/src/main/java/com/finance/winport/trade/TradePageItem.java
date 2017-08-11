@@ -24,7 +24,7 @@ public class TradePageItem extends SlidingTagPagerItem {
         }
 
         Bundle bundle = new Bundle();
-        bundle.putString("type", getMsg());
+        bundle.putString("tvType", getMsg());
         fragment.setArguments(bundle);
 
 

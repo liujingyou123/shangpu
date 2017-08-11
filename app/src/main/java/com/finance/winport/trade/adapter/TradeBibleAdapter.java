@@ -16,7 +16,7 @@ import com.finance.winport.image.Batman;
 import com.finance.winport.trade.InfoDetailsActivity;
 import com.finance.winport.trade.InfoListActivity;
 import com.finance.winport.trade.TradeType;
-import com.finance.winport.trade.model.TradeBible;
+import com.finance.winport.trade.model.TradeSub;
 import com.finance.winport.trade.model.TradeTag;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
@@ -30,18 +30,22 @@ import butterknife.ButterKnife;
  * Created by xzw on 2017/8/7.
  */
 
-public class TradeBibleAdapter extends PullRecyclerBaseAdapter<TradeBible> {
+public class TradeBibleAdapter extends PullRecyclerBaseAdapter<TradeSub> {
     LayoutInflater inflater;
     List<TradeTag.Tag> headerInfo;
 
-    public TradeBibleAdapter(PtrClassicFrameLayout baseView, List<TradeBible> baseData, int maxTotal) {
+    public TradeBibleAdapter(PtrClassicFrameLayout baseView, List<TradeSub> baseData, int maxTotal) {
         super(baseView, baseData, maxTotal);
         inflater = LayoutInflater.from(context);
     }
 
     public void updateHeader(List<TradeTag.Tag> headerInfo) {
         this.headerInfo = headerInfo;
-        notifyItemChanged(0);
+        if (headerInfo != null && headerInfo.size() > 0) {
+            notifyItemChanged(0);
+        } else {
+            notifyDataChanged();
+        }
     }
 
     private void setHeaderInfo(HeaderViewHolder holder, List<TradeTag.Tag> headerInfo) {
@@ -77,7 +81,7 @@ public class TradeBibleAdapter extends PullRecyclerBaseAdapter<TradeBible> {
             }
         } else {
             if (baseData == null) return;
-            TradeBible item = (TradeBible) getItem(position);
+            TradeSub item = (TradeSub) getItem(position);
             ViewHolder holder = (ViewHolder) viewHolder;
             holder.desc.setText(item.title);
             holder.tip.setText(item.content);
@@ -93,7 +97,7 @@ public class TradeBibleAdapter extends PullRecyclerBaseAdapter<TradeBible> {
                 @Override
                 public void onClick(View v) {
                     context.startActivity(new Intent(context, InfoDetailsActivity.class)
-                            .putExtra("type", TradeType.HEAD_DETAILS));
+                            .putExtra("type", TradeType.BIBLE_DETAILS));
                 }
             });
         }
@@ -101,18 +105,29 @@ public class TradeBibleAdapter extends PullRecyclerBaseAdapter<TradeBible> {
 
     @Override
     public int getItemCount() {
+        if (headerInfo == null || headerInfo.size() == 0) {
+            return baseData == null ? 0 : baseData.size();
+        }
         return baseData == null ? 1 : baseData.size() + 1;
     }
 
     @Override
     public Object getItem(int position) {
+        if (headerInfo == null || headerInfo.size() == 0) {
+            return super.getItem(position);
+        }
         return super.getItem(position - 1);
     }
 
     @Override
     public int getItemViewType(int position) {
-        return position == 0 ? 0 : 1;
+        if (headerInfo == null || headerInfo.size() == 0) {
+            return 1;
+        } else {
+            return position == 0 ? 0 : 1;
+        }
     }
+
 
     static class HeaderViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.header)

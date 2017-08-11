@@ -86,6 +86,8 @@ public class AppointShopList extends BaseResponse {
             public int visitId;
             public int rentStatus;
             public String applyTime;
+            public String rowNo;//其他约看数
+            public int shelfStatus;//0 已上架、1 已下架
             public List<FeatureListBean> featureList;
 
             public static class FeatureListBean {

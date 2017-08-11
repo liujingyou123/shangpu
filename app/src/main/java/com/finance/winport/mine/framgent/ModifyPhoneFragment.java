@@ -21,9 +21,11 @@ import com.finance.winport.account.model.ImageVerifyCode;
 import com.finance.winport.account.model.Message;
 import com.finance.winport.account.net.UserManager;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.base.BaseResponse;
 import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.mine.event.ModifyEvent;
 import com.finance.winport.tab.net.NetworkCallback;
+import com.finance.winport.tab.net.PersonManager;
 import com.finance.winport.util.NetworkUtil;
 import com.finance.winport.util.StringUtil;
 import com.finance.winport.util.TextViewUtil;
@@ -48,7 +50,7 @@ public class ModifyPhoneFragment extends BaseFragment {
     @BindView(R.id.tv_focus_house)
     TextView tvFocusHouse;
     @BindView(R.id.oldPhone)
-    TextView oldPhone;
+    TextView tvOldPhone;
     @BindView(R.id.phone_view)
     EditText phoneView;
     @BindView(R.id.verify_code_view_image)
@@ -61,7 +63,7 @@ public class ModifyPhoneFragment extends BaseFragment {
     EditText verifyCodeView;
     @BindView(R.id.countDown)
     CountDownButton countDown;
-    private String text;
+    private String oldPhone;
 
     private static final int CODE_LIMIT_COUNT = 3;// 单词获取验证码限制次数
     private int requestCodeCount;//获取验证码次数
@@ -79,7 +81,7 @@ public class ModifyPhoneFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         forceSoftKeyboardVisible(true);
         if (getArguments() == null) return;
-        text = getArguments().getString("data");
+        oldPhone = getArguments().getString("data");
     }
 
     @Nullable
@@ -97,7 +99,30 @@ public class ModifyPhoneFragment extends BaseFragment {
 
         String content = this.phoneView.getText().toString().trim();
         setResult(content);
+        modifyUserPhone();
     }
+
+    private void modifyUserPhone() {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("oldPhone", oldPhone);
+        params.put("newPhone", userPhone);
+        params.put("smsVerifyCode", smsVerifyCode);
+        params.put("messageId", messageId);
+        params.put("picVerifyCode", picVerifyCode);
+        params.put("picVerifyId", picVerifyId);
+        PersonManager.getInstance().modifyUserPhone(params, new NetworkCallback<BaseResponse>() {
+            @Override
+            public void success(BaseResponse response) {
+                setResult(userPhone);
+            }
+
+            @Override
+            public void failure(Throwable throwable) {
+                ToastUtil.show(context, throwable.getMessage());
+            }
+        });
+    }
+
 
     private void setResult(String contentText) {
         EventBus.getDefault().post(new ModifyEvent(ModifyEvent.InfoType.PHONE, contentText));
@@ -106,7 +131,7 @@ public class ModifyPhoneFragment extends BaseFragment {
 
     private void initView() {
         tvFocusHouse.setText("修改手机号");
-        oldPhone.setText(text);
+        tvOldPhone.setText(oldPhone);
         loading = new LoadingDialog(context);
         phoneView.setFilters(new InputFilter[]{TextViewUtil.phoneFormat()});
         phoneView.setInputType(InputType.TYPE_CLASS_PHONE);

@@ -16,7 +16,7 @@ import com.finance.winport.image.Batman;
 import com.finance.winport.trade.InfoDetailsActivity;
 import com.finance.winport.trade.InfoListActivity;
 import com.finance.winport.trade.TradeType;
-import com.finance.winport.trade.model.TradeHead;
+import com.finance.winport.trade.model.TradeSub;
 import com.finance.winport.trade.model.TradeTag;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.DrawableTopLeftTextView;
@@ -29,22 +29,24 @@ import butterknife.ButterKnife;
 
 /**
  * Created by xzw on 2017/8/7.
- * 行业头条
+ * 行业头条 列表
  */
 
-public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeHead> {
+public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeSub> {
     LayoutInflater inflater;
     List<TradeTag.Tag> headerInfo;
 
-    public TradeHeadAdapter(PtrClassicFrameLayout baseView, List<TradeHead> baseData, int maxTotal) {
+    public TradeHeadAdapter(PtrClassicFrameLayout baseView, List<TradeSub> baseData, int maxTotal) {
         super(baseView, baseData, maxTotal);
         inflater = LayoutInflater.from(context);
     }
 
     public void updateHeader(List<TradeTag.Tag> headerInfo) {
+        this.headerInfo = headerInfo;
         if (headerInfo != null && headerInfo.size() > 0) {
-            this.headerInfo = headerInfo;
             notifyItemChanged(0);
+        } else {
+            notifyDataChanged();
         }
     }
 
@@ -80,7 +82,7 @@ public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeHead> {
             setHeaderInfo((HeaderViewHolder) viewHolder, headerInfo);
         } else {
             if (baseData == null) return;
-            TradeHead item = (TradeHead) getItem(position);
+            TradeSub item = (TradeSub) getItem(position);
             ViewHolder holder = (ViewHolder) viewHolder;
             holder.title.setText(item.title);
             holder.type.setText(item.content);
@@ -110,27 +112,27 @@ public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeHead> {
 
     @Override
     public int getItemCount() {
-//        if (headerInfo == null || headerInfo.size() == 0) {
+        if (headerInfo == null || headerInfo.size() == 0) {
+            return baseData == null ? 0 : baseData.size();
+        }
         return baseData == null ? 1 : baseData.size() + 1;
-//        }
-//        return baseData == null ? 0 : baseData.size();
     }
 
     @Override
     public Object getItem(int position) {
-//        if (headerInfo == null || headerInfo.size() == 0) {
-//            return super.getItem(position);
-//        }
+        if (headerInfo == null || headerInfo.size() == 0) {
+            return super.getItem(position);
+        }
         return super.getItem(position - 1);
     }
 
     @Override
     public int getItemViewType(int position) {
-//        if (headerInfo == null || headerInfo.size() == 0) {
-//            return 1;
-//        } else {
-        return position == 0 ? 0 : 1;
-//        }
+        if (headerInfo == null || headerInfo.size() == 0) {
+            return 1;
+        } else {
+            return position == 0 ? 0 : 1;
+        }
     }
 
     static class HeaderViewHolder extends RecyclerView.ViewHolder {

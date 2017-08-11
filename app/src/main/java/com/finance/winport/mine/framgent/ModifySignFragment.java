@@ -16,9 +16,15 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.base.BaseResponse;
 import com.finance.winport.mine.event.ModifyEvent;
+import com.finance.winport.tab.net.NetworkCallback;
+import com.finance.winport.tab.net.PersonManager;
+import com.finance.winport.util.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,6 +72,23 @@ public class ModifySignFragment extends BaseFragment {
 
         String content = this.content.getText().toString().trim();
         setResult(content);
+//        modifySign(content);
+    }
+
+    private void modifySign(final String content) {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("signature", content);
+        PersonManager.getInstance().modifySign(params, new NetworkCallback<BaseResponse>() {
+            @Override
+            public void success(BaseResponse response) {
+                setResult(content);
+            }
+
+            @Override
+            public void failure(Throwable throwable) {
+                ToastUtil.show(context, throwable.getMessage());
+            }
+        });
     }
 
     private void setResult(String contentText) {

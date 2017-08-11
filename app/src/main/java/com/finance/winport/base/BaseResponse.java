@@ -1,10 +1,12 @@
 package com.finance.winport.base;
 
+import java.io.Serializable;
+
 /**
  * Created by liuworkmac on 16/9/5.
  * 接口返回积类
  */
-public class BaseResponse {
+public class BaseResponse implements Serializable {
 
     public String errMsg;  //结果状描述
 

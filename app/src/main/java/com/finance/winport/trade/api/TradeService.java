@@ -7,8 +7,10 @@ import com.finance.winport.trade.model.MyTopicResponse;
 import com.finance.winport.trade.model.PublicTopic;
 import com.finance.winport.trade.model.TradeCircleResponse;
 import com.finance.winport.trade.model.TradeDetailResponse;
+import com.finance.winport.trade.model.TradeDetails;
 import com.finance.winport.trade.model.TradeHome;
 import com.finance.winport.trade.model.TradeSub;
+import com.finance.winport.trade.model.TradeSubList;
 import com.finance.winport.trade.model.TradeTag;
 
 import java.util.HashMap;
@@ -30,9 +32,21 @@ public interface TradeService {
     @POST("")
     Observable<TradeTag> getTagList(@Body HashMap<String, String> params);
 
-    //行业头条、生意宝典
+    //行业头条、生意宝典 列表
     @POST("")
-    Observable<TradeSub> getSubList(@Body HashMap<String, String> params);
+    Observable<TradeSubList> getSubList(@Body HashMap<String, String> params);
+
+    //行业头条、生意宝典 详情
+    @POST("")
+    Observable<TradeDetails> getSubDetails(@Body HashMap<String, String> params);
+
+    //行业头条、生意宝典详情 点赞
+    @POST("")
+    Observable<BaseResponse> praise(@Body HashMap<String, String> params);
+
+    //行业头条、生意宝典详情 踩
+    @POST("")
+    Observable<BaseResponse> downPraise(@Body HashMap<String, String> params);
 
     //生意圈
     @POST("customerapp/api/topic/topicList/v1.0.0")

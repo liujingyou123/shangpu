@@ -101,7 +101,7 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
     private void init() {
         Bundle bundle = getArguments();
         if (bundle != null) {
-            type = bundle.getString("type");
+            type = bundle.getString("tvType");
         }
         if (mPresenter == null) {
             mPresenter = new TradeCirclePresenter();
@@ -179,7 +179,7 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
 //                textView.setSelected(true);
 //
 //            }
-//            mPresenter.getTradeCircles(type, pageNumber);
+//            mPresenter.getTradeCircles(tvType, pageNumber);
 
             for (int i = 0; i < mData.size(); i++) {
                 TradeTopic trade = mData.get(i);
@@ -200,7 +200,7 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
     @Override
     public void cancelTopic(boolean isSuccess, int position, String topId) {
         if (isSuccess) {
-//            mPresenter.getTradeCircles(type, pageNumber);
+//            mPresenter.getTradeCircles(tvType, pageNumber);
             for (int i = 0; i < mData.size(); i++) {
                 TradeTopic trade = mData.get(i);
                 if (topId.equals(trade.getTopicId() + "")) {
@@ -231,7 +231,7 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
                     break;
                 }
             }
-//            mPresenter.getTradeCircles(type, pageNumber);
+//            mPresenter.getTradeCircles(tvType, pageNumber);
         }
     }
 
@@ -285,7 +285,7 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
     public void onViewClicked() {
         MobclickAgent.onEvent(this.getContext(), "circle_comment");
         Intent intent = new Intent(this.getContext(), NoticeListActivity.class);
-        intent.putExtra("type", 2);
+        intent.putExtra("tvType", 2);
         intent.putExtra("title", "生意圈");
         startActivity(intent);
 //        SpUtil.getInstance().setIntData("commentNum", 0);

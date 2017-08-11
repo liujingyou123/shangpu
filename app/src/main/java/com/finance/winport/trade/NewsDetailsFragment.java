@@ -6,14 +6,18 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
+import com.finance.winport.dialog.ShareDialog;
 import com.finance.winport.trade.model.TradeDetails;
+import com.finance.winport.trade.presenter.TradeSubDetailsPresenter;
+import com.finance.winport.trade.view.ITradeSubDetailsView;
+import com.finance.winport.util.TextViewUtil;
+import com.finance.winport.util.ToastUtil;
 import com.finance.winport.view.CustomWebView;
 
 import butterknife.BindView;
@@ -24,17 +28,15 @@ import butterknife.Unbinder;
 /**
  * 资讯详情...
  */
-public class NewsDetailsFragment extends BaseFragment {
+public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetailsView {
 
     Unbinder unbinder;
     @BindView(R.id.tv_focus_house)
     TextView tvFocusHouse;
-    String id;
-    String title;
     @BindView(R.id.title)
     TextView tvTitle;
     @BindView(R.id.type)
-    TextView type;
+    TextView tvType;
     @BindView(R.id.from)
     TextView from;
     @BindView(R.id.date)
@@ -51,13 +53,20 @@ public class NewsDetailsFragment extends BaseFragment {
     TextView downPraise;
     @BindView(R.id.bottom)
     LinearLayout bottom;
+    String id;
+    String title;
+    TradeType type;
+    TradeSubDetailsPresenter presenter;
+    TradeDetails info;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        presenter = new TradeSubDetailsPresenter(this);
         if (getArguments() != null) {
             id = getArguments().getString("id");
             title = getArguments().getString("title");
+            type = (TradeType) getArguments().getSerializable("type");
         }
     }
 
@@ -71,11 +80,13 @@ public class NewsDetailsFragment extends BaseFragment {
         return root;
     }
 
-    private void setDetails(TradeDetails info) {
+    @Override
+    public void setDetails(TradeDetails info) {
+        this.info = info;
         if (info != null) {
             web.loadUrl("https://m.10010.com/queen/icbc/e-card.html");
             tvTitle.setText(info.data.title);
-            type.setText(info.data.content);
+            tvType.setText(info.data.content);
             if (TextUtils.isEmpty(info.data.source)) {
                 from.setVisibility(View.GONE);
             } else {
@@ -89,6 +100,28 @@ public class NewsDetailsFragment extends BaseFragment {
         }
 
     }
+
+    @Override
+    public void praise(boolean success) {
+        if (info != null) {
+            info.data.goodCount++;
+            praise.setText(info.data.goodCount + "");
+        }
+    }
+
+    @Override
+    public void downPraise(boolean success) {
+        if (info != null) {
+            info.data.badCount++;
+            downPraise.setText(info.data.badCount + "");
+        }
+    }
+
+    @Override
+    public void showError(String errorMsg) {
+        ToastUtil.show(context, errorMsg);
+    }
+
 
     private void initView() {
         tvFocusHouse.setText(title + "详情");
@@ -128,14 +161,30 @@ public class NewsDetailsFragment extends BaseFragment {
                 handleBack();
                 break;
             case R.id.share:
-
+                share();
                 break;
             case R.id.praise:
-
+                TextViewUtil.startScaleAnim(view);
+                presenter.praise("");
                 break;
             case R.id.down_praise:
-
+                TextViewUtil.startScaleAnim(view);
+                presenter.downPraise("");
                 break;
         }
+    }
+
+
+    ShareDialog shareDialog;
+
+    private void share() {
+        if (shareDialog == null) {
+            shareDialog = new ShareDialog(context);
+        }
+//        shareDialog.setDes();
+//        shareDialog.setTitle();
+//        shareDialog.setImage();
+//        shareDialog.setUrl();
+        shareDialog.show();
     }
 }

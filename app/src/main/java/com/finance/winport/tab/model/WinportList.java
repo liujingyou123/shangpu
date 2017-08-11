@@ -33,6 +33,9 @@ public class WinportList extends BaseResponse {
             public String undoTime;//撤下时间
             public int rentStatus;//出租状态 0-待出租 1-出租中 2-已出租  3-已下架（撤下）
             public String clerkPhone;//业务员电话
+            public String clerkName;//业务员姓名
+            public String headPortrait;//业务员头像
+            public String signature;//签名
         }
     }
 }

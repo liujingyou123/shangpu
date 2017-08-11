@@ -36,7 +36,7 @@
                 tools:text="黄老板" />
 
             <TextView
-                android:id="@+id/work_type"
+                android:id="@+id/sign"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/headImg"

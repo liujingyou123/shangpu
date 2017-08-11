@@ -32,6 +32,7 @@ import com.finance.winport.trade.TradeCircleListFragment;
 import com.finance.winport.trade.model.TradeTopic;
 import com.finance.winport.trade.presenter.TradeCirclePresenter;
 import com.finance.winport.util.SharedPrefsUtil;
+import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.roundview.RoundedImageView;
 import com.umeng.analytics.MobclickAgent;
@@ -158,7 +159,7 @@ public class TradeCircleAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     if (SharedPrefsUtil.getUserInfo() != null) {
-                        startScaleAnim(v);
+                        TextViewUtil.startScaleAnim(v);
                         if (v.isSelected()) {  //取消点赞
                             mPresenter.cancelzanTopic(mData.get(index).getTopicId() + "", index);
                         } else { //点在
@@ -207,16 +208,6 @@ public class TradeCircleAdapter extends BaseAdapter {
         });
 
         return view;
-    }
-
-    private void startScaleAnim(View target) {
-        AnimatorSet animatorSet = new AnimatorSet();//组合动画
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(target, "scaleX", 1.0f, 1.5f, 1.0f);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(target, "scaleY", 1.0f, 1.5f, 1.0f);
-        animatorSet.setDuration(600);
-        animatorSet.setInterpolator(new DecelerateInterpolator());
-        animatorSet.play(scaleX).with(scaleY);//两个动画同时开始
-        animatorSet.start();
     }
 
     private void setGridLayout(ViewHolder viewHolder, List<TradeTopic.imgBean> imageUrls) {

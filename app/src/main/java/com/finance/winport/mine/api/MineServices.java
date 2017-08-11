@@ -55,11 +55,4 @@ public interface MineServices {
     @POST("customerapp/api/feedBack/addFeedBack/v1.0.0")
     Observable<com.finance.winport.base.BaseResponse> commitFeedBack(@Body HashMap map);
 
-
-
-
-
-
-
-
 }

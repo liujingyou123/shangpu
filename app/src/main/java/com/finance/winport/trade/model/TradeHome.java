@@ -12,8 +12,8 @@ public class TradeHome extends BaseResponse {
     public DataBean data;
 
     public static class DataBean {
-        public List<TradeHead> headlineList;
-        public List<TradeBible> bibleList;
+        public List<TradeSub> headlineList;
+        public List<TradeSub> bibleList;
         public List<TradeTopic> topicList;
     }
 }

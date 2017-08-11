@@ -13,7 +13,7 @@ import com.finance.winport.R;
 import com.finance.winport.image.Batman;
 import com.finance.winport.trade.InfoDetailsActivity;
 import com.finance.winport.trade.TradeType;
-import com.finance.winport.trade.model.TradeHead;
+import com.finance.winport.trade.model.TradeSub;
 import com.finance.winport.view.DrawableTopLeftTextView;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 
@@ -26,10 +26,10 @@ import butterknife.ButterKnife;
  * Created by xzw on 2017/8/7.
  */
 
-public class NewsListAdapter extends PullRecyclerBaseAdapter<TradeHead> {
+public class NewsListAdapter extends PullRecyclerBaseAdapter<TradeSub> {
     LayoutInflater inflater;
 
-    public NewsListAdapter(PtrClassicFrameLayout baseView, List<TradeHead> baseData, int maxTotal) {
+    public NewsListAdapter(PtrClassicFrameLayout baseView, List<TradeSub> baseData, int maxTotal) {
         super(baseView, baseData, maxTotal);
         inflater = LayoutInflater.from(context);
     }
@@ -43,7 +43,7 @@ public class NewsListAdapter extends PullRecyclerBaseAdapter<TradeHead> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         ViewHolder holder = (ViewHolder) viewHolder;
-        TradeHead item = baseData.get(position);
+        TradeSub item = baseData.get(position);
         if (item == null) return;
         holder.title.setText(item.title);
         holder.type.setText(item.content);

@@ -17,7 +17,7 @@ public class PersonalInfoResponse extends BaseResponse {
      * data : {"customerId":4,"phone":"168****883","headPortrait":"https://b-ssl.duitang.com/uploads/item/201607/23/20160723192350_RCwMK.png","cityId":4,"cityName":"合肥","districtId":4,"districtName":"大牛区","blockId":4,"blockName":"www.sogou.com","industryId":4,"industryName":"休闲","list":[1,2]}
      */
 
-    private DataBean data;
+    public DataBean data;
 
     public DataBean getData() {
         return data;
@@ -28,137 +28,34 @@ public class PersonalInfoResponse extends BaseResponse {
     }
 
     public static class DataBean {
-        /**
-         * customerId : 4
-         * phone : 168****883
-         * headPortrait : https://b-ssl.duitang.com/uploads/item/201607/23/20160723192350_RCwMK.png
-         * cityId : 4
-         * cityName : 合肥
-         * districtId : 4
-         * districtName : 大牛区
-         * blockId : 4
-         * blockName : www.sogou.com
-         * industryId : 4
-         * industryName : 休闲
-         * list : [1,2]
-         */
+        public String phone;
+        public String headPortrait;
+        public String nickName;
+        public String signature;
+        public int isBanned;
+        public int isNew;
+        public String myService;
+        public Attention attention;
 
-        private int customerId;
-        private String phone;
-        private String headPortrait;
-        private int cityId;
-        private String cityName;
-        private String districtId;
-        private String districtName;
-        private String blockId;
-        private String blockName;
-        private String industryId;
-        private String industryName;
-        private List<Integer> list;
-        private String isNew;
+        public static class Attention {
+            public List<Plate> plateList;
+            public List<Vocation> vocationList;
+            public List<Integer> areaList;
 
-        public int getCustomerId() {
-            return customerId;
-        }
+            public static class Plate {
+                public String cityId;
+                public String cityName;
+                public String districtId;
+                public String districtName;
+                public String plateId;
+                public String plateName;
+            }
 
-        public void setCustomerId(int customerId) {
-            this.customerId = customerId;
-        }
-
-        public String getPhone() {
-            return phone;
-        }
-
-        public void setPhone(String phone) {
-            this.phone = phone;
-        }
-
-        public String getHeadPortrait() {
-            return headPortrait;
-        }
-
-        public void setHeadPortrait(String headPortrait) {
-            this.headPortrait = headPortrait;
-        }
-
-        public int getCityId() {
-            return cityId;
-        }
-
-        public void setCityId(int cityId) {
-            this.cityId = cityId;
-        }
-
-        public String getCityName() {
-            return cityName;
-        }
-
-        public void setCityName(String cityName) {
-            this.cityName = cityName;
-        }
-
-        public String getDistrictId() {
-            return districtId;
-        }
-
-        public void setDistrictId(String districtId) {
-            this.districtId = districtId;
-        }
-
-        public String getDistrictName() {
-            return districtName;
-        }
-
-        public void setDistrictName(String districtName) {
-            this.districtName = districtName;
-        }
-
-        public String getBlockId() {
-            return blockId;
-        }
-
-        public void setBlockId(String blockId) {
-            this.blockId = blockId;
-        }
-
-        public String getBlockName() {
-            return blockName;
-        }
-
-        public void setBlockName(String blockName) {
-            this.blockName = blockName;
-        }
-
-        public String getIndustryId() {
-            return industryId;
-        }
-
-        public void setIndustryId(String industryId) {
-            this.industryId = industryId;
-        }
-
-        public String getIndustryName() {
-            return industryName;
-        }
-
-        public void setIndustryName(String industryName) {
-            this.industryName = industryName;
-        }
-
-        public List<Integer> getList() {
-            return list;
-        }
-
-        public void setList(List<Integer> list) {
-            this.list = list;
-        }
-
-        public String getIsNew() {
-            return isNew;
-        }
-
-        public void setIsNew(String isNew) {
-            this.isNew = isNew;
+            public static class Vocation {
+                public String vocationId;
+                public String vocationName;
+            }
         }
     }
+
 }

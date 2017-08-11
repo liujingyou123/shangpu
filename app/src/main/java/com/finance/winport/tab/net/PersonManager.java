@@ -157,6 +157,78 @@ public class PersonManager {
                 });
     }
 
+    // 修改手机号
+    public Subscription modifyUserPhone(HashMap<String, Object> params, final NetworkCallback<BaseResponse> callback) {
+        return Ironman.getInstance()
+                .createService(PersonService.class)
+                .modifyUserPhone(params)
+                .compose(ToolsUtil.<BaseResponse>applayScheduers())
+                .subscribe(new NetSubscriber<BaseResponse>() {
+                    @Override
+                    public void response(BaseResponse response) {
+                        if (callback != null) {
+                            callback.success(response);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if (callback != null) {
+                            callback.failure(e);
+                        }
+                    }
+                });
+    }
+
+    // 修改昵称
+    public Subscription modifyNickName(HashMap<String, Object> params, final NetworkCallback<BaseResponse> callback) {
+        return Ironman.getInstance()
+                .createService(PersonService.class)
+                .modifyNickName(params)
+                .compose(ToolsUtil.<BaseResponse>applayScheduers())
+                .subscribe(new NetSubscriber<BaseResponse>() {
+                    @Override
+                    public void response(BaseResponse response) {
+                        if (callback != null) {
+                            callback.success(response);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if (callback != null) {
+                            callback.failure(e);
+                        }
+                    }
+                });
+    }
+
+    // 修改签名
+    public Subscription modifySign(HashMap<String, Object> params, final NetworkCallback<BaseResponse> callback) {
+        return Ironman.getInstance()
+                .createService(PersonService.class)
+                .modifySign(params)
+                .compose(ToolsUtil.<BaseResponse>applayScheduers())
+                .subscribe(new NetSubscriber<BaseResponse>() {
+                    @Override
+                    public void response(BaseResponse response) {
+                        if (callback != null) {
+                            callback.success(response);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if (callback != null) {
+                            callback.failure(e);
+                        }
+                    }
+                });
+    }
+
     // 店名测吉凶
     public Subscription predictionShop(HashMap<String, Object> params, final NetworkCallback<Prediction> callback) {
         return Ironman.getInstance()
