@@ -18,7 +18,9 @@ import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.trade.adapter.TradeHeadAdapter;
 import com.finance.winport.trade.model.TradeHead;
+import com.finance.winport.trade.model.TradeSub;
 import com.finance.winport.trade.model.TradeTag;
+import com.finance.winport.trade.view.ITradeSubView;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
@@ -34,7 +36,7 @@ import butterknife.Unbinder;
 /**
  * 行业头条
  */
-public class TradeHeadFragment extends BaseFragment {
+public class TradeHeadFragment extends BaseFragment implements ITradeSubView {
 
 
     @BindView(R.id.mListView)
@@ -48,6 +50,7 @@ public class TradeHeadFragment extends BaseFragment {
     TextView tvFocusRight;
     @BindView(R.id.tv_focus_house)
     TextView tvFocusHouse;
+    TradeHeadAdapter adapter;
 
     @Nullable
     @Override
@@ -60,6 +63,22 @@ public class TradeHeadFragment extends BaseFragment {
 
     private void initView() {
         tvFocusHouse.setText("行业头条");
+        initRefreshView();
+        mListView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        adapter = new TradeHeadAdapter(refreshView, getHeadData(), 0);
+        mListView.setAdapter(adapter);
+//        adapter.updateHeader(getHeadInfo());
+        mListView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                adapter.updateHeader(getHeadInfo());
+//                mListView.smoothScrollToPosition(0);
+            }
+        }, 1000);
+
+    }
+
+    private void initRefreshView() {
         refreshView.setMode(PtrFrameLayout.Mode.BOTH);
         refreshView.setPtrHandler(new PtrDefaultHandler2() {
             @Override
@@ -82,10 +101,6 @@ public class TradeHeadFragment extends BaseFragment {
                 }, 1000);
             }
         });
-        mListView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        TradeHeadAdapter adapter = new TradeHeadAdapter(refreshView, getHeadData(), 0);
-        mListView.setAdapter(adapter);
-        adapter.updateHeader(getHeadInfo());
     }
 
     private List<TradeTag.Tag> getHeadInfo() {
@@ -130,5 +145,20 @@ public class TradeHeadFragment extends BaseFragment {
                 handleBack();
                 break;
         }
+    }
+
+    @Override
+    public void setAdapter(TradeSub data) {
+
+    }
+
+    @Override
+    public void setHeadInfo(TradeTag data) {
+
+    }
+
+    @Override
+    public void showError(String errorMsg) {
+
     }
 }

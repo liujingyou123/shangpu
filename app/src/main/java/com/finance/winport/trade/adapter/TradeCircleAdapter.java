@@ -27,11 +27,14 @@ import com.finance.winport.dialog.NoticeDelDialog;
 import com.finance.winport.home.H5Activity;
 import com.finance.winport.image.Batman;
 import com.finance.winport.image.BatmanCallBack;
+import com.finance.winport.trade.TradeCircleDetailActivity;
+import com.finance.winport.trade.TradeCircleListFragment;
 import com.finance.winport.trade.model.TradeTopic;
 import com.finance.winport.trade.presenter.TradeCirclePresenter;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.roundview.RoundedImageView;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
@@ -191,6 +194,17 @@ public class TradeCircleAdapter extends BaseAdapter {
             }
 
         }
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MobclickAgent.onEvent(mContext, "circle_comment");
+                if (trade != null) {
+                    Intent intent = new Intent(mContext, TradeCircleDetailActivity.class);
+                    intent.putExtra("topicId", trade.getTopicId() + "");
+                    mContext.startActivity(intent);
+                }
+            }
+        });
 
         return view;
     }

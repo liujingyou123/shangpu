@@ -5,16 +5,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 
-import com.finance.winport.account.LoginActivity;
 import com.finance.winport.account.OffLineActivity;
 import com.finance.winport.account.event.TokenTimeOutEvent;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.home.HomeFragment;
-import com.finance.winport.trade.HomeTradeCircleFragment;
-import com.finance.winport.trade.TradeCircleFragment;
+import com.finance.winport.trade.TradeHomeCircleFragment;
 import com.finance.winport.tab.MineFragment;
 import com.finance.winport.service.ServiceFragment;
 import com.finance.winport.view.BottomTabView;
@@ -27,8 +24,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.jpush.android.api.JPushInterface;
-import noman.weekcalendar.eventbus.Event;
 
 
 public class MainActivity extends BaseActivity implements BottomTabView.OnTabSelectedListener {
@@ -109,10 +104,10 @@ public class MainActivity extends BaseActivity implements BottomTabView.OnTabSel
 
     private void handleBusiness(int index) {
         MobclickAgent.onEvent(context, "circle");
-        HomeTradeCircleFragment tradeCircleFragment = (HomeTradeCircleFragment) fm
-                .findFragmentByTag(HomeTradeCircleFragment.class.getName());
+        TradeHomeCircleFragment tradeCircleFragment = (TradeHomeCircleFragment) fm
+                .findFragmentByTag(TradeHomeCircleFragment.class.getName());
         if (tradeCircleFragment == null) {
-            tradeCircleFragment = new HomeTradeCircleFragment();
+            tradeCircleFragment = new TradeHomeCircleFragment();
         }
         tabView.setIndicatorDisplay(2, true);
         addHomeFragment(tradeCircleFragment, false);

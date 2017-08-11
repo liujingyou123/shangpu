@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.image.Batman;
+import com.finance.winport.trade.InfoDetailsActivity;
 import com.finance.winport.trade.InfoListActivity;
 import com.finance.winport.trade.TradeType;
 import com.finance.winport.trade.model.TradeBible;
@@ -88,6 +89,13 @@ public class TradeBibleAdapter extends PullRecyclerBaseAdapter<TradeBible> {
             } else {
                 holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
             }
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.startActivity(new Intent(context, InfoDetailsActivity.class)
+                            .putExtra("type", TradeType.HEAD_DETAILS));
+                }
+            });
         }
     }
 
