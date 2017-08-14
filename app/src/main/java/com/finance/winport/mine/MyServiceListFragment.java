@@ -43,8 +43,8 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
- * Created by liuworkmac on 17/5/10.
- * 生意圈
+ * Created by jge on 17/8/10.
+ * 服务订单
  */
 
 public class MyServiceListFragment extends Fragment {
@@ -105,13 +105,10 @@ public class MyServiceListFragment extends Fragment {
         lsCircles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                MobclickAgent.onEvent(MyServiceListFragment.this.getContext(), "circle_comment");
-                TradeTopic trade = (TradeTopic) parent.getItemAtPosition(position);
-                if (trade != null) {
-                    Intent intent = new Intent(MyServiceListFragment.this.getContext(), TradeCircleDetailActivity.class);
-                    intent.putExtra("topicId", trade.getTopicId() + "");
-                    startActivity(intent);
-                }
+
+                Intent intent = new Intent(MyServiceListFragment.this.getContext(),MyServiceDetailActivity.class);
+                intent.putExtra("scheduleId","");
+                startActivity(intent);
             }
         });
     }

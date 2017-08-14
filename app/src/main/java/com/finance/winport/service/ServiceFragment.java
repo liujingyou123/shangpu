@@ -26,6 +26,7 @@ import com.finance.winport.account.model.UserInfo;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.home.ShopDetailActivity;
 import com.finance.winport.image.Batman;
+import com.finance.winport.mine.MyScheduleListActivity;
 import com.finance.winport.mine.MyServiceActivity;
 import com.finance.winport.mine.ScheduleDetailActivity;
 import com.finance.winport.mine.adapter.ServiceScheduleListAdapter;
@@ -357,7 +358,8 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
             case R.id.undo_count:
 //                Intent intent = new Intent(getActivity(), LoanListActivity.class);
                 MobclickAgent.onEvent(getActivity(), "service_moredate");
-                startActivity(new Intent(getActivity(), MyServiceActivity.class));
+//                startActivity(new Intent(getActivity(), MyServiceActivity.class));
+                startActivity(new Intent(getActivity(), MyScheduleListActivity.class));
                 break;
             case R.id.shop_more:
                 MobclickAgent.onEvent(getActivity(), "service_recentshop_more");

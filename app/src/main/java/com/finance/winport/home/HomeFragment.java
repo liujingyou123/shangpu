@@ -878,78 +878,32 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 
     @Override
     public void showPersonalInfo(PersonalInfoResponse response) {
-        if ("1".equals(response.getData().getIsNew()) && (response.getData() == null || (TextUtils.isEmpty(response.getData().getIndustryName())
-                && TextUtils.isEmpty(response.getData().getIndustryName())
-                && (response.getData().getList() == null || response.getData().getList().size() == 0)
-                && TextUtils.isEmpty(SpUtil.getInstance().getStringData(SharedPrefsUtil.getUserInfo().data.userPhone, null)))
-        )) {
 
-
-            welcomeDialog = new WelcomeDialog(this.getContext());
-            if (updateTipDialog!=null&&updateTipDialog.isShowing()) {
-
-            } else {
-
-                welcomeDialog.show();
-
-                SpUtil.getInstance().setStringData(SharedPrefsUtil.getUserInfo().data.userPhone, "1");
-            }
-        } else if (response.getData() != null && (TextUtils.isEmpty(response.getData().getIndustryName())
-                || !TextUtils.isEmpty(response.getData().getIndustryName())
-                || ((response.getData().getList() == null && response.getData().getList().size() == 0)))) {
-
-            SpUtil.getInstance().setStringData(SharedPrefsUtil.getUserInfo().data.userPhone, "1");
-
-//            if (!TextUtils.isEmpty(response.getData().getDistrictId())) {
-//                mRequest.districtId = response.getData().getDistrictId() + "";
-//            }
+//        if ("1".equals(response.getData().isNew) && (response.getData().attention.plateList == null || response.getData().attention.plateList.size() == 0)
+//                && (response.getData().attention.vocationList == null || response.getData().attention.vocationList.size() == 0)
+//                && (response.getData().attention.areaList == null || response.getData().attention.areaList.size() == 0)
+//                && TextUtils.isEmpty(SpUtil.getInstance().getStringData(SharedPrefsUtil.getUserInfo().data.userPhone, null)))
+//        {
 //
-//            if (!TextUtils.isEmpty(response.getData().getDistrictName())) {
-//                mRequest.districtName = response.getData().getDistrictName();
-//            }
 //
-//            if (!TextUtils.isEmpty(response.getData().getBlockId())) {
-//                mRequest.blockId = response.getData().getBlockId() + "";
-//            }
+//            welcomeDialog = new WelcomeDialog(this.getContext());
+//            if (updateTipDialog!=null&&updateTipDialog.isShowing()) {
 //
-//            if (!TextUtils.isEmpty(response.getData().getBlockName())) {
-//                mRequest.blockName = response.getData().getBlockName();
-//            }
+//            } else {
 //
-//            if (!TextUtils.isEmpty(mRequest.blockId) && !"null".equals(mRequest.blockId)) {
-//                selectionView.setQuYuText(mRequest.blockName);
-//                heardSelectView.setQuYuText(mRequest.blockName);
-//                selectionView.onLocationClick();
-//                heardSelectView.onLocationClick();
-//                selectionView.onLocationArrowDown();
-//                heardSelectView.onLocationArrowDown();
-//            } else if (!TextUtils.isEmpty(mRequest.districtId) && !"null".equals(mRequest.districtId)) {
-//                selectionView.setQuYuText(mRequest.districtName);
-//                heardSelectView.setQuYuText(mRequest.districtName);
-//                selectionView.onLocationClick();
-//                heardSelectView.onLocationClick();
-//                selectionView.onLocationArrowDown();
-//                heardSelectView.onLocationArrowDown();
-//            }
-//            if (response.getData().getList() != null && response.getData().getList().size() > 0) {
-//                List<String> arrayList = null;
-//                if (mRequest.areaList != null) {
-//                    arrayList = mRequest.areaList;
-//                } else {
-//                    arrayList = new ArrayList<>();
-//                }
-//                for (int i = 0; i < response.getData().getList().size(); i++) {
-//                    arrayList.add(response.getData().getList().get(i) + "");
-//                }
+//                welcomeDialog.show();
 //
-//                mRequest.areaList = arrayList;
-//
-//                selectionView.onCsClick();
-//                heardSelectView.onCsClick();
+//                SpUtil.getInstance().setStringData(SharedPrefsUtil.getUserInfo().data.userPhone, "1");
 //            }
+//        } else if (response.getData() != null && ((response.getData().attention.plateList != null && response.getData().attention.plateList.size() != 0))
+//                || ((response.getData().attention.vocationList != null && response.getData().attention.vocationList.size() != 0))
+//                || ((response.getData().attention.areaList != null && response.getData().attention.areaList.size() != 0))) {
+//
+//            SpUtil.getInstance().setStringData(SharedPrefsUtil.getUserInfo().data.userPhone, "1");
+//
+//
 
-
-        }
+//        }
     }
 
     @Override

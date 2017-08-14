@@ -35,6 +35,7 @@ import com.finance.winport.image.Batman;
 import com.finance.winport.image.BatmanCallBack;
 import com.finance.winport.mine.MyNoticeActivity;
 import com.finance.winport.mine.MyScheduleListActivity;
+import com.finance.winport.mine.MyServiceActivity;
 import com.finance.winport.mine.PersonalInfoActivity;
 import com.finance.winport.mine.SettingsActivity;
 import com.finance.winport.mine.ShopFocusActivity;
@@ -420,7 +421,8 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
                     toLogin();
                     return;
                 }
-                startActivity(new Intent(getActivity(), MyScheduleListActivity.class));
+//                startActivity(new Intent(getActivity(), MyScheduleListActivity.class));
+                startActivity(new Intent(getActivity(), MyServiceActivity.class));
                 break;
             case R.id.info_layout:
                 if (!isLogin()) {// not login
