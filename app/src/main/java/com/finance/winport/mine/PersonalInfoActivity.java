@@ -81,8 +81,6 @@ public class PersonalInfoActivity extends BaseActivity {
     TextView concern;
     @BindView(R.id.concernLayout)
     LinearLayout concernLayout;
-    private String industryName, blockName, districtName, industryId, blockId, districtId, cityName;
-    private ArrayList<Integer> selectList = new ArrayList<>();
     PersonalInfoResponse info;
 
     @Subscribe
@@ -177,15 +175,13 @@ public class PersonalInfoActivity extends BaseActivity {
 
     // 我关注的商铺
     private void toConcernInfo() {
+        ArrayList<Integer> areaList = info == null ? null : new ArrayList<>(info.data.attention.areaList);
+        ArrayList<PersonalInfoResponse.DataBean.Attention.Vocation> vocationList = info == null ? null : new ArrayList<>(info.data.attention.vocationList);
+        ArrayList<PersonalInfoResponse.DataBean.Attention.Plate> plateList = info == null ? null : new ArrayList<>(info.data.attention.plateList);
         Intent intent = new Intent(context, ShopFocusActivity.class);
-        intent.putIntegerArrayListExtra("areaList", selectList);
-        intent.putExtra("industryName", industryName);
-        intent.putExtra("blockName", blockName);
-        intent.putExtra("districtName", districtName);
-        intent.putExtra("industryId", industryId);
-        intent.putExtra("districtId", districtId);
-        intent.putExtra("blockId", blockId);
-        intent.putExtra("cityName", cityName);
+        intent.putIntegerArrayListExtra("areaList", areaList);
+        intent.putExtra("vocationList", vocationList);
+        intent.putExtra("plateList", plateList);
         startActivity(intent);
     }
 
