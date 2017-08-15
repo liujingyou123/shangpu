@@ -4,181 +4,222 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/rl_data"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_press_shop_list"
-        android:paddingLeft="15dp"
-        android:paddingTop="15dp">
-
-        <RelativeLayout
-            android:id="@+id/rl_cover"
-            android:layout_width="110dp"
-            android:layout_height="83dp">
-
-            <ImageView
-                android:id="@+id/imv_cover"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/default_image_logo" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_alignParentBottom="true"
-                android:background="#99000000"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_scan_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:drawableLeft="@mipmap/list_icon_view"
-                    android:drawablePadding="3dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="5dp"
-                    android:text="0"
-                    android:textColor="#FFFFFFFF"
-                    android:textSize="11sp" />
-
-                <TextView
-                    android:id="@+id/tv_contact_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:drawableLeft="@mipmap/list_icon_contact"
-                    android:drawablePadding="3dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="5dp"
-                    android:text="0"
-                    android:textColor="#FFFFFFFF"
-                    android:textSize="11sp" />
-            </LinearLayout>
-
-        </RelativeLayout>
-
-
-        <TextView
-            android:id="@+id/tv_area"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"
-            android:gravity="center_vertical|right"
-            android:text="45㎡"
-            android:textColor="#333333"
-            android:textSize="14sp" />
-
-
-        <TextView
-            android:id="@+id/tv_shopname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="8dp"
-            android:layout_toLeftOf="@id/tv_area"
-            android:layout_toRightOf="@id/rl_cover"
-            android:includeFontPadding="false"
-            android:text=""
-            android:textColor="#333333"
-            android:textSize="15sp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/tv_aver_money"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/tv_shopname"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="7.5dp"
-            android:includeFontPadding="false"
-            android:text="20000元/月"
-            android:textColor="#ff7540"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/tv_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/tv_shopname"
-            android:layout_below="@id/tv_shopname"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="7dp"
-            android:layout_toLeftOf="@id/tv_aver_money"
-            android:includeFontPadding="false"
-            android:text="浦东新区 松江大学城"
-            android:textColor="#999999"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/tv_distance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/tv_address"
-            android:layout_below="@id/tv_address"
-            android:layout_marginTop="6dp"
-            android:includeFontPadding="false"
-            android:text="距您2.5km"
-            android:textColor="#999999"
-            android:textSize="11sp" />
-
-
-        <TextView
-            android:id="@+id/tv_change_money"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@id/tv_distance"
-            android:layout_marginRight="15dp"
-            android:includeFontPadding="false"
-            android:text="转让费8万元"
-            android:textColor="#999999"
-            android:textSize="11sp" />
-
-
-        <TextView
-            android:id="@+id/tv_update_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/tv_distance"
-            android:layout_below="@id/tv_distance"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="15dp"
-            android:includeFontPadding="false"
-            android:text="20分钟前更新"
-            android:textColor="#BFBFBF"
-            android:textSize="11sp" />
-
+        android:orientation="vertical">
         <LinearLayout
-            android:id="@+id/ll_tag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/tv_distance"
-            android:layout_below="@id/tv_update_time"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@drawable/bg_recommend"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
 
-            <View
-                android:id="@+id/line_tv"
-                style="@style/view_line" />
-
-            <com.finance.winport.view.tagview.TagCloudLayout
-                android:id="@+id/tg_view"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="10dp"
-                app:lineSpacing="7dp"
-                app:tagSpacing="7dp" />
+                android:text="/ 推荐语 /"
+                android:textColor="#FF333333"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:layout_marginTop="10dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="此旺铺地理位置极佳，离地铁站零距离，人口流动极大，是个卖早餐的极佳位置。"
+                android:textColor="#FF666666"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"/>
         </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/rl_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_press_shop_list"
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp">
 
+            <RelativeLayout
+                android:id="@+id/rl_cover"
+                android:layout_width="110dp"
+                android:layout_height="83dp">
+
+                <ImageView
+                    android:id="@+id/imv_cover"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/default_image_logo" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#99000000"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_scan_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:drawableLeft="@mipmap/list_icon_view"
+                        android:drawablePadding="3dp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="0"
+                        android:textColor="#FFFFFFFF"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/tv_contact_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:drawableLeft="@mipmap/list_icon_contact"
+                        android:drawablePadding="3dp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="0"
+                        android:textColor="#FFFFFFFF"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/tv_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:gravity="center_vertical|right"
+                android:text="45㎡"
+                android:textColor="#333333"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/tv_shopname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="8dp"
+                android:layout_toLeftOf="@id/tv_area"
+                android:layout_toRightOf="@id/rl_cover"
+                android:includeFontPadding="false"
+                android:text=""
+                android:textColor="#333333"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tv_aver_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/tv_shopname"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="7.5dp"
+                android:includeFontPadding="false"
+                android:text="20000元/月"
+                android:textColor="#ff7540"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/tv_shopname"
+                android:layout_below="@id/tv_shopname"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="7dp"
+                android:layout_toLeftOf="@id/tv_aver_money"
+                android:includeFontPadding="false"
+                android:text="浦东新区 松江大学城"
+                android:textColor="#999999"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/tv_address"
+                android:layout_below="@id/tv_address"
+                android:layout_marginTop="6dp"
+                android:includeFontPadding="false"
+                android:text="距您2.5km"
+                android:textColor="#999999"
+                android:textSize="11sp" />
+
+
+            <TextView
+                android:id="@+id/tv_change_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@id/tv_distance"
+                android:layout_marginRight="15dp"
+                android:includeFontPadding="false"
+                android:text="转让费8万元"
+                android:textColor="#999999"
+                android:textSize="11sp" />
+
+
+            <TextView
+                android:id="@+id/tv_update_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/tv_distance"
+                android:layout_below="@id/tv_distance"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:includeFontPadding="false"
+                android:text="20分钟前更新"
+                android:textColor="#BFBFBF"
+                android:textSize="11sp" />
+
+            <LinearLayout
+                android:id="@+id/ll_tag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/tv_distance"
+                android:layout_below="@id/tv_update_time"
+                android:orientation="vertical">
+
+                <View
+                    android:id="@+id/line_tv"
+                    style="@style/view_line" />
+
+                <com.finance.winport.view.tagview.TagCloudLayout
+                    android:id="@+id/tg_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                    app:lineSpacing="7dp"
+                    app:tagSpacing="7dp" />
+            </LinearLayout>
+
+            <View
+                style="@style/view_line"
+                android:visibility="gone"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
         <View
-            style="@style/view_line"
-            android:layout_alignParentBottom="true" />
-    </RelativeLayout>
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#e5e5e5"/>
+    </LinearLayout>
+
+
 
 
 </RelativeLayout>

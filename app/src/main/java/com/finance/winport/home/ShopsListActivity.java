@@ -76,7 +76,7 @@ public class ShopsListActivity extends BaseActivity implements IShopListView {
         if (mPresenter == null) {
             mPresenter = new ShopListPresenter(this);
         }
-        mRequest.queryType = 1;
+//        mRequest.queryType = 1;
         mPresenter.getShopList(mRequest);
     }
 

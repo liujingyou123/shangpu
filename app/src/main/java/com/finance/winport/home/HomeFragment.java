@@ -130,10 +130,10 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
             mPresenter = new HomePresenter(this);
         }
         if (SharedPrefsUtil.getUserInfo() != null) {
-            mRequest.queryType = 1;
+//            mRequest.queryType = 1;
             mPresenter.getIsUnReader();
         } else {
-            mRequest.queryType = 1;
+//            mRequest.queryType = 1;
         }
         mPresenter.getShopCount();
         mPresenter.getBanner();
@@ -208,15 +208,21 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                 mPresenter.getIsUnReader();
             }
 
-            if (SharedPrefsUtil.getUserInfo() == null && mRequest.queryType == 0) {
-                mRequest.queryType = 1;
+            if (SharedPrefsUtil.getUserInfo() == null) {
                 mPresenter.getShopList(mRequest);
             }
+//            if (SharedPrefsUtil.getUserInfo() == null && mRequest.queryType == 0) {
+//                mRequest.queryType = 1;
+//                mPresenter.getShopList(mRequest);
+//            }
 
         } else if (isTimeOut) {
             isTimeOut = false;
-            if (SharedPrefsUtil.getUserInfo() == null && mRequest.queryType == 0) {
-                mRequest.queryType = 1;
+//            if (SharedPrefsUtil.getUserInfo() == null && mRequest.queryType == 0) {
+//                mRequest.queryType = 1;
+//                mPresenter.getShopList(mRequest);
+//            }
+            if (SharedPrefsUtil.getUserInfo() == null) {
                 mPresenter.getShopList(mRequest);
             }
 
@@ -388,7 +394,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 //                } else  {
 //                    mRequest.queryType = 1;
 //                }
-                XLog.e(" mRequest.queryType3 = " + mRequest.queryType);
+//                XLog.e(" mRequest.queryType3 = " + mRequest.queryType);
 
                 mRequest.pageNumber = 1;
                 mPresenter.getShopList(mRequest);
@@ -604,7 +610,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
     @Subscribe
     public void getSelectDilogData(ShopRequset request) {
         XLog.e("getSelectDilogData");
-        mRequest.queryType = 1;
+//        mRequest.queryType = 1;
         selectionView.onCsUnClick();
         heardSelectView.onCsUnClick();
         if (request.rentList != null && request.rentList.size() > 0) {
@@ -895,14 +901,14 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 //
 //                SpUtil.getInstance().setStringData(SharedPrefsUtil.getUserInfo().data.userPhone, "1");
 //            }
-//        } else if (response.getData() != null && ((response.getData().attention.plateList != null && response.getData().attention.plateList.size() != 0))
+//        } else if (response.getData() != null && (((response.getData().attention.plateList != null && response.getData().attention.plateList.size() != 0))
 //                || ((response.getData().attention.vocationList != null && response.getData().attention.vocationList.size() != 0))
-//                || ((response.getData().attention.areaList != null && response.getData().attention.areaList.size() != 0))) {
+//                || ((response.getData().attention.areaList != null && response.getData().attention.areaList.size() != 0)))) {
 //
 //            SpUtil.getInstance().setStringData(SharedPrefsUtil.getUserInfo().data.userPhone, "1");
 //
 //
-
+//
 //        }
     }
 
@@ -968,7 +974,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         if (requset != null) {
             selectionView.onLocationArrowDown();
             heardSelectView.onLocationArrowDown();
-            mRequest.queryType = 1;
+//            mRequest.queryType = 1;
             if (!TextUtils.isEmpty(requset.blockId)) {
                 selectionView.setQuYuText(requset.blockName);
                 heardSelectView.setQuYuText(requset.blockName);

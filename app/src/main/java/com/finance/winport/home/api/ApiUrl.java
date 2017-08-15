@@ -5,7 +5,7 @@ package com.finance.winport.home.api;
  */
 
 public class ApiUrl {
-    public final static String version = "v1.0.0";
+    public final static String version = "v1.2.0";
     //商铺筛选
     public final static String QUERYSHOP = "customerapp/api/shop/queryShop/" + version;
     //区域板块

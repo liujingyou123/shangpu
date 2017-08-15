@@ -230,9 +230,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true"
+                        android:layout_alignParentBottom="true"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginTop="63dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginRight="22dp"
                         android:textColor="#ffffff"
                         android:text="全上海最好的铺子都在这里" />
                 </RelativeLayout>
@@ -253,9 +254,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true"
+                        android:layout_alignParentBottom="true"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginTop="63dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginRight="22dp"
                         android:textColor="#ffffff"
                         android:text="全上海最好的铺子都在这里" />
                 </RelativeLayout>
@@ -276,11 +278,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true"
+                        android:layout_alignParentBottom="true"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginTop="63dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginRight="22dp"
                         android:textColor="#ffffff"
-                        android:text="全上海最好的铺子都在这里" />
+                        android:text="全上海最好的铺子都在这里快来看看吧" />
                 </RelativeLayout>
             </LinearLayout>
         </HorizontalScrollView>
