@@ -732,7 +732,7 @@
                     android:layout_marginLeft="15dp" />
 
                 <com.finance.winport.view.tagview.TagCloudLayout
-                    android:id="@+id/tg_view"
+                    android:id="@+id/tg_view1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="15dp"
@@ -749,7 +749,7 @@
                     android:layout_marginLeft="15dp" />
 
                 <com.finance.winport.view.tagview.TagCloudLayout
-                    android:id="@+id/tg_view1"
+                    android:id="@+id/tg_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="15dp"

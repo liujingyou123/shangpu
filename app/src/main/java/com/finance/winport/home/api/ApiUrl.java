@@ -28,4 +28,7 @@ public class ApiUrl {
     public final static String CREATECORRECT = "customerapp/api/shop/createCorrect";
     //获取阿里云TOKEN
     public final static String GETTMPACCESSINFO = "customerapp/api/user/aliyun/getTmpAccessInfo";
+
+    //首页发现旺铺
+    public final static String FOUND = "customerapp/api/topic/getHomePageGuideData";
 }

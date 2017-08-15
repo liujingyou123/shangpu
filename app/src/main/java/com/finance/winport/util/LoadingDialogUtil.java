@@ -96,7 +96,10 @@ public class LoadingDialogUtil {
         }
         loading = new LoadingDialog(mContext);
 //        loading.setMessage(msg);
-        loading.show();
+        if(loading!=null){
+
+            loading.show();
+        }
     }
 
     private void hide() {

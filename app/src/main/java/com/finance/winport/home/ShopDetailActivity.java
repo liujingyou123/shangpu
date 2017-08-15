@@ -38,6 +38,7 @@ import com.finance.winport.home.adapter.TagAdapter;
 import com.finance.winport.home.adapter.TagDetailAdapter;
 import com.finance.winport.home.model.CollectionResponse;
 import com.finance.winport.home.model.ShopDetail;
+import com.finance.winport.home.model.Tag;
 import com.finance.winport.home.presenter.ShopDetailPresenter;
 import com.finance.winport.home.view.IShopDetailView;
 import com.finance.winport.image.GlideImageLoader;
@@ -196,6 +197,8 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     TagCloudLayout gvSupport;
     @BindView(R.id.tg_view)
     TagCloudLayout tgView;
+    @BindView(R.id.tg_view1)
+    TagCloudLayout tgView1;
     @BindView(R.id.view_space_jingyingfanwei)
     View viewSpaceJingyingfanwei;
     @BindView(R.id.ll_jingyingfanwei)
@@ -417,7 +420,8 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 if (shareDialog == null) {
                     shareDialog = new ShareDialog(this);
                 }
-                shareDialog.setDes(mShopDetail.getData().getAddress() + "(" + UnitUtil.formatSNum(mShopDetail.getData().getArea()) + "㎡)旺铺急租，租金仅" + rentPrice);
+                shareDialog.setDes("上海市"+mShopDetail.getData().getDistrictName()+mShopDetail.getData().getTitle() + "，租金仅" + rentPrice);
+//                shareDialog.setDes(mShopDetail.getData().getAddress() + "(" + UnitUtil.formatSNum(mShopDetail.getData().getArea()) + "㎡)旺铺急租，租金仅" + rentPrice);
                 shareDialog.setTitle(mShopDetail.getData().getAddress());
                 shareDialog.setImage(coverImg);
                 shareDialog.setUrl(H5Util.getIpShopDetail(mShopDetail.getData().getId() + ""));
@@ -533,7 +537,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                     Intent intent1 = new Intent(this, PoiSearchRoundActivity.class);
                     intent1.putExtra("lat", Double.parseDouble(mShopDetail.getData().getLatitude()));
                     intent1.putExtra("lon", Double.parseDouble(mShopDetail.getData().getLongitude()));
-                    intent1.putExtra("address", mShopDetail.getData().getAddress());
+                    intent1.putExtra("address", mShopDetail.getData().getTitle());
                     startActivity(intent1);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -657,7 +661,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         mShopDetail = shopDetail;
         ShopDetail.DataBean data = shopDetail.getData();
         tvName.setText("由 小二 " + data.getClerkName() + " 于" + data.getIssueShopTime() + " 核实发布");
-        tvShopAddress.setText(" 　   " + data.getDistrictName() + data.getBlockName() + data.getAddress());
+        tvShopAddress.setText(" 　   " + data.getTitle());
         block.setText(data.getDistrictName() +" "+ data.getBlockName());
         tvScan.setText(data.getVisitCount() + "浏览");
         tvLianxi.setText(data.getContactCount() + "联系");
@@ -966,6 +970,14 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             showBaner(list);
         }
 
+        if (data.getName()!=null){
+            List<Tag> currentList = new ArrayList<>();
+            Tag tag = new Tag();
+            tag.setName(data.getName());
+            currentList.add(tag);
+            tgView1.setAdapter(new TagDetailAdapter(this, currentList));
+        }
+
         if (data.getIndustryList() != null && data.getIndustryList().size() > 0) {
             viewSpaceJingyingfanwei.setVisibility(View.VISIBLE);
             llJingyingfanwei.setVisibility(View.VISIBLE);
@@ -976,7 +988,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             stv.setJingYingFanWeiGone();
         }
 
-        tvFocusHouse.setText(data.getAddress());
+        tvFocusHouse.setText(data.getTitle());
 
         if (data.getFeatureList() != null && data.getFeatureList().size() > 0) {
             tag.setAdapter(new TagAdapter(this, data.getFeatureList()));

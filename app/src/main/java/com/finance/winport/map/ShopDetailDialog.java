@@ -66,8 +66,8 @@ public class ShopDetailDialog extends BottomDialog {
         setContentView(R.layout.shop_list_item);
         ButterKnife.bind(this);
 
-        tvShopname.setText(ret.getAddress() + ret.getRentTypeName());
-        tvShopname.setText(ret.getAddress() + ret.getRentTypeName());
+//        tvShopname.setText(ret.getAddress() + ret.getRentTypeName());
+        tvShopname.setText(ret.getTitle());
         tvAddress.setText(ret.getDistrictName() + " " + ret.getBlockName());
         tvArea.setText(ret.getArea() + "㎡");
         tvAverMoney.setText(ret.getRent() + "元／月");

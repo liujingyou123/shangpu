@@ -369,6 +369,9 @@ public class UnitUtil {
             tmp = str.split(",");
 
         }
+        else{
+            tmp = new String[0];
+        }
         int[] ret = new int[tmp.length];
 
         for(int i=0; i<tmp.length;i++) {

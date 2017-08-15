@@ -87,6 +87,7 @@ public class PtrFrameLayout extends ViewGroup {
     private boolean mHasSendCancelEvent = false;
 
     private View spaceView;
+    private View foundView;
     private Runnable mPerformRefreshCompleteDelay = new Runnable() {
         @Override
         public void run() {
@@ -468,6 +469,10 @@ public class PtrFrameLayout extends ViewGroup {
                 float offsetY = mPtrIndicator.getOffsetY();
 
                 if (isTouchPointInView(spaceView, (int) e.getRawX(), (int) e.getRawY()) && (Math.abs(offsetX) > Math.abs(offsetY))) {
+                    return dispatchTouchEventSupper(e);
+                }
+
+                if (isTouchPointInView(foundView, (int) e.getRawX(), (int) e.getRawY()) && (Math.abs(offsetX) > Math.abs(offsetY))) {
                     return dispatchTouchEventSupper(e);
                 }
 
@@ -1383,6 +1388,9 @@ public class PtrFrameLayout extends ViewGroup {
 
     public void setSpaceView(View view) {
         this.spaceView = view;
+    }
+    public void setFoundView(View view) {
+        this.foundView = view;
     }
     private boolean isTouchPointInView(View view, int x, int y) {
         if (view == null) {

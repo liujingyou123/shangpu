@@ -128,7 +128,7 @@ public class ShopsAdapter extends BaseAdapter {
                     viewHolder.rlData.setVisibility(View.VISIBLE);
                     viewHolder.rlTianchong.setVisibility(View.GONE);
                     viewHolder.viewTrans.setVisibility(View.GONE);
-                    viewHolder.tvShopname.setText(ret.getAddress() + ret.getRentTypeName());
+                    viewHolder.tvShopname.setText(ret.getTitle());
                     viewHolder.tvAddress.setText(ret.getDistrictName() + " " + ret.getBlockName());
                     viewHolder.tvArea.setText(UnitUtil.formatDNum(ret.getArea()) + "㎡");
                     viewHolder.tvAverMoney.setText(UnitUtil.limitNum(ret.getRent(), 99999) + "/月");

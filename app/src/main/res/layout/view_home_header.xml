@@ -204,6 +204,7 @@
 
 
         <HorizontalScrollView
+            android:id="@+id/scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none">
@@ -217,16 +218,19 @@
                 <RelativeLayout
                     android:layout_width="200dp"
                     android:layout_height="110dp"
+                    android:id="@+id/found1"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="15dp">
 
                     <ImageView
+                        android:id="@+id/found_img1"
                         android:layout_width="200dp"
                         android:layout_height="110dp"
                         android:layout_centerInParent="true"
                         android:background="@drawable/default_image_logo"/>
 
                     <TextView
+                        android:id="@+id/found_title1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
@@ -239,18 +243,21 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/found2"
                     android:layout_width="200dp"
                     android:layout_height="110dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="15dp">
 
                     <ImageView
+                        android:id="@+id/found_img2"
                         android:layout_width="200dp"
                         android:layout_height="110dp"
                         android:layout_centerInParent="true"
                         android:background="@drawable/default_image_logo"/>
 
                     <TextView
+                        android:id="@+id/found_title2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
@@ -263,18 +270,21 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/found3"
                     android:layout_width="200dp"
                     android:layout_height="110dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="15dp">
 
                     <ImageView
+                        android:id="@+id/found_img3"
                         android:layout_width="200dp"
                         android:layout_height="110dp"
                         android:layout_centerInParent="true"
                         android:background="@drawable/default_image_logo"/>
 
                     <TextView
+                        android:id="@+id/found_title3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"

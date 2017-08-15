@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -16,6 +17,8 @@ import com.finance.winport.account.LoginActivity;
 import com.finance.winport.home.FoundShopListActivity;
 import com.finance.winport.home.H5Activity;
 import com.finance.winport.home.model.BannerResponse;
+import com.finance.winport.home.model.HomeFoundShopResponse;
+import com.finance.winport.image.Batman;
 import com.finance.winport.image.GlideImageLoader;
 import com.finance.winport.mine.MyNoticeActivity;
 import com.finance.winport.util.SharedPrefsUtil;
@@ -70,6 +73,26 @@ public class HeaderView extends RelativeLayout {
     RelativeLayout commend;
     @BindView(R.id.tv_location)
     TextView tvLocation;
+    @BindView(R.id.scroll)
+    HorizontalScrollView scroll;
+    @BindView(R.id.found_img1)
+    ImageView foundImg1;
+    @BindView(R.id.found_title1)
+    TextView foundTitle1;
+    @BindView(R.id.found1)
+    RelativeLayout found1;
+    @BindView(R.id.found_img2)
+    ImageView foundImg2;
+    @BindView(R.id.found_title2)
+    TextView foundTitle2;
+    @BindView(R.id.found2)
+    RelativeLayout found2;
+    @BindView(R.id.found_img3)
+    ImageView foundImg3;
+    @BindView(R.id.found_title3)
+    TextView foundTitle3;
+    @BindView(R.id.found3)
+    RelativeLayout found3;
 
     private List<BannerResponse.DataBean> mUrls = new ArrayList<>();
     private Context mContext;
@@ -168,11 +191,47 @@ public class HeaderView extends RelativeLayout {
         return headerBanner;
     }
 
+    public View getScrollView() {
+        return scroll;
+    }
+
     public void setNotice(boolean isNotice) {
         if (isNotice) {
             imvNotice.setImageResource(R.mipmap.label_message_selecteed);
         } else {
             imvNotice.setImageResource(R.mipmap.icon_navigation_message);
+        }
+    }
+
+    public void setFound(List<HomeFoundShopResponse.DataBean> list) {
+        if (list!=null) {
+            if(list.size()==0){
+                scroll.setVisibility(View.GONE);
+            }else if(list.size()==1){
+
+                foundTitle1.setText(list.get(0).getTitle());
+                Batman.getInstance().fromNet(list.get(0).getImage(), foundImg1);
+                found2.setVisibility(View.GONE);
+                found3.setVisibility(View.GONE);
+
+            }else if(list.size()==2){
+
+                foundTitle1.setText(list.get(0).getTitle());
+                Batman.getInstance().fromNet(list.get(0).getImage(), foundImg1);
+                foundTitle2.setText(list.get(1).getTitle());
+                Batman.getInstance().fromNet(list.get(1).getImage(), foundImg2);
+                found3.setVisibility(View.GONE);
+
+            }else if(list.size()>=3){
+
+                foundTitle1.setText(list.get(0).getTitle());
+                Batman.getInstance().fromNet(list.get(0).getImage(), foundImg1);
+                foundTitle2.setText(list.get(1).getTitle());
+                Batman.getInstance().fromNet(list.get(1).getImage(), foundImg2);
+                foundTitle3.setText(list.get(2).getTitle());
+                Batman.getInstance().fromNet(list.get(2).getImage(), foundImg3);
+
+            }
         }
     }
 

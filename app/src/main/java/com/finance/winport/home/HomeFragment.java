@@ -38,6 +38,7 @@ import com.finance.winport.home.adapter.ShopsAdapter;
 import com.finance.winport.home.model.BannerResponse;
 import com.finance.winport.home.model.CheckVersionResponse;
 import com.finance.winport.home.model.EventLoginSuccess;
+import com.finance.winport.home.model.HomeFoundShopResponse;
 import com.finance.winport.home.model.ShopCount;
 import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.home.model.ShopRequset;
@@ -137,6 +138,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         }
         mPresenter.getShopCount();
         mPresenter.getBanner();
+        mPresenter.getFoundShop();
 
         try {
             String versionName = getActivity().getPackageManager().getPackageInfo(
@@ -380,6 +382,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         }
 
         refreshView.setSpaceView(headerView.getBannerView());
+        refreshView.setFoundView(headerView.getScrollView());
         refreshView.setPtrHandler(new PtrDefaultHandler2() {
             @Override
             public void onLoadMoreBegin(PtrFrameLayout frame) {
@@ -401,6 +404,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 
                 mPresenter.getShopCount();
                 mPresenter.getBanner();
+                mPresenter.getFoundShop();
             }
         });
 
@@ -968,6 +972,11 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                 updateTipDialog.show();
             }
         }
+    }
+
+    @Override
+    public void showFoundShop(HomeFoundShopResponse response) {
+        headerView.setFound(response.getData());
     }
 
     public void onQuyuHandle(ShopRequset requset) {
