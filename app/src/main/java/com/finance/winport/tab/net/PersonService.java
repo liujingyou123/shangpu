@@ -111,7 +111,7 @@ public interface PersonService {
     Observable<BaseResponse> updateRegistrationId(@Body HashMap<String, Object> params);
 
     // 版本更新
-    @POST("customerapp/api/user/app/checkUpdate/v1.0.0")
+    @POST("customerapp/api/user/app/checkUpdate/v1.2.0")
     Observable<CheckVersionResponse> checkVersion(@Body HashMap<String, Object> params);
 
     //修改手机号

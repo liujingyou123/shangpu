@@ -4,6 +4,7 @@ import com.finance.winport.base.BaseResponse;
 import com.finance.winport.home.model.AliTokenResponse;
 import com.finance.winport.home.model.BannerResponse;
 import com.finance.winport.home.model.CollectionResponse;
+import com.finance.winport.home.model.HomeFoundShopResponse;
 import com.finance.winport.home.model.MetroResponse;
 import com.finance.winport.home.model.RegionResponse;
 import com.finance.winport.home.model.ShopCount;
@@ -51,6 +52,10 @@ public interface HomeServices {
     @Headers("Content-Type: application/json")
     @POST(ApiUrl.COUNTSHOPFROMCLIENT)
     Observable<ShopCount> getShopCount();
+
+    //首页发现旺铺
+    @POST(ApiUrl.FOUND)
+    Observable<HomeFoundShopResponse> getHomeFoundShop();
 
     //广告banner
     @POST(ApiUrl.ADVLIST)

@@ -117,7 +117,7 @@ public class ShopMoreActivity extends BaseActivity {
         if (data == null) {
             return;
         }
-        tvFocusHouse.setText(data.getAddress());
+        tvFocusHouse.setText(data.getTitle());
         tvJingying.setLableTwo(data.getOperateStatusName());
         tvDianpu.setLableTwo(data.getShopName());
 

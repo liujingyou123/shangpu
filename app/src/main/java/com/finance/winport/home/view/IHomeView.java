@@ -3,6 +3,7 @@ package com.finance.winport.home.view;
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.home.model.BannerResponse;
 import com.finance.winport.home.model.CheckVersionResponse;
+import com.finance.winport.home.model.HomeFoundShopResponse;
 import com.finance.winport.home.model.RegionResponse;
 import com.finance.winport.home.model.ShopCount;
 import com.finance.winport.home.model.ShopListResponse;
@@ -29,4 +30,6 @@ public interface IHomeView {
     void showPersonalInfo(PersonalInfoResponse response);
 
     void checkVersion(CheckVersionResponse response);
+
+    void showFoundShop(HomeFoundShopResponse response);
 }
