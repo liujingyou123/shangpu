@@ -26,16 +26,20 @@ public class TokenInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         String tokenKey = getTokenKey();
         Request newRequest = chain.request();
-        HttpUrl url = newRequest.url().newBuilder().addPathSegment(VERSION_PATH_SEGMENT).build();
+        HttpUrl url;
+        String version = newRequest.url().queryParameter("version");
+        if (!TextUtils.isEmpty(version)) {
+            String path = newRequest.url().url().getPath();
+            url = newRequest.url().newBuilder(path).addPathSegment(version).build();
+        } else {
+            url = newRequest.url().newBuilder().addPathSegment(VERSION_PATH_SEGMENT).build();
+        }
+
         Request.Builder newBuilder = newRequest.newBuilder().url(url);
         if (!TextUtils.isEmpty(tokenKey)) {
             newBuilder.addHeader("X-token", tokenKey);
-//            newRequest = newRequest.newBuilder()
-//                    .addHeader("X-token", tokenKey).build();
         }
-
         newBuilder.addHeader("Content-Type", "application/json");
-//        newRequest = newRequest.newBuilder().addHeader("Content-Type", "application/json").build();
         newRequest = newBuilder.build();
         MediaType mediaType = newRequest.body().contentType();
         try {
@@ -44,12 +48,13 @@ public class TokenInterceptor implements Interceptor {
                 field.setAccessible(true);
                 field.set(mediaType, "application/json");
             }
-        } catch (NoSuchFieldException e) {
+        } catch (
+                NoSuchFieldException e) {
             e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (
+                IllegalAccessException e) {
             e.printStackTrace();
         }
-
         return chain.proceed(newRequest);
     }
 

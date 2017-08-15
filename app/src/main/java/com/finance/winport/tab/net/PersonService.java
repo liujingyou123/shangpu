@@ -103,7 +103,7 @@ public interface PersonService {
     Observable<WinportCounts> getWinportCounts(@Body HashMap<String, Object> params);
 
     // 农历接口
-    @POST("customerapp/api/nongli/wnl")
+    @POST("customerapp/api/nongli/wnl?version=v1.0.0")
     Observable<Lunar> getLunar(@Body HashMap<String, Object> params);
 
     // 更新 registrationId
