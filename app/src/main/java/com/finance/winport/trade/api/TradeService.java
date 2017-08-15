@@ -49,46 +49,46 @@ public interface TradeService {
     Observable<BaseResponse> downPraise(@Body HashMap<String, String> params);
 
     //生意圈
-    @POST("customerapp/api/topic/topicList/v1.0.0")
+    @POST("customerapp/api/topic/topicList")
     Observable<TradeCircleResponse> getTradeCircle(@Body HashMap<String, String> params);
 
     //点赞
-    @POST("customerapp/api/topic/likeTopic/v1.0.0")
+    @POST("customerapp/api/topic/likeTopic")
     Observable<BaseResponse> zanTopic(@Body HashMap<String, String> params);
 
     //取消点赞
-    @POST("customerapp/api/topic/unLikeTopic/v1.0.0")
+    @POST("customerapp/api/topic/unLikeTopic")
     Observable<BaseResponse> cancelzanTopic(@Body HashMap<String, String> params);
 
     //我发布的帖子
-    @POST("customerapp/api/topic/topicListByUserId/v1.0.0")
+    @POST("customerapp/api/topic/topicListByUserId")
     Observable<MyTopicResponse> getMyTopics(@Body HashMap<String, String> params);
 
     //发布帖子
-    @POST("customerapp/api/topic/publishTopic/v1.0.0")
+    @POST("customerapp/api/topic/publishTopic")
     Observable<BaseResponse> publishTopic(@Body PublicTopic params);
 
     //帖子详情
-    @POST("customerapp/api/topic/topicDetail/v1.0.0")
+    @POST("customerapp/api/topic/topicDetail")
     Observable<TradeDetailResponse> getTopicDetail(@Body HashMap params);
 
     //发布评论
-    @POST("customerapp/api/topic/publishComment/v1.0.0")
+    @POST("customerapp/api/topic/publishComment")
     Observable<BaseResponse> commentTopic(@Body HashMap params);
 
     //删除评论
-    @POST("customerapp/api/topic/deleteComment/v1.0.0")
+    @POST("customerapp/api/topic/deleteComment")
     Observable<BaseResponse> deleteComment(@Body HashMap params);
 
     //删除帖子
-    @POST("customerapp/api/topic/deleteTopic/v1.0.0")
+    @POST("customerapp/api/topic/deleteTopic")
     Observable<BaseResponse> deleteTopic(@Body HashMap params);
 
     //评论列表
-    @POST("customerapp/api/topic/topicCommentList/v1.0.0")
+    @POST("customerapp/api/topic/topicCommentList")
     Observable<CommentResponse> getComments(@Body HashMap params);
 
     //帖子评论人数
-    @POST("customerapp/api/notice/selectBusNoticeCount/v1.0.0")
+    @POST("customerapp/api/notice/selectBusNoticeCount")
     Observable<CommentNumResponse> getCommentsNum();
 }

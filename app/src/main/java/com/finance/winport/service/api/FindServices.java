@@ -28,44 +28,44 @@ import rx.Observable;
 
 public interface FindServices {
     //预约统计
-    @POST("customerapp/api/customer/visitStatistics/v1.0.0")
+    @POST("customerapp/api/customer/visitStatistics")
     Observable<ShopOrderCountResponse> getOrderCount();
 
     //找资金统计
-    @POST("customerapp/api/customer/loadStatistics/v1.0.0")
+    @POST("customerapp/api/customer/loadStatistics")
     Observable<FindLoanCountResponse> getFindLoanCount();
 
     //金铺寻租统计
-    @POST("customerapp/api/clerkHint/getReleaseTotal/v1.0.0")
+    @POST("customerapp/api/clerkHint/getReleaseTotal")
     Observable<ShopRentCountResponse> getRentCount();
 
     //我的贷款申请列表
-    @POST("customerapp/api/customer/loadList/v1.0.0")
+    @POST("customerapp/api/customer/loadList")
     Observable<LoanListResponse> getLoanList(@Body HashMap map);
 
     //找服务首页
-    @POST("customerapp/api/customer/serviceInfo/v1.0.0")
+    @POST("customerapp/api/customer/serviceInfo")
     Observable<FindServiceResponse> getFindService();
 
     //找服务首页日历日程
-    @POST("customerapp/api/user/schedule/calendar/list/v1.0.0")
+    @POST("customerapp/api/user/schedule/calendar/list")
     Observable<CalendarListResponse> getCalendar(@Body HashMap map);
 
 
     //预约看铺
-    @POST("customerapp/api/customer/applyVisit/v1.0.0")
+    @POST("customerapp/api/customer/applyVisit")
     Observable<SendOrderShopResponse> sendOrderShop(@Body OrderShopRequest request);
 
     //签约租铺
-    @POST("customerapp/api/customer/applySign/v1.0.0")
+    @POST("customerapp/api/customer/applySign")
     Observable<SendOrderShopResponse> sendSignShop(@Body OrderShopRequest request);
 
     //找资金-申请贷款
-    @POST("customerapp/api/customer/applyLoad/v1.0.0")
+    @POST("customerapp/api/customer/applyLoad")
     Observable<BaseResponse> sendFindLoan(@Body FindLoanRequest request);
 
     //旺铺寻租
-    @POST("customerapp/api/clerkHint/addClerkHint/v1.0.0")
+    @POST("customerapp/api/clerkHint/addClerkHint")
     Observable<SendOrderShopResponse> sendRentShop(@Body RentShopRequest request);
 
 
