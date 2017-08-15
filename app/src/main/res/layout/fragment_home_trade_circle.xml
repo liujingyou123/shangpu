@@ -25,6 +25,7 @@
         ptr:ptr_pull_to_fresh="false"
         ptr:ptr_ratio_of_header_height_to_refresh="1.2"
         ptr:ptr_resistance="1.7"
+        android:visibility="gone"
         android:layout_below="@+id/title">
 
         <ExpandableListView

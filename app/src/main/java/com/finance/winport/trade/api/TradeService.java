@@ -25,27 +25,27 @@ import rx.Observable;
 
 public interface TradeService {
     //生意圈首页
-    @POST("")
+    @POST("customerapp/api/topic/getHomePageData")
     Observable<TradeHome> getHomeTrade(@Body HashMap<String, String> params);
 
     //生意圈 tag
-    @POST("")
+    @POST("customerapp/api/topic/getTagsList")
     Observable<TradeTag> getTagList(@Body HashMap<String, String> params);
 
     //行业头条、生意宝典 列表
-    @POST("")
+    @POST("customerapp/api/topic/getContentList")
     Observable<TradeSubList> getSubList(@Body HashMap<String, String> params);
 
     //行业头条、生意宝典 详情
-    @POST("")
+    @POST("customerapp/api/topic/getContentDetail")
     Observable<TradeDetails> getSubDetails(@Body HashMap<String, String> params);
 
     //行业头条、生意宝典详情 点赞
-    @POST("")
+    @POST("customerapp/api/topic/contentGood")
     Observable<BaseResponse> praise(@Body HashMap<String, String> params);
 
     //行业头条、生意宝典详情 踩
-    @POST("")
+    @POST("customerapp/api/topic/contentBad")
     Observable<BaseResponse> downPraise(@Body HashMap<String, String> params);
 
     //生意圈

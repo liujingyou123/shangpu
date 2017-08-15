@@ -67,6 +67,7 @@ public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeSub> {
         if (viewType == 0) {
             View v = inflater.inflate(R.layout.head_header_layout, parent, false);
             holder = new HeaderViewHolder(v);
+            ((HeaderViewHolder) holder).title.setText("行业头条");
             ((HeaderViewHolder) holder).header.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         } else {
             View v = inflater.inflate(R.layout.trade_item_child_head, parent, false);
@@ -85,11 +86,13 @@ public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeSub> {
             TradeSub item = (TradeSub) getItem(position);
             ViewHolder holder = (ViewHolder) viewHolder;
             holder.title.setText(item.title);
-            holder.type.setText(item.content);
+            if (item.tagList != null && item.tagList.size() > 0 && item.tagList.get(0) != null) {
+                holder.type.setText(item.tagList.get(0).tagName);
+            }
             holder.from.setText(item.source);
             holder.date.setText(item.dateTime);
             holder.scanCount.setText(item.viewCount + "浏览");
-            if (item.kind) {
+            if (item.kind == 1) {
                 holder.title.setDrawable(R.mipmap.label_top);
             } else {
                 holder.title.setDrawable(0);
@@ -136,6 +139,8 @@ public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeSub> {
     }
 
     static class HeaderViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.title)
+        TextView title;
         @BindView(R.id.header)
         RecyclerView header;
 
@@ -193,7 +198,7 @@ public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeSub> {
                 lp.leftMargin = UnitUtil.dip2px(context, 0);
             }
             holder.itemView.requestLayout();
-//            Batman.getInstance().fromNet(item.tagIcon, holder.img);
+            Batman.getInstance().fromNet(item.tagIcon, holder.img, R.mipmap.icon_information, R.mipmap.icon_information);
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

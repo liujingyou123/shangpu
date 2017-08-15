@@ -39,7 +39,6 @@ import butterknife.Unbinder;
 public class TradeBibleFragment extends BaseFragment implements ITradeSubView {
     private final int LIMIT = 10;
     private final int START_PAGE = 1;
-    private boolean isPull = true;
     private int pageSize = LIMIT;
     private int pageNumber = START_PAGE;
 
@@ -56,7 +55,7 @@ public class TradeBibleFragment extends BaseFragment implements ITradeSubView {
     TextView tvFocusHouse;
     TradeBibleAdapter adapter;
     TradeSubPresenter presenter;
-    String type;
+    String type = "2";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,7 +69,13 @@ public class TradeBibleFragment extends BaseFragment implements ITradeSubView {
         View root = inflater.inflate(R.layout.fragment_trade_head, container, false);
         unbinder = ButterKnife.bind(this, root);
         initView();
+        asyncData();
         return root;
+    }
+
+    private void asyncData() {
+        presenter.getTagList(type, false);
+        presenter.getSubList(pageNumber, pageSize, type, null, true);
     }
 
     private void initView() {
@@ -79,13 +84,6 @@ public class TradeBibleFragment extends BaseFragment implements ITradeSubView {
         mListView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         adapter = new TradeBibleAdapter(refreshView, null, 0);
         mListView.setAdapter(adapter);
-        mListView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                adapter.updateHeader(getHeadInfo());
-                adapter.refreshData(getData());
-            }
-        }, 300);
     }
 
     private void initRefreshView() {
@@ -94,28 +92,13 @@ public class TradeBibleFragment extends BaseFragment implements ITradeSubView {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 pageNumber = 1;
-//                presenter.getSubList(pageNumber, pageSize, type, false);
-                refreshView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter.refreshData(getData());
-                        mListView.scrollToPosition(0);
-                        refreshView.refreshComplete();
-                    }
-                }, 1000);
+                presenter.getSubList(pageNumber, pageSize, type, null, false);
             }
 
             @Override
             public void onLoadMoreBegin(PtrFrameLayout frame) {
                 pageNumber++;
-//                presenter.getSubList(pageNumber, pageSize, type, false);
-                refreshView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter.updateData(getData());
-                        refreshView.refreshComplete();
-                    }
-                }, 1000);
+                presenter.getSubList(pageNumber, pageSize, type, null, false);
             }
         });
     }
@@ -137,7 +120,7 @@ public class TradeBibleFragment extends BaseFragment implements ITradeSubView {
         for (int i = 0; i < 30; i++) {
             TradeSub item = new TradeSub();
             item.title = i == 0 ? "上海喜茶又搞事情，因黄牛得罪外卖小哥外卖小哥" : "这家店火得一发不可收拾";
-            item.kind = /*i == 0 ? true :*/ false;
+            item.kind = /*i == 0 ? true :*/ 1;
             item.image = img;
             item.content = "新闻";
             item.dateTime = "2017-07-17";
@@ -166,6 +149,9 @@ public class TradeBibleFragment extends BaseFragment implements ITradeSubView {
 
     @Override
     public void setAdapter(TradeSubList data) {
+        if (refreshView != null) {
+            refreshView.refreshComplete();
+        }
         List<TradeSub> list = data.data.data;
         int totalCount = data.data.totalSize;
         if (adapter == null) {
@@ -174,6 +160,7 @@ public class TradeBibleFragment extends BaseFragment implements ITradeSubView {
         } else {
             if (pageNumber == 1) {
                 adapter.refreshData(list, totalCount);
+                mListView.scrollToPosition(0);
             } else {
                 adapter.updateData(list, totalCount);
             }
@@ -190,5 +177,8 @@ public class TradeBibleFragment extends BaseFragment implements ITradeSubView {
     @Override
     public void showError(String errorMsg) {
         ToastUtil.show(context, errorMsg);
+        if (refreshView != null) {
+            refreshView.refreshComplete();
+        }
     }
 }

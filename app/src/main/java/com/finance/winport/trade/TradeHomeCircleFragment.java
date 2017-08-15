@@ -58,7 +58,7 @@ public class TradeHomeCircleFragment extends BaseFragment implements ITradeHomeV
         View root = inflater.inflate(R.layout.fragment_home_trade_circle, container, false);
         unbinder = ButterKnife.bind(this, root);
         initView();
-//        asyncData();
+        asyncData();
         return root;
     }
 
@@ -67,7 +67,10 @@ public class TradeHomeCircleFragment extends BaseFragment implements ITradeHomeV
         mListView.addFooterView(LayoutInflater.from(context).inflate(R.layout.trade_list_footer, null));
         mData = new LinkedHashMap<>();
         titles = new String[]{"行业头条", "生意宝典", "生意社区"};
-        initData();
+        mData.put(titles[0], new ArrayList<BaseResponse>());
+        mData.put(titles[1], new ArrayList<BaseResponse>());
+        mData.put(titles[2], new ArrayList<BaseResponse>());
+//        initData();
         adapter = new TradeHomeCircleAdapter(context, presenter, mData);
         mListView.setAdapter(adapter);
         mListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
@@ -86,12 +89,13 @@ public class TradeHomeCircleFragment extends BaseFragment implements ITradeHomeV
     }
 
     private void initData() {
-        mData.put(titles[0], getHeadData());
-        mData.put(titles[1], getBibleData());
-        mData.put(titles[2], getCommunityData());
+        mData.put(titles[0], null);
+        mData.put(titles[1], null);
+        mData.put(titles[2], null);
     }
 
     private void initRefreshView() {
+        refreshView.setVisibility(View.GONE);
         refreshView.setMode(PtrFrameLayout.Mode.REFRESH);
         refreshView.setPtrHandler(new PtrDefaultHandler2() {
             @Override
@@ -101,7 +105,7 @@ public class TradeHomeCircleFragment extends BaseFragment implements ITradeHomeV
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-//                presenter.getTradeHome(false);
+                presenter.getTradeHome(false);
                 refreshView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -119,7 +123,7 @@ public class TradeHomeCircleFragment extends BaseFragment implements ITradeHomeV
         for (int i = 0; i < 3; i++) {
             TradeSub item = new TradeSub();
             item.title = i == 0 ? "上海喜茶又搞事情，因黄牛得罪外卖小哥外卖小哥" : "这家店火得一发不可收拾";
-            item.kind = i == 0 ? true : false;
+            item.kind = i == 0 ? 1 : 0;
             item.image = img;
             item.content = "新闻";
             item.dateTime = "2017-07-17";
@@ -184,7 +188,11 @@ public class TradeHomeCircleFragment extends BaseFragment implements ITradeHomeV
 
     @Override
     public void setAdapter(TradeHome data) {
+        if (refreshView != null) {
+            refreshView.refreshComplete();
+        }
         if (data != null) {
+            refreshView.setVisibility(View.VISIBLE);
             // add head
             if (!mData.containsKey(titles[0])) {
                 List<BaseResponse> list = new ArrayList<>();
@@ -229,7 +237,9 @@ public class TradeHomeCircleFragment extends BaseFragment implements ITradeHomeV
 
     @Override
     public void showError(String errorMsg) {
-
+        if (refreshView != null) {
+            refreshView.refreshComplete();
+        }
     }
 
     @Override

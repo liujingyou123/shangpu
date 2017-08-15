@@ -65,6 +65,7 @@ public class TradeBibleAdapter extends PullRecyclerBaseAdapter<TradeSub> {
         if (viewType == 0) {
             View v = inflater.inflate(R.layout.head_header_layout, parent, false);
             holder = new HeaderViewHolder(v);
+            ((HeaderViewHolder) holder).title.setText("生意宝典");
             ((HeaderViewHolder) holder).header.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         } else {
             View v = inflater.inflate(R.layout.trade_item_child_bible, parent, false);
@@ -84,7 +85,9 @@ public class TradeBibleAdapter extends PullRecyclerBaseAdapter<TradeSub> {
             TradeSub item = (TradeSub) getItem(position);
             ViewHolder holder = (ViewHolder) viewHolder;
             holder.desc.setText(item.title);
-            holder.tip.setText(item.content);
+            if (item.tagList != null && item.tagList.size() > 0 && item.tagList.get(0) != null) {
+                holder.tip.setText(item.tagList.get(0).tagName);
+            }
             holder.date.setText(item.dateTime);
             holder.scanCount.setText(item.viewCount + "浏览");
             Batman.getInstance().fromNet(item.image, holder.img);
@@ -130,6 +133,9 @@ public class TradeBibleAdapter extends PullRecyclerBaseAdapter<TradeSub> {
 
 
     static class HeaderViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.title)
+        TextView title;
         @BindView(R.id.header)
         RecyclerView header;
 
@@ -185,7 +191,7 @@ public class TradeBibleAdapter extends PullRecyclerBaseAdapter<TradeSub> {
                 lp.leftMargin = UnitUtil.dip2px(context, 0);
             }
             holder.itemView.requestLayout();
-//            Batman.getInstance().fromNet(item.tagIcon, holder.img);
+            Batman.getInstance().fromNet(item.tagIcon, holder.img, R.mipmap.icon_information, R.mipmap.icon_information);
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

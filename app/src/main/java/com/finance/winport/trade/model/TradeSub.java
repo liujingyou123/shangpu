@@ -16,7 +16,7 @@ public class TradeSub extends BaseResponse {
     public String source;
     public List<TradeTag.Tag> tagList;
     public String image;
-    public boolean kind;
+    public int kind;//0-否，1-是
     public String viewCount;
     public String dateTime;
 }

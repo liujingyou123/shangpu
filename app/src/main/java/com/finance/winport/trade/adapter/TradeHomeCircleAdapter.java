@@ -195,7 +195,7 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
             holder.from.setText(item.source);
             holder.date.setText(item.dateTime);
             holder.scanCount.setText(item.viewCount + "浏览");
-            if (item.kind) {
+            if (item.kind==1) {
                 holder.title.setDrawable(R.mipmap.label_top);
             } else {
                 holder.title.setDrawable(0);

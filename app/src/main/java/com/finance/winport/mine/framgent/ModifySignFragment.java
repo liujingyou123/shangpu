@@ -78,7 +78,7 @@ public class ModifySignFragment extends BaseFragment {
     private void modifySign(final String content) {
         HashMap<String, Object> params = new HashMap<>();
         params.put("signature", content);
-        PersonManager.getInstance().modifySign(params, new NetworkCallback<BaseResponse>() {
+        PersonManager.getInstance().modifyNickNameAndSign(params, new NetworkCallback<BaseResponse>() {
             @Override
             public void success(BaseResponse response) {
                 setResult(content);

@@ -17,6 +17,7 @@ import com.finance.winport.trade.adapter.TradeHeadAdapter;
 import com.finance.winport.trade.model.TradeSub;
 import com.finance.winport.trade.model.TradeSubList;
 import com.finance.winport.trade.model.TradeTag;
+import com.finance.winport.trade.presenter.TradeSubPresenter;
 import com.finance.winport.trade.view.ITradeSubView;
 import com.finance.winport.util.ToastUtil;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
@@ -37,7 +38,6 @@ import butterknife.Unbinder;
 public class TradeHeadFragment extends BaseFragment implements ITradeSubView {
     private final int LIMIT = 10;
     private final int START_PAGE = 1;
-    private boolean isPull = true;
     private int pageSize = LIMIT;
     private int pageNumber = START_PAGE;
 
@@ -53,7 +53,14 @@ public class TradeHeadFragment extends BaseFragment implements ITradeSubView {
     @BindView(R.id.tv_focus_house)
     TextView tvFocusHouse;
     TradeHeadAdapter adapter;
-    String type;
+    String type = "1";
+    private TradeSubPresenter presenter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        presenter = new TradeSubPresenter(this);
+    }
 
     @Nullable
     @Override
@@ -61,7 +68,13 @@ public class TradeHeadFragment extends BaseFragment implements ITradeSubView {
         View root = inflater.inflate(R.layout.fragment_trade_head, container, false);
         unbinder = ButterKnife.bind(this, root);
         initView();
+        asyncData();
         return root;
+    }
+
+    private void asyncData() {
+        presenter.getTagList(type, false);
+        presenter.getSubList(pageNumber, pageSize, type,null, true);
     }
 
     private void initView() {
@@ -70,14 +83,6 @@ public class TradeHeadFragment extends BaseFragment implements ITradeSubView {
         mListView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         adapter = new TradeHeadAdapter(refreshView, null, 0);
         mListView.setAdapter(adapter);
-        mListView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                adapter.updateHeader(getHeadInfo());
-                adapter.refreshData(getData());
-            }
-        }, 300);
-
     }
 
     private void initRefreshView() {
@@ -86,28 +91,21 @@ public class TradeHeadFragment extends BaseFragment implements ITradeSubView {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 pageNumber = 1;
-//                presenter.getSubList(pageNumber, pageSize, type, false);
-                refreshView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter.refreshData(getData());
-                        mListView.scrollToPosition(0);
-                        refreshView.refreshComplete();
-                    }
-                }, 1000);
+                presenter.getSubList(pageNumber, pageSize, type,null, false);
+//                refreshView.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        adapter.refreshData(getData());
+//                        mListView.scrollToPosition(0);
+//                        refreshView.refreshComplete();
+//                    }
+//                }, 1000);
             }
 
             @Override
             public void onLoadMoreBegin(PtrFrameLayout frame) {
                 pageNumber++;
-//                presenter.getSubList(pageNumber, pageSize, type, false);
-                refreshView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter.updateData(getData());
-                        refreshView.refreshComplete();
-                    }
-                }, 1000);
+                presenter.getSubList(pageNumber, pageSize, type,null, false);
             }
         });
     }
@@ -129,7 +127,7 @@ public class TradeHeadFragment extends BaseFragment implements ITradeSubView {
         for (int i = 0; i < 30; i++) {
             TradeSub item = new TradeSub();
             item.title = i == 0 ? i + "上海喜茶又搞事情，因黄牛得罪外卖小哥外卖小哥" : i + "这家店火得一发不可收拾";
-            item.kind = /*i == 0 ? true :*/ false;
+            item.kind = /*i == 0 ? true :*/ 1;
             item.image = img;
             item.content = "新闻";
             item.dateTime = "2017-07-17";
@@ -158,6 +156,9 @@ public class TradeHeadFragment extends BaseFragment implements ITradeSubView {
 
     @Override
     public void setAdapter(TradeSubList data) {
+        if (refreshView != null) {
+            refreshView.refreshComplete();
+        }
         List<TradeSub> list = data.data.data;
         int totalCount = data.data.totalSize;
         if (adapter == null) {
@@ -166,6 +167,7 @@ public class TradeHeadFragment extends BaseFragment implements ITradeSubView {
         } else {
             if (pageNumber == 1) {
                 adapter.refreshData(list, totalCount);
+                mListView.scrollToPosition(0);
             } else {
                 adapter.updateData(list, totalCount);
             }
@@ -182,5 +184,8 @@ public class TradeHeadFragment extends BaseFragment implements ITradeSubView {
     @Override
     public void showError(String errorMsg) {
         ToastUtil.show(context, errorMsg);
+        if (refreshView != null) {
+            refreshView.refreshComplete();
+        }
     }
 }
