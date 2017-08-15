@@ -2,6 +2,7 @@ package com.finance.winport.mine.model;
 
 import com.finance.winport.base.BaseResponse;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -27,7 +28,7 @@ public class PersonalInfoResponse extends BaseResponse {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         public String phone;
         public String headPortrait;
         public String nickName;

@@ -106,6 +106,9 @@ public class CommentResponse extends BaseResponse{
             private String content;
             private int isOwn;
             private int commentatorId;
+            private int isReply;
+            private int parentId;
+            private int parentNickName;
 
             public String getId() {
                 return id;
@@ -169,6 +172,30 @@ public class CommentResponse extends BaseResponse{
 
             public void setCommentatorId(int commentatorId) {
                 this.commentatorId = commentatorId;
+            }
+
+            public int getIsReply() {
+                return isReply;
+            }
+
+            public void setIsReply(int isReply) {
+                this.isReply = isReply;
+            }
+
+            public int getParentId() {
+                return parentId;
+            }
+
+            public void setParentId(int parentId) {
+                this.parentId = parentId;
+            }
+
+            public int getParentNickName() {
+                return parentNickName;
+            }
+
+            public void setParentNickName(int parentNickName) {
+                this.parentNickName = parentNickName;
             }
 
             @Override

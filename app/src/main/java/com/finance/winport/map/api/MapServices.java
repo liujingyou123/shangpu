@@ -19,17 +19,17 @@ import rx.Observable;
 
 public interface MapServices {
     //街铺地图-店铺级别的地图
-    @POST("customerapp/api/map/shop/v1.0.0")
+    @POST("customerapp/api/map/shop")
     Observable<MapShopResponse> getMapShop(@Body MapShopRequest request);
 
 
     //街铺地图-区域板块层级店铺数量
-    @POST("customerapp/api/map/regionShop/v1.0.0")
+    @POST("customerapp/api/map/regionShop")
     Observable<MapAreaResponse> getMapArea(@Body MapAreaRequest request);
 
 
     //街铺地图-点击商铺查看概要信息
-    @POST("customerapp/api/map/summary/v1.0.0")
+    @POST("customerapp/api/map/summary")
     Observable<MapShopDetailResponse> getMapShopDetail(@Body HashMap map);
 
 

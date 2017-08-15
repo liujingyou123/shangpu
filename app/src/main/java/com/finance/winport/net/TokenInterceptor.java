@@ -8,30 +8,38 @@ import com.finance.winport.util.SharedPrefsUtil;
 import java.io.IOException;
 import java.lang.reflect.Field;
 
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.Response;
-import retrofit2.http.Headers;
 
 /**
  * Created by liuworkmac on 17/5/15.
  */
 
 public class TokenInterceptor implements Interceptor {
+
+    private final String VERSION_PATH_SEGMENT = "v1.2.0";
+
     @Override
     public Response intercept(Chain chain) throws IOException {
         String tokenKey = getTokenKey();
         Request newRequest = chain.request();
-        Request.Builder newBuilder = newRequest.newBuilder();
-        if (!TextUtils.isEmpty(tokenKey)) {
-            newBuilder.addHeader("X-token", tokenKey);
-//            newRequest = newRequest.newBuilder()
-//                    .addHeader("X-token", tokenKey).build();
+        HttpUrl url;
+        String version = newRequest.url().queryParameter("version");
+        if (!TextUtils.isEmpty(version)) {
+            String path = newRequest.url().url().getPath();
+            url = newRequest.url().newBuilder(path).addPathSegment(version).build();
+        } else {
+            url = newRequest.url().newBuilder().addPathSegment(VERSION_PATH_SEGMENT).build();
         }
 
+        Request.Builder newBuilder = newRequest.newBuilder().url(url);
+        if (!TextUtils.isEmpty(tokenKey)) {
+            newBuilder.addHeader("X-token", tokenKey);
+        }
         newBuilder.addHeader("Content-Type", "application/json");
-//        newRequest = newRequest.newBuilder().addHeader("Content-Type", "application/json").build();
         newRequest = newBuilder.build();
         MediaType mediaType = newRequest.body().contentType();
         try {
@@ -40,12 +48,13 @@ public class TokenInterceptor implements Interceptor {
                 field.setAccessible(true);
                 field.set(mediaType, "application/json");
             }
-        } catch (NoSuchFieldException e) {
+        } catch (
+                NoSuchFieldException e) {
             e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (
+                IllegalAccessException e) {
             e.printStackTrace();
         }
-
         return chain.proceed(newRequest);
     }
 
@@ -60,6 +69,6 @@ public class TokenInterceptor implements Interceptor {
             e.printStackTrace();
         }
         Log.d(getClass().getSimpleName(), "token-->" + token);
-        return token;//"0CB9F815528983E3707F944A9113AADD"
+        return token;
     }
 }
