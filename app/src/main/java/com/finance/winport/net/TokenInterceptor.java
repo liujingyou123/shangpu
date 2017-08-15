@@ -20,7 +20,7 @@ import okhttp3.Response;
 
 public class TokenInterceptor implements Interceptor {
 
-    private final String VERSION_PATH_SEGMENT = "1.2.0";
+    private final String VERSION_PATH_SEGMENT = "v1.2.0";
 
     @Override
     public Response intercept(Chain chain) throws IOException {
