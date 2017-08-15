@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.GridLayout;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,7 +56,7 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         if (data != null) {
             mData.setPraiseNumber(data.getPraiseNumber());
             mData.setSignature(TextUtils.isEmpty(data.getSignature()) ? "老板很懒，暂未设置签名" : data.getSignature());
-            mData.setNickName(/*data.getNickName()*/"稻草人Kevin");
+            mData.setNickName(data.getNickName()/*"稻草人Kevin"*/);
             mData.setCanBeDelete(data.getCanBeDelete());
             mData.setCommentNumber(data.getCommentNumber());
             mData.setContent(data.getContent());
@@ -203,7 +204,12 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
             } else {
                 viewHolder.imvDel.setVisibility(View.GONE);
             }
-            viewHolder.tvPhone.setText(info.getSignature());
+            if (info.getIsReply() == 0) {
+                viewHolder.tvPhone.setText(info.getNickName());
+            } else {
+                String s = "<html><body><p>" + info.getNickName() + "<span \"style=color:#999999\">" + " 回复 " + info.getParentNickName() + "</span>" + "</p></body><html/>";
+                viewHolder.tvPhone.setText(Html.fromHtml(s));
+            }
             viewHolder.tvTime.setText(info.getDateTime() + "评论");
             viewHolder.tvComment.setText(info.getContent());
             Batman.getInstance().getImageWithCircle(info.getHeadPicture(), viewHolder.ivIcon, R.mipmap.default_user_small, R.mipmap.default_user_small);
