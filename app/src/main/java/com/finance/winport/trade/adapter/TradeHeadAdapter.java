@@ -83,11 +83,11 @@ public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeSub> {
             setHeaderInfo((HeaderViewHolder) viewHolder, headerInfo);
         } else {
             if (baseData == null) return;
-            TradeSub item = (TradeSub) getItem(position);
+            final TradeSub item = (TradeSub) getItem(position);
             ViewHolder holder = (ViewHolder) viewHolder;
             holder.title.setText(item.title);
             if (item.tagList != null && item.tagList.size() > 0 && item.tagList.get(0) != null) {
-                holder.type.setText(item.tagList.get(0).tagName);
+                holder.tag.setText(item.tagList.get(0).tagName);
             }
             holder.from.setText(item.source);
             holder.date.setText(item.dateTime);
@@ -107,6 +107,8 @@ public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeSub> {
                 @Override
                 public void onClick(View v) {
                     context.startActivity(new Intent(context, InfoDetailsActivity.class)
+                            .putExtra("id", item.contentId)
+                            .putExtra("title", item.title)
                             .putExtra("type", TradeType.HEAD_DETAILS));
                 }
             });
@@ -155,8 +157,8 @@ public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeSub> {
         ImageView img;
         @BindView(R.id.title)
         DrawableTopLeftTextView title;
-        @BindView(R.id.type)
-        TextView type;
+        @BindView(R.id.tag)
+        TextView tag;
         @BindView(R.id.from)
         TextView from;
         @BindView(R.id.date)

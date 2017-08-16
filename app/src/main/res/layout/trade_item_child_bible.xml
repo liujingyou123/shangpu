@@ -29,7 +29,7 @@
             tools:text="全上海最好的铺子都在这里" />
 
         <TextView
-            android:id="@+id/tip"
+            android:id="@+id/tag"
             android:layout_width="wrap_content"
             android:layout_height="15dp"
             android:layout_below="@+id/content"
@@ -46,10 +46,10 @@
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tip"
-            android:layout_alignTop="@+id/tip"
+            android:layout_alignBottom="@+id/tag"
+            android:layout_alignTop="@+id/tag"
             android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/tip"
+            android:layout_toRightOf="@+id/tag"
             android:gravity="center_vertical"
             android:textColor="#666666"
             android:textSize="10sp"
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/tip"
             android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/tip"
+            android:layout_alignTop="@+id/tag"
             android:gravity="center_vertical"
             android:textColor="#666666"
             android:textSize="10sp"

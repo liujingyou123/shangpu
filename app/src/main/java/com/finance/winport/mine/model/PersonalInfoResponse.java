@@ -28,7 +28,7 @@ public class PersonalInfoResponse extends BaseResponse {
         this.data = data;
     }
 
-    public static class DataBean implements Serializable{
+    public static class DataBean implements Serializable {
         public String phone;
         public String headPortrait;
         public String nickName;
@@ -38,12 +38,12 @@ public class PersonalInfoResponse extends BaseResponse {
         public String myService;
         public Attention attention;
 
-        public static class Attention {
+        public static class Attention implements Serializable {
             public List<Plate> plateList;
             public List<Vocation> vocationList;
             public List<Integer> areaList;
 
-            public static class Plate {
+            public static class Plate implements Serializable {
                 public String cityId;
                 public String cityName;
                 public String districtId;
@@ -52,7 +52,7 @@ public class PersonalInfoResponse extends BaseResponse {
                 public String plateName;
             }
 
-            public static class Vocation {
+            public static class Vocation implements Serializable {
                 public String vocationId;
                 public String vocationName;
             }

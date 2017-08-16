@@ -10,7 +10,7 @@ import java.util.List;
  */
 
 public class TradeSub extends BaseResponse {
-    public String id;
+    public String contentId;
     public String title;
     public String content;
     public String source;

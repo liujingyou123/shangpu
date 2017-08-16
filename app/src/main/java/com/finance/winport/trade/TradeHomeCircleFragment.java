@@ -64,6 +64,7 @@ public class TradeHomeCircleFragment extends BaseFragment implements ITradeHomeV
 
     private void initView() {
         initRefreshView();
+        mListView.setVisibility(View.GONE);
         mListView.addFooterView(LayoutInflater.from(context).inflate(R.layout.trade_list_footer, null));
         mData = new LinkedHashMap<>();
         titles = new String[]{"行业头条", "生意宝典", "生意社区"};
@@ -95,7 +96,6 @@ public class TradeHomeCircleFragment extends BaseFragment implements ITradeHomeV
     }
 
     private void initRefreshView() {
-        refreshView.setVisibility(View.GONE);
         refreshView.setMode(PtrFrameLayout.Mode.REFRESH);
         refreshView.setPtrHandler(new PtrDefaultHandler2() {
             @Override
@@ -192,7 +192,7 @@ public class TradeHomeCircleFragment extends BaseFragment implements ITradeHomeV
             refreshView.refreshComplete();
         }
         if (data != null) {
-            refreshView.setVisibility(View.VISIBLE);
+            mListView.setVisibility(View.VISIBLE);
             // add head
             if (!mData.containsKey(titles[0])) {
                 List<BaseResponse> list = new ArrayList<>();

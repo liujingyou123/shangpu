@@ -101,16 +101,6 @@ public class NewsListFragment extends BaseFragment implements ITradeSubView {
         presenter.getSubList(pageNumber, pageSize, type, tagId, true);
     }
 
-//    private List<TradeTag.Tag> getHeadInfo() {
-//        List<TradeTag.Tag> list = new ArrayList<>();
-//        for (int i = 0; i < 10; i++) {
-//            TradeTag.Tag tag = new TradeTag.Tag();
-//            tag.tagName = title;
-//            list.add(tag);
-//        }
-//        return list;
-//    }
-
     String img = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1501843518220&di=0306ae6f9c5434136495d0c45e016b2a&imgtype=0&src=http%3A%2F%2Fpic23.photophoto.cn%2F20120530%2F0020033092420808_b.jpg";
 
     private List<TradeSub> getHeadData() {

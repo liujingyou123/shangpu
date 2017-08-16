@@ -30,9 +30,9 @@ public class TradeSubDetailsPresenter {
         this.iView = iView;
     }
 
-    public void getSubDetails(String id, final boolean withLoading) {
+    public void getSubDetails(String contentId, final boolean withLoading) {
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("id", id);
+        hashMap.put("contentId", contentId);
         ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).getSubDetails(hashMap), new LoadingNetSubscriber<TradeDetails>() {
             @Override
             public void response(TradeDetails response) {
