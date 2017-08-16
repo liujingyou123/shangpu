@@ -48,10 +48,6 @@ public class FoundShopDetailActivity extends BaseActivity {
     RelativeLayout lltop;
     private FoundShopsCommendAdapter adapter;
 
-    private ShareDialog shareDialog;
-
-
-    private int pageNum = 1;
 
     private List<ShopListResponse.DataBean.Shop> list = new ArrayList<>();
 
@@ -76,14 +72,10 @@ public class FoundShopDetailActivity extends BaseActivity {
         refreshView.setPtrHandler(new PtrDefaultHandler2() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                pageNum = 1;
-//                asyncData();
             }
 
             @Override
             public void onLoadMoreBegin(PtrFrameLayout frame) {
-                pageNum++;
-                getData();
             }
         });
         View header = LayoutInflater.from(context).inflate(R.layout.activity_found_shop_detail_header, null);

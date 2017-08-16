@@ -174,7 +174,7 @@ public class SendShopRentFragment extends BaseFragment implements ISendRentView 
         RentShopRequest request = new RentShopRequest();
         request.setLinkmanName(nameView.getText());
         request.setLinkmanPhone(UnitUtil.trim(phoneView.getText().toString().trim()));
-        request.setSubscribeTime(orderTime.getText());
+//        request.setSubscribeTime(orderTime.getText());
         request.setSmsVerifyCode(verifyCodeView.getText());
         request.setMessageId(messageId);
         request.setPicVerifyCode(imgCodeTxt.getText().toString().trim());

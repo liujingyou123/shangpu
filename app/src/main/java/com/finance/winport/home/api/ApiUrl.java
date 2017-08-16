@@ -31,4 +31,8 @@ public class ApiUrl {
 
     //首页发现旺铺
     public final static String FOUND = "customerapp/api/topic/getHomePageGuideData";
+    //发现旺铺列表
+    public final static String FOUNDLIST = "customerapp/api/topic/getContentGuideList";
+    //发现旺铺详情
+    public final static String FOUNDDETAIL = "customerapp/api/topic/getContentGuideDetail";
 }
