@@ -34,6 +34,7 @@ import com.finance.winport.trade.presenter.TradeCirclePresenter;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.UnitUtil;
+import com.finance.winport.view.HtmlTextView;
 import com.finance.winport.view.roundview.RoundedImageView;
 import com.umeng.analytics.MobclickAgent;
 
@@ -118,12 +119,12 @@ public class TradeCircleAdapter extends BaseAdapter {
                 viewHolder.praise.setSelected(false);
             }
             viewHolder.commentCount.setText(trade.getCommentNumber() + "");
-//            if (!TextUtils.isEmpty(trade.getContent())) {
-//                viewHolder.tvSub.setVisibility(View.VISIBLE);
-//                viewHolder.tvSub.setText(trade.getContent());
-//            } else {
-//                viewHolder.tvSub.setVisibility(View.GONE);
-//            }
+            if (!TextUtils.isEmpty(trade.getContent())) {
+                viewHolder.content.setVisibility(View.VISIBLE);
+                viewHolder.content.setHtml(trade.getContent(), false);
+            } else {
+                viewHolder.content.setVisibility(View.GONE);
+            }
             if (trade != null && trade.getImgList().size() > 0) {
                 viewHolder.glImages.setVisibility(View.VISIBLE);
                 setGridLayout(viewHolder, trade.getImgList());
@@ -291,7 +292,7 @@ public class TradeCircleAdapter extends BaseAdapter {
         @BindView(R.id.title)
         TextView title;
         @BindView(R.id.content)
-        TextView desc;
+        HtmlTextView content;
         @BindView(R.id.imv_href)
         ImageView imvHref;
         @BindView(R.id.tv_href_title)

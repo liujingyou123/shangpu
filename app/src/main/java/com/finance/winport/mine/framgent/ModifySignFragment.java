@@ -68,11 +68,9 @@ public class ModifySignFragment extends BaseFragment {
 
 
     private void save() {
-        //...
-
         String content = this.content.getText().toString().trim();
         setResult(content);
-//        modifySign(content);
+        modifySign(content);
     }
 
     private void modifySign(final String content) {

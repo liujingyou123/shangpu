@@ -197,7 +197,7 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
             holder.from.setText(item.source);
             holder.date.setText(item.dateTime);
             holder.scanCount.setText(item.viewCount + "浏览");
-            if (item.kind==1) {
+            if (item.kind == 1) {
                 holder.title.setDrawable(R.mipmap.label_top);
             } else {
                 holder.title.setDrawable(0);
@@ -207,8 +207,8 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
                 @Override
                 public void onClick(View v) {
                     context.startActivity(new Intent(context, InfoDetailsActivity.class)
-                            .putExtra("id",item.contentId)
-                            .putExtra("title",item.title)
+                            .putExtra("id", item.contentId)
+                            .putExtra("title", item.title)
                             .putExtra("type", TradeType.HEAD_DETAILS));
                 }
             });
@@ -230,8 +230,8 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
                 @Override
                 public void onClick(View v) {
                     context.startActivity(new Intent(context, InfoDetailsActivity.class)
-                            .putExtra("id",item.contentId)
-                            .putExtra("title",item.title)
+                            .putExtra("id", item.contentId)
+                            .putExtra("title", item.title)
                             .putExtra("type", TradeType.BIBLE_DETAILS));
                 }
             });
@@ -262,7 +262,7 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
                 holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             }
             if (!TextUtils.isEmpty(item.content)) {
-                holder.content.setHtml(item.content);
+                holder.content.setHtml(item.getContent(), false);
                 holder.content.setVisibility(View.VISIBLE);
             } else {
                 holder.content.setVisibility(View.GONE);

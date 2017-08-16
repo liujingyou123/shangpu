@@ -543,7 +543,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     public void showPersonalInfo(PersonalInfoResponse response) {
         isDataOk = true;
         this.info = response;
-        phone.setText(response.data.phone);
+        phone.setText(response.data.nickName);
         personalSign.setText(response.data.signature);
         mineSchedule.setText(response.data.myService);
         String headPortrait = response.data.headPortrait;

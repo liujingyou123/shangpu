@@ -206,6 +206,8 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
         if (SharedPrefsUtil.getUserInfo() != null) {
             if (!TextUtils.isEmpty(hint)) {
                 commentDialog.setHint(hint);
+            } else {
+                commentDialog.setHint("请输入评论的内容");
             }
             commentDialog.show();
         } else {

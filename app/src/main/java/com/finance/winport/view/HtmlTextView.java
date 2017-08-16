@@ -5,8 +5,10 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import java.net.URL;
@@ -31,12 +33,46 @@ public class HtmlTextView extends android.support.v7.widget.AppCompatTextView {
 
     private void init() {
         setMovementMethod(LinkMovementMethod.getInstance());
+        ellipsize();
+    }
+
+    private void ellipsize() {
+        post(new Runnable() {
+            @Override
+            public void run() {
+                HtmlTextView htv = HtmlTextView.this;
+                if (htv.getLineCount() > htv.getMaxLines()) {
+                    int lineEndIndex = htv.getLayout().getLineEnd(htv.getMaxLines() - 1);
+                    int length = htv.getText().toString().trim().length();
+                    int end = 3;
+                    if (length > lineEndIndex && lineEndIndex > end) {
+                        String text = htv.getText().subSequence(0, lineEndIndex - end) + "...";
+                        htv.setText(text);
+                    }
+                }
+            }
+        });
     }
 
     public void setHtml(CharSequence c) {
         setTextWithoutImage(Html.fromHtml(c.toString()));
         execute(c.toString());
+        ellipsize();
     }
+
+    public void setHtml(CharSequence c, boolean withImages) {
+        if (TextUtils.isEmpty(c)) {
+            setText(c);
+        } else {
+            String htmlBody = c.toString();
+            if (!withImages) {
+                htmlBody = c.toString().replaceAll("<img.+/(img)*>", "");
+            }
+            setTextWithoutImage(Html.fromHtml(htmlBody));
+        }
+        ellipsize();
+    }
+
 
     private void setTextWithoutImage(Spanned text) {
         setText(text);

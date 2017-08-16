@@ -4,6 +4,7 @@ import com.finance.winport.base.BaseResponse;
 import com.finance.winport.home.api.HomeServices;
 import com.finance.winport.home.model.TagResponse;
 import com.finance.winport.net.Ironman;
+import com.finance.winport.net.LoadingNetSubscriber;
 import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.tab.model.AppointRanking;
 import com.finance.winport.tab.model.AppointShopList;
@@ -163,7 +164,7 @@ public class PersonManager {
                 .createService(PersonService.class)
                 .modifyUserPhone(params)
                 .compose(ToolsUtil.<BaseResponse>applayScheduers())
-                .subscribe(new NetSubscriber<BaseResponse>() {
+                .subscribe(new LoadingNetSubscriber<BaseResponse>() {
                     @Override
                     public void response(BaseResponse response) {
                         if (callback != null) {
@@ -187,7 +188,7 @@ public class PersonManager {
                 .createService(PersonService.class)
                 .modifyNickNameAndSign(params)
                 .compose(ToolsUtil.<BaseResponse>applayScheduers())
-                .subscribe(new NetSubscriber<BaseResponse>() {
+                .subscribe(new LoadingNetSubscriber<BaseResponse>() {
                     @Override
                     public void response(BaseResponse response) {
                         if (callback != null) {
