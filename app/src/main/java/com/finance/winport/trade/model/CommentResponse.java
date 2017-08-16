@@ -8,7 +8,7 @@ import java.util.List;
  * Created by liuworkmac on 17/5/23.
  */
 
-public class CommentResponse extends BaseResponse{
+public class CommentResponse extends BaseResponse {
 
 
     /**
@@ -108,7 +108,7 @@ public class CommentResponse extends BaseResponse{
             private int commentatorId;
             private int isReply;
             private int parentId;
-            private int parentNickName;
+            private String parentNickName;
 
             public String getId() {
                 return id;
@@ -190,11 +190,11 @@ public class CommentResponse extends BaseResponse{
                 this.parentId = parentId;
             }
 
-            public int getParentNickName() {
+            public String getParentNickName() {
                 return parentNickName;
             }
 
-            public void setParentNickName(int parentNickName) {
+            public void setParentNickName(String parentNickName) {
                 this.parentNickName = parentNickName;
             }
 

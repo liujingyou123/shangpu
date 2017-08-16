@@ -53,7 +53,7 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
     TextView downPraise;
     @BindView(R.id.bottom)
     LinearLayout bottom;
-    String id;
+    String contentId;
     String title;
     TradeType type;
     TradeSubDetailsPresenter presenter;
@@ -64,7 +64,7 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
         super.onCreate(savedInstanceState);
         presenter = new TradeSubDetailsPresenter(this);
         if (getArguments() != null) {
-            id = getArguments().getString("id");
+            contentId = getArguments().getString("id");
             title = getArguments().getString("title");
             type = (TradeType) getArguments().getSerializable("type");
         }
@@ -76,15 +76,20 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
         View root = inflater.inflate(R.layout.fragment_news_details, container, false);
         unbinder = ButterKnife.bind(this, root);
         initView();
-        setDetails(null);
+        asyncData();
         return root;
     }
+
+    private void asyncData() {
+        presenter.getSubDetails("389", true);
+    }
+
 
     @Override
     public void setDetails(TradeDetails info) {
         this.info = info;
         if (info != null) {
-            web.loadUrl("https://m.10010.com/queen/icbc/e-card.html");
+            web.loadData(info.data.content, "text/html; charset=UTF-8", null);
             tvTitle.setText(info.data.title);
             tvType.setText(info.data.content);
             if (TextUtils.isEmpty(info.data.source)) {
@@ -106,6 +111,7 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
         if (info != null) {
             info.data.goodCount++;
             praise.setText(info.data.goodCount + "");
+            praise.setEnabled(false);
         }
     }
 
@@ -114,6 +120,7 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
         if (info != null) {
             info.data.badCount++;
             downPraise.setText(info.data.badCount + "");
+            downPraise.setEnabled(false);
         }
     }
 
@@ -165,11 +172,15 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
                 break;
             case R.id.praise:
                 TextViewUtil.startScaleAnim(view);
-                presenter.praise("");
+                if (info != null) {
+                    presenter.praise(info.data.contentId);
+                }
                 break;
             case R.id.down_praise:
                 TextViewUtil.startScaleAnim(view);
-                presenter.downPraise("");
+                if (info != null) {
+                    presenter.downPraise(info.data.contentId);
+                }
                 break;
         }
     }

@@ -103,7 +103,7 @@ public interface PersonService {
     Observable<WinportCounts> getWinportCounts(@Body HashMap<String, Object> params);
 
     // 农历接口
-    @POST("customerapp/api/nongli/wnl?version=v1.0.0")
+    @POST("customerapp/api/nongli/wnl")
     Observable<Lunar> getLunar(@Body HashMap<String, Object> params);
 
     // 更新 registrationId
@@ -115,15 +115,11 @@ public interface PersonService {
     Observable<CheckVersionResponse> checkVersion(@Body HashMap<String, Object> params);
 
     //修改手机号
-    @POST("")
+    @POST("api/customer/updateCustomerPhone")
     Observable<com.finance.winport.base.BaseResponse> modifyUserPhone(@Body HashMap map);
 
-    //修改昵称
-    @POST("")
-    Observable<com.finance.winport.base.BaseResponse> modifyNickName(@Body HashMap map);
-
-    //修改签名
-    @POST("")
-    Observable<com.finance.winport.base.BaseResponse> modifySign(@Body HashMap map);
+    //修改昵称、签名
+    @POST("customerapp/api/customer/updateNickNameAndSign")
+    Observable<com.finance.winport.base.BaseResponse> modifyNickNameAndSign(@Body HashMap map);
 
 }

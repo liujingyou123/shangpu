@@ -189,13 +189,15 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
     private void handleHeadItem(int groupPosition, int childPosition, TradeHeadViewHolder holder, View convertView) {
         Object child = getChild(groupPosition, childPosition);
         if (child instanceof TradeSub) {
-            TradeSub item = (TradeSub) child;
+            final TradeSub item = (TradeSub) child;
             holder.title.setText(item.title);
-            holder.type.setText(item.content);
+            if (item.tagList != null && item.tagList.size() > 0 && item.tagList.get(0) != null) {
+                holder.tag.setText(item.tagList.get(0).tagName);
+            }
             holder.from.setText(item.source);
             holder.date.setText(item.dateTime);
             holder.scanCount.setText(item.viewCount + "浏览");
-            if (item.kind) {
+            if (item.kind==1) {
                 holder.title.setDrawable(R.mipmap.label_top);
             } else {
                 holder.title.setDrawable(0);
@@ -205,6 +207,8 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
                 @Override
                 public void onClick(View v) {
                     context.startActivity(new Intent(context, InfoDetailsActivity.class)
+                            .putExtra("id",item.contentId)
+                            .putExtra("title",item.title)
                             .putExtra("type", TradeType.HEAD_DETAILS));
                 }
             });
@@ -214,9 +218,11 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
     private void handleBibleItem(int groupPosition, int childPosition, TradeBibleViewHolder holder, View convertView) {
         Object child = getChild(groupPosition, childPosition);
         if (child instanceof TradeSub) {
-            TradeSub item = (TradeSub) child;
+            final TradeSub item = (TradeSub) child;
             holder.desc.setText(item.title);
-            holder.tip.setText(item.content);
+            if (item.tagList != null && item.tagList.size() > 0 && item.tagList.get(0) != null) {
+                holder.tag.setText(item.tagList.get(0).tagName);
+            }
             holder.date.setText(item.dateTime);
             holder.scanCount.setText(item.viewCount + "浏览");
             Batman.getInstance().fromNet(item.image, holder.img);
@@ -224,6 +230,8 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
                 @Override
                 public void onClick(View v) {
                     context.startActivity(new Intent(context, InfoDetailsActivity.class)
+                            .putExtra("id",item.contentId)
+                            .putExtra("title",item.title)
                             .putExtra("type", TradeType.BIBLE_DETAILS));
                 }
             });
@@ -235,7 +243,7 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
         if (child instanceof TradeTopic) {
             final TradeTopic item = (TradeTopic) child;
             holder.name.setText(item.nickName);
-            holder.workType.setText(item.signature);
+            holder.sign.setText(item.signature);
             Batman.getInstance().fromNet(item.headPicture, new BatmanCallBack() {
                 @Override
                 public void onSuccess(Bitmap bitmap) {
@@ -412,8 +420,8 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
         ImageView img;
         @BindView(R.id.title)
         DrawableTopLeftTextView title;
-        @BindView(R.id.type)
-        TextView type;
+        @BindView(R.id.tag)
+        TextView tag;
         @BindView(R.id.from)
         TextView from;
         @BindView(R.id.date)
@@ -431,8 +439,8 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
         ImageView img;
         @BindView(R.id.content)
         TextView desc;
-        @BindView(R.id.tip)
-        TextView tip;
+        @BindView(R.id.tag)
+        TextView tag;
         @BindView(R.id.date)
         TextView date;
         @BindView(R.id.scan_count)
@@ -448,8 +456,8 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
         RoundedImageView headImg;
         @BindView(R.id.name)
         TextView name;
-        @BindView(R.id.work_type)
-        TextView workType;
+        @BindView(R.id.sign)
+        TextView sign;
         @BindView(R.id.more)
         ImageView more;
         @BindView(R.id.top)

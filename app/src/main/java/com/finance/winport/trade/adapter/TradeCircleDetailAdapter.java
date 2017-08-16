@@ -208,7 +208,7 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
                 viewHolder.tvPhone.setText(info.getNickName());
             } else {
                 String s = "<html><body><p>" + info.getNickName() + "<span \"style=color:#999999\">" + " 回复 " + info.getParentNickName() + "</span>" + "</p></body><html/>";
-                viewHolder.tvPhone.setText(Html.fromHtml(s));
+                viewHolder.tvComment.setText(Html.fromHtml(s));
             }
             viewHolder.tvTime.setText(info.getDateTime() + "评论");
             viewHolder.tvComment.setText(info.getContent());

@@ -91,7 +91,7 @@ public class TradeCircleAdapter extends BaseAdapter {
         final TradeTopic trade = mData.get(i);
         if (trade != null) {
             viewHolder.name.setText(trade.nickName);
-            viewHolder.workType.setText(trade.signature);
+            viewHolder.sign.setText(trade.signature);
             Batman.getInstance().fromNet(trade.headPicture, new BatmanCallBack() {
                 @Override
                 public void onSuccess(Bitmap bitmap) {
@@ -282,8 +282,8 @@ public class TradeCircleAdapter extends BaseAdapter {
         RoundedImageView headImg;
         @BindView(R.id.name)
         TextView name;
-        @BindView(R.id.work_type)
-        TextView workType;
+        @BindView(R.id.sign)
+        TextView sign;
         @BindView(R.id.more)
         ImageView more;
         @BindView(R.id.top)

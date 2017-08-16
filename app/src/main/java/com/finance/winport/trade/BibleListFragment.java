@@ -12,7 +12,13 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.trade.adapter.BibleListAdapter;
+import com.finance.winport.trade.adapter.NewsListAdapter;
 import com.finance.winport.trade.model.TradeSub;
+import com.finance.winport.trade.model.TradeSubList;
+import com.finance.winport.trade.model.TradeTag;
+import com.finance.winport.trade.presenter.TradeSubPresenter;
+import com.finance.winport.trade.view.ITradeSubView;
+import com.finance.winport.util.ToastUtil;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
@@ -28,8 +34,11 @@ import butterknife.Unbinder;
 /**
  * 宝典列表...
  */
-public class BibleListFragment extends BaseFragment {
-
+public class BibleListFragment extends BaseFragment implements ITradeSubView {
+    private final int LIMIT = 10;
+    private final int START_PAGE = 1;
+    private int pageSize = LIMIT;
+    private int pageNumber = START_PAGE;
 
     @BindView(R.id.mListView)
     RecyclerView mListView;
@@ -40,12 +49,16 @@ public class BibleListFragment extends BaseFragment {
     TextView tvFocusHouse;
     String id;
     String title;
+    String type = "1";
+    String tagId;
+    private TradeSubPresenter presenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        presenter = new TradeSubPresenter(this);
         if (getArguments() != null) {
-            id = getArguments().getString("id");
+            tagId = getArguments().getString("id");
             title = getArguments().getString("title");
         }
     }
@@ -56,36 +69,37 @@ public class BibleListFragment extends BaseFragment {
         View root = inflater.inflate(R.layout.fragment_info_list, container, false);
         unbinder = ButterKnife.bind(this, root);
         initView();
+        asyncData();
         return root;
     }
 
     private void initView() {
         tvFocusHouse.setText(title);
+        initRefreshView();
+        mListView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        BibleListAdapter adapter = new BibleListAdapter(refreshView, null, 0);
+        mListView.setAdapter(adapter);
+    }
+
+    private void initRefreshView() {
         refreshView.setMode(PtrFrameLayout.Mode.BOTH);
         refreshView.setPtrHandler(new PtrDefaultHandler2() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                refreshView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        refreshView.refreshComplete();
-                    }
-                }, 1000);
+                pageNumber = 1;
+                presenter.getSubList(pageNumber, pageSize, type, tagId, false);
             }
 
             @Override
             public void onLoadMoreBegin(PtrFrameLayout frame) {
-                refreshView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        refreshView.refreshComplete();
-                    }
-                }, 1000);
+                pageNumber++;
+                presenter.getSubList(pageNumber, pageSize, type, tagId, false);
             }
         });
-        mListView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        BibleListAdapter adapter = new BibleListAdapter(refreshView, getData(), 0);
-        mListView.setAdapter(adapter);
+    }
+
+    private void asyncData() {
+        presenter.getSubList(pageNumber, pageSize, type, tagId, true);
     }
 
     String img = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1501843518220&di=0306ae6f9c5434136495d0c45e016b2a&imgtype=0&src=http%3A%2F%2Fpic23.photophoto.cn%2F20120530%2F0020033092420808_b.jpg";
@@ -118,6 +132,41 @@ public class BibleListFragment extends BaseFragment {
             case R.id.imv_focus_house_back:
                 handleBack();
                 break;
+        }
+    }
+
+    BibleListAdapter adapter;
+
+    @Override
+    public void setAdapter(TradeSubList data) {
+        if (refreshView != null) {
+            refreshView.refreshComplete();
+        }
+        List<TradeSub> list = data.data.data;
+        int totalCount = data.data.totalSize;
+        if (adapter == null) {
+            adapter = new BibleListAdapter(refreshView, list, totalCount);
+            mListView.setAdapter(adapter);
+        } else {
+            if (pageNumber == 1) {
+                adapter.refreshData(list, totalCount);
+                mListView.scrollToPosition(0);
+            } else {
+                adapter.updateData(list, totalCount);
+            }
+        }
+    }
+
+    @Override
+    public void setHeadInfo(TradeTag data) {
+
+    }
+
+    @Override
+    public void showError(String errorMsg) {
+        ToastUtil.show(context, errorMsg);
+        if (refreshView != null) {
+            refreshView.refreshComplete();
         }
     }
 }
