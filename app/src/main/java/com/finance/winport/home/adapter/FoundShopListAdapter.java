@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.home.model.FoundShopListResponse;
+import com.finance.winport.image.Batman;
 import com.finance.winport.service.model.LoanListResponse;
 
 import java.util.List;
@@ -22,9 +24,9 @@ import butterknife.ButterKnife;
 public class FoundShopListAdapter extends BaseAdapter {
     protected Context context;
 
-    private List<LoanListResponse.DataBeanX.DataBean> baseData;
+    private List<FoundShopListResponse.DataBeanX.DataBean> baseData;
 
-    public FoundShopListAdapter(Context context, List<LoanListResponse.DataBeanX.DataBean> baseData) {
+    public FoundShopListAdapter(Context context, List<FoundShopListResponse.DataBeanX.DataBean> baseData) {
         this.baseData = baseData;
         this.context = context;
     }
@@ -36,7 +38,7 @@ public class FoundShopListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 10;
+        return baseData.size();
     }
 
     @Override
@@ -61,6 +63,9 @@ public class FoundShopListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        holder.time.setText(baseData.get(position).getDateTime());
+        holder.title.setText(baseData.get(position).getTitle());
+        Batman.getInstance().fromNet(baseData.get(0).getImage(), holder.imgShop);
 
         return convertView;
 

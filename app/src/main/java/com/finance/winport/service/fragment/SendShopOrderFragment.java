@@ -213,7 +213,7 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
         request.setContactName(nameView.getText());
         request.setContactMobile(UnitUtil.trim(phoneView.getText().toString().trim()));
         request.setShopId(shopId);
-        request.setSubscribeTime(orderTime.getText());
+//        request.setSubscribeTime(orderTime.getText());
         request.setSmsVerifyCode(verifyCodeView.getText());
         request.setMessageId(messageId);
         request.setPicVerifyCode(imgCodeTxt.getText().toString().trim());
@@ -445,10 +445,10 @@ public class SendShopOrderFragment extends BaseFragment implements ISendOrderVie
                 return false;
             }
         }
-        if (TextUtils.isEmpty(orderTime.getText())) {
-            Toast.makeText(context, "请输入约见时间", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+//        if (TextUtils.isEmpty(orderTime.getText())) {
+//            Toast.makeText(context, "请输入约见时间", Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
         return true;
     }
 
