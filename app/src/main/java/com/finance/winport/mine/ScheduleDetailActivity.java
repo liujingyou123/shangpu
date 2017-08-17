@@ -1,6 +1,7 @@
 package com.finance.winport.mine;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.dialog.NoticeDialog;
+import com.finance.winport.mine.model.ScheduleDetailResponse;
+import com.finance.winport.mine.presenter.IScheduleDetailView;
 import com.finance.winport.mine.presenter.ScheduleDetailPresenter;
 import com.finance.winport.mine.presenter.ServiceDetailPresenter;
 
@@ -17,7 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class ScheduleDetailActivity extends BaseActivity {
+public class ScheduleDetailActivity extends BaseActivity implements IScheduleDetailView {
 
 
     @BindView(R.id.imv_focus_house_back)
@@ -55,15 +58,15 @@ public class ScheduleDetailActivity extends BaseActivity {
     public void init() {
         tvFocusHouse.setText("日程详情");
 
-//        scheduleId = getIntent().getStringExtra("scheduleId");
+        scheduleId = getIntent().getStringExtra("scheduleId");
 
-//        if (mPresenter == null) {
-//            mPresenter = new ServiceDetailPresenter(this);
-//        }
-//        if (!TextUtils.isEmpty(scheduleId)) {
-//
-//            mPresenter.getScheduleDetail(scheduleId);
-//        }
+        if (mPresenter == null) {
+            mPresenter = new ScheduleDetailPresenter(this);
+        }
+        if (!TextUtils.isEmpty(scheduleId)) {
+
+            mPresenter.getScheduleDetail(scheduleId);
+        }
     }
 
 //    @OnClick({R.id.imv_focus_house_back, R.id.cancel, R.id.service_phone, R.id.btn_done})
@@ -231,5 +234,10 @@ public class ScheduleDetailActivity extends BaseActivity {
             case R.id.contact:
                 break;
         }
+    }
+
+    @Override
+    public void showScheduleDetail(ScheduleDetailResponse response) {
+
     }
 }

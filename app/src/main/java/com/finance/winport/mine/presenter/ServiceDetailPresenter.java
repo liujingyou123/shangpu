@@ -22,7 +22,7 @@ public class ServiceDetailPresenter {
 
         HashMap<String,String> map = new HashMap<>();
         map.put("scheduleId",id);
-        ToolsUtil.subscribe(ToolsUtil.createService(MineServices.class).getScheduleDetail(map), new NetSubscriber<ServiceDetailResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(MineServices.class).getServiceDetail(map), new NetSubscriber<ServiceDetailResponse>() {
             @Override
             public void response(ServiceDetailResponse response) {
                 if (mServiceView != null) {

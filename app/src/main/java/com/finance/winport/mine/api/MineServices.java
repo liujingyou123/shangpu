@@ -57,4 +57,8 @@ public interface MineServices {
     @POST("customerapp/api/customer/myServiceList")
     Observable<MyServiceListResponse> getServiceList(@Body HashMap map);
 
+    //服务详情
+    @POST("customerapp/api/user/schedule/detail")
+    Observable<ServiceDetailResponse> getServiceDetail(@Body HashMap map);
+
 }
