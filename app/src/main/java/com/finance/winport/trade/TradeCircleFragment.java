@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.finance.winport.R;
 import com.finance.winport.account.LoginActivity;
@@ -17,6 +18,7 @@ import com.finance.winport.trade.model.EventBusCommentNum;
 import com.finance.winport.trade.model.EventBustTag;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.SlidingTagPagerItem;
+import com.finance.winport.util.ToastUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.SlidingTabLayout;
 import com.umeng.analytics.MobclickAgent;
@@ -56,7 +58,7 @@ public class TradeCircleFragment extends BaseFragment {
         View root = inflater.inflate(R.layout.trade_fragment, container, false);
         unbinder = ButterKnife.bind(this, root);
 
-        if(!EventBus.getDefault().isRegistered(this)) {
+        if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
         initView();
@@ -113,8 +115,12 @@ public class TradeCircleFragment extends BaseFragment {
             case R.id.imv_edit_m:
                 MobclickAgent.onEvent(context, "circle_publish");
                 if (SharedPrefsUtil.getUserInfo() != null) {
-                    Intent intent = new Intent(this.getContext(), EditNoteActivity.class);
-                    startActivity(intent);
+                    if (SharedPrefsUtil.getUserInfo().data.isBanned == 0) {
+                        Intent intent = new Intent(this.getContext(), EditNoteActivity.class);
+                        startActivity(intent);
+                    } else {//禁言
+                        ToastUtil.show(context, "你已被禁言，若有问题请联系客服", Toast.LENGTH_LONG);
+                    }
                 } else {
                     Intent intent1 = new Intent(this.getContext(), LoginActivity.class);
                     startActivity(intent1);

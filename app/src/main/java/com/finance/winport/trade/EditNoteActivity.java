@@ -42,6 +42,7 @@ import com.finance.winport.trade.adapter.ChoicePhotoAdapter;
 import com.finance.winport.trade.api.TradeService;
 import com.finance.winport.trade.model.EventBusCircleData;
 import com.finance.winport.trade.model.PublicTopic;
+import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.ToastUtil;
 import com.finance.winport.util.ToolsUtil;
 import com.finance.winport.view.imagepreview.ImagePreviewActivity;
@@ -134,6 +135,12 @@ public class EditNoteActivity extends BaseActivity {
 
             }
         });
+
+        if (SharedPrefsUtil.getUserInfo().data.isNew == 1 && SharedPrefsUtil.isFirstPost()) {//新用户 第一次发帖
+            SharedPrefsUtil.setFirstPost(false);
+            //展示发帖秘籍
+            postInfo.setVisibility(View.VISIBLE);
+        }
 
         if (mAdapter == null) {
             mAdapter = new ChoicePhotoAdapter(this, mData);

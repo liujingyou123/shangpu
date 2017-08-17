@@ -133,6 +133,11 @@ public class PersonalInfoActivity extends BaseActivity {
                 }
                 break;
             case CONCERN_TYPE:
+                if (info != null) {
+                    info.data.attention.plateList = event.plateList;
+                    info.data.attention.vocationList = event.vocationList;
+                    info.data.attention.areaList = event.areaList;
+                }
                 setConcern(event.plateList, event.vocationList, event.areaList);
                 break;
 

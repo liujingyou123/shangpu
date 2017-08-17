@@ -41,9 +41,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/headImg"
                 android:layout_alignLeft="@+id/name"
+                android:text="为您代理此铺的租赁业务"
                 android:textColor="#999999"
-                android:textSize="12sp"
-                tools:text="为您代理此铺的租赁业务" />
+                android:textSize="12sp" />
         </RelativeLayout>
 
         <View

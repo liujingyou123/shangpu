@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
@@ -24,6 +25,7 @@ import com.finance.winport.home.H5Activity;
 import com.finance.winport.image.Batman;
 import com.finance.winport.image.BatmanCallBack;
 import com.finance.winport.trade.InfoDetailsActivity;
+import com.finance.winport.trade.MyPostListActivity;
 import com.finance.winport.trade.TradeCircleDetailActivity;
 import com.finance.winport.trade.TradeHeadActivity;
 import com.finance.winport.trade.TradeType;
@@ -262,8 +264,8 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
                 holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             }
             if (!TextUtils.isEmpty(item.content)) {
-                holder.content.setHtml(item.getContent(), false);
                 holder.content.setVisibility(View.VISIBLE);
+                holder.content.setHtml(item.getContent(), false);
             } else {
                 holder.content.setVisibility(View.GONE);
             }
@@ -299,6 +301,15 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
             holder.praise.setText(item.praiseNumber + "");
             holder.praise.setSelected(TextUtils.equals(item.likeStatus, "1") ? true : false);
             holder.commentCount.setText(item.commentNumber + "");
+            holder.commentCount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, TradeCircleDetailActivity.class);
+                    intent.putExtra("topicId", item.getTopicId() + "")
+                            .putExtra("comment", true);
+                    context.startActivity(intent);
+                }
+            });
             holder.praise.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

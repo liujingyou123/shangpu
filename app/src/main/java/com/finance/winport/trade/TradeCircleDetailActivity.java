@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.finance.winport.MainActivity;
 import com.finance.winport.R;
@@ -20,19 +21,15 @@ import com.finance.winport.dialog.CommentDialog;
 import com.finance.winport.dialog.NoticeDelDialog;
 import com.finance.winport.trade.adapter.TradeCircleDetailAdapter;
 import com.finance.winport.trade.model.CommentResponse;
-import com.finance.winport.trade.model.EventBusCommentNum;
 import com.finance.winport.trade.model.TradeDetailResponse;
 import com.finance.winport.trade.presenter.TradeCircleDetailPresener;
 import com.finance.winport.trade.view.ITradeDetailView;
 import com.finance.winport.util.SharedPrefsUtil;
-import com.finance.winport.util.SpUtil;
 import com.finance.winport.util.ToastUtil;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
 import com.finance.winport.view.refreshview.PtrFrameLayout;
 import com.finance.winport.view.refreshview.XPtrFrameLayout;
 import com.umeng.analytics.MobclickAgent;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -70,6 +67,7 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
     private TradeDetailResponse.DataBean mData;
     private int pageNumber = 1;
     private String from;
+    private boolean toComment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +75,6 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
         setContentView(R.layout.activity_work_communit_detail);
         ButterKnife.bind(this);
         initData();
-
         initView();
         getData();
     }
@@ -89,6 +86,7 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
             topicId = intent.getStringExtra("topicId");
             from = intent.getStringExtra("from");
             fromType = intent.getStringExtra("fromType");
+            toComment = intent.getBooleanExtra("comment", false);
         }
 
         if (mPresenter == null) {
@@ -204,12 +202,16 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
 
     private void toComment(String hint) {
         if (SharedPrefsUtil.getUserInfo() != null) {
-            if (!TextUtils.isEmpty(hint)) {
-                commentDialog.setHint(hint);
-            } else {
-                commentDialog.setHint("请输入评论的内容");
+            if (SharedPrefsUtil.getUserInfo().data.isBanned == 0) {
+                if (!TextUtils.isEmpty(hint)) {
+                    commentDialog.setHint(hint);
+                } else {
+                    commentDialog.setHint("请输入评论的内容");
+                }
+                commentDialog.show();
+            } else {// 禁言
+                ToastUtil.show(context, "你已被禁言，若有问题请联系客服", Toast.LENGTH_LONG);
             }
-            commentDialog.show();
         } else {
             Intent intent1 = new Intent(this, LoginActivity.class);
             startActivity(intent1);
@@ -236,6 +238,10 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
         tvPraiseNum.setText(response.getData().getPraiseNumber() + "");
         tvCommentNum.setText(response.getData().getCommentNumber() + "");
         adapter.setTraddeDetail(response.getData());
+        if (toComment) {
+            toComment("");
+            toComment = false;
+        }
     }
 
     @Override
