@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.home.model.FoundShopDetailResponse;
 import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.image.Batman;
 import com.finance.winport.util.TextViewUtil;
@@ -29,10 +30,10 @@ import butterknife.ButterKnife;
 
 public class FoundShopsCommendAdapter extends BaseAdapter {
     private Context mContext;
-    private List<ShopListResponse.DataBean.Shop> mData;
+    private List<FoundShopDetailResponse.DataBean.ShopListBean> mData;
 //    private int viewHeight;
 
-    public FoundShopsCommendAdapter(Context mContext, List<ShopListResponse.DataBean.Shop> mData) {
+    public FoundShopsCommendAdapter(Context mContext, List<FoundShopDetailResponse.DataBean.ShopListBean> mData) {
         this.mContext = mContext;
         this.mData = mData;
     }
@@ -49,7 +50,7 @@ public class FoundShopsCommendAdapter extends BaseAdapter {
 //        if (mData != null) {
 //            ret = mData.size();
 //        }
-        return 5;
+        return mData.size();
     }
 
     @Override
@@ -78,48 +79,51 @@ public class FoundShopsCommendAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-//        ShopListResponse.DataBean.Shop ret = mData.get(i);
-//        if (ret != null) {
-//            viewHolder.tvShopname.setText(ret.getAddress() + ret.getRentTypeName());
-//            viewHolder.tvAddress.setText(ret.getDistrictName() + " " + ret.getBlockName());
+        FoundShopDetailResponse.DataBean.ShopListBean ret = mData.get(i);
+        if (ret != null) {
+            viewHolder.tvShopname.setText(ret.getTitle());
+            viewHolder.tvAddress.setText(ret.getDistrictName() + " " + ret.getBlockName());
 //            viewHolder.tvArea.setText(UnitUtil.formatDNum(ret.getArea()) + "㎡");
-//            viewHolder.tvAverMoney.setText(UnitUtil.limitNum(ret.getRent(), 99999) + "/月");
-//            if (TextUtils.isEmpty(ret.getDistance()) || "null".equals(ret.getDistance())) {
-//                viewHolder.tvDistance.setText("");
-//            } else {
-//
-//                viewHolder.tvDistance.setText("距您" + UnitUtil.formatSNum(ret.getDistance()) + "km");
-//            }
-//            viewHolder.tvChangeMoney.setTextColor(Color.parseColor("#999999"));
-//            if (ret.getIsFace() == 1) {
-//                viewHolder.tvChangeMoney.setText("转让费面议");
-//            } else {
-//                if (ret.getTransferFee() == 0) {
-//                    viewHolder.tvChangeMoney.setText("无转让费");
-//                } else {
-//                    String strT = UnitUtil.formatNum(ret.getTransferFee());
-//                    viewHolder.tvChangeMoney.setText("转让费" + strT + "万元");
-//                    TextViewUtil.setPartialColor(viewHolder.tvChangeMoney, 3, 3 + strT.length(), Color.parseColor("#FF7540"));
-//                }
-//            }
-//            viewHolder.tvUpdateTime.setText(ret.getUpdateTime());
+            viewHolder.tvAverMoney.setText(UnitUtil.limitNum(ret.getRent(), 99999) + "/月");
+            if (TextUtils.isEmpty(ret.getDistance()) || "null".equals(ret.getDistance())) {
+                viewHolder.tvDistance.setText("");
+            } else {
+
+                viewHolder.tvDistance.setText("距您" + UnitUtil.formatSNum(ret.getDistance()) + "km");
+            }
+            viewHolder.tvChangeMoney.setTextColor(Color.parseColor("#999999"));
+            if (ret.getIsFace() == 1) {
+                viewHolder.tvChangeMoney.setText("转让费面议");
+            } else {
+                if (ret.getTransferFee() == 0) {
+                    viewHolder.tvChangeMoney.setText("无转让费");
+                } else {
+                    String strT = UnitUtil.formatNum(ret.getTransferFee());
+                    viewHolder.tvChangeMoney.setText("转让费" + strT + "万元");
+                    TextViewUtil.setPartialColor(viewHolder.tvChangeMoney, 3, 3 + strT.length(), Color.parseColor("#FF7540"));
+                }
+            }
+            viewHolder.tvUpdateTime.setText(ret.getUpdateTime());
 //            viewHolder.tvScanNum.setText(ret.getVisitCount() + "");
 //            viewHolder.tvContactNum.setText(ret.getContactCount() + "");
-//
-//            Batman.getInstance().fromNet(ret.getCoverImg(), viewHolder.imvCover);
-//
-//            if (ret.getFeatureList() != null && ret.getFeatureList().size() > 0) {
-//                viewHolder.tgView.setAdapter(new TagAdapter(mContext, ret.getFeatureList()));
-//                viewHolder.llTag.setVisibility(View.VISIBLE);
-//            } else {
-//                viewHolder.llTag.setVisibility(View.GONE);
-//            }
-//
-//        }
+
+            Batman.getInstance().fromNet(ret.getCoverImg(), viewHolder.imvCover);
+
+            if (ret.getFeatureList() != null && ret.getFeatureList().size() > 0) {
+                viewHolder.tgView.setAdapter(new TagAdapter(mContext, ret.getFeatureList()));
+                viewHolder.llTag.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.llTag.setVisibility(View.GONE);
+            }
+
+            viewHolder.recommendContent.setText(ret.getRecommendWord());
+
+        }
 
 
         return view;
     }
+
 
 
     static class ViewHolder {
@@ -151,9 +155,12 @@ public class FoundShopsCommendAdapter extends BaseAdapter {
         TextView tvContactNum;
         @BindView(R.id.rl_data)
         RelativeLayout rlData;
+        @BindView(R.id.recommendContent)
+        TextView recommendContent;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
     }
+
 }

@@ -16,9 +16,9 @@ import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.dialog.NoticeDialog;
-import com.finance.winport.mine.model.ScheduleDetailResponse;
-import com.finance.winport.mine.presenter.IScheduleDetailView;
-import com.finance.winport.mine.presenter.ScheduleDetailPresenter;
+import com.finance.winport.mine.model.ServiceDetailResponse;
+import com.finance.winport.mine.presenter.IServiceDetailView;
+import com.finance.winport.mine.presenter.ServiceDetailPresenter;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class MyServiceDetailActivity extends BaseActivity implements IScheduleDetailView {
+public class MyServiceDetailActivity extends BaseActivity implements IServiceDetailView {
 
 
     @BindView(R.id.imv_focus_house_back)
@@ -62,7 +62,7 @@ public class MyServiceDetailActivity extends BaseActivity implements IScheduleDe
     private NoticeDialog mNoticeDialog;//拨打电话弹框
     private NoticeDialog nNoticeDialog;//撤销服务弹框
     private NoticeDialog bNoticeDialog;//确认服务弹框
-    private ScheduleDetailPresenter mPresenter;
+    private ServiceDetailPresenter mPresenter;
     private String scheduleId;
     private String clerkPhone;
 
@@ -80,7 +80,7 @@ public class MyServiceDetailActivity extends BaseActivity implements IScheduleDe
         scheduleId = getIntent().getStringExtra("scheduleId");
 
         if (mPresenter == null) {
-            mPresenter = new ScheduleDetailPresenter(this);
+            mPresenter = new ServiceDetailPresenter(this);
         }
         if (!TextUtils.isEmpty(scheduleId)) {
 
@@ -104,7 +104,7 @@ public class MyServiceDetailActivity extends BaseActivity implements IScheduleDe
                         @Override
                         public void onClick() {
                             if (mPresenter == null) {
-                                mPresenter = new ScheduleDetailPresenter(MyServiceDetailActivity.this);
+                                mPresenter = new ServiceDetailPresenter(MyServiceDetailActivity.this);
                             }
                             mPresenter.revokeSchedule(scheduleId);
                         }
@@ -151,7 +151,7 @@ public class MyServiceDetailActivity extends BaseActivity implements IScheduleDe
                         @Override
                         public void onClick() {
                             if (mPresenter == null) {
-                                mPresenter = new ScheduleDetailPresenter(MyServiceDetailActivity.this);
+                                mPresenter = new ServiceDetailPresenter(MyServiceDetailActivity.this);
                             }
                             mPresenter.ensureSchedule(scheduleId);
                         }
@@ -165,7 +165,7 @@ public class MyServiceDetailActivity extends BaseActivity implements IScheduleDe
     }
 
     @Override
-    public void showScheduleDetail(ScheduleDetailResponse response) {
+    public void showScheduleDetail(ServiceDetailResponse response) {
 
 
         if (response.getData().getStatus() == 0 || response.getData().getStatus() == 3) {
@@ -224,7 +224,7 @@ public class MyServiceDetailActivity extends BaseActivity implements IScheduleDe
     @Override
     public void showensureSchedule(BaseResponse response) {
         if (mPresenter == null) {
-            mPresenter = new ScheduleDetailPresenter(this);
+            mPresenter = new ServiceDetailPresenter(this);
         }
         mPresenter.getScheduleDetail(scheduleId);
     }
@@ -233,7 +233,7 @@ public class MyServiceDetailActivity extends BaseActivity implements IScheduleDe
     public void showRevokeSchedule(BaseResponse response) {
 
         if (mPresenter == null) {
-            mPresenter = new ScheduleDetailPresenter(this);
+            mPresenter = new ServiceDetailPresenter(this);
         }
         mPresenter.getScheduleDetail(scheduleId);
     }

@@ -38,6 +38,7 @@
             <!--android:src="@mipmap/icon_share_white"/>-->
     </RelativeLayout>
     <TextView
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="手把手教你如何选择开店地址"
@@ -46,6 +47,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"/>
     <TextView
+        android:id="@+id/time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="2小时前"
@@ -60,14 +62,14 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="18dp"
         android:background="#e5e5e5"/>
-    <TextView
+    <WebView
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"/>
 
     <RelativeLayout
         android:id="@+id/commend"
-        android:layout_below="@+id/find_shop"
         android:layout_width="match_parent"
         android:layout_height="54dp">
 
@@ -76,8 +78,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="18dp"
-            android:drawableLeft="@mipmap/personal_icon_scedular"
+            android:layout_marginLeft="15dp"
+            android:drawableLeft="@drawable/vertical_line"
             android:drawablePadding="10dp"
             android:gravity="center"
             android:text="为你推荐"

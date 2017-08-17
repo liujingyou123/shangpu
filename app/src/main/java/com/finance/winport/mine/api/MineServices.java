@@ -2,13 +2,11 @@ package com.finance.winport.mine.api;
 
 import com.finance.winport.mine.model.CommitFocusRequest;
 import com.finance.winport.mine.model.IndustryListResponse;
+import com.finance.winport.mine.model.MyServiceListResponse;
 import com.finance.winport.mine.model.PersonalInfoResponse;
 import com.finance.winport.mine.model.ScheduleDetailResponse;
+import com.finance.winport.mine.model.ServiceDetailResponse;
 import com.finance.winport.mine.model.ScheduleListResponse;
-import com.finance.winport.service.model.FindLoanCountResponse;
-import com.finance.winport.service.model.LoanListResponse;
-import com.finance.winport.service.model.ShopOrderCountResponse;
-import com.sina.weibo.sdk.api.share.BaseResponse;
 
 import java.util.HashMap;
 
@@ -54,5 +52,9 @@ public interface MineServices {
     //建议反馈
     @POST("customerapp/api/feedBack/addFeedBack")
     Observable<com.finance.winport.base.BaseResponse> commitFeedBack(@Body HashMap map);
+
+    //我的服务列表
+    @POST("customerapp/api/customer/myServiceList")
+    Observable<MyServiceListResponse> getServiceList(@Body HashMap map);
 
 }

@@ -27,7 +27,9 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="15dp"
                 android:layout_centerVertical="true"
-                android:text="2017年03月22日   13:20"
+                android:drawableLeft="@drawable/vertical_line"
+                android:drawablePadding="10dp"
+                android:text="旺铺寻租"
                 android:textColor="#333333"
                 android:textSize="15sp" />
 

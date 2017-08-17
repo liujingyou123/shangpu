@@ -54,6 +54,7 @@ public class MyServiceActivity extends BaseActivity {
         mTab.add(new MyServicePageItem("已完成", "2"));
         mTab.add(new MyServicePageItem("已失效", "3"));
         idViewPager.setAdapter(new SlidingTabPagerAdapter(getSupportFragmentManager(), mTab));
+        idViewPager.setOffscreenPageLimit(2);
         idTab.setViewPager(idViewPager);
         if (!TextUtils.isEmpty(housePrice)) {
             idViewPager.setCurrentItem(1);
