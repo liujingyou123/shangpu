@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -137,10 +138,11 @@ public class ModifySignFragment extends BaseFragment {
 
     @OnClick(R.id.save)
     public void onSave() {
-        if (content.getText().toString().trim().length() <= 0) {
-
+        if (TextUtils.isEmpty(content.getText().toString().trim())) {
+            handleBack();
+        } else {
+            save();
         }
-        save();
     }
 
     @OnClick(R.id.imv_focus_house_back)

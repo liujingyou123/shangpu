@@ -118,13 +118,19 @@ public class PersonalInfoActivity extends BaseActivity {
     public void onModifyEvent(ModifyEvent event) {
         switch (event.type) {
             case NICK_NAME:
-                nikeName.setText(event.content);
+                if (!TextUtils.isEmpty(event.content)) {
+                    nikeName.setText(event.content);
+                }
                 break;
             case SIGN:
-                sign.setText(event.content);
+                if (!TextUtils.isEmpty(event.content)) {
+                    sign.setText(event.content);
+                }
                 break;
             case PHONE:
-                phone.setText(event.content);
+                if (!TextUtils.isEmpty(event.content)) {
+                    phone.setText(event.content);
+                }
                 break;
             case CONCERN_TYPE:
                 setConcern(event.plateList, event.vocationList, event.areaList);
@@ -152,7 +158,9 @@ public class PersonalInfoActivity extends BaseActivity {
             //1：20m²以下 2：20-50m²  3：50-100m²4：100-200m²  5：200-500m²  6:500-1000m²  7:1000m²以上
             String[] area = new String[]{"20m²以下", "20-50m²", "50-100m²", "100-200m", "200-500m²", "500-1000m²", "1000m²以上"};
             for (Integer i : areaList) {
-                sb.append(area[i - 1]).append("、");
+                if (i >= 0 && i < area.length) {
+                    sb.append(area[i - 1]).append("、");
+                }
             }
             sb.delete(sb.length() - 1, sb.length());
         }
@@ -199,7 +207,7 @@ public class PersonalInfoActivity extends BaseActivity {
     }
 
     private void toPhone() {
-        startActivity(new Intent(context, InfoModifyActivity.class).putExtra("type", ModifyEvent.InfoType.PHONE));
+        startActivity(new Intent(context, InfoModifyActivity.class).putExtra("type", ModifyEvent.InfoType.PHONE).putExtra("data", phone.getText().toString()));
     }
 
     // 我关注的商铺
