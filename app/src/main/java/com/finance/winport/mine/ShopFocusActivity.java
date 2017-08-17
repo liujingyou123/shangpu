@@ -489,7 +489,12 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
                                                  PersonalInfoResponse.DataBean.Attention.Vocation vocation = new PersonalInfoResponse.DataBean.Attention.Vocation();
                                                  vocation.vocationId = item.getTagId();
                                                  vocation.vocationName = item.getTagName();
-                                                 vocationList.remove(vocation);
+                                                 for (int i = 0; i < vocationList.size(); i++) {
+                                                     if(vocationList.get(i).vocationId.equals(vocation.vocationId)){
+                                                         vocationList.remove(i);
+                                                     }
+                                                 }
+//                                                 vocationList.remove(vocation);
                                                  industryId = "";
                                                  industryName = "";
                                              }

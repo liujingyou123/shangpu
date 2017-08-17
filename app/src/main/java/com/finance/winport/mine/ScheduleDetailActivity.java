@@ -13,7 +13,6 @@ import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.mine.model.ScheduleDetailResponse;
 import com.finance.winport.mine.presenter.IScheduleDetailView;
 import com.finance.winport.mine.presenter.ScheduleDetailPresenter;
-import com.finance.winport.mine.presenter.ServiceDetailPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,14 +30,19 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
     TextView tvFocusHouse;
     @BindView(R.id.rl_title_root)
     RelativeLayout rlTitleRoot;
-    @BindView(R.id.contact_name)
-    TextView contactName;
+
     @BindView(R.id.address)
     TextView address;
     @BindView(R.id.phone)
     TextView phone;
     @BindView(R.id.contact)
     TextView contact;
+    @BindView(R.id.time)
+    TextView time;
+    @BindView(R.id.date)
+    TextView date;
+    @BindView(R.id.type)
+    TextView type;
     private NoticeDialog mNoticeDialog;//拨打电话弹框
     private NoticeDialog nNoticeDialog;//撤销服务弹框
     private NoticeDialog bNoticeDialog;//确认服务弹框
@@ -238,6 +242,8 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
 
     @Override
     public void showScheduleDetail(ScheduleDetailResponse response) {
+
+        time.setText(response.getData().getOrderTime().substring(response.getData().getOrderTime().length()-8,response.getData().getOrderTime().length()-3));
 
     }
 }
