@@ -1,15 +1,11 @@
 package com.finance.winport.tab;
 
-import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
+import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -26,28 +22,18 @@ import com.finance.winport.account.LoginActivity;
 import com.finance.winport.account.event.LoginEvent;
 import com.finance.winport.account.event.LoginOutEvent;
 import com.finance.winport.account.model.UserInfo;
-import com.finance.winport.aliyunoss.AliOss;
 import com.finance.winport.base.BaseFragment;
-import com.finance.winport.base.BaseResponse;
-import com.finance.winport.dialog.LoadingDialog;
-import com.finance.winport.dialog.OffShelfDialog;
 import com.finance.winport.image.Batman;
 import com.finance.winport.image.BatmanCallBack;
 import com.finance.winport.mine.MyNoticeActivity;
-import com.finance.winport.mine.MyScheduleListActivity;
 import com.finance.winport.mine.MyServiceActivity;
 import com.finance.winport.mine.PersonalInfoActivity;
 import com.finance.winport.mine.SettingsActivity;
-import com.finance.winport.mine.ShopFocusActivity;
 import com.finance.winport.mine.SuggestActivity;
 import com.finance.winport.mine.model.PersonalInfoResponse;
 import com.finance.winport.mine.presenter.IPersonalInfoView;
 import com.finance.winport.mine.presenter.PersonalInfoPresenter;
-import com.finance.winport.permission.PermissionsManager;
-import com.finance.winport.permission.PermissionsResultAction;
-import com.finance.winport.tab.event.SelectImageEvent;
 import com.finance.winport.tab.model.Lunar;
-import com.finance.winport.tab.model.NameValue;
 import com.finance.winport.tab.model.UnReadMsg;
 import com.finance.winport.tab.model.WinportCounts;
 import com.finance.winport.tab.net.NetworkCallback;
@@ -57,19 +43,12 @@ import com.finance.winport.util.Constant;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.StringUtil;
 import com.finance.winport.view.StopWatchTextView;
-import com.finance.winport.view.picker.Picker;
-import com.finance.winport.view.picker.engine.GlideEngine;
-import com.finance.winport.view.picker.utils.PicturePickerUtils;
 import com.umeng.analytics.MobclickAgent;
-import com.yalantis.ucrop.UCrop;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,8 +56,6 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import rx.Observable;
 import rx.Subscriber;
-
-import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -106,7 +83,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     @BindView(R.id.ji)
     TextView ji;
     @BindView(R.id.mine_schedule)
-    TextView mineSchedule;
+    TextView mineService;
     @BindView(R.id.hot_line)
     TextView hotLine;
     @BindView(R.id.tv_focus_right)
@@ -182,15 +159,15 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
 
     private void init() {
         if (isLogin()) {
-            String number = SharedPrefsUtil.getUserInfo().data.userPhone;
-            if (StringUtil.isCellPhone(number)) {
-                phone.setText(number.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
-            } else {
-                phone.setText("");
-            }
+//            String number = SharedPrefsUtil.getUserInfo().data.userPhone;
+//            if (StringUtil.isCellPhone(number)) {
+//                phone.setText(number.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
+//            } else {
+//                phone.setText("");
+//            }
             setHeadImage(SharedPrefsUtil.getUserInfo().data.headPortrait);
             modify.setVisibility(View.VISIBLE);
-            personalSign.setText("老板很懒，暂未设置签名");
+//            personalSign.setText("老板很懒，暂未设置签名");
             getData();
         } else {
             phone.setText("未登录");
@@ -201,7 +178,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
             mineAppoint.setText("--");
             mineCollection.setText("--");
             mineScan.setText("--");
-            mineSchedule.setText("");
+            mineService.setText("");
         }
     }
 
@@ -386,14 +363,14 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
         if (!TextUtils.equals(mineScan.getText().toString().trim(), response.data.browseCount + "")) {
             mineScan.setShowNumber(response.data.browseCount);
         }
-        if (response.data.scheduleCount > 0) {
-            String sc = getString(R.string.mine_schedule, response.data.scheduleCount + "");
-            SpannableString sp = new SpannableString(sc);
-            int start = sc.indexOf(response.data.scheduleCount + "");
-            int end = start + (response.data.scheduleCount + "").length();
-            sp.setSpan(new ForegroundColorSpan(Color.parseColor("#333333")), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            mineSchedule.setText(sp);
-        }
+//        if (response.data.scheduleCount > 0) {
+//            String sc = getString(R.string.mine_schedule, response.data.scheduleCount + "");
+//            SpannableString sp = new SpannableString(sc);
+//            int start = sc.indexOf(response.data.scheduleCount + "");
+//            int end = start + (response.data.scheduleCount + "").length();
+//            sp.setSpan(new ForegroundColorSpan(Color.parseColor("#333333")), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            mineService.setText(sp);
+//        }
 
     }
 
@@ -545,10 +522,17 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
         this.info = response;
         phone.setText(response.data.nickName);
         personalSign.setText(response.data.signature);
-        mineSchedule.setText(response.data.myService);
+        mineService.setText(getMyService("老板，您有 10 个未完成服务"));
         String headPortrait = response.data.headPortrait;
         saveHeadInfo(headPortrait);
         setHeadImage(headPortrait);
 
+    }
+
+    private Spanned getMyService(String myService) {
+        String num = myService.replaceAll("\\D", "");
+        String spannedNum = "<span style=\"color:#333333\">" + myService.replaceAll("\\D", "") + "</span>";
+        Spanned spannedStr = Html.fromHtml("<html><body><p>" + myService.replace(num, spannedNum) + "</p><body><html>");
+        return spannedStr;
     }
 }

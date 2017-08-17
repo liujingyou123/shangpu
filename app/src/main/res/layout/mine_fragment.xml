@@ -402,6 +402,7 @@
                     android:drawablePadding="10dp"
                     android:drawableRight="@mipmap/arrow"
                     android:gravity="center"
+                    android:singleLine="true"
                     android:textColor="#999999"
                     android:textSize="13sp"
                     tools:text="您有5个未完成的服务" />
