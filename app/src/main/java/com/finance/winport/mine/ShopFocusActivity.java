@@ -17,6 +17,7 @@ import com.finance.winport.home.model.RegionResponse;
 import com.finance.winport.mine.adapter.AreaTagAdapter;
 import com.finance.winport.mine.adapter.TagAdapter;
 import com.finance.winport.mine.adapter.TagItem;
+import com.finance.winport.mine.event.ModifyEvent;
 import com.finance.winport.mine.model.CommitFocusRequest;
 import com.finance.winport.mine.model.IndustryListResponse;
 import com.finance.winport.mine.model.PersonalInfoResponse;
@@ -28,6 +29,8 @@ import com.finance.winport.util.SpUtil;
 import com.finance.winport.util.ToolsUtil;
 import com.finance.winport.view.tagview.TagCloudLayout;
 import com.umeng.analytics.MobclickAgent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -500,6 +503,13 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
     @Override
     public void commitFocus(BaseResponse response) {
         SpUtil.getInstance().setStringData(SharedPrefsUtil.getUserInfo().data.userPhone, "1");
+
+        ModifyEvent event = new ModifyEvent();
+        event.type = ModifyEvent.InfoType.CONCERN_TYPE;
+        event.areaList = list1;
+        event.plateList = blockTagList;
+        event.vocationList = vocationList;
+        EventBus.getDefault().post(event);
         finish();
     }
 
