@@ -9,12 +9,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.home.FoundShopListActivity;
+import com.finance.winport.home.adapter.FoundShopListAdapter;
+import com.finance.winport.home.model.FoundShopListResponse;
+import com.finance.winport.home.presenter.ShopListPresenter;
 import com.finance.winport.log.XLog;
 import com.finance.winport.mine.adapter.MyServiceListAdapter;
+import com.finance.winport.mine.model.MyServiceListResponse;
+import com.finance.winport.mine.presenter.IMyServiceListView;
+import com.finance.winport.mine.presenter.MyServiceListPresenter;
 import com.finance.winport.trade.TradeCircleDetailActivity;
 import com.finance.winport.trade.adapter.TradeCircleAdapter;
 import com.finance.winport.trade.model.CommentNumResponse;
@@ -47,7 +55,7 @@ import butterknife.Unbinder;
  * 服务订单
  */
 
-public class MyServiceListFragment extends Fragment {
+public class MyServiceListFragment extends Fragment implements IMyServiceListView {
 
     Unbinder unbinder;
     @BindView(R.id.ls_circles)
@@ -55,10 +63,11 @@ public class MyServiceListFragment extends Fragment {
     @BindView(R.id.refresh_view)
     XPtrFrameLayout refreshView;
 
-    private MyServiceListAdapter mAdapter;
     private List<TradeTopic> mData = new ArrayList<>();
     private String type;
     private int pageNumber = 1;
+    private MyServiceListPresenter mPresenter;
+    private List<MyServiceListResponse.DataBeanX.DataBean> list = new ArrayList<>();
 
 
     @Nullable
@@ -68,6 +77,7 @@ public class MyServiceListFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         init();
 
+        getData();
         return view;
     }
 
@@ -77,21 +87,26 @@ public class MyServiceListFragment extends Fragment {
         XLog.e("TradeCircleList onResume");
     }
 
+    private void getData() {
+        if (mPresenter == null) {
+            mPresenter = new MyServiceListPresenter(this);
+        }
+        mPresenter.getServiceList(type,pageNumber);
+    }
 
     private void init() {
         Bundle bundle = getArguments();
         if (bundle != null) {
             type = bundle.getString("type");
         }
-        mAdapter = new MyServiceListAdapter(this.getContext(), null);
 
-        lsCircles.setAdapter(mAdapter);
 
         refreshView.setMode(PtrFrameLayout.Mode.LOAD_MORE);
         refreshView.setPtrHandler(new PtrDefaultHandler2() {
             @Override
             public void onLoadMoreBegin(PtrFrameLayout frame) {
                 pageNumber++;
+                getData();
 //                mPresenter.getMoreTradeCircles(type, pageNumber);
             }
 
@@ -115,6 +130,19 @@ public class MyServiceListFragment extends Fragment {
 
 
 
+    private void setAdapter(List<MyServiceListResponse.DataBeanX.DataBean> response) {
+        if(pageNumber==1){
+            list.clear();
+        }
+        list.addAll(response);
+
+
+        if (lsCircles.getAdapter() == null) {
+            lsCircles.setAdapter(new MyServiceListAdapter(this.getContext(), response));
+        } else {
+            ((BaseAdapter) lsCircles.getAdapter()).notifyDataSetChanged();
+        }
+    }
 
 
 
@@ -126,4 +154,22 @@ public class MyServiceListFragment extends Fragment {
         super.onDestroyView();
     }
 
+    @Override
+    public void showServiceList(MyServiceListResponse response) {
+
+        refreshView.refreshComplete();
+        if(list.size()>=response.getData().getTotalSize()){
+            if(pageNumber>1){
+
+                ToastUtil.show(getActivity(),"没有更多了");
+            }
+        }
+        setAdapter(response.getData().getData());
+    }
+
+    @Override
+    public void onError() {
+
+        refreshView.refreshComplete();
+    }
 }

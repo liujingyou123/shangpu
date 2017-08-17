@@ -134,19 +134,19 @@ public class FoundShopDetailResponse extends BaseResponse{
 
             private String recommendWord;
             private int shopId;
-            private Object title;
-            private Object districtId;
-            private Object districtName;
-            private Object blockId;
-            private Object blockName;
-            private Object area;
+            private String title;
+            private String districtId;
+            private String districtName;
+            private String blockId;
+            private String blockName;
+            private String area;
             private int rentType;
             private String coverImg;
-            private Object rent;
-            private Object transferFee;
-            private Object isFace;
-            private Object featureList;
-            private Object distance;
+            private double rent;
+            private double transferFee;
+            private int isFace;
+            private List<Tag> featureList;
+            private String distance;
             private String updateTime;
 
             public String getRecommendWord() {
@@ -165,51 +165,51 @@ public class FoundShopDetailResponse extends BaseResponse{
                 this.shopId = shopId;
             }
 
-            public Object getTitle() {
+            public String getTitle() {
                 return title;
             }
 
-            public void setTitle(Object title) {
+            public void setTitle(String title) {
                 this.title = title;
             }
 
-            public Object getDistrictId() {
+            public String getDistrictId() {
                 return districtId;
             }
 
-            public void setDistrictId(Object districtId) {
+            public void setDistrictId(String districtId) {
                 this.districtId = districtId;
             }
 
-            public Object getDistrictName() {
+            public String getDistrictName() {
                 return districtName;
             }
 
-            public void setDistrictName(Object districtName) {
+            public void setDistrictName(String districtName) {
                 this.districtName = districtName;
             }
 
-            public Object getBlockId() {
+            public String getBlockId() {
                 return blockId;
             }
 
-            public void setBlockId(Object blockId) {
+            public void setBlockId(String blockId) {
                 this.blockId = blockId;
             }
 
-            public Object getBlockName() {
+            public String getBlockName() {
                 return blockName;
             }
 
-            public void setBlockName(Object blockName) {
+            public void setBlockName(String blockName) {
                 this.blockName = blockName;
             }
 
-            public Object getArea() {
+            public String getArea() {
                 return area;
             }
 
-            public void setArea(Object area) {
+            public void setArea(String area) {
                 this.area = area;
             }
 
@@ -229,43 +229,37 @@ public class FoundShopDetailResponse extends BaseResponse{
                 this.coverImg = coverImg;
             }
 
-            public Object getRent() {
+            public double getRent() {
                 return rent;
             }
 
-            public void setRent(Object rent) {
+            public void setRent(double rent) {
                 this.rent = rent;
             }
 
-            public Object getTransferFee() {
+            public double getTransferFee() {
                 return transferFee;
             }
 
-            public void setTransferFee(Object transferFee) {
+            public void setTransferFee(double transferFee) {
                 this.transferFee = transferFee;
             }
 
-            public Object getIsFace() {
+            public int getIsFace() {
                 return isFace;
             }
 
-            public void setIsFace(Object isFace) {
+            public void setIsFace(int isFace) {
                 this.isFace = isFace;
             }
 
-            public Object getFeatureList() {
-                return featureList;
-            }
 
-            public void setFeatureList(Object featureList) {
-                this.featureList = featureList;
-            }
 
-            public Object getDistance() {
+            public String getDistance() {
                 return distance;
             }
 
-            public void setDistance(Object distance) {
+            public void setDistance(String distance) {
                 this.distance = distance;
             }
 
@@ -275,6 +269,14 @@ public class FoundShopDetailResponse extends BaseResponse{
 
             public void setUpdateTime(String updateTime) {
                 this.updateTime = updateTime;
+            }
+
+            public List<Tag> getFeatureList() {
+                return featureList;
+            }
+
+            public void setFeatureList(List<Tag> featureList) {
+                this.featureList = featureList;
             }
         }
     }

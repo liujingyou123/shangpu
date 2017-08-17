@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.mine.model.CommitFocusRequest;
+import com.finance.winport.mine.model.PersonalInfoResponse;
 import com.finance.winport.util.UnitUtil;
 
 import java.util.ArrayList;
@@ -29,21 +31,24 @@ import butterknife.ButterKnife;
  */
 public class AreaTagAdapter extends BaseAdapter {
     private Context context;
-    private List<String> list;
+    private List<PersonalInfoResponse.DataBean.Attention.Plate> list;
 
-    public AreaTagAdapter(Context context, List<String> list) {
+    public AreaTagAdapter(Context context, List<PersonalInfoResponse.DataBean.Attention.Plate> list) {
         this.context = context;
         this.list = list;
     }
 
     @Override
     public int getCount() {
-        return list == null ? 0 : list.size();
+        return (list == null||list.size()==0) ? 1 : list.size()+1;
     }
 
     @Override
     public Object getItem(int position) {
         if (list == null) {
+            return null;
+        }
+        if(position==list.size()){
             return null;
         }
         return list.get(position);
@@ -57,7 +62,7 @@ public class AreaTagAdapter extends BaseAdapter {
 
 
 
-    public void update(List<String> list) {
+    public void update(List<PersonalInfoResponse.DataBean.Attention.Plate> list) {
         this.list = list;
         notifyDataSetChanged();
     }
@@ -75,7 +80,12 @@ public class AreaTagAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         try {
-            if(position==list.size()-1){
+            if(list==null){
+                holder.add.setVisibility(View.VISIBLE);
+                holder.tag.setVisibility(View.GONE);
+                holder.imvDel.setVisibility(View.GONE);
+            }
+            else if(list!=null&&position==list.size()){
                 holder.add.setVisibility(View.VISIBLE);
                 holder.tag.setVisibility(View.GONE);
                 holder.imvDel.setVisibility(View.GONE);
@@ -84,7 +94,7 @@ public class AreaTagAdapter extends BaseAdapter {
                 holder.imvDel.setVisibility(View.VISIBLE);
                 holder.add.setVisibility(View.GONE);
 
-                holder.tag.setText(list.get(position));
+                holder.tag.setText(list.get(position).plateName);
             }
 
             holder.imvDel.setOnClickListener(new View.OnClickListener() {

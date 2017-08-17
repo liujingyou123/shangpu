@@ -100,6 +100,7 @@ public class FoundShopListActivity extends BaseActivity implements IFoundShopLis
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(FoundShopListActivity.this,FoundShopDetailActivity.class);
+                intent.putExtra("contentId",list.get(position).getContentId());
                 startActivity(intent);
 
             }

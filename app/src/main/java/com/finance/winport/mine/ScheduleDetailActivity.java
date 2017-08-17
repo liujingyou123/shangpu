@@ -9,8 +9,8 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.dialog.NoticeDialog;
-import com.finance.winport.mine.presenter.IScheduleDetailView;
 import com.finance.winport.mine.presenter.ScheduleDetailPresenter;
+import com.finance.winport.mine.presenter.ServiceDetailPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,7 +58,7 @@ public class ScheduleDetailActivity extends BaseActivity {
 //        scheduleId = getIntent().getStringExtra("scheduleId");
 
 //        if (mPresenter == null) {
-//            mPresenter = new ScheduleDetailPresenter(this);
+//            mPresenter = new ServiceDetailPresenter(this);
 //        }
 //        if (!TextUtils.isEmpty(scheduleId)) {
 //
@@ -82,7 +82,7 @@ public class ScheduleDetailActivity extends BaseActivity {
 //                        @Override
 //                        public void onClick() {
 //                            if (mPresenter == null) {
-//                                mPresenter = new ScheduleDetailPresenter(ScheduleDetailActivity.this);
+//                                mPresenter = new ServiceDetailPresenter(ScheduleDetailActivity.this);
 //                            }
 //                            mPresenter.revokeSchedule(scheduleId);
 //                        }
@@ -129,7 +129,7 @@ public class ScheduleDetailActivity extends BaseActivity {
 //                        @Override
 //                        public void onClick() {
 //                            if (mPresenter == null) {
-//                                mPresenter = new ScheduleDetailPresenter(ScheduleDetailActivity.this);
+//                                mPresenter = new ServiceDetailPresenter(ScheduleDetailActivity.this);
 //                            }
 //                            mPresenter.ensureSchedule(scheduleId);
 //                        }
@@ -143,7 +143,7 @@ public class ScheduleDetailActivity extends BaseActivity {
 //    }
 //
 //    @Override
-//    public void showScheduleDetail(ScheduleDetailResponse response) {
+//    public void showScheduleDetail(ServiceDetailResponse response) {
 //
 //
 //        if (response.getData().getStatus() == 0 || response.getData().getStatus() == 3) {
@@ -202,7 +202,7 @@ public class ScheduleDetailActivity extends BaseActivity {
 //    @Override
 //    public void showensureSchedule(BaseResponse response) {
 //        if (mPresenter == null) {
-//            mPresenter = new ScheduleDetailPresenter(this);
+//            mPresenter = new ServiceDetailPresenter(this);
 //        }
 //        mPresenter.getScheduleDetail(scheduleId);
 //    }
@@ -211,7 +211,7 @@ public class ScheduleDetailActivity extends BaseActivity {
 //    public void showRevokeSchedule(BaseResponse response) {
 //
 //        if (mPresenter == null) {
-//            mPresenter = new ScheduleDetailPresenter(this);
+//            mPresenter = new ServiceDetailPresenter(this);
 //        }
 //        mPresenter.getScheduleDetail(scheduleId);
 //    }
