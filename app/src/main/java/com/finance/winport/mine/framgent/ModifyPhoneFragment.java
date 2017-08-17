@@ -95,8 +95,6 @@ public class ModifyPhoneFragment extends BaseFragment {
 
 
     private void save() {
-        //...
-
         String content = this.phoneView.getText().toString().trim();
         setResult(content);
         modifyUserPhone();

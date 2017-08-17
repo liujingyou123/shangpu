@@ -109,8 +109,12 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public void startActivity(Intent intent) {
         super.startActivity(intent);
-        if (TextUtils.equals(intent.getComponent().getClassName(), LoginActivity.class.getName())) {
-            overridePendingTransition(R.anim.open_enter_bottom_in, R.anim.open_exit_normal);
+        try {
+            if (TextUtils.equals(intent.getComponent().getClassName(), LoginActivity.class.getName())) {
+                overridePendingTransition(R.anim.open_enter_bottom_in, R.anim.open_exit_normal);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

@@ -25,6 +25,8 @@ import com.finance.winport.image.Batman;
 import com.finance.winport.image.BatmanCallBack;
 import com.finance.winport.mine.event.ModifyEvent;
 import com.finance.winport.mine.model.PersonalInfoResponse;
+import com.finance.winport.mine.model.PersonalInfoResponse.DataBean.Attention.Plate;
+import com.finance.winport.mine.model.PersonalInfoResponse.DataBean.Attention.Vocation;
 import com.finance.winport.mine.presenter.IPersonalInfoView;
 import com.finance.winport.mine.presenter.PersonalInfoPresenter;
 import com.finance.winport.permission.PermissionsManager;
@@ -107,7 +109,7 @@ public class PersonalInfoActivity extends BaseActivity {
             nikeName.setText(info.data.nickName);
             sign.setText(info.data.signature);
             phone.setText(info.data.phone);
-//            concern.setText();
+            setConcern(info.data.attention.plateList, info.data.attention.vocationList, info.data.attention.areaList);
         }
     }
 
@@ -125,11 +127,38 @@ public class PersonalInfoActivity extends BaseActivity {
                 phone.setText(event.content);
                 break;
             case CONCERN_TYPE:
-                concern.setText(event.content);
+                setConcern(event.plateList, event.vocationList, event.areaList);
                 break;
 
         }
     }
+
+    private void setConcern(List<Plate> plateList, List<Vocation> vocationList, List<Integer> areaList) {
+        StringBuilder sb = new StringBuilder();
+        if (plateList != null && plateList.size() > 0) {
+            for (Plate p : plateList) {
+                sb.append(p.plateName).append("、");
+            }
+            sb.replace(sb.length() - 1, sb.length(), "-");
+        }
+        if (vocationList != null && vocationList.size() > 0) {
+            for (Vocation v : vocationList) {
+                sb.append(v.vocationName).append("、");
+            }
+            sb.replace(sb.length() - 1, sb.length(), "-");
+        }
+
+        if (areaList != null && areaList.size() > 0) {
+            //1：20m²以下 2：20-50m²  3：50-100m²4：100-200m²  5：200-500m²  6:500-1000m²  7:1000m²以上
+            String[] area = new String[]{"20m²以下", "20-50m²", "50-100m²", "100-200m", "200-500m²", "500-1000m²", "1000m²以上"};
+            for (Integer i : areaList) {
+                sb.append(area[i - 1]).append("、");
+            }
+            sb.delete(sb.length() - 1, sb.length());
+        }
+        concern.setText(sb.toString());
+    }
+
 
     private void initView() {
         tvFocusHouse.setText("个人资料");

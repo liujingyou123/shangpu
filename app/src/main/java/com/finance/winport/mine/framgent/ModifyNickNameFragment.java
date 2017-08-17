@@ -57,11 +57,9 @@ public class ModifyNickNameFragment extends BaseFragment {
 
 
     private void save() {
-        //...
-
         final String content = this.content.getText().toString().trim();
         setResult(content);
-//        modifyNickNameAndSign(content);
+        modifyNickName(content);
     }
 
     private void modifyNickName(final String content) {
