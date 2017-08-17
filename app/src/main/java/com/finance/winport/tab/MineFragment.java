@@ -522,7 +522,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
         this.info = response;
         phone.setText(response.data.nickName);
         personalSign.setText(response.data.signature);
-        mineService.setText(getMyService("老板，您有 10 个未完成服务"));
+        mineService.setText(getMyService(response.data.myService));
         String headPortrait = response.data.headPortrait;
         saveHeadInfo(headPortrait);
         setHeadImage(headPortrait);
@@ -530,6 +530,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     }
 
     private Spanned getMyService(String myService) {
+        if (TextUtils.isEmpty(myService)) return null;
         String num = myService.replaceAll("\\D", "");
         String spannedNum = "<span style=\"color:#333333\">" + myService.replaceAll("\\D", "") + "</span>";
         Spanned spannedStr = Html.fromHtml("<html><body><p>" + myService.replace(num, spannedNum) + "</p><body><html>");
