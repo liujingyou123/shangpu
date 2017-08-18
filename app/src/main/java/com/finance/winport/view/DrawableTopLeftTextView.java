@@ -52,10 +52,12 @@ public class DrawableTopLeftTextView extends android.support.v7.widget.AppCompat
 
     public void setDrawable(int id) {
         Drawable d = null;
-        try {
-            d = getResources().getDrawable(id);
-        } catch (Resources.NotFoundException e) {
-            e.printStackTrace();
+        if (id > 0) {
+            try {
+                d = getResources().getDrawable(id);
+            } catch (Resources.NotFoundException e) {
+                e.printStackTrace();
+            }
         }
         if (d != null) {
             final SpannableString ss = new SpannableString("img  " + getText().toString());

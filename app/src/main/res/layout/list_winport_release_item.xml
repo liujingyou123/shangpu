@@ -74,13 +74,16 @@
             android:background="@drawable/bg_mark_background"
             android:visibility="gone">
 
-            <ImageView
+            <TextView
                 android:id="@+id/mark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:scaleType="centerInside"
-                android:src="@mipmap/icon_winport_off" />
+                android:background="@drawable/bg_winport_mark"
+                android:gravity="center"
+                android:textColor="#FF5851"
+                android:textSize="13sp"
+                tools:text="该旺铺已下架" />
         </FrameLayout>
 
         <TextView

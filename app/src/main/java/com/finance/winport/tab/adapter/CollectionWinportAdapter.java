@@ -89,7 +89,7 @@ public class CollectionWinportAdapter extends PullBaseAdapter<CollectionShopList
         String sRent = Math.round(item.rent) + "";
         String sFee = Math.round(item.transferFee / 10000) + "";
         boolean hasFee = item.transferFee > 0;
-        if (item.rentStatus == 3) {//rentStatus 出租状态 0-待出租 1-出租中 2-已出租  3-已下架（撤下）
+        if (item.rentStatus == 1) {// 0 已上架、1 已下架
             holder.price.setText(sRent + "元/月");
             if (item.isFace == 1) {// 面议
                 holder.fee.setText("面议");
@@ -101,6 +101,7 @@ public class CollectionWinportAdapter extends PullBaseAdapter<CollectionShopList
                 }
             }
             setViewAndChildrenEnabled(convertView, false);
+            convertView.setEnabled(true);
             holder.flMark.setVisibility(View.VISIBLE);
         } else {
             setViewAndChildrenEnabled(convertView, true);
@@ -126,8 +127,6 @@ public class CollectionWinportAdapter extends PullBaseAdapter<CollectionShopList
 
         }
         holder.distance.setText("距您" + (item.distance <= 0.0f ? "0" : item.distance) + "km");
-//        holder.scan.setText(item.visitCount + "");
-//        holder.call.setText(item.contactCount + "");
         Batman.getInstance().fromNet(item.coverImg, holder.img);
         setTag(holder, item);
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -266,7 +265,7 @@ public class CollectionWinportAdapter extends PullBaseAdapter<CollectionShopList
         @BindView(R.id.img)
         ImageView img;
         @BindView(R.id.mark)
-        ImageView mark;
+        TextView mark;
         @BindView(R.id.scan)
         TextView scan;
         @BindView(R.id.call)

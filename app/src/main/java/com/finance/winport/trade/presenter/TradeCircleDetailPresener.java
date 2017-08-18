@@ -94,17 +94,17 @@ public class TradeCircleDetailPresener {
      * 评论
      *
      * @param topicId
-     * @param commentId
      * @param content
      */
-    public void commentTopic(String topicId, String commentId, String content) {
+    public void commentTopic(String topicId, String parentId, int isReply, String content) {
         HashMap<String, String> hashMap = new HashMap<>();
         if (!TextUtils.isEmpty(topicId)) {
             hashMap.put("topicId", topicId);
         }
-        if (!TextUtils.isEmpty(commentId)) {
-            hashMap.put("commentId", commentId);
+        if (!TextUtils.isEmpty(parentId)) {
+            hashMap.put("parentId", parentId);
         }
+        hashMap.put("isReply", isReply + "");
         hashMap.put("content", content);
         ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).commentTopic(hashMap), new LoadingNetSubscriber<BaseResponse>() {
             @Override
@@ -226,9 +226,9 @@ public class TradeCircleDetailPresener {
         });
     }
 
-    public void showCommentDialog(String commentId, String commentator) {
+    public void showCommentDialog(String parentId, String commentator) {
         if (mITradeDetailView != null) {
-            mITradeDetailView.showCommentDialog(commentId, commentator);
+            mITradeDetailView.showCommentDialog(parentId, commentator);
         }
     }
 }

@@ -10,7 +10,7 @@ import com.finance.winport.trade.model.TradeDetailResponse;
 public interface ITradeDetailView {
     void showTradeDetail(TradeDetailResponse response);
 
-    void showCommentDialog(String commentId, String commentator);
+    void showCommentDialog(String parentId, String commentator);
 
     void zanTopic(boolean isSuccess, String topId);
 

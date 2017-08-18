@@ -63,20 +63,20 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         }
         final WinportList.DataBeanX.DataBean item = baseData.get(position);
         holder.name.setText(item.clerkName);
-//        holder.sign.setText(item.signature);
         setHeadImage(item.headPortrait, holder.img);
         holder.address.setText(item.address + item.rentTypeName);
         holder.scanCount.setText("周浏览" + item.scanCount + "人/次");
         holder.area.setText(UnitUtil.formatArea(item.area) + "㎡");
         holder.releaseTime.setText(item.publishTime);
         //rentStatus 出租状态 0-待出租 1-出租中 2-暂不出租 3-已出租
-        if (item.rentStatus == 3) {
+        if (item.rentStatus == 2 || item.rentStatus == 3) {
             holder.historyCount.setText("历史看铺申请" + item.visitCount + "组");
             setViewAndChildrenEnabled(convertView, false);
             holder.llOnSale.setVisibility(View.GONE);
             holder.release.setEnabled(true);
             holder.release.setVisibility(View.VISIBLE);
             holder.flMark.setVisibility(View.VISIBLE);
+            holder.mark.setText(item.rentStatus == 2 ? "该铺暂不出租" : "该铺已出租");
         } else {
             holder.flMark.setVisibility(View.GONE);
             holder.llOnSale.setVisibility(View.VISIBLE);
@@ -226,6 +226,8 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         TextView release;
         @BindView(R.id.ll_onSale)
         View llOnSale;
+        @BindView(R.id.mark)
+        TextView mark;
         @BindView(R.id.fl_mark)
         View flMark;
 

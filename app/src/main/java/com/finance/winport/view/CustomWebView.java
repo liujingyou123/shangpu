@@ -7,7 +7,10 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
+import android.view.ViewConfiguration;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import static android.view.KeyEvent.ACTION_UP;
 import static android.view.MotionEvent.ACTION_DOWN;
@@ -41,20 +44,32 @@ public class CustomWebView extends WebView {
         super.onScrollChanged(l, t, oldl, oldt);
         isScrollChanged = true;
         int height = (int) Math.floor(this.getContentHeight() * this.getScale());
-        int webViewHeight = this.getMeasuredHeight();
+        int webViewHeight = this.getHeight();
         int scrollY = this.getScrollY() + webViewHeight;
+        int deltaY = t - oldt;
+        if (scrollY + ViewConfiguration.getTouchSlop() >= height) {
+//            Log.d("TAG","bottom");
+            if (onScrollListener != null) {
+                onScrollListener.onScrollBottom();
+            }
+        }else {
+//            Log.d("TAG","onScroll="+deltaY);
+            if (onScrollListener != null) {
+                onScrollListener.onScroll(deltaY);
+            }
+        }
         if (t == 0 || scrollY >= height) {
             isStopped = true;
             isScrollChanged = false;
         } else {
-            if (Math.abs(t - oldt) <= 1) {
+            if (Math.abs(deltaY) <= 1) {
                 isStopped = true;
                 isScrollChanged = false;
             }
         }
 //        Log.d("TAG", "onScrollChanged:" + "isFling=" + isFling + ",webViewHeight=" + webViewHeight + ",height=" + height + ",scrollY=" + scrollY + ",l=" + l + "," + "t=" + t + "," + "oldl=" + oldl + "," + "oldt=" + oldt + ",");
         if (!isFling) return;
-        if (scrollY >= height || t == 0 || (Math.abs(t - oldt) <= 1)) {
+        if (scrollY >= height || t == 0 || (Math.abs(deltaY) <= 1)) {
             if (onScrollListener != null) {
                 scrollY = t == 0 ? 0 : getScrollY();
                 onScrollListener.onScrollIdle(scrollY);
@@ -66,7 +81,7 @@ public class CustomWebView extends WebView {
                 isScrollChanged = false;
             }
             if (onScrollListener != null) {
-                onScrollListener.onScroll(getScrollY());
+//                onScrollListener.onScroll(deltaY);
             }
         }
     }
@@ -76,7 +91,7 @@ public class CustomWebView extends WebView {
     public boolean onTouchEvent(MotionEvent ev) {
         action = ev.getAction();
         if (!isStopped && onScrollListener != null) {
-            onScrollListener.onScroll(lastScrollY = this.getScrollY());
+//            onScrollListener.onScroll(lastScrollY - this.getScrollY());
         }
         switch (action) {
             case ACTION_DOWN:
@@ -111,17 +126,18 @@ public class CustomWebView extends WebView {
 
             //此时的距离和记录下的距离不相等，在隔delayMillis毫秒给handler发送消息
             if (!isFling || !isStopped) {
+                int deltaY = lastScrollY - scrollY;
                 if (lastScrollY != scrollY) {
                     lastScrollY = scrollY;
                     handler.sendMessageDelayed(handler.obtainMessage(), delayMillis);
                     if (onScrollListener != null) {
-                        onScrollListener.onScroll(scrollY);
+//                        onScrollListener.onScroll(deltaY);
                     }
                 } else {
                     isStopped = true;
                     isScrollChanged = false;
                     if (onScrollListener != null) {
-                        onScrollListener.onScrollIdle(scrollY);
+                        onScrollListener.onScrollIdle(getScrollY());
                     }
                 }
             }
@@ -141,11 +157,13 @@ public class CustomWebView extends WebView {
 
     public interface OnScrollListener {
         /**
-         * @param scrollY
+         * @param deltaY
          */
-        void onScroll(int scrollY);
+        void onScroll(int deltaY);
 
         void onScrollIdle(int scrollY);
+
+        void onScrollBottom();
     }
 
 }

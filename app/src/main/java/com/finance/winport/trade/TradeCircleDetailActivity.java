@@ -63,7 +63,7 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
 
     private TradeCircleDetailPresener mPresenter;
     private String topicId;
-    private String commentId;
+    private String parentId;
     private TradeDetailResponse.DataBean mData;
     private int pageNumber = 1;
     private String from;
@@ -146,7 +146,13 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
             @Override
             public void onClick(View v) {
                 MobclickAgent.onEvent(context, "post_comment_release");
-                mPresenter.commentTopic(topicId, "", commentDialog.getContent());
+                int isReply;//1-评论 2-回复评论
+                if (TextUtils.isEmpty(parentId)) {
+                    isReply = 1;
+                } else {
+                    isReply = 2;
+                }
+                mPresenter.commentTopic(topicId, parentId, isReply, commentDialog.getContent());
             }
         });
     }
@@ -195,8 +201,8 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
     }
 
     @Override
-    public void showCommentDialog(String commentId, String commentator) {
-        this.commentId = commentId;
+    public void showCommentDialog(String parentId, String commentator) {
+        this.parentId = parentId;
         toComment("回复" + commentator);
     }
 
