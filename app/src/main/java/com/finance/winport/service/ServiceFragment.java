@@ -27,7 +27,6 @@ import com.finance.winport.base.BaseFragment;
 import com.finance.winport.home.ShopDetailActivity;
 import com.finance.winport.image.Batman;
 import com.finance.winport.mine.MyScheduleListActivity;
-import com.finance.winport.mine.MyServiceActivity;
 import com.finance.winport.mine.ScheduleDetailActivity;
 import com.finance.winport.mine.adapter.ServiceScheduleListAdapter;
 import com.finance.winport.service.model.CalendarListResponse;
@@ -121,10 +120,13 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
     TextView visitAddress;
     @BindView(R.id.count)
     TextView count;
+    @BindView(R.id.visit_area)
+    LinearLayout visitArea;
     private ServiceScheduleListAdapter adapter;
 
     private FindServiceHomePresenter mPresenter;
     private String id;
+    private String visitId;
     private List<CalendarListResponse.DataBean.DateListBean> calendarList;
     List<CalendarListResponse.DataBean.DateListBean.ScheduleListBean> selectList = new ArrayList<>();
 
@@ -272,6 +274,22 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
             Batman.getInstance().fromNet(response.getData().getShopObject().getCoverImg(), shopImg);
             id = response.getData().getShopObject().getId() + "";
         }
+
+        if (response.getData().getVisitShopObject() == null) {
+            visitArea.setVisibility(View.GONE);
+        } else {
+
+            visitArea.setVisibility(View.VISIBLE);
+            visitAddress.setText(response.getData().getVisitShopObject().getAddress());
+            if (TextUtils.isEmpty(response.getData().getVisitShopObject().getVisitCount())) {
+                visitCount.setText("一周内0位老板浏览了此店铺");
+            } else {
+
+                visitCount.setText("一周内" + response.getData().getVisitShopObject().getVisitCount() + "位老板浏览了此店铺");
+            }
+            Batman.getInstance().fromNet(response.getData().getVisitShopObject().getCoverImg(), visitShopImg);
+            visitId = response.getData().getVisitShopObject().getShopId() + "";
+        }
         if (response.getData().getLoadObject() == null) {
 
             loanArea.setVisibility(View.GONE);
@@ -283,9 +301,9 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
 //            status.setText(response.getData().getLoadObject().getStatus());
             if (response.getData().getLoadObject().getStatus().equals("0")) {
 
-                status.setText(response.getData().getLoadObject().getApplyTime()+" | 待受理");
+                status.setText(response.getData().getLoadObject().getApplyTime() + " | 待受理");
             } else if (response.getData().getLoadObject().getStatus().equals("1")) {
-                status.setText(response.getData().getLoadObject().getApplyTime()+" | 已申请");
+                status.setText(response.getData().getLoadObject().getApplyTime() + " | 已申请");
 
             }
         }
@@ -323,7 +341,7 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
 //        banner.stopAutoPlay();
     }
 
-    @OnClick({R.id.rent, R.id.order, R.id.loan, R.id.loan_more, R.id.shop, R.id.shop_more, R.id.undo_count})
+    @OnClick({R.id.rent, R.id.order, R.id.loan, R.id.loan_more, R.id.shop, R.id.shop_more, R.id.undo_count, R.id.visit_shop, R.id.found_more})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rent:
@@ -367,6 +385,19 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
                 release.putExtra("type", TypeList.RELEASE);
                 release.putExtra("title", "我发布的旺铺");
                 startActivity(release);
+                break;
+            case R.id.found_more:
+                MobclickAgent.onEvent(getActivity(), "service_recentshop_more");
+                Intent visitIntent = new Intent(context, WinportActivity.class);
+                visitIntent.putExtra("type", TypeList.SCAN);
+                visitIntent.putExtra("title", "我约看的旺铺");
+                startActivity(visitIntent);
+                break;
+            case R.id.visit_shop:
+                MobclickAgent.onEvent(getActivity(), "service_recentshop_more");
+                Intent visitDetailIntent = new Intent(getActivity(), ShopDetailActivity.class);
+                visitDetailIntent.putExtra("shopId", visitId);
+                startActivity(visitDetailIntent);
                 break;
         }
     }

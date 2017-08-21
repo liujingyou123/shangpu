@@ -54,7 +54,7 @@
                 android:id="@+id/btn_done"
                 style="@style/btn_done"
                 android:layout_marginTop="160dp"
-                android:text="查看日程详情" />
+                android:text="查看服务订单详情" />
         </RelativeLayout>
     </FrameLayout>
 </LinearLayout>

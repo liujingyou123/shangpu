@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	  <meta charset="utf-8">
+	  <meta name="apple-mobile-web-app-capable" content="yes" />
+	  <meta name="apple-touch-fullscreen" content="yes" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=yaDRGoon5YoRzAAwH781yUgn"></script>
+  <title></title>
+</head>
+<body>
+	
+<div id="map"></div>
+<script type="text/javascript">
+	function getmap(longitude,latitude) {
+				// var longitude=GetQueryString("longitude");
+				// var latitude=GetQueryString("latitude");
+				var map = new BMap.Map("map", {
+					enableMapClick: false
+				}); 
+				var point = new BMap.Point(longitude,latitude);
+				map.centerAndZoom(point, 11);
+				console.log(1)
+				var key = ['餐饮', '购物', '酒店', '小区', '学校', '交通']
+				console.log(1)
+				var options = {
+						renderOptions: {
+							autoViewport: false
+						},
+						onSearchComplete: function(results) {
+							console.log(local.getStatus())
+							console.log(1111)
+							if(local.getStatus() == BMAP_STATUS_SUCCESS) {
+								console.log(results)
+								app.result(JSON.stringify(results));
+								return results
+						}
+					},
+					pageCapacity: 100
+			};
+			var local = new BMap.LocalSearch(map, options);
+			local.searchNearby(key, point, 500);
+		}
+// getmap(121.468739,31.246432);
+
+// function GetQueryString(url) {
+//     var reg = new RegExp("(^|&)" + url + "=([^&]*)(&|$)","i");
+//     var r = window.location.search.substr(1).match(reg);
+//     if (r!=null) return (r[2]); return null;
+//   }
+</script>
+</body>
+</html>
+

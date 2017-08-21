@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -13,6 +14,11 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -47,6 +53,7 @@ import com.finance.winport.map.PoiSearchRoundActivity;
 import com.finance.winport.permission.PermissionsManager;
 import com.finance.winport.permission.PermissionsResultAction;
 import com.finance.winport.util.H5Util;
+import com.finance.winport.util.JsEntity;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.ToastUtil;
@@ -57,6 +64,7 @@ import com.finance.winport.view.home.NearShop;
 import com.finance.winport.view.home.RateView;
 import com.finance.winport.view.imagepreview.ImagePreviewActivity;
 import com.finance.winport.view.tagview.TagCloudLayout;
+import com.google.gson.Gson;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
@@ -65,6 +73,10 @@ import com.umeng.socialize.utils.Log;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -81,7 +93,7 @@ import butterknife.OnClick;
  * 商铺详情
  */
 
-public class ShopDetailActivity extends BaseActivity implements IShopDetailView {
+public class ShopDetailActivity extends BaseActivity implements IShopDetailView, JsEntity.EndCallBack {
 
     @BindView(R.id.sv_all)
     PositionScrollView svAll;
@@ -227,6 +239,24 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     TextView tvZhuanPriceType;
     @BindView(R.id.block)
     TextView block;
+    @BindView(R.id.fit)
+    TextView fit;
+    @BindView(R.id.fit_line)
+    View fitLine;
+    @BindView(R.id.webView)
+    WebView webView;
+    @BindView(R.id.count1)
+    TextView count1;
+    @BindView(R.id.count2)
+    TextView count2;
+    @BindView(R.id.count3)
+    TextView count3;
+    @BindView(R.id.count4)
+    TextView count4;
+    @BindView(R.id.count5)
+    TextView count5;
+    @BindView(R.id.count6)
+    TextView count6;
 
     private boolean isTouched = false;
     private ShareDialog shareDialog;
@@ -288,6 +318,42 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
     }
 
     private void init() {
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webView.setWebChromeClient(new WebChromeClient());
+        webView.setWebViewClient(new WebViewClient() {
+
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                String url = view.getUrl().toString();
+                view.loadUrl(url);
+                return true;
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+
+                webView.loadUrl("javascript:getmap(1 ,2)");
+
+            }
+        });
+
+        webView.addJavascriptInterface(new JsEntity(this), "app");
+        webView.loadUrl("file:///android_asset/map2.html");
+
+
+
+
+
         imvBack.setImageResource(R.mipmap.icon_white_back);
         llTop.setAlpha(0);
         svAll.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
@@ -413,6 +479,9 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 finish();
                 break;
             case R.id.tv_share:
+//                webView.loadUrl("javascript:more()");
+//                webView.loadUrl("javascript:getmap('" + Double.parseDouble(mShopDetail.getData().getLongitude()) + "','" + Double.parseDouble(mShopDetail.getData().getLatitude()) + "')");
+
                 MobclickAgent.onEvent(context, "shop_share");
                 if (mShopDetail == null) {
                     return;
@@ -420,7 +489,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 if (shareDialog == null) {
                     shareDialog = new ShareDialog(this);
                 }
-                shareDialog.setDes("上海市"+mShopDetail.getData().getDistrictName()+mShopDetail.getData().getTitle() + "，租金仅" + rentPrice);
+                shareDialog.setDes("上海市" + mShopDetail.getData().getDistrictName() + mShopDetail.getData().getTitle() + "，租金仅" + rentPrice);
 //                shareDialog.setDes(mShopDetail.getData().getAddress() + "(" + UnitUtil.formatSNum(mShopDetail.getData().getArea()) + "㎡)旺铺急租，租金仅" + rentPrice);
                 shareDialog.setTitle(mShopDetail.getData().getAddress());
                 shareDialog.setImage(coverImg);
@@ -662,7 +731,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         ShopDetail.DataBean data = shopDetail.getData();
         tvName.setText("由 小二 " + data.getClerkName() + " 于" + data.getIssueShopTime() + " 核实发布");
         tvShopAddress.setText(" 　   " + data.getTitle());
-        block.setText(data.getDistrictName() +" "+ data.getBlockName());
+        block.setText(data.getDistrictName() + " " + data.getBlockName());
         tvScan.setText(data.getVisitCount() + "浏览");
         tvLianxi.setText(data.getContactCount() + "联系");
 
@@ -970,7 +1039,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
             showBaner(list);
         }
 
-        if (data.getName()!=null){
+        if (data.getName() != null) {
             List<Tag> currentList = new ArrayList<>();
             Tag tag = new Tag();
             tag.setName(data.getName());
@@ -979,12 +1048,16 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
         }
 
         if (data.getIndustryList() != null && data.getIndustryList().size() > 0) {
-            viewSpaceJingyingfanwei.setVisibility(View.VISIBLE);
-            llJingyingfanwei.setVisibility(View.VISIBLE);
+//            viewSpaceJingyingfanwei.setVisibility(View.VISIBLE);
+//            llJingyingfanwei.setVisibility(View.VISIBLE);
+            fit.setVisibility(View.VISIBLE);
+            fitLine.setVisibility(View.VISIBLE);
             tgView.setAdapter(new TagDetailAdapter(this, data.getIndustryList()));
         } else {
-            viewSpaceJingyingfanwei.setVisibility(View.GONE);
-            llJingyingfanwei.setVisibility(View.GONE);
+//            viewSpaceJingyingfanwei.setVisibility(View.GONE);
+//            llJingyingfanwei.setVisibility(View.GONE);
+            fit.setVisibility(View.GONE);
+            fitLine.setVisibility(View.GONE);
             stv.setJingYingFanWeiGone();
         }
 
@@ -1012,6 +1085,15 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
                 tvCall.setVisibility(View.VISIBLE);
             }
         }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                webView.loadUrl("javascript:getmap('" + Double.parseDouble(mShopDetail.getData().getLongitude()) + "','" + Double.parseDouble(mShopDetail.getData().getLatitude()) + "')");
+            }
+        },2000);
+
+
 
 
         setMapView();
@@ -1116,4 +1198,35 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView 
 
     }
 
+    @Override
+    public void onResult(final String result) {
+
+        android.util.Log.i("javaScriptTag",result);
+
+//        count1.setText(result);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    JSONArray jsonArray = new JSONArray(result);
+                    count1.setText(jsonArray.getJSONObject(0).get("ZQ").toString());
+                    count2.setText(jsonArray.getJSONObject(1).get("ZQ").toString());
+                    count3.setText(jsonArray.getJSONObject(2).get("ZQ").toString());
+                    count4.setText(jsonArray.getJSONObject(3).get("ZQ").toString());
+                    count5.setText(jsonArray.getJSONObject(4).get("ZQ").toString());
+                    count6.setText(jsonArray.getJSONObject(5).get("ZQ").toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+//                count2.setText(result.get(1));
+//                count3.setText(result.get(2));
+//                count4.setText(result.get(3));
+//                count5.setText(result.get(4));
+//                count6.setText(result.get(5));
+            }
+        });
+
+    }
 }

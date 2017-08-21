@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+    <script type="text/javascript"
+            src="http://api.map.baidu.com/api?v=2.0&ak=i8EQa91eGeanVGsANl7KFknd5SPa1NqU"></script>
+    <title>百度本地搜索</title>
+</head>
+
+<body>
+<div id="l-map" style="display: none;"></div>
+</body>
+<script type="text/javascript">
+		// 百度地图API功能
+		var totalPage = 0;
+		var curPage = 0;
+		var keyword = "";
+		var map = new BMap.Map("l-map"); // 创建Map实例
+		var local;
+		var isCurSearchReturn = false;
+
+		map.centerAndZoom(new BMap.Point(31.24916171, 121.487899486), 12);//上海中心点
+
+		function search(key){
+			app.print("js function search  key : " + key);
+			keyword = key;
+			totalPage = 0;
+			curPage = 0;
+
+            isCurSearchReturn = false;
+
+			local = new BMap.LocalSearch("上海市", {
+				pageCapacity:20,
+				onSearchComplete : function(results) {
+                        var result = {};
+                        var data=[];
+                        var responseKey = "";
+
+                        responseKey = results.keyword;
+                        totalPage = results.getNumPages();
+                        curPage = results.getPageIndex();
+
+                        if(keyword != responseKey){
+                            return;
+                        }
+
+                        if (local.getStatus() == BMAP_STATUS_SUCCESS){
+                            for (var i = 0; i < results.getCurrentNumPois(); i ++){
+                                data[i] = {'name':results.getPoi(i).title, 'address':(results.getPoi(i).address == null ? results.getPoi(i).title : results.getPoi(i).address), 'latitude':results.getPoi(i).point.lat, 'longitude':results.getPoi(i).point.lng};
+                            }
+                        }
+
+                        result = {'result':true, 'keyword':responseKey, 'totalPage':totalPage, 'curPage':curPage, 'data':data};
+
+                        app.result('30');
+
+                        isCurSearchReturn = true;
+                }
+			});
+
+			local.search(key);
+		}
+
+		function more(){
+		    app.print("##############");
+		    if(!isCurSearchReturn){
+		        return;
+		    }
+
+			app.print("js function more totalPage : " + totalPage + "  curPage : " + curPage);
+
+			if(totalPage == 0 || curPage == totalPage - 1){
+				var result = {'result':false, 'keyword':keyword, 'totalPage':totalPage, 'curPage':curPage, 'data':[]};
+				app.result(JSON.stringify(result));
+			}else{
+				local.gotoPage(curPage + 1);
+			}
+		}
+</script>
+</html>

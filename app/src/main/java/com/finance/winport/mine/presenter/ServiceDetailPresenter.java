@@ -18,10 +18,11 @@ public class ServiceDetailPresenter {
         this.mServiceView = mServiceView;
     }
 
-    public void getScheduleDetail(String id) {
+    public void getServiceDetail(String id,String type) {
 
         HashMap<String,String> map = new HashMap<>();
-        map.put("scheduleId",id);
+        map.put("id",id);
+        map.put("type",type);
         ToolsUtil.subscribe(ToolsUtil.createService(MineServices.class).getServiceDetail(map), new NetSubscriber<ServiceDetailResponse>() {
             @Override
             public void response(ServiceDetailResponse response) {
@@ -34,10 +35,11 @@ public class ServiceDetailPresenter {
     }
 
 
-    public void ensureSchedule(String id) {
+    public void ensureSchedule(String id,String type) {
 
         HashMap<String,String> map = new HashMap<>();
-        map.put("scheduleId",id);
+        map.put("id",id);
+        map.put("type",type);
         ToolsUtil.subscribe(ToolsUtil.createService(MineServices.class).ensureSchedule(map), new NetSubscriber<com.finance.winport.base.BaseResponse>() {
             @Override
             public void response(com.finance.winport.base.BaseResponse response) {
@@ -50,10 +52,11 @@ public class ServiceDetailPresenter {
     }
 
 
-    public void revokeSchedule(String id) {
+    public void revokeSchedule(String id,String type) {
 
         HashMap<String,String> map = new HashMap<>();
-        map.put("scheduleId",id);
+        map.put("id",id);
+        map.put("type",type);
         ToolsUtil.subscribe(ToolsUtil.createService(MineServices.class).revokeSchedule(map), new NetSubscriber<com.finance.winport.base.BaseResponse>() {
             @Override
             public void response(com.finance.winport.base.BaseResponse response) {

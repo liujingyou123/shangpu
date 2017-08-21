@@ -69,7 +69,7 @@ public class MyScheduleListActivity extends BaseActivity implements IScheduleLis
     @Override
     public void onResume() {
         super.onResume();
-//        list.clear();
+        list.clear();
         pageNum = 1;
         getData();
     }
@@ -102,9 +102,9 @@ public class MyScheduleListActivity extends BaseActivity implements IScheduleLis
 
 
     private void setAdapter(ScheduleListResponse response) {
-        if(pageNum==1){
-            list.clear();
-        }
+//        if(pageNum==1){
+//            list.clear();
+//        }
         list.addAll(response.getData().getScheduleList());
 
         if (adapter == null) {
