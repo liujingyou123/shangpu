@@ -21,6 +21,7 @@ import com.finance.winport.dialog.CommentDialog;
 import com.finance.winport.dialog.NoticeDelDialog;
 import com.finance.winport.trade.adapter.TradeCircleDetailAdapter;
 import com.finance.winport.trade.model.CommentResponse;
+import com.finance.winport.trade.model.ReplyComment;
 import com.finance.winport.trade.model.TradeDetailResponse;
 import com.finance.winport.trade.presenter.TradeCircleDetailPresener;
 import com.finance.winport.trade.view.ITradeDetailView;
@@ -271,13 +272,15 @@ public class TradeCircleDetailActivity extends BaseActivity implements ITradeDet
     }
 
     @Override
-    public void commentTopic(boolean isSuccess) {
+    public void commentTopic(boolean isSuccess, ReplyComment reply) {
         commentDialog.setContent("");
         commentDialog.dismiss();
         if (isSuccess) {
+            if (reply != null) {
+                adapter.addComment(0, reply.data);
+                rv.scrollToPosition(1);
+            }
             ToastUtil.show(this, "评论成功");
-            pageNumber = 1;
-            mPresenter.getComment(topicId, pageNumber + "");
 
         } else {
             ToastUtil.show(this, "评论失败，请重试");

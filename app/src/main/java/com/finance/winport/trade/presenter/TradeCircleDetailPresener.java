@@ -7,6 +7,7 @@ import com.finance.winport.net.LoadingNetSubscriber;
 import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.trade.api.TradeService;
 import com.finance.winport.trade.model.CommentResponse;
+import com.finance.winport.trade.model.ReplyComment;
 import com.finance.winport.trade.model.TradeDetailResponse;
 import com.finance.winport.trade.view.ITradeDetailView;
 import com.finance.winport.util.ToolsUtil;
@@ -106,11 +107,11 @@ public class TradeCircleDetailPresener {
         }
         hashMap.put("isReply", isReply + "");
         hashMap.put("content", content);
-        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).commentTopic(hashMap), new LoadingNetSubscriber<BaseResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).commentTopic(hashMap), new LoadingNetSubscriber<ReplyComment>() {
             @Override
-            public void response(BaseResponse response) {
+            public void response(ReplyComment response) {
                 if (mITradeDetailView != null) {
-                    mITradeDetailView.commentTopic(true);
+                    mITradeDetailView.commentTopic(true, response);
                 }
             }
 
@@ -118,7 +119,7 @@ public class TradeCircleDetailPresener {
             public void onError(Throwable e) {
                 super.onError(e);
                 if (mITradeDetailView != null) {
-                    mITradeDetailView.commentTopic(false);
+                    mITradeDetailView.commentTopic(false, null);
                 }
             }
         });

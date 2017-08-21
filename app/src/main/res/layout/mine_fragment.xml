@@ -80,8 +80,8 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginRight="30dp"
                     android:layout_toLeftOf="@+id/modify"
-                    android:hint="点击登录帐号"
                     android:singleLine="true"
+                    android:text="点击登录帐号"
                     android:textColor="#999999"
                     android:textColorHint="#999999"
                     android:textSize="13sp" />

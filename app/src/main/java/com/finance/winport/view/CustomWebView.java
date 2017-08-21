@@ -8,9 +8,7 @@ import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import static android.view.KeyEvent.ACTION_UP;
 import static android.view.MotionEvent.ACTION_DOWN;
@@ -47,13 +45,12 @@ public class CustomWebView extends WebView {
         int webViewHeight = this.getHeight();
         int scrollY = this.getScrollY() + webViewHeight;
         int deltaY = t - oldt;
-        if (scrollY + ViewConfiguration.getTouchSlop() >= height) {
-//            Log.d("TAG","bottom");
+        if (scrollY + ViewConfiguration.getTouchSlop() >= height || t == 0) {
+            if (t == 0) deltaY = 0;
             if (onScrollListener != null) {
-                onScrollListener.onScrollBottom();
+                onScrollListener.onScrollEdge(deltaY);
             }
-        }else {
-//            Log.d("TAG","onScroll="+deltaY);
+        } else {
             if (onScrollListener != null) {
                 onScrollListener.onScroll(deltaY);
             }
@@ -67,7 +64,7 @@ public class CustomWebView extends WebView {
                 isScrollChanged = false;
             }
         }
-//        Log.d("TAG", "onScrollChanged:" + "isFling=" + isFling + ",webViewHeight=" + webViewHeight + ",height=" + height + ",scrollY=" + scrollY + ",l=" + l + "," + "t=" + t + "," + "oldl=" + oldl + "," + "oldt=" + oldt + ",");
+//        Log.d("TAG", "onScrollChanged:" + "isFling=" + isFling + ",webViewHeight=" + webViewHeight + ",height=" + height + ",scrollY=" + scrollY + ",l=" + l + "," + "t=" + t + "," + "oldl=" + oldl + "," + "oldt=" + oldt + ",deltaY=" + deltaY);
         if (!isFling) return;
         if (scrollY >= height || t == 0 || (Math.abs(deltaY) <= 1)) {
             if (onScrollListener != null) {
@@ -163,7 +160,7 @@ public class CustomWebView extends WebView {
 
         void onScrollIdle(int scrollY);
 
-        void onScrollBottom();
+        void onScrollEdge(int deltaY);
     }
 
 }

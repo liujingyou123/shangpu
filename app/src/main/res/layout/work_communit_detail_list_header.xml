@@ -157,6 +157,7 @@
             android:background="@color/divider_color" />
 
     </RelativeLayout>
+<!--
     <RelativeLayout
         android:layout_width="match_parent"
         android:background="@drawable/bg_underline"
@@ -186,6 +187,7 @@
             android:src="@mipmap/business_icon_del"
             android:visibility="gone" />
     </RelativeLayout>
+-->
 
 
 </LinearLayout>

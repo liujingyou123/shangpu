@@ -3,9 +3,11 @@ package com.finance.winport.trade;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -154,9 +156,10 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
         web.setOnScrollListener(new CustomWebView.OnScrollListener() {
             @Override
             public void onScroll(int deltaY) {
-                if (deltaY <= 0) {
+//                Log.d("Tag", "onScroll");
+                if (deltaY < 0) {
                     showBottomView();
-                } else {
+                } else if (deltaY > 0) {
                     hideBottomView();
                 }
             }
@@ -166,19 +169,26 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
             }
 
             @Override
-            public void onScrollBottom() {
+            public void onScrollEdge(int deltaY) {
+                Log.d("Tag", "onScrollEdge");
                 showBottomView();
             }
         });
+
     }
+
+    ObjectAnimator showAnim;
+    ObjectAnimator hideAnim;
 
     private void showBottomView() {
         if (bottom.getVisibility() == View.GONE) {
             bottom.setVisibility(View.VISIBLE);
-            ObjectAnimator animator = ObjectAnimator.ofFloat(bottom, "translationY", bottom.getHeight(), 0);
-            animator.setDuration(DURATION);
-            animator.start();
-        } else {
+            showAnim = ObjectAnimator.ofFloat(bottom, "translationY", bottom.getHeight(), 0);
+            if (showAnim != null && showAnim.isRunning()) return;
+            showAnim.setDuration(DURATION);
+            showAnim.start();
+        } else if (hideAnim != null && hideAnim.isRunning()) {
+            hideAnim = null;
             bottom.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -189,15 +199,14 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
 
     }
 
-    boolean outStart;
 
     private void hideBottomView() {
-        if (bottom.getVisibility() == View.VISIBLE && !outStart) {
-            outStart = true;
-            ObjectAnimator animator = ObjectAnimator.ofFloat(bottom, "translationY", 0, bottom.getHeight());
-            animator.setDuration(DURATION);
-            animator.start();
-            animator.addListener(new Animator.AnimatorListener() {
+        if (bottom.getVisibility() == View.VISIBLE) {
+            if (hideAnim != null && hideAnim.isRunning()) return;
+            hideAnim = ObjectAnimator.ofFloat(bottom, "translationY", 0, bottom.getHeight());
+            hideAnim.setDuration(DURATION);
+            hideAnim.start();
+            hideAnim.addListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animation) {
                 }
@@ -205,7 +214,6 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     bottom.setVisibility(View.GONE);
-                    outStart = false;
                 }
 
                 @Override

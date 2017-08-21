@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,6 +36,7 @@ import butterknife.ButterKnife;
 
 public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int TYPE_HEADER = 0;
+    public static final int TYPE_HEADER1 = 3;
     public static final int TYPE_NORMAL = 1;
     public static final int TYPE_EMPTY = 2;
     private TradeDetailResponse.DataBean mData = new TradeDetailResponse.DataBean();
@@ -72,6 +74,20 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         notifyDataSetChanged();
     }
 
+    public void addComment(int index, CommentResponse.DataBean.Comment comment) {
+        if (comment != null) {
+            mComments.add(index, comment);
+        }
+        notifyDataSetChanged();
+    }
+
+    public void addComment(CommentResponse.DataBean.Comment comment) {
+        if (comment != null) {
+            mComments.add(comment);
+        }
+        notifyDataSetChanged();
+    }
+
     public void setComments(List<CommentResponse.DataBean.Comment> comments) {
         mComments.clear();
         if (comments == null || comments.size() == 0) {
@@ -97,6 +113,8 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
     public int getItemViewType(int position) {
         if (position == 0) {
             return TYPE_HEADER;
+        } else if (position == 1) {
+            return TYPE_HEADER1;
         } else if (mComments != null && mComments.size() == 1 && mComments.get(0) == null) {
             return TYPE_EMPTY;
         } else {
@@ -109,12 +127,16 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         if (viewType == TYPE_HEADER) {
             return new HeaderViewHolder(layoutInflater.inflate(R.layout.work_communit_detail_list_header, parent, false));
         }
+        if (viewType == TYPE_HEADER1) {
+            return new HeaderViewHolder1(layoutInflater.inflate(R.layout.comment_header, parent, false));
+        }
         if (viewType == TYPE_EMPTY) {
             return new EmptyViewHolder(layoutInflater.inflate(R.layout.work_communit_detail_list_item_empty, parent, false));
         } else {
             return new ItemViewHolder(layoutInflater.inflate(R.layout.work_communit_detail_list_item, parent, false));
         }
     }
+
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
@@ -147,7 +169,9 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
 
                 if (!TextUtils.isEmpty(mData.getContent())) {
                     viewHolder.content.setVisibility(View.VISIBLE);
-//                viewHolder.content.setHtml(data);
+                    viewHolder.content.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+                    viewHolder.content.getSettings().setDatabaseEnabled(true);
+                    viewHolder.content.getSettings().setAppCacheEnabled(true);
                     viewHolder.content.loadData(mData.getContent(), "text/html; charset=UTF-8", null);
                 } else {
                     viewHolder.content.setVisibility(View.GONE);
@@ -173,6 +197,8 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
                     viewHolder.rlHref.setVisibility(View.GONE);
                 }
             }
+
+        } else if (holder instanceof HeaderViewHolder1) {
 
         } else if (holder instanceof EmptyViewHolder) {
 
@@ -226,9 +252,9 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public int getItemCount() {
-        int ret = 1;
+        int ret = 2;
         if (mComments != null && mComments.size() > 0) {
-            ret = mComments.size() + 1;
+            ret = mComments.size() + 2;
         }
         return ret;
     }
@@ -329,7 +355,7 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         if (pos <= mComments.size()) {
 
         }
-        return mComments.get(pos - 1);
+        return mComments.get(pos - 2);
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -371,15 +397,20 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         RelativeLayout rlHref;
         @BindView(R.id.gl_images)
         GridLayout glImages;
-        @BindView(R.id.imv_del)
-        ImageView imvDel;
         @BindView(R.id.content)
         WebView content;
-        //        HtmlTextView content;
         @BindView(R.id.img_layout)
         LinearLayout imgLayout;
 
-        public HeaderViewHolder(View itemView) {
+        public HeaderViewHolder(final View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    class HeaderViewHolder1 extends RecyclerView.ViewHolder {
+
+        public HeaderViewHolder1(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
@@ -392,4 +423,5 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
             ButterKnife.bind(this, itemView);
         }
     }
+
 }
