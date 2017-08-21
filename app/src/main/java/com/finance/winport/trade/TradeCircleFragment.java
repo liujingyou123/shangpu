@@ -33,7 +33,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import noman.weekcalendar.eventbus.Event;
 
 /**
  * 生意圈
@@ -50,6 +49,8 @@ public class TradeCircleFragment extends BaseFragment {
     Unbinder unbinder;
     @BindView(R.id.imv_edit_m)
     ImageView imvEditM;
+    @BindView(R.id.imv_focus_house_back)
+    ImageView imvFocusHouseBack;
     private List<SlidingTagPagerItem> mTab = new ArrayList<>();
 
     @Nullable
@@ -151,5 +152,10 @@ public class TradeCircleFragment extends BaseFragment {
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
+    }
+
+    @OnClick(R.id.imv_focus_house_back)
+    public void onViewClicked() {
+        handleBack();
     }
 }
