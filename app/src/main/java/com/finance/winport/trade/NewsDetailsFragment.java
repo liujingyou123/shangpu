@@ -113,19 +113,19 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
             date.setText(info.data.dateTime);
             praise.setText(info.data.goodCount + "");
             downPraise.setText(info.data.badCount + "");
-            initContent(info.data.content);
+//            initContent(info.data.content);
         }
 
     }
 
-    private void initContent(String contentStr) {
-        content = Html.fromHtml(contentStr).toString().replaceAll("\\n", "");
-        if (content.length() >= 30) {
-            content = content.substring(0, 30) + "...";
-        } else {
-            content = content + "...";
-        }
-    }
+//    private void initContent(String contentStr) {
+//        content = Html.fromHtml(contentStr).toString().replaceAll("\\n", "");
+//        if (content.length() >= 30) {
+//            content = content.substring(0, 30) + "...";
+//        } else {
+//            content = content + "...";
+//        }
+//    }
 
     @Override
     public void praise(boolean success) {
@@ -170,7 +170,7 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
 
             @Override
             public void onScrollEdge(int deltaY) {
-                Log.d("Tag", "onScrollEdge");
+//                Log.d("Tag", "onScrollEdge");
                 showBottomView();
             }
         });
@@ -183,8 +183,8 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
     private void showBottomView() {
         if (bottom.getVisibility() == View.GONE) {
             bottom.setVisibility(View.VISIBLE);
-            showAnim = ObjectAnimator.ofFloat(bottom, "translationY", bottom.getHeight(), 0);
             if (showAnim != null && showAnim.isRunning()) return;
+            showAnim = ObjectAnimator.ofFloat(bottom, "translationY", bottom.getHeight(), 0);
             showAnim.setDuration(DURATION);
             showAnim.start();
         } else if (hideAnim != null && hideAnim.isRunning()) {
@@ -269,7 +269,7 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
             if (shareDialog == null) {
                 shareDialog = new ShareDialog(context);
             }
-            shareDialog.setDes(content);
+            shareDialog.setDes(info.data.desc);
             shareDialog.setTitle(info.data.title);
             shareDialog.setImage(info.data.image);
             shareDialog.setUrl(H5Util.getIpTradeDetail(info.data.contentId));

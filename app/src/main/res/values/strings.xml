@@ -20,5 +20,6 @@
     <string name="service_contact">如需帮助，请联系您的专属小二%1$s/%2$s，或您也可联系客服中心电话%3$s咨询。</string>
     <string name="business_contact">如需帮助，请联系客服中心电话【%1$s】咨询。</string>
     <string name="schedule_count">点击查看今日所有%1$s条日程安排</string>
+    <string name="my_service"><![CDATA[<html><head>您有 <span style="color:#333333">%1$s</span> 个未完成服务</head></html>]]></string>
 
 </resources>

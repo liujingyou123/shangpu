@@ -118,6 +118,7 @@ public class LoginFragment extends BaseFragment {
 
     private LoadingDialog loading;
     private boolean init_jpush;
+    private boolean verifyCodeClick;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -176,6 +177,27 @@ public class LoginFragment extends BaseFragment {
         });
         phoneView.addTextChangedListener(watcher);
         verifyCodeView.addTextChangedListener(watcher);
+        verifyCodeView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!verifyCodeClick) {
+                    if (s.length() > 0) {
+                        verifyCodeView.setText("");
+                        ToastUtil.show(context, "请点击发送验证码");
+                    }
+                }
+            }
+        });
     }
 
 
@@ -231,6 +253,7 @@ public class LoginFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 if (check(false)) {
+                    verifyCodeClick = true;
                     counting();
                     verifyCodeView.requestFocus();
                     if (requestCodeCount >= CODE_LIMIT_COUNT) {

@@ -16,6 +16,7 @@ public class TradeDetails extends BaseResponse {
         public String contentId;
         public String title;
         public String content;
+        public String desc;
         public String source;
         public List<TradeTag.Tag> tagList;
         public String image;

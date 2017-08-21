@@ -531,9 +531,10 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
 
     private Spanned getMyService(String myService) {
         if (TextUtils.isEmpty(myService)) return null;
-        String num = myService.replaceAll("\\D", "");
-        String spannedNum = "<span style=\"color:#333333\">" + myService.replaceAll("\\D", "") + "</span>";
-        Spanned spannedStr = Html.fromHtml("<html><body><p>" + myService.replace(num, spannedNum) + "</p><body><html>");
+//        String num = myService.replaceAll("\\D", "");
+//        String spannedNum = "<span style=\"color:#333333\">" + myService.replaceAll("\\D", "") + "</span>";
+        String html = getString(R.string.my_service, myService);
+        Spanned spannedStr = Html.fromHtml(html);
         return spannedStr;
     }
 }

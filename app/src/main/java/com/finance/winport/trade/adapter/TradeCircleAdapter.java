@@ -35,6 +35,7 @@ import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.HtmlTextView;
+import com.finance.winport.view.dialog.TradeMorePopup;
 import com.finance.winport.view.roundview.RoundedImageView;
 import com.umeng.analytics.MobclickAgent;
 
@@ -192,14 +193,22 @@ public class TradeCircleAdapter extends BaseAdapter {
 
                     @Override
                     public void onClick(View v) {
-                        NoticeDelDialog dialog = new NoticeDelDialog(mContext);
-                        dialog.setOkClickListener(new NoticeDelDialog.OnPreClickListner() {
+//                        NoticeDelDialog dialog = new NoticeDelDialog(mContext);
+//                        dialog.setOkClickListener(new NoticeDelDialog.OnPreClickListner() {
+//                            @Override
+//                            public void onClick() {
+//                                mPresenter.deleteTopic(mData.get(index).getTopicId() + "");
+//                            }
+//                        });
+//                        dialog.show();
+                        TradeMorePopup deletePopup = new TradeMorePopup(mContext);
+                        deletePopup.setOnDeleteListener(new View.OnClickListener() {
                             @Override
-                            public void onClick() {
+                            public void onClick(View v) {
                                 mPresenter.deleteTopic(mData.get(index).getTopicId() + "");
                             }
                         });
-                        dialog.show();
+                        deletePopup.showAsDropDown(viewHolder.more, UnitUtil.dip2px(mContext, -40), UnitUtil.dip2px(mContext, -10));
                     }
                 });
             } else {
