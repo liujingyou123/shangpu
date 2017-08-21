@@ -119,6 +119,17 @@ public class TradeCircleAdapter extends BaseAdapter {
                 viewHolder.praise.setSelected(false);
             }
             viewHolder.commentCount.setText(trade.getCommentNumber() + "");
+            viewHolder.commentCount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (trade != null) {
+                        Intent intent = new Intent(mContext, TradeCircleDetailActivity.class);
+                        intent.putExtra("topicId", trade.getTopicId() + "")
+                                .putExtra("comment", true);
+                        mContext.startActivity(intent);
+                    }
+                }
+            });
             if (!TextUtils.isEmpty(trade.getContent())) {
                 viewHolder.content.setVisibility(View.VISIBLE);
                 viewHolder.content.setHtml(trade.getContent(), false);

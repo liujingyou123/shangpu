@@ -80,8 +80,8 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
         String sRent = Math.round(item.rent) + "";
         String sFee = Math.round(item.transferFee / 10000) + "";
         boolean hasFee = item.transferFee > 0;
-        //rentStatus 出租状态 0-待出租 1-出租中 2-已出租  3-已下架（撤下）
-        if (item.rentStatus == 3) {
+        // 0 已上架、1 已下架
+        if (item.rentStatus == 1) {
             holder.price.setText(sRent + "元/月");
             if (item.isFace == 1) {// 面议
                 holder.fee.setText("面议");
@@ -93,6 +93,7 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
                 }
             }
             setViewAndChildrenEnabled(convertView, false);
+            convertView.setEnabled(true);
             holder.flMark.setVisibility(View.VISIBLE);
         } else {
             setViewAndChildrenEnabled(convertView, true);
@@ -118,7 +119,7 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
         }
         holder.distance.setText("距您" + (item.distance <= 0.0f ? "0" : item.distance) + "km");
         if (!TextUtils.isEmpty(item.updateTime)) {
-            holder.updateTime.setText(context.getString(R.string.list_appoint_tip_1,item.rowNo));
+            holder.updateTime.setText(context.getString(R.string.list_appoint_tip_1, item.rowNo));
             holder.updateTime.setVisibility(View.VISIBLE);
         } else {
             holder.updateTime.setVisibility(View.INVISIBLE);
@@ -271,7 +272,7 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
         @BindView(R.id.img)
         ImageView img;
         @BindView(R.id.mark)
-        ImageView mark;
+        TextView mark;
         @BindView(R.id.scan)
         TextView scan;
         @BindView(R.id.call)

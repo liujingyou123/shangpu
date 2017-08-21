@@ -7,6 +7,7 @@ import com.finance.winport.net.LoadingNetSubscriber;
 import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.trade.api.TradeService;
 import com.finance.winport.trade.model.CommentResponse;
+import com.finance.winport.trade.model.ReplyComment;
 import com.finance.winport.trade.model.TradeDetailResponse;
 import com.finance.winport.trade.view.ITradeDetailView;
 import com.finance.winport.util.ToolsUtil;
@@ -94,23 +95,23 @@ public class TradeCircleDetailPresener {
      * 评论
      *
      * @param topicId
-     * @param commentId
      * @param content
      */
-    public void commentTopic(String topicId, String commentId, String content) {
+    public void commentTopic(String topicId, String parentId, int isReply, String content) {
         HashMap<String, String> hashMap = new HashMap<>();
         if (!TextUtils.isEmpty(topicId)) {
             hashMap.put("topicId", topicId);
         }
-        if (!TextUtils.isEmpty(commentId)) {
-            hashMap.put("commentId", commentId);
+        if (!TextUtils.isEmpty(parentId)) {
+            hashMap.put("parentId", parentId);
         }
+        hashMap.put("isReply", isReply + "");
         hashMap.put("content", content);
-        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).commentTopic(hashMap), new LoadingNetSubscriber<BaseResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).commentTopic(hashMap), new LoadingNetSubscriber<ReplyComment>() {
             @Override
-            public void response(BaseResponse response) {
+            public void response(ReplyComment response) {
                 if (mITradeDetailView != null) {
-                    mITradeDetailView.commentTopic(true);
+                    mITradeDetailView.commentTopic(true, response);
                 }
             }
 
@@ -118,7 +119,7 @@ public class TradeCircleDetailPresener {
             public void onError(Throwable e) {
                 super.onError(e);
                 if (mITradeDetailView != null) {
-                    mITradeDetailView.commentTopic(false);
+                    mITradeDetailView.commentTopic(false, null);
                 }
             }
         });
@@ -226,9 +227,9 @@ public class TradeCircleDetailPresener {
         });
     }
 
-    public void showCommentDialog(String commentId, String commentator) {
+    public void showCommentDialog(String parentId, String commentator) {
         if (mITradeDetailView != null) {
-            mITradeDetailView.showCommentDialog(commentId, commentator);
+            mITradeDetailView.showCommentDialog(parentId, commentator);
         }
     }
 }

@@ -59,6 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffffff"
+        android:descendantFocusability="blocksDescendants"
         android:paddingTop="15dp">
 
         <TextView
@@ -156,6 +157,7 @@
             android:background="@color/divider_color" />
 
     </RelativeLayout>
+<!--
     <RelativeLayout
         android:layout_width="match_parent"
         android:background="@drawable/bg_underline"
@@ -171,8 +173,8 @@
             android:gravity="center_vertical"
             android:drawableLeft="@drawable/vertical_line"
             android:drawablePadding="10dp"
-            android:textColor="#FF999999"
-            android:textSize="12sp" />
+            android:textColor="#333333"
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/imv_del"
@@ -185,6 +187,7 @@
             android:src="@mipmap/business_icon_del"
             android:visibility="gone" />
     </RelativeLayout>
+-->
 
 
 </LinearLayout>

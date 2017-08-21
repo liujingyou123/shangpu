@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,6 +36,7 @@ import butterknife.ButterKnife;
 
 public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int TYPE_HEADER = 0;
+    public static final int TYPE_HEADER1 = 3;
     public static final int TYPE_NORMAL = 1;
     public static final int TYPE_EMPTY = 2;
     private TradeDetailResponse.DataBean mData = new TradeDetailResponse.DataBean();
@@ -44,53 +46,6 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
     private Context mContext;
     private TradeCircleDetailPresener mPresenter;
     private String topicId;
-//    String data = "<body>\n" +
-//            "  \n" +
-//            "  <div id =\"flash_container\" class=\"noPrint\">    \n" +
-//            "  </div>\n" +
-//            "  \n" +
-//            "  <div class=\"container-fluid\">  \n" +
-//            "      \n" +
-//            "<div class=\"row-fluid article_row_fluid\">\n" +
-//            "    <div class=\"span8 contant article_detail_bg\">\n" +
-//            "        <h1>阿里要在日本再造一个支付宝</h1>\n" +
-//            "        <div class=\"article_meta\">\n" +
-//            "            <div style=\"margin-bottom: 5px;\">\n" +
-//            "            <span class=\"timestamp\">时间&nbsp;2017-08-16 12:48:36\n" +
-//            "            </span>\n" +
-//            "            <span class=\"from\">\n" +
-//            "                <i class=\"icon-globe\"></i>\n" +
-//            "                    <a class=\"cut cut28 from\" href=\"/sites/MJNVfm\" target=\"_blank\">36氪\n" +
-//            "                    </a>\n" +
-//            "            </span>\n" +
-//            "            </div>\n" +
-//            "            <div class=\"source\">\n" +
-//            "                <i style=\"float:left;\">原文</i>&nbsp; \n" +
-//            "                <a class=\"cut cut70\" href=\"http://36kr.com/p/5088324.html?utm_source=tuicool&amp;utm_medium=referral\" style=\"display:inline-block;\">http://36kr.com/p/5088324.html</a>\n" +
-//            "            </div>\n" +
-//            "            <div>\n" +
-//            "                <span>主题</span>\n" +
-//            "                <a href=\"/topics/10100004\" target='_blank' >\n" +
-//            "                    <span class=\"new-label\">支付宝</span>\n" +
-//            "                </a>\n" +
-//            "            </div>\n" +
-//            "        </div>\n" +
-//            "        <div class=\"article_body\" id=\"nei\">\n" +
-//            "            <p> <img src=\"http://img0.tuicool.com/AVNbi2V.jpg!web\" class=\"alignCenter\" /> </p> \n" +
-//            "<p> 本文 <a href=\"http://www.yicai.com/news/5331457.html\" target=\"_blank\" rel=\"nofollow,noindex\">来自第一财经</a> ，36氪经授权转载。 </p> \n" +
-//            "<p>对于访日的中国游客来说，在日本店铺使用支付宝进行结算并不算是一件新鲜事，但是阿里显然不满足于此，它希望日本当地的住民也能享受到手机支付的便捷。</p> \n" +
-//            "<p>据日经新闻报道，阿里巴巴集团将于2018年春季在日本推出基于智能手机的电子结算服务。利用智能手机应用程序中存放的现金即可购物。将面向日本人提供与中国“支付宝”同样构造的服务，力争3年内赢得1千万用户。</p> \n" +
-//            "<p>新服务将由阿里巴巴旗下的金融公司蚂蚁金服日本分公司提供。利用店铺生成、或消费者的智能手机应用程序显示的二维码进行结算，二维码写入了支付账户和转账账户等的信息。</p> \n" +
-//            "<p>支付宝目前可以在罗森、电器店和百货商场等3万多家日本国内店铺使用，预计到2017年底，支付宝加盟店铺将增加至约5万家。 阿里巴巴在日本推出的新手机支付服务将以这些店铺为中心，充分利用这个因访日游客增加而扩张起来的支付宝加盟网络。除了结算以外，还将逐步增加生活相关的功能，列如实现电影票的预订和购买等。</p> \n" +
-//            "<p>由于支付宝只服务于拥有中国银行账户的用户，因此新的手机结算服务将使用新品牌名称。服务推出后，日本用户将也能在中国境内利用此结算服务。日本每年访问中国的人数大约为250万人次，出差和旅行时的便利性将随之提高。</p> \n" +
-//            "<p>对于以现金结算为主流的日本市场来说，手机支付市场的增长空间十分巨大。据野村综合研究所的调查，日本国内2017年电子货币的结算市场仅为5.6万亿日元，还有很大的增长空间。</p>\n" +
-//            "        </div>\n" +
-//            "        <div class=\"article_social\">\n" +
-//            "         <div class=\"article_like\">\n" +
-//            "    <div class=\"circle circle-like\" id=\"my_zan\" data_id=\"6BNZV3n\">  </div>\n" +
-//            "\n" +
-//            "</div>\n" +
-//            "</body>";
 
     public TradeCircleDetailAdapter(Context context, String topicId, TradeCircleDetailPresener presenter) {
         this.mContext = context;
@@ -119,6 +74,20 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         notifyDataSetChanged();
     }
 
+    public void addComment(int index, CommentResponse.DataBean.Comment comment) {
+        if (comment != null) {
+            mComments.add(index, comment);
+        }
+        notifyDataSetChanged();
+    }
+
+    public void addComment(CommentResponse.DataBean.Comment comment) {
+        if (comment != null) {
+            mComments.add(comment);
+        }
+        notifyDataSetChanged();
+    }
+
     public void setComments(List<CommentResponse.DataBean.Comment> comments) {
         mComments.clear();
         if (comments == null || comments.size() == 0) {
@@ -144,6 +113,8 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
     public int getItemViewType(int position) {
         if (position == 0) {
             return TYPE_HEADER;
+        } else if (position == 1) {
+            return TYPE_HEADER1;
         } else if (mComments != null && mComments.size() == 1 && mComments.get(0) == null) {
             return TYPE_EMPTY;
         } else {
@@ -156,12 +127,16 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         if (viewType == TYPE_HEADER) {
             return new HeaderViewHolder(layoutInflater.inflate(R.layout.work_communit_detail_list_header, parent, false));
         }
+        if (viewType == TYPE_HEADER1) {
+            return new HeaderViewHolder1(layoutInflater.inflate(R.layout.comment_header, parent, false));
+        }
         if (viewType == TYPE_EMPTY) {
             return new EmptyViewHolder(layoutInflater.inflate(R.layout.work_communit_detail_list_item_empty, parent, false));
         } else {
             return new ItemViewHolder(layoutInflater.inflate(R.layout.work_communit_detail_list_item, parent, false));
         }
     }
+
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
@@ -194,7 +169,9 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
 
                 if (!TextUtils.isEmpty(mData.getContent())) {
                     viewHolder.content.setVisibility(View.VISIBLE);
-//                viewHolder.content.setHtml(data);
+                    viewHolder.content.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+                    viewHolder.content.getSettings().setDatabaseEnabled(true);
+                    viewHolder.content.getSettings().setAppCacheEnabled(true);
                     viewHolder.content.loadData(mData.getContent(), "text/html; charset=UTF-8", null);
                 } else {
                     viewHolder.content.setVisibility(View.GONE);
@@ -220,6 +197,8 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
                     viewHolder.rlHref.setVisibility(View.GONE);
                 }
             }
+
+        } else if (holder instanceof HeaderViewHolder1) {
 
         } else if (holder instanceof EmptyViewHolder) {
 
@@ -273,9 +252,9 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public int getItemCount() {
-        int ret = 1;
+        int ret = 2;
         if (mComments != null && mComments.size() > 0) {
-            ret = mComments.size() + 1;
+            ret = mComments.size() + 2;
         }
         return ret;
     }
@@ -376,7 +355,7 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         if (pos <= mComments.size()) {
 
         }
-        return mComments.get(pos - 1);
+        return mComments.get(pos - 2);
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -418,15 +397,20 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         RelativeLayout rlHref;
         @BindView(R.id.gl_images)
         GridLayout glImages;
-        @BindView(R.id.imv_del)
-        ImageView imvDel;
         @BindView(R.id.content)
         WebView content;
-        //        HtmlTextView content;
         @BindView(R.id.img_layout)
         LinearLayout imgLayout;
 
-        public HeaderViewHolder(View itemView) {
+        public HeaderViewHolder(final View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    class HeaderViewHolder1 extends RecyclerView.ViewHolder {
+
+        public HeaderViewHolder1(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
@@ -439,4 +423,5 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
             ButterKnife.bind(this, itemView);
         }
     }
+
 }

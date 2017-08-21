@@ -87,7 +87,8 @@
         <com.finance.winport.view.CustomWebView
             android:id="@+id/web"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
 
         <LinearLayout
             android:id="@+id/bottom"
@@ -96,7 +97,8 @@
             android:layout_alignParentBottom="true"
             android:layout_gravity="bottom"
             android:background="#ffffff"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="visible">
 
             <ImageView
                 android:id="@+id/share"

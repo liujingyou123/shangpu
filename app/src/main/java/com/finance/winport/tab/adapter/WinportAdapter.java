@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,10 +24,12 @@ import com.finance.winport.image.Batman;
 import com.finance.winport.image.BatmanCallBack;
 import com.finance.winport.tab.TypeList;
 import com.finance.winport.tab.WinportActivity;
+import com.finance.winport.tab.model.Lunar;
 import com.finance.winport.tab.model.NameValue;
 import com.finance.winport.tab.model.WinportList;
 import com.finance.winport.tab.net.NetworkCallback;
 import com.finance.winport.tab.net.PersonManager;
+import com.finance.winport.util.ToastUtil;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
 import com.finance.winport.view.roundview.RoundedImageView;
@@ -60,20 +63,20 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         }
         final WinportList.DataBeanX.DataBean item = baseData.get(position);
         holder.name.setText(item.clerkName);
-        holder.sign.setText(item.signature);
         setHeadImage(item.headPortrait, holder.img);
         holder.address.setText(item.address + item.rentTypeName);
         holder.scanCount.setText("周浏览" + item.scanCount + "人/次");
         holder.area.setText(UnitUtil.formatArea(item.area) + "㎡");
         holder.releaseTime.setText(item.publishTime);
-        //rentStatus 出租状态 0-待出租 1-出租中 2-已出租  3-已下架（撤下）
-        if (item.rentStatus == 3) {
+        //rentStatus 出租状态 0-待出租 1-出租中 2-暂不出租 3-已出租
+        if (item.rentStatus == 2 || item.rentStatus == 3) {
             holder.historyCount.setText("历史看铺申请" + item.visitCount + "组");
             setViewAndChildrenEnabled(convertView, false);
             holder.llOnSale.setVisibility(View.GONE);
             holder.release.setEnabled(true);
             holder.release.setVisibility(View.VISIBLE);
             holder.flMark.setVisibility(View.VISIBLE);
+            holder.mark.setText(item.rentStatus == 2 ? "该铺暂不出租" : "该铺已出租");
         } else {
             holder.flMark.setVisibility(View.GONE);
             holder.llOnSale.setVisibility(View.VISIBLE);
@@ -95,11 +98,7 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
             @Override
             public void onClick(View v) {
                 MobclickAgent.onEvent(context, "myshop_unpublish");
-//                Intent dropOff = new Intent(context, WinportActivity.class);
-//                dropOff.putExtra("type", TypeList.OFF_SHELF_SUCCESS);
-//                dropOff.putExtra("shopId", item.id);
-//                context.startActivity(dropOff);
-                showOffShelfAlert(item.id);
+                showOffShelfAlert(item);
 
             }
         });
@@ -149,7 +148,7 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
 
     String id = "";
 
-    private void showOffShelfAlert(final String shopId) {
+    private void showOffShelfAlert(final WinportList.DataBeanX.DataBean item) {
         OffShelfDialog off = new OffShelfDialog(context);
         off.setOnItemClickListener(new OffShelfDialog.OnItemClickListener() {
             @Override
@@ -159,7 +158,7 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         }).setOnOkClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                offShelfSHop(shopId, id);
+                offShelfSHop(item, id);
             }
         }).show();
     }
@@ -167,19 +166,18 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
     LoadingDialog loading = new LoadingDialog(context);
 
     //下架商铺
-    private void offShelfSHop(String shopId, String type) {
+    private void offShelfSHop(final WinportList.DataBeanX.DataBean item, final String type) {
         loading.show();
         HashMap<String, Object> params = new HashMap<>();
-        params.put("shopId", shopId);
+        params.put("shopId", item.id);
         params.put("type", type);
         PersonManager.getInstance().offShelfSHop(params, new NetworkCallback<BaseResponse>() {
             @Override
             public void success(BaseResponse response) {
+                item.rentStatus = TextUtils.equals(type, "1") ? 3 : 2;
+                notifyDataSetChanged();
                 loading.dismiss();
-                Intent dropOff = new Intent(context, WinportActivity.class);
-                dropOff.putExtra("type", TypeList.OFF_SHELF_SUCCESS);
-                context.startActivity(dropOff);
-//                pushFragment(new OffShelfResultFragment());
+                ToastUtil.show(context, "旺铺已撤下");
             }
 
             @Override
@@ -228,6 +226,8 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         TextView release;
         @BindView(R.id.ll_onSale)
         View llOnSale;
+        @BindView(R.id.mark)
+        TextView mark;
         @BindView(R.id.fl_mark)
         View flMark;
 

@@ -5,6 +5,7 @@ import com.finance.winport.trade.model.CommentNumResponse;
 import com.finance.winport.trade.model.CommentResponse;
 import com.finance.winport.trade.model.MyTopicResponse;
 import com.finance.winport.trade.model.PublicTopic;
+import com.finance.winport.trade.model.ReplyComment;
 import com.finance.winport.trade.model.TradeCircleResponse;
 import com.finance.winport.trade.model.TradeDetailResponse;
 import com.finance.winport.trade.model.TradeDetails;
@@ -74,7 +75,7 @@ public interface TradeService {
 
     //发布评论
     @POST("customerapp/api/topic/publishComment")
-    Observable<BaseResponse> commentTopic(@Body HashMap params);
+    Observable<ReplyComment> commentTopic(@Body HashMap params);
 
     //删除评论
     @POST("customerapp/api/topic/deleteComment")
