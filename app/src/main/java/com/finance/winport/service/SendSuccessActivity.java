@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.finance.winport.MainActivity;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
+import com.finance.winport.mine.MyServiceDetailActivity;
+import com.finance.winport.mine.MyServiceListFragment;
 import com.finance.winport.mine.ScheduleDetailActivity;
 
 import butterknife.BindView;
@@ -58,7 +60,7 @@ public class SendSuccessActivity extends BaseActivity {
             btnDone.setText("回到服务");
         }
 
-        if(type==2){
+        if(type==2||type==3){
             tvFocusHouse.setText("预约成功");
         }else {
             tvFocusHouse.setText("发布成功");
@@ -84,8 +86,21 @@ public class SendSuccessActivity extends BaseActivity {
                     finish();
                 } else {
 
-                    Intent intent = new Intent(SendSuccessActivity.this, ScheduleDetailActivity.class);
-                    intent.putExtra("scheduleId", scheduleId);
+//                    Intent intent = new Intent(SendSuccessActivity.this, ScheduleDetailActivity.class);
+//                    intent.putExtra("scheduleId", scheduleId);
+//                    startActivity(intent);
+
+                    int serviceType = 0;
+                    if(type==1){
+                        serviceType = 0;
+                    }else if(type==2){
+                        serviceType = 2;
+                    }else if(type==3){
+                        serviceType = 1;
+                    }
+                    Intent intent = new Intent(SendSuccessActivity.this, MyServiceDetailActivity.class);
+                    intent.putExtra("id",Integer.parseInt(scheduleId));
+                    intent.putExtra("type",serviceType);
                     startActivity(intent);
                 }
                 break;

@@ -388,6 +388,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/count1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="240"
@@ -410,6 +411,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/count2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="240"
@@ -432,6 +434,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/count3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="240"
@@ -454,6 +457,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/count4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="240"
@@ -476,6 +480,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/count5"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="240"
@@ -498,6 +503,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/count6"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="240"
@@ -745,6 +751,7 @@
                     android:text="适合经营" />
 
                 <View
+                    android:id="@+id/fit_line"
                     style="@style/view_line"
                     android:layout_marginLeft="15dp" />
 
@@ -1052,5 +1059,14 @@
             android:layout_marginBottom="65dp"
             android:text="返回上一页" />
     </RelativeLayout>
+
+
+    <WebView
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:id="@+id/webView"
+        android:visibility="invisible">
+
+    </WebView>
 
 </RelativeLayout>

@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.finance.winport.R;
@@ -55,15 +56,19 @@ public class MyServiceDetailActivity extends BaseActivity implements IServiceDet
     TextView serviceType;
     @BindView(R.id.apply_time)
     TextView applyTime;
-    @BindView(R.id.order_time)
-    TextView orderTime;
+    @BindView(R.id.reason)
+    TextView reason;
     @BindView(R.id.contact_name)
     TextView contactName;
+    @BindView(R.id.reason_line)
+    View reasonLine;
+    @BindView(R.id.reason_area)
+    RelativeLayout reasonArea;
     private NoticeDialog mNoticeDialog;//拨打电话弹框
     private NoticeDialog nNoticeDialog;//撤销服务弹框
     private NoticeDialog bNoticeDialog;//确认服务弹框
     private ServiceDetailPresenter mPresenter;
-    private String scheduleId;
+    private String id, type;
     private String clerkPhone;
 
     @Override
@@ -77,14 +82,15 @@ public class MyServiceDetailActivity extends BaseActivity implements IServiceDet
 
     public void init() {
 
-        scheduleId = getIntent().getStringExtra("scheduleId");
+        id = getIntent().getIntExtra("id", -1) + "";
+        type = getIntent().getIntExtra("type", -1) + "";
 
         if (mPresenter == null) {
             mPresenter = new ServiceDetailPresenter(this);
         }
-        if (!TextUtils.isEmpty(scheduleId)) {
+        if (!TextUtils.isEmpty(id)) {
 
-            mPresenter.getScheduleDetail(scheduleId);
+            mPresenter.getServiceDetail(id, type);
         }
     }
 
@@ -106,7 +112,7 @@ public class MyServiceDetailActivity extends BaseActivity implements IServiceDet
                             if (mPresenter == null) {
                                 mPresenter = new ServiceDetailPresenter(MyServiceDetailActivity.this);
                             }
-                            mPresenter.revokeSchedule(scheduleId);
+                            mPresenter.revokeSchedule(id, type);
                         }
                     });
                 }
@@ -153,7 +159,7 @@ public class MyServiceDetailActivity extends BaseActivity implements IServiceDet
                             if (mPresenter == null) {
                                 mPresenter = new ServiceDetailPresenter(MyServiceDetailActivity.this);
                             }
-                            mPresenter.ensureSchedule(scheduleId);
+                            mPresenter.ensureSchedule(id, type);
                         }
                     });
                 }
@@ -168,45 +174,67 @@ public class MyServiceDetailActivity extends BaseActivity implements IServiceDet
     public void showScheduleDetail(ServiceDetailResponse response) {
 
 
-        if (response.getData().getStatus() == 0 || response.getData().getStatus() == 3) {
+        if (response.getData().getShopStatus() == 0) {
 
             status.setText("服务受理中");
-        } else if (response.getData().getStatus() == 1) {
+            reasonLine.setVisibility(View.GONE);
+            reasonArea.setVisibility(View.GONE);
+        } else if (response.getData().getShopStatus() == 1) {
 
-            status.setText("已完成");
+            status.setText("旺铺已发布");
             cancel.setEnabled(false);
             cancel.setTextColor(Color.parseColor("#cccccc"));
             btnDone.setEnabled(false);
-        } else if (response.getData().getStatus() == 2) {
+            reasonLine.setVisibility(View.GONE);
+            reasonArea.setVisibility(View.GONE);
+        } else if (response.getData().getShopStatus() == 2) {
 
-            status.setText("已撤销");
+            status.setText("服务已完成");
             cancel.setEnabled(false);
             cancel.setTextColor(Color.parseColor("#cccccc"));
             btnDone.setEnabled(false);
+            reasonLine.setVisibility(View.GONE);
+            reasonArea.setVisibility(View.GONE);
+        } else if (response.getData().getShopStatus() == 3) {
+
+            status.setText("服务已撤销");
+            cancel.setEnabled(false);
+            cancel.setTextColor(Color.parseColor("#cccccc"));
+            btnDone.setEnabled(false);
+            reasonLine.setVisibility(View.GONE);
+            reasonArea.setVisibility(View.GONE);
+        } else if (response.getData().getShopStatus() == 4) {
+
+            status.setText("店铺被废弃");
+            cancel.setEnabled(false);
+            cancel.setTextColor(Color.parseColor("#cccccc"));
+            btnDone.setEnabled(false);
+            reasonLine.setVisibility(View.VISIBLE);
+            reasonArea.setVisibility(View.VISIBLE);
         }
 
-        if (response.getData().getServiceType() == 0) {
+        if (response.getData().getType() == 0) {
 
             serviceType.setText("旺铺寻租");
             btnDone.setVisibility(View.GONE);
-        } else if (response.getData().getServiceType() == 1) {
+        } else if (response.getData().getType() == 1) {
 
             serviceType.setText("预约看铺");
             btnDone.setVisibility(View.VISIBLE);
-        } else if (response.getData().getServiceType() == 2) {
+        } else if (response.getData().getType() == 2) {
 
             serviceType.setText("签约租铺");
             btnDone.setVisibility(View.VISIBLE);
         }
 
-        applyTime.setText(response.getData().getApplyTime());
+        applyTime.setText(response.getData().getCreateTime());
         address.setText(response.getData().getAddress());
         phone.setText(response.getData().getContactPhone());
-        if(!TextUtils.isEmpty(response.getData().getOrderTime())){
-
-            orderTime.setText(response.getData().getOrderTime().substring(0,response.getData().getOrderTime().length()-3));
-        }
-        contactName.setText(response.getData().getContactName());
+//        if(!TextUtils.isEmpty(response.getData().getOrderTime())){
+//
+//            orderTime.setText(response.getData().getOrderTime().substring(0,response.getData().getOrderTime().length()-3));
+//        }
+        contactName.setText(response.getData().getContactPerson());
 
         clerkPhone = response.getData().getClerkPhone();
 
@@ -219,6 +247,8 @@ public class MyServiceDetailActivity extends BaseActivity implements IServiceDet
             name.setText("本次服务由小二 " + response.getData().getClerkName() + " 为您服务");
         }
 
+        reason.setText(response.getData().getDiscardReason());
+
     }
 
     @Override
@@ -226,7 +256,7 @@ public class MyServiceDetailActivity extends BaseActivity implements IServiceDet
         if (mPresenter == null) {
             mPresenter = new ServiceDetailPresenter(this);
         }
-        mPresenter.getScheduleDetail(scheduleId);
+        mPresenter.getServiceDetail(id, type);
     }
 
     @Override
@@ -235,7 +265,7 @@ public class MyServiceDetailActivity extends BaseActivity implements IServiceDet
         if (mPresenter == null) {
             mPresenter = new ServiceDetailPresenter(this);
         }
-        mPresenter.getScheduleDetail(scheduleId);
+        mPresenter.getServiceDetail(id, type);
     }
 
     @Override

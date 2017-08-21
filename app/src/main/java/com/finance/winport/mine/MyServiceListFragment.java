@@ -77,13 +77,15 @@ public class MyServiceListFragment extends Fragment implements IMyServiceListVie
         unbinder = ButterKnife.bind(this, view);
         init();
 
-        getData();
+
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        pageNumber=1;
+        getData();
         XLog.e("TradeCircleList onResume");
     }
 
@@ -122,7 +124,8 @@ public class MyServiceListFragment extends Fragment implements IMyServiceListVie
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Intent intent = new Intent(MyServiceListFragment.this.getContext(),MyServiceDetailActivity.class);
-                intent.putExtra("scheduleId","");
+                intent.putExtra("id",list.get(position).getId());
+                intent.putExtra("type",list.get(position).getType());
                 startActivity(intent);
             }
         });
@@ -138,7 +141,7 @@ public class MyServiceListFragment extends Fragment implements IMyServiceListVie
 
 
         if (lsCircles.getAdapter() == null) {
-            lsCircles.setAdapter(new MyServiceListAdapter(this.getContext(), response));
+            lsCircles.setAdapter(new MyServiceListAdapter(this.getContext(), list));
         } else {
             ((BaseAdapter) lsCircles.getAdapter()).notifyDataSetChanged();
         }

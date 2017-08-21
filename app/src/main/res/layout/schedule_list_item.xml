@@ -61,6 +61,8 @@
             android:layout_height="40dp"
             android:layout_marginLeft="15dp"
             android:text="徐汇区徐虹北路11号1-1室"
+            android:drawableLeft="@mipmap/icon_map_schedule"
+            android:drawablePadding="10dp"
             android:gravity="center_vertical"
             android:textColor="#999999"
             android:textSize="14sp" />
@@ -78,6 +80,8 @@
             android:layout_height="40dp"
             android:layout_marginLeft="15dp"
             android:text="2017.04.05"
+            android:drawableLeft="@mipmap/icon_time_schedule"
+            android:drawablePadding="10dp"
             android:textColor="#999999"
             android:textSize="14sp"
             android:gravity="center_vertical"/>

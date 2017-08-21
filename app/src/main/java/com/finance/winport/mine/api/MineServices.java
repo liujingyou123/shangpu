@@ -38,11 +38,11 @@ public interface MineServices {
     Observable<ScheduleDetailResponse> getScheduleDetail(@Body HashMap map);
 
     //日程确定服务
-    @POST("customerapp/api/user/schedule/ensure")
+    @POST("customerapp/api/customer/confirmService")
     Observable<com.finance.winport.base.BaseResponse> ensureSchedule(@Body HashMap map);
 
-    //日程撤销
-    @POST("customerapp/api/user/schedule/revoke")
+    //服务撤销
+    @POST("customerapp/api/customer/revokedService")
     Observable<com.finance.winport.base.BaseResponse> revokeSchedule(@Body HashMap map);
 
     //商铺关注设置
@@ -58,7 +58,7 @@ public interface MineServices {
     Observable<MyServiceListResponse> getServiceList(@Body HashMap map);
 
     //服务详情
-    @POST("customerapp/api/user/schedule/detail")
+    @POST("customerapp/api/customer/queryServiceDetail")
     Observable<ServiceDetailResponse> getServiceDetail(@Body HashMap map);
 
 }

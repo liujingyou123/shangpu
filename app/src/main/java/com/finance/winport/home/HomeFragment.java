@@ -3,6 +3,7 @@ package com.finance.winport.home;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -137,7 +138,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 //            mRequest.queryType = 1;
         }
         mPresenter.getShopCount();
-        mPresenter.getBanner();
+        mPresenter.getBanner("0","3");
         mPresenter.getFoundShop();
 
         try {
@@ -372,7 +373,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 //                        intent.putExtra("shopId", shop.getId() + "");
 //                        startActivity(intent);
 
-                        ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view, 0, 0, view.getWidth(), view.getHeight());
+                        ActivityOptionsCompat compat = ActivityOptionsCompat.makeThumbnailScaleUpAnimation(view, BitmapFactory.decodeResource(getActivity().getResources(),R.mipmap.launcher_bg), view.getWidth(), view.getHeight());
                         Intent intent = new Intent(HomeFragment.this.getContext(), ShopDetailActivity.class);
                         intent.putExtra("shopId", shop.getId() + "");
                         ActivityCompat.startActivity(HomeFragment.this.getContext(), intent, compat.toBundle());
@@ -403,7 +404,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                 mPresenter.getShopList(mRequest);
 
                 mPresenter.getShopCount();
-                mPresenter.getBanner();
+                mPresenter.getBanner("0","3");
                 mPresenter.getFoundShop();
             }
         });

@@ -166,7 +166,7 @@ public class JPushReceiver extends BroadcastReceiver {
         ExtraReceive extraReceive = processBundleExtra(bundle);
         if (extraReceive != null) {
             if ("2".equals(extraReceive.getCatalogType())) { //生意圈
-                if ("0".equals(extraReceive.getBizType())) { //评论
+                if ("0".equals(extraReceive.getBizType())||"3".equals(extraReceive.getBizType())) { //评论
                     MobclickAgent.onEvent(context, "push_circle_post");
                     intent = new Intent(context, TradeCircleDetailActivity.class);
                     if (!TextUtils.isEmpty(from)) {
@@ -194,10 +194,12 @@ public class JPushReceiver extends BroadcastReceiver {
                 if ("3".equals(extraReceive.getBizType())) { //我的日称
                     MobclickAgent.onEvent(context, "push_service_mydate");
                     intent = new Intent(context, MyScheduleListActivity.class);
-                } else if ("4".equals(extraReceive.getBizType())) {  //我发布的旺铺列表
-                    MobclickAgent.onEvent(context, "push_service_mydate");
-                    intent = new Intent(context, WinportActivity.class).putExtra("type", TypeList.RELEASE);
-                } else {
+                }
+//                else if ("4".equals(extraReceive.getBizType())) {  //我发布的旺铺列表
+//                    MobclickAgent.onEvent(context, "push_service_mydate");
+//                    intent = new Intent(context, WinportActivity.class).putExtra("type", TypeList.RELEASE);
+//                }
+                else {
                     MobclickAgent.onEvent(context, "push_service_date");
                     intent = new Intent(context, ScheduleDetailActivity.class);
                     intent.putExtra("scheduleId", extraReceive.getBizId());
@@ -208,7 +210,7 @@ public class JPushReceiver extends BroadcastReceiver {
 
         try {
             if (intent != null) {
-                PendingIntent pendingIntent = PendingIntent.getActivity(context, 100, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
                 Bitmap LargeBitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
                 Notification.Builder myBuilder = new Notification.Builder(context);
                 myBuilder.setContentTitle("旺铺")

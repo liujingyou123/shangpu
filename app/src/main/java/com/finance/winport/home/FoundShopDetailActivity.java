@@ -61,11 +61,14 @@ public class FoundShopDetailActivity extends BaseActivity implements IFoundShopD
     private ImageView img;
     private TextView title,time;
     private WebView contentView;
+    private RelativeLayout commend;
 
 
     private List<FoundShopDetailResponse.DataBean.ShopListBean> list = new ArrayList<>();
 
     private FoundShopDetailPresenter mPresenter;
+    private ShareDialog shareDialog;
+    private FoundShopDetailResponse mShopDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +106,7 @@ public class FoundShopDetailActivity extends BaseActivity implements IFoundShopD
         title = (TextView) header.findViewById(R.id.title);
         time = (TextView) header.findViewById(R.id.time);
         contentView = (WebView) header.findViewById(R.id.content);
+        commend = (RelativeLayout) header.findViewById(R.id.commend);
         WebSettings settings = contentView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
@@ -205,18 +209,17 @@ public class FoundShopDetailActivity extends BaseActivity implements IFoundShopD
                 finish();
                 break;
             case R.id.share:
-//                MobclickAgent.onEvent(context, "shop_share");
-//                if (mShopDetail == null) {
-//                    return;
-//                }
-//                if (shareDialog == null) {
-//                    shareDialog = new ShareDialog(this);
-//                }
+                if (mShopDetail == null) {
+                    return;
+                }
+                if (shareDialog == null) {
+                    shareDialog = new ShareDialog(this);
+                }
 //                shareDialog.setDes(mShopDetail.getData().getAddress() + "(" + UnitUtil.formatSNum(mShopDetail.getData().getArea()) + "㎡)旺铺急租，租金仅" + rentPrice);
-//                shareDialog.setTitle(mShopDetail.getData().getAddress());
-//                shareDialog.setImage(coverImg);
-//                shareDialog.setUrl(H5Util.getIpShopDetail(mShopDetail.getData().getId() + ""));
-//                shareDialog.show();
+                shareDialog.setTitle(mShopDetail.getData().getTitle());
+                shareDialog.setImage(mShopDetail.getData().getImage());
+                shareDialog.setUrl(H5Util.getFoundShopDetail(mShopDetail.getData().getContentId()+""));
+                shareDialog.show();
                 break;
         }
     }
@@ -224,6 +227,7 @@ public class FoundShopDetailActivity extends BaseActivity implements IFoundShopD
     @Override
     public void showFoundShopDetail(FoundShopDetailResponse response) {
 
+        mShopDetail =response;
         title.setText(response.getData().getTitle());
         time.setText(response.getData().getDateTime());
         if(!TextUtils.isEmpty(response.getData().getContent())){
@@ -232,7 +236,12 @@ public class FoundShopDetailActivity extends BaseActivity implements IFoundShopD
             contentView.loadDataWithBaseURL(null,response.getData().getContent(),"text/html","utf-8",null);
         }
         Batman.getInstance().fromNet(response.getData().getImage(),img);
-        setAdapter(response.getData().getShopList());
+        if(response.getData().getShopList()==null||response.getData().getShopList().size()==0){
+            commend.setVisibility(View.GONE);
+        }else{
+            commend.setVisibility(View.VISIBLE);
+            setAdapter(response.getData().getShopList());
+        }
     }
 
     @Override

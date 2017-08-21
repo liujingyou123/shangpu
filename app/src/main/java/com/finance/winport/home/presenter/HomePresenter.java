@@ -90,10 +90,10 @@ public class HomePresenter {
     /**
      * 广告banner
      */
-    public void getBanner() {
+    public void getBanner(String position,String type) {
         HashMap<String ,String> hashMap = new HashMap<>();
-        hashMap.put("position","0");
-        hashMap.put("type","3");
+        hashMap.put("position",position);
+        hashMap.put("type",type);
         ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).getBanners(hashMap), new NetSubscriber<BannerResponse>() {
             @Override
             public void response(BannerResponse response) {

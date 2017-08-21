@@ -10,8 +10,10 @@ public class ServiceDetailResponse extends BaseResponse {
 
 
     /**
+     * errMsg : null
      * errCode : 0
-     * data : {"scheduleId":"2","contactPhone":"13612245672","picUrl":"www.baidu.com","status":0,"contactName":"alisa测试09","clerkName":"小明","province":"山东省","applyTime":"2017-05-12 10:58:23","orderTime":"2017-05-17 16:12:41","serviceType":1,"city":"济南"}
+     * data : {"id":246,"address":"上海市国定路777号","createTime":"2017-08-16 19:00:55","type":0,"shopStatus":0,"clerkName":"陈双双","clerkHead":"http://wp-oss-file.oss-cn-shanghai.aliyuncs.com/shop/clerk/photo/1502863956563_identity.jpg","clerkPhone":"18717703112","contactPerson":"恩","contactPhone":"15692105593","shopId":null,"discardReason":null}
+     * exception : null
      */
 
     private DataBean data;
@@ -26,39 +28,39 @@ public class ServiceDetailResponse extends BaseResponse {
 
     public static class DataBean {
         /**
-         * scheduleId : 2
-         * contactPhone : 13612245672
-         * picUrl : www.baidu.com
-         * status : 0
-         * contactName : alisa测试09
-         * clerkName : 小明
-         * province : 山东省
-         * applyTime : 2017-05-12 10:58:23
-         * orderTime : 2017-05-17 16:12:41
-         * serviceType : 1
-         * city : 济南
+         * id : 246
+         * address : 上海市国定路777号
+         * createTime : 2017-08-16 19:00:55
+         * type : 0
+         * shopStatus : 0
+         * clerkName : 陈双双
+         * clerkHead : http://wp-oss-file.oss-cn-shanghai.aliyuncs.com/shop/clerk/photo/1502863956563_identity.jpg
+         * clerkPhone : 18717703112
+         * contactPerson : 恩
+         * contactPhone : 15692105593
+         * shopId : null
+         * discardReason : null
          */
 
-        private String scheduleId;
-        private String contactPhone;
-        private String picUrl;
-        private int status;
-        private String contactName;
+        private int id;
+        private String address;
+        private String createTime;
+        private int type;
+        private int shopStatus;
         private String clerkName;
+        private String clerkHead;
         private String clerkPhone;
-        private String province;
-        private String applyTime;
-        private String orderTime;
-        private int serviceType;
-        private String city;
-        private String district;
+        private String contactPerson;
+        private String contactPhone;
+        private String shopId;
+        private String discardReason;
 
-        public String getClerkPhone() {
-            return clerkPhone;
+        public int getId() {
+            return id;
         }
 
-        public void setClerkPhone(String clerkPhone) {
-            this.clerkPhone = clerkPhone;
+        public void setId(int id) {
+            this.id = id;
         }
 
         public String getAddress() {
@@ -69,54 +71,28 @@ public class ServiceDetailResponse extends BaseResponse {
             this.address = address;
         }
 
-        private String address;
-
-        public String getDistrict() {
-            return district;
+        public String getCreateTime() {
+            return createTime;
         }
 
-        public void setDistrict(String district) {
-            this.district = district;
+        public void setCreateTime(String createTime) {
+            this.createTime = createTime;
         }
 
-        public String getScheduleId() {
-            return scheduleId;
+        public int getType() {
+            return type;
         }
 
-        public void setScheduleId(String scheduleId) {
-            this.scheduleId = scheduleId;
+        public void setType(int type) {
+            this.type = type;
         }
 
-        public String getContactPhone() {
-            return contactPhone;
+        public int getShopStatus() {
+            return shopStatus;
         }
 
-        public void setContactPhone(String contactPhone) {
-            this.contactPhone = contactPhone;
-        }
-
-        public String getPicUrl() {
-            return picUrl;
-        }
-
-        public void setPicUrl(String picUrl) {
-            this.picUrl = picUrl;
-        }
-
-        public int getStatus() {
-            return status;
-        }
-
-        public void setStatus(int status) {
-            this.status = status;
-        }
-
-        public String getContactName() {
-            return contactName;
-        }
-
-        public void setContactName(String contactName) {
-            this.contactName = contactName;
+        public void setShopStatus(int shopStatus) {
+            this.shopStatus = shopStatus;
         }
 
         public String getClerkName() {
@@ -127,44 +103,52 @@ public class ServiceDetailResponse extends BaseResponse {
             this.clerkName = clerkName;
         }
 
-        public String getProvince() {
-            return province;
+        public String getClerkHead() {
+            return clerkHead;
         }
 
-        public void setProvince(String province) {
-            this.province = province;
+        public void setClerkHead(String clerkHead) {
+            this.clerkHead = clerkHead;
         }
 
-        public String getApplyTime() {
-            return applyTime;
+        public String getClerkPhone() {
+            return clerkPhone;
         }
 
-        public void setApplyTime(String applyTime) {
-            this.applyTime = applyTime;
+        public void setClerkPhone(String clerkPhone) {
+            this.clerkPhone = clerkPhone;
         }
 
-        public String getOrderTime() {
-            return orderTime;
+        public String getContactPerson() {
+            return contactPerson;
         }
 
-        public void setOrderTime(String orderTime) {
-            this.orderTime = orderTime;
+        public void setContactPerson(String contactPerson) {
+            this.contactPerson = contactPerson;
         }
 
-        public int getServiceType() {
-            return serviceType;
+        public String getContactPhone() {
+            return contactPhone;
         }
 
-        public void setServiceType(int serviceType) {
-            this.serviceType = serviceType;
+        public void setContactPhone(String contactPhone) {
+            this.contactPhone = contactPhone;
         }
 
-        public String getCity() {
-            return city;
+        public String getShopId() {
+            return shopId;
         }
 
-        public void setCity(String city) {
-            this.city = city;
+        public void setShopId(String shopId) {
+            this.shopId = shopId;
+        }
+
+        public String getDiscardReason() {
+            return discardReason;
+        }
+
+        public void setDiscardReason(String discardReason) {
+            this.discardReason = discardReason;
         }
     }
 }

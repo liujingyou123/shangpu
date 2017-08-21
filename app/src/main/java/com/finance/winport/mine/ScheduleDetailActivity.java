@@ -13,6 +13,7 @@ import com.finance.winport.dialog.NoticeDialog;
 import com.finance.winport.mine.model.ScheduleDetailResponse;
 import com.finance.winport.mine.presenter.IScheduleDetailView;
 import com.finance.winport.mine.presenter.ScheduleDetailPresenter;
+import com.finance.winport.util.UnitUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -244,6 +245,38 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
     public void showScheduleDetail(ScheduleDetailResponse response) {
 
         time.setText(response.getData().getOrderTime().substring(response.getData().getOrderTime().length()-8,response.getData().getOrderTime().length()-3));
+        if(response.getData().getServiceType()==1 || response.getData().getServiceType()==2){
+
+            type.setText("旺铺寻租");
+            type.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.arrow,0);
+            type.setCompoundDrawablePadding(UnitUtil.dip2px(ScheduleDetailActivity.this,10));
+        }else if(response.getData().getServiceType()==3){
+
+            type.setText("预约看铺");
+            type.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.arrow,0);
+            type.setCompoundDrawablePadding(UnitUtil.dip2px(ScheduleDetailActivity.this,10));
+        }else if(response.getData().getServiceType()==5){
+
+            type.setText("签约租铺");
+            type.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.arrow,0);
+            type.setCompoundDrawablePadding(UnitUtil.dip2px(ScheduleDetailActivity.this,10));
+        }else if(response.getData().getServiceType()==6){
+
+            type.setText("租客签约");
+        }else if(response.getData().getServiceType()==4){
+
+            type.setText("租客看铺");
+        }
+
+        address.setText(response.getData().getAddress());
+
+        if(!TextUtils.isEmpty(response.getData().getShopId())){
+            address.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.arrow,0);
+            address.setCompoundDrawablePadding(UnitUtil.dip2px(ScheduleDetailActivity.this,10));
+        }
+
+        phone.setText(response.getData().getClerkName()+" " + response.getData().getClerkPhone());
+
 
     }
 }

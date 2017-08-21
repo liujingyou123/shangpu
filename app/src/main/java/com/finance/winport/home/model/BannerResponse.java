@@ -2,13 +2,14 @@ package com.finance.winport.home.model;
 
 import com.finance.winport.base.BaseResponse;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by liuworkmac on 17/5/18.
  */
 
-public class BannerResponse extends BaseResponse{
+public class BannerResponse extends BaseResponse implements Serializable{
 
 
     /**
@@ -27,10 +28,13 @@ public class BannerResponse extends BaseResponse{
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         private String adPicUrl;
         private String toUrl;
         private String type;
+        private String title;
+        private String innerType;
+        private String businessId;
 
         public String getAdPicUrl() {
             return adPicUrl;
@@ -54,6 +58,30 @@ public class BannerResponse extends BaseResponse{
 
         public void setType(String type) {
             this.type = type;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getInnerType() {
+            return innerType;
+        }
+
+        public void setInnerType(String innerType) {
+            this.innerType = innerType;
+        }
+
+        public String getBusinessId() {
+            return businessId;
+        }
+
+        public void setBusinessId(String businessId) {
+            this.businessId = businessId;
         }
     }
 }
