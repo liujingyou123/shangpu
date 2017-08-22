@@ -17,9 +17,11 @@ import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.dialog.NoticeDialog;
+import com.finance.winport.home.ShopDetailActivity;
 import com.finance.winport.mine.model.ServiceDetailResponse;
 import com.finance.winport.mine.presenter.IServiceDetailView;
 import com.finance.winport.mine.presenter.ServiceDetailPresenter;
+import com.finance.winport.util.UnitUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
@@ -129,7 +131,7 @@ public class MyServiceDetailActivity extends BaseActivity implements IServiceDet
                     mNoticeDialog.setOkClickListener(new NoticeDialog.OnPreClickListner() {
                         @Override
                         public void onClick() {
-                            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
+                            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + clerkPhone));
                             if (ActivityCompat.checkSelfPermission(MyServiceDetailActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                                 // TODO: Consider calling
                                 //    ActivityCompat#requestPermissions
@@ -171,7 +173,7 @@ public class MyServiceDetailActivity extends BaseActivity implements IServiceDet
     }
 
     @Override
-    public void showScheduleDetail(ServiceDetailResponse response) {
+    public void showScheduleDetail(final ServiceDetailResponse response) {
 
 
         if (response.getData().getShopStatus() == 0) {
@@ -229,6 +231,17 @@ public class MyServiceDetailActivity extends BaseActivity implements IServiceDet
 
         applyTime.setText(response.getData().getCreateTime());
         address.setText(response.getData().getAddress());
+        if(!TextUtils.isEmpty(response.getData().getShopId())){
+            address.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.arrow,0);
+            address.setCompoundDrawablePadding(UnitUtil.dip2px(MyServiceDetailActivity.this,10));
+            address.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MyServiceDetailActivity.this, ShopDetailActivity.class);
+                    intent.putExtra("shopId", response.getData().getShopId());
+                }
+            });
+        }
         phone.setText(response.getData().getContactPhone());
 //        if(!TextUtils.isEmpty(response.getData().getOrderTime())){
 //
