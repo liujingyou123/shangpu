@@ -18,11 +18,15 @@
             android:layout_marginRight="15dp">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="/ 推荐语 /"
+                android:text="推荐语"
+                android:drawableLeft="@mipmap/icon_decoration_red"
+                android:drawablePadding="9dp"
+                android:drawableRight="@mipmap/icon_decoration_red"
                 android:textColor="#FF333333"
                 android:textSize="15sp"
+                android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:layout_marginTop="10dp"/>
             <TextView

@@ -239,6 +239,7 @@ public class MyServiceDetailActivity extends BaseActivity implements IServiceDet
                 public void onClick(View v) {
                     Intent intent = new Intent(MyServiceDetailActivity.this, ShopDetailActivity.class);
                     intent.putExtra("shopId", response.getData().getShopId());
+                    startActivity(intent);
                 }
             });
         }
