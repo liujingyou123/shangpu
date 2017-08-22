@@ -261,7 +261,7 @@ public class LoginFragment extends BaseFragment {
                     } else {
                         getVerifyCode();
                         if (!isFirstPic) {// 如果还没有图片验证码,就预加载一张
-//                            getPicCode();
+                            getPicCode();
                         }
                     }
                 }
