@@ -226,6 +226,7 @@ public class FoundShopDetailActivity extends BaseActivity implements IFoundShopD
                 if (shareDialog == null) {
                     shareDialog = new ShareDialog(this);
                 }
+                shareDialog.setDes(mShopDetail.getData().getDesc());
 //                shareDialog.setDes(mShopDetail.getData().getAddress() + "(" + UnitUtil.formatSNum(mShopDetail.getData().getArea()) + "㎡)旺铺急租，租金仅" + rentPrice);
                 shareDialog.setTitle(mShopDetail.getData().getTitle());
                 shareDialog.setImage(mShopDetail.getData().getImage());

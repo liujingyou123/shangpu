@@ -337,12 +337,14 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
                 public void onClick(View v) {
                     Intent intent = new Intent(ScheduleDetailActivity.this, ShopDetailActivity.class);
                     intent.putExtra("shopId", response.getData().getShopId());
+                    startActivity(intent);
                 }
             });
         }
 
         phone.setText(response.getData().getClerkName()+" " + response.getData().getClerkPhone());
         clerkPhone = response.getData().getClerkPhone();
+        date.setText(response.getData().getOrderTime().substring(0,4)+"年\n"+response.getData().getOrderTime().substring(5,7)+"月"+response.getData().getOrderTime().substring(8,10)+"日");
 
 
     }

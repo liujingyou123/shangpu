@@ -53,6 +53,7 @@ public class FoundShopDetailResponse extends BaseResponse{
         private String content;
         private String image;
         private String dateTime;
+        private String desc;
         private List<?> tagList;
         private List<ShopListBean> shopList;
 
@@ -90,6 +91,14 @@ public class FoundShopDetailResponse extends BaseResponse{
 
         public String getDateTime() {
             return dateTime;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
         }
 
         public void setDateTime(String dateTime) {

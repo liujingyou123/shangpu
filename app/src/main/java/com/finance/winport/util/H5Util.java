@@ -9,7 +9,7 @@ import com.finance.winport.net.NetUtils;
 public class H5Util {
     public static String IP_SHOP_DETAIL = "shopsInfo.html?";
     public static String IP_AGREEMENT_DETAIL = "agreement.html";
-    public static String IP_FOUND_DETAIL = "findShopInfo.html";
+    public static String IP_FOUND_DETAIL = "findShopInfo.html?";
     public static String IP_TRADE_DETAIL = "trade.html?";
 
     public static String getServerIp() {
