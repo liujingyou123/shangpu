@@ -285,7 +285,7 @@ public class TradeCircleListFragment extends Fragment implements ITradeCircleVie
     public void onViewClicked() {
         MobclickAgent.onEvent(this.getContext(), "circle_comment");
         Intent intent = new Intent(this.getContext(), NoticeListActivity.class);
-        intent.putExtra("tvType", 2);
+        intent.putExtra("type", 2);
         intent.putExtra("title", "生意圈");
         startActivity(intent);
 //        SpUtil.getInstance().setIntData("commentNum", 0);

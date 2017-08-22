@@ -115,7 +115,7 @@ public interface PersonService {
     Observable<CheckVersionResponse> checkVersion(@Body HashMap<String, Object> params);
 
     //修改手机号
-    @POST("api/customer/updateCustomerPhone")
+    @POST("customerapp/api/customer/updateCustomerPhone")
     Observable<com.finance.winport.base.BaseResponse> modifyUserPhone(@Body HashMap map);
 
     //修改昵称、签名

@@ -4,9 +4,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,7 +75,7 @@ public class ModifyPhoneFragment extends BaseFragment {
     private String picVerifyId;
     private String smsVerifyCode;
     String userPhone;
-
+    private boolean verifyCodeClick;
     private LoadingDialog loading;
 
     @Override
@@ -102,6 +104,7 @@ public class ModifyPhoneFragment extends BaseFragment {
 
     private void modifyUserPhone() {
         HashMap<String, Object> params = new HashMap<>();
+        smsVerifyCode = verifyCodeView.getText().toString().trim();
         params.put("oldPhone", oldPhone);
         params.put("newPhone", userPhone);
         params.put("smsVerifyCode", smsVerifyCode);
@@ -134,6 +137,27 @@ public class ModifyPhoneFragment extends BaseFragment {
         phoneView.setFilters(new InputFilter[]{TextViewUtil.phoneFormat()});
         phoneView.setInputType(InputType.TYPE_CLASS_PHONE);
         initCountDownButton();
+        verifyCodeView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!verifyCodeClick) {
+                    if (s.length() > 0) {
+                        verifyCodeView.setText("");
+                        ToastUtil.show(context, "请点击发送验证码");
+                    }
+                }
+            }
+        });
     }
 
     // 倒计时
@@ -159,6 +183,7 @@ public class ModifyPhoneFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 if (check()) {
+                    verifyCodeClick = true;
                     counting();
                     verifyCodeView.requestFocus();
                     if (requestCodeCount >= CODE_LIMIT_COUNT) {
@@ -219,7 +244,7 @@ public class ModifyPhoneFragment extends BaseFragment {
         HashMap<String, Object> params = new HashMap<>();
         params.put("userPhone", userPhone);
         params.put("sendType", 0);//0-短信 1-语音，默认0
-        params.put("useScene", 0);//0-登录 1-贷款申请 2-租铺签约 3-寻租申请 4-带我踩盘 5-商铺纠错 6-预约看铺
+        params.put("useScene", 7);//0-登录 1-贷款申请 2-租铺签约 3-寻租申请 4-带我踩盘 5-商铺纠错 6-预约看铺 7-修改手机号码
         UserManager.getInstance().getVerifyCode(params, new NetworkCallback<Message>() {
             @Override
             public void success(Message response) {
@@ -240,7 +265,7 @@ public class ModifyPhoneFragment extends BaseFragment {
     // 获取图片验证码
     private void getPicCode() {
         HashMap<String, Object> params = new HashMap<>();
-        params.put("useScene", 0);//0-登录 1-贷款申请 2-租铺签约 3-寻租申请 4-带我踩盘 5-商铺纠错 6-预约看铺
+        params.put("useScene", 7);//0-登录 1-贷款申请 2-租铺签约 3-寻租申请 4-带我踩盘 5-商铺纠错 6-预约看铺 7-修改手机号码
         UserManager.getInstance().getPicCode(params, new NetworkCallback<ImageVerifyCode>() {
             @Override
             public void success(ImageVerifyCode response) {
@@ -275,7 +300,9 @@ public class ModifyPhoneFragment extends BaseFragment {
 
     @OnClick(R.id.save)
     public void onSave() {
-        save();
+        if (check()) {
+            save();
+        }
     }
 
     @OnClick(R.id.pic_code)

@@ -47,6 +47,8 @@ public class ShareDialog extends Dialog {
     private String mTitle;
     private String mDes;
     private String mImageUrl;
+    OnShareClickListener onShareClickListener;
+    OnShareListener shareListener;
 
     public ShareDialog(@NonNull Context context) {
         super(context, R.style.customDialog);
@@ -144,56 +146,92 @@ public class ShareDialog extends Dialog {
     @OnClick({R.id.tv_weixin, R.id.tv_pengyou, R.id.tv_weibo, R.id.tv_qq})
     public void onViewClicked(View view) {
         ToastUtil.show(mContext, "正在分享...");
+        SHARE_MEDIA share_media = null;
         switch (view.getId()) {
             case R.id.tv_weixin:
-                MobclickAgent.onEvent(mContext, "shop_share_wechat");
-                showShare(SHARE_MEDIA.WEIXIN);
+                share_media = SHARE_MEDIA.WEIXIN;
                 break;
             case R.id.tv_pengyou:
-                MobclickAgent.onEvent(mContext, "shop_share_friendcircle");
-                showShare(SHARE_MEDIA.WEIXIN_CIRCLE);
+                share_media = SHARE_MEDIA.WEIXIN_CIRCLE;
                 break;
             case R.id.tv_weibo:
-                MobclickAgent.onEvent(mContext, "shop_share_weibo");
-                showShare(SHARE_MEDIA.SINA);
+                share_media = SHARE_MEDIA.SINA;
                 break;
             case R.id.tv_qq:
-                MobclickAgent.onEvent(mContext, "shop_share_qq");
-                showShare(SHARE_MEDIA.QQ);
+                share_media = SHARE_MEDIA.QQ;
                 break;
         }
+        if (onShareClickListener != null) {
+            onShareClickListener.onShareClick(share_media);
+        }
+        showShare(share_media);
     }
 
     private UMShareListener umShareListener = new UMShareListener() {
         @Override
         public void onStart(SHARE_MEDIA share_media) {
+            if (shareListener != null) {
+                shareListener.onStart(share_media);
+            }
             XLog.e("onStart");
         }
 
         @Override
         public void onResult(SHARE_MEDIA share_media) {
+            if (shareListener != null) {
+                shareListener.onResult(share_media);
+            }
             XLog.e("onResult");
             ToastUtil.show(mContext, "分享成功");
-            if (share_media == SHARE_MEDIA.QQ) {
-                MobclickAgent.onEvent(mContext, "shop_share_qq_success");
-            } else if (share_media == SHARE_MEDIA.WEIXIN) {
-                MobclickAgent.onEvent(mContext, "shop_share_wechat_success");
-            } else if (share_media == SHARE_MEDIA.WEIXIN_CIRCLE) {
-                MobclickAgent.onEvent(mContext, "shop_share_friendcircle");
-            } else if (share_media == SHARE_MEDIA.SINA) {
-                MobclickAgent.onEvent(mContext, "shop_share_weibo_success");
-            }
         }
 
         @Override
         public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+            if (shareListener != null) {
+                shareListener.onError(share_media, throwable);
+            }
             XLog.e("onError");
             ToastUtil.show(mContext, throwable != null ? throwable.getMessage() : "分享失败");
         }
 
         @Override
         public void onCancel(SHARE_MEDIA share_media) {
+            if (shareListener != null) {
+                shareListener.onCancel(share_media);
+            }
             XLog.e("onCancel");
         }
     };
+
+    public void setOnShareClickListener(OnShareClickListener onShareClickListener) {
+        this.onShareClickListener = onShareClickListener;
+    }
+
+    public void setShareListener(OnShareListener shareListener) {
+        this.shareListener = shareListener;
+    }
+
+    public interface OnShareClickListener {
+        void onShareClick(SHARE_MEDIA share_media);
+    }
+
+    public static abstract class OnShareListener implements UMShareListener {
+
+        @Override
+        public void onStart(SHARE_MEDIA share_media) {
+
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA share_media) {
+
+        }
+    }
+
+
 }

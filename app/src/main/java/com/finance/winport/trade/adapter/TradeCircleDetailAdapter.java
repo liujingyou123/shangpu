@@ -234,7 +234,7 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
             if (info.getIsReply() == 1) {//1-评论 2-回复评论
                 viewHolder.tvPhone.setText(info.getNickName());
             } else {
-                String s = "<html><body><p>" + info.getNickName() + "<span style=\"color:#999999\">" + " 回复 " + (TextUtils.isEmpty(info.getParentNickName()) ? "哈哈" : info.getParentNickName()) + "</span>" + "</p></body><html/>";
+                String s = "<html><head>" + info.getNickName() + "<span style=\"color:#999999\">" + " 回复 " + (TextUtils.isEmpty(info.getParentNickName()) ? "" : info.getParentNickName()) + "</span>" + "</head></html>";
                 viewHolder.tvPhone.setText(Html.fromHtml(s));
             }
             viewHolder.tvTime.setText(info.getDateTime() + "评论");
@@ -244,7 +244,7 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mPresenter.showCommentDialog(info.getCommentatorId() + "", info.getNickName());
+                    mPresenter.showCommentDialog(info.getId() + "", info.getNickName());
                 }
             });
         }

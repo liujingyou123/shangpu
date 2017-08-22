@@ -32,7 +32,8 @@ public class TradeMorePopup extends PopupWindow {
         //设置SelectPicPopupWindow弹出窗体的高
         this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         //设置SelectPicPopupWindow弹出窗体可点击
-        this.setFocusable(true);
+        this.setFocusable(false);
+        this.setOutsideTouchable(true);
         //设置SelectPicPopupWindow弹出窗体的背景
         ColorDrawable drawable = new ColorDrawable(Color.parseColor("#00000000"));
         this.setBackgroundDrawable(drawable);
