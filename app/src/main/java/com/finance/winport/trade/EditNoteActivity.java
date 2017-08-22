@@ -370,6 +370,7 @@ public class EditNoteActivity extends BaseActivity {
 
     private void showPostInfo() {
         hideSoftKeyboard();
+        if (animatorIn.isRunning()) return;
         postInfo.setLayoutAnimation(layoutIn);
         postInfo.setVisibility(View.VISIBLE);
         animatorIn.start();
@@ -377,6 +378,7 @@ public class EditNoteActivity extends BaseActivity {
     }
 
     private void hideInfo() {
+        if (animatorOut.isRunning()) return;
         postInfo.setLayoutAnimation(layoutOut);
         postInfo.startLayoutAnimation();
         animatorOut.start();

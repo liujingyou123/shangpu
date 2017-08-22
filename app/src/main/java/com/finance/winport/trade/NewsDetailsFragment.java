@@ -26,11 +26,14 @@ import com.finance.winport.util.H5Util;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.ToastUtil;
 import com.finance.winport.view.CustomWebView;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import noman.weekcalendar.eventbus.Event;
 
 /**
  * 资讯详情...
@@ -67,6 +70,7 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
     TradeSubDetailsPresenter presenter;
     TradeDetails info;
     String content;
+//    String event;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,6 +82,12 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
             type = (TradeType) getArguments().getSerializable("type");
         }
     }
+
+    /*private void initEvent(TradeType type) {
+        if (type==TradeType.HEAD_DETAILS){
+            event = "";
+        }
+    }*/
 
     @Nullable
     @Override
@@ -265,9 +275,83 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
     ShareDialog shareDialog;
 
     private void share() {
+        String event = "";
+        if (type == TradeType.HEAD_DETAILS) {
+            event = "industry_aticle_share";
+        } else if (type == TradeType.BIBLE_DETAILS) {
+            event = "guidance_aticle_share";
+        }
+        MobclickAgent.onEvent(context, event);
         if (info != null) {
             if (shareDialog == null) {
                 shareDialog = new ShareDialog(context);
+                shareDialog.setOnShareClickListener(new ShareDialog.OnShareClickListener() {
+                    String event;
+
+                    @Override
+                    public void onShareClick(SHARE_MEDIA share_media) {
+                        if (share_media == SHARE_MEDIA.QQ) {
+                            if (type == TradeType.HEAD_DETAILS) {
+                                event = "industry_aticle_share_qq";
+                            } else if (type == TradeType.BIBLE_DETAILS) {
+                                event = "guidance_aticle_share_qq";
+                            }
+                        } else if (share_media == SHARE_MEDIA.WEIXIN) {
+                            if (type == TradeType.HEAD_DETAILS) {
+                                event = "industry_aticle_share_wechat";
+                            } else if (type == TradeType.BIBLE_DETAILS) {
+                                event = "guidance_aticle_share_wechat";
+                            }
+                        } else if (share_media == SHARE_MEDIA.WEIXIN_CIRCLE) {
+                            if (type == TradeType.HEAD_DETAILS) {
+                                event = "industry_aticle_share_friendcircle";
+                            } else if (type == TradeType.BIBLE_DETAILS) {
+                                event = "guidance_aticle_share_friendcircle";
+                            }
+                        } else if (share_media == SHARE_MEDIA.SINA) {
+                            if (type == TradeType.HEAD_DETAILS) {
+                                event = "industry_aticle_share_weibo";
+                            } else if (type == TradeType.BIBLE_DETAILS) {
+                                event = "guidance_aticle_share_weibo";
+                            }
+                        }
+                        MobclickAgent.onEvent(context, event);
+                    }
+                });
+
+                shareDialog.setShareListener(new ShareDialog.OnShareListener() {
+                    String event;
+
+                    @Override
+                    public void onResult(SHARE_MEDIA share_media) {
+                        if (share_media == SHARE_MEDIA.QQ) {
+                            if (type == TradeType.HEAD_DETAILS) {
+                                event = "industry_aticle_share_qq_success";
+                            } else if (type == TradeType.BIBLE_DETAILS) {
+                                event = "guidance_aticle_share_qq_success";
+                            }
+                        } else if (share_media == SHARE_MEDIA.WEIXIN) {
+                            if (type == TradeType.HEAD_DETAILS) {
+                                event = "industry_aticle_share_wechat_success";
+                            } else if (type == TradeType.BIBLE_DETAILS) {
+                                event = "guidance_aticle_share_wechat_success";
+                            }
+                        } else if (share_media == SHARE_MEDIA.WEIXIN_CIRCLE) {
+                            if (type == TradeType.HEAD_DETAILS) {
+                                event = "industry_aticle_share_friendcircle_success";
+                            } else if (type == TradeType.BIBLE_DETAILS) {
+                                event = "guidance_aticle_share_friendcircle_success";
+                            }
+                        } else if (share_media == SHARE_MEDIA.SINA) {
+                            if (type == TradeType.HEAD_DETAILS) {
+                                event = "industry_aticle_share_weibo_success";
+                            } else if (type == TradeType.BIBLE_DETAILS) {
+                                event = "guidance_aticle_share_weibo_success";
+                            }
+                        }
+                        MobclickAgent.onEvent(context, event);
+                    }
+                });
             }
             shareDialog.setDes(info.data.desc);
             shareDialog.setTitle(info.data.title);

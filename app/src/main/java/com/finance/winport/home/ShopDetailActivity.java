@@ -69,6 +69,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.utils.Log;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -351,9 +352,6 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView,
         webView.loadUrl("file:///android_asset/map2.html");
 
 
-
-
-
         imvBack.setImageResource(R.mipmap.icon_white_back);
         llTop.setAlpha(0);
         svAll.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
@@ -488,6 +486,35 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView,
                 }
                 if (shareDialog == null) {
                     shareDialog = new ShareDialog(this);
+                    shareDialog.setOnShareClickListener(new ShareDialog.OnShareClickListener() {
+                        @Override
+                        public void onShareClick(SHARE_MEDIA share_media) {
+                            if (share_media == SHARE_MEDIA.QQ) {
+                                MobclickAgent.onEvent(context, "shop_share_qq");
+                            } else if (share_media == SHARE_MEDIA.WEIXIN) {
+                                MobclickAgent.onEvent(context, "shop_share_wechat");
+                            } else if (share_media == SHARE_MEDIA.WEIXIN_CIRCLE) {
+                                MobclickAgent.onEvent(context, "shop_share_friendcircle");
+                            } else if (share_media == SHARE_MEDIA.SINA) {
+                                MobclickAgent.onEvent(context, "shop_share_weibo");
+                            }
+                        }
+                    });
+
+                    shareDialog.setShareListener(new ShareDialog.OnShareListener() {
+                        @Override
+                        public void onResult(SHARE_MEDIA share_media) {
+                            if (share_media == SHARE_MEDIA.QQ) {
+                                MobclickAgent.onEvent(context, "shop_share_qq_success");
+                            } else if (share_media == SHARE_MEDIA.WEIXIN) {
+                                MobclickAgent.onEvent(context, "shop_share_wechat_success");
+                            } else if (share_media == SHARE_MEDIA.WEIXIN_CIRCLE) {
+                                MobclickAgent.onEvent(context, "shop_share_friendcircle_success");
+                            } else if (share_media == SHARE_MEDIA.SINA) {
+                                MobclickAgent.onEvent(context, "shop_share_weibo_success");
+                            }
+                        }
+                    });
                 }
                 shareDialog.setDes("上海市" + mShopDetail.getData().getDistrictName() + mShopDetail.getData().getTitle() + "，租金仅" + rentPrice);
 //                shareDialog.setDes(mShopDetail.getData().getAddress() + "(" + UnitUtil.formatSNum(mShopDetail.getData().getArea()) + "㎡)旺铺急租，租金仅" + rentPrice);
@@ -1091,9 +1118,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView,
             public void run() {
                 webView.loadUrl("javascript:getmap('" + Double.parseDouble(mShopDetail.getData().getLongitude()) + "','" + Double.parseDouble(mShopDetail.getData().getLatitude()) + "')");
             }
-        },2000);
-
-
+        }, 2000);
 
 
         setMapView();
@@ -1201,7 +1226,7 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView,
     @Override
     public void onResult(final String result) {
 
-        android.util.Log.i("javaScriptTag",result);
+        android.util.Log.i("javaScriptTag", result);
 
 //        count1.setText(result);
         runOnUiThread(new Runnable() {
