@@ -21,6 +21,7 @@ import com.finance.winport.trade.model.TradeTag;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.DrawableTopLeftTextView;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
@@ -106,6 +107,7 @@ public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeSub> {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    MobclickAgent.onEvent(context,"circle_industry_article");
                     context.startActivity(new Intent(context, InfoDetailsActivity.class)
                             .putExtra("id", item.contentId)
                             .putExtra("title", item.title)
@@ -205,6 +207,7 @@ public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeSub> {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    MobclickAgent.onEvent(context,"circle_industry_tag");
                     context.startActivity(new Intent(context, InfoListActivity.class)
                             .putExtra("id", item.tagId).putExtra("title", item.tagName)
                             .putExtra("type", TradeType.HEAD_LIST));

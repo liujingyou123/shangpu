@@ -41,6 +41,7 @@ import com.finance.winport.view.picker.Picker;
 import com.finance.winport.view.picker.engine.GlideEngine;
 import com.finance.winport.view.picker.utils.PicturePickerUtils;
 import com.finance.winport.view.roundview.RoundedImageView;
+import com.umeng.analytics.MobclickAgent;
 import com.yalantis.ucrop.UCrop;
 
 import org.greenrobot.eventbus.EventBus;
@@ -186,6 +187,7 @@ public class PersonalInfoActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.headLayout:
+                MobclickAgent.onEvent(context,"my_head");
                 scanHeadImage();
                 break;
             case R.id.nikeNameLayout:
@@ -198,6 +200,7 @@ public class PersonalInfoActivity extends BaseActivity {
                 toPhone();
                 break;
             case R.id.concernLayout:
+                MobclickAgent.onEvent(context,"my_shopfollow");
                 toConcernInfo();
                 break;
         }
