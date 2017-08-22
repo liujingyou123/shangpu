@@ -168,7 +168,7 @@ public class OffShelfDialog extends Dialog implements View.OnClickListener {
 
     public List<NameValue> initData() {
         List<NameValue> data = new ArrayList<>();
-        data.add(new NameValue("旺铺已出租", "1"));
+        data.add(new NameValue("旺铺已出租", "3"));
         data.add(new NameValue("我不想寻租了", "2"));
         return data;
     }

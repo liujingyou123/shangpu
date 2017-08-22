@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by jge on 17/5/5.
- * 生意圈通知
+ * 服务通知
  */
 public class ServiceNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.ServiceNoticeBean> {
     public ServiceNoticeAdapter(PtrClassicFrameLayout baseView, List<NotifyList.DataBean.ServiceNoticeBean> baseData, int maxTotal) {
@@ -50,12 +50,12 @@ public class ServiceNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.Se
 
     @Override
     public int getViewTypeCount() {
-        return 4;
+        return 5;
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup viewGroup) {
-        // 0-时间变动 1-服务撤销 2-服务完成 3-日程提醒
+        // 0-时间变动 1-服务撤销 2-服务完成 3-日程提醒 4-日程创建
         if (getItemViewType(position) == 0) {//0-时间变动
             ViewHolder holder;
             if (convertView == null) {
@@ -80,7 +80,7 @@ public class ServiceNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.Se
                     context.startActivity(new Intent(context, ScheduleDetailActivity.class).putExtra("scheduleId", item.bussinessId + ""));
                 }
             });
-        } else if (getItemViewType(position) == 1) {//1-服务撤销
+        } else if (getItemViewType(position) == 1) {//1-服务撤销（已去掉）
             ViewHolderOff holder;
             if (convertView == null) {
                 convertView = LayoutInflater.from(context).inflate(R.layout.service_notice_list_item_off, viewGroup, false);
@@ -105,7 +105,7 @@ public class ServiceNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.Se
                 }
             });
 
-        } else if (getItemViewType(position) == 2) {//2-服务完成
+        } else if (getItemViewType(position) == 2) {//2-服务完成(1.2 已去掉)
             ViewHolderDone holder;
             if (convertView == null) {
                 convertView = LayoutInflater.from(context).inflate(R.layout.service_notice_list_item_done, viewGroup, false);
@@ -144,6 +144,34 @@ public class ServiceNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.Se
             holder.address.setText(item.shopAddress);
             holder.schedule.setText(item.currentSchedule);
             holder.more.setVisibility(item.scheduleCount > 0 ? View.VISIBLE : View.GONE);
+            holder.details.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.startActivity(new Intent(context, MyScheduleListActivity.class));
+                }
+            });
+        } else if (getItemViewType(position) == 4) {//4-日程创建
+            ViewHolderCreate holder;
+            if (convertView == null) {
+                convertView = LayoutInflater.from(context).inflate(R.layout.service_notice_list_item_create, viewGroup, false);
+                holder = new ViewHolderCreate(convertView);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolderCreate) convertView.getTag();
+            }
+            final NotifyList.DataBean.ServiceNoticeBean item = baseData.get(position);
+            holder.title.setText(item.digest);
+            holder.time.setText(item.notifyTime);
+            //0-预约看铺 1-旺铺寻租 2-签约租铺
+            holder.serviceType.setText(getType(item.serviceType));
+            holder.address.setText(item.shopAddress);
+            holder.schedule.setText(item.currentSchedule);
+            if (!TextUtils.isEmpty(item.reason)) {
+                holder.reason.setText(item.reason);
+                holder.dropOff.setVisibility(View.VISIBLE);
+            } else {
+                holder.dropOff.setVisibility(View.GONE);
+            }
             holder.details.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -226,6 +254,31 @@ public class ServiceNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.Se
         RelativeLayout details;
 
         ViewHolderOff(View view) {
+            ButterKnife.bind(this, view);
+        }
+    }
+
+    static class ViewHolderCreate {
+        @BindView(R.id.title)
+        TextView title;
+        @BindView(R.id.time)
+        TextView time;
+        @BindView(R.id.service_type)
+        TextView serviceType;
+        @BindView(R.id.address)
+        TextView address;
+        @BindView(R.id.schedule)
+        TextView schedule;
+        @BindView(R.id.reason)
+        TextView reason;
+        @BindView(R.id.drop_off)
+        TextView dropOff;
+        @BindView(R.id.contact)
+        TextView contact;
+        @BindView(R.id.details)
+        RelativeLayout details;
+
+        ViewHolderCreate(View view) {
             ButterKnife.bind(this, view);
         }
     }

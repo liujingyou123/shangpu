@@ -21,7 +21,7 @@
             android:layout_marginTop="15dp"
             android:textColor="#333333"
             android:textSize="15sp"
-            tools:text="小二重新安排了您预约看铺的日程" />
+            tools:text="小二发起了/撤销了您的xxxx约见日程" />
 
 
         <TextView
@@ -63,7 +63,7 @@
                 android:layout_marginLeft="85dp"
                 android:textColor="#333333"
                 android:textSize="14sp"
-                tools:text="预约看铺" />
+                tools:text="旺铺寻租" />
 
 
         </RelativeLayout>
@@ -104,12 +104,12 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="15dp"
-                android:text="旧时间："
+                android:text="时        间："
                 android:textColor="#999999"
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/old_schedule"
+                android:id="@+id/schedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -121,8 +121,10 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/drop_off"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_marginTop="15dp">
 
             <TextView
@@ -130,19 +132,19 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="15dp"
-                android:text="新时间："
+                android:text="撤销原因："
                 android:textColor="#999999"
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/new_schedule"
+                android:id="@+id/reason"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="85dp"
                 android:textColor="#333333"
                 android:textSize="14sp"
-                tools:text="2017.02.04 12:30:33" />
+                tools:text="上海市徐汇区武东路198号" />
 
         </RelativeLayout>
 

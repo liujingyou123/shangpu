@@ -174,7 +174,7 @@ public class WinportAdapter extends PullBaseAdapter<WinportList.DataBeanX.DataBe
         PersonManager.getInstance().offShelfSHop(params, new NetworkCallback<BaseResponse>() {
             @Override
             public void success(BaseResponse response) {
-                item.rentStatus = TextUtils.equals(type, "1") ? 3 : 2;
+                item.rentStatus = Integer.parseInt(type);
                 notifyDataSetChanged();
                 loading.dismiss();
                 ToastUtil.show(context, "旺铺已撤下");

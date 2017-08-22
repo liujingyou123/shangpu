@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by jge on 17/5/5.
- * 服务通知
+ * 生意圈通知
  */
 public class BusinessNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.BussinessNoticeBean> {
     public BusinessNoticeAdapter(PtrClassicFrameLayout baseView, List<NotifyList.DataBean.BussinessNoticeBean> baseData, int maxTotal) {
@@ -44,19 +44,21 @@ public class BusinessNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.B
     public int getItemViewType(int position) {
         if (TextUtils.equals(baseData.get(position).bussinessType, "0")) {
             return 0;
+        } else if (TextUtils.equals(baseData.get(position).bussinessType, "3")) {
+            return 1;
         }
-        return 1;
+        return 2;
     }
 
     @Override
     public int getViewTypeCount() {
-        return 2;
+        return 3;
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup viewGroup) {
         final NotifyList.DataBean.BussinessNoticeBean item = baseData.get(position);
-        // 0：评论通知1：帖子被撤通知2：评论被删通知
+        // 0：评论通知1：帖子被撤通知2：评论被删通知 3-评论被评论
         if (getItemViewType(position) == 0) {// 评论通知
             ViewHolder holder;
             if (convertView == null) {
@@ -77,7 +79,27 @@ public class BusinessNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.B
                     context.startActivity(new Intent(context, TradeCircleDetailActivity.class).putExtra("topicId", item.bussinessId + ""));
                 }
             });
-        } else if (getItemViewType(position) == 1) {//帖子被撤通知,评论被删通知
+        } else if (getItemViewType(position) == 1) {// 评论被评论
+            ViewHolderReply holder;
+            if (convertView == null) {
+                convertView = LayoutInflater.from(context).inflate(R.layout.business_notice_list_reply_comment_item, viewGroup, false);
+                holder = new ViewHolderReply(convertView);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolderReply) convertView.getTag();
+            }
+            holder.title.setText(item.digest);
+            holder.time.setText(item.notifyTime);
+            holder.post.setText(item.postName);
+            holder.content.setText(item.contentOrReason);
+            holder.doTime.setText(item.commentOrOprationTime);
+            holder.details.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.startActivity(new Intent(context, TradeCircleDetailActivity.class).putExtra("topicId", item.bussinessId + ""));
+                }
+            });
+        } else if (getItemViewType(position) == 2) {//帖子被撤通知,评论被删通知
             ViewHolderOff holder;
             if (convertView == null) {
                 convertView = LayoutInflater.from(context).inflate(R.layout.business_notice_list_item_off, viewGroup, false);
@@ -162,4 +184,24 @@ public class BusinessNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.B
             ButterKnife.bind(this, view);
         }
     }
+
+    static class ViewHolderReply {
+        @BindView(R.id.title)
+        TextView title;
+        @BindView(R.id.time)
+        TextView time;
+        @BindView(R.id.post)
+        TextView post;
+        @BindView(R.id.content)
+        TextView content;
+        @BindView(R.id.do_time)
+        TextView doTime;
+        @BindView(R.id.details)
+        RelativeLayout details;
+
+        ViewHolderReply(View view) {
+            ButterKnife.bind(this, view);
+        }
+    }
+
 }
