@@ -391,7 +391,7 @@
                             android:id="@+id/count1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="240"
+                            android:text=""
                             android:textColor="#333333"
                             android:textSize="15sp" />
 
@@ -414,7 +414,7 @@
                             android:id="@+id/count2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="240"
+                            android:text=""
                             android:textColor="#333333"
                             android:textSize="15sp" />
 
@@ -437,7 +437,7 @@
                             android:id="@+id/count3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="240"
+                            android:text=""
                             android:textColor="#333333"
                             android:textSize="15sp" />
 
@@ -460,7 +460,7 @@
                             android:id="@+id/count4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="240"
+                            android:text=""
                             android:textColor="#333333"
                             android:textSize="15sp" />
 
@@ -483,7 +483,7 @@
                             android:id="@+id/count5"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="240"
+                            android:text=""
                             android:textColor="#333333"
                             android:textSize="15sp" />
 
@@ -506,7 +506,7 @@
                             android:id="@+id/count6"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="240"
+                            android:text=""
                             android:textColor="#333333"
                             android:textSize="15sp" />
 
@@ -1065,7 +1065,7 @@
         android:layout_width="1dp"
         android:layout_height="1dp"
         android:id="@+id/webView"
-        android:visibility="invisible">
+        android:visibility="gone">
 
     </WebView>
 

@@ -1,5 +1,6 @@
 package com.finance.winport.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
@@ -10,6 +11,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -143,6 +145,15 @@ public class FoundShopDetailActivity extends BaseActivity implements IFoundShopD
                 int scrollY = ListViewUtils.getScrollY(firstVisibleItem, recordSp);
 //                updatePinnedView(scrollY);
                 updateView(scrollY);
+            }
+        });
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(FoundShopDetailActivity.this, ShopDetailActivity.class);
+                intent.putExtra("shopId", list.get(position).getShopId() + "");
+                startActivity(intent);
             }
         });
 

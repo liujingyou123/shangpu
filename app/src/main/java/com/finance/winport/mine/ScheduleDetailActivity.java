@@ -1,6 +1,11 @@
 package com.finance.winport.mine;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,6 +15,8 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.dialog.NoticeDialog;
+import com.finance.winport.home.HomeFragment;
+import com.finance.winport.home.ShopDetailActivity;
 import com.finance.winport.mine.model.ScheduleDetailResponse;
 import com.finance.winport.mine.presenter.IScheduleDetailView;
 import com.finance.winport.mine.presenter.ScheduleDetailPresenter;
@@ -237,12 +244,37 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
                 handleBack();
                 break;
             case R.id.contact:
+                if (mNoticeDialog == null) {
+                    mNoticeDialog = new NoticeDialog(this);
+                    mNoticeDialog.setMessage("小二电话：" + clerkPhone);
+                    mNoticeDialog.setPositiveBtn("拨打");
+                    mNoticeDialog.setOkClickListener(new NoticeDialog.OnPreClickListner() {
+                        @Override
+                        public void onClick() {
+                            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + clerkPhone));
+                            if (ActivityCompat.checkSelfPermission(ScheduleDetailActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                // TODO: Consider calling
+                                //    ActivityCompat#requestPermissions
+                                // here to request the missing permissions, and then overriding
+                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                //                                          int[] grantResults)
+                                // to handle the case where the user grants the permission. See the documentation
+                                // for ActivityCompat#requestPermissions for more details.
+                                return;
+                            }
+                            startActivity(intent);
+                        }
+                    });
+                }
+                if (!mNoticeDialog.isShowing()) {
+                    mNoticeDialog.show();
+                }
                 break;
         }
     }
 
     @Override
-    public void showScheduleDetail(ScheduleDetailResponse response) {
+    public void showScheduleDetail(final ScheduleDetailResponse response) {
 
         time.setText(response.getData().getOrderTime().substring(response.getData().getOrderTime().length()-8,response.getData().getOrderTime().length()-3));
         if(response.getData().getServiceType()==1 || response.getData().getServiceType()==2){
@@ -250,16 +282,43 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
             type.setText("旺铺寻租");
             type.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.arrow,0);
             type.setCompoundDrawablePadding(UnitUtil.dip2px(ScheduleDetailActivity.this,10));
+            type.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ScheduleDetailActivity.this,MyServiceDetailActivity.class);
+                    intent.putExtra("id",Integer.parseInt(response.getData().getBizId()));
+                    intent.putExtra("type",0);
+                    startActivity(intent);
+                }
+            });
         }else if(response.getData().getServiceType()==3){
 
             type.setText("预约看铺");
             type.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.arrow,0);
             type.setCompoundDrawablePadding(UnitUtil.dip2px(ScheduleDetailActivity.this,10));
+            type.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ScheduleDetailActivity.this,MyServiceDetailActivity.class);
+                    intent.putExtra("id",Integer.parseInt(response.getData().getBizId()));
+                    intent.putExtra("type",1);
+                    startActivity(intent);
+                }
+            });
         }else if(response.getData().getServiceType()==5){
 
             type.setText("签约租铺");
             type.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.arrow,0);
             type.setCompoundDrawablePadding(UnitUtil.dip2px(ScheduleDetailActivity.this,10));
+                type.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(ScheduleDetailActivity.this,MyServiceDetailActivity.class);
+                        intent.putExtra("id",Integer.parseInt(response.getData().getBizId()));
+                        intent.putExtra("type",2);
+                        startActivity(intent);
+                    }
+                });
         }else if(response.getData().getServiceType()==6){
 
             type.setText("租客签约");
@@ -273,9 +332,17 @@ public class ScheduleDetailActivity extends BaseActivity implements IScheduleDet
         if(!TextUtils.isEmpty(response.getData().getShopId())){
             address.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.arrow,0);
             address.setCompoundDrawablePadding(UnitUtil.dip2px(ScheduleDetailActivity.this,10));
+            address.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ScheduleDetailActivity.this, ShopDetailActivity.class);
+                    intent.putExtra("shopId", response.getData().getShopId());
+                }
+            });
         }
 
         phone.setText(response.getData().getClerkName()+" " + response.getData().getClerkPhone());
+        clerkPhone = response.getData().getClerkPhone();
 
 
     }
