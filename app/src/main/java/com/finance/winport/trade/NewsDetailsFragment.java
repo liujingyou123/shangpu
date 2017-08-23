@@ -11,6 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -108,6 +111,7 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
     public void setDetails(TradeDetails info) {
         this.info = info;
         if (info != null) {
+            bottom.setVisibility(View.VISIBLE);
             web.loadData(info.data.content, "text/html; charset=UTF-8", null);
             tvTitle.setText(info.data.title);
             if (info.data.tagList != null && info.data.tagList.size() > 0 && info.data.tagList.get(0) != null) {

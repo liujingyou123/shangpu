@@ -2,6 +2,7 @@ package com.finance.winport.trade.presenter;
 
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.net.LoadingNetSubscriber;
+import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.trade.api.TradeService;
 import com.finance.winport.trade.model.TradeDetails;
 import com.finance.winport.trade.model.TradeSubList;
@@ -61,7 +62,7 @@ public class TradeSubDetailsPresenter {
     public void praise(String contentId) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("contentId", contentId);
-        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).praise(hashMap), new LoadingNetSubscriber<BaseResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).praise(hashMap), new NetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
                 if (iView != null) {
@@ -83,7 +84,7 @@ public class TradeSubDetailsPresenter {
     public void downPraise(String contentId) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("contentId", contentId);
-        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).downPraise(hashMap), new LoadingNetSubscriber<BaseResponse>() {
+        ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).downPraise(hashMap), new NetSubscriber<BaseResponse>() {
             @Override
             public void response(BaseResponse response) {
                 if (iView != null) {

@@ -98,7 +98,7 @@
             android:layout_gravity="bottom"
             android:background="#ffffff"
             android:orientation="horizontal"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/share"
