@@ -57,8 +57,8 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
     public void setTraddeDetail(TradeDetailResponse.DataBean data) {
         if (data != null) {
             mData.setPraiseNumber(data.getPraiseNumber());
-            mData.setSignature(TextUtils.isEmpty(data.getSignature()) ? "老板很懒，暂未设置签名" : data.getSignature());
-            mData.setNickName(data.getNickName()/*"稻草人Kevin"*/);
+            mData.setSignature(data.getSignature());
+            mData.setNickName(data.getNickName());
             mData.setCanBeDelete(data.getCanBeDelete());
             mData.setCommentNumber(data.getCommentNumber());
             mData.setContent(data.getContent());

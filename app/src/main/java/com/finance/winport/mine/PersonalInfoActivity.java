@@ -187,7 +187,7 @@ public class PersonalInfoActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.headLayout:
-                MobclickAgent.onEvent(context,"my_head");
+                MobclickAgent.onEvent(context, "my_head");
                 scanHeadImage();
                 break;
             case R.id.nikeNameLayout:
@@ -200,22 +200,28 @@ public class PersonalInfoActivity extends BaseActivity {
                 toPhone();
                 break;
             case R.id.concernLayout:
-                MobclickAgent.onEvent(context,"my_shopfollow");
+                MobclickAgent.onEvent(context, "my_shopfollow");
                 toConcernInfo();
                 break;
         }
     }
 
     private void toNickName() {
-        startActivity(new Intent(context, InfoModifyActivity.class).putExtra("type", ModifyEvent.InfoType.NICK_NAME));
+        startActivity(new Intent(context, InfoModifyActivity.class)
+                .putExtra("data", nikeName.getText().toString())
+                .putExtra("type", ModifyEvent.InfoType.NICK_NAME));
     }
 
     private void toSign() {
-        startActivity(new Intent(context, InfoModifyActivity.class).putExtra("type", ModifyEvent.InfoType.SIGN));
+        startActivity(new Intent(context, InfoModifyActivity.class)
+                .putExtra("data", sign.getText().toString())
+                .putExtra("type", ModifyEvent.InfoType.SIGN));
     }
 
     private void toPhone() {
-        startActivity(new Intent(context, InfoModifyActivity.class).putExtra("type", ModifyEvent.InfoType.PHONE).putExtra("data", phone.getText().toString()));
+        startActivity(new Intent(context, InfoModifyActivity.class)
+                .putExtra("data", phone.getText().toString())
+                .putExtra("type", ModifyEvent.InfoType.PHONE));
     }
 
     // 我关注的商铺

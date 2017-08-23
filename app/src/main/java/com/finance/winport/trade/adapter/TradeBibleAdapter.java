@@ -187,7 +187,7 @@ public class TradeBibleAdapter extends PullRecyclerBaseAdapter<TradeSub> {
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
             final TradeTag.Tag item = headerInfo.get(position);
-//            holder.name.setText(item.tagName);
+            holder.name.setText(item.tagName);
             ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) holder.itemView.getLayoutParams();
             if (position > 0) {
                 lp.leftMargin = UnitUtil.dip2px(context, 7.5f);
@@ -195,7 +195,7 @@ public class TradeBibleAdapter extends PullRecyclerBaseAdapter<TradeSub> {
                 lp.leftMargin = UnitUtil.dip2px(context, 0);
             }
             holder.itemView.requestLayout();
-            Batman.getInstance().fromNet(item.tagIcon, holder.img, R.mipmap.icon_information, R.mipmap.icon_information);
+            Batman.getInstance().fromNet(item.tagIcon, holder.img);
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -98,6 +98,7 @@
             android:maxLines="2"
             android:textColor="@color/color_list_text_dark_selector"
             android:textSize="15sp"
+            android:textStyle="bold"
             tools:text="徐虹北路230号转租徐虹北路230号转租" />
 
         <TextView

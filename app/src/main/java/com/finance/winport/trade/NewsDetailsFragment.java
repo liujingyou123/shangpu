@@ -143,6 +143,7 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
             info.data.goodCount++;
             praise.setText(info.data.goodCount + "");
             praise.setEnabled(false);
+            praise.setSelected(true);
         }
     }
 
@@ -152,6 +153,7 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
             info.data.badCount++;
             downPraise.setText(info.data.badCount + "");
             downPraise.setEnabled(false);
+            downPraise.setSelected(true);
         }
     }
 

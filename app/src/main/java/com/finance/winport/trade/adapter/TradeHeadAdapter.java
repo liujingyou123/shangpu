@@ -107,7 +107,7 @@ public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeSub> {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MobclickAgent.onEvent(context,"circle_industry_article");
+                    MobclickAgent.onEvent(context, "circle_industry_article");
                     context.startActivity(new Intent(context, InfoDetailsActivity.class)
                             .putExtra("id", item.contentId)
                             .putExtra("title", item.title)
@@ -194,7 +194,7 @@ public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeSub> {
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
             final TradeTag.Tag item = headerInfo.get(position);
-//            holder.name.setText(item.tagName);
+            holder.name.setText(item.tagName);
             ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) holder.itemView.getLayoutParams();
             if (position > 0) {
                 lp.leftMargin = UnitUtil.dip2px(context, 7.5f);
@@ -202,12 +202,12 @@ public class TradeHeadAdapter extends PullRecyclerBaseAdapter<TradeSub> {
                 lp.leftMargin = UnitUtil.dip2px(context, 0);
             }
             holder.itemView.requestLayout();
-            Batman.getInstance().fromNet(item.tagIcon, holder.img, R.mipmap.icon_information, R.mipmap.icon_information);
+            Batman.getInstance().fromNet(item.tagIcon, holder.img);
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MobclickAgent.onEvent(context,"circle_industry_tag");
+                    MobclickAgent.onEvent(context, "circle_industry_tag");
                     context.startActivity(new Intent(context, InfoListActivity.class)
                             .putExtra("id", item.tagId).putExtra("title", item.tagName)
                             .putExtra("type", TradeType.HEAD_LIST));
