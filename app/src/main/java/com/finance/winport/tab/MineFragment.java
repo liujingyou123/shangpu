@@ -519,7 +519,7 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
     public void showPersonalInfo(PersonalInfoResponse response) {
         isDataOk = true;
         this.info = response;
-        phone.setText(response.data.nickName == null ? "" : response.data.nickName);
+        phone.setText(response.data.nickName + " / " + response.data.phone);
         personalSign.setText(response.data.signature == null ? "" : response.data.signature);
         mineService.setText(getMyService(response.data.myService));
         String headPortrait = response.data.headPortrait;

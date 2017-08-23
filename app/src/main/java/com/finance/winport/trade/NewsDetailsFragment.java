@@ -168,7 +168,7 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
 
 
     private void initView() {
-        tvFocusHouse.setText(title + "详情");
+        tvFocusHouse.setText("行业头条详情");
         web.setOnScrollListener(new CustomWebView.OnScrollListener() {
             @Override
             public void onScroll(int deltaY) {

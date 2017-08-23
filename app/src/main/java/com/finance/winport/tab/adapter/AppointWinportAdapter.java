@@ -81,7 +81,7 @@ public class AppointWinportAdapter extends PullBaseAdapter<AppointShopList.DataB
         String sFee = Math.round(item.transferFee / 10000) + "";
         boolean hasFee = item.transferFee > 0;
         // 0 已上架、1 已下架
-        if (item.rentStatus == 1) {
+        if (item.shelfStatus == 1) {
             holder.price.setText(sRent + "元/月");
             if (item.isFace == 1) {// 面议
                 holder.fee.setText("面议");

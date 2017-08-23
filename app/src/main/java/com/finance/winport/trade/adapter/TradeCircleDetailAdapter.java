@@ -76,6 +76,10 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
 
     public void addComment(int index, CommentResponse.DataBean.Comment comment) {
         if (comment != null) {
+            //去掉为空的情况
+            if (mComments.size() == 1 && mComments.get(0) == null) {
+                mComments.clear();
+            }
             mComments.add(index, comment);
         }
         notifyDataSetChanged();
