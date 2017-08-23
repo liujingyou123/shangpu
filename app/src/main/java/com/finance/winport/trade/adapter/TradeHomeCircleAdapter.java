@@ -40,6 +40,7 @@ import com.finance.winport.view.DrawableTopLeftTextView;
 import com.finance.winport.view.HtmlTextView;
 import com.finance.winport.view.dialog.TradeMorePopup;
 import com.finance.winport.view.roundview.RoundedImageView;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,9 +133,11 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
             public void onClick(View v) {
                 switch (groupPosition) {
                     case 0://行业头条
+                        MobclickAgent.onEvent(context,"ircle_industrymore");
                         context.startActivity(new Intent(context, TradeHeadActivity.class).putExtra("type", TradeType.HEAD));
                         break;
                     case 1://生意宝典
+                        MobclickAgent.onEvent(context,"circle_guidancemore");
                         context.startActivity(new Intent(context, TradeHeadActivity.class).putExtra("type", TradeType.BIBLE));
                         break;
                     case 2://生意社区
@@ -208,6 +211,7 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    MobclickAgent.onEvent(context,"circle_industryarticle");
                     context.startActivity(new Intent(context, InfoDetailsActivity.class)
                             .putExtra("id", item.contentId)
                             .putExtra("title", item.title)
@@ -231,6 +235,7 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    MobclickAgent.onEvent(context,"circle_guidancearticle");
                     context.startActivity(new Intent(context, InfoDetailsActivity.class)
                             .putExtra("id", item.contentId)
                             .putExtra("title", item.title)

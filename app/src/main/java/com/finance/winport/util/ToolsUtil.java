@@ -49,6 +49,15 @@ public class ToolsUtil {
         };
     }
 
+    public static <T> Observable.Transformer<T, T> applayScheduersWithoutRetry() {
+        return new Observable.Transformer<T, T>() {
+            @Override
+            public Observable<T> call(Observable<T> tObservable) {
+                return tObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+            }
+        };
+    }
+
     public static <T> T createService(Class<T> serviceClazz) {
         return Ironman.getInstance().createService(serviceClazz);
     }

@@ -76,7 +76,7 @@ public class NewsListFragment extends BaseFragment implements ITradeSubView {
         tvFocusHouse.setText(title);
         initRefreshView();
         mListView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        NewsListAdapter adapter = new NewsListAdapter(refreshView, null, 0);
+        adapter = new NewsListAdapter(refreshView, null, 0);
         mListView.setAdapter(adapter);
     }
 

@@ -77,7 +77,7 @@ public class BibleListFragment extends BaseFragment implements ITradeSubView {
         tvFocusHouse.setText(title);
         initRefreshView();
         mListView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        BibleListAdapter adapter = new BibleListAdapter(refreshView, null, 0);
+        adapter = new BibleListAdapter(refreshView, null, 0);
         mListView.setAdapter(adapter);
     }
 

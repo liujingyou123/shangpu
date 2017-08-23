@@ -193,6 +193,7 @@ public class EditNoteActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_focus_right:
+                MobclickAgent.onEvent(context,"circle_publish_guide");
                 showPostInfo();
                 break;
             case R.id.btn_done:

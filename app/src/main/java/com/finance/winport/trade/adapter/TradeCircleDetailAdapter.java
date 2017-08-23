@@ -234,7 +234,7 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
             if (info.getIsReply() == 1) {//1-评论 2-回复评论
                 viewHolder.tvPhone.setText(info.getNickName());
             } else {
-                String s = "<html><head>" + info.getNickName() + "<span style=\"color:#999999\">" + " 回复 " + (TextUtils.isEmpty(info.getParentNickName()) ? "" : info.getParentNickName()) + "</span>" + "</head></html>";
+                String s = "<html><head>" + info.getNickName() + "<font color=\"#999999\">" + " 回复 " + (TextUtils.isEmpty(info.getParentNickName()) ? "" : info.getParentNickName()) + "</font>" + "</head></html>";
                 viewHolder.tvPhone.setText(Html.fromHtml(s));
             }
             viewHolder.tvTime.setText(info.getDateTime() + "评论");

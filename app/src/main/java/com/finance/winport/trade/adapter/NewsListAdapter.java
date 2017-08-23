@@ -16,6 +16,7 @@ import com.finance.winport.trade.TradeType;
 import com.finance.winport.trade.model.TradeSub;
 import com.finance.winport.view.DrawableTopLeftTextView;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
@@ -66,6 +67,7 @@ public class NewsListAdapter extends PullRecyclerBaseAdapter<TradeSub> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(context,"circle_industry_tag_article");
                 context.startActivity(new Intent(context, InfoDetailsActivity.class)
                         .putExtra("id", item.contentId)
                         .putExtra("title", item.title)

@@ -393,12 +393,11 @@ public class MineFragment extends BaseFragment implements IPersonalInfoView {
                 startActivity(new Intent(getActivity(), MyNoticeActivity.class));
                 break;
             case R.id.schedule_list:
-                MobclickAgent.onEvent(context, "my_date");
+                MobclickAgent.onEvent(context, "my_service");
                 if (!isLogin()) {// not login
                     toLogin();
                     return;
                 }
-//                startActivity(new Intent(getActivity(), MyScheduleListActivity.class));
                 startActivity(new Intent(getActivity(), MyServiceActivity.class));
                 break;
             case R.id.info_layout:

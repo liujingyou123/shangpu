@@ -20,6 +20,7 @@ import com.finance.winport.trade.model.TradeSub;
 import com.finance.winport.trade.model.TradeTag;
 import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
@@ -99,6 +100,7 @@ public class TradeBibleAdapter extends PullRecyclerBaseAdapter<TradeSub> {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    MobclickAgent.onEvent(context,"circle_guidance_article");
                     context.startActivity(new Intent(context, InfoDetailsActivity.class)
                             .putExtra("id", item.contentId)
                             .putExtra("title", item.title)
@@ -198,6 +200,7 @@ public class TradeBibleAdapter extends PullRecyclerBaseAdapter<TradeSub> {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    MobclickAgent.onEvent(context,"circle_guidance_tag");
                     context.startActivity(new Intent(context, InfoListActivity.class)
                             .putExtra("id", item.tagId).putExtra("title", item.tagName)
                             .putExtra("type", TradeType.BIBLE_LIST));
