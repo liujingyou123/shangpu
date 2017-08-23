@@ -141,12 +141,12 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
             unbinder = ButterKnife.bind(this, root);
 //            scroll.fullScroll(ScrollView.FOCUS_UP);
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    scroll.fullScroll(ScrollView.FOCUS_UP);
-                }
-            }, 1000);
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    scroll.fullScroll(ScrollView.FOCUS_UP);
+//                }
+//            }, 1000);
 //            init();
 
         }
@@ -169,7 +169,7 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
         if (!hidden) {
             Log.i("onHiddenChanged", "hidden为true onHiddenChanged 方法被调用");
 
-            scroll.fullScroll(ScrollView.FOCUS_UP);
+//            scroll.fullScroll(ScrollView.FOCUS_UP);
         }
 
     }
@@ -469,6 +469,7 @@ public class ServiceFragment extends BaseFragment implements IFindServiceHomeVie
 //        if (adapter == null) {
         adapter = new ServiceScheduleListAdapter(getActivity(), list);
 
+        mListView.setFocusable(false);
         mListView.setAdapter(adapter);
 //        ViewGroup.LayoutParams parm = mListView.getLayoutParams();
 //        parm.height = UnitUtil.dip2px(getActivity(), 75 * list.size());

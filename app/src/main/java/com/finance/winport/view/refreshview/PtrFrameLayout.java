@@ -547,6 +547,7 @@ public class PtrFrameLayout extends ViewGroup {
         mPtrIndicator.setIsHeader(false);
         // to keep the consistence with refresh, need to converse the deltaY
         movePos(-deltaY);
+
     }
 
     private void moveHeaderPos(float deltaY) {

@@ -343,7 +343,8 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView,
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
 
-                webView.loadUrl("javascript:getmap(1 ,2)");
+//                webView.loadUrl("javascript:getmap(1 ,2)");
+                webView.loadUrl("javascript:getmap('" + Double.parseDouble(mShopDetail.getData().getLongitude()) + "','" + Double.parseDouble(mShopDetail.getData().getLatitude()) + "')");
 
             }
         });
@@ -1113,12 +1114,12 @@ public class ShopDetailActivity extends BaseActivity implements IShopDetailView,
             }
         }
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                webView.loadUrl("javascript:getmap('" + Double.parseDouble(mShopDetail.getData().getLongitude()) + "','" + Double.parseDouble(mShopDetail.getData().getLatitude()) + "')");
-            }
-        }, 2000);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                webView.loadUrl("javascript:getmap('" + Double.parseDouble(mShopDetail.getData().getLongitude()) + "','" + Double.parseDouble(mShopDetail.getData().getLatitude()) + "')");
+//            }
+//        }, 1000);
 
 
         setMapView();

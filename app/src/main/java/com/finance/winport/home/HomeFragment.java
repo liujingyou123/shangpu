@@ -55,6 +55,7 @@ import com.finance.winport.util.SelectDialogUtil;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.SpUtil;
 import com.finance.winport.util.ToastUtil;
+import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.home.HeaderView;
 import com.finance.winport.view.home.SelectView;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
@@ -842,13 +843,23 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
     @Override
     public void showMoreList(ShopListResponse response) {
         if (response != null) {
+
             if (refreshView != null) {
                 refreshView.refreshComplete();
             }
+
             mData.addAll(response.getData().getData());
             if (adapter != null) {
                 adapter.notifyDataSetChanged();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        lsShops.smoothScrollBy(UnitUtil.dip2px(getActivity(),83)/3, 200);
+                    }
+                },1000);
+
             }
+
         }
     }
 
