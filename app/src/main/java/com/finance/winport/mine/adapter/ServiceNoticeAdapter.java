@@ -272,7 +272,7 @@ public class ServiceNoticeAdapter extends PullBaseAdapter<NotifyList.DataBean.Se
         @BindView(R.id.reason)
         TextView reason;
         @BindView(R.id.drop_off)
-        TextView dropOff;
+        View dropOff;
         @BindView(R.id.contact)
         TextView contact;
         @BindView(R.id.details)
