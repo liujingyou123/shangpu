@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.finance.winport.R;
+import com.finance.winport.mine.model.MyServiceListResponse;
 import com.finance.winport.mine.model.ScheduleListResponse;
 
 import java.util.List;
@@ -21,9 +22,9 @@ import butterknife.ButterKnife;
  */
 public class MyServiceListAdapter extends BaseAdapter {
     protected Context context;
-    private List<ScheduleListResponse.DataBean.ScheduleListBean> baseData;
+    private List<MyServiceListResponse.DataBeanX.DataBean> baseData;
 
-    public MyServiceListAdapter(Context context, List<ScheduleListResponse.DataBean.ScheduleListBean> baseData) {
+    public MyServiceListAdapter(Context context, List<MyServiceListResponse.DataBeanX.DataBean> baseData) {
         this.baseData = baseData;
         this.context = context;
     }
@@ -35,7 +36,7 @@ public class MyServiceListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 8;
+        return baseData.size();
     }
 
     @Override
@@ -60,29 +61,43 @@ public class MyServiceListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-//        holder.time.setText(baseData.get(position).getOrderTime());
-//        if (baseData.get(position).getServiceType() == 0) {
-//
-//            holder.type.setText("旺铺寻租");
-//        } else if (baseData.get(position).getServiceType() == 1) {
-//
-//            holder.type.setText("预约看铺");
-//        } else if (baseData.get(position).getServiceType() == 2) {
-//
-//            holder.type.setText("签约租铺");
-//        }
-//        holder.address.setText(baseData.get(position).getAddress());
-//        if (baseData.get(position).getStatus() == 2) {
-//
-//            holder.status.setVisibility(View.VISIBLE);
-//            holder.time.setTextColor(Color.parseColor("#999999"));
-//            holder.type.setTextColor(Color.parseColor("#999999"));
-//        }
-//        else{
-//            holder.status.setVisibility(View.GONE);
-//            holder.time.setTextColor(Color.parseColor("#333333"));
-//            holder.type.setTextColor(Color.parseColor("#333333"));
-//        }
+        holder.time.setText(baseData.get(position).getCreateTime());
+        if (baseData.get(position).getType() == 0) {
+
+            holder.type.setText("旺铺寻租");
+        } else if (baseData.get(position).getType() == 1) {
+
+            holder.type.setText("预约看铺");
+        } else if (baseData.get(position).getType() == 2) {
+
+            holder.type.setText("签约租铺");
+        }
+        holder.address.setText(baseData.get(position).getAddress());
+        if (baseData.get(position).getShopStatus() == 0) {
+
+            holder.status.setText("服务受理中");
+            holder.status.setTextColor(Color.parseColor("#2ea1f1"));
+        }
+        else if (baseData.get(position).getShopStatus() == 1) {
+
+            holder.status.setText("服务已完成");
+            holder.status.setTextColor(Color.parseColor("#00b886"));
+        }
+        else if (baseData.get(position).getShopStatus() == 2) {
+
+            holder.status.setText("服务已撤销");
+            holder.status.setTextColor(Color.parseColor("#b3bac3"));
+        }
+        else if (baseData.get(position).getShopStatus() == 3) {
+
+            holder.status.setText("旺铺已发布");
+            holder.status.setTextColor(Color.parseColor("#00b886"));
+        }
+        else if (baseData.get(position).getShopStatus() == 4) {
+
+            holder.status.setText("店铺被废弃");
+            holder.status.setTextColor(Color.parseColor("#b3bac3"));
+        }
         return convertView;
     }
 

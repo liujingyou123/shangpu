@@ -1,19 +1,31 @@
 package com.finance.winport.home;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.finance.winport.R;
 import com.finance.winport.base.BaseActivity;
 import com.finance.winport.dialog.ShareDialog;
 import com.finance.winport.home.adapter.FoundShopsCommendAdapter;
+import com.finance.winport.home.model.FoundShopDetailResponse;
 import com.finance.winport.home.model.ShopListResponse;
+import com.finance.winport.home.presenter.FoundShopDetailPresenter;
+import com.finance.winport.home.view.IFoundShopDetailView;
+import com.finance.winport.image.Batman;
 import com.finance.winport.service.model.LoanListResponse;
 import com.finance.winport.util.H5Util;
 import com.finance.winport.util.ListViewUtils;
@@ -34,7 +46,7 @@ import butterknife.OnClick;
  * gejin
  */
 
-public class FoundShopDetailActivity extends BaseActivity {
+public class FoundShopDetailActivity extends BaseActivity implements IFoundShopDetailView {
 
     @BindView(R.id.mListView)
     ListView mListView;
@@ -48,12 +60,17 @@ public class FoundShopDetailActivity extends BaseActivity {
     RelativeLayout lltop;
     private FoundShopsCommendAdapter adapter;
 
+    private ImageView img;
+    private TextView title,time;
+    private WebView contentView;
+    private RelativeLayout commend;
+
+
+    private List<FoundShopDetailResponse.DataBean.ShopListBean> list = new ArrayList<>();
+
+    private FoundShopDetailPresenter mPresenter;
     private ShareDialog shareDialog;
-
-
-    private int pageNum = 1;
-
-    private List<ShopListResponse.DataBean.Shop> list = new ArrayList<>();
+    private FoundShopDetailResponse mShopDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +83,11 @@ public class FoundShopDetailActivity extends BaseActivity {
     }
 
     private void getData() {
-        setAdapter(null);
+        int contentId = getIntent().getIntExtra("contentId",-1);
+        if (mPresenter == null) {
+            mPresenter = new FoundShopDetailPresenter(this);
+        }
+        mPresenter.getFoundShopList(contentId);
     }
 
 
@@ -76,17 +97,28 @@ public class FoundShopDetailActivity extends BaseActivity {
         refreshView.setPtrHandler(new PtrDefaultHandler2() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                pageNum = 1;
-//                asyncData();
             }
 
             @Override
             public void onLoadMoreBegin(PtrFrameLayout frame) {
-                pageNum++;
-                getData();
             }
         });
         View header = LayoutInflater.from(context).inflate(R.layout.activity_found_shop_detail_header, null);
+        img = (ImageView) header.findViewById(R.id.img_shop);
+        title = (TextView) header.findViewById(R.id.title);
+        time = (TextView) header.findViewById(R.id.time);
+        contentView = (WebView) header.findViewById(R.id.content);
+        commend = (RelativeLayout) header.findViewById(R.id.commend);
+        WebSettings settings = contentView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setDatabaseEnabled(true);
+        settings.setBlockNetworkImage(false);
+        settings.setDomStorageEnabled(true);
+        settings.setDisplayZoomControls(false);
+        settings.setLoadWithOverviewMode(true);
+        settings.setUseWideViewPort(true);
+        contentView.setWebViewClient(new WebViewClient());
         mListView.addHeaderView(header);
 
         mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -113,6 +145,15 @@ public class FoundShopDetailActivity extends BaseActivity {
                 int scrollY = ListViewUtils.getScrollY(firstVisibleItem, recordSp);
 //                updatePinnedView(scrollY);
                 updateView(scrollY);
+            }
+        });
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(FoundShopDetailActivity.this, ShopDetailActivity.class);
+                intent.putExtra("shopId", list.get(position).getShopId() + "");
+                startActivity(intent);
             }
         });
 
@@ -155,8 +196,8 @@ public class FoundShopDetailActivity extends BaseActivity {
         }
     }
 
-    private void setAdapter(LoanListResponse response) {
-//        list.addAll(response.getData().getData());
+    private void setAdapter(List<FoundShopDetailResponse.DataBean.ShopListBean> response) {
+        list.addAll(response);
         if (adapter == null) {
             adapter = new FoundShopsCommendAdapter(FoundShopDetailActivity.this, list);
             mListView.setAdapter(adapter);
@@ -179,19 +220,45 @@ public class FoundShopDetailActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.share:
-//                MobclickAgent.onEvent(context, "shop_share");
-//                if (mShopDetail == null) {
-//                    return;
-//                }
-//                if (shareDialog == null) {
-//                    shareDialog = new ShareDialog(this);
-//                }
+                if (mShopDetail == null) {
+                    return;
+                }
+                if (shareDialog == null) {
+                    shareDialog = new ShareDialog(this);
+                }
+                shareDialog.setDes(mShopDetail.getData().getDesc());
 //                shareDialog.setDes(mShopDetail.getData().getAddress() + "(" + UnitUtil.formatSNum(mShopDetail.getData().getArea()) + "㎡)旺铺急租，租金仅" + rentPrice);
-//                shareDialog.setTitle(mShopDetail.getData().getAddress());
-//                shareDialog.setImage(coverImg);
-//                shareDialog.setUrl(H5Util.getIpShopDetail(mShopDetail.getData().getId() + ""));
-//                shareDialog.show();
+                shareDialog.setTitle(mShopDetail.getData().getTitle());
+                shareDialog.setImage(mShopDetail.getData().getImage());
+                shareDialog.setUrl(H5Util.getFoundShopDetail(mShopDetail.getData().getContentId()+""));
+                shareDialog.show();
                 break;
         }
+    }
+
+    @Override
+    public void showFoundShopDetail(FoundShopDetailResponse response) {
+
+        mShopDetail =response;
+        title.setText(response.getData().getTitle());
+        time.setText(response.getData().getDateTime());
+        if(!TextUtils.isEmpty(response.getData().getContent())){
+
+//            contentView.setText(Html.fromHtml(response.getData().getContent()));
+            contentView.loadDataWithBaseURL(null,response.getData().getContent(),"text/html","utf-8",null);
+        }
+        Batman.getInstance().fromNet(response.getData().getImage(),img);
+        if(response.getData().getShopList()==null||response.getData().getShopList().size()==0){
+            commend.setVisibility(View.GONE);
+        }else{
+            commend.setVisibility(View.VISIBLE);
+            setAdapter(response.getData().getShopList());
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        contentView.destroy();
     }
 }

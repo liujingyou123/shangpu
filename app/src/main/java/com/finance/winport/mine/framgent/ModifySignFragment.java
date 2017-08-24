@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,17 +69,15 @@ public class ModifySignFragment extends BaseFragment {
 
 
     private void save() {
-        //...
-
         String content = this.content.getText().toString().trim();
         setResult(content);
-//        modifySign(content);
+        modifySign(content);
     }
 
     private void modifySign(final String content) {
         HashMap<String, Object> params = new HashMap<>();
         params.put("signature", content);
-        PersonManager.getInstance().modifySign(params, new NetworkCallback<BaseResponse>() {
+        PersonManager.getInstance().modifyNickNameAndSign(params, new NetworkCallback<BaseResponse>() {
             @Override
             public void success(BaseResponse response) {
                 setResult(content);
@@ -139,10 +138,11 @@ public class ModifySignFragment extends BaseFragment {
 
     @OnClick(R.id.save)
     public void onSave() {
-        if (content.getText().toString().trim().length() <= 0) {
-
+        if (TextUtils.isEmpty(content.getText().toString().trim())) {
+            handleBack();
+        } else {
+            save();
         }
-        save();
     }
 
     @OnClick(R.id.imv_focus_house_back)

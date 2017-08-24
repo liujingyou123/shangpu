@@ -14,6 +14,8 @@ public class UserInfo extends BaseResponse {
         public String headPortrait;
         public String userPhone;
         public String customerId;
+        public int isNew;// 是否新用户 0:否，1:是
+        public int isBanned;//是否禁言 0:否，1:是
 
     }
 

@@ -4,6 +4,7 @@ import com.finance.winport.base.BaseResponse;
 import com.finance.winport.home.api.HomeServices;
 import com.finance.winport.home.model.BannerResponse;
 import com.finance.winport.home.model.CheckVersionResponse;
+import com.finance.winport.home.model.HomeFoundShopResponse;
 import com.finance.winport.home.model.RegionResponse;
 import com.finance.winport.home.model.ShopCount;
 import com.finance.winport.home.model.ShopListResponse;
@@ -89,14 +90,30 @@ public class HomePresenter {
     /**
      * 广告banner
      */
-    public void getBanner() {
+    public void getBanner(String position,String type) {
         HashMap<String ,String> hashMap = new HashMap<>();
-        hashMap.put("position","0");
+        hashMap.put("position",position);
+        hashMap.put("type",type);
         ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).getBanners(hashMap), new NetSubscriber<BannerResponse>() {
             @Override
             public void response(BannerResponse response) {
                 if (mIHomeView != null) {
                     mIHomeView.showBanners(response);
+                }
+            }
+
+        });
+    }
+
+    /**
+     * 首页发现旺铺
+     */
+    public void getFoundShop() {
+        ToolsUtil.subscribe(ToolsUtil.createService(HomeServices.class).getHomeFoundShop(), new NetSubscriber<HomeFoundShopResponse>() {
+            @Override
+            public void response(HomeFoundShopResponse response) {
+                if (mIHomeView != null) {
+                    mIHomeView.showFoundShop(response);
                 }
             }
 

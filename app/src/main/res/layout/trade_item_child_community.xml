@@ -32,7 +32,7 @@
             tools:text="黄老板" />
 
         <TextView
-            android:id="@+id/work_type"
+            android:id="@+id/sign"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/headImg"
@@ -73,7 +73,7 @@
         android:maxLines="2"
         android:textColor="#666666"
         android:textSize="16sp"
-        tools:text="金铺多成立于2017年4月，是金铺多集团旗下的国内首家专业商业地产网站，专注于商业地产信息服是金铺多集团旗下的国内首家专业商业地产网站，专注于商业地产信息服" />
+        tools:text="金铺多成立于2017年4月，是金铺多集团旗下的国内首家专业商业地产网站，专注于商业地产信息服是金铺多集团旗下的国内首家专业商业地产网站，专注于商业地产信息服专注于商业地产信息服专注于商业地产信息服专注于商业地产信息服" />
 
     <LinearLayout
         android:id="@+id/img_layout"

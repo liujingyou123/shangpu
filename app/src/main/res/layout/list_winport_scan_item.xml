@@ -30,13 +30,16 @@
             android:background="@drawable/bg_mark_background"
             android:visibility="gone">
 
-            <ImageView
+            <TextView
                 android:id="@+id/mark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:scaleType="centerInside"
-                android:src="@mipmap/icon_winport_off" />
+                android:background="@drawable/bg_winport_mark"
+                android:gravity="center"
+                android:textColor="#FF5851"
+                android:textSize="13sp"
+                android:text="已下架" />
         </FrameLayout>
 
         <LinearLayout
@@ -83,6 +86,7 @@
             android:maxLines="2"
             android:textColor="@color/color_list_text_dark_selector"
             android:textSize="15sp"
+            android:textStyle="bold"
             tools:text="徐虹北路230号转租徐虹北路230号转230号转" />
 
         <TextView

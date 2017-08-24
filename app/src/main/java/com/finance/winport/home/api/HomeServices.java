@@ -4,6 +4,9 @@ import com.finance.winport.base.BaseResponse;
 import com.finance.winport.home.model.AliTokenResponse;
 import com.finance.winport.home.model.BannerResponse;
 import com.finance.winport.home.model.CollectionResponse;
+import com.finance.winport.home.model.FoundShopDetailResponse;
+import com.finance.winport.home.model.FoundShopListResponse;
+import com.finance.winport.home.model.HomeFoundShopResponse;
 import com.finance.winport.home.model.MetroResponse;
 import com.finance.winport.home.model.RegionResponse;
 import com.finance.winport.home.model.ShopCount;
@@ -52,6 +55,10 @@ public interface HomeServices {
     @POST(ApiUrl.COUNTSHOPFROMCLIENT)
     Observable<ShopCount> getShopCount();
 
+    //首页发现旺铺
+    @POST(ApiUrl.FOUND)
+    Observable<HomeFoundShopResponse> getHomeFoundShop();
+
     //广告banner
     @POST(ApiUrl.ADVLIST)
     Observable<BannerResponse> getBanners(@Body HashMap params);
@@ -71,4 +78,13 @@ public interface HomeServices {
     //获取阿里云TOKEN
     @POST(ApiUrl.GETTMPACCESSINFO)
     Call<AliTokenResponse> getAliToken(@Body HashMap params);
+
+
+    //发现旺铺列表
+    @POST(ApiUrl.FOUNDLIST)
+    Observable<FoundShopListResponse> getFoundShopList(@Body HashMap params);
+
+    //发现旺铺详情
+    @POST(ApiUrl.FOUNDDETAIL)
+    Observable<FoundShopDetailResponse> getFoundShopDetail(@Body HashMap params);
 }

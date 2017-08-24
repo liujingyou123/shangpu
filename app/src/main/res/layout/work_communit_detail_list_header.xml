@@ -59,6 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffffff"
+        android:descendantFocusability="blocksDescendants"
         android:paddingTop="15dp">
 
         <TextView
@@ -71,18 +72,23 @@
             android:textColor="#333333"
             android:textSize="16sp"
             tools:text="魔都最火的10间商铺" />
-
-        <com.finance.winport.view.HtmlTextView
+        <WebView
             android:id="@+id/content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_below="@+id/title"
             android:layout_marginBottom="15dp"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:textColor="#666666"
-            android:textSize="16sp"
-            tools:text="金铺多成立于2017年4月，是金铺多集团旗下的国内首家专业商业地产网站，专注于商业地产信息服是金铺多集团旗下的国内首家专业商业地产网站，专注于商业地产信息服" />
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!--<com.finance.winport.view.HtmlTextView-->
+            <!--android:id="@+id/content"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/title"-->
+            <!--android:layout_marginBottom="15dp"-->
+            <!--android:textColor="#666666"-->
+            <!--android:textSize="16sp"-->
+            <!--tools:text="金铺多成立于2017年4月，是金铺多集团旗下的国内首家专业商业地产网站，专注于商业地产信息服是金铺多集团旗下的国内首家专业商业地产网站，专注于商业地产信息服" />-->
 
         <LinearLayout
             android:id="@+id/img_layout"
@@ -151,6 +157,7 @@
             android:background="@color/divider_color" />
 
     </RelativeLayout>
+<!--
     <RelativeLayout
         android:layout_width="match_parent"
         android:background="@drawable/bg_underline"
@@ -166,8 +173,8 @@
             android:gravity="center_vertical"
             android:drawableLeft="@drawable/vertical_line"
             android:drawablePadding="10dp"
-            android:textColor="#FF999999"
-            android:textSize="12sp" />
+            android:textColor="#333333"
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/imv_del"
@@ -180,6 +187,7 @@
             android:src="@mipmap/business_icon_del"
             android:visibility="gone" />
     </RelativeLayout>
+-->
 
 
 </LinearLayout>

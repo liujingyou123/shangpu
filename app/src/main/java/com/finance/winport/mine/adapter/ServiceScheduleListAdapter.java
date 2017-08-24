@@ -61,16 +61,50 @@ public class ServiceScheduleListAdapter extends BaseAdapter {
         }
 
         holder.time.setText(baseData.get(position).getOrderTime().substring(11,16));
-        if (baseData.get(position).getServiceType() == 0) {
+//        if (baseData.get(position).getServiceType() == 0) {
+//
+//            holder.type.setText("旺铺寻租");
+//        } else if (baseData.get(position).getServiceType() == 1) {
+//
+//            holder.type.setText("预约看铺");
+//        } else if (baseData.get(position).getServiceType() == 2) {
+//
+//            holder.type.setText("签约租铺");
+//        } else if (baseData.get(position).getServiceType() == 3) {
+//
+//            holder.type.setText("租客签约");
+//        } else if (baseData.get(position).getServiceType() == 4) {
+//
+//            holder.type.setText("租客看铺");
+//        }
+
+        if (baseData.get(position).getServiceType() == 1 || baseData.get(position).getServiceType() == 2) {
 
             holder.type.setText("旺铺寻租");
-        } else if (baseData.get(position).getServiceType() == 1) {
+        } else if (baseData.get(position).getServiceType() == 3) {
 
             holder.type.setText("预约看铺");
-        } else if (baseData.get(position).getServiceType() == 2) {
+        } else if (baseData.get(position).getServiceType() == 5) {
 
             holder.type.setText("签约租铺");
+        } else if (baseData.get(position).getServiceType() == 6) {
+
+            holder.type.setText("租客签约");
+        } else if (baseData.get(position).getServiceType() == 4) {
+
+            holder.type.setText("租客看铺");
         }
+
+//        if (baseData.get(position).getServiceType() == 0) {
+//
+//            holder.type.setText("旺铺寻租");
+//        } else if (baseData.get(position).getServiceType() == 1) {
+//
+//            holder.type.setText("预约看铺");
+//        } else if (baseData.get(position).getServiceType() == 2) {
+//
+//            holder.type.setText("签约租铺");
+//        }
         holder.address.setText(baseData.get(position).getAddress());
         return convertView;
     }

@@ -17,19 +17,19 @@ import rx.Observable;
 
 public interface UserService {
     // 登录
-    @POST("customerapp/api/user/verify/loginVerify/v1.0.0")
+    @POST("customerapp/api/user/verify/loginVerify")
     Observable<UserInfo> login(@Body HashMap<String, Object> params);
 
     // 发送验证码
-    @POST("customerapp/api/user/verify/sendSmsVerifyCode/v1.0.0")
+    @POST("customerapp/api/user/verify/sendSmsVerifyCode")
     Observable<Message> getVerifyCode(@Body HashMap<String, Object> params);
 
     // 获取图片验证码
-    @POST("customerapp/api/user/verify/getPicVerifyCode/v1.0.0")
+    @POST("customerapp/api/user/verify/getPicVerifyCode")
     Observable<ImageVerifyCode> getPicCode(@Body HashMap<String, Object> params);
 
     // 退出登录
-    @POST("customerapp/api/user/verify/logoutVerify/v1.0.0")
+    @POST("customerapp/api/user/verify/logoutVerify")
     Observable<BaseResponse> loginOut(@Body HashMap<String, Object> params);
 
 

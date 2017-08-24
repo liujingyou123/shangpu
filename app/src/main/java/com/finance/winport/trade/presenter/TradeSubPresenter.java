@@ -1,5 +1,7 @@
 package com.finance.winport.trade.presenter;
 
+import android.text.TextUtils;
+
 import com.finance.winport.base.BaseResponse;
 import com.finance.winport.net.LoadingNetSubscriber;
 import com.finance.winport.net.NetSubscriber;
@@ -32,11 +34,14 @@ public class TradeSubPresenter {
         this.iView = iView;
     }
 
-    public void getSubList(int pageNumber, int pageSize, String type, final boolean withLoading) {
+    public void getSubList(int pageNumber, int pageSize, String contentType, String tagId, final boolean withLoading) {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("pageNumber", pageNumber + "");
         hashMap.put("pageSize", pageSize + "");
-        hashMap.put("type", type);
+        hashMap.put("contentType", contentType);
+        if (!TextUtils.isEmpty(tagId)) {
+            hashMap.put("tagId", tagId);
+        }
         ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).getSubList(hashMap), new LoadingNetSubscriber<TradeSubList>() {
             @Override
             public void response(TradeSubList response) {
@@ -62,9 +67,9 @@ public class TradeSubPresenter {
         });
     }
 
-    public void getTagList(String type, final boolean withLoading) {
+    public void getTagList(String contentType, final boolean withLoading) {
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("type", type);
+        hashMap.put("contentType", contentType);
         ToolsUtil.subscribe(ToolsUtil.createService(TradeService.class).getTagList(hashMap), new LoadingNetSubscriber<TradeTag>() {
             @Override
             public void response(TradeTag response) {

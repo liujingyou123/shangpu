@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="112dp"
     android:background="#ffffff"
@@ -7,14 +8,15 @@
     android:padding="15dp">
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
         android:drawableLeft="@drawable/vertical_line"
         android:drawablePadding="10dp"
-        android:text="行业头条"
         android:textColor="#333333"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        tools:text="行业头条" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/header"

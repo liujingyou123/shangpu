@@ -1,67 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="15dp"
     android:layout_marginRight="15dp"
     android:background="@drawable/bg_underline"
-    >
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/iv_icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
         android:src="@mipmap/default_user_small" />
 
     <TextView
         android:id="@+id/tv_phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="130****2346"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@id/iv_icon"
+        android:singleLine="true"
         android:textColor="#FF333333"
         android:textSize="14sp"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/iv_icon"
-        />
+        tools:text="哈哈" />
 
     <TextView
         android:id="@+id/tv_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="25分钟前评论"
+        android:layout_below="@id/tv_phone"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="7.5dp"
+        android:layout_toRightOf="@id/iv_icon"
+        android:singleLine="true"
         android:textColor="#FF999999"
         android:textSize="12sp"
-        android:layout_marginTop="7.5dp"
-        android:layout_below="@id/tv_phone"
-        android:layout_toRightOf="@id/iv_icon"
-        android:layout_marginLeft="10dp"
-        />
+        tools:text="25分钟前评论" />
 
     <TextView
         android:id="@+id/tv_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="我上次点外卖就是点了庆丰包子。然后 再也不想吃庆丰包子了。 "
+        android:layout_below="@id/iv_icon"
+        android:layout_marginBottom="9.5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/iv_icon"
         android:textColor="#FF333333"
         android:textSize="15sp"
-        android:layout_below="@id/iv_icon"
-        android:layout_toRightOf="@id/iv_icon"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="9.5dp"
-        />
+        tools:text="我上次点外卖就是点了庆丰包子。然后 再也不想吃庆丰包子了。 " />
 
     <ImageView
         android:id="@+id/imv_del"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/business_icon_del"
         android:layout_alignParentRight="true"
         android:layout_marginTop="15dp"
-        />
+        android:src="@mipmap/business_icon_del" />
 
 </RelativeLayout>

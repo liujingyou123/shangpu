@@ -3,6 +3,7 @@ package com.finance.winport.mine.framgent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,17 +58,15 @@ public class ModifyNickNameFragment extends BaseFragment {
 
 
     private void save() {
-        //...
-
         final String content = this.content.getText().toString().trim();
         setResult(content);
-//        modifyNickName(content);
+        modifyNickName(content);
     }
 
     private void modifyNickName(final String content) {
         HashMap<String, Object> params = new HashMap<>();
         params.put("nickName", content);
-        PersonManager.getInstance().modifyNickName(params, new NetworkCallback<BaseResponse>() {
+        PersonManager.getInstance().modifyNickNameAndSign(params, new NetworkCallback<BaseResponse>() {
             @Override
             public void success(BaseResponse response) {
                 setResult(content);
@@ -95,10 +94,11 @@ public class ModifyNickNameFragment extends BaseFragment {
 
     @OnClick(R.id.save)
     public void onSave() {
-        if (content.getText().toString().trim().length() <= 0) {
-
+        if (TextUtils.isEmpty(content.getText().toString().trim())) {
+            handleBack();
+        } else {
+            save();
         }
-        save();
     }
 
     @OnClick(R.id.imv_focus_house_back)

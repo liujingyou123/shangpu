@@ -6,18 +6,28 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.finance.winport.MainActivity;
 import com.finance.winport.R;
 import com.finance.winport.account.LoginActivity;
+import com.finance.winport.home.FoundShopDetailActivity;
 import com.finance.winport.home.FoundShopListActivity;
 import com.finance.winport.home.H5Activity;
+import com.finance.winport.home.ShopDetailActivity;
 import com.finance.winport.home.model.BannerResponse;
+import com.finance.winport.home.model.HomeFoundShopResponse;
+import com.finance.winport.image.Batman;
 import com.finance.winport.image.GlideImageLoader;
 import com.finance.winport.mine.MyNoticeActivity;
+import com.finance.winport.service.FindLoanActivity;
+import com.finance.winport.service.SendSuccessActivity;
+import com.finance.winport.service.ShopOrderActivity;
+import com.finance.winport.service.ShopRentActivity;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.view.StopWatchTextView;
 import com.umeng.analytics.MobclickAgent;
@@ -70,9 +80,30 @@ public class HeaderView extends RelativeLayout {
     RelativeLayout commend;
     @BindView(R.id.tv_location)
     TextView tvLocation;
+    @BindView(R.id.scroll)
+    HorizontalScrollView scroll;
+    @BindView(R.id.found_img1)
+    ImageView foundImg1;
+    @BindView(R.id.found_title1)
+    TextView foundTitle1;
+    @BindView(R.id.found1)
+    RelativeLayout found1;
+    @BindView(R.id.found_img2)
+    ImageView foundImg2;
+    @BindView(R.id.found_title2)
+    TextView foundTitle2;
+    @BindView(R.id.found2)
+    RelativeLayout found2;
+    @BindView(R.id.found_img3)
+    ImageView foundImg3;
+    @BindView(R.id.found_title3)
+    TextView foundTitle3;
+    @BindView(R.id.found3)
+    RelativeLayout found3;
 
     private List<BannerResponse.DataBean> mUrls = new ArrayList<>();
     private Context mContext;
+    private List<HomeFoundShopResponse.DataBean> foundList;
 
     public HeaderView(Context context) {
         super(context);
@@ -109,13 +140,31 @@ public class HeaderView extends RelativeLayout {
         headerBanner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-                MobclickAgent.onEvent(mContext, "shoplist_banner");
-                if (!TextUtils.isEmpty(mUrls.get(position).getToUrl()) && !"null".equals(mUrls.get(position).getToUrl())) {
-                    Intent bannerDetails = new Intent(mContext, H5Activity.class);
-                    bannerDetails.putExtra("type", 4);
-                    bannerDetails.putExtra("url", mUrls.get(position).getToUrl());
-                    mContext.startActivity(bannerDetails);
+                if(mUrls!=null&&mUrls.get(position)!=null&&!TextUtils.isEmpty(mUrls.get(position).getType())&&mUrls.get(position).getType().equals("0")){
+                    if (!TextUtils.isEmpty(mUrls.get(position).getToUrl()) && !"null".equals(mUrls.get(position).getToUrl())) {
+                        Intent bannerDetails = new Intent(mContext, H5Activity.class);
+                        bannerDetails.putExtra("type", 4);
+                        bannerDetails.putExtra("url", mUrls.get(position).getToUrl());
+                        mContext.startActivity(bannerDetails);
+                    }
+                }else{
+
+                    if (mUrls!=null&&mUrls.get(position)!=null&&!TextUtils.isEmpty(mUrls.get(position).getInnerType())&&mUrls.get(position).getInnerType().equals("1")) {
+                        mContext.startActivity(new Intent(mContext, ShopRentActivity.class));
+                    } else if (mUrls!=null&&mUrls.get(position)!=null&&!TextUtils.isEmpty(mUrls.get(position).getInnerType())&&mUrls.get(position).getInnerType().equals("2")) {
+                        mContext.startActivity(new Intent(mContext, ShopOrderActivity.class));
+                    } else if (mUrls!=null&&mUrls.get(position)!=null&&!TextUtils.isEmpty(mUrls.get(position).getInnerType())&&mUrls.get(position).getInnerType().equals("3")) {
+                        mContext.startActivity(new Intent(mContext, FindLoanActivity.class));
+                    } else if (mUrls!=null&&mUrls.get(position)!=null&&!TextUtils.isEmpty(mUrls.get(position).getInnerType())&&mUrls.get(position).getInnerType().equals("4")) {
+                        mContext.startActivity(new Intent(mContext, ShopDetailActivity.class).putExtra("shopId", mUrls.get(position).getBusinessId()));
+                    } else if (mUrls!=null&&mUrls.get(position)!=null&&!TextUtils.isEmpty(mUrls.get(position).getInnerType())&&mUrls.get(position).getInnerType().equals("5")) {
+                        mContext.startActivity(new Intent(mContext, MainActivity.class).putExtra("tab", MainActivity.BUSINESS));
+                    } else if (mUrls!=null&&mUrls.get(position)!=null&&!TextUtils.isEmpty(mUrls.get(position).getInnerType())&&mUrls.get(position).getInnerType().equals("6")) {
+                        mContext.startActivity(new Intent(mContext, MainActivity.class).putExtra("tab", MainActivity.SERVICE));
+                    }
                 }
+                MobclickAgent.onEvent(mContext, "shoplist_banner");
+
 
             }
         });
@@ -168,6 +217,10 @@ public class HeaderView extends RelativeLayout {
         return headerBanner;
     }
 
+    public View getScrollView() {
+        return scroll;
+    }
+
     public void setNotice(boolean isNotice) {
         if (isNotice) {
             imvNotice.setImageResource(R.mipmap.label_message_selecteed);
@@ -176,8 +229,41 @@ public class HeaderView extends RelativeLayout {
         }
     }
 
+    public void setFound(List<HomeFoundShopResponse.DataBean> list) {
+        foundList = list;
+        if (list!=null) {
+            if(list.size()==0){
+                scroll.setVisibility(View.GONE);
+            }else if(list.size()==1){
 
-    @OnClick({R.id.imv_notice, R.id.found_more})
+                foundTitle1.setText(list.get(0).getTitle());
+                Batman.getInstance().fromNet(list.get(0).getImage(), foundImg1);
+                found2.setVisibility(View.GONE);
+                found3.setVisibility(View.GONE);
+
+            }else if(list.size()==2){
+
+                foundTitle1.setText(list.get(0).getTitle());
+                Batman.getInstance().fromNet(list.get(0).getImage(), foundImg1);
+                foundTitle2.setText(list.get(1).getTitle());
+                Batman.getInstance().fromNet(list.get(1).getImage(), foundImg2);
+                found3.setVisibility(View.GONE);
+
+            }else if(list.size()>=3){
+
+                foundTitle1.setText(list.get(0).getTitle());
+                Batman.getInstance().fromNet(list.get(0).getImage(), foundImg1);
+                foundTitle2.setText(list.get(1).getTitle());
+                Batman.getInstance().fromNet(list.get(1).getImage(), foundImg2);
+                foundTitle3.setText(list.get(2).getTitle());
+                Batman.getInstance().fromNet(list.get(2).getImage(), foundImg3);
+
+            }
+        }
+    }
+
+
+    @OnClick({R.id.imv_notice, R.id.found_more, R.id.found1, R.id.found2, R.id.found3})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.imv_notice:
@@ -193,6 +279,22 @@ public class HeaderView extends RelativeLayout {
             case R.id.found_more:
                 Intent intent1 = new Intent(mContext, FoundShopListActivity.class);
                 mContext.startActivity(intent1);
+                break;
+
+            case R.id.found1:
+                Intent intent = new Intent(mContext,FoundShopDetailActivity.class);
+                intent.putExtra("contentId",foundList.get(0).getContentId());
+                mContext.startActivity(intent);
+                break;
+            case R.id.found2:
+                Intent intent2 = new Intent(mContext,FoundShopDetailActivity.class);
+                intent2.putExtra("contentId",foundList.get(1).getContentId());
+                mContext.startActivity(intent2);
+                break;
+            case R.id.found3:
+                Intent intent3 = new Intent(mContext,FoundShopDetailActivity.class);
+                intent3.putExtra("contentId",foundList.get(2).getContentId());
+                mContext.startActivity(intent3);
                 break;
         }
     }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ptr="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
@@ -19,15 +20,16 @@
         android:layout_marginRight="15dp"
         android:background="@drawable/bg_bottom_divider"
         android:minHeight="80dp"
+        android:paddingBottom="15dp"
         android:paddingTop="15dp">
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="上海喜茶又搞事情，因黄牛得罪外卖"
             android:textColor="#333333"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            tools:text="上海喜茶又搞事情，因黄牛得罪外卖" />
 
         <TextView
             android:id="@+id/type"
@@ -71,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/type"
             android:layout_alignParentRight="true"
-            android:text="1000浏览"
+            android:text="0浏览"
             android:textColor="#999999"
             android:textSize="12sp" />
 
@@ -85,7 +87,8 @@
         <com.finance.winport.view.CustomWebView
             android:id="@+id/web"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
 
         <LinearLayout
             android:id="@+id/bottom"
@@ -94,7 +97,8 @@
             android:layout_alignParentBottom="true"
             android:layout_gravity="bottom"
             android:background="#ffffff"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/share"
@@ -114,10 +118,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:drawableLeft="@mipmap/business_details_icon_praise"
+                    android:drawableLeft="@drawable/selector_community_praise"
                     android:drawablePadding="5dp"
                     android:gravity="center"
-                    android:text="50000"
+                    android:text="0"
                     android:textColor="#999999"
                     android:textSize="14sp" />
             </FrameLayout>
@@ -132,10 +136,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:drawableLeft="@mipmap/business_details_icon_down"
+                    android:drawableLeft="@drawable/selector_community_down"
                     android:drawablePadding="5dp"
                     android:gravity="center"
-                    android:text="25000"
+                    android:text="0"
                     android:textColor="#999999"
                     android:textSize="14sp" />
             </FrameLayout>

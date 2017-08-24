@@ -16,6 +16,7 @@ import com.finance.winport.trade.TradeType;
 import com.finance.winport.trade.model.TradeSub;
 import com.finance.winport.view.DrawableTopLeftTextView;
 import com.finance.winport.view.refreshview.PtrClassicFrameLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
@@ -43,14 +44,16 @@ public class NewsListAdapter extends PullRecyclerBaseAdapter<TradeSub> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         ViewHolder holder = (ViewHolder) viewHolder;
-        TradeSub item = baseData.get(position);
+        final TradeSub item = baseData.get(position);
         if (item == null) return;
         holder.title.setText(item.title);
-        holder.type.setText(item.content);
+        if (item.tagList != null && item.tagList.size() > 0 && item.tagList.get(0) != null) {
+            holder.tag.setText(item.tagList.get(0).tagName);
+        }
         holder.from.setText(item.source);
         holder.date.setText(item.dateTime);
         holder.scanCount.setText(item.viewCount + "浏览");
-        if (item.kind) {
+        if (item.kind == 1) {
             holder.title.setDrawable(R.mipmap.label_top);
         } else {
             holder.title.setDrawable(0);
@@ -64,7 +67,10 @@ public class NewsListAdapter extends PullRecyclerBaseAdapter<TradeSub> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MobclickAgent.onEvent(context,"circle_industry_tag_article");
                 context.startActivity(new Intent(context, InfoDetailsActivity.class)
+                        .putExtra("id", item.contentId)
+                        .putExtra("title", item.title)
                         .putExtra("type", TradeType.HEAD_DETAILS));
             }
         });
@@ -80,8 +86,8 @@ public class NewsListAdapter extends PullRecyclerBaseAdapter<TradeSub> {
         ImageView img;
         @BindView(R.id.title)
         DrawableTopLeftTextView title;
-        @BindView(R.id.type)
-        TextView type;
+        @BindView(R.id.tag)
+        TextView tag;
         @BindView(R.id.from)
         TextView from;
         @BindView(R.id.date)

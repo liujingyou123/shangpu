@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="85dp"
-                tools:text="服务类型"
+                tools:text="签约租铺"
                 android:textColor="#333333"
                 android:textSize="14sp" />
 

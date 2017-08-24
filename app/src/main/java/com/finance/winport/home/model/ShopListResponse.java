@@ -312,6 +312,16 @@ public class ShopListResponse extends BaseResponse {
             private int transferFee;
             private String updateTime;
             private int visitCount;
+            private String title;
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+
             /**
              * color : null
              * id : 1

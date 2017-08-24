@@ -34,6 +34,8 @@ import com.finance.winport.trade.presenter.TradeCirclePresenter;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.UnitUtil;
+import com.finance.winport.view.HtmlTextView;
+import com.finance.winport.view.dialog.TradeMorePopup;
 import com.finance.winport.view.roundview.RoundedImageView;
 import com.umeng.analytics.MobclickAgent;
 
@@ -91,7 +93,7 @@ public class TradeCircleAdapter extends BaseAdapter {
         final TradeTopic trade = mData.get(i);
         if (trade != null) {
             viewHolder.name.setText(trade.nickName);
-            viewHolder.workType.setText(trade.signature);
+            viewHolder.sign.setText(trade.signature);
             Batman.getInstance().fromNet(trade.headPicture, new BatmanCallBack() {
                 @Override
                 public void onSuccess(Bitmap bitmap) {
@@ -118,12 +120,23 @@ public class TradeCircleAdapter extends BaseAdapter {
                 viewHolder.praise.setSelected(false);
             }
             viewHolder.commentCount.setText(trade.getCommentNumber() + "");
-//            if (!TextUtils.isEmpty(trade.getContent())) {
-//                viewHolder.tvSub.setVisibility(View.VISIBLE);
-//                viewHolder.tvSub.setText(trade.getContent());
-//            } else {
-//                viewHolder.tvSub.setVisibility(View.GONE);
-//            }
+            viewHolder.commentCount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (trade != null) {
+                        Intent intent = new Intent(mContext, TradeCircleDetailActivity.class);
+                        intent.putExtra("topicId", trade.getTopicId() + "")
+                                .putExtra("comment", true);
+                        mContext.startActivity(intent);
+                    }
+                }
+            });
+            if (!TextUtils.isEmpty(trade.getContent())) {
+                viewHolder.content.setVisibility(View.VISIBLE);
+                viewHolder.content.setHtml(trade.getContent(), false);
+            } else {
+                viewHolder.content.setVisibility(View.GONE);
+            }
             if (trade != null && trade.getImgList().size() > 0) {
                 viewHolder.glImages.setVisibility(View.VISIBLE);
                 setGridLayout(viewHolder, trade.getImgList());
@@ -180,14 +193,22 @@ public class TradeCircleAdapter extends BaseAdapter {
 
                     @Override
                     public void onClick(View v) {
-                        NoticeDelDialog dialog = new NoticeDelDialog(mContext);
-                        dialog.setOkClickListener(new NoticeDelDialog.OnPreClickListner() {
+//                        NoticeDelDialog dialog = new NoticeDelDialog(mContext);
+//                        dialog.setOkClickListener(new NoticeDelDialog.OnPreClickListner() {
+//                            @Override
+//                            public void onClick() {
+//                                mPresenter.deleteTopic(mData.get(index).getTopicId() + "");
+//                            }
+//                        });
+//                        dialog.show();
+                        TradeMorePopup deletePopup = new TradeMorePopup(mContext);
+                        deletePopup.setOnDeleteListener(new View.OnClickListener() {
                             @Override
-                            public void onClick() {
+                            public void onClick(View v) {
                                 mPresenter.deleteTopic(mData.get(index).getTopicId() + "");
                             }
                         });
-                        dialog.show();
+                        deletePopup.showAsDropDown(viewHolder.more, UnitUtil.dip2px(mContext, -40), UnitUtil.dip2px(mContext, -10));
                     }
                 });
             } else {
@@ -282,8 +303,8 @@ public class TradeCircleAdapter extends BaseAdapter {
         RoundedImageView headImg;
         @BindView(R.id.name)
         TextView name;
-        @BindView(R.id.work_type)
-        TextView workType;
+        @BindView(R.id.sign)
+        TextView sign;
         @BindView(R.id.more)
         ImageView more;
         @BindView(R.id.top)
@@ -291,7 +312,7 @@ public class TradeCircleAdapter extends BaseAdapter {
         @BindView(R.id.title)
         TextView title;
         @BindView(R.id.content)
-        TextView desc;
+        HtmlTextView content;
         @BindView(R.id.imv_href)
         ImageView imvHref;
         @BindView(R.id.tv_href_title)

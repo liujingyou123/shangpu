@@ -12,9 +12,11 @@ import android.view.View;
 public class AnimPopup extends CommonPopup {
     AnimatorSet showAnim;
     AnimatorSet dismissAnim;
+    protected Context context;
 
     public AnimPopup(Context context) {
         super(context);
+        this.context = context;
         initAnim();
     }
 
@@ -29,7 +31,13 @@ public class AnimPopup extends CommonPopup {
         startShowAnim();
     }
 
-    private void initAnim(){
+    @Override
+    public void showAtLocation(View parent, int gravity, int x, int y) {
+        super.showAtLocation(parent, gravity, x, y);
+        startShowAnim();
+    }
+
+    private void initAnim() {
         //去掉默认动画
         setAnimationStyle(0);
     }

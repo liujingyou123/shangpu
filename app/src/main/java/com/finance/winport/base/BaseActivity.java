@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.finance.winport.MainActivity;
 import com.finance.winport.R;
 import com.finance.winport.account.LoginActivity;
+import com.finance.winport.dialog.LoadingDialog;
 import com.finance.winport.home.HomeFragment;
 import com.finance.winport.util.LoadingDialogUtil;
 import com.finance.winport.util.SelectDialogUtil;
@@ -100,6 +101,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public void onPause() {
         super.onPause();
+        LoadingDialogUtil.getInstance().hideLoading();
         MobclickAgent.onPageEnd(getClass().getSimpleName());
         MobclickAgent.onPause(this);
     }
@@ -107,8 +109,12 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public void startActivity(Intent intent) {
         super.startActivity(intent);
-        if (TextUtils.equals(intent.getComponent().getClassName(), LoginActivity.class.getName())) {
-            overridePendingTransition(R.anim.open_enter_bottom_in, R.anim.open_exit_normal);
+        try {
+            if (TextUtils.equals(intent.getComponent().getClassName(), LoginActivity.class.getName())) {
+                overridePendingTransition(R.anim.open_enter_bottom_in, R.anim.open_exit_normal);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

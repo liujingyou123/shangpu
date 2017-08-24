@@ -17,8 +17,10 @@ import com.finance.winport.home.model.RegionResponse;
 import com.finance.winport.mine.adapter.AreaTagAdapter;
 import com.finance.winport.mine.adapter.TagAdapter;
 import com.finance.winport.mine.adapter.TagItem;
+import com.finance.winport.mine.event.ModifyEvent;
 import com.finance.winport.mine.model.CommitFocusRequest;
 import com.finance.winport.mine.model.IndustryListResponse;
+import com.finance.winport.mine.model.PersonalInfoResponse;
 import com.finance.winport.mine.presenter.IShopFocusView;
 import com.finance.winport.mine.presenter.ShopFocusPresenter;
 import com.finance.winport.net.NetSubscriber;
@@ -27,6 +29,8 @@ import com.finance.winport.util.SpUtil;
 import com.finance.winport.util.ToolsUtil;
 import com.finance.winport.view.tagview.TagCloudLayout;
 import com.umeng.analytics.MobclickAgent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,7 +80,8 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
     ScrollSelectDialog scrollDialog;
     List<String> list = new ArrayList<String>();
     List<RegionResponse.Region> regionList = new ArrayList<>();
-    List<String> blockTagList = new ArrayList<>();
+    private ArrayList<PersonalInfoResponse.DataBean.Attention.Plate> blockTagList = new ArrayList<>();
+    private List<PersonalInfoResponse.DataBean.Attention.Vocation> vocationList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,15 +108,9 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
 
     private void commit() {
         CommitFocusRequest request = new CommitFocusRequest();
-        request.setList(list1);
-        request.setBlockId(blockId);
-        request.setBlockName(blockName);
-        request.setDistrictId(districtId);
-        request.setDistrictName(districtName);
-        request.setIndustryId(industryId);
-        request.setIndustryName(industryName);
-        request.setCityId("310000");
-        request.setCityName("上海市");
+        request.setAreaList(list1);
+        request.setPlateList(blockTagList);
+        request.setVocationList(vocationList);
         if (mPresenter == null) {
             mPresenter = new ShopFocusPresenter(this);
         }
@@ -121,14 +120,16 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
     private void setTagList() {
 
         tvFocusHouse.setText("旺铺关注设置");
-        industryName = getIntent().getStringExtra("industryName");
-        blockName = getIntent().getStringExtra("blockName");
-        districtName = getIntent().getStringExtra("districtName");
-        industryId = getIntent().getStringExtra("industryId");
-        districtId = getIntent().getStringExtra("districtId");
-        blockId = getIntent().getStringExtra("blockId");
-        cityName = getIntent().getStringExtra("cityName");
+//        industryName = getIntent().getStringExtra("industryName");
+//        blockName = getIntent().getStringExtra("blockName");
+//        districtName = getIntent().getStringExtra("districtName");
+//        industryId = getIntent().getStringExtra("industryId");
+//        districtId = getIntent().getStringExtra("districtId");
+//        blockId = getIntent().getStringExtra("blockId");
+//        cityName = getIntent().getStringExtra("cityName");
         list1 = getIntent().getIntegerArrayListExtra("areaList");
+        vocationList = (List<PersonalInfoResponse.DataBean.Attention.Vocation>) getIntent().getSerializableExtra("vocationList");
+        blockTagList = (ArrayList<PersonalInfoResponse.DataBean.Attention.Plate>) getIntent().getSerializableExtra("plateList");
         StringBuilder s = new StringBuilder();
         List<String> content = new ArrayList<>();
         if (!TextUtils.isEmpty(blockName)) {
@@ -213,7 +214,6 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
 //        focusContent.setText("江湾镇-餐饮类-20~50㎡\n500~1000㎡");
 
 
-        blockTagList.add("");
 
         if (blockTagAdapter == null) {
             blockTagAdapter = new AreaTagAdapter(context, blockTagList);
@@ -225,7 +225,7 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
         blockTag.setItemClickListener(new TagCloudLayout.TagItemClickListener() {
             @Override
             public void itemClick(int position) {
-                if(position == blockTagList.size()-1){
+                if(position == blockTagList.size()){
                     showLouCeng();
                 }
             }
@@ -372,18 +372,8 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
 
                         districtName = data.split("-")[0];
                         blockName = data.split("-")[1];
-                        blockTagList.add(0,blockName);
-                        blockTagAdapter.update(blockTagList);
-                        if (districtName.equals("全部")) {
 
-                            district.setText("上海市");
-                            districtName = null;
-                            blockName = null;
-                            districtId = null;
-                            blockId = null;
-                            return;
 
-                        }
 
                         district.setText(data);
                         for (int i = 1; i < list.size(); i++) {
@@ -394,18 +384,25 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
                             }
                         }
 
-                        if (blockName.equals("全部")) {
 
-                            blockName = null;
-                            blockId = null;
-                            return;
-                        }
                         List<RegionResponse.Region.Block> blockList = new ArrayList<>();
                         blockList = hashMapBlock.get(districtName);
                         for (int j = 1; j < blockList.size(); j++) {
                             if (blockName.equals(blockList.get(j - 1).getBlockName())) {
                                 blockId = blockList.get(j - 1).getBlockId();
                             }
+                        }
+
+                        PersonalInfoResponse.DataBean.Attention.Plate plate = new PersonalInfoResponse.DataBean.Attention.Plate();
+                        plate.districtId = districtId;
+                        plate.districtName = districtName;
+                        plate.plateId = blockId;
+                        plate.plateName = blockName;
+
+                        if(!blockTagList.contains(plate)){
+
+                            blockTagList.add(0,plate);
+                            blockTagAdapter.update(blockTagList);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -456,9 +453,17 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
             industryTagAdapter.update(list);
         }
 
+//        for (int i = 0; i < list.size(); i++) {
+//            if (list.get(i).getTagId().equals(industryId)) {
+//                industryTagAdapter.setMultiItemSelect(list.get(i), true);
+//            }
+//        }
+
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getTagId().equals(industryId)) {
-                industryTagAdapter.setMultiItemSelect(list.get(i), true);
+            for (int j = 0; j < vocationList.size(); j++) {
+                if (vocationList.get(j).vocationId.equals(list.get(i).getTagId())) {
+                    industryTagAdapter.setMultiItemSelect(list.get(i), true);
+                }
             }
         }
 
@@ -470,12 +475,26 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
                                          if (item != null) {
                                              if (!item.isSelected()) {// 未选择状态
 
+
                                                  industryTagAdapter.setMultiItemSelect(item, true);
+                                                 PersonalInfoResponse.DataBean.Attention.Vocation vocation = new PersonalInfoResponse.DataBean.Attention.Vocation();
+                                                 vocation.vocationId = item.getTagId();
+                                                 vocation.vocationName = item.getTagName();
+                                                 vocationList.add(vocation);
                                                  industryName = item.getTagName();
                                                  industryId = item.getTagId();
 
                                              } else {//已选择状态
                                                  industryTagAdapter.setMultiItemSelect(item, false);
+                                                 PersonalInfoResponse.DataBean.Attention.Vocation vocation = new PersonalInfoResponse.DataBean.Attention.Vocation();
+                                                 vocation.vocationId = item.getTagId();
+                                                 vocation.vocationName = item.getTagName();
+                                                 for (int i = 0; i < vocationList.size(); i++) {
+                                                     if(vocationList.get(i).vocationId.equals(vocation.vocationId)){
+                                                         vocationList.remove(i);
+                                                     }
+                                                 }
+//                                                 vocationList.remove(vocation);
                                                  industryId = "";
                                                  industryName = "";
                                              }
@@ -489,6 +508,13 @@ public class ShopFocusActivity extends BaseActivity implements IShopFocusView {
     @Override
     public void commitFocus(BaseResponse response) {
         SpUtil.getInstance().setStringData(SharedPrefsUtil.getUserInfo().data.userPhone, "1");
+
+        ModifyEvent event = new ModifyEvent();
+        event.type = ModifyEvent.InfoType.CONCERN_TYPE;
+        event.areaList = list1;
+        event.plateList = blockTagList;
+        event.vocationList = vocationList;
+        EventBus.getDefault().post(event);
         finish();
     }
 

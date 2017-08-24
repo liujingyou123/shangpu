@@ -4,6 +4,7 @@ import com.finance.winport.base.BaseResponse;
 import com.finance.winport.home.api.HomeServices;
 import com.finance.winport.home.model.TagResponse;
 import com.finance.winport.net.Ironman;
+import com.finance.winport.net.LoadingNetSubscriber;
 import com.finance.winport.net.NetSubscriber;
 import com.finance.winport.tab.model.AppointRanking;
 import com.finance.winport.tab.model.AppointShopList;
@@ -163,7 +164,7 @@ public class PersonManager {
                 .createService(PersonService.class)
                 .modifyUserPhone(params)
                 .compose(ToolsUtil.<BaseResponse>applayScheduers())
-                .subscribe(new NetSubscriber<BaseResponse>() {
+                .subscribe(new LoadingNetSubscriber<BaseResponse>() {
                     @Override
                     public void response(BaseResponse response) {
                         if (callback != null) {
@@ -181,13 +182,13 @@ public class PersonManager {
                 });
     }
 
-    // 修改昵称
-    public Subscription modifyNickName(HashMap<String, Object> params, final NetworkCallback<BaseResponse> callback) {
+    // 修改昵称、签名
+    public Subscription modifyNickNameAndSign(HashMap<String, Object> params, final NetworkCallback<BaseResponse> callback) {
         return Ironman.getInstance()
                 .createService(PersonService.class)
-                .modifyNickName(params)
+                .modifyNickNameAndSign(params)
                 .compose(ToolsUtil.<BaseResponse>applayScheduers())
-                .subscribe(new NetSubscriber<BaseResponse>() {
+                .subscribe(new LoadingNetSubscriber<BaseResponse>() {
                     @Override
                     public void response(BaseResponse response) {
                         if (callback != null) {
@@ -205,29 +206,6 @@ public class PersonManager {
                 });
     }
 
-    // 修改签名
-    public Subscription modifySign(HashMap<String, Object> params, final NetworkCallback<BaseResponse> callback) {
-        return Ironman.getInstance()
-                .createService(PersonService.class)
-                .modifySign(params)
-                .compose(ToolsUtil.<BaseResponse>applayScheduers())
-                .subscribe(new NetSubscriber<BaseResponse>() {
-                    @Override
-                    public void response(BaseResponse response) {
-                        if (callback != null) {
-                            callback.success(response);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        if (callback != null) {
-                            callback.failure(e);
-                        }
-                    }
-                });
-    }
 
     // 店名测吉凶
     public Subscription predictionShop(HashMap<String, Object> params, final NetworkCallback<Prediction> callback) {

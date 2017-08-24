@@ -18,14 +18,19 @@
             android:layout_marginRight="15dp">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="/ 推荐语 /"
+                android:text="推荐语"
+                android:drawableLeft="@mipmap/icon_decoration_red"
+                android:drawablePadding="9dp"
+                android:drawableRight="@mipmap/icon_decoration_red"
                 android:textColor="#FF333333"
                 android:textSize="15sp"
+                android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:layout_marginTop="10dp"/>
             <TextView
+                android:id="@+id/recommendContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="此旺铺地理位置极佳，离地铁站零距离，人口流动极大，是个卖早餐的极佳位置。"
@@ -73,6 +78,7 @@
                         android:gravity="center_vertical"
                         android:paddingLeft="5dp"
                         android:text="0"
+                        android:visibility="gone"
                         android:textColor="#FFFFFFFF"
                         android:textSize="11sp" />
 
@@ -85,6 +91,7 @@
                         android:drawablePadding="3dp"
                         android:gravity="center_vertical"
                         android:paddingLeft="5dp"
+                        android:visibility="gone"
                         android:text="0"
                         android:textColor="#FFFFFFFF"
                         android:textSize="11sp" />
@@ -101,6 +108,7 @@
                 android:layout_marginRight="15dp"
                 android:gravity="center_vertical|right"
                 android:text="45㎡"
+                android:visibility="gone"
                 android:textColor="#333333"
                 android:textSize="14sp" />
 
@@ -109,15 +117,15 @@
                 android:id="@+id/tv_shopname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="8dp"
-                android:layout_toLeftOf="@id/tv_area"
-                android:layout_toRightOf="@id/rl_cover"
-                android:includeFontPadding="false"
                 android:text=""
                 android:textColor="#333333"
                 android:textSize="15sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toLeftOf="@id/tv_area"
+                android:layout_toRightOf="@id/rl_cover"
+                android:includeFontPadding="false" />
 
             <TextView
                 android:id="@+id/tv_aver_money"

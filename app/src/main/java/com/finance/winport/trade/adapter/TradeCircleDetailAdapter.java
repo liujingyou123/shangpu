@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.GridLayout;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -21,7 +24,6 @@ import com.finance.winport.trade.model.CommentResponse;
 import com.finance.winport.trade.model.TradeDetailResponse;
 import com.finance.winport.trade.presenter.TradeCircleDetailPresener;
 import com.finance.winport.util.UnitUtil;
-import com.finance.winport.view.HtmlTextView;
 import com.finance.winport.view.imagepreview.ImagePreviewActivity;
 import com.umeng.analytics.MobclickAgent;
 
@@ -34,6 +36,7 @@ import butterknife.ButterKnife;
 
 public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int TYPE_HEADER = 0;
+    public static final int TYPE_HEADER1 = 3;
     public static final int TYPE_NORMAL = 1;
     public static final int TYPE_EMPTY = 2;
     private TradeDetailResponse.DataBean mData = new TradeDetailResponse.DataBean();
@@ -54,8 +57,8 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
     public void setTraddeDetail(TradeDetailResponse.DataBean data) {
         if (data != null) {
             mData.setPraiseNumber(data.getPraiseNumber());
-            mData.setSignature(TextUtils.isEmpty(data.getSignature()) ? "老板很懒，暂未设置签名" : data.getSignature());
-            mData.setNickName(/*data.getNickName()*/"稻草人Kevin");
+            mData.setSignature(data.getSignature());
+            mData.setNickName(data.getNickName());
             mData.setCanBeDelete(data.getCanBeDelete());
             mData.setCommentNumber(data.getCommentNumber());
             mData.setContent(data.getContent());
@@ -68,6 +71,24 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
             mData.setTitle(data.getTitle());
         }
 
+        notifyDataSetChanged();
+    }
+
+    public void addComment(int index, CommentResponse.DataBean.Comment comment) {
+        if (comment != null) {
+            //去掉为空的情况
+            if (mComments.size() == 1 && mComments.get(0) == null) {
+                mComments.clear();
+            }
+            mComments.add(index, comment);
+        }
+        notifyDataSetChanged();
+    }
+
+    public void addComment(CommentResponse.DataBean.Comment comment) {
+        if (comment != null) {
+            mComments.add(comment);
+        }
         notifyDataSetChanged();
     }
 
@@ -96,6 +117,8 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
     public int getItemViewType(int position) {
         if (position == 0) {
             return TYPE_HEADER;
+        } else if (position == 1) {
+            return TYPE_HEADER1;
         } else if (mComments != null && mComments.size() == 1 && mComments.get(0) == null) {
             return TYPE_EMPTY;
         } else {
@@ -108,12 +131,16 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         if (viewType == TYPE_HEADER) {
             return new HeaderViewHolder(layoutInflater.inflate(R.layout.work_communit_detail_list_header, parent, false));
         }
+        if (viewType == TYPE_HEADER1) {
+            return new HeaderViewHolder1(layoutInflater.inflate(R.layout.comment_header, parent, false));
+        }
         if (viewType == TYPE_EMPTY) {
             return new EmptyViewHolder(layoutInflater.inflate(R.layout.work_communit_detail_list_item_empty, parent, false));
         } else {
             return new ItemViewHolder(layoutInflater.inflate(R.layout.work_communit_detail_list_item, parent, false));
         }
     }
+
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
@@ -146,7 +173,10 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
 
                 if (!TextUtils.isEmpty(mData.getContent())) {
                     viewHolder.content.setVisibility(View.VISIBLE);
-                    viewHolder.content.setHtml(mData.getContent());
+                    viewHolder.content.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+                    viewHolder.content.getSettings().setDatabaseEnabled(true);
+                    viewHolder.content.getSettings().setAppCacheEnabled(true);
+                    viewHolder.content.loadData(mData.getContent(), "text/html; charset=UTF-8", null);
                 } else {
                     viewHolder.content.setVisibility(View.GONE);
                 }
@@ -171,6 +201,8 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
                     viewHolder.rlHref.setVisibility(View.GONE);
                 }
             }
+
+        } else if (holder instanceof HeaderViewHolder1) {
 
         } else if (holder instanceof EmptyViewHolder) {
 
@@ -203,7 +235,12 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
             } else {
                 viewHolder.imvDel.setVisibility(View.GONE);
             }
-            viewHolder.tvPhone.setText(info.getSignature());
+            if (info.getIsReply() == 1) {//1-评论 2-回复评论
+                viewHolder.tvPhone.setText(info.getNickName());
+            } else {
+                String s = "<html><head>" + info.getNickName() + "<font color=\"#999999\">" + " 回复 " + (TextUtils.isEmpty(info.getParentNickName()) ? "" : info.getParentNickName()) + "</font>" + "</head></html>";
+                viewHolder.tvPhone.setText(Html.fromHtml(s));
+            }
             viewHolder.tvTime.setText(info.getDateTime() + "评论");
             viewHolder.tvComment.setText(info.getContent());
             Batman.getInstance().getImageWithCircle(info.getHeadPicture(), viewHolder.ivIcon, R.mipmap.default_user_small, R.mipmap.default_user_small);
@@ -211,7 +248,7 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mPresenter.showCommentDialog(getItem(position).getCommentatorId() + "", getItem(position).getNickName());
+                    mPresenter.showCommentDialog(info.getId() + "", info.getNickName());
                 }
             });
         }
@@ -219,9 +256,9 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public int getItemCount() {
-        int ret = 1;
+        int ret = 2;
         if (mComments != null && mComments.size() > 0) {
-            ret = mComments.size() + 1;
+            ret = mComments.size() + 2;
         }
         return ret;
     }
@@ -322,7 +359,7 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         if (pos <= mComments.size()) {
 
         }
-        return mComments.get(pos - 1);
+        return mComments.get(pos - 2);
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -364,14 +401,20 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
         RelativeLayout rlHref;
         @BindView(R.id.gl_images)
         GridLayout glImages;
-        @BindView(R.id.imv_del)
-        ImageView imvDel;
         @BindView(R.id.content)
-        HtmlTextView content;
+        WebView content;
         @BindView(R.id.img_layout)
         LinearLayout imgLayout;
 
-        public HeaderViewHolder(View itemView) {
+        public HeaderViewHolder(final View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    class HeaderViewHolder1 extends RecyclerView.ViewHolder {
+
+        public HeaderViewHolder1(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
@@ -384,4 +427,5 @@ public class TradeCircleDetailAdapter extends RecyclerView.Adapter<RecyclerView.
             ButterKnife.bind(this, itemView);
         }
     }
+
 }

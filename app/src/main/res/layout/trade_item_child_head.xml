@@ -40,7 +40,7 @@
             android:layout_marginTop="16.5dp">
 
             <TextView
-                android:id="@+id/type"
+                android:id="@+id/tag"
                 android:layout_width="wrap_content"
                 android:layout_height="15dp"
                 android:background="@drawable/text_bg"
@@ -56,9 +56,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/type"
+                android:layout_toRightOf="@+id/tag"
                 android:textColor="#999999"
                 android:textSize="10sp"
+                android:maxLength="7"
+                android:singleLine="true"
                 tools:text="今日头条" />
 
             <TextView
@@ -68,6 +70,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/from"
                 android:textColor="#999999"
+                android:singleLine="true"
                 android:textSize="10sp"
                 tools:text="2017-07-17" />
 
@@ -79,6 +82,7 @@
                 android:layout_alignParentRight="true"
                 android:textColor="#999999"
                 android:textSize="10sp"
+                android:singleLine="true"
                 tools:text="8900浏览" />
 
 

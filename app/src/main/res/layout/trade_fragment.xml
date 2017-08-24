@@ -12,14 +12,15 @@
         android:background="#ffffff"
         android:orientation="horizontal">
 
-        <TextView
+        <ImageView
+            android:id="@+id/imv_focus_house_back"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:text="上海"
-            android:textColor="#FF333333"
-            android:textSize="15sp" />
+            android:layout_height="match_parent"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/icon_back" />
+
 
         <ImageView
             android:id="@+id/my_list"
@@ -66,5 +67,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
+        android:visibility="gone"
         android:layout_marginBottom="20dp"/>
 </RelativeLayout>

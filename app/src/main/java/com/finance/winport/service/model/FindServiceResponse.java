@@ -34,6 +34,7 @@ public class FindServiceResponse extends BaseResponse {
 
         private LoadDTOBean loadObject;
         private ShopObjectBean shopObject;
+        private VisitShopObjectBean visitShopObject;
         private int isNew;
 
         public LoadDTOBean getLoadObject() {
@@ -50,6 +51,14 @@ public class FindServiceResponse extends BaseResponse {
 
         public void setShopObject(ShopObjectBean shopObject) {
             this.shopObject = shopObject;
+        }
+
+        public VisitShopObjectBean getVisitShopObject() {
+            return visitShopObject;
+        }
+
+        public void setVisitShopObject(VisitShopObjectBean visitShopObject) {
+            this.visitShopObject = visitShopObject;
         }
 
         public int getIsNew() {
@@ -229,6 +238,76 @@ public class FindServiceResponse extends BaseResponse {
 
             public void setAddress(String address) {
                 this.address = address;
+            }
+        }
+
+
+        public static class VisitShopObjectBean {
+
+
+//            {"customerId":36,"shopId":7,"coverImg":"http://wp-oss-file.oss-cn-shanghai.aliyuncs.com/shop/clerk/shop/1477645744608.jpg","address":"武东路财大科技园198号","area":36.0,"rentType":1,"visitCount":1}
+            private int customerId;
+            private int shopId;
+            private String coverImg;
+            private String visitCount;
+            private String address;
+            private String area;
+            private String rentType;
+
+            public int getCustomerId() {
+                return customerId;
+            }
+
+            public void setCustomerId(int customerId) {
+                this.customerId = customerId;
+            }
+
+            public int getShopId() {
+                return shopId;
+            }
+
+            public void setShopId(int shopId) {
+                this.shopId = shopId;
+            }
+
+            public String getCoverImg() {
+                return coverImg;
+            }
+
+            public void setCoverImg(String coverImg) {
+                this.coverImg = coverImg;
+            }
+
+            public String getVisitCount() {
+                return visitCount;
+            }
+
+            public void setVisitCount(String visitCount) {
+                this.visitCount = visitCount;
+            }
+
+            public String getAddress() {
+                return address;
+            }
+
+            public void setAddress(String address) {
+                this.address = address;
+            }
+
+            public String getArea() {
+                return area;
+            }
+
+            public void setArea(String area) {
+                this.area = area;
+            }
+
+            public String getRentType() {
+                return rentType;
+            }
+
+            public void setRentType(String rentType) {
+                this.rentType = rentType;
             }
         }
     }

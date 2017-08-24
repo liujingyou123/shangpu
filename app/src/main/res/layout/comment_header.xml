@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_underline"
+    android:paddingLeft="15dp">
+
+    <TextView
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="22.5dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+        android:drawableLeft="@drawable/vertical_line"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:text="最新评论"
+        android:textColor="#333333"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/imv_del"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/top"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/top"
+        android:scaleType="centerInside"
+        android:src="@mipmap/business_icon_del"
+        android:visibility="gone" />
+</RelativeLayout>

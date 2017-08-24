@@ -3,6 +3,7 @@ package com.finance.winport.home;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,6 +39,7 @@ import com.finance.winport.home.adapter.ShopsAdapter;
 import com.finance.winport.home.model.BannerResponse;
 import com.finance.winport.home.model.CheckVersionResponse;
 import com.finance.winport.home.model.EventLoginSuccess;
+import com.finance.winport.home.model.HomeFoundShopResponse;
 import com.finance.winport.home.model.ShopCount;
 import com.finance.winport.home.model.ShopListResponse;
 import com.finance.winport.home.model.ShopRequset;
@@ -53,6 +55,7 @@ import com.finance.winport.util.SelectDialogUtil;
 import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.SpUtil;
 import com.finance.winport.util.ToastUtil;
+import com.finance.winport.util.UnitUtil;
 import com.finance.winport.view.home.HeaderView;
 import com.finance.winport.view.home.SelectView;
 import com.finance.winport.view.refreshview.PtrDefaultHandler2;
@@ -136,7 +139,8 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 //            mRequest.queryType = 1;
         }
         mPresenter.getShopCount();
-        mPresenter.getBanner();
+        mPresenter.getBanner("0","3");
+        mPresenter.getFoundShop();
 
         try {
             String versionName = getActivity().getPackageManager().getPackageInfo(
@@ -370,7 +374,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
 //                        intent.putExtra("shopId", shop.getId() + "");
 //                        startActivity(intent);
 
-                        ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(view, 0, 0, view.getWidth(), view.getHeight());
+                        ActivityOptionsCompat compat = ActivityOptionsCompat.makeThumbnailScaleUpAnimation(view, BitmapFactory.decodeResource(getActivity().getResources(),R.mipmap.launcher_bg), view.getWidth(), view.getHeight());
                         Intent intent = new Intent(HomeFragment.this.getContext(), ShopDetailActivity.class);
                         intent.putExtra("shopId", shop.getId() + "");
                         ActivityCompat.startActivity(HomeFragment.this.getContext(), intent, compat.toBundle());
@@ -380,6 +384,7 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
         }
 
         refreshView.setSpaceView(headerView.getBannerView());
+        refreshView.setFoundView(headerView.getScrollView());
         refreshView.setPtrHandler(new PtrDefaultHandler2() {
             @Override
             public void onLoadMoreBegin(PtrFrameLayout frame) {
@@ -400,7 +405,8 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                 mPresenter.getShopList(mRequest);
 
                 mPresenter.getShopCount();
-                mPresenter.getBanner();
+                mPresenter.getBanner("0","3");
+                mPresenter.getFoundShop();
             }
         });
 
@@ -837,13 +843,23 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
     @Override
     public void showMoreList(ShopListResponse response) {
         if (response != null) {
+
             if (refreshView != null) {
                 refreshView.refreshComplete();
             }
+
             mData.addAll(response.getData().getData());
             if (adapter != null) {
                 adapter.notifyDataSetChanged();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        lsShops.smoothScrollBy(UnitUtil.dip2px(getActivity(),83)/3, 200);
+                    }
+                },1000);
+
             }
+
         }
     }
 
@@ -968,6 +984,11 @@ public class HomeFragment extends BaseFragment implements IHomeView, MyLocation.
                 updateTipDialog.show();
             }
         }
+    }
+
+    @Override
+    public void showFoundShop(HomeFoundShopResponse response) {
+        headerView.setFound(response.getData());
     }
 
     public void onQuyuHandle(ShopRequset requset) {

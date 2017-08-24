@@ -51,6 +51,14 @@ public class SharedPrefsUtil {
 
     }
 
+    public static boolean isFirstPost() {
+        return sp.getBoolean("isFirstPost", true);
+    }
+
+    public static void setFirstPost(boolean isFirst) {
+        sp.edit().putBoolean("isFirstPost", isFirst).commit();
+    }
+
     public static void clearUserInfo() {
         sp.edit().putString(USER_INFO, "").commit();
     }

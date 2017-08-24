@@ -61,28 +61,36 @@ public class ScheduleListAdapter extends BaseAdapter {
         }
 
         holder.time.setText(baseData.get(position).getOrderTime());
-        if (baseData.get(position).getServiceType() == 0) {
+        if (baseData.get(position).getServiceType() == 1 || baseData.get(position).getServiceType() == 2) {
 
             holder.type.setText("旺铺寻租");
-        } else if (baseData.get(position).getServiceType() == 1) {
+        } else if (baseData.get(position).getServiceType() == 3) {
 
             holder.type.setText("预约看铺");
-        } else if (baseData.get(position).getServiceType() == 2) {
+        } else if (baseData.get(position).getServiceType() == 5) {
 
             holder.type.setText("签约租铺");
+        } else if (baseData.get(position).getServiceType() == 6) {
+
+            holder.type.setText("租客签约");
+        } else if (baseData.get(position).getServiceType() == 4) {
+
+            holder.type.setText("租客看铺");
         }
         holder.address.setText(baseData.get(position).getAddress());
-        if (baseData.get(position).getStatus() == 2) {
-
-            holder.status.setVisibility(View.VISIBLE);
-            holder.time.setTextColor(Color.parseColor("#999999"));
-            holder.type.setTextColor(Color.parseColor("#999999"));
-        }
-        else{
-            holder.status.setVisibility(View.GONE);
-            holder.time.setTextColor(Color.parseColor("#333333"));
-            holder.type.setTextColor(Color.parseColor("#333333"));
-        }
+        String time = baseData.get(position).getOrderTime();
+        holder.status.setText(time.substring(time.length()-8,time.length()-3));
+//        if (baseData.get(position).getStatus() == 2) {
+//
+//            holder.status.setVisibility(View.VISIBLE);
+//            holder.time.setTextColor(Color.parseColor("#999999"));
+//            holder.type.setTextColor(Color.parseColor("#999999"));
+//        }
+//        else{
+//            holder.status.setVisibility(View.GONE);
+//            holder.time.setTextColor(Color.parseColor("#333333"));
+//            holder.type.setTextColor(Color.parseColor("#333333"));
+//        }
         return convertView;
     }
 

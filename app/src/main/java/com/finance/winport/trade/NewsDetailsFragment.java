@@ -1,11 +1,19 @@
 package com.finance.winport.trade;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,23 +21,29 @@ import android.widget.TextView;
 import com.finance.winport.R;
 import com.finance.winport.base.BaseFragment;
 import com.finance.winport.dialog.ShareDialog;
+import com.finance.winport.dialog.TradeBottomPopup;
 import com.finance.winport.trade.model.TradeDetails;
 import com.finance.winport.trade.presenter.TradeSubDetailsPresenter;
 import com.finance.winport.trade.view.ITradeSubDetailsView;
+import com.finance.winport.util.H5Util;
 import com.finance.winport.util.TextViewUtil;
 import com.finance.winport.util.ToastUtil;
 import com.finance.winport.view.CustomWebView;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import noman.weekcalendar.eventbus.Event;
 
 /**
  * 资讯详情...
  */
 public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetailsView {
 
+    private final int DURATION = 200;
     Unbinder unbinder;
     @BindView(R.id.tv_focus_house)
     TextView tvFocusHouse;
@@ -53,22 +67,30 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
     TextView downPraise;
     @BindView(R.id.bottom)
     LinearLayout bottom;
-    String id;
+    String contentId;
     String title;
     TradeType type;
     TradeSubDetailsPresenter presenter;
     TradeDetails info;
+    String content;
+//    String event;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter = new TradeSubDetailsPresenter(this);
         if (getArguments() != null) {
-            id = getArguments().getString("id");
+            contentId = getArguments().getString("id");
             title = getArguments().getString("title");
             type = (TradeType) getArguments().getSerializable("type");
         }
     }
+
+    /*private void initEvent(TradeType type) {
+        if (type==TradeType.HEAD_DETAILS){
+            event = "";
+        }
+    }*/
 
     @Nullable
     @Override
@@ -76,17 +98,25 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
         View root = inflater.inflate(R.layout.fragment_news_details, container, false);
         unbinder = ButterKnife.bind(this, root);
         initView();
-        setDetails(null);
+        asyncData();
         return root;
     }
+
+    private void asyncData() {
+        presenter.getSubDetails(contentId, true);
+    }
+
 
     @Override
     public void setDetails(TradeDetails info) {
         this.info = info;
         if (info != null) {
-            web.loadUrl("https://m.10010.com/queen/icbc/e-card.html");
+            bottom.setVisibility(View.VISIBLE);
+            web.loadData(info.data.content, "text/html; charset=UTF-8", null);
             tvTitle.setText(info.data.title);
-            tvType.setText(info.data.content);
+            if (info.data.tagList != null && info.data.tagList.size() > 0 && info.data.tagList.get(0) != null) {
+                tvType.setText(info.data.tagList.get(0).tagName);
+            }
             if (TextUtils.isEmpty(info.data.source)) {
                 from.setVisibility(View.GONE);
             } else {
@@ -97,15 +127,27 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
             date.setText(info.data.dateTime);
             praise.setText(info.data.goodCount + "");
             downPraise.setText(info.data.badCount + "");
+//            initContent(info.data.content);
         }
 
     }
+
+//    private void initContent(String contentStr) {
+//        content = Html.fromHtml(contentStr).toString().replaceAll("\\n", "");
+//        if (content.length() >= 30) {
+//            content = content.substring(0, 30) + "...";
+//        } else {
+//            content = content + "...";
+//        }
+//    }
 
     @Override
     public void praise(boolean success) {
         if (info != null) {
             info.data.goodCount++;
             praise.setText(info.data.goodCount + "");
+            praise.setEnabled(false);
+            praise.setSelected(true);
         }
     }
 
@@ -114,6 +156,8 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
         if (info != null) {
             info.data.badCount++;
             downPraise.setText(info.data.badCount + "");
+            downPraise.setEnabled(false);
+            downPraise.setSelected(true);
         }
     }
 
@@ -124,26 +168,81 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
 
 
     private void initView() {
-        tvFocusHouse.setText(title + "详情");
+        tvFocusHouse.setText("行业头条详情");
         web.setOnScrollListener(new CustomWebView.OnScrollListener() {
             @Override
-            public void onScroll(int scrollY) {
-                hideBottomView();
+            public void onScroll(int deltaY) {
+//                Log.d("Tag", "onScroll");
+                if (deltaY < 0) {
+                    showBottomView();
+                } else if (deltaY > 0) {
+                    hideBottomView();
+                }
             }
 
             @Override
             public void onScrollIdle(int scrollY) {
+            }
+
+            @Override
+            public void onScrollEdge(int deltaY) {
+//                Log.d("Tag", "onScrollEdge");
                 showBottomView();
             }
         });
+
     }
+
+    ObjectAnimator showAnim;
+    ObjectAnimator hideAnim;
 
     private void showBottomView() {
-        bottom.setVisibility(View.VISIBLE);
+        if (bottom.getVisibility() == View.GONE) {
+            bottom.setVisibility(View.VISIBLE);
+            if (showAnim != null && showAnim.isRunning()) return;
+            showAnim = ObjectAnimator.ofFloat(bottom, "translationY", bottom.getHeight(), 0);
+            showAnim.setDuration(DURATION);
+            showAnim.start();
+        } else if (hideAnim != null && hideAnim.isRunning()) {
+            hideAnim = null;
+            bottom.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    showBottomView();
+                }
+            }, DURATION);
+        }
+
     }
 
+
     private void hideBottomView() {
-        bottom.setVisibility(View.GONE);
+        if (bottom.getVisibility() == View.VISIBLE) {
+            if (hideAnim != null && hideAnim.isRunning()) return;
+            hideAnim = ObjectAnimator.ofFloat(bottom, "translationY", 0, bottom.getHeight());
+            hideAnim.setDuration(DURATION);
+            hideAnim.start();
+            hideAnim.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    bottom.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+        }
     }
 
 
@@ -165,11 +264,15 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
                 break;
             case R.id.praise:
                 TextViewUtil.startScaleAnim(view);
-                presenter.praise("");
+                if (info != null) {
+                    presenter.praise(info.data.contentId);
+                }
                 break;
             case R.id.down_praise:
                 TextViewUtil.startScaleAnim(view);
-                presenter.downPraise("");
+                if (info != null) {
+                    presenter.downPraise(info.data.contentId);
+                }
                 break;
         }
     }
@@ -178,13 +281,89 @@ public class NewsDetailsFragment extends BaseFragment implements ITradeSubDetail
     ShareDialog shareDialog;
 
     private void share() {
-        if (shareDialog == null) {
-            shareDialog = new ShareDialog(context);
+        String event = "";
+        if (type == TradeType.HEAD_DETAILS) {
+            event = "industry_aticle_share";
+        } else if (type == TradeType.BIBLE_DETAILS) {
+            event = "guidance_aticle_share";
         }
-//        shareDialog.setDes();
-//        shareDialog.setTitle();
-//        shareDialog.setImage();
-//        shareDialog.setUrl();
-        shareDialog.show();
+        MobclickAgent.onEvent(context, event);
+        if (info != null) {
+            if (shareDialog == null) {
+                shareDialog = new ShareDialog(context);
+                shareDialog.setOnShareClickListener(new ShareDialog.OnShareClickListener() {
+                    String event;
+
+                    @Override
+                    public void onShareClick(SHARE_MEDIA share_media) {
+                        if (share_media == SHARE_MEDIA.QQ) {
+                            if (type == TradeType.HEAD_DETAILS) {
+                                event = "industry_aticle_share_qq";
+                            } else if (type == TradeType.BIBLE_DETAILS) {
+                                event = "guidance_aticle_share_qq";
+                            }
+                        } else if (share_media == SHARE_MEDIA.WEIXIN) {
+                            if (type == TradeType.HEAD_DETAILS) {
+                                event = "industry_aticle_share_wechat";
+                            } else if (type == TradeType.BIBLE_DETAILS) {
+                                event = "guidance_aticle_share_wechat";
+                            }
+                        } else if (share_media == SHARE_MEDIA.WEIXIN_CIRCLE) {
+                            if (type == TradeType.HEAD_DETAILS) {
+                                event = "industry_aticle_share_friendcircle";
+                            } else if (type == TradeType.BIBLE_DETAILS) {
+                                event = "guidance_aticle_share_friendcircle";
+                            }
+                        } else if (share_media == SHARE_MEDIA.SINA) {
+                            if (type == TradeType.HEAD_DETAILS) {
+                                event = "industry_aticle_share_weibo";
+                            } else if (type == TradeType.BIBLE_DETAILS) {
+                                event = "guidance_aticle_share_weibo";
+                            }
+                        }
+                        MobclickAgent.onEvent(context, event);
+                    }
+                });
+
+                shareDialog.setShareListener(new ShareDialog.OnShareListener() {
+                    String event;
+
+                    @Override
+                    public void onResult(SHARE_MEDIA share_media) {
+                        if (share_media == SHARE_MEDIA.QQ) {
+                            if (type == TradeType.HEAD_DETAILS) {
+                                event = "industry_aticle_share_qq_success";
+                            } else if (type == TradeType.BIBLE_DETAILS) {
+                                event = "guidance_aticle_share_qq_success";
+                            }
+                        } else if (share_media == SHARE_MEDIA.WEIXIN) {
+                            if (type == TradeType.HEAD_DETAILS) {
+                                event = "industry_aticle_share_wechat_success";
+                            } else if (type == TradeType.BIBLE_DETAILS) {
+                                event = "guidance_aticle_share_wechat_success";
+                            }
+                        } else if (share_media == SHARE_MEDIA.WEIXIN_CIRCLE) {
+                            if (type == TradeType.HEAD_DETAILS) {
+                                event = "industry_aticle_share_friendcircle_success";
+                            } else if (type == TradeType.BIBLE_DETAILS) {
+                                event = "guidance_aticle_share_friendcircle_success";
+                            }
+                        } else if (share_media == SHARE_MEDIA.SINA) {
+                            if (type == TradeType.HEAD_DETAILS) {
+                                event = "industry_aticle_share_weibo_success";
+                            } else if (type == TradeType.BIBLE_DETAILS) {
+                                event = "guidance_aticle_share_weibo_success";
+                            }
+                        }
+                        MobclickAgent.onEvent(context, event);
+                    }
+                });
+            }
+            shareDialog.setDes(info.data.desc);
+            shareDialog.setTitle(info.data.title);
+            shareDialog.setImage(info.data.image);
+            shareDialog.setUrl(H5Util.getIpTradeDetail(info.data.contentId));
+            shareDialog.show();
+        }
     }
 }

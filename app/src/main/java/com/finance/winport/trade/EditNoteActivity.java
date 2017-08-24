@@ -42,6 +42,7 @@ import com.finance.winport.trade.adapter.ChoicePhotoAdapter;
 import com.finance.winport.trade.api.TradeService;
 import com.finance.winport.trade.model.EventBusCircleData;
 import com.finance.winport.trade.model.PublicTopic;
+import com.finance.winport.util.SharedPrefsUtil;
 import com.finance.winport.util.ToastUtil;
 import com.finance.winport.util.ToolsUtil;
 import com.finance.winport.view.imagepreview.ImagePreviewActivity;
@@ -135,6 +136,12 @@ public class EditNoteActivity extends BaseActivity {
             }
         });
 
+        if (SharedPrefsUtil.getUserInfo().data.isNew == 1 && SharedPrefsUtil.isFirstPost()) {//新用户 第一次发帖
+            SharedPrefsUtil.setFirstPost(false);
+            //展示发帖秘籍
+            postInfo.setVisibility(View.VISIBLE);
+        }
+
         if (mAdapter == null) {
             mAdapter = new ChoicePhotoAdapter(this, mData);
             gvPhotos.setAdapter(mAdapter);
@@ -186,6 +193,7 @@ public class EditNoteActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_focus_right:
+                MobclickAgent.onEvent(context,"circle_publish_guide");
                 showPostInfo();
                 break;
             case R.id.btn_done:
@@ -363,6 +371,7 @@ public class EditNoteActivity extends BaseActivity {
 
     private void showPostInfo() {
         hideSoftKeyboard();
+        if (animatorIn.isRunning()) return;
         postInfo.setLayoutAnimation(layoutIn);
         postInfo.setVisibility(View.VISIBLE);
         animatorIn.start();
@@ -370,6 +379,7 @@ public class EditNoteActivity extends BaseActivity {
     }
 
     private void hideInfo() {
+        if (animatorOut.isRunning()) return;
         postInfo.setLayoutAnimation(layoutOut);
         postInfo.startLayoutAnimation();
         animatorOut.start();

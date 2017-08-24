@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="15dp"
-                android:text="服务类型："
+                android:text="约见事项："
                 android:textColor="#999999"
                 android:textSize="14sp" />
 
@@ -63,7 +63,7 @@
                 android:layout_marginLeft="85dp"
                 android:textColor="#333333"
                 android:textSize="14sp"
-                tools:text="服务类型：" />
+                tools:text="预约看铺" />
 
 
         </RelativeLayout>
@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="15dp"
-                android:text="商铺地址："
+                android:text="地        点："
                 android:textColor="#999999"
                 android:textSize="14sp" />
 
@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="15dp"
-                android:text="旧日程："
+                android:text="旧时间："
                 android:textColor="#999999"
                 android:textSize="14sp" />
 
@@ -116,7 +116,7 @@
                 android:layout_marginLeft="85dp"
                 android:textColor="#333333"
                 android:textSize="14sp"
-                tools:text="上海市徐汇区武东路198号" />
+                tools:text="2017.02.04 12:30:33" />
 
         </RelativeLayout>
 
@@ -130,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="15dp"
-                android:text="新日程："
+                android:text="新时间："
                 android:textColor="#999999"
                 android:textSize="14sp" />
 
@@ -142,7 +142,7 @@
                 android:layout_marginLeft="85dp"
                 android:textColor="#333333"
                 android:textSize="14sp"
-                tools:text="上海市徐汇区武东路198号" />
+                tools:text="2017.02.04 12:30:33" />
 
         </RelativeLayout>
 

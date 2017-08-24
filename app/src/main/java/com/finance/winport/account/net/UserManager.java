@@ -56,7 +56,7 @@ public class UserManager {
         return Ironman.getInstance()
                 .createService(UserService.class)
                 .getVerifyCode(params)
-                .compose(ToolsUtil.<Message>applayScheduers())
+                .compose(ToolsUtil.<Message>applayScheduersWithoutRetry())
                 .subscribe(new NetSubscriber<Message>() {
                     @Override
                     public void response(Message response) {

@@ -1,16 +1,14 @@
 package com.finance.winport.trade.adapter;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.support.v4.widget.Space;
 import android.support.v7.widget.GridLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,7 +26,6 @@ import com.finance.winport.trade.TradeCircleDetailActivity;
 import com.finance.winport.trade.TradeHeadActivity;
 import com.finance.winport.trade.TradeType;
 import com.finance.winport.trade.model.TradeSub;
-import com.finance.winport.trade.model.TradeSub;
 import com.finance.winport.trade.model.TradeTopic;
 import com.finance.winport.trade.presenter.TradeHomePresenter;
 import com.finance.winport.util.SharedPrefsUtil;
@@ -38,6 +35,7 @@ import com.finance.winport.view.DrawableTopLeftTextView;
 import com.finance.winport.view.HtmlTextView;
 import com.finance.winport.view.dialog.TradeMorePopup;
 import com.finance.winport.view.roundview.RoundedImageView;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -123,6 +121,11 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
         } else {
             groupHolder = (GroupViewHolder) convertView.getTag();
         }
+        if (groupPosition > 0) {
+            groupHolder.divider.setVisibility(View.VISIBLE);
+        } else {
+            groupHolder.divider.setVisibility(View.GONE);
+        }
         String title = group.get(groupPosition);
         groupHolder.title.setText(title == null ? "" : title);
         convertView.setOnClickListener(new View.OnClickListener() {
@@ -130,9 +133,11 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
             public void onClick(View v) {
                 switch (groupPosition) {
                     case 0://行业头条
+                        MobclickAgent.onEvent(context, "ircle_industrymore");
                         context.startActivity(new Intent(context, TradeHeadActivity.class).putExtra("type", TradeType.HEAD));
                         break;
                     case 1://生意宝典
+                        MobclickAgent.onEvent(context, "circle_guidancemore");
                         context.startActivity(new Intent(context, TradeHeadActivity.class).putExtra("type", TradeType.BIBLE));
                         break;
                     case 2://生意社区
@@ -189,13 +194,15 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
     private void handleHeadItem(int groupPosition, int childPosition, TradeHeadViewHolder holder, View convertView) {
         Object child = getChild(groupPosition, childPosition);
         if (child instanceof TradeSub) {
-            TradeSub item = (TradeSub) child;
+            final TradeSub item = (TradeSub) child;
             holder.title.setText(item.title);
-            holder.type.setText(item.content);
+            if (item.tagList != null && item.tagList.size() > 0 && item.tagList.get(0) != null) {
+                holder.tag.setText(item.tagList.get(0).tagName);
+            }
             holder.from.setText(item.source);
             holder.date.setText(item.dateTime);
             holder.scanCount.setText(item.viewCount + "浏览");
-            if (item.kind) {
+            if (item.kind == 1) {
                 holder.title.setDrawable(R.mipmap.label_top);
             } else {
                 holder.title.setDrawable(0);
@@ -204,7 +211,10 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    MobclickAgent.onEvent(context, "circle_industryarticle");
                     context.startActivity(new Intent(context, InfoDetailsActivity.class)
+                            .putExtra("id", item.contentId)
+                            .putExtra("title", item.title)
                             .putExtra("type", TradeType.HEAD_DETAILS));
                 }
             });
@@ -214,16 +224,21 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
     private void handleBibleItem(int groupPosition, int childPosition, TradeBibleViewHolder holder, View convertView) {
         Object child = getChild(groupPosition, childPosition);
         if (child instanceof TradeSub) {
-            TradeSub item = (TradeSub) child;
+            final TradeSub item = (TradeSub) child;
             holder.desc.setText(item.title);
-            holder.tip.setText(item.content);
+            if (item.tagList != null && item.tagList.size() > 0 && item.tagList.get(0) != null) {
+                holder.tag.setText(item.tagList.get(0).tagName);
+            }
             holder.date.setText(item.dateTime);
             holder.scanCount.setText(item.viewCount + "浏览");
             Batman.getInstance().fromNet(item.image, holder.img);
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    MobclickAgent.onEvent(context, "circle_guidancearticle");
                     context.startActivity(new Intent(context, InfoDetailsActivity.class)
+                            .putExtra("id", item.contentId)
+                            .putExtra("title", item.title)
                             .putExtra("type", TradeType.BIBLE_DETAILS));
                 }
             });
@@ -235,7 +250,7 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
         if (child instanceof TradeTopic) {
             final TradeTopic item = (TradeTopic) child;
             holder.name.setText(item.nickName);
-            holder.workType.setText(item.signature);
+            holder.sign.setText(item.signature);
             Batman.getInstance().fromNet(item.headPicture, new BatmanCallBack() {
                 @Override
                 public void onSuccess(Bitmap bitmap) {
@@ -254,8 +269,8 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
                 holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             }
             if (!TextUtils.isEmpty(item.content)) {
-                holder.content.setHtml(item.content);
                 holder.content.setVisibility(View.VISIBLE);
+                holder.content.setHtml(item.getContent(), false);
             } else {
                 holder.content.setVisibility(View.GONE);
             }
@@ -291,6 +306,15 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
             holder.praise.setText(item.praiseNumber + "");
             holder.praise.setSelected(TextUtils.equals(item.likeStatus, "1") ? true : false);
             holder.commentCount.setText(item.commentNumber + "");
+            holder.commentCount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, TradeCircleDetailActivity.class);
+                    intent.putExtra("topicId", item.getTopicId() + "")
+                            .putExtra("comment", true);
+                    context.startActivity(intent);
+                }
+            });
             holder.praise.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -401,6 +425,8 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
     static class GroupViewHolder {
         @BindView(R.id.title)
         TextView title;
+        @BindView(R.id.divider)
+        Space divider;
 
         GroupViewHolder(View view) {
             ButterKnife.bind(this, view);
@@ -412,8 +438,8 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
         ImageView img;
         @BindView(R.id.title)
         DrawableTopLeftTextView title;
-        @BindView(R.id.type)
-        TextView type;
+        @BindView(R.id.tag)
+        TextView tag;
         @BindView(R.id.from)
         TextView from;
         @BindView(R.id.date)
@@ -431,8 +457,8 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
         ImageView img;
         @BindView(R.id.content)
         TextView desc;
-        @BindView(R.id.tip)
-        TextView tip;
+        @BindView(R.id.tag)
+        TextView tag;
         @BindView(R.id.date)
         TextView date;
         @BindView(R.id.scan_count)
@@ -448,8 +474,8 @@ public class TradeHomeCircleAdapter extends BaseExpandableListAdapter {
         RoundedImageView headImg;
         @BindView(R.id.name)
         TextView name;
-        @BindView(R.id.work_type)
-        TextView workType;
+        @BindView(R.id.sign)
+        TextView sign;
         @BindView(R.id.more)
         ImageView more;
         @BindView(R.id.top)

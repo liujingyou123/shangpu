@@ -87,6 +87,7 @@ public class PtrFrameLayout extends ViewGroup {
     private boolean mHasSendCancelEvent = false;
 
     private View spaceView;
+    private View foundView;
     private Runnable mPerformRefreshCompleteDelay = new Runnable() {
         @Override
         public void run() {
@@ -471,6 +472,10 @@ public class PtrFrameLayout extends ViewGroup {
                     return dispatchTouchEventSupper(e);
                 }
 
+                if (isTouchPointInView(foundView, (int) e.getRawX(), (int) e.getRawY()) && (Math.abs(offsetX) > Math.abs(offsetY))) {
+                    return dispatchTouchEventSupper(e);
+                }
+
                 if (mDisableWhenHorizontalMove && !mPreventForHorizontal && (Math.abs(offsetX) > mPagingTouchSlop && Math.abs(offsetX) > Math.abs(offsetY))) {
                     if (mPtrIndicator.isInStartPosition()) {
                         mPreventForHorizontal = true;
@@ -542,6 +547,7 @@ public class PtrFrameLayout extends ViewGroup {
         mPtrIndicator.setIsHeader(false);
         // to keep the consistence with refresh, need to converse the deltaY
         movePos(-deltaY);
+
     }
 
     private void moveHeaderPos(float deltaY) {
@@ -1383,6 +1389,9 @@ public class PtrFrameLayout extends ViewGroup {
 
     public void setSpaceView(View view) {
         this.spaceView = view;
+    }
+    public void setFoundView(View view) {
+        this.foundView = view;
     }
     private boolean isTouchPointInView(View view, int x, int y) {
         if (view == null) {
